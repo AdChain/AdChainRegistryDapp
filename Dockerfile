@@ -1,4 +1,3 @@
-#-onbuild
 FROM node:8
 
 EXPOSE 8000
