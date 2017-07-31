@@ -2,6 +2,11 @@
 
 }
 
+
+.PublisherApplicationForm .header {
+  border-bottom: 4px solid #536DEB;
+}
+
 :root:root .PublisherApplicationForm .form label {
   text-transform: uppercase;
 }

@@ -2,3 +2,33 @@
 
 }
 
+.PublisherApplicationInfo .large.header {
+  border-bottom: 4px solid #536DEB;
+}
+
+.PublisherApplicationInfo .FeatureGrid .image {
+  width: 100px;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  margin: 0 auto;
+}
+
+.PublisherApplicationInfo .FeatureGrid .image img {
+  max-width: 70px;
+  max-height: 70px;
+  margin: 0 auto;
+  object-fit: contain;
+}
+
+.PublisherApplicationInfo .FeatureGrid .header {
+  font-size: 1em;
+  font-weight: bold;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.PublisherApplicationInfo .FeatureGrid .content {
+  text-align: left;
+  font-size: 0.8em;
+}
