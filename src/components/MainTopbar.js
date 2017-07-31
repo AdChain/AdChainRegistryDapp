@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import commafy from 'commafy'
 
 import './MainTopbar.css'
 
@@ -15,7 +16,7 @@ class MainTopbar extends Component {
           </div>
           <div className='menu right'>
             <div className='item'>
-              ADT: {adtBalance}
+              ADT: {commafy(adtBalance)}
             </div>
           </div>
         </div>
