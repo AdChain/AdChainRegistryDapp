@@ -41,6 +41,10 @@ p {
   line-height: 1.6;
 }
 
+:root:root .ui.button.blue {
+  background-color: #536DEB;
+}
+
 :root:root .form input[type="text"],
 :root:root .form input[type="password"] {
   background: #F4F7FA;
@@ -72,6 +76,13 @@ p {
   width: 100% !important;
   padding-top: 0;
   padding-left: 16em;
+}
+
+@media only screen and (max-width: 767px) {
+  :root:root:root:root .MainContainerWrap {
+    margin-top: 70px !important;
+    padding-left: inherit;
+  }
 }
 
 /*

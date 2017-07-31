@@ -6,6 +6,7 @@
 }
 
 :root:root .MainSidebar .adChainLogo {
+  height: 120px;
   width: 100%;
   padding: 0.6em;
   text-align: center;
@@ -75,4 +76,12 @@
   font-size: 0.6em;
   color: #686972;
   margin-bottom: 10px;
+}
+
+@media only screen and (max-width: 767px) {
+  :root:root:root .MainSidebar {
+    display: block;
+    width: 100%;
+    height: 70px !important;
+  }
 }
