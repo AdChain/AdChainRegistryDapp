@@ -1,0 +1,59 @@
+.MainSidebar {
+
+}
+
+:root:root .MainSidebar .adChainLogo {
+  padding: 1em;
+}
+
+:root:root .MainSidebar .ListTitle {
+  font-size: 1.4em;
+  color: #F4F7FA;
+  font-weight: bold;
+  padding: 0.3em 0.9em;
+}
+
+:root:root .MainSidebar .list {
+  margin: 0;
+  padding: 0;
+}
+
+:root:root .MainSidebar .list .item {
+  color: #F4F7FA;
+}
+
+:root:root .MainSidebar .list .item:before,
+:root:root .MainSidebar .list .item:after {
+  display: none;
+}
+
+:root:root .MainSidebar .list .item a {
+  display: block;
+  padding: 0.3em 1.2em;
+}
+
+:root:root .MainSidebar .list .item a:hover {
+  text-decoration: underline;
+}
+
+:root:root:root .MainSidebar .ApplyLink {
+  padding: 0.3em 0.7em;
+}
+
+:root:root:root .MainSidebar .ApplyLink a {
+  border: 1px solid #536DEB;
+  border-radius: 0.3em;
+  color: #536DEB;
+  padding: 0.3em 0.7em;
+}
+
+:root:root .MainSidebar .metaxLogo {
+  padding: 2em;
+}
+
+:root:root .MainSidebar .Copyright {
+  width: 100%;
+  text-align: center;
+  font-size: 0.6em;
+  color: #686972;
+}

@@ -1,0 +1,34 @@
+.PublisherApplicationForm {
+
+}
+
+body {
+  background: #F4F7FA;
+}
+
+.BoxFrame {
+  background: #fff;
+  padding: 20px;
+  box-shadow: 0 1px 1px #b7b7b7;
+}
+
+:root:root .form label {
+  color: #686972;
+}
+
+:root:root .PublisherApplicationForm .form label {
+  text-transform: uppercase;
+}
+
+:root:root .form input[type="text"],
+:root:root .form input[type="password"] {
+  background: #F4F7FA;
+  color: #686972;
+  border: 1px solid transparent;
+  transition: all 0.2s ease-out;
+}
+
+:root:root .form input[type="text"]:focus,
+:root:root .form input[type="password"]:focus {
+  border-color: #536DEB;
+}
