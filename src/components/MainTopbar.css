@@ -1,0 +1,9 @@
+.MainTopbar {
+  width: 100%;
+}
+
+:root:root .MainTopbar .menu {
+  border: none;
+  border-radius: 0;
+  background: #536DEB;
+}
