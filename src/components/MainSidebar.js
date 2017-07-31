@@ -26,7 +26,7 @@ class MainSidebar extends Component {
         <div className='ListTitle ui header'>
           adChain Registry
         </div>
-        <div>
+        <div className="SidebarList overflow-y">
           <ul className='ui list'>
             <li className='item'><a>All domains</a></li>
             <li className='item'><a>Domains in registry</a></li>
@@ -36,13 +36,16 @@ class MainSidebar extends Component {
             <li className='item ApplyLink'><a>Apply now</a></li>
           </ul>
         </div>
-        <div className='metaxLogo ui image'>
-          <a href='https://metax.io' target='_blank'>
-            <img src={metaxLogo} alt='MetaX' />
-          </a>
-        </div>
-        <div className='Copyright'>
-        © Copyright 2017 MetaXchain, Inc. All rights reserved.
+        <div className="SidebarFooter">
+          <div className='metaxLogo ui image'>
+            <a href='https://metax.io' target='_blank' rel='noopener noreferrer'>
+              <img src={metaxLogo} alt='MetaX' />
+            </a>
+          </div>
+          <div className='Copyright'>
+          <p>© Copyright 2017 MetaXchain, Inc.<br />
+          All rights reserved.</p>
+          </div>
         </div>
       </div>
     )

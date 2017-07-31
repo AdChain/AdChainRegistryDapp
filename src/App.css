@@ -2,6 +2,68 @@
 
 }
 
+/*
+ * GLOBALS
+ */
+
+body {
+  background: #F4F7FA;
+  -webkit-font-smoothing: antialiased;
+}
+
+body::-webkit-scrollbar,
+.overflow-x::-webkit-scrollbar,
+.overflow-y::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+body::-webkit-scrollbar-track,
+.overflow-x::-webkit-scrollbar-track,
+.overflow-y::-webkit-scrollbar-track {
+  background: #fff;
+}
+
+body::-webkit-scrollbar-thumb,
+.overflow-x::-webkit-scrollbar-thumb,
+.overflow-y::-webkit-scrollbar-thumb {
+  background-color: #ccc;
+  border: 1px solid #ccc;
+}
+
+body::-webkit-scrollbar-thumb:hover,
+.overflow-x::-webkit-scrollbar-thumb:hover,
+.overflow-y::-webkit-scrollbar-thumb:hover {
+  background-color: #aaa;
+}
+
+p {
+  line-height: 1.6;
+}
+
+:root:root .form input[type="text"],
+:root:root .form input[type="password"] {
+  background: #F4F7FA;
+  color: #686972;
+  border: 1px solid transparent;
+  transition: all 0.2s ease-out;
+}
+
+:root:root .form input[type="text"]:focus,
+:root:root .form input[type="password"]:focus {
+  border-color: #536DEB;
+}
+
+.BoxFrame {
+  background: #fff;
+  padding: 20px;
+  box-shadow: 0 1px 1px #b7b7b7;
+}
+
+:root:root .form label {
+  color: #686972;
+}
+
 :root:root:root:root .MainSidebarWrap {
   width: 15em !important;
 }
@@ -11,3 +73,7 @@
   padding-top: 0;
   padding-left: 16em;
 }
+
+/*
+ * /END GLOBALS
+ */
