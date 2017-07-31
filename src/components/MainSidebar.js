@@ -28,12 +28,12 @@ class MainSidebar extends Component {
         </div>
         <div className="SidebarList overflow-y">
           <ul className='ui list'>
-            <li className='item'><a>All domains</a></li>
-            <li className='item'><a>Domains in registry</a></li>
-            <li className='item'><a>Domains in application</a></li>
-            <li className='item'><a>Domains in voting</a></li>
-            <li className='item'><a>Rejected domains</a></li>
-            <li className='item ApplyLink'><a>Apply now</a></li>
+            <li className='item'><a href='#/domains'>All domains</a></li>
+            <li className='item'><a href='#/domains?approved=true'>Domains in registry</a></li>
+            <li className='item'><a href='#/domains?pending=true'>Domains in application</a></li>
+            <li className='item'><a href='#/domains?in_voting=true'>Domains in voting</a></li>
+            <li className='item'><a href='#/domains?rejected=true'>Rejected domains</a></li>
+            <li className='item ApplyLink'><a href='#/apply'>Apply now</a></li>
           </ul>
         </div>
         <div className="SidebarFooter">
