@@ -85,3 +85,26 @@
     height: 70px !important;
   }
 }
+
+
+.MainSidebar .overflow-x::-webkit-scrollbar,
+.MainSidebar .overflow-y::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+.MainSidebar .overflow-x::-webkit-scrollbar-track,
+.MainSidebar .overflow-y::-webkit-scrollbar-track {
+  background: #2e323a;
+}
+
+.MainSidebar .overflow-x::-webkit-scrollbar-thumb,
+.MainSidebar .overflow-y::-webkit-scrollbar-thumb {
+  background-color: #414652;
+  border: 1px solid #414652;
+}
+
+.MainSidebar .overflow-x::-webkit-scrollbar-thumb:hover,
+.MainSidebar .overflow-y::-webkit-scrollbar-thumb:hover {
+  background-color: #1a1d23;
+}

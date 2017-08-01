@@ -1,0 +1,19 @@
+:root:root .RegistryStatsbar .statistics {
+ font-size: 0.7em;
+}
+
+:root:root .RegistryStatsbar .statistic {
+  margin-bottom: 0.5em;
+  position: relative;
+}
+
+:root:root .RegistryStatsbar .statistic:not(:last-child):after {
+  content: '';
+  display: block;
+  position: absolute;
+  right: -1.5em;
+  top: 0;
+  height: 100%;
+  width: 1px;
+  border-right: 1px solid #ddd;
+}

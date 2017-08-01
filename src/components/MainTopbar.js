@@ -1,18 +1,26 @@
 import React, { Component } from 'react'
 import commafy from 'commafy'
 
+import Identicon from './Identicon'
+
 import './MainTopbar.css'
 
 class MainTopbar extends Component {
   render () {
-    const address = '0x06905127EcB3f59c46a468489e5b262d7AfCc2e8'
+    const address = '0xa1a32e5B5ceb73284Ea60922D9606373a16EbDF1'
     const adtBalance = 30452
 
     return (
       <div className='MainTopbar'>
         <div className='ui top attached menu inverted'>
           <div className='item'>
-            {address}
+            <div className='AddressContainer'>
+              <Identicon
+                address={address}
+                size={6}
+                scale={6} />
+              {address}
+            </div>
           </div>
           <div className='menu right'>
             <div className='item'>

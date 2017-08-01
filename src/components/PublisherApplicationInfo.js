@@ -37,7 +37,7 @@ class PublisherApplicationInfo extends Component {
                   <img src={discoverImage} alt='' />
                 </div>
                 <div className='header'>
-    Maximize Discoverability
+                  Maximize Discoverability
                 </div>
                 <div className='content'>
                   <p>
@@ -50,7 +50,7 @@ class PublisherApplicationInfo extends Component {
                   <img src={cpmImage} alt='' />
                 </div>
                 <div className='header'>
-    Higher CPMs
+                Higher CPMs
                 </div>
                 <div className='content'>
                   <p>
@@ -63,7 +63,7 @@ class PublisherApplicationInfo extends Component {
                   <img src={identityImage} alt='' />
                 </div>
                 <div className='header'>
-    Impenetrable Identity
+                  Impenetrable Identity
                 </div>
                 <div className='content'>
                   <p>
@@ -89,7 +89,7 @@ class PublisherApplicationInfo extends Component {
                   <img src={campaignsImage} alt='' />
                 </div>
                 <div className='header'>
-    Attract More Premium Campaigns
+                  Attract More Premium Campaigns
                 </div>
                 <div className='content'>
                   <p>
