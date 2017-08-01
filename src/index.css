@@ -6,8 +6,18 @@ body {
   margin: 0;
   padding: 0;
   background: #F4F7FA;
-  color: #333;
   -webkit-font-smoothing: antialiased;
+}
+
+body,
+.ui.header,
+.ui.card>.content>.header,
+.ui.cards>.card>.content>.header,
+.ui.items>.item>.content>.header,
+:root .ui.header .sub.header,
+:root:root .statistic .label,
+:root:root .statistic .value {
+  color: #333;
 }
 
 body::-webkit-scrollbar,

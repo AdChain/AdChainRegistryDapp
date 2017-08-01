@@ -7,3 +7,12 @@
   border-radius: 0;
   background: #536DEB;
 }
+
+.MainTopbar .AddressContainer {
+  display: flex;
+  align-items: center;
+}
+
+.MainTopbar .AddressContainer .Identicon {
+  margin-right: 5px;
+}
