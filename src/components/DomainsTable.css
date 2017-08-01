@@ -1,0 +1,33 @@
+.DomainsTable {
+}
+
+.DomainsTable .ui.table {
+  width: 100%;
+  border: 1px solid #ddd;
+  border-radius: 0;
+  padding: 0;
+}
+
+:root:root .DomainsTable .ReactTable .rt-thead.-header {
+  background: #F4F7FA;
+  border-bottom: 1px solid #ddd;
+  box-shadow: none;
+}
+
+:root:root .DomainsTable .ReactTable .rt-tbody .rt-tr-group {
+  border-bottom: 1px solid #f5f5f5;
+}
+
+:root:root .DomainsTable .ReactTable .rt-tbody .rt-td {
+  border-right: none;
+}
+
+:root:root .DomainsTable .ReactTable .rt-thead .rt-th.-sort-desc,
+:root:root .DomainsTable .ReactTable .rt-thead .rt-td.-sort-desc {
+  box-shadow: inset 0 -3px 0 0 #536DEB;
+}
+
+:root:root .DomainsTable .ReactTable .rt-thead .rt-th.-sort-asc,
+:root:root .DomainsTable .ReactTable .rt-thead .rt-td.-sort-asc {
+  box-shadow: inset 0 3px 0 0 #536DEB;
+}

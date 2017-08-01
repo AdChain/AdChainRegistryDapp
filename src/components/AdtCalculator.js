@@ -16,7 +16,7 @@ class AdtCalculator extends Component {
 
     return (
       <div className='AdtCalculator BoxFrame'>
-        <div className='ui grid'>
+        <div className='ui grid stackable'>
           <div className='row'>
             <div className='column eight wide'>
               USD/ETHER: {commafy(usdEth)}

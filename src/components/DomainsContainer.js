@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 
 import RegistryStatsbar from './RegistryStatsbar'
 import AdtCalculator from './AdtCalculator'
+import DomainsTable from './DomainsTable'
+import DomainsFilterPanel from './DomainsFilterPanel'
 
 import './DomainsContainer.css'
 
@@ -16,8 +18,11 @@ class DomainsContainer extends Component {
           <div className='column six wide'>
             <AdtCalculator />
           </div>
-          <div className='column sixteen wide'>
-            domains
+          <div className='column four wide'>
+            <DomainsFilterPanel />
+          </div>
+          <div className='column twelve wide'>
+            <DomainsTable />
           </div>
         </div>
       </div>
