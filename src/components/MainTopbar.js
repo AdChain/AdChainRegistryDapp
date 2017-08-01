@@ -3,6 +3,8 @@ import commafy from 'commafy'
 
 import Identicon from './Identicon'
 
+import adtLogo from './assets/adtoken_logo.png'
+
 import './MainTopbar.css'
 
 class MainTopbar extends Component {
@@ -24,7 +26,12 @@ class MainTopbar extends Component {
           </div>
           <div className='menu right'>
             <div className='item'>
-              ADT: {commafy(adtBalance)}
+              <div className='AdtLogo ui image'>
+                <img
+                  src={adtLogo}
+                  alt='ADT' />
+              </div>
+              {commafy(adtBalance)}
             </div>
           </div>
         </div>
