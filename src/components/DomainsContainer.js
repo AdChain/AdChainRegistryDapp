@@ -11,7 +11,7 @@ class DomainsContainer extends Component {
   render () {
     return (
       <div className='DomainsContainer'>
-        <div className='ui grid padded'>
+        <div className='ui grid stackable padded'>
           <div className='column ten wide'>
             <RegistryStatsbar />
           </div>
