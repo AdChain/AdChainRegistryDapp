@@ -38,6 +38,7 @@
 }
 
 :root:root .MainSidebar .list .item {
+  padding: 0.3em 0.7em;
   color: #F4F7FA;
 }
 
@@ -48,22 +49,32 @@
 
 :root:root .MainSidebar .list .item a {
   display: block;
-  padding: 0.3em 1.2em;
+  border-radius: 0.3em;
+  padding: 0.3em 0.7em;
+  border: 1px solid transparent;
 }
 
 :root:root .MainSidebar .list .item a:hover {
   text-decoration: underline;
 }
 
+:root:root .MainSidebar .list .item a.active,
+:root:root .MainSidebar .list .item a.active:hover {
+  font-weight: bold;
+  border-color: #F4F7FA;
+}
+
 :root:root:root .MainSidebar .ApplyLink {
-  padding: 0.3em 0.7em;
+
 }
 
 :root:root:root .MainSidebar .ApplyLink a {
-  border: 1px solid #536DEB;
-  border-radius: 0.3em;
   color: #536DEB;
-  padding: 0.3em 0.7em;
+}
+
+:root:root:root .MainSidebar .ApplyLink a.active,
+:root:root:root .MainSidebar .ApplyLink a.active:hover {
+  border-color: #536DEB;
 }
 
 :root:root .MainSidebar .metaxLogo {
