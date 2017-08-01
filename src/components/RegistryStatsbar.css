@@ -23,3 +23,8 @@
   width: 1px;
   border-right: 1px solid #ddd;
 }
+
+:root:root .RegistryStatsbar .statistic .label,
+:root:root .RegistryStatsbar .statistic .value {
+  font-weight: normal;
+}

@@ -11,7 +11,7 @@ class MainContainer extends Component {
       <Router>
         <div className='ui grid'>
           <MainTopbar />
-          <Route path='/' exact={true} component={ApplicationContainer} />
+          <Route path='/' exact={true} component={DomainsContainer} />
           <Route path='/apply' exact={true} component={ApplicationContainer} />
           <Route path='/domains' exact={true} component={DomainsContainer} />
         </div>
