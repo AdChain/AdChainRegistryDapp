@@ -4,7 +4,7 @@ import blockies from 'blockies'
 import './Identicon.css'
 
 function Identicon (props) {
-  const address = props.address  || ''
+  const address = props.address || ''
   const size = props.size || 8
   const scale = props.scale || 8
 

@@ -9,7 +9,7 @@ class DomainsFilterPanel extends Component {
         <div className='ui grid stackable'>
           <div className='SearchContainer column sixteen wide'>
             <div className='ui left icon input'>
-              <i className="search icon"></i>
+              <i className='search icon' />
               <input type='text' placeholder='Search Domain' />
             </div>
           </div>

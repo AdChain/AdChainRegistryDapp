@@ -87,6 +87,10 @@ p {
   padding-left: 16em;
 }
 
+:root:root:root:root .MainContainerWrap > .ui.grid > span {
+  width: 100%;
+}
+
 @media only screen and (max-width: 767px) {
   :root:root:root:root .MainContainerWrap {
     margin-top: 70px !important;
