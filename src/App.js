@@ -16,9 +16,7 @@ import './App.css'
 function App () {
   return (
     <Router>
-
       <Route render={({ location }) => (
-
         <div className='App'>
           <div className='ui grid stackable'>
             <div
@@ -34,8 +32,7 @@ function App () {
             </div>
           </div>
         </div>
-      )}/>
-
+      )} />
     </Router>
   )
 }

@@ -6,13 +6,13 @@ import adchainLogo from './assets/ad_chain_logo_white_text.png'
 import metaxLogo from './assets/metax_logo_white_text.png'
 
 class MainSidebar extends Component {
-  constructor(props) {
+  constructor (props) {
     super()
 
     this._Link = props.Link
   }
 
-  componentDidMount() {
+  componentDidMount () {
     /*
     window.$('.ui.sidebar')
     .sidebar({
@@ -25,7 +25,7 @@ class MainSidebar extends Component {
     const Link = this._Link
 
     return (
-        <div className='MainSidebar ui sidebar inverted vertical menu visible'>
+      <div className='MainSidebar ui sidebar inverted vertical menu visible'>
         <div className='adChainLogo ui image'>
           <a href='/'>
             <img src={adchainLogo} alt='adChain' />
@@ -34,7 +34,7 @@ class MainSidebar extends Component {
         <div className='ListTitle ui header'>
           adChain Registry
         </div>
-        <div className="SidebarList overflow-y">
+        <div className='SidebarList overflow-y'>
           <ul className='ui list'>
             <li className='item'>
               <Link to='/domains' activeClassName='active'>All domains</Link>
@@ -56,18 +56,18 @@ class MainSidebar extends Component {
             </li>
           </ul>
         </div>
-        <div className="SidebarFooter">
+        <div className='SidebarFooter'>
           <div className='metaxLogo ui image'>
             <a href='https://metax.io' target='_blank' rel='noopener noreferrer'>
               <img src={metaxLogo} alt='MetaX' />
             </a>
           </div>
           <div className='Copyright'>
-          <p>© Copyright 2017 MetaXchain, Inc.<br />
-          All rights reserved.</p>
+            <p>© Copyright 2017 MetaXchain, Inc.<br />
+            All rights reserved.</p>
           </div>
         </div>
-      </div>
+    </div>
     )
   }
 }

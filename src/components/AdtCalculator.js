@@ -26,7 +26,7 @@ class AdtCalculator extends Component {
                 <input type='text' placeholder='100' />
                 <div className='ui dropdown label blue'>
                   <div className='text'>USD</div>
-                  <i className='dropdown icon'></i>
+                  <i className='dropdown icon' />
                   <div className='menu'>
                     <div className='item'>USD</div>
                     <div className='item'>ETH</div>

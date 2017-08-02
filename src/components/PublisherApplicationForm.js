@@ -8,15 +8,15 @@ class PublisherApplicationForm extends Component {
       <div className='PublisherApplicationForm BoxFrame'>
         <div className='ui grid stackable'>
           <div className='column sixteen wide left aligned'>
-            <div className="ui large header">
+            <div className='ui large header'>
               PUBLISHER APPLICATION
             </div>
           </div>
           <div className='column sixteen wide left aligned'>
-          <p>Please complete the information below in order to apply to the adChain Registry.
+            <p>Please complete the information below in order to apply to the adChain Registry.
           Remember, the total ADT staked on your behalf will be the exact amount needed
           for adToken holders to challenge your application.
-          </p>
+            </p>
           </div>
           <div className='column sixteen wide left aligned'>
             <form className='ui form'>
