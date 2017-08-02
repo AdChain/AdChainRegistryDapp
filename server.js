@@ -1,9 +1,6 @@
 const serve = require('koa-static')
 const Koa = require('koa')
-// const enforceHttps = require('koa-sslify')
 const app = new Koa()
-
-// app.use(enforceHttps())
 
 app.use(serve(`${__dirname}/build`))
 
