@@ -3,6 +3,7 @@ import React from 'react'
 import MainTopbar from './MainTopbar'
 import ApplicationContainer from './ApplicationContainer'
 import DomainsContainer from './DomainsContainer'
+import DomainProfile from './DomainProfile'
 
 import './MainContainer.css'
 
@@ -24,8 +25,10 @@ function MainContainer (props) {
 
         <Route location={location} key={key}>
           <Switch>
+            <Route path='/' exact component={DomainsContainer} />
             <Route path='/apply' exact component={ApplicationContainer} />
             <Route path='/domains' exact component={DomainsContainer} />
+            <Route path='/profile/:domain' exact component={DomainProfile} />
             <Route path='/' exact component={DomainsContainer} />
           </Switch>
         </Route>

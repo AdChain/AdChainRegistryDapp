@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import ReactTable from 'react-table'
+import commafy from 'commafy'
 
 import 'react-table/react-table.css'
 import './DomainsTable.css'
@@ -48,25 +49,35 @@ const data = [{
 
 const columns = [{
   Header: 'Domain',
-  accessor: 'domain'
+  accessor: 'domain',
+  Cell: (props) => <a href={`#/profile/${props.value}`}>{props.value}</a>,
+  minWidth: 150
 }, {
   Header: 'Site Name',
-  accessor: 'siteName'
+  accessor: 'siteName',
+  minWidth: 200
 }, {
   Header: 'ADT Staked',
-  accessor: 'adtStaked'
+  accessor: 'adtStaked',
+  Cell: (props) => commafy(props.value),
+  minWidth: 120
 }, {
   Header: 'Phase',
-  accessor: 'status'
+  accessor: 'status',
+  minWidth: 120
 }, {
-  Header: 'Phase Ends',
-  accessor: 'challengePeriodEnd'
+  Header: 'Phase Ends (blocks)',
+  accessor: 'challengePeriodEnd',
+  Cell: (props) => commafy(props.value),
+  minWidth: 150
 }, {
   Header: 'Action',
-  accessor: 'action'
+  accessor: 'action',
+  minWidth: 120
 }, {
   Header: 'Stats',
-  accessor: 'stats'
+  accessor: 'stats',
+  minWidth: 200
 }]
 
 class DomainsTable extends Component {
