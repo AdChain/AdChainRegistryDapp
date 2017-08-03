@@ -7,7 +7,7 @@ function DomainProfileComments (props) {
   const {domain} = props
 
   return (
-    <div className='DomainProfileComments BoxFrame'>
+    <div className='DomainProfileComments'>
       <ReactDisqusThread
         shortname='adchain'
         identifier={domain}

@@ -42,9 +42,9 @@ const data = [{
   domain: 'cnn.com',
   siteName: 'CNN',
   adtStaked: 35905,
-  status: 'vote',
+  status: 'vote - commit',
   challengePeriodEnd: 8495,
-  action: 'vote',
+  action: 'commit',
   stats: '14,934 ADT Committed'
 }]
 
@@ -53,7 +53,18 @@ const columns = [{
   accessor: 'domain',
   Cell: (props) => <a href onClick={(event) => {
     event.preventDefault()
-    history.push(`/profile/${props.value}`)
+
+    let {action} = props.row
+
+    if (/challenge/gi.test(action)) {
+      action = 'challenge'
+    } else if (/commit/gi.test(action)) {
+      action = 'commit'
+    } else if (/reveal/gi.test(action)) {
+      action = 'reveal'
+    }
+
+    history.push(`/profile/${props.value}?action=${action}`)
   }}>{props.value}</a>,
   minWidth: 150
 }, {
