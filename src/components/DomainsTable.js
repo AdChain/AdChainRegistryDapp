@@ -50,7 +50,10 @@ const data = [{
 const columns = [{
   Header: 'Domain',
   accessor: 'domain',
-  Cell: (props) => <a href={`#/profile/${props.value}`}>{props.value}</a>,
+  Cell: (props) => <a href onClick={(event) => {
+    event.preventDefault()
+    history.push(`/profile/${props.value}`)
+  }}>{props.value}</a>,
   minWidth: 150
 }, {
   Header: 'Site Name',
@@ -80,8 +83,17 @@ const columns = [{
   minWidth: 200
 }]
 
+var history = null
+
 class DomainsTable extends Component {
+  constructor (props) {
+    super()
+
+    history = props.history
+  }
+
   render () {
+
     return (
       <div className='DomainsTable BoxFrame'>
         <div className='ui grid'>
