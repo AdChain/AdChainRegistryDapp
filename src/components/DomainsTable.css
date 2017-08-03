@@ -36,3 +36,7 @@
 :root:root .DomainsTable .ReactTable .rt-tbody .rt-td a:hover {
   text-decoration: underline;
 }
+
+:root:root .DomainsTable .ReactTable .rt-thead.-filters {
+  display: none;
+}

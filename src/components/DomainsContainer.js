@@ -23,18 +23,22 @@ class DomainsContainer extends Component {
     }
 
     this.onQueryChange = this.onQueryChange.bind(this)
+    this.updateTableFilters = this.updateTableFilters.bind(this)
   }
 
   componentWillReceiveProps (props) {
     const query = qs.parse(props.location.search.substr(1))
 
     this.setState({query: normalizeQueryObj(query)})
+
+    this.updateTableFilters(query)
   }
 
   render () {
     const {
       query,
-      history
+      history,
+      tableFilters
     } = this.state
 
     return (
@@ -53,7 +57,10 @@ class DomainsContainer extends Component {
             />
           </div>
           <div className='column twelve wide'>
-            <DomainsTable history={history} />
+            <DomainsTable
+              history={history}
+              filters={tableFilters}
+            />
           </div>
         </div>
       </div>
@@ -61,10 +68,42 @@ class DomainsContainer extends Component {
   }
 
   onQueryChange (query) {
-    const url = window.location.search
+    const url = window.location.href
     const newQuery = updateQuery(url, query)
 
     window.history.replaceState({}, window.location.pathname, newQuery)
+
+    this.setState({query})
+    this.updateTableFilters(query)
+  }
+
+  updateTableFilters (query) {
+    const statusFilter = {
+      id: 'status',
+      value: undefined
+    }
+
+    let filter = []
+
+    // TODO: better way
+    for (let k in query) {
+      if (query[k]) {
+        if (k === 'inRegistry') {
+          filter.push('in registry')
+        } else if (k === 'inApplication') {
+          filter.push('in application')
+        } else if (k === 'inVoting') {
+          filter.push('voting')
+        } else if (k === 'rejected') {
+          filter.push('rejected')
+        }
+      }
+    }
+
+    filter = new RegExp(filter.join('|'))
+    statusFilter.value = filter
+
+    this.setState({tableFilters: [statusFilter]})
   }
 }
 

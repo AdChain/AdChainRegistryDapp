@@ -12,6 +12,7 @@ class DomainsFilterPanel extends Component {
 
     this.onFilterChange = this.onFilterChange.bind(this)
     this.onFiltersChange = props.onFiltersChange.bind(this)
+    this.resetFilters = this.resetFilters.bind(this)
   }
 
   componentWillReceiveProps (props) {
@@ -87,6 +88,11 @@ class DomainsFilterPanel extends Component {
               </li>
             </ul>
           </div>
+          <div className='column sixteen wide'>
+            <div className='Reset'>
+              <a href onClick={this.resetFilters}>Reset</a>
+            </div>
+          </div>
         </div>
       </div>
     )
@@ -101,6 +107,20 @@ class DomainsFilterPanel extends Component {
 
     this.setState(filters)
 
+    this.onFiltersChange(filters)
+  }
+
+  resetFilters (event) {
+    event.preventDefault()
+
+    const filters = {
+      inRegistry: false,
+      inApplication: false,
+      inVoting: false,
+      rejected: false
+    }
+
+    this.setState({filters})
     this.onFiltersChange(filters)
   }
 }
