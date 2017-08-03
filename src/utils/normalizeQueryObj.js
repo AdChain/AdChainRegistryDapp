@@ -1,4 +1,4 @@
-function keysToBool (obj) {
+function string2Bool (obj) {
   if (typeof obj !== 'object') {
     return {}
   }
@@ -28,7 +28,7 @@ function keysToBool (obj) {
 }
 
 function normalizeQueryObj (obj) {
-  return keysToBool(obj)
+  return string2Bool(obj)
 }
 
 export default normalizeQueryObj

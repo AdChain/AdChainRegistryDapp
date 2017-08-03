@@ -6,6 +6,7 @@
     "blockies": "0.0.2",
     "camelcase": "^4.1.0",
     "camelcase-keys": "^4.1.0",
+    "capitalize": "^1.0.0",
     "commafy": "0.0.5",
     "debounce": "^1.0.2",
     "fuckadblock": "^3.2.1",
