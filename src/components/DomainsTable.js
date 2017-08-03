@@ -83,23 +83,49 @@ const columns = [{
   minWidth: 200
 }]
 
+function filterMethod (filter, row, column) {
+  const id = filter.pivotId || filter.id
+
+  if (filter.value instanceof RegExp) {
+    return row[id] !== undefined ? filter.value.test(row[id]) : true
+  }
+
+  return row[id] !== undefined ? String(row[id]).startsWith(filter.value) : true
+}
+
 var history = null
 
 class DomainsTable extends Component {
   constructor (props) {
     super()
 
+    const filters = props.filters || []
+
+    this.state = {
+      filters
+    }
+
     history = props.history
   }
 
+  componentWillReceiveProps (props) {
+    const {filters} = props
+    this.setState({filters})
+  }
+
   render () {
+    const {filters} = this.state
+
     return (
       <div className='DomainsTable BoxFrame'>
         <div className='ui grid'>
           <ReactTable
             data={data}
+            filtered={filters}
             columns={columns}
+            filterable
             defaultPageSize={10}
+            defaultFilterMethod={filterMethod}
             className='ui table'
           />
         </div>

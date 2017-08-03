@@ -67,3 +67,11 @@
 :root:root .DomainsFilterPanel .list .item:before {
   display: none;
 }
+
+.DomainsFilterPanel .Reset {
+  text-align: center;
+}
+
+.DomainsFilterPanel .Reset a {
+  text-transform: uppercase;
+}
