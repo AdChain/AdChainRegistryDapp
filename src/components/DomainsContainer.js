@@ -18,7 +18,8 @@ class DomainsContainer extends Component {
     const query = qs.parse(props.location.search.substr(1))
 
     this.state = {
-      query: normalizeQueryObj(query)
+      query: normalizeQueryObj(query),
+      history: props.history
     }
 
     this.onQueryChange = this.onQueryChange.bind(this)
@@ -31,7 +32,10 @@ class DomainsContainer extends Component {
   }
 
   render () {
-    const {query} = this.state
+    const {
+      query,
+      history
+    } = this.state
 
     return (
       <div className='DomainsContainer'>
@@ -49,7 +53,7 @@ class DomainsContainer extends Component {
             />
           </div>
           <div className='column twelve wide'>
-            <DomainsTable />
+            <DomainsTable history={history} />
           </div>
         </div>
       </div>
