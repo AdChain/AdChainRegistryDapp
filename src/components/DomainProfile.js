@@ -2,6 +2,9 @@ import React, { Component } from 'react'
 
 import DomainProfileHeader from './DomainProfileHeader'
 import DomainStatsbar from './DomainStatsbar'
+import DomainProfileInfo from './DomainProfileInfo'
+import DomainProfileActionContainer from './DomainProfileActionContainer'
+import DomainProfileComments from './DomainProfileComments'
 
 import './DomainProfile.css'
 
@@ -14,7 +17,7 @@ class DomainProfile extends Component {
 
     this.state = {
       domain,
-      siteName: 'Foo NET',
+      siteName: domain.toUpperCase().replace(/\..*/gi, ''),
       country: 'United States'
     }
   }
@@ -24,7 +27,7 @@ class DomainProfile extends Component {
 
     return (
       <div className='DomainProfile'>
-        <div className='ui grid stackabled padded'>
+        <div className='ui grid stackable padded'>
           <div className='column eight wide'>
             <DomainProfileHeader
               domain={domain}
@@ -34,6 +37,15 @@ class DomainProfile extends Component {
           </div>
           <div className='column eight wide'>
             <DomainStatsbar />
+          </div>
+          <div className='column ten wide'>
+            <DomainProfileInfo />
+          </div>
+          <div className='column six wide'>
+            <DomainProfileActionContainer />
+          </div>
+          <div className='column ten wide'>
+            <DomainProfileComments domain={domain} />
           </div>
         </div>
       </div>
