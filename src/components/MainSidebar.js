@@ -40,13 +40,13 @@ class MainSidebar extends Component {
               <Link to='/domains' activeClassName='active'>All domains</Link>
             </li>
             <li className='item'>
-              <Link to='/domains?approved=true'>Domains in registry</Link>
+              <Link to='/domains?inRegistry=true'>Domains in registry</Link>
             </li>
             <li className='item'>
-              <Link to='/domains?pending=true'>Domains in application</Link>
+              <Link to='/domains?inApplication=true'>Domains in application</Link>
             </li>
             <li className='item'>
-              <Link to='/domains?in_voting=true'>Domains in voting</Link>
+              <Link to='/domains?inVoting=true'>Domains in voting</Link>
             </li>
             <li className='item'>
               <Link to='/domains?rejected=true'>Rejected domains</Link>

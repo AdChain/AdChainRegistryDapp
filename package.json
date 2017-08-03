@@ -4,20 +4,26 @@
   "private": true,
   "dependencies": {
     "blockies": "0.0.2",
+    "camelcase": "^4.1.0",
+    "camelcase-keys": "^4.1.0",
     "commafy": "0.0.5",
+    "debounce": "^1.0.2",
     "jquery": "^3.2.1",
     "koa": "^2.3.0",
     "koa-static": "^4.0.1",
+    "qs": "^6.5.0",
     "react": "^15.6.1",
     "react-addons-css-transition-group": "^15.6.0",
     "react-disqus-thread": "^0.4.0",
     "react-dom": "^15.6.1",
     "react-router-dom": "^4.1.2",
     "react-scripts": "1.0.10",
-    "react-table": "^6.5.1"
+    "react-table": "^6.5.1",
+    "snakecase-keys": "^1.1.0",
+    "update-query": "^1.0.5"
   },
   "scripts": {
-    "start": "node server.js",
+    "start": "serve -s build",
     "start:dev": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
