@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import commafy from 'commafy'
 
+import DomainProfileComments from './DomainProfileComments'
+
 import './DomainProfileInfo.css'
 
 class DomainProfileInfo extends Component {
@@ -8,20 +10,20 @@ class DomainProfileInfo extends Component {
     super()
 
     const {
+      domain,
       description
     } = props
 
     this.state = {
+      domain,
       description
     }
   }
 
   render () {
-    /*
     const {
-      description
+      domain
     } = this.state
-    */
 
     const description = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus porttitor vestibulum tristique. Ut quis faucibus diam. Morbi tincidunt lacus a velit pretium, id mollis ante volutpat.'
 
@@ -64,6 +66,9 @@ class DomainProfileInfo extends Component {
             <div className='Content'>
               <span className='green'>{wins}</span> / <span className='red'>{losses}</span>
             </div>
+          </div>
+          <div className='column sixteen wide'>
+            <DomainProfileComments domain={domain} />
           </div>
         </div>
       </div>

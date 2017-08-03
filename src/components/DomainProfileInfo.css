@@ -6,3 +6,11 @@
   font-weight: bold;
   margin-bottom: 10px;
 }
+
+.DomainProfileInfo .green {
+  color: #4ea565;
+}
+
+.DomainProfileInfo .red {
+  color: #dc2a2a;
+}
