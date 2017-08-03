@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import ReactTable from 'react-table'
 import commafy from 'commafy'
+import capitalize from 'capitalize'
 
 import 'react-table/react-table.css'
 import './DomainsTable.css'
@@ -44,7 +45,7 @@ const data = [{
   status: 'vote',
   challengePeriodEnd: 8495,
   action: 'vote',
-  stats: '14,934 ADT committed'
+  stats: '14,934 ADT Committed'
 }]
 
 const columns = [{
@@ -60,6 +61,23 @@ const columns = [{
   accessor: 'siteName',
   minWidth: 200
 }, {
+  Header: 'Action',
+  accessor: 'action',
+  Cell: (props) => {
+    const {value} = props
+    let type = 'blue'
+
+    if (/challenge/gi.test(value)) {
+      type = 'purple'
+    }
+
+    return <a className={`ui mini button ${type}`} href onClick={(event) => {
+      event.preventDefault()
+      history.push(`/domains`)
+    }}>{props.value}</a>
+  },
+  minWidth: 120
+}, {
   Header: 'ADT Staked',
   accessor: 'adtStaked',
   Cell: (props) => commafy(props.value),
@@ -67,16 +85,13 @@ const columns = [{
 }, {
   Header: 'Phase',
   accessor: 'status',
+  Cell: (props) => capitalize.words(props.value),
   minWidth: 120
 }, {
   Header: 'Phase Ends (blocks)',
   accessor: 'challengePeriodEnd',
   Cell: (props) => commafy(props.value),
   minWidth: 150
-}, {
-  Header: 'Action',
-  accessor: 'action',
-  minWidth: 120
 }, {
   Header: 'Stats',
   accessor: 'stats',

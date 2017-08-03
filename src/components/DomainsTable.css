@@ -40,3 +40,8 @@
 :root:root .DomainsTable .ReactTable .rt-thead.-filters {
   display: none;
 }
+
+:root:root .DomainsTable .ReactTable .ui.button {
+  font-size: 0.7em;
+  text-transform: uppercase;
+}

@@ -100,7 +100,7 @@ class DomainsContainer extends Component {
       }
     }
 
-    filter = new RegExp(filter.join('|'))
+    filter = new RegExp(filter.join('|'), 'gi')
     statusFilter.value = filter
 
     this.setState({tableFilters: [statusFilter]})

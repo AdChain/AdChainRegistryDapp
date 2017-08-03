@@ -54,6 +54,10 @@ p {
   background-color: #536DEB;
 }
 
+:root:root .ui.button.purple {
+  background-color: #662D91;
+}
+
 :root:root .form input[type="text"],
 :root:root .form input[type="password"] {
   background: #F4F7FA;
