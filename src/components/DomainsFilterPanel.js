@@ -3,7 +3,26 @@ import React, { Component } from 'react'
 import './DomainsFilterPanel.css'
 
 class DomainsFilterPanel extends Component {
+  constructor (props) {
+    super()
+
+    this.state = {
+      filters: props.filters
+    }
+
+    this.onFilterChange = this.onFilterChange.bind(this)
+    this.onFiltersChange = props.onFiltersChange.bind(this)
+  }
+
+  componentWillReceiveProps (props) {
+    this.setState({
+      filters: props.filters
+    })
+  }
+
   render () {
+    const filters = this.state.filters
+
     return (
       <div className='DomainsFilterPanel BoxFrame'>
         <div className='ui grid stackable'>
@@ -22,7 +41,11 @@ class DomainsFilterPanel extends Component {
                 <div className='ui input'>
                   <input
                     type='checkbox'
-                    id='DomainsFilterPanel_InRegistry' />
+                    id='DomainsFilterPanel_InRegistry'
+                    name='inRegistry'
+                    checked={!!filters.inRegistry}
+                    onChange={this.onFilterChange}
+                  />
                 </div>
                 <label htmlFor='DomainsFilterPanel_InRegistry'>In Registry</label>
               </li>
@@ -30,7 +53,11 @@ class DomainsFilterPanel extends Component {
                 <div className='ui input'>
                   <input
                     type='checkbox'
-                    id='DomainsFilterPanel_InApplication' />
+                    id='DomainsFilterPanel_InApplication'
+                    name='inApplication'
+                    checked={!!filters.inApplication}
+                    onChange={this.onFilterChange}
+                  />
                 </div>
                 <label htmlFor='DomainsFilterPanel_InApplication'>In Application</label>
               </li>
@@ -38,7 +65,11 @@ class DomainsFilterPanel extends Component {
                 <div className='ui input'>
                   <input
                     type='checkbox'
-                    id='DomainsFilterPanel_InVoting' />
+                    id='DomainsFilterPanel_InVoting'
+                    name='inVoting'
+                    checked={!!filters.inVoting}
+                    onChange={this.onFilterChange}
+                  />
                 </div>
                 <label htmlFor='DomainsFilterPanel_InVoting'>In Voting</label>
               </li>
@@ -46,7 +77,11 @@ class DomainsFilterPanel extends Component {
                 <div className='ui input'>
                   <input
                     type='checkbox'
-                    id='DomainsFilterPanel_Rejected' />
+                    id='DomainsFilterPanel_Rejected'
+                    name='rejected'
+                    checked={!!filters.rejected}
+                    onChange={this.onFilterChange}
+                  />
                 </div>
                 <label htmlFor='DomainsFilterPanel_Rejected'>Rejected</label>
               </li>
@@ -55,6 +90,18 @@ class DomainsFilterPanel extends Component {
         </div>
       </div>
     )
+  }
+
+  onFilterChange (event) {
+    const target = event.target
+    const {name, checked} = target
+
+    const {filters} = this.state
+    filters[name] = checked
+
+    this.setState(filters)
+
+    this.onFiltersChange(filters)
   }
 }
 
