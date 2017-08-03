@@ -8,6 +8,7 @@
     "camelcase-keys": "^4.1.0",
     "commafy": "0.0.5",
     "debounce": "^1.0.2",
+    "fuckadblock": "^3.2.1",
     "history": "^4.6.3",
     "jquery": "^3.2.1",
     "koa": "^2.3.0",

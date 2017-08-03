@@ -93,7 +93,6 @@ class DomainsTable extends Component {
   }
 
   render () {
-
     return (
       <div className='DomainsTable BoxFrame'>
         <div className='ui grid'>
