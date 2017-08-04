@@ -23,23 +23,23 @@ function DomainStatsbar (props) {
       <div className='ui grid stackable'>
         <div className='row'>
           <div className='column eight wide'>
-            Monthly Visits: {commafy(monthlyVisits)}
+            Monthly Visits: <strong>{commafy(monthlyVisits)}</strong>
           </div>
           <div className='column eight wide'>
-            Bounce Rate: {bounceRate}%
-          </div>
-        </div>
-        <div className='row'>
-          <div className='column eight wide'>
-            Avg. Visit Duration: {avgVisitDuration}
-          </div>
-          <div className='column eight wide'>
-            Category: {category}
+            Bounce Rate: <strong>{bounceRate}%</strong>
           </div>
         </div>
         <div className='row'>
           <div className='column eight wide'>
-            Pages per Visit: {commafy(pagesPerVisit)}
+            Avg. Visit Duration: <strong>{avgVisitDuration}</strong>
+          </div>
+          <div className='column eight wide'>
+            Category: <strong>{category}</strong>
+          </div>
+        </div>
+        <div className='row'>
+          <div className='column eight wide'>
+            Pages per Visit: <strong>{commafy(pagesPerVisit)}</strong>
           </div>
         </div>
       </div>
