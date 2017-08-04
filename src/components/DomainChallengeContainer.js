@@ -19,7 +19,9 @@ class DomainChallengeContainer extends Component {
       <div className='DomainChallengeContainer'>
         <div className='ui grid stackable'>
           <div className='column sixteen wide'>
-            <strong>IN APPLICATION</strong>
+            <div className='ui large header center aligned'>
+              IN APPLICATION
+            </div>
           </div>
           <div className='column sixteen wide'>
             <p>ADT holders are encouraged to challenge publisher applications where the token holders believe the Publisher to be fraudulent.</p>

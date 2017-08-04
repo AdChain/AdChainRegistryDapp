@@ -19,7 +19,9 @@ class DomainVoteCommitContainer extends Component {
       <div className='DomainChallengeContainer'>
         <div className='ui grid stackable'>
           <div className='column sixteen wide'>
-            <strong>VOTING – COMMIT</strong>
+            <div className='ui large header center aligned'>
+              VOTING – COMMIT
+            </div>
           </div>
           <div className='column sixteen wide'>
             <p>

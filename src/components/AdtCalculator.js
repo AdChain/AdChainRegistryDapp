@@ -127,6 +127,12 @@ class AdtCalculator extends Component {
               {selectedOption === 'usd' || selectedOption === 'eth' ? <span>Amount in ADT: {formatValue(conversionAdt)}</span> : <span>Amount in ETH: {formatValue(conversionEth)}</span>}
             </div>
           </div>
+          <a
+            className='Source'
+            href='https://coinmarketcap.com/'
+            rel='noopener noreferrer'
+            target='_blank'
+          >coinmarketcap</a>
         </div>
       </div>
     )

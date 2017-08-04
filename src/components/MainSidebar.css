@@ -6,7 +6,6 @@
 }
 
 :root:root .MainSidebar .adChainLogo {
-  height: 120px;
   width: 100%;
   padding: 0.6em;
   text-align: center;
@@ -14,7 +13,7 @@
 }
 
 :root:root .MainSidebar .adChainLogo img {
-  max-width: 150px;
+  max-width: 130px;
   margin: 0 auto;
 }
 
@@ -79,6 +78,13 @@
 
 :root:root .MainSidebar .metaxLogo {
   padding: 2em;
+  width: 100%;
+  text-align: center;
+}
+
+:root:root .MainSidebar .metaxLogo img {
+  margin: 0 auto;
+  max-width: 120px;
 }
 
 :root:root .MainSidebar .Copyright {

@@ -45,3 +45,13 @@
   font-size: 0.7em;
   text-transform: uppercase;
 }
+
+:root:root .DomainsTable .ReactTable .Domain {
+  display: inline-block;
+  font-weight: bold;
+}
+
+:root:root .DomainsTable .ReactTable .Domain img {
+  margin-right: 0.3em;
+  vertical-align: middle;
+}

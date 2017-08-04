@@ -6,10 +6,12 @@
 
 :root:root .RegistryStatsbar .statistics {
  font-size: 0.7em;
+ display: flex;
+ align-items: center;
 }
 
 :root:root .RegistryStatsbar .statistic {
-  margin-bottom: 0.5em;
+  margin-bottom: 0;
   position: relative;
 }
 
@@ -27,4 +29,8 @@
 :root:root .RegistryStatsbar .statistic .label,
 :root:root .RegistryStatsbar .statistic .value {
   font-weight: normal;
+}
+
+:root:root .RegistryStatsbar .statistic .value {
+  margin-bottom: 0.2em;
 }
