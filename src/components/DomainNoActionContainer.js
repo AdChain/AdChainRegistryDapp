@@ -20,6 +20,9 @@ class DomainNoActionContainer extends Component {
               In Registry
             </div>
           </div>
+          <div className='column sixteen wide'>
+            <p>Domain is in adChain Registry.</p>
+          </div>
         </div>
       </div>
     )
