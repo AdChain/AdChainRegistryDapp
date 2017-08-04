@@ -71,6 +71,13 @@ p {
   border-color: #536DEB;
 }
 
+:root:root .form .ui.input.error input[type="text"],
+:root:root .form .ui.input.error input[type="password"],
+:root:root .form input[type="text"].error,
+:root:root .form input[type="password"].error {
+  border: 1px solid #ea5e5e;
+}
+
 .BoxFrame {
   background: #fff;
   padding: 20px;

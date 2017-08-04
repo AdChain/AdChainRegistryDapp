@@ -8,6 +8,7 @@
  font-size: 0.7em;
  display: flex;
  align-items: center;
+ margin: 0 auto;
 }
 
 :root:root .RegistryStatsbar .statistic {
