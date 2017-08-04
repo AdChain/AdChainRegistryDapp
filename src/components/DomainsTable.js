@@ -84,7 +84,18 @@ const columns = [{
 
     return <a className={`ui mini button ${type}`} href onClick={(event) => {
       event.preventDefault()
-      history.push(`/domains`)
+
+      let {action} = props.row
+
+      if (/challenge/gi.test(action)) {
+        action = 'challenge'
+      } else if (/commit/gi.test(action)) {
+        action = 'commit'
+      } else if (/reveal/gi.test(action)) {
+        action = 'reveal'
+      }
+
+      history.push(`/profile/${props.value}?action=${action}`)
     }}>{props.value}</a>
   },
   minWidth: 120
