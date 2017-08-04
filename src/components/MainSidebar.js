@@ -12,15 +12,6 @@ class MainSidebar extends Component {
     this._Link = props.Link
   }
 
-  componentDidMount () {
-    /*
-    window.$('.ui.sidebar')
-    .sidebar({
-      dimPage:false
-    })
-    */
-  }
-
   render () {
     const Link = this._Link
 

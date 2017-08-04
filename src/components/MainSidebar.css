@@ -95,15 +95,6 @@
   margin-bottom: 10px;
 }
 
-@media only screen and (max-width: 767px) {
-  :root:root:root .MainSidebar {
-    display: block;
-    width: 100%;
-    height: 70px !important;
-  }
-}
-
-
 .MainSidebar .overflow-x::-webkit-scrollbar,
 .MainSidebar .overflow-y::-webkit-scrollbar {
   width: 5px;
@@ -124,4 +115,52 @@
 .MainSidebar .overflow-x::-webkit-scrollbar-thumb:hover,
 .MainSidebar .overflow-y::-webkit-scrollbar-thumb:hover {
   background-color: #1a1d23;
+}
+
+@media only screen and (max-width: 767px) {
+  :root:root:root .MainSidebarWrap {
+    position: relative;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  :root:root:root:root:root .MainContainerWrap {
+    margin-top: 90px !important;
+  }
+
+  :root:root:root .MainSidebar {
+    display: block;
+    width: 100%;
+    height: auto !important;
+  }
+
+  :root:root .MainSidebar .adChainLogo {
+    display: block;
+    width: 100%;
+    box-shadow: none;
+  }
+
+  :root:root .MainSidebar .SidebarList {
+    height: auto;
+  }
+
+  :root:root .MainSidebar .ListTitle {
+    display: none;
+  }
+
+  :root:root .MainSidebar .list {
+    width: 200%;
+    overflow: auto;
+  }
+
+  :root:root .MainSidebar .list .item {
+    display: inline-block;
+    width: auto;
+    float: left;
+  }
+
+  :root:root .MainSidebar .SidebarFooter {
+    display: none;
+  }
 }
