@@ -19,7 +19,9 @@ class DomainVoteRevealContainer extends Component {
       <div className='DomainChallengeContainer'>
         <div className='ui grid stackable'>
           <div className='column sixteen wide'>
-            <strong>VOTING – REVEAL</strong>
+            <div className='ui large header center aligned'>
+              VOTING – REVEAL
+            </div>
           </div>
           <div className='column sixteen wide'>
             <p>

@@ -4,11 +4,19 @@ import commafy from 'commafy'
 import './DomainStatsbar.css'
 
 function DomainStatsbar (props) {
+/*
   const monthlyVisits = (props.monthlyVisits | 0) // coerce
   const bounceRate = props.bounceRate || 0
   const avgVisitDuration = props.avgVisitDuration || 0
   const category = props.category || '<unknown>'
   const pagesPerVisit = (props.pagePerVisit | 0)
+  */
+
+  const monthlyVisits = 34558
+  const bounceRate = 88
+  const avgVisitDuration = '00:17:01'
+  const category = 'Lifestyle'
+  const pagesPerVisit = 345
 
   return (
     <div className='DomainStatsbar BoxFrame'>

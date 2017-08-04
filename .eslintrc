@@ -1,0 +1,8 @@
+{
+  "extends": ["standard", "standard-react"],
+  "plugins": [
+    "standard",
+    "promise"
+  ],
+  "react/jsx-uses-vars": [2]
+}

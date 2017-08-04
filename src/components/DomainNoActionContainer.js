@@ -16,7 +16,9 @@ class DomainNoActionContainer extends Component {
       <div className='DomainNoActionContainer'>
         <div className='ui grid stackable'>
           <div className='column sixteen wide'>
-            <strong>In Registry</strong>
+            <div className='ui large header center aligned'>
+              In Registry
+            </div>
           </div>
         </div>
       </div>

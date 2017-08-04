@@ -51,22 +51,34 @@ const data = [{
 const columns = [{
   Header: 'Domain',
   accessor: 'domain',
-  Cell: (props) => <a href onClick={(event) => {
-    event.preventDefault()
+  Cell: (props) => {
+    const domain = props.value
 
-    let {action} = props.row
+    return (
+      <a href='' className='Domain' onClick={(event) => {
+      event.preventDefault()
 
-    if (/challenge/gi.test(action)) {
-      action = 'challenge'
-    } else if (/commit/gi.test(action)) {
-      action = 'commit'
-    } else if (/reveal/gi.test(action)) {
-      action = 'reveal'
-    }
+      let {action} = props.row
 
-    history.push(`/profile/${props.value}?action=${action}`)
-  }}>{props.value}</a>,
-  minWidth: 150
+      if (/challenge/gi.test(action)) {
+        action = 'challenge'
+      } else if (/commit/gi.test(action)) {
+        action = 'commit'
+      } else if (/reveal/gi.test(action)) {
+        action = 'reveal'
+      }
+
+      history.push(`/profile/${props.value}?action=${action}`)
+    }}>
+      <img
+        src={`https://www.google.com/s2/favicons?domain=${domain}`}
+        width={16}
+        alt=''
+      />
+      {domain}
+    </a>
+  )},
+  minWidth: 200
 }, {
   Header: 'Site Name',
   accessor: 'siteName',
@@ -82,7 +94,7 @@ const columns = [{
       type = 'purple'
     }
 
-    return <a className={`ui mini button ${type}`} href onClick={(event) => {
+    return <a className={`ui mini button ${type}`} href='' onClick={(event) => {
       event.preventDefault()
 
       let {action} = props.row
