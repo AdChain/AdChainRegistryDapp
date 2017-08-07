@@ -8,7 +8,6 @@
  font-size: 0.7em;
  display: flex;
  align-items: center;
- margin: 0 auto;
 }
 
 :root:root .RegistryStatsbar .statistic {
@@ -34,4 +33,10 @@
 
 :root:root .RegistryStatsbar .statistic .value {
   margin-bottom: 0.2em;
+}
+
+@media only screen and (max-width: 767px) {
+  :root:root .RegistryStatsbar .statistics {
+    margin: 0 auto;
+  }
 }
