@@ -75,3 +75,7 @@
 .DomainsFilterPanel .Reset a {
   text-transform: uppercase;
 }
+
+.DomainsFilterPanel .Reset a:hover {
+  text-decoration: underline;
+}
