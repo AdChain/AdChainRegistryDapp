@@ -2,6 +2,11 @@
   min-height: 100px;
   display: flex;
   align-items: center;
+  justify-content: flex-start;
+}
+
+:root:root .RegistryStatsbar .large.header {
+  border-bottom: 4px solid #536DEB;
 }
 
 :root:root .RegistryStatsbar .statistics {
@@ -13,6 +18,8 @@
 :root:root .RegistryStatsbar .statistic {
   margin-bottom: 0;
   position: relative;
+  min-width: 95px;
+  padding: 0.3em 0;
 }
 
 :root:root .RegistryStatsbar .statistic:not(:last-child):after {

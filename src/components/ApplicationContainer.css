@@ -5,3 +5,7 @@
 .ApplicationContainer > .grid > .column:first-child {
   padding-right: 0;
 }
+
+:root:root .ApplicationContainer .PublisherApplicationInfo {
+  margin-bottom: 1rem;
+}
