@@ -1,0 +1,7 @@
+.ApplicationContainer {
+
+}
+
+.ApplicationContainer > .grid > .column:first-child {
+  padding-right: 0;
+}

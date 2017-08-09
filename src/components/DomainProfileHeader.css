@@ -1,6 +1,6 @@
 .DomainProfileHeader {
   display: flex;
-  min-height: 100px;
+  min-height: 105px;
 }
 
 .DomainProfileHeader .image {

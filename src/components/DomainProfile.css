@@ -1,3 +1,11 @@
 .DomainProfile {
   width: 100%;
 }
+
+.DomainProfile > .grid > .row:first-child {
+  padding-bottom: 0;
+}
+
+.DomainProfile > .grid > .row > .column:first-child {
+  padding-right: 0;
+}
