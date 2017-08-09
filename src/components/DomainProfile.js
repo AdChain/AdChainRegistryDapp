@@ -45,7 +45,7 @@ class DomainProfile extends Component {
             />
           </div>
           <div className='column eight wide'>
-            <DomainStatsbar />
+            <DomainStatsbar domain={domain} />
           </div>
           <div className='column ten wide'>
             <DomainProfileInfo

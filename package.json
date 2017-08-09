@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "dependencies": {
+    "alexa-stats": "0.0.1",
     "blockies": "0.0.2",
     "camelcase": "^4.1.0",
     "camelcase-keys": "^4.1.0",
@@ -14,7 +15,9 @@
     "is-valid-domain": "0.0.2",
     "is-valid-email": "0.0.2",
     "jquery": "^3.2.1",
+    "kcors": "^2.2.1",
     "koa": "^2.3.0",
+    "koa-path-match": "^2.0.0",
     "koa-static": "^4.0.1",
     "qs": "^6.5.0",
     "react": "^15.6.1",
