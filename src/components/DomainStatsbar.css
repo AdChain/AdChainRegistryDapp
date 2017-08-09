@@ -1,4 +1,5 @@
 :root:root:root .DomainStatsbar {
+  position: relative;
   min-height: 100px;
 }
 
@@ -26,3 +27,13 @@
   border-right: 1px solid #ddd;
 }
 
+:root:root:root .DomainStatsbar .Source {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  font-size: 0.8em;
+}
+
+:root:root:root .DomainStatsbar .Source a:hover {
+  text-decoration: underline;
+}
