@@ -12,7 +12,7 @@ class PublisherApplicationForm extends Component {
         <div className='ui grid stackable'>
           <div className='column sixteen wide left aligned'>
             <div className='ui large header'>
-              PUBLISHER APPLICATION
+              Publisher Application
             </div>
           </div>
           <div className='column sixteen wide left aligned'>
