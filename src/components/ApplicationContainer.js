@@ -3,6 +3,8 @@ import React, { Component } from 'react'
 import PublisherApplicationForm from './PublisherApplicationForm'
 import PublisherApplicationInfo from './PublisherApplicationInfo'
 
+import './ApplicationContainer.css'
+
 class ApplicationContainer extends Component {
   render () {
     return (

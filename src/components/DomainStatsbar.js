@@ -9,14 +9,15 @@ class DomainStatsbar extends Component {
 
     this.state = {
       domain: props.domain,
-      globalRank: 0,
-      category: '<unknown>',
-      bounceRate: 0,
-      dailyPageViewsPerVisitor: 0,
-      dailyTimeOnSite: 0,
-      monthlyVisits: 0,
-      avgVisitDuration: 0,
-      pagesPerVisit: 0
+      globalRank: '-',
+      category: '-',
+      bounceRate: '-',
+      dailyPageViewsPerVisitor: '-',
+      dailyTimeOnSite: '-',
+      monthlyVisits: '-',
+      avgVisitDuration: '-',
+      pagesPerVisit: '-',
+      totalSitesLinkingIn: '-'
     }
 
     this.fetchStats()
@@ -51,8 +52,8 @@ class DomainStatsbar extends Component {
             <div className='column eight wide'>
               Daily Time on Site: <strong>{dailyTimeOnSite}</strong>
             </div>
-            <div className='column eight wide'>
-              Category: <strong>{category}</strong>
+            <div className='column eight wide Category'>
+              <span>Category:&nbsp;</span><strong className='overflow-x'>{category}</strong>
             </div>
           </div>
           <div className='row'>

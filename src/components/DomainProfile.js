@@ -37,26 +37,30 @@ class DomainProfile extends Component {
     return (
       <div className='DomainProfile'>
         <div className='ui grid stackable padded'>
-          <div className='column eight wide'>
-            <DomainProfileHeader
-              domain={domain}
-              name={siteName}
-              country={country}
-            />
+          <div className='row'>
+            <div className='column seven wide'>
+              <DomainProfileHeader
+                domain={domain}
+                name={siteName}
+                country={country}
+              />
+            </div>
+            <div className='column nine wide'>
+              <DomainStatsbar domain={domain} />
+            </div>
           </div>
-          <div className='column eight wide'>
-            <DomainStatsbar domain={domain} />
-          </div>
-          <div className='column ten wide'>
-            <DomainProfileInfo
-              domain={domain}
-            />
-          </div>
-          <div className='column six wide'>
-            <DomainProfileActionContainer
-              domain={domain}
-              action={action}
-            />
+          <div className='row'>
+            <div className='column ten wide'>
+              <DomainProfileInfo
+                domain={domain}
+              />
+            </div>
+            <div className='column six wide'>
+              <DomainProfileActionContainer
+                domain={domain}
+                action={action}
+              />
+            </div>
           </div>
         </div>
       </div>

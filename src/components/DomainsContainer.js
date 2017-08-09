@@ -44,23 +44,27 @@ class DomainsContainer extends Component {
     return (
       <div className='DomainsContainer'>
         <div className='ui grid stackable padded'>
-          <div className='column ten wide'>
-            <RegistryStatsbar />
+          <div className='row'>
+            <div className='column ten wide'>
+              <RegistryStatsbar />
+            </div>
+            <div className='column six wide'>
+              <AdtCalculator />
+            </div>
           </div>
-          <div className='column six wide'>
-            <AdtCalculator />
-          </div>
-          <div className='column four wide'>
-            <DomainsFilterPanel
-              filters={query}
-              onFiltersChange={this.onQueryChange.bind(this)}
-            />
-          </div>
-          <div className='column twelve wide'>
-            <DomainsTable
-              history={history}
-              filters={tableFilters}
-            />
+          <div className='row'>
+            <div className='column four wide'>
+              <DomainsFilterPanel
+                filters={query}
+                onFiltersChange={this.onQueryChange.bind(this)}
+              />
+            </div>
+            <div className='column twelve wide'>
+              <DomainsTable
+                history={history}
+                filters={tableFilters}
+              />
+            </div>
           </div>
         </div>
       </div>

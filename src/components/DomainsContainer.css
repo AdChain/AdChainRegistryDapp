@@ -1,3 +1,11 @@
 .DomainsContainer {
   width: 100%;
 }
+
+.DomainsContainer > .grid > .row:first-child {
+  padding-bottom: 0;
+}
+
+.DomainsContainer > .grid > .row > .column:first-child {
+  padding-right: 0;
+}
