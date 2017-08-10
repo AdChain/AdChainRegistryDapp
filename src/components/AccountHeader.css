@@ -1,0 +1,35 @@
+.AccountHeader {
+  display: flex;
+  min-height: 105px;
+}
+
+.AccountHeader .image {
+  width: 60px;
+  height: 60px;
+  background: #ddd;
+  margin-right: 10px;
+}
+
+.AccountHeader .Content {
+  display: flex;
+  flex-direction: column;
+  padding: 0.1em 0;
+  justify-content: center;
+}
+
+.AccountHeader .Header {
+  font-size: 0.9em;
+}
+
+.AccountHeader .SubHeader {
+  font-size: 1.4em;
+}
+
+.AccountHeader .SubHeader .Name {
+  display: inline-block;
+  margin-right: 10px;
+}
+
+.AccountHeader .SubHeader .Country {
+  display: inline-block;
+}

@@ -21,7 +21,7 @@ class MainTopbar extends Component {
                 address={address}
                 size={6}
                 scale={6} />
-              {address}
+              <span>{address}</span>
             </div>
           </div>
           <div className='menu right'>

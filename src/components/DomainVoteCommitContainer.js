@@ -16,7 +16,7 @@ class DomainVoteCommitContainer extends Component {
     const blocksRemaining = 1239
 
     return (
-      <div className='DomainChallengeContainer'>
+      <div className='DomainVoteCommitContainer'>
         <div className='ui grid stackable'>
           <div className='column sixteen wide'>
             <div className='ui large header center aligned'>
@@ -45,12 +45,25 @@ The first phase of the voting process is the commit phase where the ADT holder s
             <div className='ui divider' />
           </div>
           <div className='column sixteen wide center aligned'>
-            <button className='ui button blue'>
-              SUPPORT
-            </button>
-            <button className='ui button purple'>
-              OPPOSE
-            </button>
+            <form className='ui form center aligned'>
+              <div className='ui field'>
+                <label>Enter ADT to Commit</label>
+                <div className='ui input small'>
+                  <input
+                    type='text'
+                    placeholder='100'
+                  />
+                </div>
+              </div>
+              <div className='ui field'>
+                <button className='ui button blue'>
+                  SUPPORT
+                </button>
+                <button className='ui button purple'>
+                  OPPOSE
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       </div>

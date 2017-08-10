@@ -29,6 +29,7 @@
   width: 100%;
   height: 100%;
   overflow: auto;
+  padding-top: 1em;
 }
 
 :root:root .MainSidebar .list {
@@ -69,6 +70,7 @@
 
 :root:root:root .MainSidebar .ApplyLink a {
   color: #536DEB;
+  font-weight: bold;
 }
 
 :root:root:root .MainSidebar .ApplyLink a.active,
