@@ -22,10 +22,10 @@ class MainSidebar extends Component {
             <img src={adchainLogo} alt='adChain' />
           </a>
         </div>
-        <div className='ListTitle ui header'>
-          adChain Registry
-        </div>
         <div className='SidebarList overflow-y'>
+          <div className='ListTitle ui header'>
+            adChain Registry
+          </div>
           <ul className='ui list'>
             <li className='item'>
               <Link to='/domains' activeClassName='active'>All domains</Link>
@@ -44,6 +44,14 @@ class MainSidebar extends Component {
             </li>
             <li className='item ApplyLink'>
               <Link to='/apply'>Apply now</Link>
+            </li>
+          </ul>
+          <div className='ListTitle ui header'>
+            adChain Account
+          </div>
+          <ul className='ui list'>
+            <li className='item'>
+              <Link to='/account'>Account Dashboard</Link>
             </li>
           </ul>
         </div>

@@ -4,6 +4,7 @@ import MainTopbar from './MainTopbar'
 import ApplicationContainer from './ApplicationContainer'
 import DomainsContainer from './DomainsContainer'
 import DomainProfile from './DomainProfile'
+import AccountDashboard from './AccountDashboard'
 
 import './MainContainer.css'
 
@@ -29,6 +30,7 @@ function MainContainer (props) {
             <Route path='/apply' exact component={ApplicationContainer} />
             <Route path='/domains' exact component={DomainsContainer} />
             <Route path='/profile/:domain' exact component={DomainProfile} />
+            <Route path='/account' exact component={AccountDashboard} />
             <Route path='/' exact component={DomainsContainer} />
           </Switch>
         </Route>
