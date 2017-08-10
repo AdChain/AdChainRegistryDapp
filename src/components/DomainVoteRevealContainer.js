@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import commafy from 'commafy'
 
+import StatProgressBar from './StatProgressBar'
+
 import './DomainVoteRevealContainer.css'
 
 class DomainVoteRevealContainer extends Component {
@@ -14,9 +16,11 @@ class DomainVoteRevealContainer extends Component {
 
   render () {
     const blocksRemaining = 1239
+    const supportFill = 75
+    const opposeFill = 25
 
     return (
-      <div className='DomainChallengeContainer'>
+      <div className='DomainVoteRevealContainer'>
         <div className='ui grid stackable'>
           <div className='column sixteen wide'>
             <div className='ui large header center aligned'>
@@ -27,6 +31,20 @@ class DomainVoteRevealContainer extends Component {
             <p>
 The first phase of the voting process is the commit phase where the ADT holder stakes a hidden amount of ADT to SUPPORT or OPPOSE the domain application. The second phase is the reveal phase where the ADT holder reveals the staked amount of ADT to either the SUPPORT or OPPOSE side.
             </p>
+          </div>
+          <div className='column sixteen wide center aligned ProgressContainer'>
+            <div className='ui divider' />
+            <p>
+              ADT holders have revealed their vote to show:
+            </p>
+            <div className='BarContainer'>
+              <StatProgressBar
+                fills={[supportFill, opposeFill]}
+                showFillLabels
+                showLegend
+                fillLabels={['SUPPORT', 'OPPOSE']}
+              />
+            </div>
           </div>
           <div className='column sixteen wide center aligned'>
             <div className='ui divider' />

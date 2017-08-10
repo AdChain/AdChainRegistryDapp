@@ -6,6 +6,8 @@ import capitalize from 'capitalize'
 import 'react-table/react-table.css'
 import './DomainsTable.css'
 
+import StatProgressBar from './StatProgressBar'
+
 const data = [{
   domain: 'foo.net',
   siteName: 'Foo Net Media',
@@ -13,7 +15,7 @@ const data = [{
   status: 'in application',
   challengePeriodEnd: 643522,
   action: 'challenge',
-  stats: 2133
+  stats: null
 }, {
   domain: 'nytimes.com',
   siteName: 'New York Times',
@@ -21,7 +23,10 @@ const data = [{
   status: 'voting - reveal',
   challengePeriodEnd: 90345,
   action: 'reveal',
-  stats: 9897
+  stats: {
+    support: 75,
+    oppose: 25
+  }
 }, {
   domain: 'wsj.com',
   siteName: 'The Wall Street Journal',
@@ -37,7 +42,7 @@ const data = [{
   status: 'in application',
   challengePeriodEnd: 345,
   action: 'challenge',
-  stats: 50
+  stats: null
 }, {
   domain: 'cnn.com',
   siteName: 'CNN',
@@ -45,7 +50,9 @@ const data = [{
   status: 'vote - commit',
   challengePeriodEnd: 8495,
   action: 'commit',
-  stats: '14,934 ADT Committed'
+  stats: {
+    commited: 3455
+  }
 }]
 
 const columns = [{
@@ -97,7 +104,9 @@ const columns = [{
     return <a className={`ui mini button ${type}`} href='' onClick={(event) => {
       event.preventDefault()
 
-      let {action} = props.row
+      const {row} = props
+      let {action} = row
+      const domain = row.domain
 
       if (/challenge/gi.test(action)) {
         action = 'challenge'
@@ -107,7 +116,7 @@ const columns = [{
         action = 'reveal'
       }
 
-      history.push(`/profile/${props.value}?action=${action}`)
+      history.push(`/profile/${domain}?action=${action}`)
     }}>{props.value}</a>
   },
   minWidth: 120
@@ -129,6 +138,20 @@ const columns = [{
 }, {
   Header: 'Stats',
   accessor: 'stats',
+  Cell: (props) => {
+    const {action, stats} = props.row
+
+    if (/reveal/gi.test(action)) {
+      const supportFill = stats.support
+      const opposeFill = stats.oppose
+
+      return <StatProgressBar fills={[supportFill, opposeFill]} showFillLabels />
+    } else if (/commit/gi.test(action)) {
+      return <span><strong>{commafy(stats.commited)}</strong> ADT Comitted</span>
+    }
+
+    return null
+  },
   minWidth: 200
 }]
 
