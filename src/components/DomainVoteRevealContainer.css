@@ -1,3 +1,12 @@
 .DomainVoteRevealContainer {
 
 }
+
+:root:root:root .DomainVoteRevealContainer .ProgressContainer .divider {
+  padding-bottom: 1rem;
+}
+
+.DomainVoteRevealContainer .BarContainer {
+  max-width: 300px;
+  margin: 0 auto;
+}

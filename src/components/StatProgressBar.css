@@ -1,0 +1,49 @@
+.StatProgressBar {
+
+}
+
+.StatProgressBar .StatBarContainer {
+  width: 100%;
+  height: 1.6em;
+  border: 1px solid #536DEB;
+  position: relative;
+  border-radius: 15px;
+  overflow: hidden;
+}
+
+.StatProgressBar .StatBarFillContainer {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  float: left;
+  height: 100%;
+  background: #536DEB;
+  text-align: center;
+  color: #FFFFFF;
+  font-size: 0.9em;
+}
+
+.StatProgressBar .StatBarFillContainer:nth-child(2) {
+  background: #662D91;
+}
+
+.StatProgressBar .StatBarFillContainer.Round {
+  border-radius: 15px;
+}
+
+.StatProgressBar .StatBarLegend {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1px 10px;
+}
+
+.StatProgressBar .FillLabel {
+  font-size: 0.8em;
+  color: #536DEB;
+}
+
+.StatProgressBar .FillLabel:nth-child(2) {
+  color: #662D91;
+}
