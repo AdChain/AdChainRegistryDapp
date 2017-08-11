@@ -1,3 +1,7 @@
 .AccountDashboard {
+  width: 100%;
+}
 
+.AccountDashboard > .grid > .row:first-child {
+  padding-bottom: 0;
 }

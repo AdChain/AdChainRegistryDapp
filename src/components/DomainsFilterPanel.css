@@ -23,6 +23,10 @@
   width: 100%;
 }
 
+:root:root .DomainsFilterPanel .SearchContainer .input input {
+  color: #fff;
+}
+
 .DomainsFilterPanel .SearchContainer .icon {
   color: #F4F7FA;
 }

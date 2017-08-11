@@ -25,14 +25,18 @@ class AccountDashboard extends Component {
     return (
       <div className='AccountDashboard'>
         <div className='ui grid stackable padded'>
-          <div className='column sixteen wide'>
-            <AccountHeader />
+          <div className='row'>
+            <div className='column sixteen wide'>
+              <AccountHeader />
+            </div>
           </div>
-          <div className='column sixteen wide'>
-            <DomainsTable
-              history={history}
-              filters={tableFilters}
-            />
+          <div className='row'>
+            <div className='column sixteen wide'>
+              <DomainsTable
+                history={history}
+                filters={tableFilters}
+              />
+            </div>
           </div>
         </div>
       </div>
