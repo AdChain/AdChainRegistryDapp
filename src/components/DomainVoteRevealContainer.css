@@ -10,3 +10,51 @@
   max-width: 300px;
   margin: 0 auto;
 }
+
+.DomainVoteRevealContainer .Breakdown {
+  display: flex;
+  max-width: 200px;
+  margin: 0 auto;
+  padding-top: 0.6em;
+}
+
+.DomainVoteRevealContainer .BreakdownItem {
+  display: inline-flex;
+  width: 50%;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.DomainVoteRevealContainer .BreakdownItem:nth-child(2):after {
+  content: '';
+  display: block;
+  position: absolute;
+  left: -1px;
+  top: 0;
+  width: 1px;
+  height: 100%;
+  background: #ddd;
+}
+
+.DomainVoteRevealContainer .BreakdownItemBox {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  background: #536DEB;
+  margin-right: 0.5em;
+}
+
+.DomainVoteRevealContainer .BreakdownItem:nth-child(2) .BreakdownItemBox {
+  background: #662D91;
+}
+
+.DomainVoteRevealContainer .BreakdownItemLabel {
+  color: #536DEB;
+  font-size: 0.8em;
+  font-weight: bold;
+}
+
+.DomainVoteRevealContainer .BreakdownItem:nth-child(2) .BreakdownItemLabel {
+  color: #662D91;
+}

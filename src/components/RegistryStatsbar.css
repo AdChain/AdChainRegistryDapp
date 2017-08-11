@@ -43,7 +43,20 @@
 }
 
 @media only screen and (max-width: 767px) {
+  :root:root .RegistryStatsbar .grid {
+    width: 100%;
+  }
+
   :root:root .RegistryStatsbar .statistics {
     margin: 0 auto;
+    flex-direction: column;
+  }
+
+  :root:root:root .RegistryStatsbar .statistic {
+    margin-bottom: 1em;
+  }
+
+  :root:root:root .RegistryStatsbar .statistic:after {
+    display: none;
   }
 }

@@ -145,15 +145,17 @@
 
   :root:root .MainSidebar .SidebarList {
     height: auto;
+    width: 400%;
+    overflow: auto;
+  }
+
+  :root:root .MainSidebar .list {
+    display: inline-block;
+    float: left;
   }
 
   :root:root .MainSidebar .ListTitle {
     display: none;
-  }
-
-  :root:root .MainSidebar .list {
-    width: 200%;
-    overflow: auto;
   }
 
   :root:root .MainSidebar .list .item {

@@ -16,8 +16,11 @@ class DomainVoteRevealContainer extends Component {
 
   render () {
     const blocksRemaining = 1239
-    const supportFill = 75
-    const opposeFill = 25
+    const supportFill = 76
+    const opposeFill = 24
+
+    const supportTotal = 75443
+    const opposeTotal = 23532
 
     return (
       <div className='DomainVoteRevealContainer'>
@@ -44,6 +47,16 @@ The first phase of the voting process is the commit phase where the ADT holder s
                 showLegend
                 fillLabels={['SUPPORT', 'OPPOSE']}
               />
+            </div>
+            <div className='Breakdown'>
+              <div className='BreakdownItem'>
+                <div className='BreakdownItemBox'></div>
+                <span className='BreakdownItemLabel'>{commafy(supportTotal)} ADT</span>
+              </div>
+              <div className='BreakdownItem'>
+                <div className='BreakdownItemBox'></div>
+                <span className='BreakdownItemLabel'>{commafy(opposeTotal)} ADT</span>
+              </div>
             </div>
           </div>
           <div className='column sixteen wide center aligned'>
