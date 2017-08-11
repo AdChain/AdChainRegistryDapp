@@ -48,3 +48,9 @@
 :root:root:root .DomainStatsbar .Source a:hover {
   text-decoration: underline;
 }
+
+@media only screen and (max-width: 767px) {
+  :root:root:root .DomainStatsbar .row:nth-child(2) .column:first-child:after {
+    border-right: none;
+  }
+}

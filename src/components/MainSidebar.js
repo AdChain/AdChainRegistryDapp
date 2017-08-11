@@ -22,7 +22,7 @@ class MainSidebar extends Component {
             <img src={adchainLogo} alt='adChain' />
           </a>
         </div>
-        <div className='SidebarList overflow-y'>
+        <div className='SidebarList overflow-y overflow-x'>
           <div className='ListTitle ui header'>
             adChain Registry
           </div>

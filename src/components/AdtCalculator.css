@@ -39,3 +39,9 @@
 :root:root:root .AdtCalculator .Source:hover {
   text-decoration: underline;
 }
+
+@media only screen and (max-width: 767px) {
+  :root:root:root .AdtCalculator .row:nth-child(2) .column:first-child:after {
+    border-right: none;
+  }
+}

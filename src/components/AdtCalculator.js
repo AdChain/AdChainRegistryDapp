@@ -89,7 +89,7 @@ class AdtCalculator extends Component {
 
     return (
       <div className='AdtCalculator BoxFrame'>
-        <div className='ui grid stackable'>
+        <div className='ui grid'>
           <div className='row'>
             <div className='column seven wide'>
               ETH/USD: {ethUsd ? toCurrency(ethUsd) : '-'}
