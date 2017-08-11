@@ -92,9 +92,12 @@
 :root:root .MainSidebar .Copyright {
   width: 100%;
   text-align: center;
+  margin-bottom: 10px;
+}
+
+:root:root .MainSidebar .Copyright p {
   font-size: 0.6em;
   color: #686972;
-  margin-bottom: 10px;
 }
 
 .MainSidebar .overflow-x::-webkit-scrollbar,

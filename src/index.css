@@ -10,14 +10,20 @@ body {
 }
 
 body,
+p,
 .ui.header,
 .ui.card>.content>.header,
 .ui.cards>.card>.content>.header,
 .ui.items>.item>.content>.header,
+.ui.list .item a,
 :root .ui.header .sub.header,
 :root:root .statistic .label,
-:root:root .statistic .value {
+:root:root .statistic .value,
+.inverted.menu .item,
+:root:root input[type="text"],
+:root:root input[type="password"] {
   color: #333;
+  font-family: Helvetica, Arial, sans-serif;
 }
 
 body::-webkit-scrollbar,
