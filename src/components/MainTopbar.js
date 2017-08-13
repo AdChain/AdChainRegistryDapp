@@ -14,7 +14,7 @@ class MainTopbar extends Component {
 
     return (
       <div className='MainTopbar'>
-        <div className='ui top attached menu inverted'>
+        <div className='ui top attached menu stackable inverted'>
           <div className='item'>
             <div className='AddressContainer'>
               <Identicon

@@ -22,38 +22,40 @@ class MainSidebar extends Component {
             <img src={adchainLogo} alt='adChain' />
           </a>
         </div>
-        <div className='SidebarList overflow-y overflow-x'>
-          <div className='ListTitle ui header'>
-            adChain Registry
+        <div className='SidebarListContainer'>
+          <div className='SidebarList overflow-y overflow-x'>
+            <div className='ListTitle ui header'>
+              adChain Registry
+            </div>
+            <ul className='ui list'>
+              <li className='item'>
+                <Link to='/domains' activeClassName='active'>All domains</Link>
+              </li>
+              <li className='item'>
+                <Link to='/domains?inRegistry=true'>Domains in registry</Link>
+              </li>
+              <li className='item'>
+                <Link to='/domains?inApplication=true'>Domains in application</Link>
+              </li>
+              <li className='item'>
+                <Link to='/domains?inVoting=true'>Domains in voting</Link>
+              </li>
+              <li className='item'>
+                <Link to='/domains?rejected=true'>Rejected domains</Link>
+              </li>
+              <li className='item ApplyLink'>
+                <Link to='/apply'>Apply now</Link>
+              </li>
+            </ul>
+            <div className='ListTitle ui header'>
+              adChain Account
+            </div>
+            <ul className='ui list'>
+              <li className='item'>
+                <Link to='/account'>Account Dashboard</Link>
+              </li>
+            </ul>
           </div>
-          <ul className='ui list'>
-            <li className='item'>
-              <Link to='/domains' activeClassName='active'>All domains</Link>
-            </li>
-            <li className='item'>
-              <Link to='/domains?inRegistry=true'>Domains in registry</Link>
-            </li>
-            <li className='item'>
-              <Link to='/domains?inApplication=true'>Domains in application</Link>
-            </li>
-            <li className='item'>
-              <Link to='/domains?inVoting=true'>Domains in voting</Link>
-            </li>
-            <li className='item'>
-              <Link to='/domains?rejected=true'>Rejected domains</Link>
-            </li>
-            <li className='item ApplyLink'>
-              <Link to='/apply'>Apply now</Link>
-            </li>
-          </ul>
-          <div className='ListTitle ui header'>
-            adChain Account
-          </div>
-          <ul className='ui list'>
-            <li className='item'>
-              <Link to='/account'>Account Dashboard</Link>
-            </li>
-          </ul>
         </div>
         <div className='SidebarFooter'>
           <div className='metaxLogo ui image'>
