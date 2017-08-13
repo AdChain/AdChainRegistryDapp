@@ -48,3 +48,9 @@
 .MainContainerFade-appear.MainContainerFade-appear-active {
 
 }
+
+@media only screen and (max-width: 767px) {
+  :root:root:root:root:root .MainContainerWrap {
+    margin-top: 125px !important;
+  }
+}

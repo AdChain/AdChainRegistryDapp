@@ -24,12 +24,15 @@
   padding: 0.3em 0.9em;
 }
 
+:root:root .MainSidebar .SidebarListContainer {
+  width: 100%;
+  overflow: auto;
+  padding: 1em;
+}
 
 :root:root .MainSidebar .SidebarList {
   width: 100%;
   height: 100%;
-  overflow: auto;
-  padding-top: 1em;
 }
 
 :root:root .MainSidebar .list {
@@ -130,10 +133,6 @@
     padding: 0 !important;
   }
 
-  :root:root:root:root:root .MainContainerWrap {
-    margin-top: 90px !important;
-  }
-
   :root:root:root .MainSidebar {
     display: block;
     width: 100%;
@@ -148,8 +147,12 @@
 
   :root:root .MainSidebar .SidebarList {
     height: auto;
-    width: 400%;
+    width: max-content;
     overflow: auto;
+  }
+
+  :root:root .MainSidebar .SidebarList .list>.item:first-child {
+    padding-top: 0.3em;
   }
 
   :root:root .MainSidebar .list {
