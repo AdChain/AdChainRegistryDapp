@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import commafy from 'commafy'
 import store from '../store'
 import web3Service from '../services/web3'
+import token from '../services/token'
 
 import Identicon from './Identicon'
 
@@ -9,16 +10,13 @@ import adtLogo from './assets/adtoken_logo.png'
 
 import './MainTopbar.css'
 
-const abi = require('../config/token.json').abi
-const addr = '0xd0d6d6c5fe4a677d343cc433536bb717bae167dd'
-
 class MainTopbar extends Component {
   constructor () {
     super()
 
     this.state = {
       accounts: web3Service.accounts,
-      adtBalance: 0
+      adtBalance: '-'
     }
 
     this.updateBalance()
@@ -72,17 +70,16 @@ class MainTopbar extends Component {
     )
   }
 
-  updateBalance() {
-    if (window.web3 && this.state.accounts.length) {
-      const token = window.web3.eth.contract(abi).at(addr)
-      token.balanceOf.call(this.state.accounts[0], (error, result) => {
-        if (error) {
-          return false
-        }
+  async updateBalance() {
+    try {
+      const balance = await token.balanceOf(this.state.accounts[0])
 
-        this.setState({
-          adtBalance: result.toNumber()
-        })
+      this.setState({
+        adtBalance: balance
+      })
+    } catch (error) {
+      this.setState({
+        adtBalance: '-'
       })
     }
   }

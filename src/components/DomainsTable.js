@@ -121,11 +121,6 @@ const columns = [{
   },
   minWidth: 120
 }, {
-  Header: 'ADT Staked',
-  accessor: 'adtStaked',
-  Cell: (props) => commafy(props.value),
-  minWidth: 120
-}, {
   Header: 'Phase',
   accessor: 'status',
   Cell: (props) => capitalize.words(props.value),
@@ -133,8 +128,17 @@ const columns = [{
 }, {
   Header: 'Phase Ends (blocks)',
   accessor: 'challengePeriodEnd',
+  className: 'Number',
+  headerClassName: 'Number',
   Cell: (props) => commafy(props.value),
   minWidth: 150
+}, {
+  Header: 'ADT Staked',
+  accessor: 'adtStaked',
+  className: 'Number',
+  headerClassName: 'Number',
+  Cell: (props) => commafy(props.value),
+  minWidth: 120
 }, {
   Header: 'Stats',
   accessor: 'stats',
@@ -197,7 +201,10 @@ class DomainsTable extends Component {
             columns={columns}
             filterable
             defaultPageSize={10}
+            minRows={0}
             defaultFilterMethod={filterMethod}
+            showPageSizeOptions={false}
+            showPageJump={false}
             className='ui table'
           />
         </div>
