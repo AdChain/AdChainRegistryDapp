@@ -3,16 +3,24 @@
 
 .DomainsTable .ui.table {
   width: 100%;
-  border: 1px solid #ddd;
+  border: none;
   border-radius: 0;
   padding: 0;
   min-height: 350px;
 }
 
 :root:root .DomainsTable .ReactTable .rt-thead.-header {
-  background: #F4F7FA;
-  border-bottom: 1px solid #ddd;
+  background: none;
   box-shadow: none;
+  border: none;
+  border-bottom: 1px solid #f5f5f5;
+}
+
+:root:root .DomainsTable .ReactTable .rt-thead .rt-th,
+:root:root .DomainsTable .ReactTable .rt-thead .rt-td {
+  font-weight: bold;
+  border-right: none;
+  text-align: left;
 }
 
 :root:root .DomainsTable .ReactTable .rt-tbody .rt-tr-group {
@@ -21,6 +29,12 @@
 
 :root:root .DomainsTable .ReactTable .rt-tbody .rt-td {
   border-right: none;
+}
+
+:root:root .DomainsTable .ReactTable .rt-thead .rt-th.Number,
+:root:root .DomainsTable .ReactTable .rt-thead .rt-td.Number,
+:root:root .DomainsTable .ReactTable .rt-tbody .rt-td.Number {
+  text-align: right;
 }
 
 :root:root .DomainsTable .ReactTable .rt-thead .rt-th.-sort-desc,
@@ -44,6 +58,7 @@
 :root:root .DomainsTable .ReactTable .ui.button {
   font-size: 0.7em;
   text-transform: uppercase;
+  min-width: 100px;
 }
 
 :root:root .DomainsTable .ReactTable .Domain {
