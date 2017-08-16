@@ -2,7 +2,7 @@
   min-height: 100px;
   display: flex;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: center;
 }
 
 :root:root .RegistryStatsbar .large.header {
@@ -30,7 +30,7 @@
   top: 0;
   height: 100%;
   width: 1px;
-  border-right: 1px solid #ddd;
+  /*border-right: 1px solid #ddd;*/
 }
 
 :root:root .RegistryStatsbar .statistic .label,

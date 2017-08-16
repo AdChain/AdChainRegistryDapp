@@ -27,6 +27,7 @@
     "react-router-dom": "^4.1.2",
     "react-scripts": "1.0.10",
     "react-table": "^6.5.1",
+    "redux": "^3.7.2",
     "semantic-ui-react": "^0.71.3",
     "snakecase-keys": "^1.1.0",
     "toastr": "^2.1.2",

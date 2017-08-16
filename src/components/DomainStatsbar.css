@@ -24,7 +24,7 @@
   right: 1em;
   height: 100%;
   width: 1px;
-  border-right: 1px solid #ddd;
+  /*border-right: 1px solid #ddd;*/
 }
 
 :root:root:root .DomainStatsbar .Category {

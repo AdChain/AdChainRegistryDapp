@@ -19,6 +19,18 @@
   margin-right: 5px;
 }
 
+.MainTopbar .NoWalletMessage {
+}
+
+.MainTopbar .NoWalletMessage a {
+  color: white;
+  font-weight: bold;
+}
+
+.MainTopbar .NoWalletMessage a:hover {
+  text-decoration: underline;
+}
+
 .MainTopbar .AdtLogo {
   width: 32px;
   margin-right: 5px;
