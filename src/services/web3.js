@@ -179,6 +179,7 @@ class Web3Service {
   }
 }
 
+/*
 function getNetwork(networkId) {
   switch (networkId) {
     case '1':
@@ -191,5 +192,6 @@ function getNetwork(networkId) {
       return 'UNKNOWN'
   }
 }
+*/
 
 export default new Web3Service()
