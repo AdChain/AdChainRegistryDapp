@@ -39,12 +39,14 @@ class StatProgressBar extends Component {
         <div className='StatBarContainer'>
           {fills ?
             [<div
+              key={Math.random()}
               style={{width: `${fills[0]}%`}}
               title={`${fills[0]}%`}
               className='StatBarFillContainer'>
               {showFillLabels ? `${fills[0]}%` : null}
             </div>,
             <div
+              key={Math.random()}
               style={{width: `${fills[1]}%`}}
               title={`${fills[1]}%`}
               className='StatBarFillContainer'>

@@ -3,6 +3,9 @@ import toastr from 'toastr'
 import isValidDomain from 'is-valid-domain'
 import isValidEmail from 'is-valid-email'
 
+import token from '../services/token'
+import registry from '../services/registry'
+
 import './PublisherApplicationForm.css'
 
 class PublisherApplicationForm extends Component {
@@ -113,7 +116,7 @@ class PublisherApplicationForm extends Component {
     )
   }
 
-  onFormSubmit (event) {
+  async onFormSubmit (event) {
     event.preventDefault()
     const {target} = event
 
@@ -130,7 +133,7 @@ class PublisherApplicationForm extends Component {
       return false
     }
 
-    if (!isValidEmail(email)) {
+    if (email && !isValidEmail(email)) {
       toastr.error('Invalid email')
       return false
     }
@@ -139,6 +142,23 @@ class PublisherApplicationForm extends Component {
       toastr.error('ADT Stake must be greater than 0')
       return false
     }
+
+
+    var sender = '0x0d54cf095baa55f847e4ff4dc23f5a419268ff74'
+
+    var result = null
+
+    try {
+      await token.approve(sender, stake)
+      /// need timeout here
+    result = await registry.apply(domain, stake)
+    console.log("RESUL", result)
+    } catch (error) {
+      console.error(error)
+    }
+
+    var prevhash = '0x902ca77bd7c2021be6552351cb18bbf3539c9d08f169185759ae6d58fdc96310'
+    var otherhash = '0x04a1c146a003919be251e0485f3aae97366fa4ee13a4103d4d37d3cc05c55da7'
 
     this.save({
       domain,
