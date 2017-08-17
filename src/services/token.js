@@ -1,5 +1,10 @@
 const abi = require('../config/token.json').abi
-const addr = '0xd0d6d6c5fe4a677d343cc433536bb717bae167dd'
+
+// prod
+//const addr = '0xd0d6d6c5fe4a677d343cc433536bb717bae167dd'
+
+// localhost
+const addr = '0x343c82f96358e0bac16845fb718ea1d44e107270'
 
 class TokenService {
   constructor () {
@@ -132,7 +137,7 @@ class TokenService {
           this.initContract()
         }
 
-        this.token.approve.call(sender, value, (error, result) => {
+        this.token.approve(sender, value, (error, result) => {
           if (error) {
             reject(error)
             return false

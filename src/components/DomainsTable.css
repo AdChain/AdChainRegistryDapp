@@ -9,6 +9,24 @@
   min-height: 350px;
 }
 
+.DomainsTable .ui.table .rt-table::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+.DomainsTable .ui.table .rt-table::-webkit-scrollbar-track {
+  background: #fff;
+}
+
+.DomainsTable .ui.table .rt-table::-webkit-scrollbar-thumb {
+  background-color: #ccc;
+  border: 1px solid #ccc;
+}
+
+.DomainsTable .ui.table .rt-table::-webkit-scrollbar-thumb:hover {
+  background-color: #aaa;
+}
+
 :root:root .DomainsTable .ReactTable .rt-thead.-header {
   background: none;
   box-shadow: none;
@@ -69,4 +87,16 @@
 :root:root .DomainsTable .ReactTable .Domain img {
   margin-right: 0.3em;
   vertical-align: middle;
+}
+
+:root:root .DomainsTable .ReactTable .-pagination {
+  font-size: 0.8em;
+}
+
+:root:root .DomainsTable .ReactTable .-pagination .-btn {
+  padding: .2em;
+}
+
+:root:root .DomainsTable .ReactTable .-pagination .-pageInfo {
+  color: #a2a2a2;
 }
