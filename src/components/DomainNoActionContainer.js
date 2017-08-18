@@ -7,7 +7,7 @@ class DomainNoActionContainer extends Component {
     super()
 
     this.state = {
-
+      domain: props.domain
     }
   }
 

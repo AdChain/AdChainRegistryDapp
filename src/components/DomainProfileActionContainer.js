@@ -23,16 +23,19 @@ class DomainProfileActionContainer extends Component {
   }
 
   render () {
-    const {action} = this.state
+    const {
+      domain,
+      action
+    } = this.state
 
-    let component = <DomainNoActionContainer />
+    let component = <DomainNoActionContainer domain={domain} />
 
     if (action === 'challenge') {
-      component = <DomainChallengeContainer />
+      component = <DomainChallengeContainer domain={domain} />
     } else if (action === 'commit') {
-      component = <DomainVoteCommitContainer />
+      component = <DomainVoteCommitContainer domain={domain} />
     } else if (action === 'reveal') {
-      component = <DomainVoteRevealContainer />
+      component = <DomainVoteRevealContainer domain={domain} />
     }
 
     return (

@@ -19,6 +19,7 @@
     "koa": "^2.3.0",
     "koa-path-match": "^2.0.0",
     "koa-static": "^4.0.1",
+    "pify": "^3.0.0",
     "qs": "^6.5.0",
     "react": "^15.6.1",
     "react-addons-css-transition-group": "^15.6.0",
@@ -30,6 +31,7 @@
     "redux": "^3.7.2",
     "semantic-ui-react": "^0.71.3",
     "snakecase-keys": "^1.1.0",
+    "solidity-sha3": "^0.4.1",
     "toastr": "^2.1.2",
     "update-query": "^1.0.5"
   },
