@@ -2,14 +2,34 @@ import React, { Component } from 'react'
 import toastr from 'toastr'
 import isValidDomain from 'is-valid-domain'
 import isValidEmail from 'is-valid-email'
+import commafy from 'commafy'
 
-import token from '../services/token'
 import registry from '../services/registry'
 
 import './PublisherApplicationForm.css'
 
 class PublisherApplicationForm extends Component {
+  constructor (props) {
+    super()
+
+    this.state = {
+      minDeposit: '-'
+    }
+
+    this.history = props.history
+
+    this.getMinDeposit()
+  }
+
+  async getMinDeposit () {
+    this.setState({
+      minDeposit: await registry.getParameter('minDeposit')
+    })
+  }
+
   render () {
+    const {minDeposit} = this.state
+
     return (
       <div className='PublisherApplicationForm BoxFrame'>
         <div className='ui grid stackable'>
@@ -92,11 +112,11 @@ class PublisherApplicationForm extends Component {
                 </div>
               </div>
               <div className='field required'>
-                <label>Total ADT to Stake</label>
+                <label>Total ADT to Stake (Min: {commafy(minDeposit)} ADT)</label>
                 <div className='ui input'>
                   <input
                     type='text'
-                    placeholder='100'
+                    placeholder={minDeposit}
                     name='stake'
                     required
                   />
@@ -126,7 +146,8 @@ class PublisherApplicationForm extends Component {
     const firstName = target.firstName.value
     const lastName = target.lastName.value
     const email = target.email.value
-    const stake = parseInt(target.stake.value, 10)
+    const stake = parseInt(target.stake.value.replace(/[^\d]/, ''), 10)
+    const {minDeposit} = this.state
 
     if (!isValidDomain(domain)) {
       toastr.error('Invalid domain')
@@ -138,29 +159,20 @@ class PublisherApplicationForm extends Component {
       return false
     }
 
-    if (!stake || stake <= 0) {
-      toastr.error('ADT Stake must be greater than 0')
+    if (!stake || stake < minDeposit) {
+      toastr.error('Deposit must be equal or greater than the minimum required')
       return false
     }
 
-
-    var sender = '0x0d54cf095baa55f847e4ff4dc23f5a419268ff74'
-
-    var result = null
-
     try {
-      await token.approve(sender, stake)
-      /// need timeout here
-    result = await registry.apply(domain, stake)
-    console.log("RESUL", result)
+      await registry.apply(domain, stake)
     } catch (error) {
       console.error(error)
+      toastr.error(error.message)
+      return false
     }
 
-    var prevhash = '0x902ca77bd7c2021be6552351cb18bbf3539c9d08f169185759ae6d58fdc96310'
-    var otherhash = '0x04a1c146a003919be251e0485f3aae97366fa4ee13a4103d4d37d3cc05c55da7'
-
-    this.save({
+    await this.save({
       domain,
       siteName,
       country,
@@ -169,10 +181,14 @@ class PublisherApplicationForm extends Component {
       email,
       stake
     })
+
+    this.history.push('/domains')
   }
 
+  // TODO save to DB
   save (data) {
     toastr.success('Submitted')
+    return Promise.resolve()
   }
 }
 

@@ -1,5 +1,8 @@
 import React, { Component } from 'react'
 import commafy from 'commafy'
+import toastr from 'toastr'
+
+import registry from '../services/registry'
 
 import './DomainChallengeContainer.css'
 
@@ -8,7 +11,7 @@ class DomainChallengeContainer extends Component {
     super()
 
     this.state = {
-
+      domain: props.domain
     }
   }
 
@@ -44,6 +47,23 @@ class DomainChallengeContainer extends Component {
         </div>
       </div>
     )
+  }
+
+  async challenge () {
+    const {domain} = this.state
+    const inApplication = await registry.applicationExists(domain)
+
+    if (inApplication) {
+      try {
+        await registry.challenge(domain)
+
+        toastr.success('Challenged')
+      } catch (error) {
+        toastr.error(error)
+      }
+    } else {
+      toastr.error('Domain not in application')
+    }
   }
 }
 
