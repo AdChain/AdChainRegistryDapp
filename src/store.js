@@ -14,11 +14,15 @@ import { createStore } from 'redux'
  */
 function reducer(state = 0, action) {
   switch (action.type) {
-  case 'web3/RECEIVE_ACCOUNT':
-  case 'web3/FETCH_ACCOUNT_ERROR':
-  case 'web3/CHANGE_ACCOUNT':
-  case 'web3/CHANGE_NETWORK':
-  case 'web3/FETCH_NETWORK_ERROR':
+  case 'WEB3_RECEIVE_ACCOUNT':
+  case 'WEB3_FETCH_ACCOUNT_ERROR':
+  case 'WEB3_CHANGE_ACCOUNT':
+  case 'WEB3_CHANGE_NETWORK':
+  case 'WEB3_FETCH_NETWORK_ERROR':
+  case 'REGISTRY_DOMAIN_APPLY':
+  case 'REGISTRY_DOMAIN_CHALLENGE':
+  case 'REGISTRY_DOMAIN_VOTE_COMMIT':
+  case 'REGISTRY_DOMAIN_VOTE_REVEAL':
     return state + 1
   default:
     return state

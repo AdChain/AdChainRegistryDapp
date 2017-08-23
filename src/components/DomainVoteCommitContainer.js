@@ -1,5 +1,9 @@
 import React, { Component } from 'react'
 import commafy from 'commafy'
+import toastr from 'toastr'
+import moment from 'moment'
+
+import registry from '../services/registry'
 
 import './DomainVoteCommitContainer.css'
 
@@ -8,12 +12,19 @@ class DomainVoteCommitContainer extends Component {
     super()
 
     this.state = {
-
+      domain: props.domain,
+      applicationExpiry: null
     }
+
+    this.getListing()
   }
 
   render () {
-    const blocksRemaining = 1239
+    const {
+      applicationExpiry
+    } = this.state
+
+    const stageEnd = applicationExpiry ? moment.unix(applicationExpiry).calendar() : '-'
 
     return (
       <div className='DomainVoteCommitContainer'>
@@ -31,17 +42,9 @@ The first phase of the voting process is the commit phase where the ADT holder s
           <div className='column sixteen wide center aligned'>
             <div className='ui divider' />
             <p>
-          Total ADT already committed by the general ADT community:
+            Voting commit stage ends
             </p>
-            <p>
-              <strong>99,000 ADT</strong>
-            </p>
-            <div className='ui divider' />
-            <p>
-          Blocks remaining until commit period ends
-            </p>
-            <p><strong>{commafy(blocksRemaining)} blocks</strong></p>
-            <p><small>or approximately: 02 days, 14 hours, and 49 minutes</small></p>
+            <p><strong>{stageEnd}</strong></p>
             <div className='ui divider' />
           </div>
           <div className='column sixteen wide center aligned'>
@@ -56,10 +59,14 @@ The first phase of the voting process is the commit phase where the ADT holder s
                 </div>
               </div>
               <div className='ui field'>
-                <button className='ui button blue'>
+                <button
+                  data-vote="support"
+                  className='ui button blue'>
                   SUPPORT
                 </button>
-                <button className='ui button purple'>
+                <button
+                  data-vote="oppose"
+                  className='ui button purple'>
                   OPPOSE
                 </button>
               </div>
@@ -68,6 +75,19 @@ The first phase of the voting process is the commit phase where the ADT holder s
         </div>
       </div>
     )
+  }
+
+  async getListing () {
+    const {domain} = this.state
+    const listing = await registry.getListing(domain)
+
+    const {
+      applicationExpiry
+    } = listing
+
+    this.setState({
+      applicationExpiry
+    })
   }
 }
 

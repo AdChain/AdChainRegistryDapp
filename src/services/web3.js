@@ -83,13 +83,10 @@ class Web3Service {
         if (err) {
           this.accountsError = err
 
-          // If available, dispatch redux action
-          if (store && typeof store.dispatch === 'function') {
-            store.dispatch({
-              type: 'web3/FETCH_ACCOUNT_ERROR',
-              error: err
-            })
-          }
+          store.dispatch({
+            type: 'WEB3_FETCH_ACCOUNT_ERROR',
+            error: err
+          })
         }
       })
     } else {
@@ -109,21 +106,18 @@ class Web3Service {
       this.accounts = accounts
     }
 
-    // If available, dispatch redux action
-    if (store && typeof store.dispatch === 'function') {
-      const didDefine = !curr && next
+    const didDefine = !curr && next
 
-      if (didDefine || (isConstructor && next)) {
-        store.dispatch({
-          type: 'web3/RECEIVE_ACCOUNT',
-          address: next
-        })
-      } else if (didChange) {
-        store.dispatch({
-          type: 'web3/CHANGE_ACCOUNT',
-          address: next
-        })
-      }
+    if (didDefine || (isConstructor && next)) {
+      store.dispatch({
+        type: 'WEB3_RECEIVE_ACCOUNT',
+        address: next
+      })
+    } else if (didChange) {
+      store.dispatch({
+        type: 'WEB3_CHANGE_ACCOUNT',
+        address: next
+      })
     }
   }
 
@@ -138,25 +132,19 @@ class Web3Service {
       if (err) {
         this.networkError = err
 
-        // If available, dispatch redux action
-        if (store && typeof store.dispatch === 'function') {
-          store.dispatch({
-            type: 'web3/FETCH_NETWORK_ERROR',
-            error: err
-          })
-        }
+        store.dispatch({
+          type: 'WEB3_FETCH_NETWORK_ERROR',
+          error: err
+        })
       } else {
         this.networkError = null
         this.networkId = netId
 
         // TODO check if it changed
-        // If available, dispatch redux action
-        if (store && typeof store.dispatch === 'function') {
-          store.dispatch({
-            type: 'web3/CHANGE_NETWORK',
-            networkId: netId
-          })
-        }
+        store.dispatch({
+          type: 'WEB3_CHANGE_NETWORK',
+          networkId: netId
+        })
       }
     })
   }
