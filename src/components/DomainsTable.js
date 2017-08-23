@@ -2,162 +2,13 @@ import React, { Component } from 'react'
 import ReactTable from 'react-table'
 import commafy from 'commafy'
 import capitalize from 'capitalize'
+import moment from 'moment'
 
 import 'react-table/react-table.css'
 import './DomainsTable.css'
 
+import registry from '../services/registry'
 import StatProgressBar from './StatProgressBar'
-
-const data = [{
-  domain: 'foo.net',
-  siteName: 'Foo Net Media',
-  adtStaked: 45324,
-  status: 'in application',
-  challengePeriodEnd: 643522,
-  action: 'challenge',
-  stats: null
-}, {
-  domain: 'nytimes.com',
-  siteName: 'New York Times',
-  adtStaked: 12232,
-  status: 'voting - reveal',
-  challengePeriodEnd: 90345,
-  action: 'reveal',
-  stats: {
-    support: 75,
-    oppose: 25
-  }
-}, {
-  domain: 'wsj.com',
-  siteName: 'The Wall Street Journal',
-  adtStaked: 43589,
-  status: 'in registry',
-  challengePeriodEnd: null,
-  action: 'view profile',
-  stats: null
-}, {
-  domain: 'cbs.com',
-  siteName: 'CBS Interactive',
-  adtStaked: 90784,
-  status: 'in application',
-  challengePeriodEnd: 345,
-  action: 'challenge',
-  stats: null
-}, {
-  domain: 'cnn.com',
-  siteName: 'CNN',
-  adtStaked: 35905,
-  status: 'vote - commit',
-  challengePeriodEnd: 8495,
-  action: 'commit',
-  stats: {
-    commited: 3455
-  }
-}]
-
-const columns = [{
-  Header: 'Domain',
-  accessor: 'domain',
-  Cell: (props) => {
-    const domain = props.value
-
-    return (
-      <a href='' className='Domain' onClick={(event) => {
-      event.preventDefault()
-
-      let {action} = props.row
-
-      if (/challenge/gi.test(action)) {
-        action = 'challenge'
-      } else if (/commit/gi.test(action)) {
-        action = 'commit'
-      } else if (/reveal/gi.test(action)) {
-        action = 'reveal'
-      }
-
-      history.push(`/profile/${props.value}?action=${action}`)
-    }}>
-      <img
-        src={`https://www.google.com/s2/favicons?domain=${domain}`}
-        width={16}
-        alt=''
-      />
-      {domain}
-    </a>
-  )},
-  minWidth: 200
-}, {
-  Header: 'Site Name',
-  accessor: 'siteName',
-  minWidth: 200
-}, {
-  Header: 'Action',
-  accessor: 'action',
-  Cell: (props) => {
-    const {value} = props
-    let type = 'blue'
-
-    if (/challenge/gi.test(value)) {
-      type = 'purple'
-    }
-
-    return <a className={`ui mini button ${type}`} href='' onClick={(event) => {
-      event.preventDefault()
-
-      const {row} = props
-      let {action} = row
-      const domain = row.domain
-
-      if (/challenge/gi.test(action)) {
-        action = 'challenge'
-      } else if (/commit/gi.test(action)) {
-        action = 'commit'
-      } else if (/reveal/gi.test(action)) {
-        action = 'reveal'
-      }
-
-      history.push(`/profile/${domain}?action=${action}`)
-    }}>{props.value}</a>
-  },
-  minWidth: 120
-}, {
-  Header: 'Phase',
-  accessor: 'status',
-  Cell: (props) => capitalize.words(props.value),
-  minWidth: 120
-}, {
-  Header: 'Phase Ends (blocks)',
-  accessor: 'challengePeriodEnd',
-  className: 'Number',
-  headerClassName: 'Number',
-  Cell: (props) => commafy(props.value),
-  minWidth: 150
-}, {
-  Header: 'ADT Staked',
-  accessor: 'adtStaked',
-  className: 'Number',
-  headerClassName: 'Number',
-  Cell: (props) => commafy(props.value),
-  minWidth: 120
-}, {
-  Header: 'Stats',
-  accessor: 'stats',
-  Cell: (props) => {
-    const {action, stats} = props.row
-
-    if (/reveal/gi.test(action)) {
-      const supportFill = stats.support
-      const opposeFill = stats.oppose
-
-      return <StatProgressBar fills={[supportFill, opposeFill]} showFillLabels />
-    } else if (/commit/gi.test(action)) {
-      return <span><strong>{commafy(stats.commited)}</strong> ADT Comitted</span>
-    }
-
-    return null
-  },
-  minWidth: 200
-}]
 
 function filterMethod (filter, row, column) {
   const id = filter.pivotId || filter.id
@@ -176,12 +27,18 @@ class DomainsTable extends Component {
     super()
 
     const filters = props.filters || []
+    const data = []
+    const columns = this.getColumns()
 
     this.state = {
+      columns,
+      data,
       filters
     }
 
     history = props.history
+
+    this.getData()
   }
 
   componentWillReceiveProps (props) {
@@ -190,7 +47,11 @@ class DomainsTable extends Component {
   }
 
   render () {
-    const {filters} = this.state
+    const {
+      columns,
+      data,
+      filters
+    } = this.state
 
     return (
       <div className='DomainsTable BoxFrame'>
@@ -210,6 +71,218 @@ class DomainsTable extends Component {
         </div>
       </div>
     )
+  }
+
+  getColumns () {
+    const columns = [{
+      Header: 'Domain',
+      accessor: 'domain',
+      Cell: (props) => {
+        const domain = props.value
+
+        return (
+          <a href='' className='Domain' onClick={(event) => {
+          event.preventDefault()
+
+          let {domain, stage} = props.row
+
+          if (stage === 'apply') {
+            history.push(`/apply/?domain=${domain}`)
+            return false
+          }
+
+          history.push(`/profile/${props.value}`)
+        }}>
+          <img
+            src={`https://www.google.com/s2/favicons?domain=${domain}`}
+            width={16}
+            alt=''
+          />
+          {domain}
+        </a>
+      )},
+      minWidth: 200
+    }, {
+      Header: 'Site Name',
+      accessor: 'siteName',
+      minWidth: 200
+    }, {
+      Header: 'Action',
+      accessor: 'stage',
+      Cell: (props) => {
+        const stage = props.value
+        const {row} = props
+        const {domain} = row
+
+        let label = 'View'
+
+        if (stage === 'in_registry') {
+          label = 'View'
+        } else if (stage === 'in_application') {
+          label = 'Challenge'
+        } else if (stage === 'voting_commit') {
+          label = 'Vote'
+        } else if (stage === 'voting_reveal') {
+          label = 'Reveal'
+        } else if (stage === 'apply') {
+          label = 'Apply'
+        }
+
+        const color = (stage === 'challenge' ? 'purple' : 'blue')
+
+        return <a className={`ui mini button ${color}`} href='' onClick={(event) => {
+          event.preventDefault()
+
+          if (stage === 'apply') {
+            history.push(`/apply/?domain=${domain}`)
+            return false
+          }
+
+          history.push(`/profile/${domain}`)
+        }}>{label}</a>
+      },
+      minWidth: 120
+    }, {
+      Header: 'Stage',
+      accessor: 'stage',
+      Cell: (props) => {
+        const {value} = props
+        const {domain} = props.row
+        let label = ''
+
+        if (value === 'in_registry') {
+          label = 'In Registry'
+        } else if (value === 'in_application') {
+          label = 'In Application'
+        } else if (value === 'voting_commit') {
+          label = 'Vote - Commit'
+        } else if (value === 'voting_reveal') {
+          label = 'Vote - Reveal'
+        }
+
+        return <span>{label} <a
+            href='#'
+            onClick={(event) => {
+              event.preventDefault()
+
+              this.updateStatus(domain)
+            }}>
+            <i className='icon refresh'></i>
+          </a></span>
+      },
+      minWidth: 130
+    }, {
+      Header: 'Stage Ends',
+      accessor: 'stageEnds',
+      className: 'Number',
+      headerClassName: 'Number',
+      Cell: (props) => {
+        const {value} = props
+
+        if (typeof props.value === 'number') {
+          return commafy(value)
+        }
+
+        return value
+      },
+      minWidth: 150
+    }, {
+      Header: 'ADT Staked',
+      accessor: 'deposit',
+      className: 'Number',
+      headerClassName: 'Number',
+      Cell: (props) => commafy(props.value),
+      minWidth: 120
+    }, {
+      Header: 'Stats',
+      accessor: 'stats',
+      Cell: (props) => {
+        const {stage, stats} = props.row
+
+        if (stage === 'voting_reveal') {
+          const supportFill = stats.support
+          const opposeFill = stats.oppose
+
+          return <StatProgressBar fills={[supportFill, opposeFill]} showFillLabels />
+        } else if (stage === 'voting_commit' && stats) {
+          return <span><strong>{commafy(stats.commited)}</strong> ADT Comitted</span>
+        }
+
+        return null
+      },
+      minWidth: 200
+    }]
+
+    return columns
+  }
+
+  async getData() {
+    const domains = ['foo.net', 'nytimes.com', 'wsj.com', 'cbs.com', 'cnn.com', 'foo1.net']
+
+    const currentBlockNumber = await registry.getCurrentBlockNumber()
+    const applyStageBlocks = await registry.getParameter('applyStageLen')
+    const currentTimestamp = moment().unix()
+
+    const data = await Promise.all(domains.map(async domain => {
+      return new Promise(async (resolve, reject) => {
+        const listing = await registry.getListing(domain)
+
+        const {
+          applicationExpiry,
+          isWhitelisted,
+          ownerAddress,
+          currentDeposit,
+          challengeId,
+        } = listing
+
+        const item = {
+          domain,
+          siteName: domain,
+          stage: null,
+          stageEnds: null,
+          action: null,
+          stats: null
+        }
+
+        const challengeOpen = (challengeId === 0 && !isWhitelisted && applicationExpiry)
+        const commitOpen = (challengeId !== 0 && !isWhitelisted)
+        const revealOpen = false
+        console.log(listing)
+
+        if (isWhitelisted) {
+          item.stage = 'in_registry'
+          item.deposit = listing.currentDeposit
+          item.stageEnds = `Ended ${moment.unix(applicationExpiry).format('YYYY-MM-DD')}`
+        } else if (challengeOpen) {
+          item.stage = 'in_application'
+          item.stageEnds = moment.unix(applicationExpiry).calendar()
+          applicationExpiry
+        } else if (commitOpen) {
+          item.stage = 'voting_commit'
+          //const challenge = await registry.getChallenge(challengeId)
+          //item.status = 'challenge'
+          //item.challengePeriodEnd:
+        } else if (revealOpen) {
+          item.stage = 'voting_reveal'
+        } else {
+          item.stage = 'apply'
+        }
+
+        resolve(item)
+      })
+    }))
+
+    console.log(data)
+
+    this.setState({
+      data: data
+    })
+  }
+
+  async updateStatus (domain) {
+    await registry.updateStatus(domain)
+
+    this.getData()
   }
 }
 

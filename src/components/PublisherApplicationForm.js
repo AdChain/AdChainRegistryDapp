@@ -3,6 +3,7 @@ import toastr from 'toastr'
 import isValidDomain from 'is-valid-domain'
 import isValidEmail from 'is-valid-email'
 import commafy from 'commafy'
+import qs from 'qs'
 
 import registry from '../services/registry'
 
@@ -12,8 +13,11 @@ class PublisherApplicationForm extends Component {
   constructor (props) {
     super()
 
+    const query = qs.parse(document.location.search.substr(1))
+
     this.state = {
-      minDeposit: '-'
+      minDeposit: '-',
+      domain: query.domain
     }
 
     this.history = props.history
@@ -28,7 +32,10 @@ class PublisherApplicationForm extends Component {
   }
 
   render () {
-    const {minDeposit} = this.state
+    const {
+      minDeposit,
+      domain
+    } = this.state
 
     return (
       <div className='PublisherApplicationForm BoxFrame'>
@@ -54,6 +61,7 @@ class PublisherApplicationForm extends Component {
                   <input
                     type='text'
                     placeholder='example.com'
+                    defaultValue={domain}
                     name='domain'
                     required
                   />
@@ -147,7 +155,7 @@ class PublisherApplicationForm extends Component {
     const lastName = target.lastName.value
     const email = target.email.value
     const stake = parseInt(target.stake.value.replace(/[^\d]/, ''), 10)
-    const {minDeposit} = this.state
+    const minDeposit = (this.state.minDeposit | 0) // coerce
 
     if (!isValidDomain(domain)) {
       toastr.error('Invalid domain')
@@ -159,7 +167,7 @@ class PublisherApplicationForm extends Component {
       return false
     }
 
-    if (!stake || stake < minDeposit) {
+    if (!(stake && stake >= minDeposit)) {
       toastr.error('Deposit must be equal or greater than the minimum required')
       return false
     }

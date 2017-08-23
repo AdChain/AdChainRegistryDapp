@@ -1,11 +1,20 @@
 import sha3 from 'solidity-sha3'
 import pify from 'pify'
+import keyMirror from 'key-mirror'
 
+import store from '../store'
 import token from './token'
 import parameterizer from './parameterizer'
 const {registry:address} = require('../config/address.json')
-
 const abi = require('../config/registry.json').abi
+
+const parameters = keyMirror({
+  minDeposit: null,
+  applyStageLen: null,
+  voteQuorum: null,
+  commitPeriodLen: null,
+  revealPeriodLen: null
+})
 
 class RegistryService {
   constructor () {
@@ -49,6 +58,11 @@ class RegistryService {
       await this.getTransactionReceipt(approveTx)
 
       const result = await pify(this.registry.apply)(domain)
+
+      store.dispatch({
+        type: 'REGISTRY_DOMAIN_APPLY',
+        domain
+      })
 
       resolve(result)
     })
@@ -116,7 +130,7 @@ class RegistryService {
         isWhitelisted: result[1],
         ownerAddress: result[2],
         currentDeposit: result[3].toNumber(),
-        challengeID: result[4].toNumber()
+        challengeId: result[4].toNumber()
       }
 
       resolve(map)
@@ -170,6 +184,23 @@ class RegistryService {
     })
   }
 
+  async updateStatus (domain) {
+    return new Promise(async (resolve, reject) => {
+      if (!domain) {
+        reject(new Error('Domain is required'))
+        return false
+      }
+
+      if (!this.registry) {
+        this.initContract()
+      }
+
+      const result = await pify(this.registry.updateStatus)(domain)
+
+      resolve(result)
+    })
+  }
+
   async getParameter (name) {
     return new Promise(async (resolve, reject) => {
       if (!name) {
@@ -187,6 +218,14 @@ class RegistryService {
     })
   }
 
+  getParameterKeys () {
+    return Promise.resolve(parameters)
+  }
+
+  getMinDeposit () {
+    return this.getParameter('minDeposit')
+  }
+
   async getTransactionReceipt (tx) {
     return new Promise(async (resolve, reject) => {
       if (!this.registry) {
@@ -194,6 +233,18 @@ class RegistryService {
       }
 
       const result = await pify(window.web3.eth.getTransactionReceipt)(tx)
+
+      resolve(result)
+    })
+  }
+
+  async getCurrentBlockNumber () {
+    return new Promise(async (resolve, reject) => {
+      if (!this.registry) {
+        this.initContract()
+      }
+
+      const result = await pify(window.web3.eth.getBlockNumber)()
 
       resolve(result)
     })

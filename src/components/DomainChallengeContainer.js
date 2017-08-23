@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import commafy from 'commafy'
 import toastr from 'toastr'
+import moment from 'moment'
 
 import registry from '../services/registry'
 
@@ -11,12 +12,22 @@ class DomainChallengeContainer extends Component {
     super()
 
     this.state = {
-      domain: props.domain
+      domain: props.domain,
+      applicationExpiry: null,
+      minDeposit: null
     }
+
+    this.getMinDeposit()
+    this.getListing()
   }
 
   render () {
-    const blocksRemaining = 9180
+    const {
+      applicationExpiry,
+      minDeposit
+    } = this.state
+
+    const stageEnd = applicationExpiry ? moment.unix(applicationExpiry).calendar() : '-'
 
     return (
       <div className='DomainChallengeContainer'>
@@ -31,22 +42,48 @@ class DomainChallengeContainer extends Component {
           </div>
           <div className='column sixteen wide center aligned'>
             <div className='ui divider' />
-            <p>Blocks remaining until challenge period ends</p>
-            <p><strong>{commafy(blocksRemaining)} blocks</strong></p>
-            <p><small>or approximately: 02 days, 14 hours, and 49 minutes</small></p>
+            <p>Challenge stage ends</p>
+            <p><strong>{stageEnd}</strong></p>
             <div className='ui divider' />
           </div>
           <div className='column sixteen wide center aligned'>
-            <p>100,000,000 ADT needed to Challenge</p>
+            <p>{minDeposit ? commafy(minDeposit) : '-'} ADT needed to Challenge</p>
           </div>
           <div className='column sixteen wide center aligned'>
-            <button className='ui button purple'>
+            <button
+              onClick={this.onChallenge.bind(this)}
+              className='ui button purple'>
               CHALLENGE
             </button>
           </div>
         </div>
       </div>
     )
+  }
+
+  async getMinDeposit () {
+    this.setState({
+      minDeposit: await registry.getMinDeposit()
+    })
+  }
+
+  async getListing () {
+    const {domain} = this.state
+    const listing = await registry.getListing(domain)
+
+    const {
+      applicationExpiry
+    } = listing
+
+    this.setState({
+      applicationExpiry
+    })
+  }
+
+  onChallenge (event) {
+    event.preventDefault()
+
+    this.challenge()
   }
 
   async challenge () {

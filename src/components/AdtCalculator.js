@@ -54,25 +54,8 @@ class AdtCalculator extends Component {
     this.getPrices()
   }
 
-  getPrices () {
-    priceStats()
-    .then(({ethUsd, adtUsd}) => {
-      const adtEth = adtUsd / ethUsd
-      const ethAdt = 1 / adtEth
-      const usdEth = 1 / ethUsd
-      const usdAdt = 1 / adtUsd
-
-      this.setState({
-        ethUsd,
-        adtUsd,
-        adtEth,
-        ethAdt,
-        usdEth,
-        usdAdt,
-      })
-
-      setTimeout(() => this.getPrices(), 25e3)
-    })
+  componentWillUnmount () {
+    this.clearTimeout()
   }
 
   render () {
@@ -190,6 +173,34 @@ class AdtCalculator extends Component {
         conversionUsd: adtUsd * inputValue,
         conversionEth: adtEth * inputValue
       })
+    }
+  }
+
+  getPrices () {
+    priceStats()
+    .then(({ethUsd, adtUsd}) => {
+      const adtEth = adtUsd / ethUsd
+      const ethAdt = 1 / adtEth
+      const usdEth = 1 / ethUsd
+      const usdAdt = 1 / adtUsd
+
+      this.setState({
+        ethUsd,
+        adtUsd,
+        adtEth,
+        ethAdt,
+        usdEth,
+        usdAdt,
+      })
+
+      this.clearTimeout()
+      this.pricesTimeout = setTimeout(() => this.getPrices(), 25e3)
+    })
+  }
+
+  clearTimeout() {
+    if (this.pricesTimeout) {
+      window.clearTimeout(this.pricesTimeout)
     }
   }
 }
