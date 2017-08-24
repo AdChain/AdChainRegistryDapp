@@ -4,7 +4,9 @@ import keyMirror from 'key-mirror'
 
 import store from '../store'
 import token from './token'
+import plcr from './plcr'
 import parameterizer from './parameterizer'
+import saltHashVote from '../utils/saltHashVote'
 const {registry:address} = require('../config/address.json')
 const abi = require('../config/registry.json').abi
 
@@ -167,6 +169,20 @@ class RegistryService {
     })
   }
 
+  async getChallengeId (domain) {
+    if (!domain) {
+      return new Error('Domain is required')
+    }
+
+    const listing = await this.getListing(domain)
+
+    const {
+      challengeId
+    } = listing
+
+    return challengeId
+  }
+
   async isWhitelisted (domain) {
     return new Promise(async (resolve, reject) => {
       if (!domain) {
@@ -248,6 +264,26 @@ class RegistryService {
 
       resolve(result)
     })
+  }
+
+  async getPlcrAddress () {
+    return new Promise(async (resolve, reject) => {
+      if (!this.registry) {
+        this.initContract()
+      }
+
+      const result = await pify(this.registry.voting.call)()
+
+      resolve(result)
+    })
+  }
+
+  async commitVote ({domain, votes, voteOption, salt}) {
+    const challengeId = await this.getChallengeId(domain)
+    const prevPollId = 0
+    const hash = saltHashVote(voteOption, salt)
+
+    return plcr.commit({pollId: challengeId, hash, tokens: votes, prevPollId})
   }
 }
 
