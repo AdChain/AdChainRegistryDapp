@@ -17,6 +17,8 @@ class DomainVoteCommitContainer extends Component {
     }
 
     this.getListing()
+
+    this.onVote = this.onVote.bind(this)
   }
 
   render () {
@@ -60,12 +62,14 @@ The first phase of the voting process is the commit phase where the ADT holder s
               </div>
               <div className='ui field'>
                 <button
-                  data-vote="support"
+                  onClick={this.onVote}
+                  data-option="support"
                   className='ui button blue'>
                   SUPPORT
                 </button>
                 <button
-                  data-vote="oppose"
+                  onClick={this.onVote}
+                  data-option="oppose"
                   className='ui button purple'>
                   OPPOSE
                 </button>
@@ -88,6 +92,24 @@ The first phase of the voting process is the commit phase where the ADT holder s
     this.setState({
       applicationExpiry
     })
+  }
+
+  async onVote (event) {
+    event.preventDefault()
+
+    const {target} = event
+    const option = target.dataset.option
+    const {domain} = this.state
+    const votes = 10
+    const salt = 123
+    const voteOption = (option === 'support' ? 1 : 0)
+
+    try {
+      const result = await registry.commitVote({domain, votes, voteOption, salt})
+      toastr.success('Success')
+    } catch (error) {
+      toastr.error(error.message)
+    }
   }
 }
 

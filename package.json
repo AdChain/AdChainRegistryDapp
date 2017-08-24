@@ -10,6 +10,7 @@
     "capitalize": "^1.0.0",
     "commafy": "0.0.5",
     "debounce": "^1.0.2",
+    "ethereumjs-abi": "^0.6.4",
     "fuckadblock": "^3.2.1",
     "history": "^4.6.3",
     "is-valid-domain": "0.0.2",
