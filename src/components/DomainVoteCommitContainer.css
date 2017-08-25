@@ -1,5 +1,5 @@
 .DomainVoteCommitContainer {
-
+  position: relative;
 }
 
 :root .DomainVoteCommitContainer .form .input input {

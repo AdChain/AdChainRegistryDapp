@@ -6,6 +6,7 @@ import commafy from 'commafy'
 import qs from 'qs'
 
 import registry from '../services/registry'
+import PublisherApplicationFormInProgress from './PublisherApplicationFormInProgress'
 
 import './PublisherApplicationForm.css'
 
@@ -17,7 +18,8 @@ class PublisherApplicationForm extends Component {
 
     this.state = {
       minDeposit: '-',
-      domain: query.domain
+      domain: query.domain,
+      inProgress: false
     }
 
     this.history = props.history
@@ -34,7 +36,8 @@ class PublisherApplicationForm extends Component {
   render () {
     const {
       minDeposit,
-      domain
+      domain,
+      inProgress
     } = this.state
 
     return (
@@ -140,12 +143,14 @@ class PublisherApplicationForm extends Component {
             </form>
           </div>
         </div>
+        {inProgress ? <PublisherApplicationFormInProgress /> : null}
       </div>
     )
   }
 
   async onFormSubmit (event) {
     event.preventDefault()
+
     const {target} = event
 
     const domain = target.domain.value
@@ -172,11 +177,18 @@ class PublisherApplicationForm extends Component {
       return false
     }
 
+    this.setState({
+      inProgress: true
+    })
+
     try {
       await registry.apply(domain, stake)
     } catch (error) {
       console.error(error)
       toastr.error(error.message)
+      this.setState({
+        inProgress: false
+      })
       return false
     }
 
@@ -188,6 +200,10 @@ class PublisherApplicationForm extends Component {
       lastName,
       email,
       stake
+    })
+
+    this.setState({
+      inProgress: false
     })
 
     this.history.push('/domains')

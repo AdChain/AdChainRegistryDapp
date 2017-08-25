@@ -4,6 +4,7 @@ import toastr from 'toastr'
 import moment from 'moment'
 
 import registry from '../services/registry'
+import DomainVoteCommitInProgressContainer from './DomainVoteCommitInProgressContainer'
 
 import './DomainVoteCommitContainer.css'
 
@@ -14,20 +15,31 @@ class DomainVoteCommitContainer extends Component {
     this.state = {
       stake: 0,
       domain: props.domain,
-      applicationExpiry: null
+      applicationExpiry: null,
+      commitEndDate: null,
+      revealEndDate: null,
+      didChallenge: null,
+      inProgress: false,
+      salt: 123
     }
 
     this.getListing()
+    this.getPoll()
+    this.getChallenge()
 
     this.onVote = this.onVote.bind(this)
   }
 
   render () {
     const {
-      applicationExpiry
+      applicationExpiry,
+      commitEndDate,
+      didChallenge,
+      inProgress,
+      salt
     } = this.state
 
-    const stageEnd = applicationExpiry ? moment.unix(applicationExpiry).format('YYYY-MM-DD HH:mm:ss') : '-'
+    const stageEnd = commitEndDate ? moment.unix(commitEndDate).format('YYYY-MM-DD HH:mm:ss') : '-'
 
     return (
       <div className='DomainVoteCommitContainer'>
@@ -37,6 +49,12 @@ class DomainVoteCommitContainer extends Component {
               VOTING – COMMIT
             </div>
           </div>
+          {didChallenge ? <div className='column sixteen wide'>
+            <div className='ui message info'>
+              You've challenged this domain.
+            </div>
+          </div>
+          : null}
           <div className='column sixteen wide'>
             <p>
 The first phase of the voting process is the commit phase where the ADT holder stakes a hidden amount of ADT to SUPPORT or OPPOSE the domain application. The second phase is the reveal phase where the ADT holder reveals the staked amount of ADT to either the SUPPORT or OPPOSE side.
@@ -52,6 +70,9 @@ The first phase of the voting process is the commit phase where the ADT holder s
           </div>
           <div className='column sixteen wide center aligned'>
             <form className='ui form center aligned'>
+              <div className='ui field'>
+                Salt: {salt}
+              </div>
               <div className='ui field'>
                 <label>Enter ADT to Commit</label>
                 <div className='ui input small'>
@@ -79,6 +100,7 @@ The first phase of the voting process is the commit phase where the ADT holder s
             </form>
           </div>
         </div>
+        {inProgress ? <DomainVoteCommitInProgressContainer /> : null}
       </div>
     )
   }
@@ -96,21 +118,61 @@ The first phase of the voting process is the commit phase where the ADT holder s
     })
   }
 
+  async getPoll () {
+    const {domain} = this.state
+
+    try {
+      const {
+        commitEndDate,
+        revealEndDate
+      } = await registry.getChallengePoll(domain)
+
+      this.setState({
+        commitEndDate,
+        revealEndDate
+      })
+    } catch (error) {
+      toastr.error(error)
+    }
+  }
+
+  async getChallenge () {
+    const {domain} = this.state
+
+    try {
+      const didChallenge = await registry.didChallenge(domain)
+
+      this.setState({
+        didChallenge
+      })
+    } catch (error) {
+      toastr.error(error)
+    }
+  }
+
   async onVote (event) {
     event.preventDefault()
 
+    this.setState({
+      inProgress: true
+    })
+
     const {target} = event
     const option = target.dataset.option
-    const {domain, stake:votes} = this.state
-    const salt = 123
+    const {domain, stake:votes, salt} = this.state
     const voteOption = (option === 'support' ? 1 : 0)
-    debugger
 
     try {
       const result = await registry.commitVote({domain, votes, voteOption, salt})
       toastr.success('Success')
+      this.setState({
+        inProgress: false
+      })
     } catch (error) {
       toastr.error(error.message)
+      this.setState({
+        inProgress: false
+      })
     }
   }
 }

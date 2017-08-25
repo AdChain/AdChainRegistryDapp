@@ -7,6 +7,7 @@ import moment from 'moment'
 import 'react-table/react-table.css'
 import './DomainsTable.css'
 
+import store from '../store'
 import registry from '../services/registry'
 import StatProgressBar from './StatProgressBar'
 
@@ -39,6 +40,12 @@ class DomainsTable extends Component {
     history = props.history
 
     this.getData()
+  }
+
+  componentDidMount () {
+    store.subscribe(x => {
+      setTimeout(() => this.getData(), 1e3)
+    })
   }
 
   componentWillReceiveProps (props) {
@@ -162,6 +169,7 @@ class DomainsTable extends Component {
 
         return <span>{label} <a
             href='#'
+            title='Refresh status'
             onClick={(event) => {
               event.preventDefault()
 
@@ -187,7 +195,7 @@ class DomainsTable extends Component {
       },
       minWidth: 150
     }, {
-      Header: 'ADT Staked',
+      Header: 'Staked',
       accessor: 'deposit',
       className: 'Number',
       headerClassName: 'Number',
@@ -200,12 +208,16 @@ class DomainsTable extends Component {
         const {stage, stats} = props.row
 
         if (stage === 'voting_reveal') {
-          const supportFill = stats.support
-          const opposeFill = stats.oppose
+          const {votesFor, votesAgainst} = stats
+
+          // "N | 0" coerces to int
+          const totalVotes = ((votesFor + votesAgainst) | 0)
+          const supportFill = ((totalVotes / votesFor) * 1e2 | 0)
+          const opposeFill = ((totalVotes / votesAgainst) * 1e2 | 0)
 
           return <StatProgressBar fills={[supportFill, opposeFill]} showFillLabels />
-        } else if (stage === 'voting_commit' && stats) {
-          return <span><strong>{commafy(stats.commited)}</strong> ADT Comitted</span>
+        } else if (stage === 'in_registry' && stats) {
+          return <span><strong>{commafy(stats.totalVotes)}</strong> ADT Comitted</span>
         }
 
         return null
@@ -227,8 +239,6 @@ class DomainsTable extends Component {
     const data = await Promise.all(domains.map(async domain => {
       return new Promise(async (resolve, reject) => {
         const listing = await registry.getListing(domain)
-
-        console.log(domain, listing)
 
         const {
           applicationExpiry,
@@ -253,9 +263,6 @@ class DomainsTable extends Component {
         const revealOpen = await registry.revealPeriodActive(domain)
         const pollEnded = await registry.pollEnded(domain)
 
-        console.log(domain, commitOpen, revealOpen, pollEnded, currentTimestamp)
-        window.moment = moment
-
         if (isWhitelisted) {
           item.stage = 'in_registry'
           item.deposit = listing.currentDeposit
@@ -275,9 +282,14 @@ class DomainsTable extends Component {
           item.stage = 'voting_reveal'
           const {
             revealEndDate,
+            votesFor,
+            votesAgainst
           } = await registry.getChallengePoll(domain)
           item.stageEnds = moment.unix(revealEndDate).format('YYYY-MM-DD HH:mm:ss')
-          item.stats = {}
+          item.stats = {
+            votesFor,
+            votesAgainst
+          }
         } else if (applicationExists) {
           item.stage = 'view'
         } else {
@@ -287,8 +299,6 @@ class DomainsTable extends Component {
         resolve(item)
       })
     }))
-
-    console.log(data)
 
     this.setState({
       data: data

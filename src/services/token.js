@@ -34,10 +34,15 @@ class TokenService {
         this.initContract()
       }
 
-      const name = await pify(this.token.name)()
-      this.name = name
-
-      resolve(name)
+      try {
+        const name = await pify(this.token.name)()
+        this.name = name
+        resolve(name)
+        return false
+      } catch (error) {
+        reject(error)
+        return false
+      }
     })
   }
 
@@ -47,11 +52,15 @@ class TokenService {
         this.initContract()
       }
 
-      const symbol = await pify(this.token.symbol)()
-
-      this.symbol = symbol
-
-      resolve(symbol)
+      try {
+        const symbol = await pify(this.token.symbol)()
+        this.symbol = symbol
+        resolve(symbol)
+        return false
+      } catch (error) {
+        reject(error)
+        return false
+      }
     })
   }
 
@@ -61,11 +70,15 @@ class TokenService {
         this.initContract()
       }
 
-      const result = await pify(this.token.decimals)()
-
-      this.decimals = result.toNumber()
-
-      resolve(this.decimals)
+      try {
+        const result = await pify(this.token.decimals)()
+        this.decimals = result.toNumber()
+        resolve(this.decimals)
+        return false
+      } catch (error) {
+        reject(error)
+        return false
+      }
     })
   }
 
@@ -80,11 +93,15 @@ class TokenService {
         this.initContract()
       }
 
-      const result = await pify(this.token.balanceOf)(account)
-
-      const balance = result.toNumber() / Math.pow(10, this.decimals)
-
-      resolve(balance)
+      try {
+        const result = await pify(this.token.balanceOf)(account)
+        const balance = result.toNumber() / Math.pow(10, this.decimals)
+        resolve(balance)
+        return false
+      } catch (error) {
+        reject(error)
+        return false
+      }
     })
   }
 
@@ -99,9 +116,14 @@ class TokenService {
         this.initContract()
       }
 
-      const result = await pify(this.token.approve)(sender, value)
-
-      resolve(result)
+      try {
+        const result = await pify(this.token.approve)(sender, value)
+        resolve(result)
+        return false
+      } catch(error) {
+        reject(error)
+        return false
+      }
     })
   }
 }

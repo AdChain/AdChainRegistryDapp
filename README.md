@@ -2,11 +2,16 @@
 
 > Interface for applying, voting, and challenging domain entries into the adChain Registry.
 
+[![JavaScript Style Guide](https://cdn.rawgit.com/standard/standard/master/badge.svg)](https://github.com/standard/standard)
+
 [https://app.adchain.com](https://app.adchain.com)
 
 Notes
 
 - You might see some assets with word "ad_chain" (underscored), this is to bypass ad blockers who have the word "adchain" blacklisted. ("adchain" was added to [EasyList](https://github.com/easylist/easylist) in 2013)
+
+
+Below is the README from the boilerplate code.
 
 ---
 
