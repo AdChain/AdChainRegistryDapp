@@ -1,2 +1,50 @@
 .DomainNoActionContainer {
 }
+
+.DomainNoActionContainer .Breakdown {
+  display: flex;
+  max-width: 200px;
+  margin: 0 auto;
+  padding-top: 0.6em;
+}
+
+.DomainNoActionContainer .BreakdownItem {
+  display: inline-flex;
+  width: 50%;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.DomainNoActionContainer .BreakdownItem:nth-child(2):after {
+  content: '';
+  display: block;
+  position: absolute;
+  left: -1px;
+  top: 0;
+  width: 1px;
+  height: 100%;
+  background: #ddd;
+}
+
+.DomainNoActionContainer .BreakdownItemBox {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  background: #536DEB;
+  margin-right: 0.5em;
+}
+
+.DomainNoActionContainer .BreakdownItem:nth-child(2) .BreakdownItemBox {
+  background: #662D91;
+}
+
+.DomainNoActionContainer .BreakdownItemLabel {
+  color: #536DEB;
+  font-size: 0.8em;
+  font-weight: bold;
+}
+
+.DomainNoActionContainer .BreakdownItem:nth-child(2) .BreakdownItemLabel {
+  color: #662D91;
+}

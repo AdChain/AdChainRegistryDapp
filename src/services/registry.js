@@ -36,7 +36,7 @@ class RegistryService {
     }
   }
 
-  async apply (domain) {
+  async apply (domain, deposit=0) {
     return new Promise(async (resolve, reject) => {
       if (!domain) {
         reject(new Error('Domain is required'))
@@ -47,8 +47,6 @@ class RegistryService {
         this.initContract()
       }
 
-      const minDeposit = 100
-
       const exists = await this.applicationExists(domain)
 
       if (exists) {
@@ -56,7 +54,7 @@ class RegistryService {
         return false
       }
 
-      const approveTx = await token.approve(this.address, minDeposit)
+      const approveTx = await token.approve(this.address, deposit)
       await this.getTransactionReceipt(approveTx)
 
       const result = await pify(this.registry.apply)(domain)
@@ -106,7 +104,7 @@ class RegistryService {
         this.initContract()
       }
 
-      const exists = await pify(this.registry.appExists.call)(domain)
+      const exists = await pify(this.registry.appExists)(domain)
 
       resolve(exists)
     })
@@ -125,7 +123,7 @@ class RegistryService {
 
       const hash = sha3(domain)
 
-      const result = await pify(this.registry.listingMap.call)(hash)
+      const result = await pify(this.registry.listingMap)(hash)
 
       const map = {
         applicationExpiry: result[0].toNumber(),
@@ -150,19 +148,19 @@ class RegistryService {
         this.initContract()
       }
 
-      const result = await pify(this.registry.challengeMap.call)(challengeId)
+      const challenge = await pify(this.registry.challengeMap)(challengeId)
 
       const map = {
         // (remaining) pool of tokens distributed amongst winning voters
-        rewardPool: result[0].toNumber(),
+        rewardPool: challenge[0].toNumber(),
         // owner of challenge
-        challenger: result[1],
+        challenger: challenge[1],
         // indication of if challenge is resolved
-        resolved: result[2],
+        resolved: challenge[2],
         // number of tokens at risk for either party during challenge
-        stake: result[3].toNumber(),
+        stake: challenge[3].toNumber(),
         // (remaining) amount of tokens used for voting by the winning side
-        totalTokens: result[4]
+        totalTokens: challenge[4]
       }
 
       resolve(map)
@@ -194,7 +192,7 @@ class RegistryService {
         this.initContract()
       }
 
-      const whitelisted = await pify(this.registry.isWhitelisted.call)(domain)
+      const whitelisted = await pify(this.registry.isWhitelisted)(domain)
 
       resolve(whitelisted)
     })
@@ -266,24 +264,128 @@ class RegistryService {
     })
   }
 
+  async getCurrentBlockTimestamp () {
+    return new Promise(async (resolve, reject) => {
+      if (!this.registry) {
+        this.initContract()
+      }
+
+      const result = await pify(window.web3.eth.getBlock)('latest')
+
+      resolve(result.timestamp)
+    })
+  }
+
   async getPlcrAddress () {
     return new Promise(async (resolve, reject) => {
       if (!this.registry) {
         this.initContract()
       }
 
-      const result = await pify(this.registry.voting.call)()
+      const result = await pify(this.registry.voting)()
+
+      resolve(result)
+    })
+  }
+
+  async commitPeriodActive (domain) {
+    return new Promise(async (resolve, reject) => {
+      if (!this.registry) {
+        this.initContract()
+      }
+
+      const pollId = await this.getChallengeId(domain)
+
+      if (!pollId) {
+        resolve(false)
+        return false
+      }
+
+      const result = await plcr.commitPeriodActive(pollId)
+
+      resolve(result)
+    })
+  }
+
+  async revealPeriodActive (domain) {
+    return new Promise(async (resolve, reject) => {
+      if (!this.registry) {
+        this.initContract()
+      }
+
+      if (!domain) {
+        reject(new Error('Domain is required'))
+        return false
+      }
+
+      const pollId = await this.getChallengeId(domain)
+
+      if (!pollId) {
+        resolve(false)
+        return false
+      }
+
+      const result = await plcr.revealPeriodActive(pollId)
 
       resolve(result)
     })
   }
 
   async commitVote ({domain, votes, voteOption, salt}) {
-    const challengeId = await this.getChallengeId(domain)
-    const prevPollId = 0
-    const hash = saltHashVote(voteOption, salt)
+    return new Promise(async (resolve, reject) => {
+      if (!this.registry) {
+        this.initContract()
+      }
 
-    return plcr.commit({pollId: challengeId, hash, tokens: votes, prevPollId})
+      if (!domain) {
+        reject(new Error('Domain is required'))
+        return false
+      }
+
+      const challengeId = await this.getChallengeId(domain)
+      const prevPollId = 0
+      const hash = saltHashVote(voteOption, salt)
+
+      const result = plcr.commit({pollId: challengeId, hash, tokens: votes, prevPollId})
+
+      resolve(result)
+    })
+  }
+
+  async revealVote ({domain, voteOption, salt}) {
+    return new Promise(async (resolve, reject) => {
+      if (!this.registry) {
+        this.initContract()
+      }
+
+      const challengeId = await this.getChallengeId(domain)
+
+      const result = plcr.reveal({pollId: challengeId, voteOption, salt})
+
+      resolve(result)
+    })
+  }
+
+  getChallengePoll (domain) {
+    return new Promise(async (resolve, reject) => {
+      const challengeId = await this.getChallengeId(domain)
+      const result = plcr.getPoll(challengeId)
+      resolve(result)
+    })
+  }
+
+  pollEnded (domain) {
+    return new Promise(async (resolve, reject) => {
+      const challengeId = await this.getChallengeId(domain)
+
+      if (!challengeId) {
+        resolve(false)
+        return false
+      }
+
+      const result = plcr.pollEnded(challengeId)
+      resolve(result)
+    })
   }
 }
 

@@ -1,6 +1,9 @@
 import React, { Component } from 'react'
 import commafy from 'commafy'
+import toastr from 'toastr'
+import moment from 'moment'
 
+import registry from '../services/registry'
 import StatProgressBar from './StatProgressBar'
 
 import './DomainVoteRevealContainer.css'
@@ -10,17 +13,28 @@ class DomainVoteRevealContainer extends Component {
     super()
 
     this.state = {
-
+      domain: props.domain,
+      applicationExpiry: null,
+      votesFor: 0,
+      votesAgainst: 0
     }
+
+    this.getListing()
+    this.getPoll()
   }
 
   render () {
-    const blocksRemaining = 1239
+    const {
+      applicationExpiry,
+      domain,
+      votesFor,
+      votesAgainst
+    } = this.state
+
+    const stageEnd = applicationExpiry ? moment.unix(applicationExpiry).format('YYYY-MM-DD HH:mm:ss') : '-'
+
     const supportFill = 76
     const opposeFill = 24
-
-    const supportTotal = 75443
-    const opposeTotal = 23532
 
     return (
       <div className='DomainVoteRevealContainer'>
@@ -51,11 +65,11 @@ The first phase of the voting process is the commit phase where the ADT holder s
             <div className='Breakdown'>
               <div className='BreakdownItem'>
                 <div className='BreakdownItemBox'></div>
-                <span className='BreakdownItemLabel'>{commafy(supportTotal)} ADT</span>
+                <span className='BreakdownItemLabel'>{commafy(votesFor)} ADT</span>
               </div>
               <div className='BreakdownItem'>
                 <div className='BreakdownItemBox'></div>
-                <span className='BreakdownItemLabel'>{commafy(opposeTotal)} ADT</span>
+                <span className='BreakdownItemLabel'>{commafy(votesAgainst)} ADT</span>
               </div>
             </div>
           </div>
@@ -69,10 +83,9 @@ The first phase of the voting process is the commit phase where the ADT holder s
             </p>
             <div className='ui divider' />
             <p>
-          Blocks remaining until reveal period ends
+          Reveal stage ends
             </p>
-            <p><strong>{commafy(blocksRemaining)} blocks</strong></p>
-            <p><small>or approximately: 02 days, 14 hours, and 49 minutes</small></p>
+            <p><strong>{stageEnd}</strong></p>
             <div className='ui divider' />
           </div>
           <div className='column sixteen wide center aligned'>
@@ -80,13 +93,56 @@ The first phase of the voting process is the commit phase where the ADT holder s
               Your latest commit was <strong>10,000 ADT</strong> to <strong>OPPOSE</strong>
 the Publisher’s application into the adChain Registry
             </p>
-            <button className='ui button blue'>
+            <button
+              onClick={this.onReveal.bind(this)}
+              className='ui button blue'>
               REVEAL
             </button>
           </div>
         </div>
       </div>
     )
+  }
+
+  async getListing () {
+    const {domain} = this.state
+    const listing = await registry.getListing(domain)
+
+    const {
+      applicationExpiry
+    } = listing
+
+    this.setState({
+      applicationExpiry
+    })
+  }
+
+  async getPoll () {
+    const {domain} = this.state
+    const {
+      votesFor,
+      votesAgainst
+    } = await registry.getChallengePoll(domain)
+
+    this.setState({
+      votesFor,
+      votesAgainst
+    })
+  }
+
+  async onReveal (event) {
+    event.preventDefault()
+
+    const {domain} = this.state
+    const salt = 123
+    const voteOption = 1
+
+    try {
+      const result = await registry.revealVote({domain, voteOption, salt})
+      toastr.success('Success')
+    } catch (error) {
+      toastr.error(error.message)
+    }
   }
 }
 

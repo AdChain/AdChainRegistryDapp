@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import moment from 'moment'
+
+import store from '../store'
 import registry from '../services/registry'
 
 import DomainNoActionContainer from './DomainNoActionContainer'
@@ -26,13 +28,20 @@ class DomainProfileActionContainer extends Component {
     this.getData()
   }
 
+  componentDidMount () {
+    store.subscribe(x => {
+      this.getData()
+    })
+  }
+
   render () {
     const {
       domain,
       action
     } = this.state
 
-    let component = null
+    // TODO make component for apply panel
+    let component = <a href={`/apply?domain=${domain}`} className='ui button blue'>Apply to registry</a>
 
     if (action === 'challenge') {
       component = <DomainChallengeContainer domain={domain} />
@@ -67,16 +76,15 @@ class DomainProfileActionContainer extends Component {
       challengeId,
     } = listing
 
-    const canChallenge = (challengeId === 0 && !isWhitelisted && applicationExpiry)
-    const commitOpen = (challengeId !== 0 && !isWhitelisted)
-    const revealOpen = false
-    console.log('LISTING', listing)
+    const challengeOpen = (challengeId === 0 && !isWhitelisted && applicationExpiry)
+    const commitOpen = await registry.commitPeriodActive(domain)
+    const revealOpen = await registry.revealPeriodActive(domain)
 
     let action = null
 
     if (isWhitelisted) {
       action = 'in_registry'
-    } else if (canChallenge) {
+    } else if (challengeOpen) {
       action = 'challenge'
     } else if (commitOpen) {
       action = 'commit'

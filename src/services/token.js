@@ -34,7 +34,7 @@ class TokenService {
         this.initContract()
       }
 
-      const name = await pify(this.token.name.call)()
+      const name = await pify(this.token.name)()
       this.name = name
 
       resolve(name)
@@ -47,7 +47,7 @@ class TokenService {
         this.initContract()
       }
 
-      const symbol = await pify(this.token.symbol.call)()
+      const symbol = await pify(this.token.symbol)()
 
       this.symbol = symbol
 
@@ -61,7 +61,7 @@ class TokenService {
         this.initContract()
       }
 
-      const result = await pify(this.token.decimals.call)()
+      const result = await pify(this.token.decimals)()
 
       this.decimals = result.toNumber()
 
@@ -80,7 +80,7 @@ class TokenService {
         this.initContract()
       }
 
-      const result = await pify(this.token.balanceOf.call)(account)
+      const result = await pify(this.token.balanceOf)(account)
 
       const balance = result.toNumber() / Math.pow(10, this.decimals)
 

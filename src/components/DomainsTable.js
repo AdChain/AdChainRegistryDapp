@@ -91,7 +91,7 @@ class DomainsTable extends Component {
             return false
           }
 
-          history.push(`/profile/${props.value}`)
+          history.push(`/domains/${props.value}`)
         }}>
           <img
             src={`https://www.google.com/s2/favicons?domain=${domain}`}
@@ -138,7 +138,7 @@ class DomainsTable extends Component {
             return false
           }
 
-          history.push(`/profile/${domain}`)
+          history.push(`/domains/${domain}`)
         }}>{label}</a>
       },
       minWidth: 120
@@ -217,15 +217,18 @@ class DomainsTable extends Component {
   }
 
   async getData() {
-    const domains = ['foo.net', 'nytimes.com', 'wsj.com', 'cbs.com', 'cnn.com', 'foo1.net']
+    const domains = ['foo.net', 'nytimes.com', 'wsj.com', 'cbs.com', 'cnn.com']
 
     const currentBlockNumber = await registry.getCurrentBlockNumber()
+    const currentBlockTimestamp = await registry.getCurrentBlockTimestamp()
     const applyStageBlocks = await registry.getParameter('applyStageLen')
     const currentTimestamp = moment().unix()
 
     const data = await Promise.all(domains.map(async domain => {
       return new Promise(async (resolve, reject) => {
         const listing = await registry.getListing(domain)
+
+        console.log(domain, listing)
 
         const {
           applicationExpiry,
@@ -244,10 +247,14 @@ class DomainsTable extends Component {
           stats: null
         }
 
+        const applicationExists = !!applicationExpiry
         const challengeOpen = (challengeId === 0 && !isWhitelisted && applicationExpiry)
-        const commitOpen = (challengeId !== 0 && !isWhitelisted)
-        const revealOpen = false
-        console.log(listing)
+        const commitOpen = await registry.commitPeriodActive(domain)
+        const revealOpen = await registry.revealPeriodActive(domain)
+        const pollEnded = await registry.pollEnded(domain)
+
+        console.log(domain, commitOpen, revealOpen, pollEnded, currentTimestamp)
+        window.moment = moment
 
         if (isWhitelisted) {
           item.stage = 'in_registry'
@@ -255,15 +262,24 @@ class DomainsTable extends Component {
           item.stageEnds = `Ended ${moment.unix(applicationExpiry).format('YYYY-MM-DD')}`
         } else if (challengeOpen) {
           item.stage = 'in_application'
-          item.stageEnds = moment.unix(applicationExpiry).calendar()
+          item.stageEnds = moment.unix(applicationExpiry).format('YYYY-MM-DD HH:mm:ss')
           applicationExpiry
         } else if (commitOpen) {
           item.stage = 'voting_commit'
-          //const challenge = await registry.getChallenge(challengeId)
-          //item.status = 'challenge'
-          //item.challengePeriodEnd:
+          const {
+            commitEndDate,
+            revealEndDate
+          } = await registry.getChallengePoll(domain)
+          item.stageEnds = moment.unix(commitEndDate).format('YYYY-MM-DD HH:mm:ss')
         } else if (revealOpen) {
           item.stage = 'voting_reveal'
+          const {
+            revealEndDate,
+          } = await registry.getChallengePoll(domain)
+          item.stageEnds = moment.unix(revealEndDate).format('YYYY-MM-DD HH:mm:ss')
+          item.stats = {}
+        } else if (applicationExists) {
+          item.stage = 'view'
         } else {
           item.stage = 'apply'
         }

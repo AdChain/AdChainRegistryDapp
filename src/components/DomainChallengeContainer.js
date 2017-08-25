@@ -27,7 +27,7 @@ class DomainChallengeContainer extends Component {
       minDeposit
     } = this.state
 
-    const stageEnd = applicationExpiry ? moment.unix(applicationExpiry).calendar() : '-'
+    const stageEnd = applicationExpiry ? moment.unix(applicationExpiry).format('YYYY-MM-DD HH:mm:ss') : '-'
 
     return (
       <div className='DomainChallengeContainer'>
