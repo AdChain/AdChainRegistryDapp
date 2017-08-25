@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
+import commafy from 'commafy'
 
+import registry from '../services/registry'
 import './DomainNoActionContainer.css'
 
 class DomainNoActionContainer extends Component {
@@ -9,9 +11,32 @@ class DomainNoActionContainer extends Component {
     this.state = {
       domain: props.domain
     }
+
+    this.getPoll()
+  }
+
+  async getPoll () {
+    const {domain} = this.state
+
+    try {
+      const {
+        votesFor,
+        votesAgainst
+      } = await registry.getChallengePoll(domain)
+
+      this.setState({
+        votesFor,
+        votesAgainst
+      })
+    } catch(error) {}
   }
 
   render () {
+    const {
+      votesFor,
+      votesAgainst
+    } = this.state
+
     return (
       <div className='DomainNoActionContainer'>
         <div className='ui grid stackable'>
@@ -22,6 +47,11 @@ class DomainNoActionContainer extends Component {
           </div>
           <div className='column sixteen wide'>
             <p>Domain is in adChain Registry.</p>
+          </div>
+
+          <div className='column sixteen wide'>
+            <p>Votes For: <strong>{commafy(votesFor)} ADT</strong></p>
+            <p>Votes Against: <strong>{commafy(votesAgainst)} ADT</strong></p>
           </div>
         </div>
       </div>

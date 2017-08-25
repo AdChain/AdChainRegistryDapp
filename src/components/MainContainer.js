@@ -29,7 +29,7 @@ function MainContainer (props) {
             <Route path='/' exact component={DomainsContainer} />
             <Route path='/apply' exact component={ApplicationContainer} />
             <Route path='/domains' exact component={DomainsContainer} />
-            <Route path='/profile/:domain' exact component={DomainProfile} />
+            <Route path='/domains/:domain' exact component={DomainProfile} />
             <Route path='/account' exact component={AccountDashboard} />
             <Route path='/' exact component={DomainsContainer} />
           </Switch>

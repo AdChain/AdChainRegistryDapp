@@ -12,6 +12,7 @@ class DomainVoteCommitContainer extends Component {
     super()
 
     this.state = {
+      stake: 0,
       domain: props.domain,
       applicationExpiry: null
     }
@@ -26,7 +27,7 @@ class DomainVoteCommitContainer extends Component {
       applicationExpiry
     } = this.state
 
-    const stageEnd = applicationExpiry ? moment.unix(applicationExpiry).calendar() : '-'
+    const stageEnd = applicationExpiry ? moment.unix(applicationExpiry).format('YYYY-MM-DD HH:mm:ss') : '-'
 
     return (
       <div className='DomainVoteCommitContainer'>
@@ -57,6 +58,7 @@ The first phase of the voting process is the commit phase where the ADT holder s
                   <input
                     type='text'
                     placeholder='100'
+                    onKeyUp={event => this.setState({stake: event.target.value|0})}
                   />
                 </div>
               </div>
@@ -99,10 +101,10 @@ The first phase of the voting process is the commit phase where the ADT holder s
 
     const {target} = event
     const option = target.dataset.option
-    const {domain} = this.state
-    const votes = 10
+    const {domain, stake:votes} = this.state
     const salt = 123
     const voteOption = (option === 'support' ? 1 : 0)
+    debugger
 
     try {
       const result = await registry.commitVote({domain, votes, voteOption, salt})

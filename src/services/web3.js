@@ -118,6 +118,8 @@ class Web3Service {
         type: 'WEB3_CHANGE_ACCOUNT',
         address: next
       })
+
+      window.location.reload()
     }
   }
 
