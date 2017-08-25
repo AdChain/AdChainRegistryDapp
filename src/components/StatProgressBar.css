@@ -9,6 +9,8 @@
   position: relative;
   border-radius: 15px;
   overflow: hidden;
+  display: flex;
+  justify-content: center;
 }
 
 .StatProgressBar .StatBarFillContainer {

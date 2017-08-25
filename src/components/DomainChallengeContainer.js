@@ -4,6 +4,7 @@ import toastr from 'toastr'
 import moment from 'moment'
 
 import registry from '../services/registry'
+import DomainChallengeInProgressContainer from './DomainChallengeInProgressContainer'
 
 import './DomainChallengeContainer.css'
 
@@ -14,7 +15,8 @@ class DomainChallengeContainer extends Component {
     this.state = {
       domain: props.domain,
       applicationExpiry: null,
-      minDeposit: null
+      minDeposit: null,
+      inProgress: false
     }
 
     this.getMinDeposit()
@@ -24,7 +26,8 @@ class DomainChallengeContainer extends Component {
   render () {
     const {
       applicationExpiry,
-      minDeposit
+      minDeposit,
+      inProgress
     } = this.state
 
     const stageEnd = applicationExpiry ? moment.unix(applicationExpiry).format('YYYY-MM-DD HH:mm:ss') : '-'
@@ -57,6 +60,7 @@ class DomainChallengeContainer extends Component {
             </button>
           </div>
         </div>
+        {inProgress ? <DomainChallengeInProgressContainer /> : null}
       </div>
     )
   }
@@ -91,12 +95,22 @@ class DomainChallengeContainer extends Component {
     const inApplication = await registry.applicationExists(domain)
 
     if (inApplication) {
+      this.setState({
+        inProgress: true
+      })
+
       try {
         await registry.challenge(domain)
 
         toastr.success('Challenged')
+        this.setState({
+          inProgress: false
+        })
       } catch (error) {
         toastr.error(error)
+        this.setState({
+          inProgress: false
+        })
       }
     } else {
       toastr.error('Domain not in application')

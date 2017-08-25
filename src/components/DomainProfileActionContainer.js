@@ -29,8 +29,9 @@ class DomainProfileActionContainer extends Component {
   }
 
   componentDidMount () {
+    // TODO unsubscribe on dismount
     store.subscribe(x => {
-      this.getData()
+      setTimeout(() => this.getData(), 1e3)
     })
   }
 

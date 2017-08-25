@@ -23,6 +23,7 @@ function reducer(state = 0, action) {
   case 'REGISTRY_DOMAIN_CHALLENGE':
   case 'REGISTRY_DOMAIN_VOTE_COMMIT':
   case 'REGISTRY_DOMAIN_VOTE_REVEAL':
+  case 'REGISTRY_DOMAIN_UPDATE_STATUS':
   case 'PLCR_VOTE_COMMIT':
   case 'PLCR_VOTE_REVEAL':
     return state + 1

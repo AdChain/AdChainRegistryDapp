@@ -1,5 +1,5 @@
 .DomainVoteRevealContainer {
-
+  position: relative;
 }
 
 :root:root:root .DomainVoteRevealContainer .ProgressContainer .divider {

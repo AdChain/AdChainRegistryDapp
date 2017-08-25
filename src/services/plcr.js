@@ -1,5 +1,6 @@
 import sha3 from 'solidity-sha3'
 import pify from 'pify'
+import wait from 'promise-wait'
 
 import token from './token'
 import store from '../store'
@@ -30,6 +31,8 @@ class PlcrService {
 
       this.address = address
       this.plcr = plcr
+
+      this.forceMine = registry.forceMine.bind(registry)
     }
   }
 
@@ -44,24 +47,30 @@ class PlcrService {
         await this.initContract()
       }
 
-      const result = await pify(this.plcr.pollMap)(pollId)
+      try {
+        const result = await pify(this.plcr.pollMap)(pollId)
 
-      const map = {
-        // proposal to be voted for/against
-        proposal: result[0],
-        // expiration date of commit period for poll
-        commitEndDate: result[1].toNumber(),
-        // expiration date of reveal period for poll
-        revealEndDate: result[2].toNumber(),
-        // number of votes required for a proposal to pass
-        voteQuorum: result[3].toNumber(),
-        // tally of votes supporting proposal
-        votesFor: result[4].toNumber(),
-        // tally of votes countering proposal
-        votesAgainst: result[5].toNumber()
+        const map = {
+          // proposal to be voted for/against
+          proposal: result[0],
+          // expiration date of commit period for poll
+          commitEndDate: result[1].toNumber(),
+          // expiration date of reveal period for poll
+          revealEndDate: result[2].toNumber(),
+          // number of votes required for a proposal to pass
+          voteQuorum: result[3].toNumber(),
+          // tally of votes supporting proposal
+          votesFor: result[4].toNumber(),
+          // tally of votes countering proposal
+          votesAgainst: result[5].toNumber()
+        }
+
+        resolve(map)
+        return false
+      } catch (error) {
+        reject(error)
+        return false
       }
-
-      resolve(map)
     })
   }
 
@@ -76,8 +85,14 @@ class PlcrService {
         await this.initContract()
       }
 
-      const result = pify(this.plcr.commitPeriodActive)(pollId);
-      resolve(result)
+      try {
+        const result = await pify(this.plcr.commitPeriodActive)(pollId);
+        resolve(result)
+        return false
+      } catch (error) {
+        reject(error)
+        return false
+      }
     })
   }
 
@@ -92,8 +107,14 @@ class PlcrService {
         await this.initContract()
       }
 
-      const result = await pify(this.plcr.revealPeriodActive)(pollId);
-      resolve(result)
+      try {
+        const result = await pify(this.plcr.revealPeriodActive)(pollId);
+        resolve(result)
+        return false
+      } catch (error) {
+        reject(error)
+        return false
+      }
     })
   }
 
@@ -118,49 +139,80 @@ class PlcrService {
         await this.initContract()
       }
 
-      const active = this.commitPeriodActive(pollId);
+      let active = null
+
+      try {
+        active = await this.commitPeriodActive(pollId)
+      } catch (error) {
+        reject(error)
+        return false
+      }
 
       if (!active) {
         reject(new Error('Commit stage should be active'))
         return false
       }
 
-      const approveTx = await token.approve(this.address, tokens)
-      await this.getTransactionReceipt(approveTx)
+      try {
+        const approveTx = await token.approve(this.address, tokens)
+        await this.forceMine()
+      } catch (error) {
+        reject(error)
+        return false
+      }
 
-      const requestTx = await pify(this.plcr.requestVotingRights)(tokens)
-      await this.getTransactionReceipt(requestTx)
+      //const requestTx = await pify(this.plcr.requestVotingRights)(tokens)
+      //await this.forceMine()
 
-      const result = await pify(this.plcr.commitVote)(pollId, hash, tokens, prevPollId)
+      try {
+        await wait(1000)
+        const result = await pify(this.plcr.commitVote)(pollId, hash, tokens, prevPollId)
+        await this.forceMine()
 
-      store.dispatch({
-        type: 'PLCR_VOTE_COMMIT',
-        pollId
-      })
+        store.dispatch({
+          type: 'PLCR_VOTE_COMMIT',
+          pollId
+        })
 
-      resolve(result)
+        resolve(result)
+        return false
+      } catch (error) {
+        reject(error)
+        return false
+      }
     })
   }
 
   async reveal ({pollId, voteOption, salt}) {
     return new Promise(async (resolve, reject) => {
-      const tx = await pify(this.plcr.revealVote)(pollId, salt, voteOption)
-      await this.getTransactionReceipt(tx)
 
-      store.dispatch({
-        type: 'PLCR_VOTE_REVEAL',
-        pollId
-      })
+      try {
+        const tx = await pify(this.plcr.revealVote)(pollId, salt, voteOption)
+        await this.forceMine()
 
-      resolve()
+        store.dispatch({
+          type: 'PLCR_VOTE_REVEAL',
+          pollId
+        })
+
+        resolve()
+      } catch (error) {
+        reject(error)
+        return false
+      }
     })
   }
 
   async getTokensCommited (pollId) {
     return new Promise(async (resolve, reject) => {
-      const numTokens = await pify(this.plcr.getNumTokens)(pollId);
-
-      resolve(numTokens)
+      try {
+        const numTokens = await pify(this.plcr.getNumTokens)(pollId);
+        resolve(numTokens)
+        return false
+      } catch (error) {
+        reject(error)
+        return false
+      }
     })
   }
 
@@ -170,9 +222,14 @@ class PlcrService {
         await this.initContract()
       }
 
-      const result = await pify(this.plcr.pollEnded)(pollId);
-
-      resolve(result)
+      try {
+        const result = await pify(this.plcr.pollEnded)(pollId);
+        resolve(result)
+        return false
+      } catch (error) {
+        reject(error)
+        return false
+      }
     })
   }
 
@@ -182,12 +239,16 @@ class PlcrService {
         this.initContract()
       }
 
-      const result = await pify(window.web3.eth.getTransactionReceipt)(tx)
-
-      resolve(result)
+      try {
+        const result = await pify(window.web3.eth.getTransactionReceipt)(tx)
+        resolve(result)
+        return false
+      } catch (error) {
+        reject(error)
+        return false
+      }
     })
   }
-
 }
 
 export default new PlcrService()

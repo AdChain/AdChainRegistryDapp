@@ -1,6 +1,7 @@
 import sha3 from 'solidity-sha3'
 import pify from 'pify'
 import keyMirror from 'key-mirror'
+import wait from 'promise-wait'
 
 import store from '../store'
 import token from './token'
@@ -33,7 +34,17 @@ class RegistryService {
 
     if (!this.registry) {
       this.registry = window.web3.eth.contract(abi).at(this.address)
+
+      this.forceMine()
     }
+  }
+
+  getAccount () {
+    if (!window.web3) {
+      return null
+    }
+
+    return window.web3.eth.defaultAccount
   }
 
   async apply (domain, deposit=0) {
@@ -54,17 +65,27 @@ class RegistryService {
         return false
       }
 
-      const approveTx = await token.approve(this.address, deposit)
-      await this.getTransactionReceipt(approveTx)
+      try {
+        const approveTx = await token.approve(this.address, deposit)
+        await this.forceMine()
+      } catch (error) {
+        reject(error)
+        return false
+      }
 
-      const result = await pify(this.registry.apply)(domain)
+      try {
+        const applyTx = await pify(this.registry.apply)(domain)
+      } catch (error) {
+        reject(error)
+        return false
+      }
 
       store.dispatch({
         type: 'REGISTRY_DOMAIN_APPLY',
         domain
       })
 
-      resolve(result)
+      resolve()
     })
   }
 
@@ -79,17 +100,79 @@ class RegistryService {
         this.initContract()
       }
 
-      const minDeposit = 100
+      let minDeposit = 0
 
-      const approveTx = await token.approve(this.address, minDeposit)
-      await this.getTransactionReceipt(approveTx)
+      try {
+        minDeposit = await this.getMinDeposit()
+      } catch (error) {
+        reject(error)
+        return false
+      }
 
-      const tx = await pify(this.registry.challenge)(domain)
+      try {
+        const approveTx = await token.approve(this.address, minDeposit)
+        await this.forceMine()
+        await this.forceMine()
+      } catch (error) {
+        reject(error)
+        return false
+      }
 
-      const receipt = await this.getTransactionReceipt(tx)
-      const challengeId = parseInt(receipt.logs[1].data, 16)
+      let tx = null
 
-      resolve(challengeId)
+      try {
+        tx = await pify(this.registry.challenge)(domain)
+        await this.forceMine()
+      } catch (error) {
+        reject(error)
+        return false
+      }
+
+      try {
+        const receipt = await this.getTransactionReceipt(tx)
+        const challengeId = parseInt(receipt.logs[1].data, 16)
+
+        store.dispatch({
+          type: 'REGISTRY_DOMAIN_CHALLENGE',
+          domain
+        })
+
+        resolve(challengeId)
+      } catch(error) {
+        reject(error)
+        return false
+      }
+    })
+  }
+
+  async didChallenge (domain) {
+    return new Promise(async (resolve, reject) => {
+      if (!domain) {
+        reject(new Error('Domain is required'))
+        return false
+      }
+
+      if (!this.registry) {
+        this.initContract()
+      }
+
+      let challengeId = null
+
+      try {
+        challengeId = await this.getChallengeId(domain)
+      } catch (error) {
+        reject(error)
+        return false
+      }
+
+      try {
+        const challenge = await this.getChallenge(challengeId)
+        const isChallenger = (challenge.challenger === this.getAccount())
+        resolve(isChallenger)
+      } catch (error) {
+        reject(error)
+        return false
+      }
     })
   }
 
@@ -104,9 +187,13 @@ class RegistryService {
         this.initContract()
       }
 
-      const exists = await pify(this.registry.appExists)(domain)
-
-      resolve(exists)
+      try {
+        const exists = await pify(this.registry.appExists)(domain)
+        resolve(exists)
+      } catch (error) {
+        reject(error)
+        return false
+      }
     })
   }
 
@@ -121,19 +208,24 @@ class RegistryService {
         this.initContract()
       }
 
-      const hash = sha3(domain)
+      try {
+        const hash = sha3(domain)
+        const result = await pify(this.registry.listingMap)(hash)
 
-      const result = await pify(this.registry.listingMap)(hash)
+        const map = {
+          applicationExpiry: result[0].toNumber(),
+          isWhitelisted: result[1],
+          ownerAddress: result[2],
+          currentDeposit: result[3].toNumber(),
+          challengeId: result[4].toNumber()
+        }
 
-      const map = {
-        applicationExpiry: result[0].toNumber(),
-        isWhitelisted: result[1],
-        ownerAddress: result[2],
-        currentDeposit: result[3].toNumber(),
-        challengeId: result[4].toNumber()
+        resolve(map)
+        return false
+      } catch (error) {
+        reject(error)
+        return false
       }
-
-      resolve(map)
     })
   }
 
@@ -148,37 +240,49 @@ class RegistryService {
         this.initContract()
       }
 
-      const challenge = await pify(this.registry.challengeMap)(challengeId)
+      try {
+        const challenge = await pify(this.registry.challengeMap)(challengeId)
+        const map = {
+          // (remaining) pool of tokens distributed amongst winning voters
+          rewardPool: challenge[0] ? challenge[0].toNumber() : 0,
+          // owner of challenge
+          challenger: challenge[1],
+          // indication of if challenge is resolved
+          resolved: challenge[2],
+          // number of tokens at risk for either party during challenge
+          stake: challenge[3] ? challenge[3].toNumber() : 0,
+          // (remaining) amount of tokens used for voting by the winning side
+          totalTokens: challenge[4]
+        }
 
-      const map = {
-        // (remaining) pool of tokens distributed amongst winning voters
-        rewardPool: challenge[0].toNumber(),
-        // owner of challenge
-        challenger: challenge[1],
-        // indication of if challenge is resolved
-        resolved: challenge[2],
-        // number of tokens at risk for either party during challenge
-        stake: challenge[3].toNumber(),
-        // (remaining) amount of tokens used for voting by the winning side
-        totalTokens: challenge[4]
+        resolve(map)
+      } catch (error) {
+        reject(error)
+        return false
       }
-
-      resolve(map)
     })
   }
 
   async getChallengeId (domain) {
-    if (!domain) {
-      return new Error('Domain is required')
-    }
+    return new Promise(async (resolve, reject) => {
+      if (!domain) {
+        return new Error('Domain is required')
+      }
 
-    const listing = await this.getListing(domain)
+      try {
+        const listing = await this.getListing(domain)
 
-    const {
-      challengeId
-    } = listing
+        const {
+          challengeId
+        } = listing
 
-    return challengeId
+        resolve(challengeId)
+        return false
+      } catch (error) {
+        reject(error)
+        return false
+      }
+    })
   }
 
   async isWhitelisted (domain) {
@@ -192,9 +296,13 @@ class RegistryService {
         this.initContract()
       }
 
-      const whitelisted = await pify(this.registry.isWhitelisted)(domain)
-
-      resolve(whitelisted)
+      try {
+        const whitelisted = await pify(this.registry.isWhitelisted)(domain)
+        resolve(whitelisted)
+      } catch (error) {
+        reject(error)
+        return false
+      }
     })
   }
 
@@ -209,9 +317,20 @@ class RegistryService {
         this.initContract()
       }
 
-      const result = await pify(this.registry.updateStatus)(domain)
+      try {
+        await this.forceMine()
+        const result = await pify(this.registry.updateStatus)(domain)
 
-      resolve(result)
+        store.dispatch({
+          type: 'REGISTRY_DOMAIN_UPDATE_STATUS',
+          domain
+        })
+
+        resolve(result)
+      } catch (error) {
+        reject(error)
+        return false
+      }
     })
   }
 
@@ -226,9 +345,13 @@ class RegistryService {
         this.initContract()
       }
 
-      const value = await parameterizer.get(name)
-
-      resolve(value)
+      try {
+        const value = await parameterizer.get(name)
+        resolve(value)
+      } catch (error) {
+        reject(error)
+        return false
+      }
     })
   }
 
@@ -238,18 +361,6 @@ class RegistryService {
 
   getMinDeposit () {
     return this.getParameter('minDeposit')
-  }
-
-  async getTransactionReceipt (tx) {
-    return new Promise(async (resolve, reject) => {
-      if (!this.registry) {
-        this.initContract()
-      }
-
-      const result = await pify(window.web3.eth.getTransactionReceipt)(tx)
-
-      resolve(result)
-    })
   }
 
   async getCurrentBlockNumber () {
@@ -270,9 +381,14 @@ class RegistryService {
         this.initContract()
       }
 
-      const result = await pify(window.web3.eth.getBlock)('latest')
+      try {
+        const result = await pify(window.web3.eth.getBlock)('latest')
 
-      resolve(result.timestamp)
+        resolve(result.timestamp)
+      } catch (error) {
+        reject(error)
+        return false
+      }
     })
   }
 
@@ -282,9 +398,13 @@ class RegistryService {
         this.initContract()
       }
 
-      const result = await pify(this.registry.voting)()
-
-      resolve(result)
+      try {
+        const result = await pify(this.registry.voting)()
+        resolve(result)
+      } catch (error) {
+        reject(error)
+        return false
+      }
     })
   }
 
@@ -294,16 +414,27 @@ class RegistryService {
         this.initContract()
       }
 
-      const pollId = await this.getChallengeId(domain)
+      let pollId = null
+
+      try {
+        pollId = await this.getChallengeId(domain)
+      } catch (error) {
+        reject(error)
+        return false
+      }
 
       if (!pollId) {
         resolve(false)
         return false
       }
 
-      const result = await plcr.commitPeriodActive(pollId)
-
-      resolve(result)
+      try {
+        const result = await plcr.commitPeriodActive(pollId)
+        resolve(result)
+      } catch (error) {
+        reject(error)
+        return false
+      }
     })
   }
 
@@ -318,16 +449,27 @@ class RegistryService {
         return false
       }
 
-      const pollId = await this.getChallengeId(domain)
+      let pollId = null
+
+      try {
+        pollId = await this.getChallengeId(domain)
+      } catch (error) {
+        reject(error)
+        return false
+      }
 
       if (!pollId) {
         resolve(false)
         return false
       }
 
-      const result = await plcr.revealPeriodActive(pollId)
-
-      resolve(result)
+      try {
+        const result = await plcr.revealPeriodActive(pollId)
+        resolve(result)
+      } catch (error) {
+        reject(error)
+        return false
+      }
     })
   }
 
@@ -342,13 +484,26 @@ class RegistryService {
         return false
       }
 
-      const challengeId = await this.getChallengeId(domain)
-      const prevPollId = 0
-      const hash = saltHashVote(voteOption, salt)
+      let challengeId = null
 
-      const result = plcr.commit({pollId: challengeId, hash, tokens: votes, prevPollId})
+      try {
+        challengeId = await this.getChallengeId(domain)
+      } catch (error) {
+        reject(error)
+        return false
+      }
 
-      resolve(result)
+      try {
+        const prevPollId = 0
+        const hash = saltHashVote(voteOption, salt)
+
+        const result = await plcr.commit({pollId: challengeId, hash, tokens: votes, prevPollId})
+
+        resolve(result)
+      } catch (error) {
+        reject(error)
+        return false
+      }
     })
   }
 
@@ -358,19 +513,31 @@ class RegistryService {
         this.initContract()
       }
 
-      const challengeId = await this.getChallengeId(domain)
+      try {
+        const challengeId = await this.getChallengeId(domain)
 
-      const result = plcr.reveal({pollId: challengeId, voteOption, salt})
+        const result = plcr.reveal({pollId: challengeId, voteOption, salt})
+        await this.forceMine()
 
-      resolve(result)
+        resolve(result)
+      } catch (error) {
+        reject(error)
+        return false
+      }
     })
   }
 
   getChallengePoll (domain) {
     return new Promise(async (resolve, reject) => {
-      const challengeId = await this.getChallengeId(domain)
-      const result = plcr.getPoll(challengeId)
-      resolve(result)
+
+      try {
+        const challengeId = await this.getChallengeId(domain)
+        const result = await plcr.getPoll(challengeId)
+        resolve(result)
+      } catch (error) {
+        reject(error)
+        return false
+      }
     })
   }
 
@@ -383,8 +550,73 @@ class RegistryService {
         return false
       }
 
-      const result = plcr.pollEnded(challengeId)
-      resolve(result)
+      try {
+        const result = await plcr.pollEnded(challengeId)
+        resolve(result)
+      } catch (error) {
+        reject(error)
+        return false
+      }
+    })
+  }
+
+  async getTransaction (tx) {
+    return new Promise(async (resolve, reject) => {
+      if (!this.registry) {
+        this.initContract()
+      }
+
+      try {
+        const result = await pify(window.web3.eth.getTransaction)(tx)
+        resolve(result)
+      } catch (error) {
+        reject(error)
+        return false
+      }
+    })
+  }
+
+  async getTransactionReceipt (tx) {
+    return new Promise(async (resolve, reject) => {
+      if (!this.registry) {
+        this.initContract()
+      }
+
+      try {
+        const result = await pify(window.web3.eth.getTransactionReceipt)(tx)
+        resolve(result)
+      } catch (error) {
+        reject(error)
+        return false
+      }
+    })
+  }
+
+  async forceMine (block) {
+    if (this.miningStarted) {
+      await wait(3000)
+      return Promise.resolve()
+    }
+
+    return new Promise(async (resolve, reject) => {
+      //const blockNumber = await this.getCurrentBlockNumber()
+      /*
+      const result = await pify(window.web3.currentProvider.sendAsync)({
+          jsonrpc: '2.0',
+          method: 'evm_mine'
+        })
+      */
+      /*
+      const result = pify(window.web3.currentProvider.sendAsync)({
+          jsonrpc: '2.0',
+          method: 'miner_start',
+          params: 0
+        })
+      */
+
+      this.miningStarted = true
+
+      //resolve(result)
     })
   }
 }
