@@ -513,9 +513,17 @@ class RegistryService {
         this.initContract()
       }
 
-      try {
-        const challengeId = await this.getChallengeId(domain)
 
+      let challengeId = null
+
+      try {
+        challengeId = await this.getChallengeId(domain)
+      } catch (error) {
+        reject(error)
+        return false
+      }
+
+      try {
         const result = plcr.reveal({pollId: challengeId, voteOption, salt})
         await this.forceMine()
 
@@ -558,6 +566,10 @@ class RegistryService {
         return false
       }
     })
+  }
+
+  voterHasEnoughVotingTokens (tokens) {
+    return plcr.hasEnoughTokens(tokens)
   }
 
   async getTransaction (tx) {

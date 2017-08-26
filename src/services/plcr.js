@@ -161,8 +161,13 @@ class PlcrService {
         return false
       }
 
-      //const requestTx = await pify(this.plcr.requestVotingRights)(tokens)
-      //await this.forceMine()
+      try {
+        const requestTx = await pify(this.plcr.requestVotingRights)(tokens)
+        await this.forceMine()
+      } catch (error) {
+        reject(error)
+        return false
+      }
 
       try {
         await wait(1000)
@@ -208,6 +213,28 @@ class PlcrService {
       try {
         const numTokens = await pify(this.plcr.getNumTokens)(pollId);
         resolve(numTokens)
+        return false
+      } catch (error) {
+        reject(error)
+        return false
+      }
+    })
+  }
+
+  hasEnoughTokens (tokens) {
+    return new Promise(async (resolve, reject) => {
+      if (!this.plcr) {
+        await this.initContract()
+      }
+
+      if (!tokens) {
+        reject(new Error('Tokens is required'))
+        return false
+      }
+
+      try {
+        const result = await pify(this.plcr.hasEnoughTokens)(tokens);
+        resolve(result)
         return false
       } catch (error) {
         reject(error)

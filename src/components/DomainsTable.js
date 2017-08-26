@@ -194,7 +194,9 @@ class DomainsTable extends Component {
         return value
       },
       minWidth: 150
-    }, {
+  },
+  /*
+  {
       Header: 'Staked',
       accessor: 'deposit',
       className: 'Number',
@@ -223,7 +225,10 @@ class DomainsTable extends Component {
         return null
       },
       minWidth: 200
-    }]
+    }
+    */
+
+    ]
 
     return columns
   }

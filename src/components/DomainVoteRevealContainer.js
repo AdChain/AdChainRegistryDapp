@@ -23,7 +23,7 @@ class DomainVoteRevealContainer extends Component {
       inProgress: false,
       didChallenge: false,
       salt: 123,
-      voteOption: 0
+      voteOption: 1
     }
 
     this.getListing()
