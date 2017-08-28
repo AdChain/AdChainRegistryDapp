@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import qs from 'qs'
 import updateQuery from 'update-query'
 
@@ -56,7 +57,7 @@ class DomainsContainer extends Component {
             <div className='column three wide'>
               <DomainsFilterPanel
                 filters={query}
-                onFiltersChange={this.onQueryChange.bind(this)}
+                onFiltersChange={this.onQueryChange}
               />
             </div>
             <div className='column thirteen wide'>
@@ -109,6 +110,11 @@ class DomainsContainer extends Component {
 
     this.setState({tableFilters: [statusFilter]})
   }
+}
+
+DomainsContainer.propTypes = {
+  location: PropTypes.object,
+  history: PropTypes.object
 }
 
 export default DomainsContainer

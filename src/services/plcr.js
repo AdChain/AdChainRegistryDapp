@@ -1,4 +1,3 @@
-import sha3 from 'solidity-sha3'
 import pify from 'pify'
 import wait from 'promise-wait'
 
@@ -108,7 +107,7 @@ class PlcrService {
       }
 
       try {
-        const result = await pify(this.plcr.revealPeriodActive)(pollId);
+        const result = await pify(this.plcr.revealPeriodActive)(pollId)
         resolve(result)
         return false
       } catch (error) {
@@ -154,7 +153,7 @@ class PlcrService {
       }
 
       try {
-        const approveTx = await token.approve(this.address, tokens)
+        await token.approve(this.address, tokens)
         await this.forceMine()
       } catch (error) {
         reject(error)
@@ -162,7 +161,7 @@ class PlcrService {
       }
 
       try {
-        const requestTx = await pify(this.plcr.requestVotingRights)(tokens)
+        await pify(this.plcr.requestVotingRights)(tokens)
         await this.forceMine()
       } catch (error) {
         reject(error)
@@ -190,9 +189,8 @@ class PlcrService {
 
   async reveal ({pollId, voteOption, salt}) {
     return new Promise(async (resolve, reject) => {
-
       try {
-        const tx = await pify(this.plcr.revealVote)(pollId, salt, voteOption)
+        await pify(this.plcr.revealVote)(pollId, salt, voteOption)
         await this.forceMine()
 
         store.dispatch({
@@ -211,7 +209,7 @@ class PlcrService {
   async getTokensCommited (pollId) {
     return new Promise(async (resolve, reject) => {
       try {
-        const numTokens = await pify(this.plcr.getNumTokens)(pollId);
+        const numTokens = await pify(this.plcr.getNumTokens)(pollId)
         resolve(numTokens)
         return false
       } catch (error) {
@@ -233,7 +231,7 @@ class PlcrService {
       }
 
       try {
-        const result = await pify(this.plcr.hasEnoughTokens)(tokens);
+        const result = await pify(this.plcr.hasEnoughTokens)(tokens)
         resolve(result)
         return false
       } catch (error) {
@@ -250,7 +248,7 @@ class PlcrService {
       }
 
       try {
-        const result = await pify(this.plcr.pollEnded)(pollId);
+        const result = await pify(this.plcr.pollEnded)(pollId)
         resolve(result)
         return false
       } catch (error) {

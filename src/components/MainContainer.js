@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 import MainTopbar from './MainTopbar'
 import ApplicationContainer from './ApplicationContainer'
@@ -38,6 +39,15 @@ function MainContainer (props) {
 
     </div>
   )
+}
+
+MainContainer.propTypes = {
+/*
+  Route: PropTypes.ReactElement,
+  Switch: PropTypes.ReactElement,
+  CSSTransitionGroup: PropTypes.ReactElement,
+*/
+  location: PropTypes.object
 }
 
 export default MainContainer

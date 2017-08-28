@@ -1,14 +1,10 @@
 import React, { Component } from 'react'
-import toastr from 'toastr'
-
-import registry from '../services/registry'
 
 import './DomainVoteRevealInProgressContainer.css'
 
 class DomainVoteRevealInProgressContainer extends Component {
   constructor (props) {
     super()
-
   }
 
   render () {

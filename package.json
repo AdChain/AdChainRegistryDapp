@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "alexa-stats": "0.0.1",
+    "bip39": "^2.4.0",
     "blockies": "0.0.2",
     "camelcase": "^4.1.0",
     "camelcase-keys": "^4.1.0",
@@ -24,6 +25,7 @@
     "moment": "^2.18.1",
     "pify": "^3.0.0",
     "promise-wait": "^1.0.0",
+    "prop-types": "^15.5.10",
     "qs": "^6.5.0",
     "react": "^15.6.1",
     "react-addons-css-transition-group": "^15.6.0",
@@ -48,13 +50,13 @@
     "deploy": "npm run build && eb deploy"
   },
   "devDependencies": {
-    "eslint": "^4.3.0",
+    "eslint": "^4.5.0",
     "eslint-config-standard": "^10.2.1",
     "eslint-config-standard-react": "^5.0.0",
     "eslint-plugin-import": "^2.7.0",
     "eslint-plugin-node": "^5.1.1",
     "eslint-plugin-promise": "^3.5.0",
-    "eslint-plugin-react": "^7.1.0",
+    "eslint-plugin-react": "^7.3.0",
     "eslint-plugin-standard": "^3.0.1",
     "standard": "^10.0.2"
   }

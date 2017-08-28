@@ -1,9 +1,12 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import commafy from 'commafy'
 
 import registry from '../services/registry'
 import './DomainNoActionContainer.css'
 
+// TODO
+// rename this to DomainInRegistryContainer
 class DomainNoActionContainer extends Component {
   constructor (props) {
     super()
@@ -28,7 +31,9 @@ class DomainNoActionContainer extends Component {
         votesFor,
         votesAgainst
       })
-    } catch(error) {}
+    } catch (error) {
+
+    }
   }
 
   render () {
@@ -57,6 +62,10 @@ class DomainNoActionContainer extends Component {
       </div>
     )
   }
+}
+
+DomainNoActionContainer.propTypes = {
+  domain: PropTypes.string
 }
 
 export default DomainNoActionContainer

@@ -1,11 +1,11 @@
-function url(ticker) {
+function url (ticker) {
   return `https://api.coinmarketcap.com/v1/ticker/${ticker}/?convert=USD`
 }
 
-async function priceStats() {
+async function priceStats () {
   const result = await Promise.all([
-    fetch(url('ethereum')),
-    fetch(url('adtoken'))
+    window.fetch(url('ethereum')),
+    window.fetch(url('adtoken'))
   ])
 
   const result1 = await result[0].json()

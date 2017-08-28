@@ -1,12 +1,18 @@
 import React, { Component } from 'react'
-import commafy from 'commafy'
+import PropTypes from 'prop-types'
 import toastr from 'toastr'
 import moment from 'moment'
+import bip39 from 'bip39'
 
 import registry from '../services/registry'
 import DomainVoteCommitInProgressContainer from './DomainVoteCommitInProgressContainer'
 
 import './DomainVoteCommitContainer.css'
+
+var mnemonic = bip39.generateMnemonic()
+var three = mnemonic.split(' ').splice(0, 3)
+
+console.log(three)
 
 class DomainVoteCommitContainer extends Component {
   constructor (props) {
@@ -32,7 +38,6 @@ class DomainVoteCommitContainer extends Component {
 
   render () {
     const {
-      applicationExpiry,
       commitEndDate,
       didChallenge,
       inProgress,
@@ -79,20 +84,20 @@ The first phase of the voting process is the commit phase where the ADT holder s
                   <input
                     type='text'
                     placeholder='100'
-                    onKeyUp={event => this.setState({stake: event.target.value|0})}
+                    onKeyUp={event => this.setState({stake: event.target.value | 0})}
                   />
                 </div>
               </div>
               <div className='ui field'>
                 <button
                   onClick={this.onVote}
-                  data-option="support"
+                  data-option='support'
                   className='ui button blue'>
                   SUPPORT
                 </button>
                 <button
                   onClick={this.onVote}
-                  data-option="oppose"
+                  data-option='oppose'
                   className='ui button purple'>
                   OPPOSE
                 </button>
@@ -159,11 +164,11 @@ The first phase of the voting process is the commit phase where the ADT holder s
 
     const {target} = event
     const option = target.dataset.option
-    const {domain, stake:votes, salt} = this.state
+    const {domain, stake: votes, salt} = this.state
     const voteOption = (option === 'support' ? 1 : 0)
 
     try {
-      const result = await registry.commitVote({domain, votes, voteOption, salt})
+      await registry.commitVote({domain, votes, voteOption, salt})
       toastr.success('Success')
       this.setState({
         inProgress: false
@@ -175,6 +180,10 @@ The first phase of the voting process is the commit phase where the ADT holder s
       })
     }
   }
+}
+
+DomainVoteCommitContainer.propTypes = {
+  domain: PropTypes.string
 }
 
 export default DomainVoteCommitContainer

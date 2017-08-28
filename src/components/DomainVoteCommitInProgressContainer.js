@@ -1,14 +1,10 @@
 import React, { Component } from 'react'
-import toastr from 'toastr'
-
-import registry from '../services/registry'
 
 import './DomainVoteCommitInProgressContainer.css'
 
 class DomainVoteCommitInProgressContainer extends Component {
   constructor (props) {
     super()
-
   }
 
   render () {

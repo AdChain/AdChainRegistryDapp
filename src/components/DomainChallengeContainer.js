@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import commafy from 'commafy'
 import toastr from 'toastr'
 import moment from 'moment'
@@ -116,6 +117,10 @@ class DomainChallengeContainer extends Component {
       toastr.error('Domain not in application')
     }
   }
+}
+
+DomainChallengeContainer.propTypes = {
+  domain: PropTypes.string
 }
 
 export default DomainChallengeContainer

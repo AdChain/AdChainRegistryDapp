@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+//import PropTypes from 'prop-types'
 
 import './MainSidebar.css'
 
@@ -68,9 +69,15 @@ class MainSidebar extends Component {
             All rights reserved.</p>
           </div>
         </div>
-    </div>
+      </div>
     )
   }
+}
+
+MainSidebar.propTypes = {
+/*
+  Link: PropTypes.function
+*/
 }
 
 export default MainSidebar

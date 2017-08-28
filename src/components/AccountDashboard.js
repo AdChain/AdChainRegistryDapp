@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 
 import DomainsTable from './DomainsTable'
 
@@ -42,6 +43,10 @@ class AccountDashboard extends Component {
       </div>
     )
   }
+}
+
+AccountDashboard.propTypes = {
+  history: PropTypes.object
 }
 
 export default AccountDashboard

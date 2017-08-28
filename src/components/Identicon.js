@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import blockies from 'blockies'
 
 import './Identicon.css'
@@ -20,6 +21,12 @@ function Identicon (props) {
       <img src={dataUrl} alt='' />
     </div>
   )
+}
+
+Identicon.propTypes = {
+  address: PropTypes.string,
+  size: PropTypes.number,
+  scale: PropTypes.number
 }
 
 export default Identicon

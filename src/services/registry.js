@@ -8,7 +8,7 @@ import token from './token'
 import plcr from './plcr'
 import parameterizer from './parameterizer'
 import saltHashVote from '../utils/saltHashVote'
-const {registry:address} = require('../config/address.json')
+const { registry: address } = require('../config/address.json')
 const abi = require('../config/registry.json').abi
 
 const parameters = keyMirror({
@@ -47,7 +47,7 @@ class RegistryService {
     return window.web3.eth.defaultAccount
   }
 
-  async apply (domain, deposit=0) {
+  async apply (domain, deposit = 0) {
     return new Promise(async (resolve, reject) => {
       if (!domain) {
         reject(new Error('Domain is required'))
@@ -66,7 +66,7 @@ class RegistryService {
       }
 
       try {
-        const approveTx = await token.approve(this.address, deposit)
+        await token.approve(this.address, deposit)
         await this.forceMine()
       } catch (error) {
         reject(error)
@@ -74,7 +74,7 @@ class RegistryService {
       }
 
       try {
-        const applyTx = await pify(this.registry.apply)(domain)
+        await pify(this.registry.apply)(domain)
       } catch (error) {
         reject(error)
         return false
@@ -110,7 +110,7 @@ class RegistryService {
       }
 
       try {
-        const approveTx = await token.approve(this.address, minDeposit)
+        await token.approve(this.address, minDeposit)
         await this.forceMine()
         await this.forceMine()
       } catch (error) {
@@ -138,7 +138,7 @@ class RegistryService {
         })
 
         resolve(challengeId)
-      } catch(error) {
+      } catch (error) {
         reject(error)
         return false
       }
@@ -197,7 +197,7 @@ class RegistryService {
     })
   }
 
-  async getListing(domain) {
+  async getListing (domain) {
     return new Promise(async (resolve, reject) => {
       if (!domain) {
         reject(new Error('Domain is required'))
@@ -229,7 +229,7 @@ class RegistryService {
     })
   }
 
-  async getChallenge(challengeId) {
+  async getChallenge (challengeId) {
     return new Promise(async (resolve, reject) => {
       if (!challengeId) {
         reject(new Error('Challenge ID is required'))
@@ -513,7 +513,6 @@ class RegistryService {
         this.initContract()
       }
 
-
       let challengeId = null
 
       try {
@@ -537,7 +536,6 @@ class RegistryService {
 
   getChallengePoll (domain) {
     return new Promise(async (resolve, reject) => {
-
       try {
         const challengeId = await this.getChallengeId(domain)
         const result = await plcr.getPoll(challengeId)
@@ -604,6 +602,7 @@ class RegistryService {
     })
   }
 
+  // TODO
   async forceMine (block) {
     if (this.miningStarted) {
       await wait(3000)
@@ -611,7 +610,7 @@ class RegistryService {
     }
 
     return new Promise(async (resolve, reject) => {
-      //const blockNumber = await this.getCurrentBlockNumber()
+      // const blockNumber = await this.getCurrentBlockNumber()
       /*
       const result = await pify(window.web3.currentProvider.sendAsync)({
           jsonrpc: '2.0',
@@ -628,7 +627,7 @@ class RegistryService {
 
       this.miningStarted = true
 
-      //resolve(result)
+      // resolve(result)
     })
   }
 }

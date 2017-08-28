@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import toastr from 'toastr'
 import isValidDomain from 'is-valid-domain'
 import isValidEmail from 'is-valid-email'
@@ -23,6 +24,7 @@ class PublisherApplicationForm extends Component {
     }
 
     this.history = props.history
+    this.onFormSubmit = this.onFormSubmit.bind(this)
 
     this.getMinDeposit()
   }
@@ -56,7 +58,7 @@ class PublisherApplicationForm extends Component {
           </div>
           <div className='column sixteen wide left aligned'>
             <form
-              onSubmit={this.onFormSubmit.bind(this)}
+              onSubmit={this.onFormSubmit}
               className='ui form'>
               <div className='field required'>
                 <label>Domain</label>
@@ -210,10 +212,30 @@ class PublisherApplicationForm extends Component {
   }
 
   // TODO save to DB
-  save (data) {
+  async save (data) {
     toastr.success('Submitted')
+
+    let domains = null
+
+    try {
+      domains = JSON.parse(window.localStorage.getItem('domains'))
+    } catch (error) {
+
+    }
+
+    if (!domains) {
+      domains = []
+    }
+
+    domains.push(data.domain)
+    window.localStorage.setItem('domains', JSON.stringify(domains))
+
     return Promise.resolve()
   }
+}
+
+PublisherApplicationForm.propTypes = {
+  history: PropTypes.object
 }
 
 export default PublisherApplicationForm
