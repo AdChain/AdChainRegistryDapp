@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import commafy from 'commafy'
 
 import DomainProfileComments from './DomainProfileComments'
@@ -74,6 +75,11 @@ class DomainProfileInfo extends Component {
       </div>
     )
   }
+}
+
+DomainProfileInfo.propTypes = {
+  domain: PropTypes.string,
+  description: PropTypes.string
 }
 
 export default DomainProfileInfo

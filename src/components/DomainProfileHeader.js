@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 import Identicon from './Identicon'
 
@@ -32,6 +33,13 @@ function DomainProfileHeader (props) {
       </div>
     </div>
   )
+}
+
+DomainProfileHeader.propTypes = {
+  domain: PropTypes.string,
+  name: PropTypes.string,
+  country: PropTypes.string,
+  image: PropTypes.string
 }
 
 export default DomainProfileHeader

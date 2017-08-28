@@ -4,5 +4,7 @@
     "standard",
     "promise"
   ],
-  "react/jsx-uses-vars": [2]
+  "rules": {
+    "react/jsx-uses-vars": [2]
+  }
 }

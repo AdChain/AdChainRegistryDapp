@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 
 import PublisherApplicationForm from './PublisherApplicationForm'
 import PublisherApplicationInfo from './PublisherApplicationInfo'
@@ -25,13 +26,17 @@ class ApplicationContainer extends Component {
               <PublisherApplicationInfo />
             </div>
             <div className='row'>
-              <RegistryStatsbar showHeader={true} />
+              <RegistryStatsbar showHeader />
             </div>
           </div>
         </div>
       </div>
     )
   }
+}
+
+ApplicationContainer.propTypes = {
+  history: PropTypes.object
 }
 
 export default ApplicationContainer

@@ -1,6 +1,6 @@
 import pify from 'pify'
 
-const {parameterizer:address} = require('../config/address.json')
+const { parameterizer: address } = require('../config/address.json')
 const abi = require('../config/parameterizer.json').abi
 
 class ParameterizerService {

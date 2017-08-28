@@ -1,14 +1,10 @@
 import React, { Component } from 'react'
-import toastr from 'toastr'
-
-import registry from '../services/registry'
 
 import './PublisherApplicationFormInProgress.css'
 
 class PublisherApplicationFormInProgress extends Component {
   constructor (props) {
     super()
-
   }
 
   render () {

@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import commafy from 'commafy'
 import toastr from 'toastr'
 import moment from 'moment'
@@ -33,8 +34,6 @@ class DomainVoteRevealContainer extends Component {
 
   render () {
     const {
-      applicationExpiry,
-      domain,
       votesFor,
       votesAgainst,
       revealEndDate,
@@ -180,7 +179,7 @@ The first phase of the voting process is the commit phase where the ADT holder s
     })
 
     try {
-      const result = await registry.revealVote({domain, voteOption, salt})
+      await registry.revealVote({domain, voteOption, salt})
       toastr.success('Success')
       this.setState({
         inProgress: false
@@ -192,6 +191,10 @@ The first phase of the voting process is the commit phase where the ADT holder s
       })
     }
   }
+}
+
+DomainVoteRevealContainer.propTypes = {
+  domain: PropTypes.string
 }
 
 export default DomainVoteRevealContainer

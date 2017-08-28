@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import commafy from 'commafy'
 
 import './DomainStatsbar.css'
@@ -26,9 +27,6 @@ class DomainStatsbar extends Component {
   render () {
     const {
       domain,
-      //monthlyVisits,
-      //pagesPerVisit,
-      //avgVisitDuration,
       dailyPageViewsPerVisitor,
       dailyTimeOnSite,
       bounceRate,
@@ -66,10 +64,10 @@ class DomainStatsbar extends Component {
           </div>
           <div className='Source'>
             <span>Source: </span>
-          <a
-            href={`http://www.alexa.com/siteinfo/${domain}`}
-            target='_blank'
-            rel='noopener noreferrer'>Alexa</a>
+            <a
+              href={`http://www.alexa.com/siteinfo/${domain}`}
+              target='_blank'
+              rel='noopener noreferrer'>Alexa</a>
           </div>
         </div>
       </div>
@@ -79,7 +77,7 @@ class DomainStatsbar extends Component {
   async fetchStats () {
     const {domain} = this.state
 
-    const response = await fetch(`https://adchain-registry-api.metax.io/domain/stats?domain=${domain}`)
+    const response = await window.fetch(`https://adchain-registry-api.metax.io/domain/stats?domain=${domain}`)
     const data = await response.json()
 
     this.setState({
@@ -91,6 +89,10 @@ class DomainStatsbar extends Component {
       totalSitesLinkingIn: data.totalSitesLinkingIn
     })
   }
+}
+
+DomainStatsbar.propTypes = {
+  domain: PropTypes.string
 }
 
 export default DomainStatsbar

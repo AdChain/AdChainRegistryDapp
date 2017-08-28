@@ -70,7 +70,7 @@ class MainTopbar extends Component {
     )
   }
 
-  async updateBalance() {
+  async updateBalance () {
     try {
       const balance = await token.balanceOf(this.state.accounts[0])
 

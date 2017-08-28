@@ -4,7 +4,7 @@ const ONE_SECOND = 1000
 const ONE_MINUTE = ONE_SECOND * 60
 
 class Web3Service {
-  constructor() {
+  constructor () {
     this.accounts = []
     this.accountsError = null
     this.selectedAccount = null
@@ -27,7 +27,7 @@ class Web3Service {
      * Start polling accounts, & network. We poll indefinitely so that we can
      * react to the user changing accounts or netowrks.
      */
-    //this.initWeb3Poll()
+    // this.initWeb3Poll()
     this.fetchAccounts()
     this.fetchNetwork()
     this.initPoll()
@@ -54,7 +54,7 @@ class Web3Service {
    * Init web3/account polling, and prevent duplicate interval.
    * @return {void}
    */
-  initPoll() {
+  initPoll () {
     if (!this.interval) {
       this.interval = setInterval(this.fetchAccounts, ONE_SECOND)
     }
@@ -64,7 +64,7 @@ class Web3Service {
    * Init network polling, and prevent duplicate intervals.
    * @return {void}
    */
-  initNetworkPoll() {
+  initNetworkPoll () {
     if (!this.networkInterval) {
       this.networkInterval = setInterval(this.fetchNetwork, ONE_MINUTE)
     }
@@ -74,7 +74,7 @@ class Web3Service {
    * Update state regarding the availability of web3 and an ETH account.
    * @return {void}
    */
-  fetchAccounts() {
+  fetchAccounts () {
     const { web3 } = window
     const ethAccounts = this.getAccounts()
 
@@ -94,7 +94,7 @@ class Web3Service {
     }
   }
 
-  handleAccounts(accounts, isConstructor = false) {
+  handleAccounts (accounts, isConstructor = false) {
     let next = accounts[0]
     let curr = this.accounts[0]
     next = next && next.toLowerCase()
@@ -127,7 +127,7 @@ class Web3Service {
    * Get the network and update state accordingly.
    * @return {void}
    */
-  fetchNetwork() {
+  fetchNetwork () {
     const { web3 } = window
 
     web3 && web3.version && web3.version.getNetwork((err, netId) => {
@@ -156,7 +156,7 @@ class Web3Service {
    * will throw if no account is selected.
    * @return {String}
    */
-  getAccounts() {
+  getAccounts () {
     try {
       const { web3 } = window
       // throws if no account selected

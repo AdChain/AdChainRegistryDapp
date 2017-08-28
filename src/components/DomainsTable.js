@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import ReactTable from 'react-table'
 import commafy from 'commafy'
-import capitalize from 'capitalize'
 import moment from 'moment'
 
 import 'react-table/react-table.css'
@@ -9,7 +9,7 @@ import './DomainsTable.css'
 
 import store from '../store'
 import registry from '../services/registry'
-import StatProgressBar from './StatProgressBar'
+// import StatProgressBar from './StatProgressBar'
 
 function filterMethod (filter, row, column) {
   const id = filter.pivotId || filter.id
@@ -91,7 +91,7 @@ class DomainsTable extends Component {
           <a href='' className='Domain' onClick={(event) => {
           event.preventDefault()
 
-          let {domain, stage} = props.row
+          let { domain, stage } = props.row
 
           if (stage === 'apply') {
             history.push(`/apply/?domain=${domain}`)
@@ -168,7 +168,7 @@ class DomainsTable extends Component {
         }
 
         return <span>{label} <a
-            href='#'
+            href='#!'
             title='Refresh status'
             onClick={(event) => {
               event.preventDefault()
@@ -233,13 +233,12 @@ class DomainsTable extends Component {
     return columns
   }
 
-  async getData() {
-    const domains = ['foo.net', 'nytimes.com', 'wsj.com', 'cbs.com', 'cnn.com']
+  async getData () {
+    let domains = []
 
-    const currentBlockNumber = await registry.getCurrentBlockNumber()
-    const currentBlockTimestamp = await registry.getCurrentBlockTimestamp()
-    const applyStageBlocks = await registry.getParameter('applyStageLen')
-    const currentTimestamp = moment().unix()
+    try {
+      domains = JSON.parse(window.localStorage.getItem('domains'))
+    } catch (error) {}
 
     const data = await Promise.all(domains.map(async domain => {
       return new Promise(async (resolve, reject) => {
@@ -248,9 +247,7 @@ class DomainsTable extends Component {
         const {
           applicationExpiry,
           isWhitelisted,
-          ownerAddress,
-          currentDeposit,
-          challengeId,
+          challengeId
         } = listing
 
         const item = {
@@ -266,7 +263,7 @@ class DomainsTable extends Component {
         const challengeOpen = (challengeId === 0 && !isWhitelisted && applicationExpiry)
         const commitOpen = await registry.commitPeriodActive(domain)
         const revealOpen = await registry.revealPeriodActive(domain)
-        const pollEnded = await registry.pollEnded(domain)
+        // const pollEnded = await registry.pollEnded(domain)
 
         if (isWhitelisted) {
           item.stage = 'in_registry'
@@ -275,12 +272,10 @@ class DomainsTable extends Component {
         } else if (challengeOpen) {
           item.stage = 'in_application'
           item.stageEnds = moment.unix(applicationExpiry).format('YYYY-MM-DD HH:mm:ss')
-          applicationExpiry
         } else if (commitOpen) {
           item.stage = 'voting_commit'
           const {
-            commitEndDate,
-            revealEndDate
+            commitEndDate
           } = await registry.getChallengePoll(domain)
           item.stageEnds = moment.unix(commitEndDate).format('YYYY-MM-DD HH:mm:ss')
         } else if (revealOpen) {
@@ -315,6 +310,11 @@ class DomainsTable extends Component {
 
     this.getData()
   }
+}
+
+DomainsTable.propTypes = {
+  filters: PropTypes.array,
+  history: PropTypes.object
 }
 
 export default DomainsTable

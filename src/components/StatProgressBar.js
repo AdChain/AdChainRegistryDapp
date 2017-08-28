@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 
 import './StatProgressBar.css'
 
@@ -73,6 +74,14 @@ class StatProgressBar extends Component {
       </div>
     )
   }
+}
+
+StatProgressBar.propTypes = {
+  fills: PropTypes.array,
+  fill: PropTypes.number,
+  showFillLabels: PropTypes.array,
+  showLegend: PropTypes.boolean,
+  fillLabels: PropTypes.array
 }
 
 export default StatProgressBar

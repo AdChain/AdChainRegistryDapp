@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import moment from 'moment'
+import PropTypes from 'prop-types'
 
 import store from '../store'
 import registry from '../services/registry'
@@ -61,20 +61,15 @@ class DomainProfileActionContainer extends Component {
     )
   }
 
-  async getData() {
+  async getData () {
     const {domain} = this.state
-
-    const applyStageBlocks = await registry.getParameter('applyStageLen')
-    const currentTimestamp = moment().unix()
 
     const listing = await registry.getListing(domain)
 
     const {
       applicationExpiry,
       isWhitelisted,
-      ownerAddress,
-      currentDeposit,
-      challengeId,
+      challengeId
     } = listing
 
     const challengeOpen = (challengeId === 0 && !isWhitelisted && applicationExpiry)
@@ -99,6 +94,11 @@ class DomainProfileActionContainer extends Component {
       action
     })
   }
+}
+
+DomainProfileActionContainer.propTypes = {
+  domain: PropTypes.string,
+  action: PropTypes.string
 }
 
 export default DomainProfileActionContainer

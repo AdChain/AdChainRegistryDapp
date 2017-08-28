@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 
 import './DomainsFilterPanel.css'
 
@@ -123,6 +124,11 @@ class DomainsFilterPanel extends Component {
     this.setState({filters})
     this.onFiltersChange(filters)
   }
+}
+
+DomainsFilterPanel.propTypes = {
+  filters: PropTypes.object,
+  onFiltersChange: PropTypes.function
 }
 
 export default DomainsFilterPanel

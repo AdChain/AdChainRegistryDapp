@@ -1,6 +1,6 @@
 import pify from 'pify'
 
-const {token:address} = require('../config/address.json')
+const { token: address } = require('../config/address.json')
 const abi = require('../config/token.json').abi
 
 class TokenService {
@@ -105,7 +105,7 @@ class TokenService {
     })
   }
 
-  async approve (sender, value=0) {
+  async approve (sender, value = -1) {
     return new Promise(async (resolve, reject) => {
       if (!sender) {
         reject(new Error('Sender is required'))
@@ -120,7 +120,7 @@ class TokenService {
         const result = await pify(this.token.approve)(sender, value)
         resolve(result)
         return false
-      } catch(error) {
+      } catch (error) {
         reject(error)
         return false
       }

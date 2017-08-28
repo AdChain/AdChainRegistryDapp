@@ -12,23 +12,23 @@ import { createStore } from 'redux'
  * follows a different convention (such as function maps) if it makes sense for your
  * project.
  */
-function reducer(state = 0, action) {
+function reducer (state = -1, action) {
   switch (action.type) {
-  case 'WEB3_RECEIVE_ACCOUNT':
-  case 'WEB3_FETCH_ACCOUNT_ERROR':
-  case 'WEB3_CHANGE_ACCOUNT':
-  case 'WEB3_CHANGE_NETWORK':
-  case 'WEB3_FETCH_NETWORK_ERROR':
-  case 'REGISTRY_DOMAIN_APPLY':
-  case 'REGISTRY_DOMAIN_CHALLENGE':
-  case 'REGISTRY_DOMAIN_VOTE_COMMIT':
-  case 'REGISTRY_DOMAIN_VOTE_REVEAL':
-  case 'REGISTRY_DOMAIN_UPDATE_STATUS':
-  case 'PLCR_VOTE_COMMIT':
-  case 'PLCR_VOTE_REVEAL':
-    return state + 1
-  default:
-    return state
+    case 'WEB3_RECEIVE_ACCOUNT':
+    case 'WEB3_FETCH_ACCOUNT_ERROR':
+    case 'WEB3_CHANGE_ACCOUNT':
+    case 'WEB3_CHANGE_NETWORK':
+    case 'WEB3_FETCH_NETWORK_ERROR':
+    case 'REGISTRY_DOMAIN_APPLY':
+    case 'REGISTRY_DOMAIN_CHALLENGE':
+    case 'REGISTRY_DOMAIN_VOTE_COMMIT':
+    case 'REGISTRY_DOMAIN_VOTE_REVEAL':
+    case 'REGISTRY_DOMAIN_UPDATE_STATUS':
+    case 'PLCR_VOTE_COMMIT':
+    case 'PLCR_VOTE_REVEAL':
+      return state + 1
+    default:
+      return state
   }
 }
 

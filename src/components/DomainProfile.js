@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import qs from 'qs'
 
 import DomainProfileHeader from './DomainProfileHeader'
@@ -66,6 +67,11 @@ class DomainProfile extends Component {
       </div>
     )
   }
+}
+
+DomainProfile.propTypes = {
+  location: PropTypes.object,
+  match: PropTypes.object
 }
 
 export default DomainProfile

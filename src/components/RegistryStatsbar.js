@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import commafy from 'commafy'
 
 import './RegistryStatsbar.css'
@@ -79,6 +80,10 @@ class RegistryStatsbar extends Component {
       </div>
     )
   }
+}
+
+RegistryStatsbar.propTypes = {
+  showHeader: PropTypes.bool
 }
 
 export default RegistryStatsbar
