@@ -2,8 +2,3 @@
   position: relative;
 }
 
-:root .DomainVoteCommitContainer .form .input input {
-  max-width: 220px;
-  margin: 0 auto;
-  text-align: center;
-}

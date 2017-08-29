@@ -2,49 +2,53 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import toastr from 'toastr'
 import moment from 'moment'
-import bip39 from 'bip39'
+import { Radio } from 'semantic-ui-react'
+import randomInt from 'random-int'
 
+import Countdown from './CountdownText'
 import registry from '../services/registry'
 import DomainVoteCommitInProgressContainer from './DomainVoteCommitInProgressContainer'
 
 import './DomainVoteCommitContainer.css'
 
-var mnemonic = bip39.generateMnemonic()
-var three = mnemonic.split(' ').splice(0, 3)
-
-console.log(three)
-
 class DomainVoteCommitContainer extends Component {
   constructor (props) {
     super()
 
+    const salt = randomInt(1e6, 1e8)
+
     this.state = {
-      stake: 0,
+      votes: 0,
       domain: props.domain,
       applicationExpiry: null,
       commitEndDate: null,
       revealEndDate: null,
       didChallenge: null,
       inProgress: false,
-      salt: 123
+      salt,
+      voteOption: null
     }
 
     this.getListing()
     this.getPoll()
     this.getChallenge()
 
-    this.onVote = this.onVote.bind(this)
+    this.onVoteOptionChange = this.onVoteOptionChange.bind(this)
+    this.onFormSubmit = this.onFormSubmit.bind(this)
   }
 
   render () {
     const {
+      domain,
       commitEndDate,
       didChallenge,
       inProgress,
-      salt
+      salt,
+      voteOption
     } = this.state
 
-    const stageEnd = commitEndDate ? moment.unix(commitEndDate).format('YYYY-MM-DD HH:mm:ss') : '-'
+    const stageEndMoment = commitEndDate ? moment.unix(commitEndDate) : null
+    const stageEnd = stageEndMoment ? stageEndMoment.format('YYYY-MM-DD HH:mm:ss') : '-'
 
     return (
       <div className='DomainVoteCommitContainer'>
@@ -54,8 +58,8 @@ class DomainVoteCommitContainer extends Component {
               VOTING – COMMIT
             </div>
           </div>
-          {didChallenge ? <div className='column sixteen wide'>
-            <div className='ui message info'>
+          {didChallenge ? <div className='column sixteen wide center aligned'>
+            <div className='ui message warning'>
               You've challenged this domain.
             </div>
           </div>
@@ -65,18 +69,23 @@ class DomainVoteCommitContainer extends Component {
 The first phase of the voting process is the commit phase where the ADT holder stakes a hidden amount of ADT to SUPPORT or OPPOSE the domain application. The second phase is the reveal phase where the ADT holder reveals the staked amount of ADT to either the SUPPORT or OPPOSE side.
             </p>
           </div>
+          <div className='ui divider' />
           <div className='column sixteen wide center aligned'>
-            <div className='ui divider' />
-            <p>
-            Voting commit stage ends
-            </p>
-            <p><strong>{stageEnd}</strong></p>
-            <div className='ui divider' />
+            <div className='ui message info'>
+              <p>
+              Voting commit stage ends
+              </p>
+              <p><strong>{stageEnd}</strong></p>
+              <p>Remaning time: <Countdown endDate={stageEndMoment} /></p>
+            </div>
           </div>
+          <div className='ui divider' />
           <div className='column sixteen wide center aligned'>
-            <form className='ui form center aligned'>
+            <form
+              onSubmit={this.onFormSubmit}
+              className='ui form center aligned'>
               <div className='ui field'>
-                Salt: {salt}
+                <label>VOTE or OPPOSE {domain}</label>
               </div>
               <div className='ui field'>
                 <label>Enter ADT to Commit</label>
@@ -84,22 +93,46 @@ The first phase of the voting process is the commit phase where the ADT holder s
                   <input
                     type='text'
                     placeholder='100'
-                    onKeyUp={event => this.setState({stake: event.target.value | 0})}
+                    onKeyUp={event => this.setState({votes: event.target.value | 0})}
                   />
                 </div>
               </div>
               <div className='ui field'>
+                <label>Vote Option</label>
+              </div>
+              <div className='ui two fields VoteOptions'>
+                <div className='ui field'>
+                  <Radio
+                    label='SUPPORT'
+                    name='voteOption'
+                    value='1'
+                    checked={this.state.voteOption === 1}
+                    onChange={this.onVoteOptionChange}
+                  />
+                </div>
+                <div className='ui field'>
+                  <Radio
+                    label='OPPOSE'
+                    name='voteOption'
+                    value='0'
+                    checked={this.state.voteOption === 0}
+                    onChange={this.onVoteOptionChange}
+                  />
+                </div>
+              </div>
+              <div className='ui field'>
+                <label>Salt<br/><small>PLEASE SAVE THIS. This will be required to reveal your vote and claim rewards.</small></label>
+                <div className='ui message default'>
+                  {salt}
+                </div>
+              </div>
+              <div className='ui field'>
                 <button
-                  onClick={this.onVote}
-                  data-option='support'
-                  className='ui button blue'>
-                  SUPPORT
-                </button>
-                <button
-                  onClick={this.onVote}
-                  data-option='oppose'
-                  className='ui button purple'>
-                  OPPOSE
+                  type="submit"
+                  className={`ui button ${voteOption === 1 ? 'blue' : (voteOption === 0 ? 'purple' : 'disabled')}`}>
+                  {voteOption === null ?
+                    <span>Select Vote Option</span> :
+                    <span>VOTE TO {voteOption ? 'SUPPORT' : 'OPPOSE'}</span> }
                 </button>
               </div>
             </form>
@@ -108,6 +141,18 @@ The first phase of the voting process is the commit phase where the ADT holder s
         {inProgress ? <DomainVoteCommitInProgressContainer /> : null}
       </div>
     )
+  }
+
+  onVoteOptionChange (event, { value }) {
+    this.setState({
+      voteOption: parseInt(value, 10)
+    })
+  }
+
+  onFormSubmit (event) {
+    event.preventDefault()
+
+    this.commit()
   }
 
   async getListing () {
@@ -155,17 +200,22 @@ The first phase of the voting process is the commit phase where the ADT holder s
     }
   }
 
-  async onVote (event) {
-    event.preventDefault()
+  async commit () {
+    const {
+      domain,
+      votes,
+      salt,
+      voteOption
+    } = this.state
+
+    if (voteOption === null) {
+      toastr.error('Please select a vote option')
+      return false
+    }
 
     this.setState({
       inProgress: true
     })
-
-    const {target} = event
-    const option = target.dataset.option
-    const {domain, stake: votes, salt} = this.state
-    const voteOption = (option === 'support' ? 1 : 0)
 
     try {
       await registry.commitVote({domain, votes, voteOption, salt})

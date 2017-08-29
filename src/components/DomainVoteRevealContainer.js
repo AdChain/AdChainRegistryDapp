@@ -3,7 +3,9 @@ import PropTypes from 'prop-types'
 import commafy from 'commafy'
 import toastr from 'toastr'
 import moment from 'moment'
+import { Radio } from 'semantic-ui-react'
 
+import Countdown from './CountdownText'
 import registry from '../services/registry'
 import DomainVoteRevealInProgressContainer from './DomainVoteRevealInProgressContainer'
 import StatProgressBar from './StatProgressBar'
@@ -23,9 +25,12 @@ class DomainVoteRevealContainer extends Component {
       revealEndDate: null,
       inProgress: false,
       didChallenge: false,
-      salt: 123,
-      voteOption: 1
+      salt: null,
+      voteOption: null
     }
+
+    this.onVoteOptionChange = this.onVoteOptionChange.bind(this)
+    this.onFormSubmit = this.onFormSubmit.bind(this)
 
     this.getListing()
     this.getPoll()
@@ -39,11 +44,11 @@ class DomainVoteRevealContainer extends Component {
       revealEndDate,
       inProgress,
       didChallenge,
-      salt,
       voteOption
     } = this.state
 
-    const stageEnd = revealEndDate ? moment.unix(revealEndDate).format('YYYY-MM-DD HH:mm:ss') : '-'
+    const stageEndMoment = revealEndDate ? moment.unix(revealEndDate) : null
+    const stageEnd = stageEndMoment ? stageEndMoment.format('YYYY-MM-DD HH:mm:ss') : '-'
 
     // "N | 0" coerces to int
     const totalVotes = ((votesFor + votesAgainst) | 0)
@@ -59,7 +64,7 @@ class DomainVoteRevealContainer extends Component {
             </div>
           </div>
           {didChallenge ? <div className='column sixteen wide'>
-            <div className='ui message info'>
+            <div className='ui message warning'>
               You've challenged this domain.
             </div>
           </div>
@@ -69,8 +74,8 @@ class DomainVoteRevealContainer extends Component {
 The first phase of the voting process is the commit phase where the ADT holder stakes a hidden amount of ADT to SUPPORT or OPPOSE the domain application. The second phase is the reveal phase where the ADT holder reveals the staked amount of ADT to either the SUPPORT or OPPOSE side.
             </p>
           </div>
+          <div className='ui divider' />
           <div className='column sixteen wide center aligned ProgressContainer'>
-            <div className='ui divider' />
             <p>
               ADT holders have revealed their vote to show:
             </p>
@@ -93,36 +98,72 @@ The first phase of the voting process is the commit phase where the ADT holder s
               </div>
             </div>
           </div>
+          <div className='ui divider' />
           <div className='column sixteen wide center aligned'>
-            <div className='ui divider' />
-            <p>
-          Total ADT already committed by the general ADT community:
-            </p>
-            <p>
-              <strong>{commafy(totalVotes)} ADT</strong>
-            </p>
-            <div className='ui divider' />
-            <p>
-          Reveal stage ends
-            </p>
-            <p><strong>{stageEnd}</strong></p>
-            <div className='ui divider' />
+            <div className='ui message info'>
+              <p>
+            Reveal stage ends
+              </p>
+              <p><strong>{stageEnd}</strong></p>
+              <p>Remaning time: <Countdown endDate={stageEndMoment} /></p>
+            </div>
           </div>
+          <div className='ui divider' />
           <div className='column sixteen wide center aligned'>
-            Salt: {salt}
-            Vote Option: {voteOption ? 'support' : 'oppose'}
-          </div>
-          <div className='column sixteen wide center aligned'>
-            <button
-              onClick={this.onReveal.bind(this)}
-              className='ui button blue'>
-              REVEAL
-            </button>
+            <form
+              onSubmit={this.onFormSubmit}
+              className='ui form'>
+              <div className='ui field'>
+                <label>Salt</label>
+                <div className='ui input small'>
+                  <input
+                    type='text'
+                    placeholder='words'
+                    onKeyUp={event => this.setState({salt: parseInt(event.target.value, 10)})}
+                  />
+                </div>
+              </div>
+              <div className='ui two fields VoteOptions'>
+                <div className='ui field'>
+                  <Radio
+                    label='SUPPORT'
+                    name='voteOption'
+                    value='1'
+                    checked={this.state.voteOption === 1}
+                    onChange={this.onVoteOptionChange}
+                  />
+                </div>
+                <div className='ui field'>
+                  <Radio
+                    label='OPPOSE'
+                    name='voteOption'
+                    value='0'
+                    checked={this.state.voteOption === 0}
+                    onChange={this.onVoteOptionChange}
+                  />
+                </div>
+              </div>
+              <div className='ui field'>
+                <button
+                  type="submit"
+                  className={`ui button ${voteOption === 1 ? 'blue' : (voteOption === 0 ? 'purple' : 'disabled')}`}>
+                  {voteOption === null ?
+                    <span>Select Vote Option</span> :
+                    <span>REVEAL {voteOption ? 'SUPPORT' : 'OPPOSE'} VOTE</span> }
+                </button>
+              </div>
+            </form>
           </div>
         </div>
         {inProgress ? <DomainVoteRevealInProgressContainer /> : null}
       </div>
     )
+  }
+
+  onVoteOptionChange (event, { value }) {
+    this.setState({
+      voteOption: parseInt(value, 10)
+    })
   }
 
   async getListing () {
@@ -169,10 +210,24 @@ The first phase of the voting process is the commit phase where the ADT holder s
     }
   }
 
-  async onReveal (event) {
+  onFormSubmit (event) {
     event.preventDefault()
 
+    this.reveal()
+  }
+
+  async reveal () {
     const {domain, salt, voteOption} = this.state
+
+    if (!salt) {
+      toastr.error('Please enter salt value')
+      return false
+    }
+
+    if (voteOption === null) {
+      toastr.error('Please select a vote option')
+      return false
+    }
 
     this.setState({
       inProgress: true
