@@ -1,5 +1,4 @@
 import pify from 'pify'
-import wait from 'promise-wait'
 
 import token from './token'
 import store from '../store'
@@ -169,7 +168,6 @@ class PlcrService {
       }
 
       try {
-        await wait(1000)
         const result = await pify(this.plcr.commitVote)(pollId, hash, tokens, prevPollId)
         await this.forceMine()
 

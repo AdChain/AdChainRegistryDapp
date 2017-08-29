@@ -74,7 +74,7 @@ class RegistryService {
       }
 
       try {
-        await pify(this.registry.apply)(domain)
+        await pify(this.registry.apply)(domain, deposit)
       } catch (error) {
         reject(error)
         return false
@@ -318,7 +318,6 @@ class RegistryService {
       }
 
       try {
-        await this.forceMine()
         const result = await pify(this.registry.updateStatus)(domain)
 
         store.dispatch({

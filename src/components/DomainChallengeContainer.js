@@ -4,6 +4,7 @@ import commafy from 'commafy'
 import toastr from 'toastr'
 import moment from 'moment'
 
+import Countdown from './CountdownText'
 import registry from '../services/registry'
 import DomainChallengeInProgressContainer from './DomainChallengeInProgressContainer'
 
@@ -26,12 +27,14 @@ class DomainChallengeContainer extends Component {
 
   render () {
     const {
+      domain,
       applicationExpiry,
       minDeposit,
       inProgress
     } = this.state
 
-    const stageEnd = applicationExpiry ? moment.unix(applicationExpiry).format('YYYY-MM-DD HH:mm:ss') : '-'
+    const stageEndMoment = applicationExpiry ? moment.unix(applicationExpiry) : null
+    const stageEnd = stageEndMoment ? stageEndMoment.format('YYYY-MM-DD HH:mm:ss') : '-'
 
     return (
       <div className='DomainChallengeContainer'>
@@ -44,21 +47,34 @@ class DomainChallengeContainer extends Component {
           <div className='column sixteen wide'>
             <p>ADT holders are encouraged to challenge publisher applications where the token holders believe the Publisher to be fraudulent.</p>
           </div>
+          <div className='ui divider' />
           <div className='column sixteen wide center aligned'>
-            <div className='ui divider' />
-            <p>Challenge stage ends</p>
-            <p><strong>{stageEnd}</strong></p>
-            <div className='ui divider' />
+            <div className='ui message info'>
+              <p>Challenge stage ends</p>
+              <p><strong>{stageEnd}</strong></p>
+              <p>Remaning time: <Countdown endDate={stageEndMoment} /></p>
+            </div>
           </div>
+          <div className='ui divider' />
           <div className='column sixteen wide center aligned'>
-            <p>{minDeposit ? commafy(minDeposit) : '-'} ADT needed to Challenge</p>
-          </div>
-          <div className='column sixteen wide center aligned'>
-            <button
-              onClick={this.onChallenge.bind(this)}
-              className='ui button purple'>
-              CHALLENGE
-            </button>
+            <form className='ui form'>
+              <div className='ui field'>
+                <label>Challenge {domain}</label>
+              </div>
+              <div className='ui field'>
+                <div className='ui message default'>
+                  <p>Minimum deposit required</p>
+                  <p><strong>{minDeposit ? commafy(minDeposit) : '-'} ADT</strong></p>
+                </div>
+              </div>
+              <div className='ui field'>
+                <button
+                  onClick={this.onChallenge.bind(this)}
+                  className='ui button purple'>
+                  CHALLENGE
+                </button>
+              </div>
+            </form>
           </div>
         </div>
         {inProgress ? <DomainChallengeInProgressContainer /> : null}
@@ -93,7 +109,14 @@ class DomainChallengeContainer extends Component {
 
   async challenge () {
     const {domain} = this.state
-    const inApplication = await registry.applicationExists(domain)
+
+    let inApplication = null
+
+    try {
+      inApplication = await registry.applicationExists(domain)
+    } catch (error) {
+      toastr.error(error)
+    }
 
     if (inApplication) {
       this.setState({

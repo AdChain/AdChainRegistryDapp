@@ -1,2 +1,30 @@
 .DomainProfileActionContainer {
 }
+
+.DomainProfileActionContainer .ui.divider {
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+:root .DomainProfileActionContainer .form .input input {
+  max-width: 220px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+:root .DomainProfileActionContainer .VoteOptions {
+  max-width: 220px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+:root .DomainProfileActionContainer .VoteOptions .field:first-child .checkbox {
+  margin-right: 0.3em;
+}
+
+:root .DomainProfileActionContainer .VoteOptions .checkbox {
+  border: 1px solid #ececec;
+  padding: 0.3em;
+  border-radius: 5px;
+}
