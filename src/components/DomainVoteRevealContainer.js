@@ -25,6 +25,8 @@ class DomainVoteRevealContainer extends Component {
       revealEndDate: null,
       inProgress: false,
       didChallenge: false,
+      didCommit: false,
+      didReveal: false,
       salt: null,
       voteOption: null
     }
@@ -35,6 +37,8 @@ class DomainVoteRevealContainer extends Component {
     this.getListing()
     this.getPoll()
     this.getChallenge()
+    this.getCommit()
+    this.getReveal()
   }
 
   render () {
@@ -44,6 +48,8 @@ class DomainVoteRevealContainer extends Component {
       revealEndDate,
       inProgress,
       didChallenge,
+      didCommit,
+      didReveal,
       voteOption
     } = this.state
 
@@ -65,7 +71,19 @@ class DomainVoteRevealContainer extends Component {
           </div>
           {didChallenge ? <div className='column sixteen wide'>
             <div className='ui message warning'>
-              You've challenged this domain.
+              You've <strong>challenged</strong> this domain.
+            </div>
+          </div>
+          : null}
+          {didCommit ? <div className='column sixteen wide center aligned'>
+            <div className='ui message warning'>
+              You've <strong>commited</strong> for this domain.
+            </div>
+          </div>
+          : null}
+          {didReveal ? <div className='column sixteen wide center aligned'>
+            <div className='ui message warning'>
+              You've <strong>revealed</strong> for this domain.
             </div>
           </div>
           : null}
@@ -177,6 +195,34 @@ The first phase of the voting process is the commit phase where the ADT holder s
     this.setState({
       applicationExpiry
     })
+  }
+
+  async getCommit () {
+    const {domain} = this.state
+
+    try {
+      const didCommit = await registry.didCommit(domain)
+
+      this.setState({
+        didCommit: didCommit
+      })
+    } catch (error) {
+      toastr.error(error)
+    }
+  }
+
+  async getReveal () {
+    const {domain} = this.state
+
+    try {
+      const didReveal = await registry.didReveal(domain)
+
+      this.setState({
+        didReveal: didReveal
+      })
+    } catch (error) {
+      toastr.error(error)
+    }
   }
 
   async getPoll () {

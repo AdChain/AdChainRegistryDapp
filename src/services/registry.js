@@ -565,6 +565,36 @@ class RegistryService {
     })
   }
 
+  async getCommitHash (domain) {
+    return new Promise(async (resolve, reject) => {
+      const challengeId = await this.getChallengeId(domain)
+      const hash = await plcr.getCommitHash(challengeId)
+      resolve(hash)
+    })
+  }
+
+  async didCommit (domain) {
+    return new Promise(async (resolve, reject) => {
+      const challengeId = await this.getChallengeId(domain)
+      const hash = await plcr.getCommitHash(challengeId)
+      let didCommit = false
+
+      if (hash !== '0x0000000000000000000000000000000000000000000000000000000000000000') {
+        didCommit = true
+      }
+
+      resolve(didCommit)
+    })
+  }
+
+  async didReveal (domain) {
+    return new Promise(async (resolve, reject) => {
+      const challengeId = await this.getChallengeId(domain)
+      const didReveal = await plcr.hasBeenRevealed(challengeId)
+      resolve(didReveal)
+    })
+  }
+
   voterHasEnoughVotingTokens (tokens) {
     return plcr.hasEnoughTokens(tokens)
   }
