@@ -24,6 +24,7 @@ class DomainVoteCommitContainer extends Component {
       commitEndDate: null,
       revealEndDate: null,
       didChallenge: null,
+      didCommit: null,
       inProgress: false,
       salt,
       voteOption: null
@@ -32,6 +33,7 @@ class DomainVoteCommitContainer extends Component {
     this.getListing()
     this.getPoll()
     this.getChallenge()
+    this.getCommit()
 
     this.onVoteOptionChange = this.onVoteOptionChange.bind(this)
     this.onFormSubmit = this.onFormSubmit.bind(this)
@@ -42,6 +44,7 @@ class DomainVoteCommitContainer extends Component {
       domain,
       commitEndDate,
       didChallenge,
+      didCommit,
       inProgress,
       salt,
       voteOption
@@ -60,7 +63,13 @@ class DomainVoteCommitContainer extends Component {
           </div>
           {didChallenge ? <div className='column sixteen wide center aligned'>
             <div className='ui message warning'>
-              You've challenged this domain.
+              You've <strong>challenged</strong> this domain.
+            </div>
+          </div>
+          : null}
+          {didCommit ? <div className='column sixteen wide center aligned'>
+            <div className='ui message warning'>
+              You've <strong>commited</strong> for this domain.
             </div>
           </div>
           : null}
@@ -194,6 +203,20 @@ The first phase of the voting process is the commit phase where the ADT holder s
 
       this.setState({
         didChallenge
+      })
+    } catch (error) {
+      toastr.error(error)
+    }
+  }
+
+  async getCommit () {
+    const {domain} = this.state
+
+    try {
+      const didCommit = await registry.didCommit(domain)
+
+      this.setState({
+        didCommit: didCommit
       })
     } catch (error) {
       toastr.error(error)

@@ -256,6 +256,22 @@ class PlcrService {
     })
   }
 
+  async getCommitHash (pollId) {
+    return new Promise(async (resolve, reject) => {
+      const hash = await pify(this.plcr.getCommitHash)(pollId)
+
+      resolve(hash)
+    })
+  }
+
+  async hasBeenRevealed (pollId) {
+    return new Promise(async (resolve, reject) => {
+      const didReveal = await pify(this.plcr.hasBeenRevealed)(pollId)
+
+      resolve(didReveal)
+    })
+  }
+
   async getTransactionReceipt (tx) {
     return new Promise(async (resolve, reject) => {
       if (!this.registry) {

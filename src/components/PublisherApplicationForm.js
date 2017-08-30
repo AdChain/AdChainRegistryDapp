@@ -186,7 +186,6 @@ class PublisherApplicationForm extends Component {
     try {
       await registry.apply(domain, stake)
     } catch (error) {
-      console.error(error)
       toastr.error(error.message)
       this.setState({
         inProgress: false

@@ -131,7 +131,7 @@ class DomainChallengeContainer extends Component {
           inProgress: false
         })
       } catch (error) {
-        toastr.error(error)
+        toastr.error(error.message)
         this.setState({
           inProgress: false
         })
