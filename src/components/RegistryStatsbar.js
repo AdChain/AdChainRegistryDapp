@@ -13,11 +13,11 @@ class RegistryStatsbar extends Component {
     }
   }
   render () {
-    const totalAdtStaked = 3243
-    const totalInApplication = 5432
-    const totalInCommit = 7489
-    const totalInReveal = 923
-    const totalInRegistry = 82311
+    const totalAdtStaked = null
+    const totalInApplication = null
+    const totalInCommit = null
+    const totalInReveal = null
+    const totalInRegistry = null
     const {showHeader} = this.state
 
     return (
@@ -34,7 +34,7 @@ class RegistryStatsbar extends Component {
             <div className='ui mini statistics'>
               <div className='statistic'>
                 <div className='value'>
-                  {commafy(totalAdtStaked)}
+                  {totalAdtStaked ? commafy(totalAdtStaked) : '-'}
                 </div>
                 <div className='label'>
                   TOTAL ADT STAKED
@@ -42,7 +42,7 @@ class RegistryStatsbar extends Component {
               </div>
               <div className='statistic'>
                 <div className='value'>
-                  {commafy(totalInApplication)}
+                  {totalInApplication ? commafy(totalInApplication) : '-'}
                 </div>
                 <div className='label'>
                   IN APPLICATION
@@ -50,7 +50,7 @@ class RegistryStatsbar extends Component {
               </div>
               <div className='statistic'>
                 <div className='value'>
-                  {commafy(totalInCommit)}
+                  {totalInCommit ? commafy(totalInCommit) : '-'}
                 </div>
                 <div className='label'>
                 IN VOTING
@@ -59,7 +59,7 @@ class RegistryStatsbar extends Component {
               </div>
               <div className='statistic'>
                 <div className='value'>
-                  {commafy(totalInReveal)}
+                  {totalInReveal ? commafy(totalInReveal) : '-'}
                 </div>
                 <div className='label'>
                   IN VOTING
@@ -68,7 +68,7 @@ class RegistryStatsbar extends Component {
               </div>
               <div className='statistic'>
                 <div className='value'>
-                  {commafy(totalInRegistry)}
+                  {totalInRegistry ? commafy(totalInRegistry) : '-'}
                 </div>
                 <div className='label'>
                   IN REGISTRY

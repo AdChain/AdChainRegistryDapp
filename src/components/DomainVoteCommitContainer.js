@@ -21,6 +21,7 @@ class DomainVoteCommitContainer extends Component {
       votes: 0,
       domain: props.domain,
       applicationExpiry: null,
+      challengeId: null,
       commitEndDate: null,
       revealEndDate: null,
       didChallenge: null,
@@ -47,7 +48,8 @@ class DomainVoteCommitContainer extends Component {
       didCommit,
       inProgress,
       salt,
-      voteOption
+      voteOption,
+      challengeId
     } = this.state
 
     const stageEndMoment = commitEndDate ? moment.unix(commitEndDate) : null
@@ -97,6 +99,9 @@ The first phase of the voting process is the commit phase where the ADT holder s
                 <label>VOTE or OPPOSE {domain}</label>
               </div>
               <div className='ui field'>
+                <p>Challenge ID: <label className='ui label'>{challengeId}</label></p>
+              </div>
+              <div className='ui field'>
                 <label>Enter ADT to Commit</label>
                 <div className='ui input small'>
                   <input
@@ -136,13 +141,19 @@ The first phase of the voting process is the commit phase where the ADT holder s
                 </div>
               </div>
               <div className='ui field'>
+                {voteOption === null ?
+                  <button
+                    type='submit'
+                    className='ui button disabled'>
+                      Select Vote Option
+                  </button>
+                :
                 <button
-                  type="submit"
-                  className={`ui button ${voteOption === 1 ? 'blue' : (voteOption === 0 ? 'purple' : 'disabled')}`}>
-                  {voteOption === null ?
-                    <span>Select Vote Option</span> :
-                    <span>VOTE TO {voteOption ? 'SUPPORT' : 'OPPOSE'}</span> }
+                  type='submit'
+                  className={`ui button ${voteOption ? 'blue' : 'purple'} right labeled icon`}>
+                    VOTE TO {voteOption ? 'SUPPORT' : 'OPPOSE'} <i className={`icon thumbs ${voteOption ? 'up' : 'down'}`}></i>
                 </button>
+                }
               </div>
             </form>
           </div>
@@ -169,11 +180,13 @@ The first phase of the voting process is the commit phase where the ADT holder s
     const listing = await registry.getListing(domain)
 
     const {
-      applicationExpiry
+      applicationExpiry,
+      challengeId
     } = listing
 
     this.setState({
-      applicationExpiry
+      applicationExpiry,
+      challengeId
     })
   }
 

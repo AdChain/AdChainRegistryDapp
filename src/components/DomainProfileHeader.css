@@ -22,6 +22,26 @@
   font-weight: bold;
 }
 
+.DomainProfileHeader .Header img {
+  margin-right: 0.2em;
+  vertical-align: middle;
+}
+
+.DomainProfileHeader .Header a {
+  color: #000;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.DomainProfileHeader .Header a i {
+  vertical-align: top;
+  margin-left: 0.2em;
+}
+
+.DomainProfileHeader .Header a:hover {
+  text-decoration: underline;
+}
+
 .DomainProfileHeader .SubHeader {
   font-size: 0.9em;
 }

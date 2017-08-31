@@ -31,20 +31,20 @@
   display: inline-block;
   width: 12px;
   height: 12px;
-  background: #536DEB;
+  background: #4585c7;
   margin-right: 0.5em;
 }
 
 .DomainNoActionContainer .BreakdownItem:nth-child(2) .BreakdownItemBox {
-  background: #662D91;
+  background: #633e80;
 }
 
 .DomainNoActionContainer .BreakdownItemLabel {
-  color: #536DEB;
+  color: #4585c7;
   font-size: 0.8em;
   font-weight: bold;
 }
 
 .DomainNoActionContainer .BreakdownItem:nth-child(2) .BreakdownItemLabel {
-  color: #662D91;
+  color: #633e80;
 }

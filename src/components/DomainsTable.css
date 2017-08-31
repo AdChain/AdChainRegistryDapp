@@ -57,12 +57,12 @@
 
 :root:root .DomainsTable .ReactTable .rt-thead .rt-th.-sort-desc,
 :root:root .DomainsTable .ReactTable .rt-thead .rt-td.-sort-desc {
-  box-shadow: inset 0 -3px 0 0 #536DEB;
+  box-shadow: inset 0 -3px 0 0 #4585c7;
 }
 
 :root:root .DomainsTable .ReactTable .rt-thead .rt-th.-sort-asc,
 :root:root .DomainsTable .ReactTable .rt-thead .rt-td.-sort-asc {
-  box-shadow: inset 0 3px 0 0 #536DEB;
+  box-shadow: inset 0 3px 0 0 #4585c7;
 }
 
 :root:root .DomainsTable .ReactTable .rt-tbody .rt-td a:hover {
