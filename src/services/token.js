@@ -1,7 +1,9 @@
 import pify from 'pify'
 
-const { token: address } = require('../config/address.json')
-const abi = require('../config/token.json').abi
+import { getAddress, getAbi } from '../config'
+
+const address = getAddress('token')
+const abi = getAbi('token')
 
 class TokenService {
   constructor () {

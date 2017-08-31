@@ -1,15 +1,17 @@
 {
-  "prod": {
+  "mainnnet": {
     "token": "0xd0d6d6c5fe4a677d343cc433536bb717bae167dd",
     "parameterizer": "",
     "registry": ""
   },
-  "adchain_testnet": {
+  "rinkeby": {
     "token": "0x337cdda6d41a327c5ad456166ccb781a9722aff9",
-    "parameterizer": "",
-    "registry": ""
+    "parameterizer": "0x2e842467f0982f8f2a4c42c4ea0e338d49ad0a63",
+    "registry": "0x44b129b4b7b07f51dc33dbcbd582c2d477c51fb1"
   },
-  "token": "0x343c82f96358e0bac16845fb718ea1d44e107270",
-  "parameterizer": "0xaba24570fdad26ebff489cc41724da116403152a",
-  "registry": "0x0d54cf095baa55f847e4ff4dc23f5a419268ff74"
+  "testrpc": {
+    "token": "0x343c82f96358e0bac16845fb718ea1d44e107270",
+    "parameterizer": "0xaba24570fdad26ebff489cc41724da116403152a",
+    "registry": "0x0d54cf095baa55f847e4ff4dc23f5a419268ff74"
+  }
 }

@@ -8,8 +8,10 @@ import token from './token'
 import plcr from './plcr'
 import parameterizer from './parameterizer'
 import saltHashVote from '../utils/saltHashVote'
-const { registry: address } = require('../config/address.json')
-const abi = require('../config/registry.json').abi
+import { getAddress, getAbi } from '../config'
+
+const address = getAddress('registry')
+const abi = getAbi('registry')
 
 const parameters = keyMirror({
   minDeposit: null,
