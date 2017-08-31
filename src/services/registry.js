@@ -79,6 +79,7 @@ class RegistryService {
 
       try {
         await pify(this.registry.apply)(domain, deposit)
+        this.forceMine()
       } catch (error) {
         reject(error)
         return false
@@ -117,7 +118,6 @@ class RegistryService {
       try {
         await token.approve(this.address, minDeposit)
         await this.forceMine()
-        await this.forceMine()
       } catch (error) {
         reject(error)
         return false
@@ -134,15 +134,15 @@ class RegistryService {
       }
 
       try {
-        const receipt = await this.getTransactionReceipt(tx)
-        const challengeId = parseInt(receipt.logs[1].data, 16)
+        // const receipt = await this.getTransactionReceipt(tx)
+        // const challengeId = parseInt(receipt.logs[1].data, 16)
 
         store.dispatch({
           type: 'REGISTRY_DOMAIN_CHALLENGE',
           domain
         })
 
-        resolve(challengeId)
+        resolve()
       } catch (error) {
         reject(error)
         return false
@@ -516,6 +516,7 @@ class RegistryService {
         const hash = saltHashVote(voteOption, salt)
 
         const result = await plcr.commit({pollId: challengeId, hash, tokens: votes, prevPollId})
+        await this.forceMine()
 
         resolve(result)
       } catch (error) {
@@ -660,7 +661,8 @@ class RegistryService {
   // TODO
   async forceMine (block) {
     if (this.miningStarted) {
-      await wait(3000)
+      await wait(16e3)
+      // await wait(3e3)
       return Promise.resolve()
     }
 

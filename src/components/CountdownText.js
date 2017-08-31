@@ -44,6 +44,10 @@ class CountdownText extends Component {
   tick () {
     const {endDate} = this.state
 
+    if (!endDate) {
+      return '00:00:00'
+    }
+
     const now = moment()
     const diff = endDate.diff(now, 'seconds')
 
