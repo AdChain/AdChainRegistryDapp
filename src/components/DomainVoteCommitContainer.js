@@ -5,6 +5,7 @@ import moment from 'moment'
 import { Radio } from 'semantic-ui-react'
 import randomInt from 'random-int'
 
+import saveFile from '../utils/saveFile'
 import Countdown from './CountdownText'
 import registry from '../services/registry'
 import DomainVoteCommitInProgressContainer from './DomainVoteCommitInProgressContainer'
@@ -28,7 +29,8 @@ class DomainVoteCommitContainer extends Component {
       didCommit: null,
       inProgress: false,
       salt,
-      voteOption: null
+      voteOption: null,
+      enableDownload: false
     }
 
     this.getListing()
@@ -36,8 +38,17 @@ class DomainVoteCommitContainer extends Component {
     this.getChallenge()
     this.getCommit()
 
+    this.onDepositKeyUp = this.onDepositKeyUp.bind(this)
     this.onVoteOptionChange = this.onVoteOptionChange.bind(this)
     this.onFormSubmit = this.onFormSubmit.bind(this)
+    this.onDownload = this.onDownload.bind(this)
+    this.enableDownloadCheck = this.enableDownloadCheck.bind(this)
+  }
+
+  componentWillUpdate () {
+    setTimeout(() => {
+      this.enableDownloadCheck()
+    }, -1)
   }
 
   render () {
@@ -49,7 +60,8 @@ class DomainVoteCommitContainer extends Component {
       inProgress,
       salt,
       voteOption,
-      challengeId
+      challengeId,
+      enableDownload
     } = this.state
 
     const stageEndMoment = commitEndDate ? moment.unix(commitEndDate) : null
@@ -107,7 +119,7 @@ The first phase of the voting process is the commit phase where the ADT holder s
                   <input
                     type='text'
                     placeholder='100'
-                    onKeyUp={event => this.setState({votes: event.target.value | 0})}
+                    onKeyUp={this.onDepositKeyUp}
                   />
                 </div>
               </div>
@@ -141,6 +153,16 @@ The first phase of the voting process is the commit phase where the ADT holder s
                 </div>
               </div>
               <div className='ui field'>
+                <label><small>Download commit info required for reveal stage</small></label>
+                <button
+                  onClick={this.onDownload}
+                  title='Download commit info'
+                  className={`ui button ${enableDownload ? '' : 'disabled'} right labeled icon`}>
+                  Download Commit
+                  <i className='icon download'></i>
+                </button>
+              </div>
+              <div className='ui field'>
                 {voteOption === null ?
                   <button
                     type='submit'
@@ -163,10 +185,53 @@ The first phase of the voting process is the commit phase where the ADT holder s
     )
   }
 
+  onDepositKeyUp (event) {
+    this.setState({
+      votes: event.target.value | 0
+    })
+  }
+
   onVoteOptionChange (event, { value }) {
     this.setState({
       voteOption: parseInt(value, 10)
     })
+  }
+
+  enableDownloadCheck () {
+    const {
+      votes,
+      voteOption,
+      enableDownload
+    } = this.state
+
+    if (!enableDownload && voteOption !== null && votes) {
+      this.setState({
+        enableDownload: true
+      })
+    }
+  }
+
+  onDownload (event) {
+    event.preventDefault()
+
+    const {
+      domain,
+      voteOption,
+      salt,
+      challengeId,
+      commitEndDate
+    } = this.state
+
+    const json = {
+      domain,
+      voteOption,
+      salt,
+      challengeId,
+      commitEndDate
+    }
+
+    const filename = `commit-vote--${domain.replace('.', '_')}--${challengeId}--${commitEndDate}.json`
+    saveFile(json, filename)
   }
 
   onFormSubmit (event) {
