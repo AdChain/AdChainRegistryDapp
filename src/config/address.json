@@ -1,11 +1,13 @@
 {
   "prod": {
-    "token": "0xd0d6d6c5fe4a677d343cc433536bb717bae167dd"
+    "token": "0xd0d6d6c5fe4a677d343cc433536bb717bae167dd",
+    "parameterizer": "",
+    "registry": ""
   },
   "adchain_testnet": {
-    "token": "0x3a015dc21889c9b49bfdd9f247fb796cc8dbfdbb",
-    "parameterizer": "0x7b024501c28eb1a9243a1c5c9a325c5b7e1a7139",
-    "registry": "0x932d294c9f89581d7817587642c5ac9ccfb7bb54"
+    "token": "0x337cdda6d41a327c5ad456166ccb781a9722aff9",
+    "parameterizer": "",
+    "registry": ""
   },
   "token": "0x343c82f96358e0bac16845fb718ea1d44e107270",
   "parameterizer": "0xaba24570fdad26ebff489cc41724da116403152a",
