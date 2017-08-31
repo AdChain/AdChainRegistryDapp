@@ -2,7 +2,9 @@ import pify from 'pify'
 
 import token from './token'
 import store from '../store'
-const abi = require('../config/plcr.json').abi
+import { getAbi } from '../config'
+
+const abi = getAbi('plcr')
 
 /**
  * PollId = ChallengeId
