@@ -70,13 +70,14 @@
 }
 
 :root:root:root .MainSidebar .ApplyLink a {
-  color: #536DEB;
   font-weight: bold;
+  color: #4cb6d6;
+  background: #2b303a;
 }
 
 :root:root:root .MainSidebar .ApplyLink a.active,
 :root:root:root .MainSidebar .ApplyLink a.active:hover {
-  border-color: #536DEB;
+  border-color: #4cb6d6;
 }
 
 :root:root .MainSidebar .metaxLogo {

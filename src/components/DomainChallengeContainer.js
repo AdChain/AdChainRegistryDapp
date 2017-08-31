@@ -70,8 +70,9 @@ class DomainChallengeContainer extends Component {
               <div className='ui field'>
                 <button
                   onClick={this.onChallenge.bind(this)}
-                  className='ui button purple'>
+                  className='ui button purple right labeled icon'>
                   CHALLENGE
+                  <i className='icon thumbs down'></i>
                 </button>
               </div>
             </form>

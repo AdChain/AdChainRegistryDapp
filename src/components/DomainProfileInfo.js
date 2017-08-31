@@ -26,12 +26,12 @@ class DomainProfileInfo extends Component {
       domain
     } = this.state
 
-    const description = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus porttitor vestibulum tristique. Ut quis faucibus diam. Morbi tincidunt lacus a velit pretium, id mollis ante volutpat.'
+    const description = null
 
-    const joinedDate = 'June 18th, 2017'
-    const adtStaked = 14354
-    const wins = 5
-    const losses = 0
+    const joinedDate = null
+    const adtStaked = null
+    const wins = null
+    const losses = null
 
     return (
       <div className='DomainProfileInfo BoxFrame'>
@@ -41,7 +41,7 @@ class DomainProfileInfo extends Component {
               Description
             </div>
             <div className='Content'>
-              <p>{description}</p>
+              <p>{description ? description : '-'}</p>
             </div>
           </div>
           <div className='column five wide'>
@@ -49,7 +49,7 @@ class DomainProfileInfo extends Component {
               Joined the adChain Registry
             </div>
             <div className='Content'>
-              <p>{joinedDate}</p>
+              <p>{joinedDate ? joinedDate : '-'}</p>
             </div>
           </div>
           <div className='column five wide'>
@@ -57,7 +57,7 @@ class DomainProfileInfo extends Component {
               Latest Application Fee
             </div>
             <div className='Content'>
-              <p>{commafy(adtStaked)} ADT</p>
+              <p>{adtStaked ? commafy(adtStaked) : '-'} ADT</p>
             </div>
           </div>
           <div className='column five wide'>
@@ -65,7 +65,7 @@ class DomainProfileInfo extends Component {
               Challenges (<span className='green'>Win</span> / <span className='red'>Loss</span>)
             </div>
             <div className='Content'>
-              <span className='green'>{wins}</span> / <span className='red'>{losses}</span>
+              <span className='green'>{wins ? commafy(wins) : '-'}</span> / <span className='red'>{losses ? commafy(losses) : '-'}</span>
             </div>
           </div>
           <div className='column sixteen wide'>

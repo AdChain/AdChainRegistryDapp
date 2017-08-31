@@ -55,8 +55,8 @@ class DomainNoActionContainer extends Component {
           </div>
 
           <div className='column sixteen wide'>
-            <p>Votes For: <strong>{commafy(votesFor)} ADT</strong></p>
-            <p>Votes Against: <strong>{commafy(votesAgainst)} ADT</strong></p>
+            <p>Votes For: <strong>{commafy(votesFor || 0)} ADT</strong></p>
+            <p>Votes Against: <strong>{commafy(votesAgainst || 0)} ADT</strong></p>
           </div>
         </div>
       </div>

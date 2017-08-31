@@ -58,6 +58,8 @@ class RegistryService {
         this.initContract()
       }
 
+      domain = domain.toLowerCase()
+
       const exists = await this.applicationExists(domain)
 
       if (exists) {
@@ -100,6 +102,7 @@ class RegistryService {
         this.initContract()
       }
 
+      domain = domain.toLowerCase()
       let minDeposit = 0
 
       try {
@@ -156,6 +159,7 @@ class RegistryService {
         this.initContract()
       }
 
+      domain = domain.toLowerCase()
       let challengeId = null
 
       try {
@@ -187,6 +191,8 @@ class RegistryService {
         this.initContract()
       }
 
+      domain = domain.toLowerCase()
+
       try {
         const exists = await pify(this.registry.appExists)(domain)
         resolve(exists)
@@ -207,6 +213,8 @@ class RegistryService {
       if (!this.registry) {
         this.initContract()
       }
+
+      domain = domain.toLowerCase()
 
       try {
         const hash = sha3(domain)
@@ -269,6 +277,8 @@ class RegistryService {
         return new Error('Domain is required')
       }
 
+      domain = domain.toLowerCase()
+
       try {
         const listing = await this.getListing(domain)
 
@@ -296,6 +306,8 @@ class RegistryService {
         this.initContract()
       }
 
+      domain = domain.toLowerCase()
+
       try {
         const whitelisted = await pify(this.registry.isWhitelisted)(domain)
         resolve(whitelisted)
@@ -316,6 +328,8 @@ class RegistryService {
       if (!this.registry) {
         this.initContract()
       }
+
+      domain = domain.toLowerCase()
 
       try {
         const result = await pify(this.registry.updateStatus)(domain)
@@ -413,6 +427,7 @@ class RegistryService {
         this.initContract()
       }
 
+      domain = domain.toLowerCase()
       let pollId = null
 
       try {
@@ -448,6 +463,7 @@ class RegistryService {
         return false
       }
 
+      domain = domain.toLowerCase()
       let pollId = null
 
       try {
@@ -483,6 +499,7 @@ class RegistryService {
         return false
       }
 
+      domain = domain.toLowerCase()
       let challengeId = null
 
       try {
@@ -512,6 +529,7 @@ class RegistryService {
         this.initContract()
       }
 
+      domain = domain.toLowerCase()
       let challengeId = null
 
       try {
@@ -535,6 +553,8 @@ class RegistryService {
 
   getChallengePoll (domain) {
     return new Promise(async (resolve, reject) => {
+      domain = domain.toLowerCase()
+
       try {
         const challengeId = await this.getChallengeId(domain)
         const result = await plcr.getPoll(challengeId)
@@ -548,6 +568,7 @@ class RegistryService {
 
   pollEnded (domain) {
     return new Promise(async (resolve, reject) => {
+      domain = domain.toLowerCase()
       const challengeId = await this.getChallengeId(domain)
 
       if (!challengeId) {
@@ -567,6 +588,7 @@ class RegistryService {
 
   async getCommitHash (domain) {
     return new Promise(async (resolve, reject) => {
+      domain = domain.toLowerCase()
       const challengeId = await this.getChallengeId(domain)
       const hash = await plcr.getCommitHash(challengeId)
       resolve(hash)
@@ -575,6 +597,7 @@ class RegistryService {
 
   async didCommit (domain) {
     return new Promise(async (resolve, reject) => {
+      domain = domain.toLowerCase()
       const challengeId = await this.getChallengeId(domain)
       const hash = await plcr.getCommitHash(challengeId)
       let didCommit = false
@@ -589,6 +612,7 @@ class RegistryService {
 
   async didReveal (domain) {
     return new Promise(async (resolve, reject) => {
+      domain = domain.toLowerCase()
       const challengeId = await this.getChallengeId(domain)
       const didReveal = await plcr.hasBeenRevealed(challengeId)
       resolve(didReveal)

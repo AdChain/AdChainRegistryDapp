@@ -56,12 +56,15 @@ p {
   line-height: 1.6;
 }
 
-:root:root .ui.button.blue {
-  background-color: #536DEB;
+:root:root .ui.button.blue,
+:root:root .ui.blue.label,
+:root:root .ui.blue.labels .label {
+  background-color: #4585c7 !important;
+  border-color: #4585c7 !important;
 }
 
 :root:root .ui.button.purple {
-  background-color: #662D91;
+  background-color: #633e80;
 }
 
 :root:root .form input[type="text"],

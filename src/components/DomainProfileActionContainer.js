@@ -26,6 +26,7 @@ class DomainProfileActionContainer extends Component {
     }
 
     this.getData()
+    this.updateStatus = this.updateStatus.bind(this)
   }
 
   componentDidMount () {
@@ -55,10 +56,38 @@ class DomainProfileActionContainer extends Component {
     }
 
     return (
-      <div className='DomainProfileActionContainer BoxFrame'>
-        {component}
-      </div>
+      <div>
+        <div className='DomainProfileActionContainer BoxFrame'>
+          <div className='ui grid stackable'>
+            <div className='column sixteen wid center aligned'>
+              <a
+                className='ui button blue icon labeled right'
+                href='#!'
+                title='Refresh status'
+                onClick={this.updateStatus}>
+                  <i className='icon refresh'></i>
+                  Refresh status
+              </a>
+            </div>
+          </div>
+        </div>
+        <div className='DomainProfileActionContainer BoxFrame'>
+          {component}
+        </div>
+    </div>
     )
+  }
+
+  async updateStatus () {
+    const {domain} = this.state
+
+    try {
+      await registry.updateStatus(domain)
+    } catch (error) {
+
+    }
+
+    this.getData()
   }
 
   async getData () {

@@ -28,7 +28,8 @@ class DomainVoteRevealContainer extends Component {
       didCommit: false,
       didReveal: false,
       salt: null,
-      voteOption: null
+      voteOption: null,
+      challengeId: null
     }
 
     this.onVoteOptionChange = this.onVoteOptionChange.bind(this)
@@ -50,7 +51,8 @@ class DomainVoteRevealContainer extends Component {
       didChallenge,
       didCommit,
       didReveal,
-      voteOption
+      voteOption,
+      challengeId
     } = this.state
 
     const stageEndMoment = revealEndDate ? moment.unix(revealEndDate) : null
@@ -69,7 +71,7 @@ class DomainVoteRevealContainer extends Component {
               VOTING – REVEAL
             </div>
           </div>
-          {didChallenge ? <div className='column sixteen wide'>
+          {didChallenge ? <div className='column sixteen wide center aligned'>
             <div className='ui message warning'>
               You've <strong>challenged</strong> this domain.
             </div>
@@ -132,6 +134,9 @@ The first phase of the voting process is the commit phase where the ADT holder s
               onSubmit={this.onFormSubmit}
               className='ui form'>
               <div className='ui field'>
+                <p>Challenge ID: <label className='ui label'>{challengeId}</label></p>
+              </div>
+              <div className='ui field'>
                 <label>Salt</label>
                 <div className='ui input small'>
                   <input
@@ -189,11 +194,13 @@ The first phase of the voting process is the commit phase where the ADT holder s
     const listing = await registry.getListing(domain)
 
     const {
-      applicationExpiry
+      applicationExpiry,
+      challengeId
     } = listing
 
     this.setState({
-      applicationExpiry
+      applicationExpiry,
+      challengeId
     })
   }
 

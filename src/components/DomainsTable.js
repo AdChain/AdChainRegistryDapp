@@ -135,7 +135,7 @@ class DomainsTable extends Component {
           label = 'Apply'
         }
 
-        const color = (stage === 'challenge' ? 'purple' : 'blue')
+        const color = (stage === 'in_application' ? 'purple' : 'blue')
 
         return <a className={`ui mini button ${color}`} href='' onClick={(event) => {
           event.preventDefault()
@@ -234,11 +234,15 @@ class DomainsTable extends Component {
   }
 
   async getData () {
-    let domains = []
+    let domains = null
 
     try {
       domains = JSON.parse(window.localStorage.getItem('domains'))
     } catch (error) {}
+
+    if (!domains) {
+      domains = []
+    }
 
     const data = await Promise.all(domains.map(async domain => {
       return new Promise(async (resolve, reject) => {
@@ -306,7 +310,12 @@ class DomainsTable extends Component {
   }
 
   async updateStatus (domain) {
-    await registry.updateStatus(domain)
+    try {
+      await registry.updateStatus(domain)
+
+    } catch (error) {
+
+    }
 
     this.getData()
   }

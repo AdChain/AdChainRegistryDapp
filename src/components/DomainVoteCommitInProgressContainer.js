@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Loader } from 'semantic-ui-react'
 
 import './DomainVoteCommitInProgressContainer.css'
 
@@ -11,7 +12,9 @@ class DomainVoteCommitInProgressContainer extends Component {
     return (
       <div className='DomainVoteCommitInProgressContainer'>
         <div className='Content'>
-          <p><strong>Vote commit in progress.</strong></p>
+          <p><strong>Vote commit in progress. </strong>
+            <Loader indeterminate active inline />
+          </p>
           <p>You will receive <strong>three</strong> MetaMask prompts:</p>
           <p><strong>First prompt:</strong> Allow adChain Registry PLCR contract to transfer adToken deposit from your account.</p>
           <p><strong>Second prompt:</strong> Request voting rights from the adChain Registry PLCR contract.</p>
