@@ -52,6 +52,13 @@ class MainTopbar extends Component {
                Please download or unlock <a href='https://metamask.io/' target='_blank' rel='noopener noreferrer'>MetaMask</a> extension to load Ethereum wallet
             </div>}
           </div>
+          {address ?
+            <div className='item'>
+              <div>
+                Network: <strong>Rinkeby</strong> Testnet
+              </div>
+            </div>
+          : null}
           <div className='menu right'>
             {address ?
               <div className='item'>
@@ -75,7 +82,7 @@ class MainTopbar extends Component {
       const balance = await token.balanceOf(this.state.accounts[0])
 
       this.setState({
-        adtBalance: balance
+        adtBalance: balance | 0
       })
     } catch (error) {
       this.setState({
