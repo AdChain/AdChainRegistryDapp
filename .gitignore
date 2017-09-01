@@ -26,3 +26,6 @@ yarn-error.log*
 !.elasticbeanstalk/*.global.yml
 
 *.zip
+
+
+.ebextensions/setup.config

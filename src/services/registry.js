@@ -335,6 +335,7 @@ class RegistryService {
 
       try {
         const result = await pify(this.registry.updateStatus)(domain)
+        this.forceMine()
 
         store.dispatch({
           type: 'REGISTRY_DOMAIN_UPDATE_STATUS',
@@ -592,33 +593,48 @@ class RegistryService {
   async getCommitHash (domain) {
     return new Promise(async (resolve, reject) => {
       domain = domain.toLowerCase()
-      const challengeId = await this.getChallengeId(domain)
-      const hash = await plcr.getCommitHash(challengeId)
-      resolve(hash)
+
+      try {
+        const challengeId = await this.getChallengeId(domain)
+        const hash = await plcr.getCommitHash(challengeId)
+        resolve(hash)
+      } catch (error) {
+        reject(error)
+      }
     })
   }
 
   async didCommit (domain) {
     return new Promise(async (resolve, reject) => {
       domain = domain.toLowerCase()
-      const challengeId = await this.getChallengeId(domain)
-      const hash = await plcr.getCommitHash(challengeId)
-      let didCommit = false
 
-      if (hash !== '0x0000000000000000000000000000000000000000000000000000000000000000') {
-        didCommit = true
+      try {
+        const challengeId = await this.getChallengeId(domain)
+        const hash = await plcr.getCommitHash(challengeId)
+        let didCommit = false
+
+        if (hash !== '0x0000000000000000000000000000000000000000000000000000000000000000') {
+          didCommit = true
+        }
+
+        resolve(didCommit)
+      } catch (error) {
+        reject(error)
       }
-
-      resolve(didCommit)
     })
   }
 
   async didReveal (domain) {
     return new Promise(async (resolve, reject) => {
       domain = domain.toLowerCase()
-      const challengeId = await this.getChallengeId(domain)
-      const didReveal = await plcr.hasBeenRevealed(challengeId)
-      resolve(didReveal)
+
+      try {
+        const challengeId = await this.getChallengeId(domain)
+        const didReveal = await plcr.hasBeenRevealed(challengeId)
+        resolve(didReveal)
+      } catch (error) {
+        reject(error)
+      }
     })
   }
 

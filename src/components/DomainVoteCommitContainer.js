@@ -147,8 +147,8 @@ The first phase of the voting process is the commit phase where the ADT holder s
                 </div>
               </div>
               <div className='ui field'>
-                <label>Salt<br/><small>PLEASE SAVE THIS. This will be required to reveal your vote and claim rewards.</small></label>
-                <div className='ui message default'>
+                <label>Secret Phrase<br/><small>PLEASE SAVE THIS. This random phrase (known as a "salt") will be required to reveal your vote and claim rewards.</small></label>
+                <div className='ui message tiny default SaltField'>
                   {salt}
                 </div>
               </div>
@@ -165,7 +165,6 @@ The first phase of the voting process is the commit phase where the ADT holder s
               <div className='ui field'>
                 {voteOption === null ?
                   <button
-                    type='submit'
                     className='ui button disabled'>
                       Select Vote Option
                   </button>

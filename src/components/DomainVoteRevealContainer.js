@@ -137,14 +137,17 @@ The first phase of the voting process is the commit phase where the ADT holder s
                 <p>Challenge ID: <label className='ui label'>{challengeId}</label></p>
               </div>
               <div className='ui field'>
-                <label>Salt</label>
+                <label>Secret Phrase (salt)</label>
                 <div className='ui input small'>
                   <input
                     type='text'
-                    placeholder='words'
+                    placeholder='phrase'
                     onKeyUp={event => this.setState({salt: parseInt(event.target.value, 10)})}
                   />
                 </div>
+              </div>
+              <div className='ui field'>
+                <label>Vote Option<br /><small>must be what you committed</small></label>
               </div>
               <div className='ui two fields VoteOptions'>
                 <div className='ui field'>
@@ -167,13 +170,19 @@ The first phase of the voting process is the commit phase where the ADT holder s
                 </div>
               </div>
               <div className='ui field'>
+                {voteOption === null ?
+                  <button
+                    className='ui button disabled'>
+                      Select Vote Option
+                  </button>
+                :
                 <button
-                  type="submit"
-                  className={`ui button ${voteOption === 1 ? 'blue' : (voteOption === 0 ? 'purple' : 'disabled')}`}>
-                  {voteOption === null ?
-                    <span>Select Vote Option</span> :
-                    <span>REVEAL {voteOption ? 'SUPPORT' : 'OPPOSE'} VOTE</span> }
+                  type='submit'
+                  className={`ui button ${voteOption ? 'blue' : 'purple'} right labeled icon`}>
+                  REVEAL {voteOption ? 'SUPPORT' : 'OPPOSE'} VOTE
+                  <i className={`icon thumbs ${voteOption ? 'up' : 'down'}`}></i>
                 </button>
+                }
               </div>
             </form>
           </div>
@@ -234,19 +243,24 @@ The first phase of the voting process is the commit phase where the ADT holder s
 
   async getPoll () {
     const {domain} = this.state
-    const {
-      votesFor,
-      votesAgainst,
-      commitEndDate,
-      revealEndDate
-    } = await registry.getChallengePoll(domain)
 
-    this.setState({
-      votesFor,
-      votesAgainst,
-      commitEndDate,
-      revealEndDate
-    })
+    try {
+      const {
+        votesFor,
+        votesAgainst,
+        commitEndDate,
+        revealEndDate
+      } = await registry.getChallengePoll(domain)
+
+      this.setState({
+        votesFor,
+        votesAgainst,
+        commitEndDate,
+        revealEndDate
+      })
+    } catch (error) {
+      toastr.error(error)
+    }
   }
 
   async getChallenge () {

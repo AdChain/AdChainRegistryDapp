@@ -28,3 +28,12 @@
   padding: 0.3em;
   border-radius: 5px;
 }
+
+:root .DomainProfileActionContainer .Salt {
+  max-width: 220px;
+  margin-left: auto;
+  margin-right: auto;
+  box-shadow: none;
+  border: none;
+  letter-spacing: 0.1em;
+}
