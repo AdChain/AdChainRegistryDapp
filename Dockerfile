@@ -11,4 +11,4 @@ COPY . /usr/src/app
 RUN npm install
 RUN npm install -g serve
 ENTRYPOINT ["npm"]
-CMD ["run start:dev"]
+CMD ["run", "start:dev"]
