@@ -1,6 +1,7 @@
 import pify from 'pify'
 
 import { getAddress, getAbi } from '../config'
+import store from '../store'
 
 const address = getAddress('token')
 const abi = getAbi('token')
@@ -28,6 +29,20 @@ class TokenService {
       this.getName()
       this.getSymbol()
     }
+  }
+
+  setUpEvents () {
+    this.token.allEvents()
+      .watch((error, log) => {
+        if (error) {
+          console.error(error)
+          return false
+        }
+
+        store.dispatch({
+          type: 'TOKEN_EVENT'
+        })
+      })
   }
 
   getName () {

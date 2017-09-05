@@ -19,13 +19,17 @@ function reducer (state = -1, action) {
     case 'WEB3_CHANGE_ACCOUNT':
     case 'WEB3_CHANGE_NETWORK':
     case 'WEB3_FETCH_NETWORK_ERROR':
+    case 'TOKEN_EVENT':
     case 'REGISTRY_DOMAIN_APPLY':
     case 'REGISTRY_DOMAIN_CHALLENGE':
     case 'REGISTRY_DOMAIN_VOTE_COMMIT':
     case 'REGISTRY_DOMAIN_VOTE_REVEAL':
     case 'REGISTRY_DOMAIN_UPDATE_STATUS':
+    case 'REGISTRY_EVENT':
     case 'PLCR_VOTE_COMMIT':
     case 'PLCR_VOTE_REVEAL':
+    case 'PLCR_EVENT':
+    case 'PARAMETERIZER_EVENT':
       return state + 1
     default:
       return state

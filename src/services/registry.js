@@ -37,8 +37,23 @@ class RegistryService {
     if (!this.registry) {
       this.registry = window.web3.eth.contract(abi).at(this.address)
 
+      this.setUpEvents()
       this.forceMine()
     }
+  }
+
+  setUpEvents () {
+    this.registry.allEvents()
+      .watch((error, log) => {
+        if (error) {
+          console.error(error)
+          return false
+        }
+
+        store.dispatch({
+          type: 'REGISTRY_EVENT'
+        })
+      })
   }
 
   getAccount () {

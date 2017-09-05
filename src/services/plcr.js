@@ -33,7 +33,22 @@ class PlcrService {
       this.plcr = plcr
 
       this.forceMine = registry.forceMine.bind(registry)
+      this.setUpEvents()
     }
+  }
+
+  setUpEvents () {
+    this.plcr.allEvents()
+      .watch((error, log) => {
+        if (error) {
+          console.error(error)
+          return false
+        }
+
+        store.dispatch({
+          type: 'PLCR_EVENT'
+        })
+      })
   }
 
   async getPoll (pollId) {
