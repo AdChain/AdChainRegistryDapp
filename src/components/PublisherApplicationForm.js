@@ -214,21 +214,6 @@ class PublisherApplicationForm extends Component {
   async save (data) {
     toastr.success('Submitted')
 
-    let domains = null
-
-    try {
-      domains = JSON.parse(window.localStorage.getItem('domains'))
-    } catch (error) {
-
-    }
-
-    if (!domains) {
-      domains = []
-    }
-
-    domains.push(data.domain)
-    window.localStorage.setItem('domains', JSON.stringify(domains))
-
     return Promise.resolve()
   }
 }

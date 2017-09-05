@@ -234,15 +234,8 @@ class DomainsTable extends Component {
   }
 
   async getData () {
-    let domains = null
-
-    try {
-      domains = JSON.parse(window.localStorage.getItem('domains'))
-    } catch (error) {}
-
-    if (!domains) {
-      domains = []
-    }
+    const response = await window.fetch(`https://adchain-registry-api.metax.io/registry/domains/all`)
+    const domains = await response.json()
 
     const data = await Promise.all(domains.map(async domain => {
       return new Promise(async (resolve, reject) => {
