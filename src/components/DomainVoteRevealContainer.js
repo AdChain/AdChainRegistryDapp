@@ -315,7 +315,6 @@ The first phase of the voting process is the commit phase where the ADT holder s
       inProgress: true
     })
 
-debugger
     try {
       await registry.revealVote({domain, voteOption, salt})
       toastr.success('Success')
