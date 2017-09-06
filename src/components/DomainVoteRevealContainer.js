@@ -34,6 +34,7 @@ class DomainVoteRevealContainer extends Component {
 
     this.onVoteOptionChange = this.onVoteOptionChange.bind(this)
     this.onFormSubmit = this.onFormSubmit.bind(this)
+    this.onFileInput = this.onFileInput.bind(this)
 
     this.getListing()
     this.getPoll()
@@ -52,7 +53,8 @@ class DomainVoteRevealContainer extends Component {
       didCommit,
       didReveal,
       voteOption,
-      challengeId
+      challengeId,
+      salt
     } = this.state
 
     const stageEndMoment = revealEndDate ? moment.unix(revealEndDate) : null
@@ -137,11 +139,24 @@ The first phase of the voting process is the commit phase where the ADT holder s
                 <p>Challenge ID: <label className='ui label'>{challengeId}</label></p>
               </div>
               <div className='ui field'>
+                <label>Upload Commit File to reveal vote</label>
+                <input
+                  type='file'
+                  name='file'
+                  onChange={this.onFileInput}
+                  className='ui file' />
+              </div>
+              <div className='ui field'>
+                  or
+              </div>
+              <div className='ui field'>
                 <label>Secret Phrase (salt)</label>
                 <div className='ui input small'>
                   <input
                     type='text'
                     placeholder='phrase'
+                    id='DomainVoteRevealContainerSaltInput'
+                    defaultValue={salt}
                     onKeyUp={event => this.setState({salt: parseInt(event.target.value, 10)})}
                   />
                 </div>
@@ -300,6 +315,7 @@ The first phase of the voting process is the commit phase where the ADT holder s
       inProgress: true
     })
 
+debugger
     try {
       await registry.revealVote({domain, voteOption, salt})
       toastr.success('Success')
@@ -312,6 +328,36 @@ The first phase of the voting process is the commit phase where the ADT holder s
         inProgress: false
       })
     }
+  }
+
+  onFileInput (event) {
+    event.preventDefault()
+    const file = event.target.files[0]
+    const fr = new window.FileReader()
+
+    fr.onload = () => {
+      const contents = fr.result
+
+      try {
+        const {salt, voteOption} = JSON.parse(contents)
+
+        this.setState({
+          salt,
+          voteOption
+        })
+
+        // TODO: proper way of setting defaultValue
+        const saltInput = document.querySelector('#DomainVoteRevealContainerSaltInput')
+        if (saltInput) {
+          saltInput.value = salt
+        }
+      } catch (error) {
+        toastr.error('Invalid Commit JSON file')
+        return false
+      }
+    }
+
+    fr.readAsText(file)
   }
 }
 

@@ -13,7 +13,7 @@ function DomainProfileComments (props) {
         shortname='adchain'
         identifier={domain}
         title={domain}
-        url={`https://app.adchain.com/profile/${domain}`} />
+        url={`https://app.adchain.com/domains/${domain}`} />
     </div>
   )
 }
