@@ -30,7 +30,8 @@ class DomainVoteCommitContainer extends Component {
       inProgress: false,
       salt,
       voteOption: null,
-      enableDownload: false
+      enableDownload: false,
+      commitDownloaded: false
     }
 
     this.getListing()
@@ -61,7 +62,9 @@ class DomainVoteCommitContainer extends Component {
       salt,
       voteOption,
       challengeId,
-      enableDownload
+      enableDownload,
+      commitDownloaded,
+      votes
     } = this.state
 
     const stageEndMoment = commitEndDate ? moment.unix(commitEndDate) : null
@@ -157,16 +160,16 @@ The first phase of the voting process is the commit phase where the ADT holder s
                 <button
                   onClick={this.onDownload}
                   title='Download commit info'
-                  className={`ui button ${enableDownload ? '' : 'disabled'} right labeled icon`}>
+                  className={`ui button ${enableDownload ? '' : 'disabled'} right labeled icon ${commitDownloaded ? 'default' : 'blue'}`}>
                   Download Commit
                   <i className='icon download'></i>
                 </button>
               </div>
               <div className='ui field'>
-                {voteOption === null ?
+                {(voteOption === null || !votes || !commitDownloaded) ?
                   <button
                     className='ui button disabled'>
-                      Select Vote Option
+                    {voteOption === null ? 'Select Vote Option' : (!votes ? 'Enter votes' : 'Download Commit')}
                   </button>
                 :
                 <button
@@ -231,6 +234,10 @@ The first phase of the voting process is the commit phase where the ADT holder s
 
     const filename = `commit-vote--${domain.replace('.', '_')}--${challengeId}--${commitEndDate}.json`
     saveFile(json, filename)
+
+    this.setState({
+      commitDownloaded: true
+    })
   }
 
   onFormSubmit (event) {
