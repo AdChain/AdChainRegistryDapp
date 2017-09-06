@@ -84,7 +84,7 @@ class DomainsContainer extends Component {
 
   updateTableFilters (query) {
     const statusFilter = {
-      id: 'status',
+      id: 'stage',
       value: undefined
     }
 
@@ -94,11 +94,16 @@ class DomainsContainer extends Component {
     for (let k in query) {
       if (query[k]) {
         if (k === 'inRegistry') {
-          filter.push('in registry')
+          filter.push('in_registry')
         } else if (k === 'inApplication') {
-          filter.push('in application')
+          filter.push('in_application')
         } else if (k === 'inVoting') {
-          filter.push('voting')
+          filter.push('voting_commit')
+          filter.push('voting_reveal')
+        } else if (k === 'inVotingCommit') {
+          filter.push('voting_commit')
+        } else if (k === 'inVotingReveal') {
+          filter.push('voting_reveal')
         } else if (k === 'rejected') {
           filter.push('rejected')
         }
