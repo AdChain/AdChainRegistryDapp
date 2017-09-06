@@ -11,6 +11,7 @@ class DomainsFilterPanel extends Component {
       filters: props.filters
     }
 
+    this.onSearchInput = this.onSearchInput.bind(this)
     this.onFilterChange = this.onFilterChange.bind(this)
     this.onFiltersChange = props.onFiltersChange.bind(this)
     this.resetFilters = this.resetFilters.bind(this)
@@ -31,7 +32,13 @@ class DomainsFilterPanel extends Component {
           <div className='SearchContainer column sixteen wide'>
             <div className='ui left icon input'>
               <i className='search icon' />
-              <input type='text' placeholder='Search Domain' />
+              <input
+                name='domain'
+                id='DomainsFiltersPanelDomainSearch'
+                defaultValue={filters.domain}
+                onKeyUp={this.onSearchInput}
+                type='text'
+                placeholder='Search Domain' />
             </div>
           </div>
           <div className='column sixteen wide'>
@@ -99,6 +106,17 @@ class DomainsFilterPanel extends Component {
     )
   }
 
+  onSearchInput (event) {
+    const target = event.target
+    const {name} = target
+
+    const {filters} = this.state
+    filters[name] = target.value
+
+    this.setState(filters)
+    this.onFiltersChange(filters)
+  }
+
   onFilterChange (event) {
     const target = event.target
     const {name, checked} = target
@@ -115,6 +133,7 @@ class DomainsFilterPanel extends Component {
     event.preventDefault()
 
     const filters = {
+      domain: '',
       inRegistry: false,
       inApplication: false,
       inVoting: false,
@@ -123,6 +142,12 @@ class DomainsFilterPanel extends Component {
 
     this.setState({filters})
     this.onFiltersChange(filters)
+
+    // TODO: react way of reseting defaultValue to null
+    const field = document.querySelector('#DomainsFiltersPanelDomainSearch')
+    if (field) {
+      field.value = ''
+    }
   }
 }
 

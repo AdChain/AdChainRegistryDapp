@@ -18,7 +18,7 @@ function filterMethod (filter, row, column) {
     return row[id] !== undefined ? filter.value.test(row[id]) : true
   }
 
-  return row[id] !== undefined ? String(row[id]).startsWith(filter.value) : true
+  return row[id] !== undefined && filter.value ? String(row[id]).startsWith(filter.value) : true
 }
 
 var history = null

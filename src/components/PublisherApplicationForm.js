@@ -207,7 +207,7 @@ class PublisherApplicationForm extends Component {
       inProgress: false
     })
 
-    this.history.push('/domains')
+    this.history.push(`/domains?domain=${domain}`)
   }
 
   // TODO save to DB
