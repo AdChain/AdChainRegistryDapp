@@ -155,7 +155,7 @@ class DomainsTable extends Component {
       Cell: (props) => {
         const {value} = props
         const {domain} = props.row
-        let label = ''
+        let label = 'Refresh Status'
 
         if (value === 'in_registry') {
           label = 'In Registry'

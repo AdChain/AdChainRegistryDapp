@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import store from '../store'
 import registry from '../services/registry'
 
-import DomainNoActionContainer from './DomainNoActionContainer'
+import DomainInRegistryContainer from './DomainInRegistryContainer'
 import DomainChallengeContainer from './DomainChallengeContainer'
 import DomainVoteCommitContainer from './DomainVoteCommitContainer'
 import DomainVoteRevealContainer from './DomainVoteRevealContainer'
@@ -53,7 +53,7 @@ class DomainProfileActionContainer extends Component {
     } else if (action === 'reveal') {
       component = <DomainVoteRevealContainer domain={domain} />
     } else if (action === 'in_registry') {
-      component = <DomainNoActionContainer domain={domain} />
+      component = <DomainInRegistryContainer domain={domain} />
     }
 
     return (

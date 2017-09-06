@@ -1,21 +1,36 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import commafy from 'commafy'
+import toastr from 'toastr'
 
 import registry from '../services/registry'
-import './DomainNoActionContainer.css'
+import './DomainInRegistryContainer.css'
 
-// TODO
-// rename this to DomainInRegistryContainer
-class DomainNoActionContainer extends Component {
+class DomainInRegistryContainer extends Component {
   constructor (props) {
     super()
 
     this.state = {
-      domain: props.domain
+      domain: props.domain,
+      didReveal: false
     }
 
     this.getPoll()
+    this.getReveal()
+  }
+
+  async getReveal () {
+    const {domain} = this.state
+
+    try {
+      const didReveal = await registry.didReveal(domain)
+
+      this.setState({
+        didReveal: didReveal
+      })
+    } catch (error) {
+      toastr.error(error)
+    }
   }
 
   async getPoll () {
@@ -39,17 +54,24 @@ class DomainNoActionContainer extends Component {
   render () {
     const {
       votesFor,
-      votesAgainst
+      votesAgainst,
+      didReveal
     } = this.state
 
     return (
-      <div className='DomainNoActionContainer'>
+      <div className='DomainInRegistryContainer'>
         <div className='ui grid stackable'>
           <div className='column sixteen wide'>
             <div className='ui large header center aligned'>
               In Registry
             </div>
           </div>
+          {didReveal ? <div className='column sixteen wide center aligned'>
+            <div className='ui message warning'>
+              You've <strong>revealed</strong> for this domain.
+            </div>
+          </div>
+          : null}
           <div className='column sixteen wide'>
             <p>Domain is in adChain Registry.</p>
           </div>
@@ -64,8 +86,8 @@ class DomainNoActionContainer extends Component {
   }
 }
 
-DomainNoActionContainer.propTypes = {
+DomainInRegistryContainer.propTypes = {
   domain: PropTypes.string
 }
 
-export default DomainNoActionContainer
+export default DomainInRegistryContainer
