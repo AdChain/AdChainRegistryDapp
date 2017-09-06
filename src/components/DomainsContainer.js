@@ -25,12 +25,18 @@ class DomainsContainer extends Component {
 
     this.onQueryChange = this.onQueryChange.bind(this)
     this.updateTableFilters = this.updateTableFilters.bind(this)
+
+    setTimeout(() => {
+      this.updateTableFilters(query)
+    }, 0)
   }
 
   componentWillReceiveProps (props) {
     const query = qs.parse(props.location.search.substr(1))
 
-    this.setState({query: normalizeQueryObj(query)})
+    this.setState({
+      query: normalizeQueryObj(query)
+    })
 
     this.updateTableFilters(query)
   }
@@ -82,9 +88,15 @@ class DomainsContainer extends Component {
     this.updateTableFilters(query)
   }
 
+  // React-table filter
   updateTableFilters (query) {
-    const statusFilter = {
+    const stageFilter = {
       id: 'stage',
+      value: undefined
+    }
+
+    const domainFilter = {
+      id: 'domain',
       value: undefined
     }
 
@@ -106,14 +118,16 @@ class DomainsContainer extends Component {
           filter.push('voting_reveal')
         } else if (k === 'rejected') {
           filter.push('rejected')
+        } else if (k === 'domain') {
+          domainFilter.value = query[k]
         }
       }
     }
 
     filter = new RegExp(filter.join('|'), 'gi')
-    statusFilter.value = filter
+    stageFilter.value = filter
 
-    this.setState({tableFilters: [statusFilter]})
+    this.setState({tableFilters: [domainFilter, stageFilter]})
   }
 }
 
