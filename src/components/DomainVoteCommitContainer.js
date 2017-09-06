@@ -232,7 +232,10 @@ The first phase of the voting process is the commit phase where the ADT holder s
       commitEndDate
     }
 
-    const filename = `commit-vote--${domain.replace('.', '_')}--${challengeId}--${commitEndDate}.json`
+    const domainUnderscored = domain.replace('.', '_')
+    const endDateString = moment.unix(commitEndDate).format('YYYY-MM-DD_HH-mm-ss')
+
+    const filename = `${domainUnderscored}--challenge_id_${challengeId}--commit_end_${endDateString}--commit-vote.json`
     saveFile(json, filename)
 
     this.setState({

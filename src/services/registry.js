@@ -140,10 +140,8 @@ class RegistryService {
         return false
       }
 
-      let tx = null
-
       try {
-        tx = await pify(this.registry.challenge)(domain)
+        await pify(this.registry.challenge)(domain)
         await this.forceMine()
       } catch (error) {
         reject(error)
