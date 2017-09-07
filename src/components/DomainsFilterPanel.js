@@ -74,25 +74,25 @@ class DomainsFilterPanel extends Component {
                 <div className='ui input'>
                   <input
                     type='checkbox'
-                    id='DomainsFilterPanel_InVoting'
-                    name='inVoting'
-                    checked={!!filters.inVoting}
+                    id='DomainsFilterPanel_InVotingCommit'
+                    name='inVotingCommit'
+                    checked={!!filters.inVotingCommit}
                     onChange={this.onFilterChange}
                   />
                 </div>
-                <label htmlFor='DomainsFilterPanel_InVoting'>In Voting</label>
+                <label htmlFor='DomainsFilterPanel_InVotingCommit'>In Voting Commit</label>
               </li>
               <li className='item'>
                 <div className='ui input'>
                   <input
                     type='checkbox'
-                    id='DomainsFilterPanel_Rejected'
-                    name='rejected'
-                    checked={!!filters.rejected}
+                    id='DomainsFilterPanel_InVotingReveal'
+                    name='inVotingReveal'
+                    checked={!!filters.inVotingReveal}
                     onChange={this.onFilterChange}
                   />
                 </div>
-                <label htmlFor='DomainsFilterPanel_Rejected'>Rejected</label>
+                <label htmlFor='DomainsFilterPanel_InVotingReveal'>In Voting Reveal</label>
               </li>
             </ul>
           </div>
@@ -136,8 +136,8 @@ class DomainsFilterPanel extends Component {
       domain: '',
       inRegistry: false,
       inApplication: false,
-      inVoting: false,
-      rejected: false
+      inVotingCommit: false,
+      inVotingReveal: false
     }
 
     this.setState({filters})

@@ -39,10 +39,10 @@ class MainSidebar extends Component {
                 <Link to='/domains?inApplication=true'>Domains in application</Link>
               </li>
               <li className='item'>
-                <Link to='/domains?inVoting=true'>Domains in voting</Link>
+                <Link to='/domains?inVotingCommit=true'>Domains in voting commit</Link>
               </li>
               <li className='item'>
-                <Link to='/domains?rejected=true'>Rejected domains</Link>
+                <Link to='/domains?inVotingReveal=true'>Domains in voting reveal</Link>
               </li>
               <li className='item ApplyLink'>
                 <Link to='/apply'>Apply now</Link>
