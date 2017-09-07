@@ -48,7 +48,7 @@ class DomainVoteTokenDistribution extends Component {
     // "N | 0" coerces to int or to 0 if NaN
     const totalVotes = ((votesFor + votesAgainst) | 0)
     const supportFill = Math.round((votesFor / totalVotes) * 100) | 0
-    const opposeFill = Math.round((votesAgainst / totalVotes) * 99) | 0
+    const opposeFill = Math.round((votesAgainst / totalVotes) * 100) | 0
 
     return (
       <div className='column sixteen wide center aligned DomainVoteTokenDistribution'>
