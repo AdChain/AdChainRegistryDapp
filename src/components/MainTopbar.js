@@ -55,7 +55,7 @@ class MainTopbar extends Component {
           {address ?
             <div className='item'>
               <div>
-                Network: <strong>Rinkeby</strong> Testnet
+                Network: <strong>Rinkeby Testnet</strong>
               </div>
             </div>
           : null}
@@ -67,9 +67,18 @@ class MainTopbar extends Component {
                     src={adtLogo}
                     alt='ADT' />
                 </div>
-                {commafy(adtBalance)}
+                {commafy(adtBalance)} ADT
               </div>
             : null}
+            <div className='item'>
+              <a
+                title='Help'
+                href='https://adchain.zendesk.com/hc/en-us'
+                target='_blank'
+                rel='noopener noreferrer'>
+                <i className='icon help circle' /> Help
+              </a>
+            </div>
           </div>
         </div>
 

@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import commafy from 'commafy'
 import toastr from 'toastr'
+import { Popup } from 'semantic-ui-react'
 
 import registry from '../services/registry'
 import './DomainInRegistryContainer.css'
 import DomainClaimRewardInProgressContainer from './DomainClaimRewardInProgressContainer'
+import DomainVoteTokenDistribution from './DomainVoteTokenDistribution'
 
 class DomainInRegistryContainer extends Component {
   constructor (props) {
@@ -31,8 +32,6 @@ class DomainInRegistryContainer extends Component {
   render () {
     const {
       domain,
-      votesFor,
-      votesAgainst,
       didReveal,
       didClaim,
       inProgress
@@ -44,6 +43,10 @@ class DomainInRegistryContainer extends Component {
           <div className='column sixteen wide'>
             <div className='ui large header center aligned'>
               In Registry
+              <Popup
+                trigger={<i className='icon info circle'></i>}
+                content='Domain was unchallenged or voted into adChain Registry.'
+              />
             </div>
           </div>
           {didReveal ? <div className='column sixteen wide center aligned'>
@@ -62,17 +65,20 @@ class DomainInRegistryContainer extends Component {
             <p>{domain} is in adChain Registry.</p>
           </div>
           <div className='ui divider' />
-          <div className='column sixteen wide center aligned'>
-            <p>Votes For: <strong>{commafy(votesFor || 0)} ADT</strong></p>
-            <p>Votes Against: <strong>{commafy(votesAgainst || 0)} ADT</strong></p>
-          </div>
+          <DomainVoteTokenDistribution domain={domain} />
           <div className='ui divider' />
           <div className='column sixteen wide center aligned'>
             <form
               onSubmit={this.onFormSubmit}
               className='ui form'>
               <div className='ui field'>
-                <label>Claim Reward</label>
+                <div className='ui large header center aligned'>
+                  Claim Reward
+                  <Popup
+                    trigger={<i className='icon info circle'></i>}
+                    content='Voters in the winning party can claim their token rewards by proving the challenge ID (poll ID) and secret phase (salt).'
+                  />
+                </div>
               </div>
               <div className='ui field'>
                 <label>Upload Commit File</label>

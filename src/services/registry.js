@@ -572,6 +572,11 @@ class RegistryService {
 
   getChallengePoll (domain) {
     return new Promise(async (resolve, reject) => {
+      if (!domain) {
+        reject(new Error('Domain is required'))
+        return false
+      }
+
       domain = domain.toLowerCase()
 
       try {
@@ -645,8 +650,14 @@ class RegistryService {
 
       try {
         const challengeId = await this.getChallengeId(domain)
-        const didReveal = await plcr.hasBeenRevealed(challengeId)
-        resolve(didReveal)
+
+        if (!challengeId) {
+          resolve(false)
+          return false
+        }
+
+        const revealed = await plcr.hasBeenRevealed(challengeId)
+        resolve(revealed)
       } catch (error) {
         reject(error)
       }

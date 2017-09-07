@@ -54,7 +54,7 @@ class PlcrService {
   async getPoll (pollId) {
     return new Promise(async (resolve, reject) => {
       if (!pollId) {
-        reject(new Error('PollId is required'))
+        reject(new Error('Poll ID is required'))
         return false
       }
 
@@ -92,7 +92,7 @@ class PlcrService {
   async commitPeriodActive (pollId) {
     return new Promise(async (resolve, reject) => {
       if (!pollId) {
-        reject(new Error('PollId is required'))
+        reject(new Error('Poll ID is required'))
         return false
       }
 
@@ -114,7 +114,7 @@ class PlcrService {
   async revealPeriodActive (pollId) {
     return new Promise(async (resolve, reject) => {
       if (!pollId) {
-        reject(new Error('PollId is required'))
+        reject(new Error('Poll ID is required'))
         return false
       }
 
@@ -136,7 +136,7 @@ class PlcrService {
   async commit ({pollId, hash, tokens, prevPollId}) {
     return new Promise(async (resolve, reject) => {
       if (!pollId) {
-        reject(new Error('PollId is required'))
+        reject(new Error('Poll ID is required'))
         return false
       }
 
@@ -275,6 +275,10 @@ class PlcrService {
 
   async getCommitHash (pollId) {
     return new Promise(async (resolve, reject) => {
+      if (!this.plcr) {
+        await this.initContract()
+      }
+
       try {
         const hash = await pify(this.plcr.getCommitHash)(pollId)
 
@@ -287,6 +291,10 @@ class PlcrService {
 
   async hasBeenRevealed (pollId) {
     return new Promise(async (resolve, reject) => {
+      if (!this.plcr) {
+        await this.initContract()
+      }
+
       try {
         const didReveal = await pify(this.plcr.hasBeenRevealed)(pollId)
 
