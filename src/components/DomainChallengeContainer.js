@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import commafy from 'commafy'
 import toastr from 'toastr'
 import moment from 'moment'
+import { Popup } from 'semantic-ui-react'
 
 import Countdown from './CountdownText'
 import registry from '../services/registry'
@@ -42,10 +43,11 @@ class DomainChallengeContainer extends Component {
           <div className='column sixteen wide'>
             <div className='ui large header center aligned'>
               IN APPLICATION
+              <Popup
+                trigger={<i className='icon info circle'></i>}
+                content='ADT holders are encouraged to challenge publisher applications where the token holders believe the Publisher to be fraudulent.'
+              />
             </div>
-          </div>
-          <div className='column sixteen wide'>
-            <p>ADT holders are encouraged to challenge publisher applications where the token holders believe the Publisher to be fraudulent.</p>
           </div>
           <div className='ui divider' />
           <div className='column sixteen wide center aligned'>
@@ -131,6 +133,11 @@ class DomainChallengeContainer extends Component {
         this.setState({
           inProgress: false
         })
+
+        // TODO: better way of resetting state
+        setTimeout(() => {
+          window.location.reload()
+        }, 1e3)
       } catch (error) {
         toastr.error(error.message)
         this.setState({

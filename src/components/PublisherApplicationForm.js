@@ -24,6 +24,7 @@ class PublisherApplicationForm extends Component {
     }
 
     this.history = props.history
+    this.onMinDepositClick = this.onMinDepositClick.bind(this)
     this.onFormSubmit = this.onFormSubmit.bind(this)
 
     this.getMinDeposit()
@@ -125,10 +126,11 @@ class PublisherApplicationForm extends Component {
                 </div>
               </div>
               <div className='field required'>
-                <label>Total ADT to Stake (Min: {commafy(minDeposit)} ADT)</label>
+                <label>Total ADT to Stake (Min: <a href='#!' onClick={this.onMinDepositClick}>{commafy(minDeposit)} ADT)</a></label>
                 <div className='ui input'>
                   <input
                     type='text'
+                    id='PublisherApplicationFormStakeInput'
                     placeholder={minDeposit}
                     name='stake'
                     required
@@ -148,6 +150,16 @@ class PublisherApplicationForm extends Component {
         {inProgress ? <PublisherApplicationFormInProgress /> : null}
       </div>
     )
+  }
+
+  onMinDepositClick (event) {
+    event.preventDefault()
+
+    const input = document.querySelector('#PublisherApplicationFormStakeInput')
+
+    if (input) {
+      input.value = this.state.minDeposit
+    }
   }
 
   async onFormSubmit (event) {

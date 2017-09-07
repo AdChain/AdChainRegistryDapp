@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import toastr from 'toastr'
 import moment from 'moment'
-import { Radio } from 'semantic-ui-react'
+import { Radio, Popup } from 'semantic-ui-react'
 import randomInt from 'random-int'
 
 import saveFile from '../utils/saveFile'
@@ -76,6 +76,10 @@ class DomainVoteCommitContainer extends Component {
           <div className='column sixteen wide'>
             <div className='ui large header center aligned'>
               VOTING – COMMIT
+              <Popup
+                trigger={<i className='icon info circle'></i>}
+                content='The first phase of the voting process is the commit phase where the ADT holder stakes a hidden amount of ADT to SUPPORT or OPPOSE the domain application. The second phase is the reveal phase where the ADT holder reveals the staked amount of ADT to either the SUPPORT or OPPOSE side.'
+              />
             </div>
           </div>
           {didChallenge ? <div className='column sixteen wide center aligned'>
@@ -90,11 +94,6 @@ class DomainVoteCommitContainer extends Component {
             </div>
           </div>
           : null}
-          <div className='column sixteen wide'>
-            <p>
-The first phase of the voting process is the commit phase where the ADT holder stakes a hidden amount of ADT to SUPPORT or OPPOSE the domain application. The second phase is the reveal phase where the ADT holder reveals the staked amount of ADT to either the SUPPORT or OPPOSE side.
-            </p>
-          </div>
           <div className='ui divider' />
           <div className='column sixteen wide center aligned'>
             <div className='ui message info'>
@@ -333,6 +332,11 @@ The first phase of the voting process is the commit phase where the ADT holder s
       this.setState({
         inProgress: false
       })
+
+      // TODO: better way of resetting state
+      setTimeout(() => {
+        window.location.reload()
+      }, 1e3)
     } catch (error) {
       toastr.error(error.message)
       this.setState({

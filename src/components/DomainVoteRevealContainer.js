@@ -1,14 +1,13 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import commafy from 'commafy'
 import toastr from 'toastr'
 import moment from 'moment'
-import { Radio } from 'semantic-ui-react'
+import { Radio, Popup } from 'semantic-ui-react'
 
 import Countdown from './CountdownText'
 import registry from '../services/registry'
 import DomainVoteRevealInProgressContainer from './DomainVoteRevealInProgressContainer'
-import StatProgressBar from './StatProgressBar'
+import DomainVoteTokenDistribution from './DomainVoteTokenDistribution'
 
 import './DomainVoteRevealContainer.css'
 
@@ -45,8 +44,7 @@ class DomainVoteRevealContainer extends Component {
 
   render () {
     const {
-      votesFor,
-      votesAgainst,
+      domain,
       revealEndDate,
       inProgress,
       didChallenge,
@@ -60,17 +58,16 @@ class DomainVoteRevealContainer extends Component {
     const stageEndMoment = revealEndDate ? moment.unix(revealEndDate) : null
     const stageEnd = stageEndMoment ? stageEndMoment.format('YYYY-MM-DD HH:mm:ss') : '-'
 
-    // "N | 0" coerces to int
-    const totalVotes = ((votesFor + votesAgainst) | 0)
-    const supportFill = ((totalVotes / votesFor * 1e2) | 0)
-    const opposeFill = ((totalVotes / votesAgainst * 1e2) | 0)
-
     return (
       <div className='DomainVoteRevealContainer'>
         <div className='ui grid stackable'>
           <div className='column sixteen wide'>
             <div className='ui large header center aligned'>
               VOTING – REVEAL
+              <Popup
+                trigger={<i className='icon info circle'></i>}
+                content='The first phase of the voting process is the commit phase where the ADT holder stakes a hidden amount of ADT to SUPPORT or OPPOSE the domain application. The second phase is the reveal phase where the ADT holder reveals the staked amount of ADT to either the SUPPORT or OPPOSE side.'
+              />
             </div>
           </div>
           {didChallenge ? <div className='column sixteen wide center aligned'>
@@ -91,35 +88,8 @@ class DomainVoteRevealContainer extends Component {
             </div>
           </div>
           : null}
-          <div className='column sixteen wide'>
-            <p>
-The first phase of the voting process is the commit phase where the ADT holder stakes a hidden amount of ADT to SUPPORT or OPPOSE the domain application. The second phase is the reveal phase where the ADT holder reveals the staked amount of ADT to either the SUPPORT or OPPOSE side.
-            </p>
-          </div>
           <div className='ui divider' />
-          <div className='column sixteen wide center aligned ProgressContainer'>
-            <p>
-              ADT holders have revealed their vote to show:
-            </p>
-            <div className='BarContainer'>
-              <StatProgressBar
-                fills={[supportFill, opposeFill]}
-                showFillLabels
-                showLegend
-                fillLabels={['SUPPORT', 'OPPOSE']}
-              />
-            </div>
-            <div className='Breakdown'>
-              <div className='BreakdownItem'>
-                <div className='BreakdownItemBox'></div>
-                <span className='BreakdownItemLabel'>{commafy(votesFor)} ADT</span>
-              </div>
-              <div className='BreakdownItem'>
-                <div className='BreakdownItemBox'></div>
-                <span className='BreakdownItemLabel'>{commafy(votesAgainst)} ADT</span>
-              </div>
-            </div>
-          </div>
+          <DomainVoteTokenDistribution domain={domain} />
           <div className='ui divider' />
           <div className='column sixteen wide center aligned'>
             <div className='ui message info'>
@@ -321,6 +291,11 @@ The first phase of the voting process is the commit phase where the ADT holder s
       this.setState({
         inProgress: false
       })
+
+      // TODO: better way of resetting state
+      setTimeout(() => {
+        window.location.reload()
+      }, 1e3)
     } catch (error) {
       toastr.error(error.message)
       this.setState({
