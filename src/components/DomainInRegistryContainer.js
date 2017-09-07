@@ -5,6 +5,7 @@ import toastr from 'toastr'
 
 import registry from '../services/registry'
 import './DomainInRegistryContainer.css'
+import DomainClaimRewardInProgressContainer from './DomainClaimRewardInProgressContainer'
 
 class DomainInRegistryContainer extends Component {
   constructor (props) {
@@ -12,11 +13,88 @@ class DomainInRegistryContainer extends Component {
 
     this.state = {
       domain: props.domain,
-      didReveal: false
+      didReveal: false,
+      didClaim: false,
+      claimChallengeId: null,
+      claimSalt: null,
+      inProgress: false
     }
+
+    this.onFileInput = this.onFileInput.bind(this)
+    this.onFormSubmit = this.onFormSubmit.bind(this)
 
     this.getPoll()
     this.getReveal()
+    this.getClaims()
+  }
+
+  render () {
+    const {
+      domain,
+      votesFor,
+      votesAgainst,
+      didReveal,
+      didClaim,
+      inProgress
+    } = this.state
+
+    return (
+      <div className='DomainInRegistryContainer'>
+        <div className='ui grid stackable'>
+          <div className='column sixteen wide'>
+            <div className='ui large header center aligned'>
+              In Registry
+            </div>
+          </div>
+          {didReveal ? <div className='column sixteen wide center aligned'>
+            <div className='ui message warning'>
+              You've <strong>revealed</strong> for this domain.
+            </div>
+          </div>
+          : null}
+          {didClaim ? <div className='column sixteen wide center aligned'>
+            <div className='ui message warning'>
+              You've <strong>claimed</strong> ADT for this domain.
+            </div>
+          </div>
+          : null}
+          <div className='column sixteen wide center aligned'>
+            <p>{domain} is in adChain Registry.</p>
+          </div>
+          <div className='ui divider' />
+          <div className='column sixteen wide center aligned'>
+            <p>Votes For: <strong>{commafy(votesFor || 0)} ADT</strong></p>
+            <p>Votes Against: <strong>{commafy(votesAgainst || 0)} ADT</strong></p>
+          </div>
+          <div className='ui divider' />
+          <div className='column sixteen wide center aligned'>
+            <form
+              onSubmit={this.onFormSubmit}
+              className='ui form'>
+              <div className='ui field'>
+                <label>Claim Reward</label>
+              </div>
+              <div className='ui field'>
+                <label>Upload Commit File</label>
+                <input
+                  type='file'
+                  name='file'
+                  onChange={this.onFileInput}
+                  className='ui file' />
+              </div>
+              <div className='ui field'>
+                <button
+                  type='submit'
+                  className='ui button blue'>
+                  Claim Reward
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+        {inProgress ? <DomainClaimRewardInProgressContainer /> : null}
+      </div>
+    )
   }
 
   async getReveal () {
@@ -51,38 +129,100 @@ class DomainInRegistryContainer extends Component {
     }
   }
 
-  render () {
+  async getClaims () {
+    const {domain} = this.state
+
+    try {
+      const claimed = await registry.didClaim(domain)
+
+      this.setState({
+        didClaim: claimed
+      })
+    } catch (error) {
+      toastr.error(error)
+    }
+  }
+
+  onFormSubmit (event) {
+    event.preventDefault()
+
+    this.claimReward()
+  }
+
+  async claimReward () {
     const {
-      votesFor,
-      votesAgainst,
-      didReveal
+      claimChallengeId,
+      claimSalt
     } = this.state
 
-    return (
-      <div className='DomainInRegistryContainer'>
-        <div className='ui grid stackable'>
-          <div className='column sixteen wide'>
-            <div className='ui large header center aligned'>
-              In Registry
-            </div>
-          </div>
-          {didReveal ? <div className='column sixteen wide center aligned'>
-            <div className='ui message warning'>
-              You've <strong>revealed</strong> for this domain.
-            </div>
-          </div>
-          : null}
-          <div className='column sixteen wide'>
-            <p>Domain is in adChain Registry.</p>
-          </div>
+    if (!claimChallengeId) {
+      toastr.error('Challenge ID is required')
+      return false
+    }
 
-          <div className='column sixteen wide'>
-            <p>Votes For: <strong>{commafy(votesFor || 0)} ADT</strong></p>
-            <p>Votes Against: <strong>{commafy(votesAgainst || 0)} ADT</strong></p>
-          </div>
-        </div>
-      </div>
-    )
+    if (!claimSalt) {
+      toastr.error('Salt is required')
+      return false
+    }
+
+    const alreadyClaimed = await registry.didClaimForPoll(claimChallengeId)
+
+    if (alreadyClaimed) {
+      toastr.error('Already claimed reward')
+      return false
+    }
+
+    try {
+      this.setState({
+        inProgress: true
+      })
+
+      await registry.claimReward(claimChallengeId, claimSalt)
+      toastr.success('Success')
+    } catch (error) {
+      toastr.error(error)
+    }
+
+    this.setState({
+      inProgress: false
+    })
+  }
+
+  onFileInput (event) {
+    event.preventDefault()
+    const file = event.target.files[0]
+    const fr = new window.FileReader()
+
+    fr.onload = () => {
+      const contents = fr.result
+
+      try {
+        const {
+          salt,
+          challengeId
+        } = JSON.parse(contents)
+
+        this.setState({
+          claimSalt: salt,
+          claimChallengeId: challengeId
+        })
+
+        const saltInput = document.querySelector('#DomainInRegistryContainerSaltInput')
+        if (saltInput) {
+          saltInput.value = salt
+        }
+
+        const challengeIdInput = document.querySelector('#DomainInRegistryContainerChallengeIdInput')
+        if (challengeIdInput) {
+          challengeIdInput.value = salt
+        }
+      } catch (error) {
+        toastr.error('Invalid Commit JSON file')
+        return false
+      }
+    }
+
+    fr.readAsText(file)
   }
 }
 

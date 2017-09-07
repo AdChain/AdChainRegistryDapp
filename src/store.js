@@ -25,6 +25,7 @@ function reducer (state = -1, action) {
     case 'REGISTRY_DOMAIN_VOTE_COMMIT':
     case 'REGISTRY_DOMAIN_VOTE_REVEAL':
     case 'REGISTRY_DOMAIN_UPDATE_STATUS':
+    case 'REGISTRY_CLAIM_REWARD':
     case 'REGISTRY_EVENT':
     case 'PLCR_VOTE_COMMIT':
     case 'PLCR_VOTE_REVEAL':

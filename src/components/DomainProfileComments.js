@@ -7,15 +7,15 @@ import './DomainProfileComments.css'
 function DomainProfileComments (props) {
   const {domain} = props
 
-  return (
-    <div className='DomainProfileComments'>
+  const comments = (<div className='DomainProfileComments'>
       <ReactDisqusThread
         shortname='adchain'
         identifier={domain}
         title={domain}
         url={`https://app.adchain.com/domains/${domain}`} />
-    </div>
-  )
+    </div>)
+
+  return (comments)
 }
 
 DomainProfileComments.propTypes = {

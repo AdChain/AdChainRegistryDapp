@@ -657,6 +657,48 @@ class RegistryService {
     return plcr.hasEnoughTokens(tokens)
   }
 
+  didClaim (domain) {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const challengeId = await this.getChallengeId(domain)
+        const account = window.web3.eth.accounts[0]
+        const hasClaimed = await pify(this.registry.tokenClaims)(challengeId, account)
+        resolve(hasClaimed)
+      } catch (error) {
+        reject(error)
+      }
+    })
+  }
+
+  didClaimForPoll (challengeId) {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const account = window.web3.eth.accounts[0]
+        const hasClaimed = await pify(this.registry.tokenClaims)(challengeId, account)
+        resolve(hasClaimed)
+      } catch (error) {
+        reject(error)
+      }
+    })
+  }
+
+  claimReward (challengeId, salt) {
+    return new Promise(async (resolve, reject) => {
+      try {
+        await pify(this.registry.claimReward)(challengeId, salt)
+        this.forceMine()
+
+        store.dispatch({
+          type: 'REGISTRY_CLAIM_REWARD'
+        })
+
+        resolve()
+      } catch (error) {
+        reject(error)
+      }
+    })
+  }
+
   async getTransaction (tx) {
     return new Promise(async (resolve, reject) => {
       if (!this.registry) {
