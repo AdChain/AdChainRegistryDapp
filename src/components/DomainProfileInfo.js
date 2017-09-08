@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import commafy from 'commafy'
+import Trollbox from './Trollbox'
 
 import DomainProfileComments from './DomainProfileComments'
 
@@ -67,6 +68,11 @@ class DomainProfileInfo extends Component {
             <div className='Content'>
               <span className='green'>{wins ? commafy(wins) : '-'}</span> / <span className='red'>{losses ? commafy(losses) : '-'}</span>
             </div>
+          </div>
+          <div className='column sixteen wide'>
+            <Trollbox
+              channel={domain}
+            />
           </div>
           <div className='column sixteen wide'>
             <DomainProfileComments domain={domain} />
