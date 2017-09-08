@@ -9,3 +9,11 @@
 .DomainsContainer > .grid > .row > .column:first-child {
   padding-right: 0;
 }
+
+.DomainsContainer .GlobalTrollbox {
+  margin-top: 1rem;
+}
+
+.DomainsContainer .GlobalTrollbox .Header {
+  margin-bottom: 0.4em;
+}

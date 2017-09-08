@@ -70,6 +70,9 @@ class DomainProfileInfo extends Component {
             </div>
           </div>
           <div className='column sixteen wide'>
+            <div className='Header'>
+              Trollbox for {domain}
+            </div>
             <Trollbox
               channel={domain}
             />
