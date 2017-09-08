@@ -48,12 +48,35 @@ class MainSidebar extends Component {
                 <Link to='/apply'>Apply now</Link>
               </li>
             </ul>
+            {/*
             <div className='ListTitle ui header'>
               adChain Account
             </div>
             <ul className='ui list'>
               <li className='item'>
                 <Link to='/account'>Account Dashboard</Link>
+              </li>
+            </ul>
+            */}
+            <div className='ListTitle ui header'>
+              Support
+            </div>
+            <ul className='ui list'>
+              <li className='item'>
+                <a
+                  href='https://adchain.zendesk.com/hc/en-us'
+                  target='_blank'
+                  rel='noopener noreferrer'>
+                  Help Desk
+                </a>
+              </li>
+              <li className='item'>
+                <a
+                  href='https://adchain.zendesk.com/hc/en-us/requests/new'
+                  target='_blank'
+                  rel='noopener noreferrer'>
+                  Submit Request
+                </a>
               </li>
             </ul>
           </div>
