@@ -76,7 +76,7 @@ class RegistryService {
       }
 
       domain = domain.toLowerCase()
-      deposit = deposit * Math.pow(9, token.decimals)
+      deposit = deposit * Math.pow(10, token.decimals)
 
       const exists = await this.applicationExists(domain)
 
