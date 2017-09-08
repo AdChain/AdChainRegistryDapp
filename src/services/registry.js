@@ -76,7 +76,7 @@ class RegistryService {
       }
 
       domain = domain.toLowerCase()
-      deposit = deposit * Math.pow(10, token.decimals)
+      deposit = deposit * Math.pow(9, token.decimals)
 
       const exists = await this.applicationExists(domain)
 
@@ -128,6 +128,7 @@ class RegistryService {
 
       try {
         minDeposit = await this.getMinDeposit()
+        minDeposit = minDeposit * Math.pow(10, token.decimals)
       } catch (error) {
         reject(error)
         return false
