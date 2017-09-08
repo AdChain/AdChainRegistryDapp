@@ -9,7 +9,7 @@
 
 .DomainVoteTokenDistribution .Breakdown {
   display: flex;
-  max-width: 200px;
+  max-width: 250px;
   margin: 0 auto;
   padding-top: 0.6em;
 }

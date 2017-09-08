@@ -91,8 +91,9 @@ class DomainInRegistryContainer extends Component {
               <div className='ui field'>
                 <button
                   type='submit'
-                  className='ui button blue'>
+                  className='ui button blue right labeled icon'>
                   Claim Reward
+                  <i className='icon certificate' />
                 </button>
               </div>
             </form>
