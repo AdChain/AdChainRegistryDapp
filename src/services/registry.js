@@ -77,6 +77,8 @@ class RegistryService {
 
       domain = domain.toLowerCase()
 
+      deposit = deposit * Math.pow(10, token.decimals)
+
       const exists = await this.applicationExists(domain)
 
       if (exists) {
@@ -390,8 +392,9 @@ class RegistryService {
     return Promise.resolve(parameters)
   }
 
-  getMinDeposit () {
-    return this.getParameter('minDeposit')
+  async getMinDeposit () {
+    const min = await this.getParameter('minDeposit')
+    return min / Math.pow(10, token.decimals)
   }
 
   async getCurrentBlockNumber () {

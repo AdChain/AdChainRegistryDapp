@@ -32,7 +32,7 @@ class PublisherApplicationForm extends Component {
 
   async getMinDeposit () {
     this.setState({
-      minDeposit: await registry.getParameter('minDeposit')
+      minDeposit: await registry.getMinDeposit()
     })
   }
 
