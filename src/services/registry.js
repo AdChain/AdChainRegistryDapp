@@ -531,10 +531,11 @@ class RegistryService {
         const prevPollId = 0
         const hash = saltHashVote(voteOption, salt)
 
-        const result = await plcr.commit({pollId: challengeId, hash, tokens: votes, prevPollId})
+        await plcr.commit({pollId: challengeId, hash, tokens: votes, prevPollId})
         await this.forceMine()
+        const commited = await this.didCommitForPoll(challengeId)
 
-        resolve(result)
+        resolve(commited)
       } catch (error) {
         reject(error)
         return false
@@ -559,10 +560,11 @@ class RegistryService {
       }
 
       try {
-        const result = plcr.reveal({pollId: challengeId, voteOption, salt})
+        await plcr.reveal({pollId: challengeId, voteOption, salt})
         await this.forceMine()
+        const revealed = await this.didRevealForPoll(challengeId)
 
-        resolve(result)
+        resolve(revealed)
       } catch (error) {
         reject(error)
         return false
@@ -630,14 +632,26 @@ class RegistryService {
 
       try {
         const challengeId = await this.getChallengeId(domain)
-        const hash = await plcr.getCommitHash(challengeId)
-        let didCommit = false
+        const committed = await this.didCommitForPoll(challengeId)
+
+        resolve(committed)
+      } catch (error) {
+        reject(error)
+      }
+    })
+  }
+
+  async didCommitForPoll (pollId) {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const hash = await plcr.getCommitHash(pollId)
+        let committed = false
 
         if (hash !== '0x0000000000000000000000000000000000000000000000000000000000000000') {
-          didCommit = true
+          committed = true
         }
 
-        resolve(didCommit)
+        resolve(committed)
       } catch (error) {
         reject(error)
       }
@@ -657,6 +671,22 @@ class RegistryService {
         }
 
         const revealed = await plcr.hasBeenRevealed(challengeId)
+        resolve(revealed)
+      } catch (error) {
+        reject(error)
+      }
+    })
+  }
+
+  async didRevealForPoll (pollId) {
+    return new Promise(async (resolve, reject) => {
+      try {
+        if (!pollId) {
+          resolve(false)
+          return false
+        }
+
+        const revealed = await plcr.hasBeenRevealed(pollId)
         resolve(revealed)
       } catch (error) {
         reject(error)

@@ -184,7 +184,7 @@ class DomainInRegistryContainer extends Component {
       })
 
       await registry.claimReward(claimChallengeId, claimSalt)
-      toastr.success('Success')
+      toastr.success('Transaction mined')
     } catch (error) {
       toastr.error(error)
     }
