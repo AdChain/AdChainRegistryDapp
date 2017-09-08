@@ -6,6 +6,8 @@ import DomainProfileHeader from './DomainProfileHeader'
 import DomainStatsbar from './DomainStatsbar'
 import DomainProfileInfo from './DomainProfileInfo'
 import DomainProfileActionContainer from './DomainProfileActionContainer'
+import registry from '../services/registry'
+import Trollbox from './Trollbox'
 
 import './DomainProfile.css'
 
@@ -23,7 +25,8 @@ class DomainProfile extends Component {
       domain,
       siteName: domain.toUpperCase().replace(/\..*/gi, ''),
       country: 'United States',
-      action
+      action,
+      user: (registry.getAccount() || '').substr(0, 8)
     }
   }
 
@@ -32,7 +35,8 @@ class DomainProfile extends Component {
       domain,
       siteName,
       country,
-      action
+      action,
+      user
     } = this.state
 
     return (
@@ -51,9 +55,15 @@ class DomainProfile extends Component {
             </div>
           </div>
           <div className='row'>
-            <div className='column ten wide'>
+            <div className='column six wide'>
               <DomainProfileInfo
                 domain={domain}
+              />
+            </div>
+            <div className='column four wide'>
+              <Trollbox
+                channel={domain}
+                user={user}
               />
             </div>
             <div className='column six wide'>
