@@ -32,8 +32,7 @@ class DomainChallengeContainer extends Component {
       domain,
       applicationExpiry,
       minDeposit,
-      inProgress,
-      currentDeposit
+      inProgress
     } = this.state
 
     const stageEndMoment = applicationExpiry ? moment.unix(applicationExpiry) : null
