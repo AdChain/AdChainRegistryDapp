@@ -19,6 +19,7 @@ class DomainChallengeContainer extends Component {
       domain: props.domain,
       applicationExpiry: null,
       minDeposit: null,
+      currentDeposit: null,
       inProgress: false
     }
 
@@ -31,7 +32,8 @@ class DomainChallengeContainer extends Component {
       domain,
       applicationExpiry,
       minDeposit,
-      inProgress
+      inProgress,
+      currentDeposit
     } = this.state
 
     const stageEndMoment = applicationExpiry ? moment.unix(applicationExpiry) : null
@@ -96,11 +98,13 @@ class DomainChallengeContainer extends Component {
     const listing = await registry.getListing(domain)
 
     const {
-      applicationExpiry
+      applicationExpiry,
+      currentDeposit
     } = listing
 
     this.setState({
-      applicationExpiry
+      applicationExpiry,
+      currentDeposit
     })
   }
 
