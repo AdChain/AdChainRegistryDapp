@@ -49,7 +49,7 @@ class MainTopbar extends Component {
                 <span>{address}</span>
               </div>
               : <div className='NoWalletMessage'>
-               Please download or unlock <a href='https://metamask.io/' target='_blank' rel='noopener noreferrer'>MetaMask</a> extension to load Ethereum wallet
+               Please download or unlock <a href='https://metamask.io/' target='_blank' rel='noopener noreferrer'>MetaMask</a> extension to load application and Ethereum wallet
             </div>}
           </div>
           {address ?

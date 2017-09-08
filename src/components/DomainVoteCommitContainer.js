@@ -327,16 +327,22 @@ class DomainVoteCommitContainer extends Component {
     })
 
     try {
-      await registry.commitVote({domain, votes, voteOption, salt})
-      toastr.success('Success')
+      const commited = await registry.commitVote({domain, votes, voteOption, salt})
+
       this.setState({
         inProgress: false
       })
 
-      // TODO: better way of resetting state
-      setTimeout(() => {
-        window.location.reload()
-      }, 1e3)
+      if (commited) {
+        toastr.success('Successfully committed')
+
+        // TODO: better way of resetting state
+        setTimeout(() => {
+          window.location.reload()
+        }, 1e3)
+      } else {
+        toastr.error('Commit did not go through')
+      }
     } catch (error) {
       toastr.error(error.message)
       this.setState({

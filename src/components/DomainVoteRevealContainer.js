@@ -286,16 +286,21 @@ class DomainVoteRevealContainer extends Component {
     })
 
     try {
-      await registry.revealVote({domain, voteOption, salt})
-      toastr.success('Success')
+      const revealed = await registry.revealVote({domain, voteOption, salt})
       this.setState({
         inProgress: false
       })
 
-      // TODO: better way of resetting state
-      setTimeout(() => {
-        window.location.reload()
-      }, 1e3)
+      if (revealed) {
+        toastr.success('Successfully revealed')
+
+        // TODO: better way of resetting state
+        setTimeout(() => {
+          window.location.reload()
+        }, 2e3)
+      } else {
+        toastr.error('Reveal did not go through')
+      }
     } catch (error) {
       toastr.error(error.message)
       this.setState({

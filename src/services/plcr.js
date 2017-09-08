@@ -295,6 +295,11 @@ class PlcrService {
         await this.initContract()
       }
 
+      if (!pollId) {
+        resolve(false)
+        return false
+      }
+
       try {
         const didReveal = await pify(this.plcr.hasBeenRevealed)(pollId)
 

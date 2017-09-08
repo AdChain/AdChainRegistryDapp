@@ -129,7 +129,8 @@ class DomainChallengeContainer extends Component {
       try {
         await registry.challenge(domain)
 
-        toastr.success('Challenged')
+        toastr.success('Successfully challenged domain')
+
         this.setState({
           inProgress: false
         })
@@ -137,7 +138,7 @@ class DomainChallengeContainer extends Component {
         // TODO: better way of resetting state
         setTimeout(() => {
           window.location.reload()
-        }, 1e3)
+        }, 2e3)
       } catch (error) {
         toastr.error(error.message)
         this.setState({

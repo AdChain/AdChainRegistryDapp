@@ -126,7 +126,7 @@ class PublisherApplicationForm extends Component {
                 </div>
               </div>
               <div className='field required'>
-                <label>Total ADT to Stake (Min: <a href='#!' onClick={this.onMinDepositClick}>{commafy(minDeposit)} ADT)</a></label>
+                <label>Total ADT to Stake (Min: <a href='#!' onClick={this.onMinDepositClick}>{commafy(minDeposit)} ADT</a>)</label>
                 <div className='ui input'>
                   <input
                     type='text'
