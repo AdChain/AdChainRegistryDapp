@@ -32,7 +32,9 @@ function TrollboxComponent (props) {
     trollbox.setUser(user)
   }, 0)
 
-  return (<div className='' id='trollbox'></div>)
+  return (
+    <div className='Trollbox' id='trollbox' />
+  )
 }
 
 TrollboxComponent.propTypes = {
