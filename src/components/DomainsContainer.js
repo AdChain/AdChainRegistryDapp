@@ -61,7 +61,7 @@ class DomainsContainer extends Component {
             </div>
           </div>
           <div className='row'>
-            <div className='column three wide'>
+            <div className='column four wide'>
               <DomainsFilterPanel
                 filters={query}
                 onFiltersChange={this.onQueryChange}
@@ -75,7 +75,7 @@ class DomainsContainer extends Component {
                 />
               </div>
             </div>
-            <div className='column thirteen wide'>
+            <div className='column twelve wide'>
               <DomainsTable
                 history={history}
                 filters={tableFilters}

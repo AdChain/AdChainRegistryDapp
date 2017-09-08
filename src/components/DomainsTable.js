@@ -124,7 +124,7 @@ class DomainsTable extends Component {
         let label = 'View'
 
         if (stage === 'in_registry') {
-          label = 'Claim Reward'
+          label = 'View'
         } else if (stage === 'in_application') {
           label = 'Challenge'
         } else if (stage === 'voting_commit') {

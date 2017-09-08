@@ -34,8 +34,12 @@ class DomainInRegistryContainer extends Component {
       domain,
       didReveal,
       didClaim,
-      inProgress
+      inProgress,
+      votesFor,
+      votesAgainst
     } = this.state
+
+    const canClaim = (votesFor || votesAgainst)
 
     return (
       <div className='DomainInRegistryContainer'>
@@ -64,9 +68,11 @@ class DomainInRegistryContainer extends Component {
           <div className='column sixteen wide center aligned'>
             <p>{domain} is in adChain Registry.</p>
           </div>
-          <div className='ui divider' />
-          <DomainVoteTokenDistribution domain={domain} />
-          <div className='ui divider' />
+          {canClaim ?
+          [
+          <div className='ui divider' />,
+          <DomainVoteTokenDistribution domain={domain} />,
+          <div className='ui divider' />,
           <div className='column sixteen wide center aligned'>
             <form
               onSubmit={this.onFormSubmit}
@@ -98,6 +104,7 @@ class DomainInRegistryContainer extends Component {
               </div>
             </form>
           </div>
+          ]: null}
         </div>
         {inProgress ? <DomainClaimRewardInProgressContainer /> : null}
       </div>

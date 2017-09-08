@@ -144,6 +144,8 @@ class RegistryService {
 
       try {
         await pify(this.registry.challenge)(domain)
+        // wait for a while
+        await this.forceMine()
         await this.forceMine()
       } catch (error) {
         reject(error)
