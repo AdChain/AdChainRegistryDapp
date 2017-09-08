@@ -615,10 +615,16 @@ class RegistryService {
   async getCommitHash (domain) {
     return new Promise(async (resolve, reject) => {
       domain = domain.toLowerCase()
+      const voter = this.getAccount()
+
+      if (!voter) {
+        resolve(false)
+        return false
+      }
 
       try {
         const challengeId = await this.getChallengeId(domain)
-        const hash = await plcr.getCommitHash(challengeId)
+        const hash = await plcr.getCommitHash(voter, challengeId)
         resolve(hash)
       } catch (error) {
         reject(error)
@@ -644,7 +650,14 @@ class RegistryService {
   async didCommitForPoll (pollId) {
     return new Promise(async (resolve, reject) => {
       try {
-        const hash = await plcr.getCommitHash(pollId)
+        const voter = this.getAccount()
+
+        if (!voter) {
+          resolve(false)
+          return false
+        }
+
+        const hash = await plcr.getCommitHash(voter, pollId)
         let committed = false
 
         if (hash !== '0x0000000000000000000000000000000000000000000000000000000000000000') {
@@ -662,6 +675,13 @@ class RegistryService {
     return new Promise(async (resolve, reject) => {
       domain = domain.toLowerCase()
 
+      const voter = this.getAccount()
+
+      if (!voter) {
+        resolve(false)
+        return false
+      }
+
       try {
         const challengeId = await this.getChallengeId(domain)
 
@@ -670,7 +690,7 @@ class RegistryService {
           return false
         }
 
-        const revealed = await plcr.hasBeenRevealed(challengeId)
+        const revealed = await plcr.hasBeenRevealed(voter, challengeId)
         resolve(revealed)
       } catch (error) {
         reject(error)
@@ -686,7 +706,14 @@ class RegistryService {
           return false
         }
 
-        const revealed = await plcr.hasBeenRevealed(pollId)
+        const voter = this.getAccount()
+
+        if (!voter) {
+          resolve(false)
+          return false
+        }
+
+        const revealed = await plcr.hasBeenRevealed(voter, pollId)
         resolve(revealed)
       } catch (error) {
         reject(error)
