@@ -9,6 +9,7 @@ import RegistryStatsbar from './RegistryStatsbar'
 import AdtCalculator from './AdtCalculator'
 import DomainsTable from './DomainsTable'
 import DomainsFilterPanel from './DomainsFilterPanel'
+import Trollbox from './Trollbox'
 
 import './DomainsContainer.css'
 
@@ -65,6 +66,14 @@ class DomainsContainer extends Component {
                 filters={query}
                 onFiltersChange={this.onQueryChange}
               />
+              <div className='GlobalTrollbox BoxFrame'>
+                <div className='Header'>
+                  Global Trollbox
+                </div>
+                <Trollbox
+                  channel={'adchainRegistryGlobal'}
+                />
+              </div>
             </div>
             <div className='column thirteen wide'>
               <DomainsTable

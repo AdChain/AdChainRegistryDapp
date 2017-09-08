@@ -8,6 +8,7 @@
 .TrollboxHeader {
   font-weight: bold;
   padding-bottom: 0.2em;
+  display: none;
 }
 
 .TrollboxMessages {
@@ -73,4 +74,5 @@
 
 .TrollboxInput:focus {
   outline: 0;
+  border-color: #536DEB;
 }
