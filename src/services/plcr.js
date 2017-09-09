@@ -99,7 +99,7 @@ class PlcrService {
       }
 
       try {
-        const result = await pify(this.plcr.commitPeriodActive)(pollId);
+        const result = await pify(this.plcr.commitPeriodActive)(pollId)
         resolve(result)
         return false
       } catch (error) {
@@ -131,7 +131,7 @@ class PlcrService {
     })
   }
 
-  async commit ({pollId, hash, tokens, prevPollId}) {
+  async commit ({pollId, hash, tokens}) {
     return new Promise(async (resolve, reject) => {
       if (!pollId) {
         reject(new Error('Poll ID is required'))
@@ -183,6 +183,8 @@ class PlcrService {
       }
 
       try {
+        const prevPollId =
+          await pify(this.plcr.getInsertPointForNumTokens.call)(this.getAccount(), tokens)
         const result = await pify(this.plcr.commitVote)(pollId, hash, tokens, prevPollId)
         await this.forceMine()
 
@@ -310,7 +312,7 @@ class PlcrService {
 
   async getTransactionReceipt (tx) {
     return new Promise(async (resolve, reject) => {
-      if (!this.registry) {
+      if (!this.plcr) {
         this.initContract()
       }
 
@@ -323,6 +325,14 @@ class PlcrService {
         return false
       }
     })
+  }
+
+  getAccount () {
+    if (!window.web3) {
+      return null
+    }
+
+    return window.web3.eth.defaultAccount
   }
 }
 

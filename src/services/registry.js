@@ -533,11 +533,9 @@ class RegistryService {
       }
 
       try {
-        const prevPollId =
-          await pify(plcr.getInsertPointForNumTokens.call)(this.getAccount(), votes);
         const hash = saltHashVote(voteOption, salt)
 
-        await plcr.commit({pollId: challengeId, hash, tokens: votes, prevPollId})
+        await plcr.commit({pollId: challengeId, hash, tokens: votes})
         await this.forceMine()
         const commited = await this.didCommitForPoll(challengeId)
 
