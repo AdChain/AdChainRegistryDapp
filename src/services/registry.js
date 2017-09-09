@@ -13,6 +13,29 @@ import { getAddress, getAbi } from '../config'
 const address = getAddress('registry')
 const abi = getAbi('registry')
 
+// Web3 fires 2 callbacks; 2nd callback is when it's mined
+function pify2nd (fn) {
+  return () => {
+    const args = [].slice.call(arguments)
+    let n = 0
+    return new Promise((resolve, reject) => {
+      fn.call(args, (error, result) => {
+        if (n === 1) {
+          resolve(result)
+          return false
+        }
+
+        if (error) {
+          reject(error)
+          return false
+        }
+
+        n++
+      })
+    })
+  }
+}
+
 const parameters = keyMirror({
   minDeposit: null,
   applyStageLen: null,
