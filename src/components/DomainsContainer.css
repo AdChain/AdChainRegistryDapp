@@ -2,7 +2,8 @@
   width: 100%;
 }
 
-.DomainsContainer > .grid > .row:first-child {
+.DomainsContainer > .grid > .row:first-child,
+:root:root:root .DomainsContainer .NoPaddingBottom {
   padding-bottom: 0;
 }
 
