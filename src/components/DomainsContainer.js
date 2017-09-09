@@ -53,14 +53,6 @@ class DomainsContainer extends Component {
       <div className='DomainsContainer'>
         <div className='ui grid stackable padded'>
           <div className='row'>
-            <div className='column ten wide'>
-              <RegistryStatsbar />
-            </div>
-            <div className='column six wide'>
-              <AdtCalculator />
-            </div>
-          </div>
-          <div className='row'>
             <div className='column four wide'>
               <DomainsFilterPanel
                 filters={query}
@@ -76,10 +68,17 @@ class DomainsContainer extends Component {
               </div>
             </div>
             <div className='column twelve wide'>
-              <DomainsTable
-                history={history}
-                filters={tableFilters}
-              />
+              <div className='ui grid stackable'>
+                <div className='column nine wide NoPaddingBottom'>
+                  <AdtCalculator />
+                </div>
+                <div className='column sixteen wide'>
+                  <DomainsTable
+                    history={history}
+                    filters={tableFilters}
+                  />
+                </div>
+              </div>
             </div>
           </div>
         </div>

@@ -13,6 +13,7 @@ import { getAddress, getAbi } from '../config'
 const address = getAddress('registry')
 const abi = getAbi('registry')
 
+// TODO
 // Web3 fires 2 callbacks; 2nd callback is when it's mined
 function pify2nd (fn) {
   return () => {
