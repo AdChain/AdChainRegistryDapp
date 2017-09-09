@@ -1,4 +1,5 @@
 .DomainInRegistryContainer {
+  position: relative;
 }
 
 .DomainInRegistryContainer .Breakdown {
@@ -47,4 +48,8 @@
 
 .DomainInRegistryContainer .BreakdownItem:nth-child(2) .BreakdownItemLabel {
   color: #633e80;
+}
+
+.DomainInRegistryContainer .DomainChallengeFormContainer {
+  position: relative;
 }

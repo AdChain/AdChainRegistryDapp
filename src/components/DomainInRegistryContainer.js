@@ -2,11 +2,13 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import toastr from 'toastr'
 import { Popup } from 'semantic-ui-react'
+import commafy from 'commafy'
 
 import registry from '../services/registry'
 import './DomainInRegistryContainer.css'
 import DomainClaimRewardInProgressContainer from './DomainClaimRewardInProgressContainer'
 import DomainVoteTokenDistribution from './DomainVoteTokenDistribution'
+import DomainChallengeInProgressContainer from './DomainChallengeInProgressContainer'
 
 class DomainInRegistryContainer extends Component {
   constructor (props) {
@@ -18,15 +20,19 @@ class DomainInRegistryContainer extends Component {
       didClaim: false,
       claimChallengeId: null,
       claimSalt: null,
-      inProgress: false
+      inProgress: false,
+      inChallengeProgress: false,
+      minDeposit: null
     }
 
     this.onFileInput = this.onFileInput.bind(this)
     this.onFormSubmit = this.onFormSubmit.bind(this)
+    this.onChallenge = this.onChallenge.bind(this)
 
     this.getPoll()
     this.getReveal()
     this.getClaims()
+    this.getMinDeposit()
   }
 
   render () {
@@ -35,8 +41,10 @@ class DomainInRegistryContainer extends Component {
       didReveal,
       didClaim,
       inProgress,
+      inChallengeProgress,
       votesFor,
-      votesAgainst
+      votesAgainst,
+      minDeposit
     } = this.state
 
     const canClaim = (votesFor || votesAgainst)
@@ -53,6 +61,9 @@ class DomainInRegistryContainer extends Component {
               />
             </div>
           </div>
+          <div className='column sixteen wide center aligned'>
+            <p>{domain} is in adChain Registry.</p>
+          </div>
           {didReveal ? <div className='column sixteen wide center aligned'>
             <div className='ui message warning'>
               You've <strong>revealed</strong> for this domain.
@@ -65,9 +76,6 @@ class DomainInRegistryContainer extends Component {
             </div>
           </div>
           : null}
-          <div className='column sixteen wide center aligned'>
-            <p>{domain} is in adChain Registry.</p>
-          </div>
           {canClaim ? [
             <div className='ui divider' />,
             <DomainVoteTokenDistribution domain={domain} />,
@@ -104,10 +112,39 @@ class DomainInRegistryContainer extends Component {
               </form>
             </div>
           ] : null}
+          <div className='ui divider' />,
+          <div className='column sixteen wide center aligned DomainChallengeFormContainer'>
+            <form className='ui form'>
+              <div className='ui field'>
+                <label>Challenge {domain}</label>
+              </div>
+              <div className='ui field'>
+                <div className='ui message default'>
+                  <p>Minimum deposit required</p>
+                  <p><strong>{minDeposit ? commafy(minDeposit) : '-'} ADT</strong></p>
+                </div>
+              </div>
+              <div className='ui field'>
+                <button
+                  onClick={this.onChallenge}
+                  className='ui button purple right labeled icon'>
+                  CHALLENGE
+                  <i className='icon thumbs down'></i>
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
         {inProgress ? <DomainClaimRewardInProgressContainer /> : null}
+        {inChallengeProgress ? <DomainChallengeInProgressContainer /> : null}
       </div>
     )
+  }
+
+  async getMinDeposit () {
+    this.setState({
+      minDeposit: await registry.getMinDeposit()
+    })
   }
 
   async getReveal () {
@@ -240,6 +277,52 @@ class DomainInRegistryContainer extends Component {
     }
 
     fr.readAsText(file)
+  }
+
+  onChallenge (event) {
+    event.preventDefault()
+
+    this.challenge()
+  }
+
+  async challenge () {
+    const {domain} = this.state
+
+    let inApplication = null
+
+    try {
+      inApplication = await registry.applicationExists(domain)
+    } catch (error) {
+      toastr.error(error)
+    }
+
+    if (inApplication) {
+      this.setState({
+        inChallengeProgress: true
+      })
+
+      try {
+        await registry.challenge(domain)
+
+        toastr.success('Successfully challenged domain')
+
+        this.setState({
+          inChallengeProgress: false
+        })
+
+        // TODO: better way of resetting state
+        setTimeout(() => {
+          window.location.reload()
+        }, 2e3)
+      } catch (error) {
+        toastr.error(error.message)
+        this.setState({
+          inChallengeProgress: false
+        })
+      }
+    } else {
+      toastr.error('Domain not in application')
+    }
   }
 }
 
