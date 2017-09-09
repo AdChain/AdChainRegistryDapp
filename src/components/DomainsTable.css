@@ -100,3 +100,23 @@
 :root:root .DomainsTable .ReactTable .-pagination .-pageInfo {
   color: #a2a2a2;
 }
+
+:root:root .DomainsTable span.success {
+  color: #116b11;
+}
+
+:root:root .DomainsTable span.purple {
+  color: #633e80;
+}
+
+:root:root .DomainsTable span.warn {
+  color: #ad4a00;
+}
+
+:root:root .DomainsTable span.error {
+  color: #b10000;
+}
+
+:root:root .DomainsTable span.info {
+  color: #4183c4;
+}

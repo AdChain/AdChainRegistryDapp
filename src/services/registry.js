@@ -758,6 +758,8 @@ class RegistryService {
     return new Promise(async (resolve, reject) => {
       try {
         await pify(this.registry.claimReward)(challengeId, salt)
+        // wait..a lot
+        this.forceMine()
         this.forceMine()
 
         store.dispatch({

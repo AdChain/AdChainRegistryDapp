@@ -37,6 +37,7 @@ class DomainProfileInfo extends Component {
     return (
       <div className='DomainProfileInfo BoxFrame'>
         <div className='ui grid stackable'>
+          {/*
           <div className='column sixteen wide'>
             <div className='Header'>
               Description
@@ -69,6 +70,7 @@ class DomainProfileInfo extends Component {
               <span className='green'>{wins ? commafy(wins) : '-'}</span> / <span className='red'>{losses ? commafy(losses) : '-'}</span>
             </div>
           </div>
+          */}
           <div className='column sixteen wide'>
             <div className='Header'>
               Trollbox for {domain}

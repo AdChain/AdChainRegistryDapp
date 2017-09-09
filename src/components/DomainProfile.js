@@ -21,8 +21,11 @@ class DomainProfile extends Component {
 
     this.state = {
       domain,
+
+      // dummy
       siteName: domain.toUpperCase().replace(/\..*/gi, ''),
-      country: 'United States',
+
+      country: null,
       action
     }
   }

@@ -39,9 +39,11 @@ function DomainProfileHeader (props) {
           <div className='Name'>
             {name}
           </div>
-          <div className='Country'>
-            <i className='icon marker' /> {country}
-          </div>
+          {country ?
+            <div className='Country'>
+              <i className='icon marker' /> {country}
+            </div>
+          : null}
         </div>
       </div>
     </div>
