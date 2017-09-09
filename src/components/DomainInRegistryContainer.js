@@ -68,43 +68,42 @@ class DomainInRegistryContainer extends Component {
           <div className='column sixteen wide center aligned'>
             <p>{domain} is in adChain Registry.</p>
           </div>
-          {canClaim ?
-          [
-          <div className='ui divider' />,
-          <DomainVoteTokenDistribution domain={domain} />,
-          <div className='ui divider' />,
-          <div className='column sixteen wide center aligned'>
-            <form
-              onSubmit={this.onFormSubmit}
-              className='ui form'>
-              <div className='ui field'>
-                <div className='ui large header center aligned'>
-                  Claim Reward
-                  <Popup
-                    trigger={<i className='icon info circle'></i>}
-                    content='Voters in the winning party can claim their token rewards by proving the challenge ID (poll ID) and secret phase (salt).'
-                  />
+          {canClaim ? [
+            <div className='ui divider' />,
+            <DomainVoteTokenDistribution domain={domain} />,
+            <div className='ui divider' />,
+            <div className='column sixteen wide center aligned'>
+              <form
+                onSubmit={this.onFormSubmit}
+                className='ui form'>
+                <div className='ui field'>
+                  <div className='ui large header center aligned'>
+                    Claim Reward
+                    <Popup
+                      trigger={<i className='icon info circle' />}
+                      content='Voters in the winning party can claim their token rewards by proving the challenge ID (poll ID) and secret phase (salt).'
+                    />
+                  </div>
                 </div>
-              </div>
-              <div className='ui field'>
-                <label>Upload Commit File</label>
-                <input
-                  type='file'
-                  name='file'
-                  onChange={this.onFileInput}
-                  className='ui file' />
-              </div>
-              <div className='ui field'>
-                <button
-                  type='submit'
-                  className='ui button blue right labeled icon'>
-                  Claim Reward
-                  <i className='icon certificate' />
-                </button>
-              </div>
-            </form>
-          </div>
-          ]: null}
+                <div className='ui field'>
+                  <label>Upload Commit File</label>
+                  <input
+                    type='file'
+                    name='file'
+                    onChange={this.onFileInput}
+                    className='ui file' />
+                </div>
+                <div className='ui field'>
+                  <button
+                    type='submit'
+                    className='ui button blue right labeled icon'>
+                    Claim Reward
+                    <i className='icon certificate' />
+                  </button>
+                </div>
+              </form>
+            </div>
+          ] : null}
         </div>
         {inProgress ? <DomainClaimRewardInProgressContainer /> : null}
       </div>

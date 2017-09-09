@@ -66,18 +66,16 @@ class PlcrService {
         const result = await pify(this.plcr.pollMap)(pollId)
 
         const map = {
-          // proposal to be voted for/against
-          proposal: result[0],
           // expiration date of commit period for poll
-          commitEndDate: result[1] ? result[1].toNumber() : null,
+          commitEndDate: result[0] ? result[0].toNumber() : null,
           // expiration date of reveal period for poll
-          revealEndDate: result[2] ? result[2].toNumber() : null,
+          revealEndDate: result[1] ? result[1].toNumber() : null,
           // number of votes required for a proposal to pass
-          voteQuorum: result[3] ? result[3].toNumber() : 0,
+          voteQuorum: result[2] ? result[2].toNumber() : 0,
           // tally of votes supporting proposal
-          votesFor: result[4] ? result[4].toNumber() : 0,
+          votesFor: result[3] ? result[3].toNumber() : 0,
           // tally of votes countering proposal
-          votesAgainst: result[5] ? result[5].toNumber() : 0
+          votesAgainst: result[4] ? result[4].toNumber() : 0
         }
 
         resolve(map)
