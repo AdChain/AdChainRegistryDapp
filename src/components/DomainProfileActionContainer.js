@@ -111,14 +111,14 @@ class DomainProfileActionContainer extends Component {
 
     let action = null
 
-    if (isWhitelisted) {
-      action = 'in_registry'
-    } else if (challengeOpen) {
-      action = 'challenge'
-    } else if (commitOpen) {
+    if (commitOpen) {
       action = 'commit'
     } else if (revealOpen) {
       action = 'reveal'
+    } else if (challengeOpen) {
+      action = 'challenge'
+    } else if (isWhitelisted) {
+      action = 'in_registry'
     } else {
       action = 'apply'
     }
