@@ -205,7 +205,7 @@ class PlcrService {
   async reveal ({pollId, voteOption, salt}) {
     return new Promise(async (resolve, reject) => {
       try {
-        await pify(this.plcr.revealVote)(pollId, salt, voteOption)
+        await pify(this.plcr.revealVote)(pollId, voteOption, salt)
         await this.forceMine()
 
         store.dispatch({

@@ -265,7 +265,6 @@ class DomainsTable extends Component {
         if (isWhitelisted) {
           item.stage = 'in_registry'
           item.deposit = listing.currentDeposit
-          item.stageEnds = `Ended ${moment.unix(applicationExpiry).format('YYYY-MM-DD')}`
         } else if (challengeOpen) {
           item.stage = 'in_application'
           item.stageEnds = moment.unix(applicationExpiry).format('YYYY-MM-DD HH:mm:ss')
