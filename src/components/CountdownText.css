@@ -1,3 +1,7 @@
 .CountdownText {
 
 }
+
+.CountdownText.expired {
+  color: #b10000;
+}

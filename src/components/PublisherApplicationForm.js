@@ -224,7 +224,7 @@ class PublisherApplicationForm extends Component {
 
   // TODO save to DB
   async save (data) {
-    toastr.success('Submitted')
+    toastr.success('Successfully applied')
 
     return Promise.resolve()
   }

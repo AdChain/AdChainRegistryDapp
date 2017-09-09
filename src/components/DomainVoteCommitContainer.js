@@ -49,7 +49,7 @@ class DomainVoteCommitContainer extends Component {
   componentWillUpdate () {
     setTimeout(() => {
       this.enableDownloadCheck()
-    }, -1)
+    }, 0)
   }
 
   render () {
@@ -110,7 +110,7 @@ class DomainVoteCommitContainer extends Component {
               onSubmit={this.onFormSubmit}
               className='ui form center aligned'>
               <div className='ui field'>
-                <label>VOTE or OPPOSE {domain}</label>
+                <label>SUPPORT or OPPOSE {domain}</label>
               </div>
               <div className='ui field'>
                 <p>Challenge ID: <label className='ui label'>{challengeId}</label></p>

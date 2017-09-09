@@ -191,9 +191,13 @@ class DomainInRegistryContainer extends Component {
       })
 
       await registry.claimReward(claimChallengeId, claimSalt)
-      toastr.success('Transaction mined')
+      toastr.success('Reward claimed')
+
+      setTimeout(() => {
+        window.location.reload()
+      }, 1e3)
     } catch (error) {
-      toastr.error(error)
+      toastr.error(error.message)
     }
 
     this.setState({

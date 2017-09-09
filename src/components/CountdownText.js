@@ -11,7 +11,8 @@ class CountdownText extends Component {
 
     this.state = {
       endDate: props.endDate || moment(),
-      countdown: '00:00:00'
+      countdown: '00:00:00',
+      isExpired: false
     }
 
     this.tick()
@@ -32,10 +33,10 @@ class CountdownText extends Component {
   }
 
   render () {
-    const {countdown} = this.state
+    const {countdown, isExpired} = this.state
 
     return (
-      <span>
+      <span className={`CountdownText ${isExpired ? 'expired' : ''}`}>
         {countdown}
       </span>
     )
@@ -45,7 +46,10 @@ class CountdownText extends Component {
     const {endDate} = this.state
 
     if (!endDate) {
-      return '00:00:00'
+      this.setState({
+        countdown: '00:00:00'
+      })
+      return false
     }
 
     const now = moment()
@@ -53,7 +57,8 @@ class CountdownText extends Component {
 
     if (diff <= 0) {
       this.setState({
-        countdown: '00:00:00'
+        countdown: '00:00:00',
+        isExpired: true
       })
       return false
     }
@@ -62,7 +67,8 @@ class CountdownText extends Component {
     const countdown = `${pad(dur.hours(), 2, 0)}:${pad(dur.minutes(), 2, 0)}:${pad(dur.seconds(), 2, 0)}`
 
     this.setState({
-      countdown
+      countdown,
+      isExpired: false
     })
   }
 }
