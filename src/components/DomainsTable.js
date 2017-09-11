@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import ReactTable from 'react-table'
 import commafy from 'commafy'
 import moment from 'moment'
+import toastr from 'toastr'
 
 import 'react-table/react-table.css'
 import './DomainsTable.css'
@@ -399,7 +400,7 @@ class DomainsTable extends Component {
     try {
       await registry.updateStatus(domain)
     } catch (error) {
-
+      toastr.error(error)
     }
 
     this.getData()

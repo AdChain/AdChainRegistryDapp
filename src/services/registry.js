@@ -653,6 +653,14 @@ class RegistryService {
     })
   }
 
+  async getEthBalance () {
+    if (!window.web3) {
+      return 0
+    }
+
+    const result = await pify(window.web3.eth.getBalance)(this.getAccount())
+    return result.toNumber() / Math.pow(10, 18)
+  }
 }
 
 export default new RegistryService()

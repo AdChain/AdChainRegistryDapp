@@ -60,7 +60,7 @@ class TokenService {
   getName () {
     return new Promise(async (resolve, reject) => {
       if (!this.token) {
-        this.initContract()
+        await this.initContract()
       }
 
       try {
@@ -78,7 +78,7 @@ class TokenService {
   getSymbol () {
     return new Promise(async (resolve, reject) => {
       if (!this.token) {
-        this.initContract()
+        await this.initContract()
       }
 
       try {
@@ -96,7 +96,7 @@ class TokenService {
   getDecimals () {
     return new Promise(async (resolve, reject) => {
       if (!this.token) {
-        this.initContract()
+        await this.initContract()
       }
 
       try {
@@ -119,11 +119,11 @@ class TokenService {
       }
 
       if (!this.token) {
-        this.initContract()
+        await this.initContract()
       }
 
       try {
-        const result = await this.token.balanceOf(account)
+        const result = await this.token.balanceOf(account, {from: this.getAccount()})
         const balance = result.toNumber() / Math.pow(10, this.decimals)
         resolve(balance)
         return false
@@ -142,7 +142,7 @@ class TokenService {
       }
 
       if (!this.token) {
-        this.initContract()
+        await this.initContract()
       }
 
       try {
@@ -154,6 +154,11 @@ class TokenService {
         return false
       }
     })
+  }
+
+  async getBalance () {
+    const balance = await this.balanceOf(this.getAccount())
+    return balance
   }
 
   getAccount () {

@@ -29,6 +29,9 @@ class MainSidebar extends Component {
               adChain Registry
             </div>
             <ul className='ui list'>
+              <li className='item ApplyLink'>
+                <Link to='/apply'>Apply now</Link>
+              </li>
               <li className='item'>
                 <Link to='/domains' activeClassName='active'>All domains</Link>
               </li>
@@ -43,9 +46,6 @@ class MainSidebar extends Component {
               </li>
               <li className='item'>
                 <Link to='/domains?inVotingReveal=true'>Domains in voting reveal</Link>
-              </li>
-              <li className='item ApplyLink'>
-                <Link to='/apply'>Apply now</Link>
               </li>
             </ul>
             {/*

@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import toastr from 'toastr'
 
 import store from '../store'
 import registry from '../services/registry'
@@ -82,13 +83,15 @@ class DomainProfileActionContainer extends Component {
     )
   }
 
-  async updateStatus () {
+  async updateStatus (event) {
+    event.preventDefault()
+
     const {domain} = this.state
 
     try {
       await registry.updateStatus(domain)
     } catch (error) {
-
+      toastr.error(error)
     }
 
     this.getData()

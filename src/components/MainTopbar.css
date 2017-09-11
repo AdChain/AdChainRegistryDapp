@@ -32,7 +32,12 @@
 }
 
 .MainTopbar .AdtLogo {
-  width: 32px;
+  width: 28px;
+  margin-right: 5px;
+}
+
+.MainTopbar .EthLogo {
+  width: 18px;
   margin-right: 5px;
 }
 

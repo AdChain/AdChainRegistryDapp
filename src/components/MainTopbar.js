@@ -1,12 +1,13 @@
 import React, { Component } from 'react'
 import commafy from 'commafy'
 import store from '../store'
-import web3Service from '../services/web3'
+import registry from '../services/registry'
 import token from '../services/token'
 
 import Identicon from './Identicon'
 
 import adtLogo from './assets/adtoken_logo.png'
+import ethLogo from './assets/ethereum_purple_logo.png'
 
 import './MainTopbar.css'
 
@@ -15,7 +16,8 @@ class MainTopbar extends Component {
     super()
 
     this.state = {
-      accounts: web3Service.accounts,
+      account: registry.getAccount(),
+      ethBalance: '-',
       adtBalance: '-'
     }
 
@@ -25,7 +27,7 @@ class MainTopbar extends Component {
   componentDidMount () {
     store.subscribe(x => {
       this.setState({
-        accounts: web3Service.accounts
+        account: registry.getAccount()
       })
 
       this.updateBalance()
@@ -33,8 +35,11 @@ class MainTopbar extends Component {
   }
 
   render () {
-    const address = this.state.accounts[0]
-    const adtBalance = this.state.adtBalance
+    const {
+      adtBalance,
+      ethBalance,
+      account: address
+    } = this.state
 
     return (
       <div className='MainTopbar'>
@@ -70,6 +75,16 @@ class MainTopbar extends Component {
                 {commafy(adtBalance)} ADT
               </div>
             : null}
+            {address ?
+              <div className='item'>
+                <div className='EthLogo ui image'>
+                  <img
+                    src={ethLogo}
+                    alt='ETH' />
+                </div>
+                {commafy(ethBalance)} ETH
+              </div>
+            : null}
             <div className='item'>
               <a
                 title='Help'
@@ -88,14 +103,26 @@ class MainTopbar extends Component {
 
   async updateBalance () {
     try {
-      const balance = await token.balanceOf(this.state.accounts[0])
+      const adtBalance = await token.getBalance()
 
       this.setState({
-        adtBalance: balance | 0
+        adtBalance: (adtBalance | 0) // coerce
       })
     } catch (error) {
       this.setState({
         adtBalance: '-'
+      })
+    }
+
+    try {
+      const ethBalance = await registry.getEthBalance()
+
+      this.setState({
+        ethBalance: ethBalance.toFixed(4)
+      })
+    } catch (error) {
+      this.setState({
+        ethBalance: '-'
       })
     }
   }

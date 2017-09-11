@@ -41,7 +41,7 @@
     "snakecase-keys": "^1.1.0",
     "solidity-sha3": "^0.4.1",
     "toastr": "^2.1.2",
-    "trollbox": "0.0.15",
+    "trollbox": "0.0.18",
     "truffle-contract": "2.0.5",
     "update-query": "^1.0.5"
   },
