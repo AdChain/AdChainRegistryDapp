@@ -280,66 +280,64 @@ class DomainsTable extends Component {
     const domains = await response.json()
 
     const data = await Promise.all(domains.map(async domain => {
-      return new Promise(async (resolve, reject) => {
-        const listing = await registry.getListing(domain)
+      const listing = await registry.getListing(domain)
 
+      const {
+        applicationExpiry,
+        isWhitelisted,
+        challengeId
+      } = listing
+
+      const item = {
+        domain,
+        siteName: domain,
+        stage: null,
+        stageEndsTimestamp: null,
+        stageEnds: null,
+        action: null,
+        stats: null
+      }
+
+      const applicationExists = !!applicationExpiry
+      const challengeOpen = (challengeId === 0 && !isWhitelisted && applicationExpiry)
+      const commitOpen = await registry.commitPeriodActive(domain)
+      const revealOpen = await registry.revealPeriodActive(domain)
+      // const pollEnded = await registry.pollEnded(domain)
+
+      if (isWhitelisted) {
+        item.stage = 'in_registry'
+        item.deposit = listing.currentDeposit
+      } else if (challengeOpen) {
+        item.stage = 'in_application'
+        item.stageEndsTimestamp = applicationExpiry
+        item.stageEnds = moment.unix(applicationExpiry).format('YYYY-MM-DD HH:mm:ss')
+      } else if (commitOpen) {
+        item.stage = 'voting_commit'
         const {
-          applicationExpiry,
-          isWhitelisted,
-          challengeId
-        } = listing
-
-        const item = {
-          domain,
-          siteName: domain,
-          stage: null,
-          stageEndsTimestamp: null,
-          stageEnds: null,
-          action: null,
-          stats: null
+          commitEndDate
+        } = await registry.getChallengePoll(domain)
+        item.stageEndsTimestamp = commitEndDate
+        item.stageEnds = moment.unix(commitEndDate).format('YYYY-MM-DD HH:mm:ss')
+      } else if (revealOpen) {
+        item.stage = 'voting_reveal'
+        const {
+          revealEndDate,
+          votesFor,
+          votesAgainst
+        } = await registry.getChallengePoll(domain)
+        item.stageEndsTimestamp = revealEndDate
+        item.stageEnds = moment.unix(revealEndDate).format('YYYY-MM-DD HH:mm:ss')
+        item.stats = {
+          votesFor,
+          votesAgainst
         }
+      } else if (applicationExists) {
+        item.stage = 'view'
+      } else {
+        item.stage = 'apply'
+      }
 
-        const applicationExists = !!applicationExpiry
-        const challengeOpen = (challengeId === 0 && !isWhitelisted && applicationExpiry)
-        const commitOpen = await registry.commitPeriodActive(domain)
-        const revealOpen = await registry.revealPeriodActive(domain)
-        // const pollEnded = await registry.pollEnded(domain)
-
-        if (isWhitelisted) {
-          item.stage = 'in_registry'
-          item.deposit = listing.currentDeposit
-        } else if (challengeOpen) {
-          item.stage = 'in_application'
-          item.stageEndsTimestamp = applicationExpiry
-          item.stageEnds = moment.unix(applicationExpiry).format('YYYY-MM-DD HH:mm:ss')
-        } else if (commitOpen) {
-          item.stage = 'voting_commit'
-          const {
-            commitEndDate
-          } = await registry.getChallengePoll(domain)
-          item.stageEndsTimestamp = commitEndDate
-          item.stageEnds = moment.unix(commitEndDate).format('YYYY-MM-DD HH:mm:ss')
-        } else if (revealOpen) {
-          item.stage = 'voting_reveal'
-          const {
-            revealEndDate,
-            votesFor,
-            votesAgainst
-          } = await registry.getChallengePoll(domain)
-          item.stageEndsTimestamp = revealEndDate
-          item.stageEnds = moment.unix(revealEndDate).format('YYYY-MM-DD HH:mm:ss')
-          item.stats = {
-            votesFor,
-            votesAgainst
-          }
-        } else if (applicationExists) {
-          item.stage = 'view'
-        } else {
-          item.stage = 'apply'
-        }
-
-        resolve(item)
-      })
+      return item
     }))
 
     this.setState({

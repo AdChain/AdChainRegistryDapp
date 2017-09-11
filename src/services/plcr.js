@@ -32,7 +32,6 @@ class PlcrService {
       this.address = address
       this.plcr = plcr
 
-      this.forceMine = registry.forceMine.bind(registry)
       this.setUpEvents()
     }
   }
@@ -168,7 +167,6 @@ class PlcrService {
 
       try {
         await token.approve(this.address, tokens)
-        await this.forceMine()
       } catch (error) {
         reject(error)
         return false
@@ -176,7 +174,6 @@ class PlcrService {
 
       try {
         await pify(this.plcr.requestVotingRights)(tokens)
-        await this.forceMine()
       } catch (error) {
         reject(error)
         return false
@@ -186,7 +183,6 @@ class PlcrService {
         const prevPollId =
           await pify(this.plcr.getInsertPointForNumTokens.call)(this.getAccount(), tokens)
         const result = await pify(this.plcr.commitVote)(pollId, hash, tokens, prevPollId)
-        await this.forceMine()
 
         store.dispatch({
           type: 'PLCR_VOTE_COMMIT',
@@ -206,7 +202,6 @@ class PlcrService {
     return new Promise(async (resolve, reject) => {
       try {
         await pify(this.plcr.revealVote)(pollId, voteOption, salt)
-        await this.forceMine()
 
         store.dispatch({
           type: 'PLCR_VOTE_REVEAL',
@@ -275,12 +270,17 @@ class PlcrService {
 
   async getCommitHash (voter, pollId) {
     return new Promise(async (resolve, reject) => {
+<<<<<<< HEAD
+      try {
+        const hash = await pify(this.plcr.getCommitHash)(pollId)
+=======
       if (!this.plcr) {
         await this.initContract()
       }
 
       try {
         const hash = await pify(this.plcr.getCommitHash)(voter, pollId)
+>>>>>>> 2f536e917f665ec644fe4fb609ff76dbc4aa9655
 
         resolve(hash)
       } catch (error) {
@@ -291,6 +291,10 @@ class PlcrService {
 
   async hasBeenRevealed (voter, pollId) {
     return new Promise(async (resolve, reject) => {
+<<<<<<< HEAD
+      try {
+        const didReveal = await pify(this.plcr.hasBeenRevealed)(pollId)
+=======
       if (!this.plcr) {
         await this.initContract()
       }
@@ -302,6 +306,7 @@ class PlcrService {
 
       try {
         const didReveal = await pify(this.plcr.hasBeenRevealed)(voter, pollId)
+>>>>>>> 2f536e917f665ec644fe4fb609ff76dbc4aa9655
 
         resolve(didReveal)
       } catch (error) {
