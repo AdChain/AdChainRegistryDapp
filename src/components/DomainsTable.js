@@ -90,7 +90,8 @@ class DomainsTable extends Component {
             minRows={0}
             defaultFilterMethod={filterMethod}
             showPageSizeOptions={false}
-            showPageJump={false}
+            showPageJump
+            resizable
             className='ui table'
             manual
             onFetchData={this.onTableFetchData}

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Trollbox from 'trollbox'
 
@@ -22,24 +22,48 @@ const config = {
 
 let trollbox = new Trollbox(config)
 
-function TrollboxComponent (props) {
-  const { channel } = props
-  const user = (registry.getAccount() || '').substr(0, 8)
+class TrollboxComponent extends Component {
+  constructor (props) {
+    super()
 
-  setTimeout(() => {
+    let {
+      channel
+    } = props
+
+    const user = (registry.getAccount() || '').substr(0, 8)
+
+    this.state = {
+      channel,
+      user
+    }
+  }
+
+  componentDidMount () {
+    const {channel, user} = this.state
     trollbox.render()
     trollbox.setChannel(channel)
     trollbox.setUser(user)
-  }, 0)
+  }
 
-  return (
-    <div className='Trollbox' id='trollbox' />
-  )
+  componentWillReceiveProps (props) {
+    const {channel: newChannel} = props
+    const {channel} = this.state
+
+    if (newChannel !== channel) {
+      trollbox.setChannel(channel)
+    }
+  }
+
+  render () {
+    return (
+      <div className='Trollbox' id='trollbox' />
+    )
+  }
 }
 
 TrollboxComponent.propTypes = {
-  channel: PropTypes.string,
-  user: PropTypes.string
+  channel: PropTypes.string
+  //user: PropTypes.string
 }
 
 export default TrollboxComponent

@@ -71,7 +71,7 @@ class DomainVoteTokenDistribution extends Component {
             </div>
             <div className='BreakdownItem'>
               <div className='BreakdownItemBox' />
-              <span className='BreakdownItemLabel'>{commafy(votesAgainst)} ADT</span>
+              <span className='BreakdownItemLabel'>{commafy(votesAgainst)} Votes</span>
             </div>
           </div>
         </div>

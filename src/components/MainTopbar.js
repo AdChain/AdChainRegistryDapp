@@ -43,7 +43,7 @@ class MainTopbar extends Component {
 
     return (
       <div className='MainTopbar'>
-        <div className='ui top attached menu stackable inverted'>
+        <div className='ui top attached menu stackable inverted overflow-x'>
           <div className='item'>
             {address ?
               <div className='AddressContainer'>
