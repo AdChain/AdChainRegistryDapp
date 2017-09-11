@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import toastr from 'toastr'
 import moment from 'moment'
-import { Radio } from 'semantic-ui-react'
+import { Radio, Popup } from 'semantic-ui-react'
 import randomInt from 'random-int'
 
 import saveFile from '../utils/saveFile'
@@ -30,7 +30,8 @@ class DomainVoteCommitContainer extends Component {
       inProgress: false,
       salt,
       voteOption: null,
-      enableDownload: false
+      enableDownload: false,
+      commitDownloaded: false
     }
 
     this.getListing()
@@ -48,7 +49,7 @@ class DomainVoteCommitContainer extends Component {
   componentWillUpdate () {
     setTimeout(() => {
       this.enableDownloadCheck()
-    }, -1)
+    }, 0)
   }
 
   render () {
@@ -61,7 +62,9 @@ class DomainVoteCommitContainer extends Component {
       salt,
       voteOption,
       challengeId,
-      enableDownload
+      enableDownload,
+      commitDownloaded,
+      votes
     } = this.state
 
     const stageEndMoment = commitEndDate ? moment.unix(commitEndDate) : null
@@ -73,6 +76,10 @@ class DomainVoteCommitContainer extends Component {
           <div className='column sixteen wide'>
             <div className='ui large header center aligned'>
               VOTING – COMMIT
+              <Popup
+                trigger={<i className='icon info circle'></i>}
+                content='The first phase of the voting process is the commit phase where the ADT holder stakes a hidden amount of ADT to SUPPORT or OPPOSE the domain application. The second phase is the reveal phase where the ADT holder reveals the staked amount of ADT to either the SUPPORT or OPPOSE side.'
+              />
             </div>
           </div>
           {didChallenge ? <div className='column sixteen wide center aligned'>
@@ -87,11 +94,6 @@ class DomainVoteCommitContainer extends Component {
             </div>
           </div>
           : null}
-          <div className='column sixteen wide'>
-            <p>
-The first phase of the voting process is the commit phase where the ADT holder stakes a hidden amount of ADT to SUPPORT or OPPOSE the domain application. The second phase is the reveal phase where the ADT holder reveals the staked amount of ADT to either the SUPPORT or OPPOSE side.
-            </p>
-          </div>
           <div className='ui divider' />
           <div className='column sixteen wide center aligned'>
             <div className='ui message info'>
@@ -108,7 +110,7 @@ The first phase of the voting process is the commit phase where the ADT holder s
               onSubmit={this.onFormSubmit}
               className='ui form center aligned'>
               <div className='ui field'>
-                <label>VOTE or OPPOSE {domain}</label>
+                <label>SUPPORT or OPPOSE {domain}</label>
               </div>
               <div className='ui field'>
                 <p>Challenge ID: <label className='ui label'>{challengeId}</label></p>
@@ -157,16 +159,16 @@ The first phase of the voting process is the commit phase where the ADT holder s
                 <button
                   onClick={this.onDownload}
                   title='Download commit info'
-                  className={`ui button ${enableDownload ? '' : 'disabled'} right labeled icon`}>
+                  className={`ui button ${enableDownload ? '' : 'disabled'} right labeled icon ${commitDownloaded ? 'default' : 'blue'}`}>
                   Download Commit
                   <i className='icon download'></i>
                 </button>
               </div>
               <div className='ui field'>
-                {voteOption === null ?
+                {(voteOption === null || !votes || !commitDownloaded) ?
                   <button
                     className='ui button disabled'>
-                      Select Vote Option
+                    {voteOption === null ? 'Select Vote Option' : (!votes ? 'Enter votes' : 'Download Commit')}
                   </button>
                 :
                 <button
@@ -229,8 +231,15 @@ The first phase of the voting process is the commit phase where the ADT holder s
       commitEndDate
     }
 
-    const filename = `commit-vote--${domain.replace('.', '_')}--${challengeId}--${commitEndDate}.json`
+    const domainUnderscored = domain.replace('.', '_')
+    const endDateString = moment.unix(commitEndDate).format('YYYY-MM-DD_HH-mm-ss')
+
+    const filename = `${domainUnderscored}--challenge_id_${challengeId}--commit_end_${endDateString}--commit-vote.json`
     saveFile(json, filename)
+
+    this.setState({
+      commitDownloaded: true
+    })
   }
 
   onFormSubmit (event) {
@@ -318,11 +327,22 @@ The first phase of the voting process is the commit phase where the ADT holder s
     })
 
     try {
-      await registry.commitVote({domain, votes, voteOption, salt})
-      toastr.success('Success')
+      const commited = await registry.commitVote({domain, votes, voteOption, salt})
+
       this.setState({
         inProgress: false
       })
+
+      if (commited) {
+        toastr.success('Successfully committed')
+
+        // TODO: better way of resetting state
+        setTimeout(() => {
+          window.location.reload()
+        }, 1e3)
+      } else {
+        toastr.error('Commit did not go through')
+      }
     } catch (error) {
       toastr.error(error.message)
       this.setState({

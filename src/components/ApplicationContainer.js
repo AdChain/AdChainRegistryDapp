@@ -25,9 +25,11 @@ class ApplicationContainer extends Component {
             <div className='row'>
               <PublisherApplicationInfo />
             </div>
+            {/*
             <div className='row'>
               <RegistryStatsbar showHeader />
             </div>
+            */}
           </div>
         </div>
       </div>

@@ -11,6 +11,7 @@ class DomainsFilterPanel extends Component {
       filters: props.filters
     }
 
+    this.onSearchInput = this.onSearchInput.bind(this)
     this.onFilterChange = this.onFilterChange.bind(this)
     this.onFiltersChange = props.onFiltersChange.bind(this)
     this.resetFilters = this.resetFilters.bind(this)
@@ -31,7 +32,13 @@ class DomainsFilterPanel extends Component {
           <div className='SearchContainer column sixteen wide'>
             <div className='ui left icon input'>
               <i className='search icon' />
-              <input type='text' placeholder='Search Domain' />
+              <input
+                name='domain'
+                id='DomainsFiltersPanelDomainSearch'
+                defaultValue={filters.domain}
+                onKeyUp={this.onSearchInput}
+                type='text'
+                placeholder='Search Domain' />
             </div>
           </div>
           <div className='column sixteen wide'>
@@ -67,25 +74,25 @@ class DomainsFilterPanel extends Component {
                 <div className='ui input'>
                   <input
                     type='checkbox'
-                    id='DomainsFilterPanel_InVoting'
-                    name='inVoting'
-                    checked={!!filters.inVoting}
+                    id='DomainsFilterPanel_InVotingCommit'
+                    name='inVotingCommit'
+                    checked={!!filters.inVotingCommit}
                     onChange={this.onFilterChange}
                   />
                 </div>
-                <label htmlFor='DomainsFilterPanel_InVoting'>In Voting</label>
+                <label htmlFor='DomainsFilterPanel_InVotingCommit'>In Voting Commit</label>
               </li>
               <li className='item'>
                 <div className='ui input'>
                   <input
                     type='checkbox'
-                    id='DomainsFilterPanel_Rejected'
-                    name='rejected'
-                    checked={!!filters.rejected}
+                    id='DomainsFilterPanel_InVotingReveal'
+                    name='inVotingReveal'
+                    checked={!!filters.inVotingReveal}
                     onChange={this.onFilterChange}
                   />
                 </div>
-                <label htmlFor='DomainsFilterPanel_Rejected'>Rejected</label>
+                <label htmlFor='DomainsFilterPanel_InVotingReveal'>In Voting Reveal</label>
               </li>
             </ul>
           </div>
@@ -97,6 +104,17 @@ class DomainsFilterPanel extends Component {
         </div>
       </div>
     )
+  }
+
+  onSearchInput (event) {
+    const target = event.target
+    const {name} = target
+
+    const {filters} = this.state
+    filters[name] = target.value
+
+    this.setState(filters)
+    this.onFiltersChange(filters)
   }
 
   onFilterChange (event) {
@@ -115,14 +133,21 @@ class DomainsFilterPanel extends Component {
     event.preventDefault()
 
     const filters = {
+      domain: '',
       inRegistry: false,
       inApplication: false,
-      inVoting: false,
-      rejected: false
+      inVotingCommit: false,
+      inVotingReveal: false
     }
 
     this.setState({filters})
     this.onFiltersChange(filters)
+
+    // TODO: react way of reseting defaultValue to null
+    const field = document.querySelector('#DomainsFiltersPanelDomainSearch')
+    if (field) {
+      field.value = ''
+    }
   }
 }
 

@@ -1,5 +1,6 @@
 import pify from 'pify'
 
+import store from '../store'
 import { getAddress, getAbi } from '../config'
 
 const address = getAddress('parameterizer')
@@ -19,6 +20,20 @@ class ParameterizerService {
         this.parameterizer = window.web3.eth.contract(abi).at(this.address)
       }
     }
+  }
+
+  setUpEvents () {
+    this.parameterizer.allEvents()
+      .watch((error, log) => {
+        if (error) {
+          console.error(error)
+          return false
+        }
+
+        store.dispatch({
+          type: 'PARAMETERIZER_EVENT'
+        })
+      })
   }
 
   async get (name) {

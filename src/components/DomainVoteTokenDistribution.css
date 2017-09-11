@@ -1,0 +1,56 @@
+:root:root:root .DomainVoteTokenDistribution .ProgressContainer .divider {
+  padding-bottom: 1rem;
+}
+
+.DomainVoteTokenDistribution .BarContainer {
+  max-width: 300px;
+  margin: 0 auto;
+}
+
+.DomainVoteTokenDistribution .Breakdown {
+  display: flex;
+  max-width: 250px;
+  margin: 0 auto;
+  padding-top: 0.6em;
+}
+
+.DomainVoteTokenDistribution .BreakdownItem {
+  display: inline-flex;
+  width: 50%;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.DomainVoteTokenDistribution .BreakdownItem:nth-child(2):after {
+  content: '';
+  display: block;
+  position: absolute;
+  left: -1px;
+  top: 0;
+  width: 1px;
+  height: 100%;
+  background: #ddd;
+}
+
+.DomainVoteTokenDistribution .BreakdownItemBox {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  background: #4585c7;
+  margin-right: 0.5em;
+}
+
+.DomainVoteTokenDistribution .BreakdownItem:nth-child(2) .BreakdownItemBox {
+  background: #633e80;
+}
+
+.DomainVoteTokenDistribution .BreakdownItemLabel {
+  color: #4585c7;
+  font-size: 0.8em;
+  font-weight: bold;
+}
+
+.DomainVoteTokenDistribution .BreakdownItem:nth-child(2) .BreakdownItemLabel {
+  color: #633e80;
+}

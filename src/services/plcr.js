@@ -32,14 +32,28 @@ class PlcrService {
       this.address = address
       this.plcr = plcr
 
-      this.forceMine = registry.forceMine.bind(registry)
+      this.setUpEvents()
     }
+  }
+
+  setUpEvents () {
+    this.plcr.allEvents()
+      .watch((error, log) => {
+        if (error) {
+          console.error(error)
+          return false
+        }
+
+        store.dispatch({
+          type: 'PLCR_EVENT'
+        })
+      })
   }
 
   async getPoll (pollId) {
     return new Promise(async (resolve, reject) => {
       if (!pollId) {
-        reject(new Error('PollId is required'))
+        reject(new Error('Poll ID is required'))
         return false
       }
 
@@ -51,18 +65,16 @@ class PlcrService {
         const result = await pify(this.plcr.pollMap)(pollId)
 
         const map = {
-          // proposal to be voted for/against
-          proposal: result[0],
           // expiration date of commit period for poll
-          commitEndDate: result[1].toNumber(),
+          commitEndDate: result[0] ? result[0].toNumber() : null,
           // expiration date of reveal period for poll
-          revealEndDate: result[2].toNumber(),
+          revealEndDate: result[1] ? result[1].toNumber() : null,
           // number of votes required for a proposal to pass
-          voteQuorum: result[3].toNumber(),
+          voteQuorum: result[2] ? result[2].toNumber() : 0,
           // tally of votes supporting proposal
-          votesFor: result[4].toNumber(),
+          votesFor: result[3] ? result[3].toNumber() : 0,
           // tally of votes countering proposal
-          votesAgainst: result[5].toNumber()
+          votesAgainst: result[4] ? result[4].toNumber() : 0
         }
 
         resolve(map)
@@ -77,7 +89,7 @@ class PlcrService {
   async commitPeriodActive (pollId) {
     return new Promise(async (resolve, reject) => {
       if (!pollId) {
-        reject(new Error('PollId is required'))
+        reject(new Error('Poll ID is required'))
         return false
       }
 
@@ -86,7 +98,7 @@ class PlcrService {
       }
 
       try {
-        const result = await pify(this.plcr.commitPeriodActive)(pollId);
+        const result = await pify(this.plcr.commitPeriodActive)(pollId)
         resolve(result)
         return false
       } catch (error) {
@@ -99,7 +111,7 @@ class PlcrService {
   async revealPeriodActive (pollId) {
     return new Promise(async (resolve, reject) => {
       if (!pollId) {
-        reject(new Error('PollId is required'))
+        reject(new Error('Poll ID is required'))
         return false
       }
 
@@ -118,10 +130,10 @@ class PlcrService {
     })
   }
 
-  async commit ({pollId, hash, tokens, prevPollId}) {
+  async commit ({pollId, hash, tokens}) {
     return new Promise(async (resolve, reject) => {
       if (!pollId) {
-        reject(new Error('PollId is required'))
+        reject(new Error('Poll ID is required'))
         return false
       }
 
@@ -155,7 +167,6 @@ class PlcrService {
 
       try {
         await token.approve(this.address, tokens)
-        await this.forceMine()
       } catch (error) {
         reject(error)
         return false
@@ -163,15 +174,15 @@ class PlcrService {
 
       try {
         await pify(this.plcr.requestVotingRights)(tokens)
-        await this.forceMine()
       } catch (error) {
         reject(error)
         return false
       }
 
       try {
+        const prevPollId =
+          await pify(this.plcr.getInsertPointForNumTokens.call)(this.getAccount(), tokens)
         const result = await pify(this.plcr.commitVote)(pollId, hash, tokens, prevPollId)
-        await this.forceMine()
 
         store.dispatch({
           type: 'PLCR_VOTE_COMMIT',
@@ -190,8 +201,7 @@ class PlcrService {
   async reveal ({pollId, voteOption, salt}) {
     return new Promise(async (resolve, reject) => {
       try {
-        await pify(this.plcr.revealVote)(pollId, salt, voteOption)
-        await this.forceMine()
+        await pify(this.plcr.revealVote)(pollId, voteOption, salt)
 
         store.dispatch({
           type: 'PLCR_VOTE_REVEAL',
@@ -258,10 +268,19 @@ class PlcrService {
     })
   }
 
-  async getCommitHash (pollId) {
+  async getCommitHash (voter, pollId) {
     return new Promise(async (resolve, reject) => {
+<<<<<<< HEAD
       try {
         const hash = await pify(this.plcr.getCommitHash)(pollId)
+=======
+      if (!this.plcr) {
+        await this.initContract()
+      }
+
+      try {
+        const hash = await pify(this.plcr.getCommitHash)(voter, pollId)
+>>>>>>> 2f536e917f665ec644fe4fb609ff76dbc4aa9655
 
         resolve(hash)
       } catch (error) {
@@ -270,10 +289,24 @@ class PlcrService {
     })
   }
 
-  async hasBeenRevealed (pollId) {
+  async hasBeenRevealed (voter, pollId) {
     return new Promise(async (resolve, reject) => {
+<<<<<<< HEAD
       try {
         const didReveal = await pify(this.plcr.hasBeenRevealed)(pollId)
+=======
+      if (!this.plcr) {
+        await this.initContract()
+      }
+
+      if (!pollId) {
+        resolve(false)
+        return false
+      }
+
+      try {
+        const didReveal = await pify(this.plcr.hasBeenRevealed)(voter, pollId)
+>>>>>>> 2f536e917f665ec644fe4fb609ff76dbc4aa9655
 
         resolve(didReveal)
       } catch (error) {
@@ -284,7 +317,7 @@ class PlcrService {
 
   async getTransactionReceipt (tx) {
     return new Promise(async (resolve, reject) => {
-      if (!this.registry) {
+      if (!this.plcr) {
         this.initContract()
       }
 
@@ -297,6 +330,14 @@ class PlcrService {
         return false
       }
     })
+  }
+
+  getAccount () {
+    if (!window.web3) {
+      return null
+    }
+
+    return window.web3.eth.defaultAccount
   }
 }
 

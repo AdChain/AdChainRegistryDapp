@@ -49,13 +49,17 @@ class MainTopbar extends Component {
                 <span>{address}</span>
               </div>
               : <div className='NoWalletMessage'>
-               Please download or unlock <a href='https://metamask.io/' target='_blank' rel='noopener noreferrer'>MetaMask</a> extension to load Ethereum wallet
+               Please download or unlock <a href='https://metamask.io/' target='_blank' rel='noopener noreferrer'>MetaMask</a> extension to load application and Ethereum wallet
             </div>}
           </div>
           {address ?
             <div className='item'>
               <div>
+<<<<<<< HEAD
                 Network: <strong>Rinkeby</strong> Testnet
+=======
+                Network: <strong>Rinkeby Testnet</strong>
+>>>>>>> 2f536e917f665ec644fe4fb609ff76dbc4aa9655
               </div>
             </div>
           : null}
@@ -67,9 +71,18 @@ class MainTopbar extends Component {
                     src={adtLogo}
                     alt='ADT' />
                 </div>
-                {commafy(adtBalance)}
+                {commafy(adtBalance)} ADT
               </div>
             : null}
+            <div className='item'>
+              <a
+                title='Help'
+                href='https://adchain.zendesk.com/hc/en-us'
+                target='_blank'
+                rel='noopener noreferrer'>
+                <i className='icon help circle' /> Help
+              </a>
+            </div>
           </div>
         </div>
 

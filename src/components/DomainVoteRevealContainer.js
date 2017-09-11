@@ -1,14 +1,13 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import commafy from 'commafy'
 import toastr from 'toastr'
 import moment from 'moment'
-import { Radio } from 'semantic-ui-react'
+import { Radio, Popup } from 'semantic-ui-react'
 
 import Countdown from './CountdownText'
 import registry from '../services/registry'
 import DomainVoteRevealInProgressContainer from './DomainVoteRevealInProgressContainer'
-import StatProgressBar from './StatProgressBar'
+import DomainVoteTokenDistribution from './DomainVoteTokenDistribution'
 
 import './DomainVoteRevealContainer.css'
 
@@ -34,6 +33,7 @@ class DomainVoteRevealContainer extends Component {
 
     this.onVoteOptionChange = this.onVoteOptionChange.bind(this)
     this.onFormSubmit = this.onFormSubmit.bind(this)
+    this.onFileInput = this.onFileInput.bind(this)
 
     this.getListing()
     this.getPoll()
@@ -44,24 +44,19 @@ class DomainVoteRevealContainer extends Component {
 
   render () {
     const {
-      votesFor,
-      votesAgainst,
+      domain,
       revealEndDate,
       inProgress,
       didChallenge,
       didCommit,
       didReveal,
       voteOption,
-      challengeId
+      challengeId,
+      salt
     } = this.state
 
     const stageEndMoment = revealEndDate ? moment.unix(revealEndDate) : null
     const stageEnd = stageEndMoment ? stageEndMoment.format('YYYY-MM-DD HH:mm:ss') : '-'
-
-    // "N | 0" coerces to int
-    const totalVotes = ((votesFor + votesAgainst) | 0)
-    const supportFill = ((totalVotes / votesFor * 1e2) | 0)
-    const opposeFill = ((totalVotes / votesAgainst * 1e2) | 0)
 
     return (
       <div className='DomainVoteRevealContainer'>
@@ -69,6 +64,10 @@ class DomainVoteRevealContainer extends Component {
           <div className='column sixteen wide'>
             <div className='ui large header center aligned'>
               VOTING – REVEAL
+              <Popup
+                trigger={<i className='icon info circle'></i>}
+                content='The first phase of the voting process is the commit phase where the ADT holder stakes a hidden amount of ADT to SUPPORT or OPPOSE the domain application. The second phase is the reveal phase where the ADT holder reveals the staked amount of ADT to either the SUPPORT or OPPOSE side.'
+              />
             </div>
           </div>
           {didChallenge ? <div className='column sixteen wide center aligned'>
@@ -89,35 +88,8 @@ class DomainVoteRevealContainer extends Component {
             </div>
           </div>
           : null}
-          <div className='column sixteen wide'>
-            <p>
-The first phase of the voting process is the commit phase where the ADT holder stakes a hidden amount of ADT to SUPPORT or OPPOSE the domain application. The second phase is the reveal phase where the ADT holder reveals the staked amount of ADT to either the SUPPORT or OPPOSE side.
-            </p>
-          </div>
           <div className='ui divider' />
-          <div className='column sixteen wide center aligned ProgressContainer'>
-            <p>
-              ADT holders have revealed their vote to show:
-            </p>
-            <div className='BarContainer'>
-              <StatProgressBar
-                fills={[supportFill, opposeFill]}
-                showFillLabels
-                showLegend
-                fillLabels={['SUPPORT', 'OPPOSE']}
-              />
-            </div>
-            <div className='Breakdown'>
-              <div className='BreakdownItem'>
-                <div className='BreakdownItemBox'></div>
-                <span className='BreakdownItemLabel'>{commafy(votesFor)} ADT</span>
-              </div>
-              <div className='BreakdownItem'>
-                <div className='BreakdownItemBox'></div>
-                <span className='BreakdownItemLabel'>{commafy(votesAgainst)} ADT</span>
-              </div>
-            </div>
-          </div>
+          <DomainVoteTokenDistribution domain={domain} />
           <div className='ui divider' />
           <div className='column sixteen wide center aligned'>
             <div className='ui message info'>
@@ -137,11 +109,30 @@ The first phase of the voting process is the commit phase where the ADT holder s
                 <p>Challenge ID: <label className='ui label'>{challengeId}</label></p>
               </div>
               <div className='ui field'>
+<<<<<<< HEAD
+=======
+                <label>Upload Commit File to reveal vote</label>
+                <input
+                  type='file'
+                  name='file'
+                  onChange={this.onFileInput}
+                  className='ui file' />
+              </div>
+              <div className='ui field'>
+                  or
+              </div>
+              <div className='ui field'>
+>>>>>>> 2f536e917f665ec644fe4fb609ff76dbc4aa9655
                 <label>Secret Phrase (salt)</label>
                 <div className='ui input small'>
                   <input
                     type='text'
                     placeholder='phrase'
+<<<<<<< HEAD
+=======
+                    id='DomainVoteRevealContainerSaltInput'
+                    defaultValue={salt}
+>>>>>>> 2f536e917f665ec644fe4fb609ff76dbc4aa9655
                     onKeyUp={event => this.setState({salt: parseInt(event.target.value, 10)})}
                   />
                 </div>
@@ -301,17 +292,57 @@ The first phase of the voting process is the commit phase where the ADT holder s
     })
 
     try {
-      await registry.revealVote({domain, voteOption, salt})
-      toastr.success('Success')
+      const revealed = await registry.revealVote({domain, voteOption, salt})
       this.setState({
         inProgress: false
       })
+
+      if (revealed) {
+        toastr.success('Successfully revealed')
+
+        // TODO: better way of resetting state
+        setTimeout(() => {
+          window.location.reload()
+        }, 2e3)
+      } else {
+        toastr.error('Reveal did not go through')
+      }
     } catch (error) {
       toastr.error(error.message)
       this.setState({
         inProgress: false
       })
     }
+  }
+
+  onFileInput (event) {
+    event.preventDefault()
+    const file = event.target.files[0]
+    const fr = new window.FileReader()
+
+    fr.onload = () => {
+      const contents = fr.result
+
+      try {
+        const {salt, voteOption} = JSON.parse(contents)
+
+        this.setState({
+          salt,
+          voteOption
+        })
+
+        // TODO: proper way of setting defaultValue
+        const saltInput = document.querySelector('#DomainVoteRevealContainerSaltInput')
+        if (saltInput) {
+          saltInput.value = salt
+        }
+      } catch (error) {
+        toastr.error('Invalid Commit JSON file')
+        return false
+      }
+    }
+
+    fr.readAsText(file)
   }
 }
 

@@ -1,14 +1,15 @@
-.DomainNoActionContainer {
+.DomainInRegistryContainer {
+  position: relative;
 }
 
-.DomainNoActionContainer .Breakdown {
+.DomainInRegistryContainer .Breakdown {
   display: flex;
   max-width: 200px;
   margin: 0 auto;
   padding-top: 0.6em;
 }
 
-.DomainNoActionContainer .BreakdownItem {
+.DomainInRegistryContainer .BreakdownItem {
   display: inline-flex;
   width: 50%;
   justify-content: center;
@@ -16,7 +17,7 @@
   position: relative;
 }
 
-.DomainNoActionContainer .BreakdownItem:nth-child(2):after {
+.DomainInRegistryContainer .BreakdownItem:nth-child(2):after {
   content: '';
   display: block;
   position: absolute;
@@ -27,7 +28,7 @@
   background: #ddd;
 }
 
-.DomainNoActionContainer .BreakdownItemBox {
+.DomainInRegistryContainer .BreakdownItemBox {
   display: inline-block;
   width: 12px;
   height: 12px;
@@ -35,16 +36,20 @@
   margin-right: 0.5em;
 }
 
-.DomainNoActionContainer .BreakdownItem:nth-child(2) .BreakdownItemBox {
+.DomainInRegistryContainer .BreakdownItem:nth-child(2) .BreakdownItemBox {
   background: #633e80;
 }
 
-.DomainNoActionContainer .BreakdownItemLabel {
+.DomainInRegistryContainer .BreakdownItemLabel {
   color: #4585c7;
   font-size: 0.8em;
   font-weight: bold;
 }
 
-.DomainNoActionContainer .BreakdownItem:nth-child(2) .BreakdownItemLabel {
+.DomainInRegistryContainer .BreakdownItem:nth-child(2) .BreakdownItemLabel {
   color: #633e80;
+}
+
+.DomainInRegistryContainer .DomainChallengeFormContainer {
+  position: relative;
 }

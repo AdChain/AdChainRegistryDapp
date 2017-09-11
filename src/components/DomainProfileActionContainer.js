@@ -4,7 +4,8 @@ import PropTypes from 'prop-types'
 import store from '../store'
 import registry from '../services/registry'
 
-import DomainNoActionContainer from './DomainNoActionContainer'
+import DomainNotInRegistryContainer from './DomainNotInRegistryContainer'
+import DomainInRegistryContainer from './DomainInRegistryContainer'
 import DomainChallengeContainer from './DomainChallengeContainer'
 import DomainVoteCommitContainer from './DomainVoteCommitContainer'
 import DomainVoteRevealContainer from './DomainVoteRevealContainer'
@@ -43,7 +44,8 @@ class DomainProfileActionContainer extends Component {
     } = this.state
 
     // TODO make component for apply panel
-    let component = <a href={`/apply?domain=${domain}`} className='ui button blue'>Apply to registry</a>
+    let component = null
+    // let component = <a href={`/apply?domain=${domain}`} className='ui button blue'>Apply to registry</a>
 
     if (action === 'challenge') {
       component = <DomainChallengeContainer domain={domain} />
@@ -52,7 +54,9 @@ class DomainProfileActionContainer extends Component {
     } else if (action === 'reveal') {
       component = <DomainVoteRevealContainer domain={domain} />
     } else if (action === 'in_registry') {
-      component = <DomainNoActionContainer domain={domain} />
+      component = <DomainInRegistryContainer domain={domain} />
+    } else {
+      component = <DomainNotInRegistryContainer domain={domain} />
     }
 
     return (
@@ -61,7 +65,7 @@ class DomainProfileActionContainer extends Component {
           <div className='ui grid stackable'>
             <div className='column sixteen wid center aligned'>
               <a
-                className='ui button blue icon labeled right'
+                className='ui button mini blue icon labeled right'
                 href='#!'
                 title='Refresh status'
                 onClick={this.updateStatus}>
@@ -107,14 +111,14 @@ class DomainProfileActionContainer extends Component {
 
     let action = null
 
-    if (isWhitelisted) {
-      action = 'in_registry'
-    } else if (challengeOpen) {
-      action = 'challenge'
-    } else if (commitOpen) {
+    if (commitOpen) {
       action = 'commit'
     } else if (revealOpen) {
       action = 'reveal'
+    } else if (challengeOpen) {
+      action = 'challenge'
+    } else if (isWhitelisted) {
+      action = 'in_registry'
     } else {
       action = 'apply'
     }

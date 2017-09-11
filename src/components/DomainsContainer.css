@@ -2,10 +2,19 @@
   width: 100%;
 }
 
-.DomainsContainer > .grid > .row:first-child {
+.DomainsContainer > .grid > .row:first-child,
+:root:root:root .DomainsContainer .NoPaddingBottom {
   padding-bottom: 0;
 }
 
 .DomainsContainer > .grid > .row > .column:first-child {
   padding-right: 0;
+}
+
+.DomainsContainer .GlobalTrollbox {
+  margin-top: 1rem;
+}
+
+.DomainsContainer .GlobalTrollbox .Header {
+  margin-bottom: 0.4em;
 }

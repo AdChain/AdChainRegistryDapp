@@ -24,6 +24,7 @@ class PublisherApplicationForm extends Component {
     }
 
     this.history = props.history
+    this.onMinDepositClick = this.onMinDepositClick.bind(this)
     this.onFormSubmit = this.onFormSubmit.bind(this)
 
     this.getMinDeposit()
@@ -31,7 +32,7 @@ class PublisherApplicationForm extends Component {
 
   async getMinDeposit () {
     this.setState({
-      minDeposit: await registry.getParameter('minDeposit')
+      minDeposit: await registry.getMinDeposit()
     })
   }
 
@@ -125,10 +126,11 @@ class PublisherApplicationForm extends Component {
                 </div>
               </div>
               <div className='field required'>
-                <label>Total ADT to Stake (Min: {commafy(minDeposit)} ADT)</label>
+                <label>Total ADT to Stake (Min: <a href='#!' onClick={this.onMinDepositClick}>{commafy(minDeposit)} ADT</a>)</label>
                 <div className='ui input'>
                   <input
                     type='text'
+                    id='PublisherApplicationFormStakeInput'
                     placeholder={minDeposit}
                     name='stake'
                     required
@@ -148,6 +150,16 @@ class PublisherApplicationForm extends Component {
         {inProgress ? <PublisherApplicationFormInProgress /> : null}
       </div>
     )
+  }
+
+  onMinDepositClick (event) {
+    event.preventDefault()
+
+    const input = document.querySelector('#PublisherApplicationFormStakeInput')
+
+    if (input) {
+      input.value = this.state.minDeposit
+    }
   }
 
   async onFormSubmit (event) {
@@ -207,27 +219,12 @@ class PublisherApplicationForm extends Component {
       inProgress: false
     })
 
-    this.history.push('/domains')
+    this.history.push(`/domains?domain=${domain}`)
   }
 
   // TODO save to DB
   async save (data) {
-    toastr.success('Submitted')
-
-    let domains = null
-
-    try {
-      domains = JSON.parse(window.localStorage.getItem('domains'))
-    } catch (error) {
-
-    }
-
-    if (!domains) {
-      domains = []
-    }
-
-    domains.push(data.domain)
-    window.localStorage.setItem('domains', JSON.stringify(domains))
+    toastr.success('Successfully applied')
 
     return Promise.resolve()
   }

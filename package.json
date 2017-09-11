@@ -41,6 +41,8 @@
     "snakecase-keys": "^1.1.0",
     "solidity-sha3": "^0.4.1",
     "toastr": "^2.1.2",
+    "trollbox": "0.0.15",
+    "truffle-contract": "2.0.5",
     "update-query": "^1.0.5"
   },
   "scripts": {
@@ -49,9 +51,11 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "deploy": "npm run build && eb deploy"
+    "deploy": "npm run build && eb deploy --profile=metax",
+    "get-contracts": "node getS3Contracts.js"
   },
   "devDependencies": {
+    "download": "^6.2.5",
     "eslint": "^4.5.0",
     "eslint-config-standard": "^10.2.1",
     "eslint-config-standard-react": "^5.0.0",

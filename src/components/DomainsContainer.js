@@ -9,6 +9,7 @@ import RegistryStatsbar from './RegistryStatsbar'
 import AdtCalculator from './AdtCalculator'
 import DomainsTable from './DomainsTable'
 import DomainsFilterPanel from './DomainsFilterPanel'
+import Trollbox from './Trollbox'
 
 import './DomainsContainer.css'
 
@@ -25,12 +26,18 @@ class DomainsContainer extends Component {
 
     this.onQueryChange = this.onQueryChange.bind(this)
     this.updateTableFilters = this.updateTableFilters.bind(this)
+
+    setTimeout(() => {
+      this.updateTableFilters(query)
+    }, 0)
   }
 
   componentWillReceiveProps (props) {
     const query = qs.parse(props.location.search.substr(1))
 
-    this.setState({query: normalizeQueryObj(query)})
+    this.setState({
+      query: normalizeQueryObj(query)
+    })
 
     this.updateTableFilters(query)
   }
@@ -46,25 +53,32 @@ class DomainsContainer extends Component {
       <div className='DomainsContainer'>
         <div className='ui grid stackable padded'>
           <div className='row'>
-            <div className='column ten wide'>
-              <RegistryStatsbar />
-            </div>
-            <div className='column six wide'>
-              <AdtCalculator />
-            </div>
-          </div>
-          <div className='row'>
-            <div className='column three wide'>
+            <div className='column four wide'>
               <DomainsFilterPanel
                 filters={query}
                 onFiltersChange={this.onQueryChange}
               />
+              <div className='GlobalTrollbox BoxFrame'>
+                <div className='Header'>
+                  Global Trollbox
+                </div>
+                <Trollbox
+                  channel={'adchainRegistryGlobal'}
+                />
+              </div>
             </div>
-            <div className='column thirteen wide'>
-              <DomainsTable
-                history={history}
-                filters={tableFilters}
-              />
+            <div className='column twelve wide'>
+              <div className='ui grid stackable'>
+                <div className='column nine wide NoPaddingBottom'>
+                  <AdtCalculator />
+                </div>
+                <div className='column sixteen wide'>
+                  <DomainsTable
+                    history={history}
+                    filters={tableFilters}
+                  />
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -82,9 +96,15 @@ class DomainsContainer extends Component {
     this.updateTableFilters(query)
   }
 
+  // React-table filter
   updateTableFilters (query) {
-    const statusFilter = {
-      id: 'status',
+    const stageFilter = {
+      id: 'stage',
+      value: undefined
+    }
+
+    const domainFilter = {
+      id: 'domain',
       value: undefined
     }
 
@@ -94,21 +114,28 @@ class DomainsContainer extends Component {
     for (let k in query) {
       if (query[k]) {
         if (k === 'inRegistry') {
-          filter.push('in registry')
+          filter.push('in_registry')
         } else if (k === 'inApplication') {
-          filter.push('in application')
+          filter.push('in_application')
         } else if (k === 'inVoting') {
-          filter.push('voting')
+          filter.push('voting_commit')
+          filter.push('voting_reveal')
+        } else if (k === 'inVotingCommit') {
+          filter.push('voting_commit')
+        } else if (k === 'inVotingReveal') {
+          filter.push('voting_reveal')
         } else if (k === 'rejected') {
           filter.push('rejected')
+        } else if (k === 'domain') {
+          domainFilter.value = query[k]
         }
       }
     }
 
     filter = new RegExp(filter.join('|'), 'gi')
-    statusFilter.value = filter
+    stageFilter.value = filter
 
-    this.setState({tableFilters: [statusFilter]})
+    this.setState({tableFilters: [domainFilter, stageFilter]})
   }
 }
 

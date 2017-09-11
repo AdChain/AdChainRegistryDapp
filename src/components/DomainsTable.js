@@ -18,10 +18,18 @@ function filterMethod (filter, row, column) {
     return row[id] !== undefined ? filter.value.test(row[id]) : true
   }
 
-  return row[id] !== undefined ? String(row[id]).startsWith(filter.value) : true
+  return row[id] !== undefined && filter.value ? String(row[id]).startsWith(filter.value) : true
 }
 
 var history = null
+
+function isExpired (row) {
+  const now = moment().unix()
+  const end = row._original.stageEndsTimestamp
+
+  if (!end) return false
+  return end < now
+}
 
 class DomainsTable extends Component {
   constructor (props) {
@@ -109,11 +117,21 @@ class DomainsTable extends Component {
         </a>
       )},
       minWidth: 200
-    }, {
+    },
+    /*
+    {
       Header: 'Site Name',
       accessor: 'siteName',
+      Cell: (props) => {
+        const {value} = props
+
+        // dummy
+        return value.toUpperCase()
+      },
       minWidth: 200
-    }, {
+    },
+    */
+    {
       Header: 'Action',
       accessor: 'stage',
       Cell: (props) => {
@@ -153,21 +171,32 @@ class DomainsTable extends Component {
       Header: 'Stage',
       accessor: 'stage',
       Cell: (props) => {
-        const {value} = props
-        const {domain} = props.row
+        const {value, row} = props
+        const {domain} = row
         let label = ''
+        let color = ''
 
-        if (value === 'in_registry') {
+        const expired = isExpired(row) || row.stage === 'view'
+
+        if (expired) {
+          label = 'Refresh Status'
+          color = 'info'
+        } else if (value === 'in_registry') {
           label = 'In Registry'
+          color = 'success'
         } else if (value === 'in_application') {
           label = 'In Application'
+          color = ''
         } else if (value === 'voting_commit') {
           label = 'Vote - Commit'
+          color = ''
         } else if (value === 'voting_reveal') {
           label = 'Vote - Reveal'
+          color = ''
         }
 
-        return <span>{label} <a
+        return ([
+          expired ? <a
             href='#!'
             title='Refresh status'
             onClick={(event) => {
@@ -175,8 +204,15 @@ class DomainsTable extends Component {
 
               this.updateStatus(domain)
             }}>
+            <span className={color}>
+              {label}
+            </span>
             <i className='icon refresh'></i>
-          </a></span>
+          </a> :
+          <span className={color}>
+            {label}
+          </span>
+        ])
       },
       minWidth: 130
     }, {
@@ -185,7 +221,13 @@ class DomainsTable extends Component {
       className: 'Number',
       headerClassName: 'Number',
       Cell: (props) => {
-        const {value} = props
+        const {value, row} = props
+
+        if (value) {
+          if (isExpired(row)) {
+            return <span className='error'>{value}</span>
+          }
+        }
 
         if (typeof props.value === 'number') {
           return commafy(value)
@@ -234,74 +276,68 @@ class DomainsTable extends Component {
   }
 
   async getData () {
-    let domains = null
-
-    try {
-      domains = JSON.parse(window.localStorage.getItem('domains'))
-    } catch (error) {}
-
-    if (!domains) {
-      domains = []
-    }
+    const response = await window.fetch(`https://adchain-registry-api.metax.io/registry/domains/all`)
+    const domains = await response.json()
 
     const data = await Promise.all(domains.map(async domain => {
-      return new Promise(async (resolve, reject) => {
-        const listing = await registry.getListing(domain)
+      const listing = await registry.getListing(domain)
 
+      const {
+        applicationExpiry,
+        isWhitelisted,
+        challengeId
+      } = listing
+
+      const item = {
+        domain,
+        siteName: domain,
+        stage: null,
+        stageEndsTimestamp: null,
+        stageEnds: null,
+        action: null,
+        stats: null
+      }
+
+      const applicationExists = !!applicationExpiry
+      const challengeOpen = (challengeId === 0 && !isWhitelisted && applicationExpiry)
+      const commitOpen = await registry.commitPeriodActive(domain)
+      const revealOpen = await registry.revealPeriodActive(domain)
+      // const pollEnded = await registry.pollEnded(domain)
+
+      if (isWhitelisted) {
+        item.stage = 'in_registry'
+        item.deposit = listing.currentDeposit
+      } else if (challengeOpen) {
+        item.stage = 'in_application'
+        item.stageEndsTimestamp = applicationExpiry
+        item.stageEnds = moment.unix(applicationExpiry).format('YYYY-MM-DD HH:mm:ss')
+      } else if (commitOpen) {
+        item.stage = 'voting_commit'
         const {
-          applicationExpiry,
-          isWhitelisted,
-          challengeId
-        } = listing
-
-        const item = {
-          domain,
-          siteName: domain,
-          stage: null,
-          stageEnds: null,
-          action: null,
-          stats: null
+          commitEndDate
+        } = await registry.getChallengePoll(domain)
+        item.stageEndsTimestamp = commitEndDate
+        item.stageEnds = moment.unix(commitEndDate).format('YYYY-MM-DD HH:mm:ss')
+      } else if (revealOpen) {
+        item.stage = 'voting_reveal'
+        const {
+          revealEndDate,
+          votesFor,
+          votesAgainst
+        } = await registry.getChallengePoll(domain)
+        item.stageEndsTimestamp = revealEndDate
+        item.stageEnds = moment.unix(revealEndDate).format('YYYY-MM-DD HH:mm:ss')
+        item.stats = {
+          votesFor,
+          votesAgainst
         }
+      } else if (applicationExists) {
+        item.stage = 'view'
+      } else {
+        item.stage = 'apply'
+      }
 
-        const applicationExists = !!applicationExpiry
-        const challengeOpen = (challengeId === 0 && !isWhitelisted && applicationExpiry)
-        const commitOpen = await registry.commitPeriodActive(domain)
-        const revealOpen = await registry.revealPeriodActive(domain)
-        // const pollEnded = await registry.pollEnded(domain)
-
-        if (isWhitelisted) {
-          item.stage = 'in_registry'
-          item.deposit = listing.currentDeposit
-          item.stageEnds = `Ended ${moment.unix(applicationExpiry).format('YYYY-MM-DD')}`
-        } else if (challengeOpen) {
-          item.stage = 'in_application'
-          item.stageEnds = moment.unix(applicationExpiry).format('YYYY-MM-DD HH:mm:ss')
-        } else if (commitOpen) {
-          item.stage = 'voting_commit'
-          const {
-            commitEndDate
-          } = await registry.getChallengePoll(domain)
-          item.stageEnds = moment.unix(commitEndDate).format('YYYY-MM-DD HH:mm:ss')
-        } else if (revealOpen) {
-          item.stage = 'voting_reveal'
-          const {
-            revealEndDate,
-            votesFor,
-            votesAgainst
-          } = await registry.getChallengePoll(domain)
-          item.stageEnds = moment.unix(revealEndDate).format('YYYY-MM-DD HH:mm:ss')
-          item.stats = {
-            votesFor,
-            votesAgainst
-          }
-        } else if (applicationExists) {
-          item.stage = 'view'
-        } else {
-          item.stage = 'apply'
-        }
-
-        resolve(item)
-      })
+      return item
     }))
 
     this.setState({
