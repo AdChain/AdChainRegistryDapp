@@ -72,7 +72,7 @@ class DomainInRegistryContainer extends Component {
           : null}
           {didClaim ? <div className='column sixteen wide center aligned'>
             <div className='ui message warning'>
-              You've <strong>claimed</strong> ADT for this domain.
+              You've <strong>claimed reward</strong> for this domain.
             </div>
           </div>
           : null}

@@ -78,7 +78,7 @@ class DomainVoteCommitContainer extends Component {
               VOTING – COMMIT
               <Popup
                 trigger={<i className='icon info circle'></i>}
-                content='The first phase of the voting process is the commit phase where the ADT holder stakes a hidden amount of ADT to SUPPORT or OPPOSE the domain application. The second phase is the reveal phase where the ADT holder reveals the staked amount of ADT to either the SUPPORT or OPPOSE side.'
+                content='The first phase of the voting process is the commit phase where the ADT holder stakes a hidden amount of votes to SUPPORT or OPPOSE the domain application. The second phase is the reveal phase where the ADT holder reveals the staked amount of votes to either the SUPPORT or OPPOSE side.'
               />
             </div>
           </div>
@@ -116,7 +116,7 @@ class DomainVoteCommitContainer extends Component {
                 <p>Challenge ID: <label className='ui label'>{challengeId}</label></p>
               </div>
               <div className='ui field'>
-                <label>Enter ADT to Commit</label>
+                <label>Enter Votes to Commit</label>
                 <div className='ui input small'>
                   <input
                     type='text'
@@ -265,7 +265,6 @@ class DomainVoteCommitContainer extends Component {
 
   async getPoll () {
     const {domain} = this.state
-		debugger
 
     try {
       const {
