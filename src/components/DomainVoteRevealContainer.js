@@ -109,8 +109,6 @@ class DomainVoteRevealContainer extends Component {
                 <p>Challenge ID: <label className='ui label'>{challengeId}</label></p>
               </div>
               <div className='ui field'>
-<<<<<<< HEAD
-=======
                 <label>Upload Commit File to reveal vote</label>
                 <input
                   type='file'
@@ -122,17 +120,13 @@ class DomainVoteRevealContainer extends Component {
                   or
               </div>
               <div className='ui field'>
->>>>>>> 2f536e917f665ec644fe4fb609ff76dbc4aa9655
                 <label>Secret Phrase (salt)</label>
                 <div className='ui input small'>
                   <input
                     type='text'
                     placeholder='phrase'
-<<<<<<< HEAD
-=======
                     id='DomainVoteRevealContainerSaltInput'
                     defaultValue={salt}
->>>>>>> 2f536e917f665ec644fe4fb609ff76dbc4aa9655
                     onKeyUp={event => this.setState({salt: parseInt(event.target.value, 10)})}
                   />
                 </div>

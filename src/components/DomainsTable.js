@@ -36,17 +36,21 @@ class DomainsTable extends Component {
     super()
 
     const filters = props.filters || []
-    const data = []
     const columns = this.getColumns()
 
     this.state = {
       columns,
-      data,
-      filters
+      data: [],
+      filters,
+      allDomains: [],
+      pages: -1, // we don't know how many pages yet
+      pageSize: 10,
+      isLoading: false
     }
 
     history = props.history
 
+    this.onTableFetchData = this.onTableFetchData.bind(this)
     this.getData()
   }
 
@@ -65,23 +69,30 @@ class DomainsTable extends Component {
     const {
       columns,
       data,
-      filters
+      filters,
+      pages,
+      pageSize,
+      isLoading
     } = this.state
 
     return (
       <div className='DomainsTable BoxFrame'>
         <div className='ui grid'>
           <ReactTable
+            loading={isLoading}
             data={data}
+            pages={pages}
             filtered={filters}
             columns={columns}
             filterable
-            defaultPageSize={10}
+            defaultPageSize={pageSize}
             minRows={0}
             defaultFilterMethod={filterMethod}
             showPageSizeOptions={false}
             showPageJump={false}
             className='ui table'
+            manual
+            onFetchData={this.onTableFetchData}
           />
         </div>
       </div>
@@ -275,19 +286,34 @@ class DomainsTable extends Component {
     return columns
   }
 
-  async getData () {
-    const response = await window.fetch(`https://adchain-registry-api.metax.io/registry/domains/all`)
-    const domains = await response.json()
+  async onTableFetchData (state, instance) {
+    this.setState({
+      isLoading: true
+    })
+
+    const {
+      page,
+      pageSize
+    } = state
+
+    const filtered = this.state.filters
+
+    const start = page * pageSize
+    const end = start + pageSize
+
+    const allDomains = this.state.allDomains
+    let domains = allDomains
+
+    if (filtered && filtered[0]) {
+      domains = domains.filter(domain => {
+        return filterMethod(filtered[0], {domain})
+      })
+    }
+
+    const pages = parseInt(domains.length / pageSize, 10)
+    domains = domains.slice(start, end)
 
     const data = await Promise.all(domains.map(async domain => {
-      const listing = await registry.getListing(domain)
-
-      const {
-        applicationExpiry,
-        isWhitelisted,
-        challengeId
-      } = listing
-
       const item = {
         domain,
         siteName: domain,
@@ -298,11 +324,18 @@ class DomainsTable extends Component {
         stats: null
       }
 
+      const listing = await registry.getListing(domain)
+
+      const {
+        applicationExpiry,
+        isWhitelisted,
+        challengeId
+      } = listing
+
       const applicationExists = !!applicationExpiry
       const challengeOpen = (challengeId === 0 && !isWhitelisted && applicationExpiry)
       const commitOpen = await registry.commitPeriodActive(domain)
       const revealOpen = await registry.revealPeriodActive(domain)
-      // const pollEnded = await registry.pollEnded(domain)
 
       if (isWhitelisted) {
         item.stage = 'in_registry'
@@ -341,14 +374,30 @@ class DomainsTable extends Component {
     }))
 
     this.setState({
-      data: data
+      data,
+      isLoading: false,
+      pages
     })
+  }
+
+  async getData () {
+    const response = await window.fetch(`https://adchain-registry-api.metax.io/registry/domains/all`)
+    const domains = await response.json()
+    const {pageSize} = this.state
+
+    this.setState({
+      allDomains: domains,
+      pages: parseInt(domains.length / pageSize, 10)
+    })
+
+    if (!this.state.data.length) {
+      this.onTableFetchData({page: 0, pageSize})
+    }
   }
 
   async updateStatus (domain) {
     try {
       await registry.updateStatus(domain)
-
     } catch (error) {
 
     }

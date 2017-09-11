@@ -21,12 +21,14 @@ class DomainsContainer extends Component {
 
     this.state = {
       query: normalizeQueryObj(query),
-      history: props.history
+      history: props.history,
+      tableFilters: []
     }
 
     this.onQueryChange = this.onQueryChange.bind(this)
     this.updateTableFilters = this.updateTableFilters.bind(this)
 
+    // Delay required for table to properly update with filters
     setTimeout(() => {
       this.updateTableFilters(query)
     }, 0)

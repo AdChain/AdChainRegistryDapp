@@ -1,7 +1,8 @@
-import pify from 'pify'
+import tc from 'truffle-contract' // truffle-contract
 
 import { getAddress, getAbi } from '../config'
 import store from '../store'
+import Token from '../config/token.json'
 
 const address = getAddress('token')
 const abi = getAbi('token')
@@ -10,20 +11,31 @@ class TokenService {
   constructor () {
     this.address = address
     this.token = null
-    this.decimals = null
+    this.decimals = 9
     this.name = null
     this.symbol = null
 
     this.initContract()
   }
 
-  initContract () {
+  async initContract () {
     if (!window.web3) {
       return false
     }
 
+    if (this.pendingDeployed) {
+      await this.pendingDeployed
+      this.pendingDeploy = null
+      return false
+    }
+
     if (!this.token) {
-      this.token = window.web3.eth.contract(abi).at(this.address)
+      const contract = tc(Token)
+      contract.setProvider(window.web3.currentProvider)
+      this.pendingDeployed = contract.at(address)
+      const deployed = await this.pendingDeployed
+      this.token = deployed
+      this.pendingDeploy = null
 
       this.getDecimals()
       this.getName()
@@ -52,7 +64,7 @@ class TokenService {
       }
 
       try {
-        const name = await pify(this.token.name)()
+        const name = await this.token.name()
         this.name = name
         resolve(name)
         return false
@@ -70,7 +82,7 @@ class TokenService {
       }
 
       try {
-        const symbol = await pify(this.token.symbol)()
+        const symbol = await this.token.symbol()
         this.symbol = symbol
         resolve(symbol)
         return false
@@ -88,7 +100,7 @@ class TokenService {
       }
 
       try {
-        const result = await pify(this.token.decimals)()
+        const result = await this.token.decimals()
         this.decimals = result.toNumber()
         resolve(this.decimals)
         return false
@@ -111,7 +123,7 @@ class TokenService {
       }
 
       try {
-        const result = await pify(this.token.balanceOf)(account)
+        const result = await this.token.balanceOf(account)
         const balance = result.toNumber() / Math.pow(10, this.decimals)
         resolve(balance)
         return false
@@ -134,7 +146,7 @@ class TokenService {
       }
 
       try {
-        const result = await pify(this.token.approve)(sender, value)
+        const result = await this.token.approve(sender, value, {from: this.getAccount()})
         resolve(result)
         return false
       } catch (error) {
@@ -142,6 +154,14 @@ class TokenService {
         return false
       }
     })
+  }
+
+  getAccount () {
+    if (!window.web3) {
+      return null
+    }
+
+    return window.web3.eth.defaultAccount || window.web3.eth.accounts[0]
   }
 }
 

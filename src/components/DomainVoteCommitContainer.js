@@ -265,6 +265,7 @@ class DomainVoteCommitContainer extends Component {
 
   async getPoll () {
     const {domain} = this.state
+		debugger
 
     try {
       const {

@@ -1,7 +1,9 @@
 import pify from 'pify'
+import tc from 'truffle-contract' // truffle-contract
 
 import store from '../store'
 import { getAddress, getAbi } from '../config'
+import Parameterizer from '../config/parameterizer.json'
 
 const address = getAddress('parameterizer')
 const abi = getAbi('parameterizer')
@@ -14,12 +16,27 @@ class ParameterizerService {
     this.initContract()
   }
 
-  initContract () {
-    if (window.web3) {
-      if (!this.parameterizer) {
-        this.parameterizer = window.web3.eth.contract(abi).at(this.address)
-      }
+  async initContract () {
+    if (!window.web3) {
+      return false
     }
+
+    if (this.parameterizer) {
+      return false
+    }
+
+    if (this.pendingDeployed) {
+      await this.pendingDeployed
+      this.pendingDeploy = null
+      return false
+    }
+
+    const contract = tc(Parameterizer)
+    contract.setProvider(window.web3.currentProvider)
+    this.pendingDeployed = contract.deployed()
+    const deployed = await this.pendingDeployed
+    this.parameterizer = deployed
+    this.pendingDeploy = null
   }
 
   setUpEvents () {
@@ -43,11 +60,9 @@ class ParameterizerService {
         return false
       }
 
-      if (!this.registry) {
-        this.initContract()
-      }
+      await this.initContract()
 
-      let result = await pify(this.parameterizer.get)(name)
+      let result = await this.parameterizer.get(name)
 
       if (typeof result === 'object' && result.isBigNumber) {
         result = result.toNumber()

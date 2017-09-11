@@ -1,5 +1,7 @@
 import pify from 'pify'
+import tc from 'truffle-contract' // truffle-contract
 
+import PLCR from '../config/plcr.json'
 import token from './token'
 import store from '../store'
 import { getAbi } from '../config'
@@ -23,14 +25,24 @@ class PlcrService {
       return false
     }
 
+    if (this.pendingDeployed) {
+      await this.pendingDeployed
+      this.pendingDeploy = null
+      return false
+    }
+
     const registry = require('./registry').default
 
     if (!this.plcr && registry && registry.getPlcrAddress) {
       const address = await registry.getPlcrAddress()
-      const plcr = await window.web3.eth.contract(abi).at(address)
-
       this.address = address
-      this.plcr = plcr
+
+      const contract = tc(PLCR)
+      contract.setProvider(window.web3.currentProvider)
+      this.pendingDeployed = contract.at(address)
+      const deployed = await this.pendingDeployed
+      this.plcr = deployed
+      this.pendingDeploy = null
 
       this.setUpEvents()
     }
@@ -62,7 +74,7 @@ class PlcrService {
       }
 
       try {
-        const result = await pify(this.plcr.pollMap)(pollId)
+        const result = await this.plcr.pollMap(pollId)
 
         const map = {
           // expiration date of commit period for poll
@@ -98,7 +110,7 @@ class PlcrService {
       }
 
       try {
-        const result = await pify(this.plcr.commitPeriodActive)(pollId)
+        const result = await this.plcr.commitPeriodActive(pollId)
         resolve(result)
         return false
       } catch (error) {
@@ -120,7 +132,7 @@ class PlcrService {
       }
 
       try {
-        const result = await pify(this.plcr.revealPeriodActive)(pollId)
+        const result = await this.plcr.revealPeriodActive(pollId)
         resolve(result)
         return false
       } catch (error) {
@@ -173,7 +185,7 @@ class PlcrService {
       }
 
       try {
-        await pify(this.plcr.requestVotingRights)(tokens)
+        await this.plcr.requestVotingRights(tokens, {from: this.getAccount()})
       } catch (error) {
         reject(error)
         return false
@@ -181,8 +193,8 @@ class PlcrService {
 
       try {
         const prevPollId =
-          await pify(this.plcr.getInsertPointForNumTokens.call)(this.getAccount(), tokens)
-        const result = await pify(this.plcr.commitVote)(pollId, hash, tokens, prevPollId)
+          await this.plcr.getInsertPointForNumTokens.call(this.getAccount(), tokens)
+        const result = await this.plcr.commitVote(pollId, hash, tokens, prevPollId, {from: this.getAccount()})
 
         store.dispatch({
           type: 'PLCR_VOTE_COMMIT',
@@ -201,7 +213,7 @@ class PlcrService {
   async reveal ({pollId, voteOption, salt}) {
     return new Promise(async (resolve, reject) => {
       try {
-        await pify(this.plcr.revealVote)(pollId, voteOption, salt)
+        await this.plcr.revealVote(pollId, voteOption, salt, {from: this.getAccount})
 
         store.dispatch({
           type: 'PLCR_VOTE_REVEAL',
@@ -219,7 +231,7 @@ class PlcrService {
   async getTokensCommited (pollId) {
     return new Promise(async (resolve, reject) => {
       try {
-        const numTokens = await pify(this.plcr.getNumTokens)(pollId)
+        const numTokens = await this.plcr.getNumTokens(pollId)
         resolve(numTokens)
         return false
       } catch (error) {
@@ -241,7 +253,7 @@ class PlcrService {
       }
 
       try {
-        const result = await pify(this.plcr.hasEnoughTokens)(tokens)
+        const result = await this.plcr.hasEnoughTokens(tokens)
         resolve(result)
         return false
       } catch (error) {
@@ -258,7 +270,7 @@ class PlcrService {
       }
 
       try {
-        const result = await pify(this.plcr.pollEnded)(pollId)
+        const result = await this.plcr.pollEnded(pollId)
         resolve(result)
         return false
       } catch (error) {
@@ -270,18 +282,12 @@ class PlcrService {
 
   async getCommitHash (voter, pollId) {
     return new Promise(async (resolve, reject) => {
-<<<<<<< HEAD
-      try {
-        const hash = await pify(this.plcr.getCommitHash)(pollId)
-=======
       if (!this.plcr) {
         await this.initContract()
       }
 
       try {
-        const hash = await pify(this.plcr.getCommitHash)(voter, pollId)
->>>>>>> 2f536e917f665ec644fe4fb609ff76dbc4aa9655
-
+        const hash = await this.plcr.getCommitHash(voter, pollId)
         resolve(hash)
       } catch (error) {
         reject(error)
@@ -291,10 +297,6 @@ class PlcrService {
 
   async hasBeenRevealed (voter, pollId) {
     return new Promise(async (resolve, reject) => {
-<<<<<<< HEAD
-      try {
-        const didReveal = await pify(this.plcr.hasBeenRevealed)(pollId)
-=======
       if (!this.plcr) {
         await this.initContract()
       }
@@ -305,8 +307,7 @@ class PlcrService {
       }
 
       try {
-        const didReveal = await pify(this.plcr.hasBeenRevealed)(voter, pollId)
->>>>>>> 2f536e917f665ec644fe4fb609ff76dbc4aa9655
+        const didReveal = await this.plcr.hasBeenRevealed(voter, pollId)
 
         resolve(didReveal)
       } catch (error) {

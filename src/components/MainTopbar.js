@@ -55,11 +55,7 @@ class MainTopbar extends Component {
           {address ?
             <div className='item'>
               <div>
-<<<<<<< HEAD
-                Network: <strong>Rinkeby</strong> Testnet
-=======
                 Network: <strong>Rinkeby Testnet</strong>
->>>>>>> 2f536e917f665ec644fe4fb609ff76dbc4aa9655
               </div>
             </div>
           : null}

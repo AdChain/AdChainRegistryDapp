@@ -13,30 +13,6 @@ import Registry from '../config/registry.json'
 
 const address = getAddress('registry')
 
-// TODO
-// Web3 fires 2 callbacks; 2nd callback is when it's mined
-function pify2nd (fn) {
-  return () => {
-    const args = [].slice.call(arguments)
-    let n = 0
-    return new Promise((resolve, reject) => {
-      fn.call(args, (error, result) => {
-        if (n === 1) {
-          resolve(result)
-          return false
-        }
-
-        if (error) {
-          reject(error)
-          return false
-        }
-
-        n++
-      })
-    })
-  }
-}
-
 const parameters = keyMirror({
   minDeposit: null,
   applyStageLen: null,
@@ -52,13 +28,26 @@ class RegistryService {
   }
 
   async initContract () {
+    if (this.registry) {
+      return false
+    }
+
+    if (this.pendingDeployed) {
+      await this.pendingDeployed
+      this.pendingDeploy = null
+      return false
+    }
+
     if (window.web3 === undefined) {
       return false
     }
 
-    this.registry = tc(Registry);
-    this.registry.setProvider(window.web3.currentProvider);
-    this.registry = await this.registry.deployed();
+    const contract = tc(Registry)
+    contract.setProvider(window.web3.currentProvider)
+    this.pendingDeployed = contract.deployed()
+    const deployed = await this.pendingDeployed
+    this.registry = deployed
+    this.pendingDeploy = null
 
     this.setUpEvents()
   }
@@ -82,7 +71,7 @@ class RegistryService {
       return null
     }
 
-    return window.web3.eth.defaultAccount
+    return window.web3.eth.defaultAccount || window.web3.eth.accounts[0]
   }
 
   async apply (domain, deposit = 0) {
@@ -97,7 +86,7 @@ class RegistryService {
     domain = domain.toLowerCase()
     deposit = deposit * Math.pow(10, token.decimals)
 
-    const exists = await this.applicationExists.call(domain)
+    const exists = await this.applicationExists(domain)
 
     if (exists) {
       throw new Error('Application already exists')
@@ -110,7 +99,7 @@ class RegistryService {
     }
 
     try {
-      await this.registry.apply(domain, deposit)
+      await this.registry.apply(domain, deposit, {from: this.getAccount()})
     } catch (error) {
       throw error
     }
@@ -134,27 +123,17 @@ class RegistryService {
     try {
       minDeposit = await this.getMinDeposit()
       minDeposit = minDeposit * Math.pow(10, token.decimals)
-    } catch (error) {
-      throw error
-    }
 
-    try {
       await token.approve(this.address, minDeposit)
+      await this.registry.challenge(domain, {from: this.getAccount()})
     } catch (error) {
       throw error
     }
 
-    try {
-      const receipt = await this.registry.challenge(domain)
-      // const challengeId = parseInt(receipt.logs[1].data, 16)
-
-      store.dispatch({
-        type: 'REGISTRY_DOMAIN_CHALLENGE',
-        domain
-      })
-    } catch (error) {
-      throw error
-    }
+    store.dispatch({
+      type: 'REGISTRY_DOMAIN_CHALLENGE',
+      domain
+    })
   }
 
   async didChallenge (domain) {
@@ -168,13 +147,13 @@ class RegistryService {
     let challengeId = null
 
     try {
-      challengeId = await this.getChallengeId.call(domain)
+      challengeId = await this.getChallengeId(domain)
     } catch (error) {
       throw error
     }
 
     try {
-      const challenge = await this.getChallenge.call(challengeId)
+      const challenge = await this.getChallenge(challengeId)
       return (challenge.challenger === this.getAccount())
     } catch (error) {
       throw error
@@ -299,14 +278,8 @@ class RegistryService {
 
     domain = domain.toLowerCase()
 
-<<<<<<< HEAD
-      try {
-        const result = await pify(this.registry.updateStatus)(domain)
-        this.forceMine()
-=======
     try {
-      const result = await this.registry.updateStatus(domain)
->>>>>>> 2f536e917f665ec644fe4fb609ff76dbc4aa9655
+      const result = await this.registry.updateStatus(domain, {from: this.getAccount()})
 
       store.dispatch({
         type: 'REGISTRY_DOMAIN_UPDATE_STATUS',
@@ -389,7 +362,7 @@ class RegistryService {
   }
 
   async commitPeriodActive (domain) {
-    if(!domain) {
+    if (!domain) {
       throw new Error('Domain is required')
     }
 
@@ -519,53 +492,6 @@ class RegistryService {
   }
 
   async getCommitHash (domain) {
-<<<<<<< HEAD
-    return new Promise(async (resolve, reject) => {
-      domain = domain.toLowerCase()
-
-      try {
-        const challengeId = await this.getChallengeId(domain)
-        const hash = await plcr.getCommitHash(challengeId)
-        resolve(hash)
-      } catch (error) {
-        reject(error)
-      }
-    })
-  }
-
-  async didCommit (domain) {
-    return new Promise(async (resolve, reject) => {
-      domain = domain.toLowerCase()
-
-      try {
-        const challengeId = await this.getChallengeId(domain)
-        const hash = await plcr.getCommitHash(challengeId)
-        let didCommit = false
-
-        if (hash !== '0x0000000000000000000000000000000000000000000000000000000000000000') {
-          didCommit = true
-        }
-
-        resolve(didCommit)
-      } catch (error) {
-        reject(error)
-      }
-    })
-  }
-
-  async didReveal (domain) {
-    return new Promise(async (resolve, reject) => {
-      domain = domain.toLowerCase()
-
-      try {
-        const challengeId = await this.getChallengeId(domain)
-        const didReveal = await plcr.hasBeenRevealed(challengeId)
-        resolve(didReveal)
-      } catch (error) {
-        reject(error)
-      }
-    })
-=======
     domain = domain.toLowerCase()
     const voter = this.getAccount()
 
@@ -629,7 +555,7 @@ class RegistryService {
         return false
       }
 
-      return plcr.hasBeenRevealed.call(voter, challengeId)
+      return plcr.hasBeenRevealed(voter, challengeId)
     } catch (error) {
       throw error
     }
@@ -647,11 +573,10 @@ class RegistryService {
         return false
       }
 
-      return plcr.hasBeenRevealed.call(voter, pollId)
+      return plcr.hasBeenRevealed(voter, pollId)
     } catch (error) {
       throw error
     }
->>>>>>> 2f536e917f665ec644fe4fb609ff76dbc4aa9655
   }
 
   voterHasEnoughVotingTokens (tokens) {
@@ -660,7 +585,7 @@ class RegistryService {
 
   async didClaim (domain) {
     try {
-      const challengeId = await this.getChallengeId.call(domain)
+      const challengeId = await this.getChallengeId(domain)
       const account = window.web3.eth.accounts[0]
       return this.registry.tokenClaims.call(challengeId, account)
     } catch (error) {
@@ -683,7 +608,7 @@ class RegistryService {
   claimReward (challengeId, salt) {
     return new Promise(async (resolve, reject) => {
       try {
-        await pify(this.registry.claimReward)(challengeId, salt)
+        await this.registry.claimReward(challengeId, salt, {from: this.getAccount()})
 
         store.dispatch({
           type: 'REGISTRY_CLAIM_REWARD'
