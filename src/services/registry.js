@@ -1,17 +1,17 @@
 import sha3 from 'solidity-sha3'
 import pify from 'pify'
 import keyMirror from 'key-mirror'
-import wait from 'promise-wait'
+import tc from 'truffle-contract' // truffle-contract
 
 import store from '../store'
 import token from './token'
 import plcr from './plcr'
 import parameterizer from './parameterizer'
 import saltHashVote from '../utils/saltHashVote'
-import { getAddress, getAbi } from '../config'
+import { getAddress } from '../config'
+import Registry from '../config/registry.json'
 
 const address = getAddress('registry')
-const abi = getAbi('registry')
 
 // TODO
 // Web3 fires 2 callbacks; 2nd callback is when it's mined
@@ -49,21 +49,18 @@ class RegistryService {
   constructor () {
     this.registry = null
     this.address = address
-
-    this.initContract()
   }
 
-  initContract () {
-    if (!window.web3) {
+  async initContract () {
+    if (window.web3 === undefined) {
       return false
     }
 
-    if (!this.registry) {
-      this.registry = window.web3.eth.contract(abi).at(this.address)
+    this.registry = tc(Registry);
+    this.registry.setProvider(window.web3.currentProvider);
+    this.registry = await this.registry.deployed();
 
-      this.setUpEvents()
-      this.forceMine()
-    }
+    this.setUpEvents()
   }
 
   setUpEvents () {
@@ -89,308 +86,231 @@ class RegistryService {
   }
 
   async apply (domain, deposit = 0) {
-    return new Promise(async (resolve, reject) => {
-      if (!domain) {
-        reject(new Error('Domain is required'))
-        return false
-      }
+    if (!domain) {
+      throw new Error('Domain is required')
+    }
 
-      if (!this.registry) {
-        this.initContract()
-      }
+    if (!this.registry) {
+      await this.initContract()
+    }
 
-      domain = domain.toLowerCase()
-      deposit = deposit * Math.pow(10, token.decimals)
+    domain = domain.toLowerCase()
+    deposit = deposit * Math.pow(10, token.decimals)
 
-      const exists = await this.applicationExists(domain)
+    const exists = await this.applicationExists.call(domain)
 
-      if (exists) {
-        reject(new Error('Application already exists'))
-        return false
-      }
+    if (exists) {
+      throw new Error('Application already exists')
+    }
 
-      try {
-        await token.approve(this.address, deposit)
-        await this.forceMine()
-      } catch (error) {
-        reject(error)
-        return false
-      }
+    try {
+      await token.approve(this.address, deposit)
+    } catch (error) {
+      throw error
+    }
 
-      try {
-        await pify(this.registry.apply)(domain, deposit)
-        // wait...a lot
-        await this.forceMine()
-        await this.forceMine()
-      } catch (error) {
-        reject(error)
-        return false
-      }
+    try {
+      await this.registry.apply(domain, deposit)
+    } catch (error) {
+      throw error
+    }
 
-      store.dispatch({
-        type: 'REGISTRY_DOMAIN_APPLY',
-        domain
-      })
-
-      resolve()
+    store.dispatch({
+      type: 'REGISTRY_DOMAIN_APPLY',
+      domain
     })
   }
 
   async challenge (domain) {
-    return new Promise(async (resolve, reject) => {
-      if (!domain) {
-        reject(new Error('Domain is required'))
-        return false
-      }
+    if (!domain) {
+      throw new Error('Domain is required')
+    }
 
-      if (!this.registry) {
-        this.initContract()
-      }
+    await this.initContract()
 
-      domain = domain.toLowerCase()
-      let minDeposit = 0
+    domain = domain.toLowerCase()
+    let minDeposit = 0
 
-      try {
-        minDeposit = await this.getMinDeposit()
-        minDeposit = minDeposit * Math.pow(10, token.decimals)
-      } catch (error) {
-        reject(error)
-        return false
-      }
+    try {
+      minDeposit = await this.getMinDeposit()
+      minDeposit = minDeposit * Math.pow(10, token.decimals)
+    } catch (error) {
+      throw error
+    }
 
-      try {
-        await token.approve(this.address, minDeposit)
-        await this.forceMine()
-      } catch (error) {
-        reject(error)
-        return false
-      }
+    try {
+      await token.approve(this.address, minDeposit)
+    } catch (error) {
+      throw error
+    }
 
-      try {
-        await pify(this.registry.challenge)(domain)
-        // wait for a while
-        await this.forceMine()
-        await this.forceMine()
-      } catch (error) {
-        reject(error)
-        return false
-      }
+    try {
+      const receipt = await this.registry.challenge(domain)
+      // const challengeId = parseInt(receipt.logs[1].data, 16)
 
-      try {
-        // const receipt = await this.getTransactionReceipt(tx)
-        // const challengeId = parseInt(receipt.logs[1].data, 16)
-
-        store.dispatch({
-          type: 'REGISTRY_DOMAIN_CHALLENGE',
-          domain
-        })
-
-        resolve()
-      } catch (error) {
-        reject(error)
-        return false
-      }
-    })
+      store.dispatch({
+        type: 'REGISTRY_DOMAIN_CHALLENGE',
+        domain
+      })
+    } catch (error) {
+      throw error
+    }
   }
 
   async didChallenge (domain) {
-    return new Promise(async (resolve, reject) => {
-      if (!domain) {
-        reject(new Error('Domain is required'))
-        return false
-      }
+    if (!domain) {
+      throw new Error('Domain is required')
+    }
 
-      if (!this.registry) {
-        this.initContract()
-      }
+    await this.initContract()
 
-      domain = domain.toLowerCase()
-      let challengeId = null
+    domain = domain.toLowerCase()
+    let challengeId = null
 
-      try {
-        challengeId = await this.getChallengeId(domain)
-      } catch (error) {
-        reject(error)
-        return false
-      }
+    try {
+      challengeId = await this.getChallengeId.call(domain)
+    } catch (error) {
+      throw error
+    }
 
-      try {
-        const challenge = await this.getChallenge(challengeId)
-        const isChallenger = (challenge.challenger === this.getAccount())
-        resolve(isChallenger)
-      } catch (error) {
-        reject(error)
-        return false
-      }
-    })
+    try {
+      const challenge = await this.getChallenge.call(challengeId)
+      return (challenge.challenger === this.getAccount())
+    } catch (error) {
+      throw error
+    }
   }
 
   async applicationExists (domain) {
-    return new Promise(async (resolve, reject) => {
-      if (!domain) {
-        reject(new Error('Domain is required'))
-        return false
-      }
+    if (!domain) {
+      throw new Error('Domain is required')
+    }
 
-      if (!this.registry) {
-        this.initContract()
-      }
+    await this.initContract()
 
-      domain = domain.toLowerCase()
+    domain = domain.toLowerCase()
 
-      try {
-        const exists = await pify(this.registry.appExists)(domain)
-        resolve(exists)
-      } catch (error) {
-        reject(error)
-        return false
-      }
-    })
+    try {
+      return this.registry.appExists(domain)
+    } catch (error) {
+      throw error
+    }
   }
 
   async getListing (domain) {
-    return new Promise(async (resolve, reject) => {
-      if (!domain) {
-        reject(new Error('Domain is required'))
-        return false
+    if (!domain) {
+      throw new Error('Domain is required')
+    }
+
+    await this.initContract()
+
+    domain = domain.toLowerCase()
+
+    try {
+      const hash = sha3(domain)
+      const result = await this.registry.listingMap.call(hash)
+
+      const map = {
+        applicationExpiry: result[0].toNumber(),
+        isWhitelisted: result[1],
+        ownerAddress: result[2],
+        currentDeposit: result[3].toNumber(),
+        challengeId: result[4].toNumber()
       }
 
-      if (!this.registry) {
-        this.initContract()
-      }
-
-      domain = domain.toLowerCase()
-
-      try {
-        const hash = sha3(domain)
-        const result = await pify(this.registry.listingMap)(hash)
-
-        const map = {
-          applicationExpiry: result[0].toNumber(),
-          isWhitelisted: result[1],
-          ownerAddress: result[2],
-          currentDeposit: result[3].toNumber(),
-          challengeId: result[4].toNumber()
-        }
-
-        resolve(map)
-        return false
-      } catch (error) {
-        reject(error)
-        return false
-      }
-    })
+      return map
+    } catch (error) {
+      throw error
+    }
   }
 
   async getChallenge (challengeId) {
-    return new Promise(async (resolve, reject) => {
-      if (!challengeId) {
-        reject(new Error('Challenge ID is required'))
-        return false
+    if (!challengeId) {
+      throw new Error('Challenge ID is required')
+    }
+
+    await this.initContract()
+
+    try {
+      const challenge = await this.registry.challengeMap.call(challengeId)
+      const map = {
+        // (remaining) pool of tokens distributed amongst winning voters
+        rewardPool: challenge[0] ? challenge[0].toNumber() : 0,
+        // owner of challenge
+        challenger: challenge[1],
+        // indication of if challenge is resolved
+        resolved: challenge[2],
+        // number of tokens at risk for either party during challenge
+        stake: challenge[3] ? challenge[3].toNumber() : 0,
+        // (remaining) amount of tokens used for voting by the winning side
+        totalTokens: challenge[4]
       }
 
-      if (!this.registry) {
-        this.initContract()
-      }
-
-      try {
-        const challenge = await pify(this.registry.challengeMap)(challengeId)
-        const map = {
-          // (remaining) pool of tokens distributed amongst winning voters
-          rewardPool: challenge[0] ? challenge[0].toNumber() : 0,
-          // owner of challenge
-          challenger: challenge[1],
-          // indication of if challenge is resolved
-          resolved: challenge[2],
-          // number of tokens at risk for either party during challenge
-          stake: challenge[3] ? challenge[3].toNumber() : 0,
-          // (remaining) amount of tokens used for voting by the winning side
-          totalTokens: challenge[4]
-        }
-
-        resolve(map)
-      } catch (error) {
-        reject(error)
-        return false
-      }
-    })
+      return map
+    } catch (error) {
+      throw error
+    }
   }
 
   async getChallengeId (domain) {
-    return new Promise(async (resolve, reject) => {
-      if (!domain) {
-        return new Error('Domain is required')
-      }
+    if (!domain) {
+      throw new Error('Domain is required')
+    }
 
-      domain = domain.toLowerCase()
+    domain = domain.toLowerCase()
 
-      try {
-        const listing = await this.getListing(domain)
+    await this.initContract();
 
-        const {
-          challengeId
-        } = listing
+    try {
+      const listing = await this.getListing(domain)
 
-        resolve(challengeId)
-        return false
-      } catch (error) {
-        reject(error)
-        return false
-      }
-    })
+      const {
+        challengeId
+      } = listing
+
+      return challengeId
+    } catch (error) {
+      throw error
+    }
   }
 
   async isWhitelisted (domain) {
-    return new Promise(async (resolve, reject) => {
-      if (!domain) {
-        reject(new Error('Domain is required'))
-        return false
-      }
+    if (!domain) {
+      throw new Error('Domain is required')
+    }
 
-      if (!this.registry) {
-        this.initContract()
-      }
+    await this.initContract()
 
-      domain = domain.toLowerCase()
+    domain = domain.toLowerCase()
 
-      try {
-        const whitelisted = await pify(this.registry.isWhitelisted)(domain)
-        resolve(whitelisted)
-      } catch (error) {
-        reject(error)
-        return false
-      }
-    })
+    try {
+      return this.registry.isWhitelisted.call(domain)
+    } catch (error) {
+      throw error
+    }
   }
 
   async updateStatus (domain) {
-    return new Promise(async (resolve, reject) => {
-      if (!domain) {
-        reject(new Error('Domain is required'))
-        return false
-      }
+    if (!domain) {
+      throw new Error('Domain is required')
+    }
 
-      if (!this.registry) {
-        this.initContract()
-      }
+    await this.initContract()
 
-      domain = domain.toLowerCase()
+    domain = domain.toLowerCase()
 
-      try {
-        const result = await pify(this.registry.updateStatus)(domain)
-        await this.forceMine()
+    try {
+      const result = await this.registry.updateStatus(domain)
 
-        store.dispatch({
-          type: 'REGISTRY_DOMAIN_UPDATE_STATUS',
-          domain
-        })
+      store.dispatch({
+        type: 'REGISTRY_DOMAIN_UPDATE_STATUS',
+        domain
+      })
 
-        resolve(result)
-      } catch (error) {
-        reject(error)
-        return false
-      }
-    })
+      return result
+    } catch (error) {
+      throw error
+    }
   }
 
   async getParameter (name) {
@@ -401,7 +321,7 @@ class RegistryService {
       }
 
       if (!this.registry) {
-        this.initContract()
+        await this.initContract()
       }
 
       try {
@@ -426,7 +346,7 @@ class RegistryService {
   async getCurrentBlockNumber () {
     return new Promise(async (resolve, reject) => {
       if (!this.registry) {
-        this.initContract()
+        await this.initContract()
       }
 
       const result = await pify(window.web3.eth.getBlockNumber)()
@@ -438,7 +358,7 @@ class RegistryService {
   async getCurrentBlockTimestamp () {
     return new Promise(async (resolve, reject) => {
       if (!this.registry) {
-        this.initContract()
+        await this.initContract()
       }
 
       try {
@@ -453,324 +373,252 @@ class RegistryService {
   }
 
   async getPlcrAddress () {
-    return new Promise(async (resolve, reject) => {
-      if (!this.registry) {
-        this.initContract()
-      }
+    await this.initContract()
 
-      try {
-        const result = await pify(this.registry.voting)()
-        resolve(result)
-      } catch (error) {
-        reject(error)
-        return false
-      }
-    })
+    try {
+      return this.registry.voting.call()
+    } catch (error) {
+      throw error
+    }
   }
 
   async commitPeriodActive (domain) {
-    return new Promise(async (resolve, reject) => {
-      if (!this.registry) {
-        this.initContract()
-      }
+    if(!domain) {
+      throw new Error('Domain is required')
+    }
 
-      domain = domain.toLowerCase()
-      let pollId = null
+    await this.initContract()
 
-      try {
-        pollId = await this.getChallengeId(domain)
-      } catch (error) {
-        reject(error)
-        return false
-      }
+    domain = domain.toLowerCase()
+    let pollId = null
 
-      if (!pollId) {
-        resolve(false)
-        return false
-      }
+    try {
+      pollId = await this.getChallengeId(domain)
+    } catch (error) {
+      throw error
+    }
 
-      try {
-        const result = await plcr.commitPeriodActive(pollId)
-        resolve(result)
-      } catch (error) {
-        reject(error)
-        return false
-      }
-    })
+    if (!pollId) {
+      return false
+    }
+
+    try {
+      return plcr.commitPeriodActive(pollId)
+    } catch (error) {
+      throw error
+    }
   }
 
   async revealPeriodActive (domain) {
-    return new Promise(async (resolve, reject) => {
-      if (!this.registry) {
-        this.initContract()
-      }
+    await this.initContract()
 
-      if (!domain) {
-        reject(new Error('Domain is required'))
-        return false
-      }
+    if (!domain) {
+      throw new Error('Domain is required')
+    }
 
-      domain = domain.toLowerCase()
-      let pollId = null
+    domain = domain.toLowerCase()
+    let pollId = null
 
-      try {
-        pollId = await this.getChallengeId(domain)
-      } catch (error) {
-        reject(error)
-        return false
-      }
+    try {
+      pollId = await this.getChallengeId(domain)
+    } catch (error) {
+      throw error
+    }
 
-      if (!pollId) {
-        resolve(false)
-        return false
-      }
+    if (!pollId) {
+      return false
+    }
 
-      try {
-        const result = await plcr.revealPeriodActive(pollId)
-        resolve(result)
-      } catch (error) {
-        reject(error)
-        return false
-      }
-    })
+    try {
+      return plcr.revealPeriodActive(pollId)
+    } catch (error) {
+      throw error
+    }
   }
 
   async commitVote ({domain, votes, voteOption, salt}) {
-    return new Promise(async (resolve, reject) => {
-      if (!this.registry) {
-        this.initContract()
-      }
+    await this.initContract()
 
-      if (!domain) {
-        reject(new Error('Domain is required'))
-        return false
-      }
+    if (!domain) {
+      throw new Error('Domain is required')
+    }
 
-      domain = domain.toLowerCase()
-      let challengeId = null
+    domain = domain.toLowerCase()
+    let challengeId = null
 
-      try {
-        challengeId = await this.getChallengeId(domain)
-      } catch (error) {
-        reject(error)
-        return false
-      }
+    try {
+      challengeId = await this.getChallengeId(domain)
+    } catch (error) {
+      throw error
+    }
 
-      try {
-        const hash = saltHashVote(voteOption, salt)
+    try {
+      const hash = saltHashVote(voteOption, salt)
 
-        await plcr.commit({pollId: challengeId, hash, tokens: votes})
-        await this.forceMine()
-        const commited = await this.didCommitForPoll(challengeId)
-
-        resolve(commited)
-      } catch (error) {
-        reject(error)
-        return false
-      }
-    })
+      await plcr.commit({pollId: challengeId, hash, tokens: votes})
+      return this.didCommitForPoll(challengeId)
+    } catch (error) {
+      throw error
+    }
   }
 
   async revealVote ({domain, voteOption, salt}) {
-    return new Promise(async (resolve, reject) => {
-      if (!this.registry) {
-        this.initContract()
-      }
+    await this.initContract()
 
-      domain = domain.toLowerCase()
-      let challengeId = null
+    domain = domain.toLowerCase()
+    let challengeId = null
 
-      try {
-        challengeId = await this.getChallengeId(domain)
-      } catch (error) {
-        reject(error)
-        return false
-      }
+    try {
+      challengeId = await this.getChallengeId(domain)
+    } catch (error) {
+      throw error
+    }
 
-      try {
-        await plcr.reveal({pollId: challengeId, voteOption, salt})
-        await this.forceMine()
-        const revealed = await this.didRevealForPoll(challengeId)
-
-        resolve(revealed)
-      } catch (error) {
-        reject(error)
-        return false
-      }
-    })
+    try {
+      await plcr.reveal({pollId: challengeId, voteOption, salt})
+      return this.didRevealForPoll(challengeId)
+    } catch (error) {
+      throw error
+    }
   }
 
-  getChallengePoll (domain) {
-    return new Promise(async (resolve, reject) => {
-      if (!domain) {
-        reject(new Error('Domain is required'))
-        return false
-      }
+  async getChallengePoll (domain) {
+    if (!domain) {
+      throw new Error('Domain is required')
+    }
 
-      domain = domain.toLowerCase()
+    domain = domain.toLowerCase()
 
-      try {
-        const challengeId = await this.getChallengeId(domain)
-        const result = await plcr.getPoll(challengeId)
-        resolve(result)
-      } catch (error) {
-        reject(error)
-        return false
-      }
-    })
-  }
-
-  pollEnded (domain) {
-    return new Promise(async (resolve, reject) => {
-      domain = domain.toLowerCase()
+    try {
       const challengeId = await this.getChallengeId(domain)
+      return plcr.getPoll(challengeId)
+    } catch (error) {
+      throw error
+    }
+  }
 
-      if (!challengeId) {
-        resolve(false)
-        return false
-      }
+  async pollEnded (domain) {
+    domain = domain.toLowerCase()
+    const challengeId = await this.getChallengeId(domain)
 
-      try {
-        const result = await plcr.pollEnded(challengeId)
-        resolve(result)
-      } catch (error) {
-        reject(error)
-        return false
-      }
-    })
+    if (!challengeId) {
+      return false
+    }
+
+    try {
+      return plcr.pollEnded(challengeId)
+    } catch (error) {
+      throw error
+    }
   }
 
   async getCommitHash (domain) {
-    return new Promise(async (resolve, reject) => {
-      domain = domain.toLowerCase()
-      const voter = this.getAccount()
+    domain = domain.toLowerCase()
+    const voter = this.getAccount()
 
-      if (!voter) {
-        resolve(false)
-        return false
-      }
+    if (!voter) {
+      return false
+    }
 
-      try {
-        const challengeId = await this.getChallengeId(domain)
-        const hash = await plcr.getCommitHash(voter, challengeId)
-        resolve(hash)
-      } catch (error) {
-        reject(error)
-      }
-    })
+    try {
+      const challengeId = await this.getChallengeId(domain)
+      return plcr.getCommitHash(voter, challengeId)
+    } catch (error) {
+      throw error
+    }
   }
 
   async didCommit (domain) {
-    return new Promise(async (resolve, reject) => {
-      domain = domain.toLowerCase()
+    domain = domain.toLowerCase()
 
-      try {
-        const challengeId = await this.getChallengeId(domain)
-        const committed = await this.didCommitForPoll(challengeId)
-
-        resolve(committed)
-      } catch (error) {
-        reject(error)
-      }
-    })
+    try {
+      const challengeId = await this.getChallengeId(domain)
+      return this.didCommitForPoll(challengeId)
+    } catch (error) {
+      throw error
+    }
   }
 
   async didCommitForPoll (pollId) {
-    return new Promise(async (resolve, reject) => {
-      try {
-        const voter = this.getAccount()
+    try {
+      const voter = this.getAccount()
 
-        if (!voter) {
-          resolve(false)
-          return false
-        }
-
-        const hash = await plcr.getCommitHash(voter, pollId)
-        let committed = false
-
-        if (hash !== '0x0000000000000000000000000000000000000000000000000000000000000000') {
-          committed = true
-        }
-
-        resolve(committed)
-      } catch (error) {
-        reject(error)
+      if (!voter) {
+        return false
       }
-    })
+
+      const hash = await plcr.getCommitHash(voter, pollId)
+      let committed = false
+
+      if (hash !== '0x0000000000000000000000000000000000000000000000000000000000000000') {
+        committed = true
+      }
+
+      return committed
+    } catch (error) {
+      throw error
+    }
   }
 
   async didReveal (domain) {
-    return new Promise(async (resolve, reject) => {
-      domain = domain.toLowerCase()
+    domain = domain.toLowerCase()
+
+    const voter = this.getAccount()
+
+    if (!voter) {
+      return false
+    }
+
+    try {
+      const challengeId = await this.getChallengeId(domain)
+
+      if (!challengeId) {
+        return false
+      }
+
+      return plcr.hasBeenRevealed.call(voter, challengeId)
+    } catch (error) {
+      throw error
+    }
+  }
+
+  async didRevealForPoll (pollId) {
+    try {
+      if (!pollId) {
+        return false
+      }
 
       const voter = this.getAccount()
 
       if (!voter) {
-        resolve(false)
         return false
       }
 
-      try {
-        const challengeId = await this.getChallengeId(domain)
-
-        if (!challengeId) {
-          resolve(false)
-          return false
-        }
-
-        const revealed = await plcr.hasBeenRevealed(voter, challengeId)
-        resolve(revealed)
-      } catch (error) {
-        reject(error)
-      }
-    })
-  }
-
-  async didRevealForPoll (pollId) {
-    return new Promise(async (resolve, reject) => {
-      try {
-        if (!pollId) {
-          resolve(false)
-          return false
-        }
-
-        const voter = this.getAccount()
-
-        if (!voter) {
-          resolve(false)
-          return false
-        }
-
-        const revealed = await plcr.hasBeenRevealed(voter, pollId)
-        resolve(revealed)
-      } catch (error) {
-        reject(error)
-      }
-    })
+      return plcr.hasBeenRevealed.call(voter, pollId)
+    } catch (error) {
+      throw error
+    }
   }
 
   voterHasEnoughVotingTokens (tokens) {
     return plcr.hasEnoughTokens(tokens)
   }
 
-  didClaim (domain) {
-    return new Promise(async (resolve, reject) => {
-      try {
-        const challengeId = await this.getChallengeId(domain)
-        const account = window.web3.eth.accounts[0]
-        const hasClaimed = await pify(this.registry.tokenClaims)(challengeId, account)
-        resolve(hasClaimed)
-      } catch (error) {
-        reject(error)
-      }
-    })
+  async didClaim (domain) {
+    try {
+      const challengeId = await this.getChallengeId.call(domain)
+      const account = window.web3.eth.accounts[0]
+      return this.registry.tokenClaims.call(challengeId, account)
+    } catch (error) {
+      throw error
+    }
   }
 
   didClaimForPoll (challengeId) {
     return new Promise(async (resolve, reject) => {
       try {
         const account = window.web3.eth.accounts[0]
-        const hasClaimed = await pify(this.registry.tokenClaims)(challengeId, account)
+        const hasClaimed = await this.registry.tokenClaims.call(challengeId, account)
         resolve(hasClaimed)
       } catch (error) {
         reject(error)
@@ -782,9 +630,6 @@ class RegistryService {
     return new Promise(async (resolve, reject) => {
       try {
         await pify(this.registry.claimReward)(challengeId, salt)
-        // wait..a lot
-        this.forceMine()
-        this.forceMine()
 
         store.dispatch({
           type: 'REGISTRY_CLAIM_REWARD'
@@ -800,7 +645,7 @@ class RegistryService {
   async getTransaction (tx) {
     return new Promise(async (resolve, reject) => {
       if (!this.registry) {
-        this.initContract()
+        await this.initContract()
       }
 
       try {
@@ -816,7 +661,7 @@ class RegistryService {
   async getTransactionReceipt (tx) {
     return new Promise(async (resolve, reject) => {
       if (!this.registry) {
-        this.initContract()
+        await this.initContract()
       }
 
       try {
@@ -829,35 +674,6 @@ class RegistryService {
     })
   }
 
-  // TODO
-  async forceMine (block) {
-    if (this.miningStarted) {
-      await wait(16e3)
-      // await wait(3e3)
-      return Promise.resolve()
-    }
-
-    return new Promise(async (resolve, reject) => {
-      // const blockNumber = await this.getCurrentBlockNumber()
-      /*
-      const result = await pify(window.web3.currentProvider.sendAsync)({
-          jsonrpc: '2.0',
-          method: 'evm_mine'
-        })
-      */
-      /*
-      const result = pify(window.web3.currentProvider.sendAsync)({
-          jsonrpc: '2.0',
-          method: 'miner_start',
-          params: 0
-        })
-      */
-
-      this.miningStarted = true
-
-      // resolve(result)
-    })
-  }
 }
 
 export default new RegistryService()

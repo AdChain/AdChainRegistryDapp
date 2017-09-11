@@ -32,7 +32,6 @@ class PlcrService {
       this.address = address
       this.plcr = plcr
 
-      this.forceMine = registry.forceMine.bind(registry)
       this.setUpEvents()
     }
   }
@@ -168,7 +167,6 @@ class PlcrService {
 
       try {
         await token.approve(this.address, tokens)
-        await this.forceMine()
       } catch (error) {
         reject(error)
         return false
@@ -176,7 +174,6 @@ class PlcrService {
 
       try {
         await pify(this.plcr.requestVotingRights)(tokens)
-        await this.forceMine()
       } catch (error) {
         reject(error)
         return false
@@ -186,7 +183,6 @@ class PlcrService {
         const prevPollId =
           await pify(this.plcr.getInsertPointForNumTokens.call)(this.getAccount(), tokens)
         const result = await pify(this.plcr.commitVote)(pollId, hash, tokens, prevPollId)
-        await this.forceMine()
 
         store.dispatch({
           type: 'PLCR_VOTE_COMMIT',
@@ -206,7 +202,6 @@ class PlcrService {
     return new Promise(async (resolve, reject) => {
       try {
         await pify(this.plcr.revealVote)(pollId, voteOption, salt)
-        await this.forceMine()
 
         store.dispatch({
           type: 'PLCR_VOTE_REVEAL',
