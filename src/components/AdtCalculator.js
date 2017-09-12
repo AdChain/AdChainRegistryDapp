@@ -75,7 +75,7 @@ class AdtCalculator extends Component {
         <div className='ui grid'>
           <div className='row'>
             <div className='column seven wide'>
-              ETH/USD: {ethUsd ? toCurrency(ethUsd) : '-'}
+              ETH/USD: <strong>{ethUsd ? toCurrency(ethUsd) : '-'}</strong>
             </div>
             <div className='column nine wide'>
               <div className='ui right labeled mini input'>
@@ -96,18 +96,18 @@ class AdtCalculator extends Component {
           </div>
           <div className='row'>
             <div className='column seven wide'>
-              ADT/ETH: {adtUsd ? formatValue(adtEth) : '-'}Ξ
+              ADT/ETH: <strong>{adtUsd ? formatValue(adtEth) : '-'}Ξ</strong>
             </div>
             <div className='column nine wide'>
-              {selectedOption === 'eth' || selectedOption === 'adt' ? <span>Amount in USD: {toCurrency(conversionUsd)}</span> : <span>Amount in ETH: {formatValue(conversionEth)}Ξ</span>}
+              {selectedOption === 'eth' || selectedOption === 'adt' ? <span>Amount in USD: <strong>{toCurrency(conversionUsd)}</strong></span> : <span>Amount in ETH: <strong>{formatValue(conversionEth)}Ξ</strong></span>}
             </div>
           </div>
           <div className='row'>
             <div className='column seven wide'>
-              ADT/USD: {adtUsd ? toCurrency(adtUsd) : '-'}
+              ADT/USD: <strong>{adtUsd ? toCurrency(adtUsd) : '-'}</strong>
             </div>
             <div className='column nine wide'>
-              {selectedOption === 'usd' || selectedOption === 'eth' ? <span>Amount in ADT: {formatValue(conversionAdt)}</span> : <span>Amount in ETH: {formatValue(conversionEth)}</span>}
+              {selectedOption === 'usd' || selectedOption === 'eth' ? <span>Amount in ADT: <strong>{formatValue(conversionAdt)}</strong></span> : <span><strong>Amount in ETH: {formatValue(conversionEth)}</strong></span>}
             </div>
           </div>
           <a

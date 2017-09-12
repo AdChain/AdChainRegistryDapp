@@ -19,7 +19,7 @@ function filterMethod (filter, row, column) {
     return row[id] !== undefined ? filter.value.test(row[id]) : true
   }
 
-  return row[id] !== undefined && filter.value ? String(row[id]).startsWith(filter.value) : true
+  return row[id] !== undefined && filter.value ? String(row[id]).indexOf(filter.value) > -1 : true
 }
 
 var history = null
@@ -109,15 +109,14 @@ class DomainsTable extends Component {
         const domain = props.value
 
         return (
-          <a href='' className='Domain' onClick={(event) => {
+          <a
+            href='#!'
+            className='Domain'
+            title='View profile'
+            onClick={(event) => {
           event.preventDefault()
 
           let { domain, stage } = props.row
-
-          if (stage === 'apply') {
-            history.push(`/apply/?domain=${domain}`)
-            return false
-          }
 
           history.push(`/domains/${props.value}`)
         }}>
@@ -168,7 +167,11 @@ class DomainsTable extends Component {
 
         const color = (stage === 'in_application' ? 'purple' : 'blue')
 
-        return <a className={`ui mini button ${color}`} href='' onClick={(event) => {
+        return <a
+          className={`ui mini button ${color}`}
+          href='#!'
+          title={label}
+          onClick={(event) => {
           event.preventDefault()
 
           if (stage === 'apply') {
@@ -192,10 +195,10 @@ class DomainsTable extends Component {
         const expired = isExpired(row) || row.stage === 'view'
 
         if (expired) {
-          label = 'Refresh Status'
+          label = 'Refresh Status '
           color = 'info'
         } else if (value === 'in_registry') {
-          label = 'In Registry'
+          label = <span><i className='icon check circle' />In Registry</span>
           color = 'success'
         } else if (value === 'in_application') {
           label = 'In Application'

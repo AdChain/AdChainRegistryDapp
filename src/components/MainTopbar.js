@@ -16,20 +16,25 @@ class MainTopbar extends Component {
     super()
 
     this.state = {
-      account: registry.getAccount(),
-      ethBalance: '-',
-      adtBalance: '-'
+      account: null,
+      ethBalance: null,
+      adtBalance: null,
+      isLoading: true
     }
 
-    this.updateBalance()
+    setTimeout(() => {
+      this.updateAddress()
+      this.updateBalance()
+
+      this.setState({
+        isLoading: false
+      })
+    }, 250)
   }
 
   componentDidMount () {
     store.subscribe(x => {
-      this.setState({
-        account: registry.getAccount()
-      })
-
+      this.updateAddress()
       this.updateBalance()
     })
   }
@@ -38,7 +43,8 @@ class MainTopbar extends Component {
     const {
       adtBalance,
       ethBalance,
-      account: address
+      address,
+      isLoading
     } = this.state
 
     return (
@@ -53,7 +59,7 @@ class MainTopbar extends Component {
                   scale={6} />
                 <span>{address}</span>
               </div>
-              : <div className='NoWalletMessage'>
+              : isLoading ? 'Loading...' : <div className='NoWalletMessage'>
                Please download or unlock <a href='https://metamask.io/' target='_blank' rel='noopener noreferrer'>MetaMask</a> extension to load application and Ethereum wallet
             </div>}
           </div>
@@ -72,7 +78,7 @@ class MainTopbar extends Component {
                     src={adtLogo}
                     alt='ADT' />
                 </div>
-                {commafy(adtBalance)} ADT
+                {adtBalance !== null ? commafy(adtBalance) : '-'} ADT
               </div>
             : null}
             {address ?
@@ -82,7 +88,7 @@ class MainTopbar extends Component {
                     src={ethLogo}
                     alt='ETH' />
                 </div>
-                {commafy(ethBalance)} ETH
+                {ethBalance !== null ? commafy(ethBalance) : '-'} ETH
               </div>
             : null}
             <div className='item'>
@@ -101,6 +107,14 @@ class MainTopbar extends Component {
     )
   }
 
+  async updateAddress () {
+    const address = await registry.getAccount()
+
+    this.setState({
+      address
+    })
+  }
+
   async updateBalance () {
     try {
       const adtBalance = await token.getBalance()
@@ -110,7 +124,7 @@ class MainTopbar extends Component {
       })
     } catch (error) {
       this.setState({
-        adtBalance: '-'
+        adtBalance: null
       })
     }
 
@@ -122,7 +136,7 @@ class MainTopbar extends Component {
       })
     } catch (error) {
       this.setState({
-        ethBalance: '-'
+        ethBalance: null
       })
     }
   }
