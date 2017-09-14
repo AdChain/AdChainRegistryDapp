@@ -18,9 +18,8 @@
 }
 
 :root:root .MainSidebar .ListTitle {
-  font-size: 1.4em;
-  color: #F4F7FA;
-  font-weight: bold;
+  font-size: 1em;
+  color: #5f6982;
   padding: 0.3em 0.9em;
 }
 
@@ -36,6 +35,10 @@
 :root:root .MainSidebar .list {
   margin: 0;
   padding: 0;
+}
+
+:root:root .MainSidebar .list .list {
+  margin-left: 1.5em;
 }
 
 :root:root .MainSidebar .list .item {
@@ -72,7 +75,6 @@
 :root:root:root .MainSidebar .ApplyLink a {
   font-weight: bold;
   color: #4cb6d6;
-  background: #2b303a;
 }
 
 :root:root:root .MainSidebar .ApplyLink a.active,
@@ -163,6 +165,14 @@
   :root:root .MainSidebar .list {
     display: inline-block;
     float: left;
+  }
+
+  :root:root .MainSidebar .list .list {
+    margin: 0;
+  }
+
+  :root:root:root:root .MainSidebar .SubListContainer {
+    padding: 0;
   }
 
   :root:root .MainSidebar .ListTitle {

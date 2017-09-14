@@ -12,6 +12,7 @@ import './MainContainer.css'
 function MainContainer (props) {
   const Route = props.Route
   const Switch = props.Switch
+  const Redirect = props.Redirect
   const CSSTransitionGroup = props.CSSTransitionGroup
   const location = props.location
   const key = location.pathname
@@ -27,7 +28,7 @@ function MainContainer (props) {
 
         <Route location={location} key={key}>
           <Switch>
-            <Route path='/' exact component={DomainsContainer} />
+            <Redirect path='/' to='/domains' exact />
             <Route path='/apply' exact component={ApplicationContainer} />
             <Route path='/domains' exact component={DomainsContainer} />
             <Route path='/domains/:domain' exact component={DomainProfile} />

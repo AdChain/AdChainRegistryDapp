@@ -101,7 +101,7 @@ class DomainVoteCommitContainer extends Component {
               Voting commit stage ends
               </p>
               <p><strong>{stageEnd}</strong></p>
-              <p>Remaning time: <Countdown endDate={stageEndMoment} /></p>
+              <p>Remaining time: <Countdown endDate={stageEndMoment} /></p>
             </div>
           </div>
           <div className='ui divider' />

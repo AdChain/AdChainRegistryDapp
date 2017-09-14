@@ -97,7 +97,7 @@ class DomainVoteRevealContainer extends Component {
             Reveal stage ends
               </p>
               <p><strong>{stageEnd}</strong></p>
-              <p>Remaning time: <Countdown endDate={stageEndMoment} /></p>
+              <p>Remaining time: <Countdown endDate={stageEndMoment} /></p>
             </div>
           </div>
           <div className='ui divider' />

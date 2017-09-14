@@ -3,7 +3,8 @@ import {
   BrowserRouter as Router,
   Route,
   NavLink as Link,
-  Switch
+  Switch,
+  Redirect
 } from 'react-router-dom'
 
 import CSSTransitionGroup from 'react-addons-css-transition-group'
@@ -28,6 +29,7 @@ function App () {
                 Route={Route}
                 CSSTransitionGroup={CSSTransitionGroup}
                 Switch={Switch}
+                Redirect={Redirect}
                 location={location} />
             </div>
           </div>

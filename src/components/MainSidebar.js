@@ -33,19 +33,23 @@ class MainSidebar extends Component {
                 <Link to='/apply'>Apply now</Link>
               </li>
               <li className='item'>
-                <Link to='/domains' activeClassName='active'>All domains</Link>
+                <Link to='/domains' activeClassName='active'>Domains</Link>
               </li>
-              <li className='item'>
-                <Link to='/domains?inRegistry=true'>Domains in registry</Link>
-              </li>
-              <li className='item'>
-                <Link to='/domains?inApplication=true'>Domains in application</Link>
-              </li>
-              <li className='item'>
-                <Link to='/domains?inVotingCommit=true'>Domains in voting commit</Link>
-              </li>
-              <li className='item'>
-                <Link to='/domains?inVotingReveal=true'>Domains in voting reveal</Link>
+              <li className='item SubListContainer'>
+                <ul className='ui list'>
+                  <li className='item'>
+                    <Link to='/domains?inRegistry=true'>in registry</Link>
+                  </li>
+                  <li className='item'>
+                    <Link to='/domains?inApplication=true'>in application</Link>
+                  </li>
+                  <li className='item'>
+                    <Link to='/domains?inVotingCommit=true'>in voting commit</Link>
+                  </li>
+                  <li className='item'>
+                    <Link to='/domains?inVotingReveal=true'>in voting reveal</Link>
+                  </li>
+                </ul>
               </li>
             </ul>
             {/*
@@ -76,6 +80,19 @@ class MainSidebar extends Component {
                   target='_blank'
                   rel='noopener noreferrer'>
                   Submit Request
+                </a>
+              </li>
+            </ul>
+            <div className='ListTitle ui header'>
+              Education
+            </div>
+            <ul className='ui list'>
+              <li className='item'>
+                <a
+                  href='https://adtoken.com/'
+                  target='_blank'
+                  rel='noopener noreferrer'>
+                  adToken
                 </a>
               </li>
             </ul>

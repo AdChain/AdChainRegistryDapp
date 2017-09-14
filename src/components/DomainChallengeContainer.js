@@ -55,7 +55,7 @@ class DomainChallengeContainer extends Component {
             <div className='ui message info'>
               <p>Challenge stage ends</p>
               <p><strong>{stageEnd}</strong></p>
-              <p>Remaning time: <Countdown endDate={stageEndMoment} /></p>
+              <p>Remaining time: <Countdown endDate={stageEndMoment} /></p>
             </div>
           </div>
           <div className='ui divider' />
