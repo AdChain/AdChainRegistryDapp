@@ -101,7 +101,12 @@ class TokenService {
 
       try {
         const result = await this.token.decimals()
-        this.decimals = result.toNumber()
+        const decimals = result.toNumber()
+
+        if (decimals) {
+          this.decimals = decimals
+        }
+
         resolve(this.decimals)
         return false
       } catch (error) {

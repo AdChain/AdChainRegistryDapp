@@ -422,6 +422,9 @@ class RegistryService {
       throw new Error('Domain is required')
     }
 
+    // nano ADT to normal ADT
+    votes = votes * Math.pow(10, token.decimals)
+
     domain = domain.toLowerCase()
     let challengeId = null
 

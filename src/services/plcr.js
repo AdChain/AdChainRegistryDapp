@@ -89,6 +89,24 @@ class PlcrService {
           votesAgainst: result[4] ? result[4].toNumber() : 0
         }
 
+        if (map.votesFor) {
+          // nano ADT to normal ADT
+          map.votesFor = map.votesFor / Math.pow(10, token.decimals)
+
+          // clamp
+          if (!map.votesFor || map.votesFor < 0) {
+            map.votesFor = 0
+          }
+        }
+
+        if (map.votesAgainst) {
+          map.votesAgainst = map.votesAgainst / Math.pow(10, token.decimals)
+
+          if (!map.votesagainst || map.votesagainst < 0) {
+            map.votesagainst = 0
+          }
+        }
+
         resolve(map)
         return false
       } catch (error) {
@@ -213,7 +231,7 @@ class PlcrService {
   async reveal ({pollId, voteOption, salt}) {
     return new Promise(async (resolve, reject) => {
       try {
-        await this.plcr.revealVote(pollId, voteOption, salt, {from: this.getAccount})
+        await this.plcr.revealVote(pollId, voteOption, salt, {from: this.getAccount()})
 
         store.dispatch({
           type: 'PLCR_VOTE_REVEAL',
