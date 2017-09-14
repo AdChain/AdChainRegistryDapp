@@ -5,9 +5,9 @@
     "registry": ""
   },
   "rinkeby": {
-    "token": "0xb50208e21e7fc137adad26cdba52176fe5404979",
-    "parameterizer": "0xe8c901b09021e215819bbcec774d7c1ecce5f423",
-    "registry": "0xf9ecb6e57f8b71e9fb09b72eeb63026234ead7c0"
+    "token": "0x2279d188b01c331563ef0e0a9a46d88ffe3ab180",
+    "parameterizer": "0x15abf5ec46566808de12954a53dc4eb0b101378a",
+    "registry": "0xe5fbd50e60020446c40c805032b58b6973681351"
   },
   "testrpc": {
     "token": "0x343c82f96358e0bac16845fb718ea1d44e107270",
