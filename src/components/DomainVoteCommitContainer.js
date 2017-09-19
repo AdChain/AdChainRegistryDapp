@@ -168,7 +168,7 @@ class DomainVoteCommitContainer extends Component {
                 {(voteOption === null || !votes || !commitDownloaded) ?
                   <button
                     className='ui button disabled'>
-                    {voteOption === null ? 'Select Vote Option' : (!votes ? 'Enter votes' : 'Download Commit')}
+                    {voteOption === null ? 'Select Vote Option' : (!votes ? 'Enter votes' : 'Vote')}
                   </button>
                 :
                 <button
