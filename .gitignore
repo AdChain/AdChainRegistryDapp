@@ -23,5 +23,6 @@ yarn-error.log*
 *.zip
 
 # Elastic Beanstalk Files
+# DO NOT COMMIT THESE!
 .ebextensions
 .elasticbeanstalk
