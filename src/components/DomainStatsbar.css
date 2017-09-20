@@ -42,7 +42,12 @@
   position: absolute;
   bottom: 0;
   right: 0;
-  font-size: 0.8em;
+  font-size: 0.7em;
+  color: #999;
+}
+
+:root:root:root .DomainStatsbar .Source a {
+  color: #999;
 }
 
 :root:root:root .DomainStatsbar .Source a:hover {

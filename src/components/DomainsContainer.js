@@ -54,32 +54,33 @@ class DomainsContainer extends Component {
     return (
       <div className='DomainsContainer'>
         <div className='ui grid stackable padded'>
-          <div className='row'>
-            <div className='column four wide'>
-              <DomainsFilterPanel
-                filters={query}
-                onFiltersChange={this.onQueryChange}
-              />
-              <div className='GlobalTrollbox BoxFrame'>
-                <div className='Header'>
-                  Global Trollbox
-                </div>
-                <Trollbox
-                  channel={'adchainRegistryGlobal'}
+          <div className='column nine wide NoPaddingBottom'>
+            <RegistryStatsbar />
+          </div>
+          <div className='column seven wide NoPaddingBottom'>
+            <AdtCalculator />
+          </div>
+          <div className='column sixteen wide'>
+            <div className='ui grid stackable'>
+              <div className='column four wide NoPaddingRight'>
+                <DomainsFilterPanel
+                  filters={query}
+                  onFiltersChange={this.onQueryChange}
                 />
-              </div>
-            </div>
-            <div className='column twelve wide'>
-              <div className='ui grid stackable'>
-                <div className='column nine wide NoPaddingBottom'>
-                  <AdtCalculator />
-                </div>
-                <div className='column sixteen wide'>
-                  <DomainsTable
-                    history={history}
-                    filters={tableFilters}
+                <div className='GlobalTrollbox BoxFrame'>
+                  <div className='Header'>
+                    Global Trollbox
+                  </div>
+                  <Trollbox
+                    channel={'adchainRegistryGlobal'}
                   />
                 </div>
+              </div>
+              <div className='column twelve wide'>
+                <DomainsTable
+                  history={history}
+                  filters={tableFilters}
+                />
               </div>
             </div>
           </div>

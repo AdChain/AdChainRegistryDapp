@@ -63,11 +63,13 @@ class DomainStatsbar extends Component {
             </div>
           </div>
           <div className='Source'>
-            <span>Source: </span>
             <a
               href={`http://www.alexa.com/siteinfo/${domain}`}
               target='_blank'
-              rel='noopener noreferrer'>Alexa</a>
+              rel='noopener noreferrer'>
+              <span>source: </span>
+              Alexa
+            </a>
           </div>
         </div>
       </div>

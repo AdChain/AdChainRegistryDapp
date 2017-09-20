@@ -7,7 +7,8 @@
   padding-bottom: 0;
 }
 
-.DomainsContainer > .grid > .row > .column:first-child {
+.DomainsContainer > .grid > .row > .column:first-child,
+:root:root:root .DomainsContainer .NoPaddingRight {
   padding-right: 0;
 }
 
