@@ -6,9 +6,9 @@ import commafy from 'commafy'
 
 import registry from '../services/registry'
 import './DomainInRegistryContainer.css'
-import DomainClaimRewardInProgressContainer from './DomainClaimRewardInProgressContainer'
 import DomainVoteTokenDistribution from './DomainVoteTokenDistribution'
 import DomainChallengeInProgressContainer from './DomainChallengeInProgressContainer'
+import ClaimRewardContainer from './ClaimRewardContainer'
 
 class DomainInRegistryContainer extends Component {
   constructor (props) {
@@ -18,15 +18,10 @@ class DomainInRegistryContainer extends Component {
       domain: props.domain,
       didReveal: false,
       didClaim: false,
-      claimChallengeId: null,
-      claimSalt: null,
-      inProgress: false,
       inChallengeProgress: false,
       minDeposit: null
     }
 
-    this.onFileInput = this.onFileInput.bind(this)
-    this.onFormSubmit = this.onFormSubmit.bind(this)
     this.onChallenge = this.onChallenge.bind(this)
 
     this.getPoll()
@@ -40,16 +35,13 @@ class DomainInRegistryContainer extends Component {
       domain,
       didReveal,
       didClaim,
-      inProgress,
       inChallengeProgress,
       votesFor,
       votesAgainst,
-      minDeposit,
-      claimSalt,
-      claimChallengeId
+      minDeposit
     } = this.state
 
-    const canClaim = (votesFor || votesAgainst)
+    const hasVotes = (votesFor || votesAgainst)
 
     return (
       <div className='DomainInRegistryContainer'>
@@ -78,68 +70,9 @@ class DomainInRegistryContainer extends Component {
             </div>
           </div>
           : null}
-          {canClaim ? [
+          {hasVotes ? [
             <div className='ui divider' />,
             <DomainVoteTokenDistribution domain={domain} />,
-            <div className='ui divider' />,
-            <div className='column sixteen wide center aligned'>
-              <form
-                onSubmit={this.onFormSubmit}
-                className='ui form'>
-                <div className='ui field'>
-                  <div className='ui large header center aligned'>
-                    Claim Reward
-                    <Popup
-                      trigger={<i className='icon info circle' />}
-                      content='Voters in the winning party can claim their token rewards by proving the challenge ID (poll ID) and secret phase (salt).'
-                    />
-                  </div>
-                </div>
-                <div className='ui field'>
-                  <label>Upload Commit File</label>
-                  <input
-                    type='file'
-                    name='file'
-                    onChange={this.onFileInput}
-                    className='ui file' />
-                </div>
-                <div className='ui field'>
-                    or
-                </div>
-                <div className='ui field'>
-                  <label>Challenge ID</label>
-                  <div className='ui input small'>
-                    <input
-                      type='text'
-                      placeholder='challenge ID'
-                      id='DomainInRegistryContainerChallengeIdInput'
-                      defaultValue={claimChallengeId}
-                      onKeyUp={event => this.setState({claimChallengeId: parseInt(event.target.value, 10)})}
-                    />
-                  </div>
-                </div>
-                <div className='ui field'>
-                  <label>Secret Phrase (salt)</label>
-                  <div className='ui input small'>
-                    <input
-                      type='text'
-                      placeholder='phrase'
-                      id='DomainInRegistryContainerSaltInput'
-                      defaultValue={claimSalt}
-                      onKeyUp={event => this.setState({claimSalt: parseInt(event.target.value, 10)})}
-                    />
-                  </div>
-                </div>
-                <div className='ui field'>
-                  <button
-                    type='submit'
-                    className='ui button blue right labeled icon'>
-                    Claim Reward
-                    <i className='icon certificate' />
-                  </button>
-                </div>
-              </form>
-            </div>
           ] : null}
           <div className='ui divider' />,
           <div className='column sixteen wide center aligned DomainChallengeFormContainer'>
@@ -163,8 +96,11 @@ class DomainInRegistryContainer extends Component {
               </div>
             </form>
           </div>
+          <div className='ui divider' />,
+          <div className='column sixteen wide center aligned'>
+            <ClaimRewardContainer domain={domain} />
+          </div>
         </div>
-        {inProgress ? <DomainClaimRewardInProgressContainer /> : null}
         {inChallengeProgress ? <DomainChallengeInProgressContainer /> : null}
       </div>
     )
@@ -220,94 +156,6 @@ class DomainInRegistryContainer extends Component {
     } catch (error) {
       toastr.error(error)
     }
-  }
-
-  onFormSubmit (event) {
-    event.preventDefault()
-
-    this.claimReward()
-  }
-
-  async claimReward () {
-    const {
-      claimChallengeId,
-      claimSalt
-    } = this.state
-
-    debugger
-
-    if (!claimChallengeId) {
-      toastr.error('Challenge ID is required')
-      return false
-    }
-
-    if (!claimSalt) {
-      toastr.error('Salt is required')
-      return false
-    }
-
-    const alreadyClaimed = await registry.didClaimForPoll(claimChallengeId)
-
-    if (alreadyClaimed) {
-      toastr.error('Already claimed reward')
-      return false
-    }
-
-    try {
-      this.setState({
-        inProgress: true
-      })
-
-      await registry.claimReward(claimChallengeId, claimSalt)
-      toastr.success('Reward claimed')
-
-      setTimeout(() => {
-        window.location.reload()
-      }, 1e3)
-    } catch (error) {
-      toastr.error(error.message)
-    }
-
-    this.setState({
-      inProgress: false
-    })
-  }
-
-  onFileInput (event) {
-    event.preventDefault()
-    const file = event.target.files[0]
-    const fr = new window.FileReader()
-
-    fr.onload = () => {
-      const contents = fr.result
-
-      try {
-        const {
-          salt,
-          challengeId
-        } = JSON.parse(contents)
-
-        this.setState({
-          claimSalt: salt,
-          claimChallengeId: challengeId
-        })
-
-        const saltInput = document.querySelector('#DomainInRegistryContainerSaltInput')
-        if (saltInput) {
-          saltInput.value = salt
-        }
-
-        const challengeIdInput = document.querySelector('#DomainInRegistryContainerChallengeIdInput')
-        if (challengeIdInput) {
-          challengeIdInput.value = challengeId
-        }
-      } catch (error) {
-        toastr.error('Invalid Commit JSON file')
-        return false
-      }
-    }
-
-    fr.readAsText(file)
   }
 
   onChallenge (event) {

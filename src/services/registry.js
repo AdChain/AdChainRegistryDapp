@@ -589,8 +589,8 @@ class RegistryService {
   async didClaim (domain) {
     try {
       const challengeId = await this.getChallengeId(domain)
-      const account = window.web3.eth.accounts[0]
-      return this.registry.tokenClaims.call(challengeId, account)
+      const account = this.getAccount()
+      return this.registry.tokenClaims(challengeId, account, {from: account})
     } catch (error) {
       throw error
     }
@@ -599,8 +599,8 @@ class RegistryService {
   didClaimForPoll (challengeId) {
     return new Promise(async (resolve, reject) => {
       try {
-        const account = window.web3.eth.accounts[0]
-        const hasClaimed = await this.registry.tokenClaims.call(challengeId, account)
+        const account = this.getAccount()
+        const hasClaimed = await this.registry.tokenClaims(challengeId, account, {from: account})
         resolve(hasClaimed)
       } catch (error) {
         reject(error)
@@ -611,6 +611,14 @@ class RegistryService {
   claimReward (challengeId, salt) {
     return new Promise(async (resolve, reject) => {
       try {
+        const voter = this.getAccount()
+        const voterReward = (await this.calculateVoterReward(voter, challengeId, salt)).toNumber()
+
+        if (voterReward <= 0) {
+          reject(new Error('Account has no reward for challenge ID'))
+          return false
+        }
+
         await this.registry.claimReward(challengeId, salt, {from: this.getAccount()})
 
         store.dispatch({
@@ -618,6 +626,18 @@ class RegistryService {
         })
 
         resolve()
+      } catch (error) {
+        reject(error)
+      }
+    })
+  }
+
+  calculateVoterReward (voter, challengeId, salt) {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const reward = await this.registry.calculateVoterReward(voter, challengeId, salt, {from: this.getAccount()})
+
+        resolve(reward)
       } catch (error) {
         reject(error)
       }

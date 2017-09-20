@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Popup } from 'semantic-ui-react'
 
+import ClaimRewardContainer from './ClaimRewardContainer'
 import './DomainNotInRegistryContainer.css'
 
 class DomainNotInRegistryContainer extends Component {
@@ -33,6 +34,10 @@ class DomainNotInRegistryContainer extends Component {
           </div>
           <div className='column sixteen wide center aligned'>
             <a href={`/apply?domain=${domain}`} className='ui button blue'>Apply to Registry</a>
+          </div>
+          <div className='ui divider' />,
+          <div className='column sixteen wide center aligned'>
+            <ClaimRewardContainer domain={domain} />
           </div>
         </div>
       </div>
