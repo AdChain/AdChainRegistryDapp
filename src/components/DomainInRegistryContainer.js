@@ -44,7 +44,9 @@ class DomainInRegistryContainer extends Component {
       inChallengeProgress,
       votesFor,
       votesAgainst,
-      minDeposit
+      minDeposit,
+      claimSalt,
+      claimChallengeId
     } = this.state
 
     const canClaim = (votesFor || votesAgainst)
@@ -100,6 +102,33 @@ class DomainInRegistryContainer extends Component {
                     name='file'
                     onChange={this.onFileInput}
                     className='ui file' />
+                </div>
+                <div className='ui field'>
+                    or
+                </div>
+                <div className='ui field'>
+                  <label>Challenge ID</label>
+                  <div className='ui input small'>
+                    <input
+                      type='text'
+                      placeholder='challenge ID'
+                      id='DomainInRegistryContainerChallengeIdInput'
+                      defaultValue={claimChallengeId}
+                      onKeyUp={event => this.setState({claimChallengeId: parseInt(event.target.value, 10)})}
+                    />
+                  </div>
+                </div>
+                <div className='ui field'>
+                  <label>Secret Phrase (salt)</label>
+                  <div className='ui input small'>
+                    <input
+                      type='text'
+                      placeholder='phrase'
+                      id='DomainInRegistryContainerSaltInput'
+                      defaultValue={claimSalt}
+                      onKeyUp={event => this.setState({claimSalt: parseInt(event.target.value, 10)})}
+                    />
+                  </div>
                 </div>
                 <div className='ui field'>
                   <button
@@ -205,6 +234,8 @@ class DomainInRegistryContainer extends Component {
       claimSalt
     } = this.state
 
+    debugger
+
     if (!claimChallengeId) {
       toastr.error('Challenge ID is required')
       return false
@@ -268,7 +299,7 @@ class DomainInRegistryContainer extends Component {
 
         const challengeIdInput = document.querySelector('#DomainInRegistryContainerChallengeIdInput')
         if (challengeIdInput) {
-          challengeIdInput.value = salt
+          challengeIdInput.value = challengeId
         }
       } catch (error) {
         toastr.error('Invalid Commit JSON file')
