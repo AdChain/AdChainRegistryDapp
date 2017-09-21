@@ -107,7 +107,7 @@ class AdtCalculator extends Component {
               ADT/USD: <strong>{adtUsd ? toCurrency(adtUsd) : '-'}</strong>
             </div>
             <div className='column nine wide'>
-              {selectedOption === 'usd' || selectedOption === 'eth' ? <span>Amount in ADT: <strong>{formatValue(conversionAdt)}</strong></span> : <span><strong>Amount in ETH: {formatValue(conversionEth)}</strong></span>}
+              {selectedOption === 'usd' || selectedOption === 'eth' ? <span>Amount in ADT: <strong>{formatValue(conversionAdt)}</strong></span> : <span>Amount in ETH: <strong>{formatValue(conversionEth)}</strong></span>}
             </div>
           </div>
           <a

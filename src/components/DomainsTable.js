@@ -57,7 +57,7 @@ class DomainsTable extends Component {
 
   componentDidMount () {
     store.subscribe(x => {
-      setTimeout(() => this.getData(), 1e3)
+      this.getData()
     })
   }
 
