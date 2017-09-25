@@ -17,4 +17,12 @@ function getAbi (contract) {
   return require(`./${contract}.json`).abi
 }
 
-module.exports = { getAddress, getAbi }
+function getProviderUrl (contract) {
+  if (net === 'testrpc') {
+    return 'http://localhost:8545'
+  } else {
+    return `https://${net}.infura.io:443`
+  }
+}
+
+module.exports = { getAddress, getAbi, getProviderUrl }

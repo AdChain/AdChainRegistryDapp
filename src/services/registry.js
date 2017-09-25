@@ -6,6 +6,7 @@ import tc from 'truffle-contract' // truffle-contract
 import store from '../store'
 import token from './token'
 import plcr from './plcr'
+import { getProvider } from './provider'
 import parameterizer from './parameterizer'
 import saltHashVote from '../utils/saltHashVote'
 import { getAddress } from '../config'
@@ -38,12 +39,9 @@ class RegistryService {
       return false
     }
 
-    if (window.web3 === undefined) {
-      return false
-    }
-
     const contract = tc(Registry)
-    contract.setProvider(window.web3.currentProvider)
+
+    contract.setProvider(getProvider())
     this.pendingDeployed = contract.deployed()
     const deployed = await this.pendingDeployed
     this.registry = deployed
@@ -181,11 +179,11 @@ class RegistryService {
       throw new Error('Domain is required')
     }
 
-    await this.initContract()
-
-    domain = domain.toLowerCase()
-
     try {
+      await this.initContract()
+
+      domain = domain.toLowerCase()
+
       const hash = sha3(domain)
       const result = await this.registry.listingMap.call(hash)
 
@@ -238,7 +236,7 @@ class RegistryService {
 
     domain = domain.toLowerCase()
 
-    await this.initContract();
+    await this.initContract()
 
     try {
       const listing = await this.getListing(domain)

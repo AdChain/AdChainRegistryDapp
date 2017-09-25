@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import toastr from 'toastr'
 import { Popup } from 'semantic-ui-react'
-import commafy from 'commafy'
 
 import DomainClaimRewardInProgressContainer from './DomainClaimRewardInProgressContainer'
 import registry from '../services/registry'

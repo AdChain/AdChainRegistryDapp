@@ -1,12 +1,10 @@
 import pify from 'pify'
 import tc from 'truffle-contract' // truffle-contract
 
+import { getProvider } from './provider'
 import PLCR from '../config/plcr.json'
 import token from './token'
 import store from '../store'
-import { getAbi } from '../config'
-
-const abi = getAbi('plcr')
 
 /**
  * PollId = ChallengeId
@@ -21,10 +19,6 @@ class PlcrService {
   }
 
   async initContract () {
-    if (!window.web3) {
-      return false
-    }
-
     if (this.pendingDeployed) {
       await this.pendingDeployed
       this.pendingDeploy = null
@@ -38,7 +32,7 @@ class PlcrService {
       this.address = address
 
       const contract = tc(PLCR)
-      contract.setProvider(window.web3.currentProvider)
+      contract.setProvider(getProvider())
       this.pendingDeployed = contract.at(address)
       const deployed = await this.pendingDeployed
       this.plcr = deployed

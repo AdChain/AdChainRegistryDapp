@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import commafy from 'commafy'
+//import commafy from 'commafy'
 import Trollbox from './Trollbox'
 
 import DomainProfileComments from './DomainProfileComments'
@@ -27,12 +27,13 @@ class DomainProfileInfo extends Component {
       domain
     } = this.state
 
+    /*
     const description = null
-
     const joinedDate = null
     const adtStaked = null
     const wins = null
     const losses = null
+    */
 
     return (
       <div className='DomainProfileInfo BoxFrame'>

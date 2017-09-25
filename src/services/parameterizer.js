@@ -1,12 +1,11 @@
-import pify from 'pify'
 import tc from 'truffle-contract' // truffle-contract
 
 import store from '../store'
-import { getAddress, getAbi } from '../config'
+import { getProvider } from './provider'
+import { getAddress } from '../config'
 import Parameterizer from '../config/parameterizer.json'
 
 const address = getAddress('parameterizer')
-const abi = getAbi('parameterizer')
 
 class ParameterizerService {
   constructor () {
@@ -17,10 +16,6 @@ class ParameterizerService {
   }
 
   async initContract () {
-    if (!window.web3) {
-      return false
-    }
-
     if (this.parameterizer) {
       return false
     }
@@ -32,7 +27,7 @@ class ParameterizerService {
     }
 
     const contract = tc(Parameterizer)
-    contract.setProvider(window.web3.currentProvider)
+    contract.setProvider(getProvider())
     this.pendingDeployed = contract.deployed()
     const deployed = await this.pendingDeployed
     this.parameterizer = deployed

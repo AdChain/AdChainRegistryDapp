@@ -116,8 +116,6 @@ class DomainsTable extends Component {
             onClick={(event) => {
           event.preventDefault()
 
-          let { domain, stage } = props.row
-
           history.push(`/domains/${props.value}`)
         }}>
           <img
@@ -309,6 +307,8 @@ class DomainsTable extends Component {
     const allDomains = this.state.allDomains
     let domains = allDomains
 
+    console.log(filtered)
+
     if (filtered && filtered[0]) {
       domains = domains.filter(domain => {
         return filterMethod(filtered[0], {domain})
@@ -319,63 +319,67 @@ class DomainsTable extends Component {
     domains = domains.slice(start, end)
 
     const data = await Promise.all(domains.map(async domain => {
-      const item = {
-        domain,
-        siteName: domain,
-        stage: null,
-        stageEndsTimestamp: null,
-        stageEnds: null,
-        action: null,
-        stats: null
-      }
-
-      const listing = await registry.getListing(domain)
-
-      const {
-        applicationExpiry,
-        isWhitelisted,
-        challengeId
-      } = listing
-
-      const applicationExists = !!applicationExpiry
-      const challengeOpen = (challengeId === 0 && !isWhitelisted && applicationExpiry)
-      const commitOpen = await registry.commitPeriodActive(domain)
-      const revealOpen = await registry.revealPeriodActive(domain)
-
-      if (isWhitelisted) {
-        item.stage = 'in_registry'
-        item.deposit = listing.currentDeposit
-      } else if (challengeOpen) {
-        item.stage = 'in_application'
-        item.stageEndsTimestamp = applicationExpiry
-        item.stageEnds = moment.unix(applicationExpiry).format('YYYY-MM-DD HH:mm:ss')
-      } else if (commitOpen) {
-        item.stage = 'voting_commit'
-        const {
-          commitEndDate
-        } = await registry.getChallengePoll(domain)
-        item.stageEndsTimestamp = commitEndDate
-        item.stageEnds = moment.unix(commitEndDate).format('YYYY-MM-DD HH:mm:ss')
-      } else if (revealOpen) {
-        item.stage = 'voting_reveal'
-        const {
-          revealEndDate,
-          votesFor,
-          votesAgainst
-        } = await registry.getChallengePoll(domain)
-        item.stageEndsTimestamp = revealEndDate
-        item.stageEnds = moment.unix(revealEndDate).format('YYYY-MM-DD HH:mm:ss')
-        item.stats = {
-          votesFor,
-          votesAgainst
+      try {
+        const item = {
+          domain,
+          siteName: domain,
+          stage: null,
+          stageEndsTimestamp: null,
+          stageEnds: null,
+          action: null,
+          stats: null
         }
-      } else if (applicationExists) {
-        item.stage = 'view'
-      } else {
-        item.stage = 'apply'
-      }
 
-      return item
+        const listing = await registry.getListing(domain)
+
+        const {
+          applicationExpiry,
+          isWhitelisted,
+          challengeId
+        } = listing
+
+        const applicationExists = !!applicationExpiry
+        const challengeOpen = (challengeId === 0 && !isWhitelisted && applicationExpiry)
+        const commitOpen = await registry.commitPeriodActive(domain)
+        const revealOpen = await registry.revealPeriodActive(domain)
+
+        if (isWhitelisted) {
+          item.stage = 'in_registry'
+          item.deposit = listing.currentDeposit
+        } else if (challengeOpen) {
+          item.stage = 'in_application'
+          item.stageEndsTimestamp = applicationExpiry
+          item.stageEnds = moment.unix(applicationExpiry).format('YYYY-MM-DD HH:mm:ss')
+        } else if (commitOpen) {
+          item.stage = 'voting_commit'
+          const {
+            commitEndDate
+          } = await registry.getChallengePoll(domain)
+          item.stageEndsTimestamp = commitEndDate
+          item.stageEnds = moment.unix(commitEndDate).format('YYYY-MM-DD HH:mm:ss')
+        } else if (revealOpen) {
+          item.stage = 'voting_reveal'
+          const {
+            revealEndDate,
+            votesFor,
+            votesAgainst
+          } = await registry.getChallengePoll(domain)
+          item.stageEndsTimestamp = revealEndDate
+          item.stageEnds = moment.unix(revealEndDate).format('YYYY-MM-DD HH:mm:ss')
+          item.stats = {
+            votesFor,
+            votesAgainst
+          }
+        } else if (applicationExists) {
+          item.stage = 'view'
+        } else {
+          item.stage = 'apply'
+        }
+
+        return item
+      } catch (error) {
+        return {}
+      }
     }))
 
     this.setState({

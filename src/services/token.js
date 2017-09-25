@@ -1,11 +1,11 @@
 import tc from 'truffle-contract' // truffle-contract
 
-import { getAddress, getAbi } from '../config'
+import { getAddress } from '../config'
+import { getProvider } from './provider'
 import store from '../store'
 import Token from '../config/token.json'
 
 const address = getAddress('token')
-const abi = getAbi('token')
 
 class TokenService {
   constructor () {
@@ -19,10 +19,6 @@ class TokenService {
   }
 
   async initContract () {
-    if (!window.web3) {
-      return false
-    }
-
     if (this.pendingDeployed) {
       await this.pendingDeployed
       this.pendingDeploy = null
@@ -31,7 +27,7 @@ class TokenService {
 
     if (!this.token) {
       const contract = tc(Token)
-      contract.setProvider(window.web3.currentProvider)
+      contract.setProvider(getProvider())
       this.pendingDeployed = contract.at(address)
       const deployed = await this.pendingDeployed
       this.token = deployed
