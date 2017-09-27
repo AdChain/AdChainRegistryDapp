@@ -101,7 +101,9 @@ class DomainVoteCommitContainer extends Component {
               Voting commit stage ends
               </p>
               <p><strong>{stageEnd}</strong></p>
-              <p>Remaining time: <Countdown endDate={stageEndMoment} /></p>
+              <p>Remaining time: <Countdown
+                  endDate={stageEndMoment}
+                  onExpire={this.onCountdownExpire.bind(this)} /></p>
             </div>
           </div>
           <div className='ui divider' />
@@ -349,6 +351,10 @@ class DomainVoteCommitContainer extends Component {
         inProgress: false
       })
     }
+  }
+
+  onCountdownExpire () {
+    window.location.reload()
   }
 }
 

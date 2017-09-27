@@ -97,7 +97,9 @@ class DomainVoteRevealContainer extends Component {
             Reveal stage ends
               </p>
               <p><strong>{stageEnd}</strong></p>
-              <p>Remaining time: <Countdown endDate={stageEndMoment} /></p>
+              <p>Remaining time: <Countdown
+                  endDate={stageEndMoment}
+                  onExpire={this.onCountdownExpire.bind(this)} /></p>
             </div>
           </div>
           <div className='ui divider' />
@@ -337,6 +339,10 @@ class DomainVoteRevealContainer extends Component {
     }
 
     fr.readAsText(file)
+  }
+
+  onCountdownExpire () {
+    window.location.reload()
   }
 }
 

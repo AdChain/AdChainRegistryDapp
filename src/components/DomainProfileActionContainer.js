@@ -98,37 +98,41 @@ class DomainProfileActionContainer extends Component {
   }
 
   async getData () {
-    const {domain} = this.state
+    try {
+      const {domain} = this.state
 
-    const listing = await registry.getListing(domain)
+      const listing = await registry.getListing(domain)
 
-    const {
-      applicationExpiry,
-      isWhitelisted,
-      challengeId
-    } = listing
+      const {
+        applicationExpiry,
+        isWhitelisted,
+        challengeId
+      } = listing
 
-    const challengeOpen = (challengeId === 0 && !isWhitelisted && applicationExpiry)
-    const commitOpen = await registry.commitPeriodActive(domain)
-    const revealOpen = await registry.revealPeriodActive(domain)
+      const challengeOpen = (challengeId === 0 && !isWhitelisted && applicationExpiry)
+      const commitOpen = await registry.commitPeriodActive(domain)
+      const revealOpen = await registry.revealPeriodActive(domain)
 
-    let action = null
+      let action = null
 
-    if (commitOpen) {
-      action = 'commit'
-    } else if (revealOpen) {
-      action = 'reveal'
-    } else if (challengeOpen) {
-      action = 'challenge'
-    } else if (isWhitelisted) {
-      action = 'in_registry'
-    } else {
-      action = 'apply'
+      if (commitOpen) {
+        action = 'commit'
+      } else if (revealOpen) {
+        action = 'reveal'
+      } else if (challengeOpen) {
+        action = 'challenge'
+      } else if (isWhitelisted) {
+        action = 'in_registry'
+      } else {
+        action = 'apply'
+      }
+
+      this.setState({
+        action
+      })
+    } catch (error) {
+      toastr.error(error)
     }
-
-    this.setState({
-      action
-    })
   }
 }
 

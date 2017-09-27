@@ -9,10 +9,19 @@ class CountdownText extends Component {
   constructor (props) {
     super()
 
+    const endDate = props.endDate
+
     this.state = {
-      endDate: props.endDate || moment(),
+      endDate: endDate || moment(),
       countdown: '00:00:00',
-      isExpired: false
+      isExpired: false,
+
+      // expired if no endDate set on init
+      onExpireCalled: !endDate
+    }
+
+    if (props.onExpire) {
+      this.onExpire = props.onExpire.bind(this)
     }
 
     this.tick()
@@ -27,9 +36,21 @@ class CountdownText extends Component {
   }
 
   componentWillReceiveProps (props) {
-    this.setState({
-      endDate: props.endDate
-    })
+    const endDate = props.endDate
+
+    if (endDate) {
+      const now = moment()
+      const diff = endDate.diff(now, 'seconds')
+      const isExpired = (diff <= 0)
+
+      this.setState({
+        endDate: endDate,
+        isExpired,
+
+        // don't call expired callback if immediately already expired
+        onExpireCalled: isExpired
+      })
+    }
   }
 
   render () {
@@ -43,11 +64,12 @@ class CountdownText extends Component {
   }
 
   tick () {
-    const {endDate} = this.state
+    const {endDate, onExpireCalled} = this.state
 
     if (!endDate) {
       this.setState({
-        countdown: '00:00:00'
+        countdown: '00:00:00',
+        isExpired: true
       })
       return false
     }
@@ -60,6 +82,11 @@ class CountdownText extends Component {
         countdown: '00:00:00',
         isExpired: true
       })
+
+      if (!onExpireCalled) {
+        this.setState({onExpireCalled: true})
+        this.onExpire()
+      }
       return false
     }
 
@@ -71,10 +98,15 @@ class CountdownText extends Component {
       isExpired: false
     })
   }
+
+  onExpire () {
+    // default
+  }
 }
 
 CountdownText.propTypes = {
-  endDate: PropTypes.object
+  endDate: PropTypes.object,
+  onExpire: PropTypes.function
 }
 
 export default CountdownText
