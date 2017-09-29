@@ -44,9 +44,7 @@ class DomainProfileActionContainer extends Component {
       action
     } = this.state
 
-    // TODO make component for apply panel
     let component = null
-    // let component = <a href={`/apply?domain=${domain}`} className='ui button blue'>Apply to registry</a>
 
     if (action === 'challenge') {
       component = <DomainChallengeContainer domain={domain} />

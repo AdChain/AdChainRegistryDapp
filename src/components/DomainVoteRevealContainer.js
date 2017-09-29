@@ -342,7 +342,10 @@ class DomainVoteRevealContainer extends Component {
   }
 
   onCountdownExpire () {
-    window.location.reload()
+    // allow some time for new block to get mined and reload page
+    setTimeout(() => {
+      window.location.reload()
+    }, 15000)
   }
 }
 

@@ -4,6 +4,7 @@ import ReactTable from 'react-table'
 import commafy from 'commafy'
 import moment from 'moment'
 import toastr from 'toastr'
+import arrayUnique from 'array-unique'
 
 import 'react-table/react-table.css'
 import './DomainsTable.css'
@@ -64,13 +65,16 @@ class DomainsTable extends Component {
   componentWillReceiveProps (props) {
     const {filters} = props
     this.setState({filters})
+
+    setTimeout(() => {
+      this.getData()
+    }, 0)
   }
 
   render () {
     const {
       columns,
       data,
-      filters,
       pages,
       pageSize,
       isLoading
@@ -83,7 +87,6 @@ class DomainsTable extends Component {
             loading={isLoading}
             data={data}
             pages={pages}
-            filtered={filters}
             columns={columns}
             filterable
             defaultPageSize={pageSize}
@@ -307,15 +310,13 @@ class DomainsTable extends Component {
     const allDomains = this.state.allDomains
     let domains = allDomains
 
-    console.log(filtered)
-
     if (filtered && filtered[0]) {
       domains = domains.filter(domain => {
         return filterMethod(filtered[0], {domain})
       })
     }
 
-    const pages = parseInt(domains.length / pageSize, 10)
+    const pages = Math.ceil(domains.length / pageSize, 10)
     domains = domains.slice(start, end)
 
     const data = await Promise.all(domains.map(async domain => {
@@ -390,18 +391,88 @@ class DomainsTable extends Component {
   }
 
   async getData () {
-    const response = await window.fetch(`https://adchain-registry-api.metax.io/registry/domains/all`)
-    const domains = await response.json()
-    const {pageSize} = this.state
+    const {
+      pageSize,
+      filters
+    } = this.state
+
+    let domains = []
+
+    try {
+      domains = await (await window.fetch(`https://adchain-registry-api.metax.io/registry/domains`)).json()
+    } catch (error) {
+
+    }
+
+    let inapplication = []
+
+    try {
+      inapplication = await (await window.fetch(`https://adchain-registry-api.metax.io/registry/domains/application`)).json()
+    } catch (error) {
+
+    }
+
+    let incommit = []
+
+    try {
+      incommit = await (await window.fetch(`https://adchain-registry-api.metax.io/registry/domains/commit`)).json()
+    } catch (error) {
+
+    }
+
+    let inreveal = []
+
+    try {
+      inreveal = await (await window.fetch(`https://adchain-registry-api.metax.io/registry/domains/reveal`)).json()
+    } catch (error) {
+
+    }
+
+    let inregistry = []
+
+    try {
+      inregistry = await (await window.fetch(`https://adchain-registry-api.metax.io/registry/domains/registry`)).json()
+    } catch (error) {
+
+    }
+
+    // TODO: optimize filtering. this is most lazy and hacky approach
+    if (filters && filters[1] && filters[1].id === 'stage') {
+      const regex = filters[1].value
+
+      // if does have a filter
+      if (regex.toString() !== '/(?:)/gi') {
+        domains = []
+
+        if (regex.test('voting_commit')) {
+          regex.lastIndex = 0
+          domains = domains.concat(incommit)
+        }
+        if (regex.test('voting_reveal')) {
+          regex.lastIndex = 0
+          domains = domains.concat(inreveal)
+        }
+        if (regex.test('in_application')) {
+          regex.lastIndex = 0
+          domains = domains.concat(inapplication)
+        }
+        if (regex.test('in_registry')) {
+          regex.lastIndex = 0
+          domains = domains.concat(inregistry)
+        }
+
+        domains = arrayUnique(domains)
+      }
+    }
 
     this.setState({
       allDomains: domains,
-      pages: parseInt(domains.length / pageSize, 10)
+      pages: Math.ceil(domains.length / pageSize, 10)
     })
 
-    if (!this.state.data.length) {
+    // if (!this.state.data.length) {
       this.onTableFetchData({page: 0, pageSize})
-    }
+    // }
   }
 
   async updateStatus (domain) {
