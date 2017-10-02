@@ -32,6 +32,10 @@ class ParameterizerService {
     const deployed = await this.pendingDeployed
     this.parameterizer = deployed
     this.pendingDeploy = null
+
+    store.dispatch({
+      type: 'PARAMETERIZER_CONTRACT_INIT'
+    })
   }
 
   setUpEvents () {

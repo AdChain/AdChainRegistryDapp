@@ -39,6 +39,10 @@ class PlcrService {
       this.pendingDeploy = null
 
       this.setUpEvents()
+
+      store.dispatch({
+        type: 'PLCR_CONTRACT_INIT'
+      })
     }
   }
 

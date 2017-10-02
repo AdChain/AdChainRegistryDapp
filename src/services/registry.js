@@ -48,6 +48,10 @@ class RegistryService {
     this.pendingDeploy = null
 
     this.setUpEvents()
+
+    store.dispatch({
+      type: 'REGISTRY_CONTRACT_INIT'
+    })
   }
 
   setUpEvents () {

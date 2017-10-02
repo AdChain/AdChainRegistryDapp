@@ -36,6 +36,10 @@ class TokenService {
       this.getDecimals()
       this.getName()
       this.getSymbol()
+
+      store.dispatch({
+        type: 'TOKEN_CONTRACT_INIT'
+      })
     }
   }
 

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
+import store from '../store'
 import registry from '../services/registry'
 import DomainsTable from './DomainsTable'
 import AccountHeader from './AccountHeader'
@@ -18,6 +19,17 @@ class AccountDashboard extends Component {
 
     const account = registry.getAccount()
     this.state.account = account
+  }
+
+  componentDidMount () {
+    store.subscribe(() => {
+      if (!this.state.account) {
+        const account = registry.getAccount()
+        this.setState({
+          account
+        })
+      }
+    })
   }
 
   render () {
