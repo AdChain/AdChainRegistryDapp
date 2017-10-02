@@ -4,7 +4,6 @@ import ReactTable from 'react-table'
 import commafy from 'commafy'
 import moment from 'moment'
 import toastr from 'toastr'
-import arrayUnique from 'array-unique'
 
 import 'react-table/react-table.css'
 import './DomainsTable.css'
@@ -400,46 +399,9 @@ class DomainsTable extends Component {
     } = this.state
 
     let domains = []
+    const queryFilters = []
 
-    try {
-      domains = await (await window.fetch(`https://adchain-registry-api.metax.io/registry/domains`)).json()
-    } catch (error) {
-
-    }
-
-    let inapplication = []
-
-    try {
-      inapplication = await (await window.fetch(`https://adchain-registry-api.metax.io/registry/domains/application`)).json()
-    } catch (error) {
-
-    }
-
-    let incommit = []
-
-    try {
-      incommit = await (await window.fetch(`https://adchain-registry-api.metax.io/registry/domains/commit`)).json()
-    } catch (error) {
-
-    }
-
-    let inreveal = []
-
-    try {
-      inreveal = await (await window.fetch(`https://adchain-registry-api.metax.io/registry/domains/reveal`)).json()
-    } catch (error) {
-
-    }
-
-    let inregistry = []
-
-    try {
-      inregistry = await (await window.fetch(`https://adchain-registry-api.metax.io/registry/domains/registry`)).json()
-    } catch (error) {
-
-    }
-
-    // TODO: optimize filtering. this is most lazy and hacky approach
+    // TODO: optimize filtering
     if (filters && filters[1] && filters[1].id === 'stage') {
       const regex = filters[1].value
 
@@ -449,23 +411,29 @@ class DomainsTable extends Component {
 
         if (regex.test('voting_commit')) {
           regex.lastIndex = 0
-          domains = domains.concat(incommit)
+          queryFilters.push('incommit')
         }
         if (regex.test('voting_reveal')) {
           regex.lastIndex = 0
-          domains = domains.concat(inreveal)
+          queryFilters.push('inreveal')
         }
         if (regex.test('in_application')) {
           regex.lastIndex = 0
-          domains = domains.concat(inapplication)
+          queryFilters.push('inapplication')
         }
         if (regex.test('in_registry')) {
           regex.lastIndex = 0
-          domains = domains.concat(inregistry)
+          queryFilters.push('inregistry')
         }
-
-        domains = arrayUnique(domains)
       }
+    }
+
+    let query = `filter=${queryFilters.join(',')}`
+
+    try {
+      domains = await (await window.fetch(`https://adchain-registry-api.metax.io/registry/domains?${query}`)).json()
+    } catch (error) {
+
     }
 
     this.setState({
