@@ -57,8 +57,10 @@ class DomainsTable extends Component {
   }
 
   componentDidMount () {
+    // infinite calls if enabled,
+    // need to debug
     store.subscribe(x => {
-      this.getData()
+      // this.getData()
     })
   }
 
@@ -216,6 +218,7 @@ class DomainsTable extends Component {
           expired ? <a
             href='#!'
             title='Refresh status'
+            key={Math.random()}
             onClick={(event) => {
               event.preventDefault()
 
@@ -226,7 +229,7 @@ class DomainsTable extends Component {
             </span>
             <i className='icon refresh'></i>
           </a> :
-          <span className={color}>
+          <span className={color} key={Math.random()}>
             {label}
           </span>
         ])
