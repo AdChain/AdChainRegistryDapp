@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
+import registry from '../services/registry'
 import DomainsTable from './DomainsTable'
-
 import AccountHeader from './AccountHeader'
 
 import './AccountDashboard.css'
@@ -12,23 +12,28 @@ class AccountDashboard extends Component {
     super()
 
     this.state = {
-      history: props.history
+      history: props.history,
+      account: null
     }
+
+    const account = registry.getAccount()
+    this.state.account = account
   }
 
   render () {
     const {
-      history
+      history,
+      account
     } = this.state
 
-    const tableFilters = [{id: 'domain', value: 'cnn.com'}]
+    const tableFilters = [{id: 'account', value: account}]
 
     return (
       <div className='AccountDashboard'>
         <div className='ui grid stackable padded'>
           <div className='row'>
             <div className='column sixteen wide'>
-              <AccountHeader />
+              <AccountHeader account={account} />
             </div>
           </div>
           <div className='row'>

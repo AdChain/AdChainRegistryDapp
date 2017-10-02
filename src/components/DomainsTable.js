@@ -401,9 +401,17 @@ class DomainsTable extends Component {
     let domains = []
     const queryFilters = []
 
+    const stageFilter = (filters || []).reduce((acc, x) => {
+      if (x.id === 'stage') {
+        return x
+      }
+
+      return acc
+    }, null)
+
     // TODO: optimize filtering
-    if (filters && filters[1] && filters[1].id === 'stage') {
-      const regex = filters[1].value
+    if (stageFilter) {
+      const regex = stageFilter.value
 
       // if does have a filter
       if (regex.toString() !== '/(?:)/gi') {
@@ -428,7 +436,22 @@ class DomainsTable extends Component {
       }
     }
 
+    // TODO: optimize filtering
+    const accountFilter = (filters || []).reduce((acc, x) => {
+      if (x.id === 'account') {
+        return x
+      }
+
+      return acc
+    }, null)
+
     let query = `filter=${queryFilters.join(',')}`
+
+    if (accountFilter) {
+      const account = accountFilter.value || ''
+
+      query += `&account=${account}`
+    }
 
     try {
       domains = await (await window.fetch(`https://adchain-registry-api.metax.io/registry/domains?${query}`)).json()

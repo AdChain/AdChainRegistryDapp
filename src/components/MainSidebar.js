@@ -52,7 +52,6 @@ class MainSidebar extends Component {
                 </ul>
               </li>
             </ul>
-            {/*
             <div className='ListTitle ui header'>
               adChain Account
             </div>
@@ -61,7 +60,6 @@ class MainSidebar extends Component {
                 <Link to='/account'>Account Dashboard</Link>
               </li>
             </ul>
-            */}
             <div className='ListTitle ui header'>
               Support
             </div>

@@ -1,16 +1,19 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 import Identicon from './Identicon'
 
 import './AccountHeader.css'
 
 function AccountHeader (props) {
-  const address = '0xa1a32e5B5ceb73284Ea60922D9606373a16EbDF1'
+  const address = props.account
 
   return (
     <div className='AccountHeader BoxFrame'>
       <div className='ui image'>
-        <Identicon address={address} size={8} scale={8} />
+        {address ?
+          <Identicon address={address} size={8} scale={8} />
+        : '-'}
       </div>
       <div className='Content'>
         <div className='Header'>
@@ -22,6 +25,10 @@ function AccountHeader (props) {
       </div>
     </div>
   )
+}
+
+AccountHeader.propTypes = {
+  account: PropTypes.string
 }
 
 export default AccountHeader
