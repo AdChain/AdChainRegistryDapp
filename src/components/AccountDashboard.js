@@ -25,8 +25,9 @@ class AccountDashboard extends Component {
 
     if (account) {
       this.state.account = account
-      this.state.tableFilters = [{id: 'account', value: account}]
     }
+
+    this.state.tableFilters = [{id: 'account', value: account || '0x0'}]
 
     this.onQueryChange = this.onQueryChange.bind(this)
     this.updateTableFilters = this.updateTableFilters.bind(this)
@@ -85,7 +86,7 @@ class AccountDashboard extends Component {
 
   // React-table filter
   updateTableFilters () {
-    const {query, account} = this.state
+    let {query, account} = this.state
 
     const stageFilter = {
       id: 'stage',
@@ -124,7 +125,8 @@ class AccountDashboard extends Component {
     filter = new RegExp(filter.join('|'), 'gi')
     stageFilter.value = filter
 
-    const accountFilter = {id: 'account', value: account}
+    // 0x0 is for showing no rows if no account found (other empty account means show all)
+    const accountFilter = {id: 'account', value: account || '0x0'}
 
     this.setState({tableFilters: [domainFilter, stageFilter, accountFilter]})
   }

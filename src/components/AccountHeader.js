@@ -19,8 +19,8 @@ function AccountHeader (props) {
         <div className='Header'>
           Account
         </div>
-        <div className='SubHeader'>
-          {address}
+        <div className='SubHeader overflow-x'>
+          {address ? address : 'No account connected'}
         </div>
       </div>
     </div>

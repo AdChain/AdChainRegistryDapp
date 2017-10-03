@@ -19,7 +19,7 @@
 }
 
 .AccountHeader .image {
-  width: 60px;
+  width: 70px; /* take account margin, because of flex */
   height: 60px;
   background: #ddd;
   margin-right: 10px;
@@ -41,6 +41,8 @@
 .AccountHeader .SubHeader {
   font-size: 1.4em;
   white-space: nowrap;
+  overflow-x: auto;
+  padding: 0.2em;
 }
 
 .AccountHeader .SubHeader .Name {
