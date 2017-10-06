@@ -18,8 +18,8 @@ const parameters = keyMirror({
   minDeposit: null,
   applyStageLen: null,
   voteQuorum: null,
-  commitPeriodLen: null,
-  revealPeriodLen: null
+  commitStageLen: null,
+  revealStageLen: null
 })
 
 class RegistryService {
@@ -363,7 +363,7 @@ class RegistryService {
     }
   }
 
-  async commitPeriodActive (domain) {
+  async commitStageActive (domain) {
     if (!domain) {
       throw new Error('Domain is required')
     }
@@ -384,13 +384,13 @@ class RegistryService {
     }
 
     try {
-      return plcr.commitPeriodActive(pollId)
+      return plcr.commitStageActive(pollId)
     } catch (error) {
       throw error
     }
   }
 
-  async revealPeriodActive (domain) {
+  async revealStageActive (domain) {
     await this.initContract()
 
     if (!domain) {
@@ -411,7 +411,7 @@ class RegistryService {
     }
 
     try {
-      return plcr.revealPeriodActive(pollId)
+      return plcr.revealStageActive(pollId)
     } catch (error) {
       throw error
     }

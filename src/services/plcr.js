@@ -75,9 +75,9 @@ class PlcrService {
         const result = await this.plcr.pollMap(pollId)
 
         const map = {
-          // expiration date of commit period for poll
+          // expiration date of commit stage for poll
           commitEndDate: result[0] ? result[0].toNumber() : null,
-          // expiration date of reveal period for poll
+          // expiration date of reveal stage for poll
           revealEndDate: result[1] ? result[1].toNumber() : null,
           // number of votes required for a proposal to pass
           voteQuorum: result[2] ? result[2].toNumber() : 0,
@@ -114,7 +114,7 @@ class PlcrService {
     })
   }
 
-  async commitPeriodActive (pollId) {
+  async commitStageActive (pollId) {
     return new Promise(async (resolve, reject) => {
       if (!pollId) {
         reject(new Error('Poll ID is required'))
@@ -126,7 +126,7 @@ class PlcrService {
       }
 
       try {
-        const result = await this.plcr.commitPeriodActive(pollId)
+        const result = await this.plcr.commitStageActive(pollId)
         resolve(result)
         return false
       } catch (error) {
@@ -136,7 +136,7 @@ class PlcrService {
     })
   }
 
-  async revealPeriodActive (pollId) {
+  async revealStageActive (pollId) {
     return new Promise(async (resolve, reject) => {
       if (!pollId) {
         reject(new Error('Poll ID is required'))
@@ -148,7 +148,7 @@ class PlcrService {
       }
 
       try {
-        const result = await this.plcr.revealPeriodActive(pollId)
+        const result = await this.plcr.revealStageActive(pollId)
         resolve(result)
         return false
       } catch (error) {
@@ -182,7 +182,7 @@ class PlcrService {
       let active = null
 
       try {
-        active = await this.commitPeriodActive(pollId)
+        active = await this.commitStageActive(pollId)
       } catch (error) {
         reject(error)
         return false

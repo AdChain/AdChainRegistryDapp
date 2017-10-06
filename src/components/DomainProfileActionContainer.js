@@ -108,8 +108,8 @@ class DomainProfileActionContainer extends Component {
       } = listing
 
       const challengeOpen = (challengeId === 0 && !isWhitelisted && applicationExpiry)
-      const commitOpen = await registry.commitPeriodActive(domain)
-      const revealOpen = await registry.revealPeriodActive(domain)
+      const commitOpen = await registry.commitStageActive(domain)
+      const revealOpen = await registry.revealStageActive(domain)
 
       let action = null
 
