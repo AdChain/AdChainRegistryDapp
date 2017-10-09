@@ -79,8 +79,8 @@ class StatProgressBar extends Component {
 StatProgressBar.propTypes = {
   fills: PropTypes.array,
   fill: PropTypes.number,
-  showFillLabels: PropTypes.array,
-  showLegend: PropTypes.boolean,
+  showFillLabels: PropTypes.bool,
+  showLegend: PropTypes.bool,
   fillLabels: PropTypes.array
 }
 

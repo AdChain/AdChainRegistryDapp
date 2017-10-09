@@ -30,6 +30,14 @@ class DomainInRegistryContainer extends Component {
     this.getMinDeposit()
   }
 
+  componentDidMount () {
+    this._isMounted = true
+  }
+
+  componentWillUnmount () {
+    this._isMounted = false
+  }
+
   render () {
     const {
       domain,
@@ -71,8 +79,8 @@ class DomainInRegistryContainer extends Component {
           </div>
           : null}
           {hasVotes ? [
-            <div className='ui divider' />,
-            <DomainVoteTokenDistribution domain={domain} />,
+            <div className='ui divider' key={Math.random()} />,
+            <DomainVoteTokenDistribution domain={domain} key={Math.random()} />,
           ] : null}
           <div className='ui divider' />,
           <div className='column sixteen wide center aligned DomainChallengeFormContainer'>
@@ -107,9 +115,11 @@ class DomainInRegistryContainer extends Component {
   }
 
   async getMinDeposit () {
-    this.setState({
-      minDeposit: await registry.getMinDeposit()
-    })
+    if (this._isMounted) {
+      this.setState({
+        minDeposit: await registry.getMinDeposit()
+      })
+    }
   }
 
   async getReveal () {
@@ -118,9 +128,11 @@ class DomainInRegistryContainer extends Component {
     try {
       const didReveal = await registry.didReveal(domain)
 
-      this.setState({
-        didReveal: didReveal
-      })
+      if (this._isMounted) {
+        this.setState({
+          didReveal: didReveal
+        })
+      }
     } catch (error) {
       toastr.error(error)
     }
@@ -135,10 +147,12 @@ class DomainInRegistryContainer extends Component {
         votesAgainst
       } = await registry.getChallengePoll(domain)
 
-      this.setState({
-        votesFor,
-        votesAgainst
-      })
+      if (this._isMounted) {
+        this.setState({
+          votesFor,
+          votesAgainst
+        })
+      }
     } catch (error) {
 
     }
@@ -150,9 +164,11 @@ class DomainInRegistryContainer extends Component {
     try {
       const claimed = await registry.didClaim(domain)
 
-      this.setState({
-        didClaim: claimed
-      })
+      if (this._isMounted) {
+        this.setState({
+          didClaim: claimed
+        })
+      }
     } catch (error) {
       toastr.error(error)
     }
@@ -176,18 +192,22 @@ class DomainInRegistryContainer extends Component {
     }
 
     if (inApplication) {
-      this.setState({
-        inChallengeProgress: true
-      })
+      if (this._isMounted) {
+        this.setState({
+          inChallengeProgress: true
+        })
+      }
 
       try {
         await registry.challenge(domain)
 
         toastr.success('Successfully challenged domain')
 
-        this.setState({
-          inChallengeProgress: false
-        })
+        if (this._isMounted) {
+          this.setState({
+            inChallengeProgress: false
+          })
+        }
 
         // TODO: better way of resetting state
         setTimeout(() => {
@@ -195,9 +215,11 @@ class DomainInRegistryContainer extends Component {
         }, 2e3)
       } catch (error) {
         toastr.error(error.message)
-        this.setState({
-          inChallengeProgress: false
-        })
+        if (this._isMounted) {
+          this.setState({
+            inChallengeProgress: false
+          })
+        }
       }
     } else {
       toastr.error('Domain not in application')

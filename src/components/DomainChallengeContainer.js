@@ -27,6 +27,14 @@ class DomainChallengeContainer extends Component {
     this.getListing()
   }
 
+  componentDidMount () {
+    this._isMounted = true
+  }
+
+  componentWillUnmount () {
+    this._isMounted = false
+  }
+
   render () {
     const {
       domain,
@@ -89,9 +97,11 @@ class DomainChallengeContainer extends Component {
   }
 
   async getMinDeposit () {
-    this.setState({
-      minDeposit: await registry.getMinDeposit()
-    })
+    if (this._isMounted) {
+      this.setState({
+        minDeposit: await registry.getMinDeposit()
+      })
+    }
   }
 
   async getListing () {
@@ -103,10 +113,12 @@ class DomainChallengeContainer extends Component {
       currentDeposit
     } = listing
 
-    this.setState({
-      applicationExpiry,
-      currentDeposit
-    })
+    if (this._isMounted) {
+      this.setState({
+        applicationExpiry,
+        currentDeposit
+      })
+    }
   }
 
   onChallenge (event) {
@@ -127,18 +139,22 @@ class DomainChallengeContainer extends Component {
     }
 
     if (inApplication) {
-      this.setState({
-        inProgress: true
-      })
+      if (this._isMounted) {
+        this.setState({
+          inProgress: true
+        })
+      }
 
       try {
         await registry.challenge(domain)
 
         toastr.success('Successfully challenged domain')
 
-        this.setState({
-          inProgress: false
-        })
+        if (this._isMounted) {
+          this.setState({
+            inProgress: false
+          })
+        }
 
         // TODO: better way of resetting state
         setTimeout(() => {
@@ -146,9 +162,11 @@ class DomainChallengeContainer extends Component {
         }, 2e3)
       } catch (error) {
         toastr.error(error.message)
-        this.setState({
-          inProgress: false
-        })
+        if (this._isMounted) {
+          this.setState({
+            inProgress: false
+          })
+        }
       }
     } else {
       toastr.error('Domain not in application')

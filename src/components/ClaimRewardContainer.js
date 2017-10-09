@@ -25,6 +25,14 @@ class ClaimRewardContainer extends Component {
     this.getClaims()
   }
 
+  componentDidMount () {
+    this._isMounted = true
+  }
+
+  componentWillUnmount () {
+    this._isMounted = false
+  }
+
   render () {
     const {
       inProgress,
@@ -101,9 +109,11 @@ class ClaimRewardContainer extends Component {
     try {
       const claimed = await registry.didClaim(domain)
 
-      this.setState({
-        didClaim: claimed
-      })
+      if (this._isMounted) {
+        this.setState({
+          didClaim: claimed
+        })
+      }
     } catch (error) {
       toastr.error(error)
     }
@@ -123,10 +133,12 @@ class ClaimRewardContainer extends Component {
           challengeId
         } = JSON.parse(contents)
 
-        this.setState({
-          claimSalt: salt,
-          claimChallengeId: challengeId
-        })
+        if (this._isMounted) {
+          this.setState({
+            claimSalt: salt,
+            claimChallengeId: challengeId
+          })
+        }
 
         const saltInput = document.querySelector('#ClaimRewardContainerSaltInput')
         if (saltInput) {
@@ -176,9 +188,11 @@ class ClaimRewardContainer extends Component {
     }
 
     try {
-      this.setState({
-        inProgress: true
-      })
+      if (this._isMounted) {
+        this.setState({
+          inProgress: true
+        })
+      }
 
       await registry.claimReward(claimChallengeId, claimSalt)
       toastr.success('Transaction sent')
@@ -190,9 +204,11 @@ class ClaimRewardContainer extends Component {
       toastr.error(error.message)
     }
 
-    this.setState({
-      inProgress: false
-    })
+    if (this._isMounted) {
+      this.setState({
+        inProgress: false
+      })
+    }
   }
 }
 

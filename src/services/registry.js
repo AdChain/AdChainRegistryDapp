@@ -2,6 +2,7 @@ import sha3 from 'solidity-sha3'
 import pify from 'pify'
 import keyMirror from 'key-mirror'
 import tc from 'truffle-contract' // truffle-contract
+import detectNetwork from 'web3-detect-network'
 
 import store from '../store'
 import token from './token'
@@ -26,6 +27,7 @@ class RegistryService {
   constructor () {
     this.registry = null
     this.address = address
+    this.provider = null
   }
 
   async initContract () {
@@ -41,7 +43,8 @@ class RegistryService {
 
     const contract = tc(Registry)
 
-    contract.setProvider(getProvider())
+    this.provider = getProvider()
+    contract.setProvider(this.provider)
     this.pendingDeployed = contract.deployed()
     const deployed = await this.pendingDeployed
     this.registry = deployed
@@ -685,6 +688,10 @@ class RegistryService {
 
     const result = await pify(window.web3.eth.getBalance)(this.getAccount())
     return result.toNumber() / Math.pow(10, 18)
+  }
+
+  getNetwork () {
+    return detectNetwork(this.provider)
   }
 }
 

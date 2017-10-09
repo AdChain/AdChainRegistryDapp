@@ -17,13 +17,13 @@ class MainSidebar extends Component {
     const Link = this._Link
 
     return (
-      <div className='MainSidebar ui sidebar inverted vertical menu visible'>
+      <div className='MainSidebar ui sidebar inverted vertical menu visible overflow-y'>
         <div className='adChainLogo ui image'>
           <a href='/'>
             <img src={adchainLogo} alt='adChain' />
           </a>
         </div>
-        <div className='SidebarListContainer'>
+        <div className='SidebarListContainer overflow-x'>
           <div className='SidebarList overflow-y overflow-x'>
             <div className='ListTitle ui header'>
               adChain Registry
@@ -114,7 +114,7 @@ class MainSidebar extends Component {
 
 MainSidebar.propTypes = {
 /*
-  Link: PropTypes.function
+  Link: PropTypes.func
 */
 }
 

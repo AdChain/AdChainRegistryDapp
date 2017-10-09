@@ -32,10 +32,16 @@ class DomainProfileActionContainer extends Component {
   }
 
   componentDidMount () {
+    this._isMounted = true
+
     // TODO unsubscribe on dismount
     store.subscribe(x => {
       setTimeout(() => this.getData(), 1e3)
     })
+  }
+
+  componentWillUnmount () {
+    this._isMounted = false
   }
 
   render () {
@@ -125,9 +131,11 @@ class DomainProfileActionContainer extends Component {
         action = 'apply'
       }
 
-      this.setState({
-        action
-      })
+      if (this._isMounted) {
+        this.setState({
+          action
+        })
+      }
     } catch (error) {
       toastr.error(error)
     }

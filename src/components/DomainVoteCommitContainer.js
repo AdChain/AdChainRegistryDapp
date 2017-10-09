@@ -46,6 +46,14 @@ class DomainVoteCommitContainer extends Component {
     this.enableDownloadCheck = this.enableDownloadCheck.bind(this)
   }
 
+  componentDidMount () {
+    this._isMounted = true
+  }
+
+  componentWillUnmount () {
+    this._isMounted = false
+  }
+
   componentWillUpdate () {
     setTimeout(() => {
       this.enableDownloadCheck()
@@ -259,10 +267,12 @@ class DomainVoteCommitContainer extends Component {
       challengeId
     } = listing
 
-    this.setState({
-      applicationExpiry,
-      challengeId
-    })
+    if (this._isMounted) {
+      this.setState({
+        applicationExpiry,
+        challengeId
+      })
+    }
   }
 
   async getPoll () {
@@ -274,10 +284,12 @@ class DomainVoteCommitContainer extends Component {
         revealEndDate
       } = await registry.getChallengePoll(domain)
 
-      this.setState({
-        commitEndDate,
-        revealEndDate
-      })
+      if (this._isMounted) {
+        this.setState({
+          commitEndDate,
+          revealEndDate
+        })
+      }
     } catch (error) {
       toastr.error(error)
     }
@@ -303,9 +315,11 @@ class DomainVoteCommitContainer extends Component {
     try {
       const didCommit = await registry.didCommit(domain)
 
-      this.setState({
-        didCommit: didCommit
-      })
+      if (this._isMounted) {
+        this.setState({
+          didCommit: didCommit
+        })
+      }
     } catch (error) {
       toastr.error(error)
     }
@@ -324,16 +338,20 @@ class DomainVoteCommitContainer extends Component {
       return false
     }
 
-    this.setState({
-      inProgress: true
-    })
+    if (this._isMounted) {
+      this.setState({
+        inProgress: true
+      })
+    }
 
     try {
       const commited = await registry.commitVote({domain, votes, voteOption, salt})
 
-      this.setState({
-        inProgress: false
-      })
+      if (this._isMounted) {
+        this.setState({
+          inProgress: false
+        })
+      }
 
       if (commited) {
         toastr.success('Successfully committed')
@@ -347,9 +365,11 @@ class DomainVoteCommitContainer extends Component {
       }
     } catch (error) {
       toastr.error(error.message)
-      this.setState({
-        inProgress: false
-      })
+      if (this._isMounted) {
+        this.setState({
+          inProgress: false
+        })
+      }
     }
   }
 

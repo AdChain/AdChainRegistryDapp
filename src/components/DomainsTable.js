@@ -56,11 +56,17 @@ class DomainsTable extends Component {
   }
 
   componentDidMount () {
+    this._isMounted = true
+
     // infinite calls if enabled,
     // need to debug
     store.subscribe(x => {
       // this.getData()
     })
+  }
+
+  componentWillUnmount () {
+    this._isMounted = false
   }
 
   componentWillReceiveProps (props) {
@@ -295,9 +301,11 @@ class DomainsTable extends Component {
   }
 
   async onTableFetchData (state, instance) {
-    this.setState({
-      isLoading: true
-    })
+    if (this._isMounted) {
+      this.setState({
+        isLoading: true
+      })
+    }
 
     const {
       page,
@@ -385,11 +393,13 @@ class DomainsTable extends Component {
       }
     }))
 
-    this.setState({
-      data,
-      isLoading: false,
-      pages
-    })
+    if (this._isMounted) {
+      this.setState({
+        data,
+        isLoading: false,
+        pages
+      })
+    }
   }
 
   async getData () {

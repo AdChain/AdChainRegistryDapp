@@ -21,6 +21,14 @@ class DomainVoteTokenDistribution extends Component {
     this.getPoll()
   }
 
+  componentDidMount () {
+    this._isMounted = true
+  }
+
+  componentWillUnmount () {
+    this._isMounted = false
+  }
+
   async getPoll () {
     const {domain} = this.state
 
@@ -30,10 +38,12 @@ class DomainVoteTokenDistribution extends Component {
         votesAgainst
       } = await registry.getChallengePoll(domain)
 
-      this.setState({
-        votesFor,
-        votesAgainst
-      })
+      if (this._isMounted) {
+        this.setState({
+          votesFor,
+          votesAgainst
+        })
+      }
     } catch (error) {
       toastr.error(error)
     }

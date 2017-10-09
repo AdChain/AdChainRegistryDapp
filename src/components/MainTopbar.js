@@ -19,12 +19,14 @@ class MainTopbar extends Component {
       account: null,
       ethBalance: null,
       adtBalance: null,
-      isLoading: true
+      isLoading: true,
+      invalidNetwork: false
     }
 
     setTimeout(() => {
       this.updateAddress()
       this.updateBalance()
+      this.updateNetwork()
 
       this.setState({
         isLoading: false
@@ -36,6 +38,7 @@ class MainTopbar extends Component {
     store.subscribe(x => {
       this.updateAddress()
       this.updateBalance()
+      this.updateNetwork()
     })
   }
 
@@ -44,7 +47,8 @@ class MainTopbar extends Component {
       adtBalance,
       ethBalance,
       address,
-      isLoading
+      isLoading,
+      invalidNetwork
     } = this.state
 
     return (
@@ -66,7 +70,9 @@ class MainTopbar extends Component {
           {address ?
             <div className='item'>
               <div>
-                Network: <strong>Rinkeby Testnet</strong>
+                {invalidNetwork ?
+                  <strong>Please connect to Rinkeby Test Network</strong>
+                : <span>Network: <strong>Rinkeby Testnet</strong></span>}
               </div>
             </div>
           : null}
@@ -139,6 +145,14 @@ class MainTopbar extends Component {
         ethBalance: null
       })
     }
+  }
+
+  async updateNetwork () {
+    const network = await registry.getNetwork()
+
+    this.setState({
+      invalidNetwork: (network.type !== 'rinkeby')
+    })
   }
 }
 

@@ -42,6 +42,14 @@ class DomainVoteRevealContainer extends Component {
     this.getReveal()
   }
 
+  componentDidMount () {
+    this._isMounted = true
+  }
+
+  componentWillUnmount () {
+    this._isMounted = false
+  }
+
   render () {
     const {
       domain,
@@ -194,10 +202,12 @@ class DomainVoteRevealContainer extends Component {
       challengeId
     } = listing
 
-    this.setState({
-      applicationExpiry,
-      challengeId
-    })
+    if (this._isMounted) {
+      this.setState({
+        applicationExpiry,
+        challengeId
+      })
+    }
   }
 
   async getCommit () {
@@ -220,9 +230,11 @@ class DomainVoteRevealContainer extends Component {
     try {
       const didReveal = await registry.didReveal(domain)
 
-      this.setState({
-        didReveal: didReveal
-      })
+      if (this._isMounted) {
+        this.setState({
+          didReveal: didReveal
+        })
+      }
     } catch (error) {
       toastr.error(error)
     }
@@ -239,12 +251,14 @@ class DomainVoteRevealContainer extends Component {
         revealEndDate
       } = await registry.getChallengePoll(domain)
 
-      this.setState({
-        votesFor,
-        votesAgainst,
-        commitEndDate,
-        revealEndDate
-      })
+      if (this._isMounted) {
+        this.setState({
+          votesFor,
+          votesAgainst,
+          commitEndDate,
+          revealEndDate
+        })
+      }
     } catch (error) {
       toastr.error(error)
     }
@@ -256,9 +270,11 @@ class DomainVoteRevealContainer extends Component {
     try {
       const didChallenge = await registry.didChallenge(domain)
 
-      this.setState({
-        didChallenge
-      })
+      if (this._isMounted) {
+        this.setState({
+          didChallenge
+        })
+      }
     } catch (error) {
       toastr.error(error)
     }
@@ -283,9 +299,11 @@ class DomainVoteRevealContainer extends Component {
       return false
     }
 
-    this.setState({
-      inProgress: true
-    })
+    if (this._isMounted) {
+      this.setState({
+        inProgress: true
+      })
+    }
 
     try {
       const revealed = await registry.revealVote({domain, voteOption, salt})
@@ -305,9 +323,12 @@ class DomainVoteRevealContainer extends Component {
       }
     } catch (error) {
       toastr.error(error.message)
-      this.setState({
-        inProgress: false
-      })
+
+      if (this._isMounted) {
+        this.setState({
+          inProgress: false
+        })
+      }
     }
   }
 
@@ -322,10 +343,12 @@ class DomainVoteRevealContainer extends Component {
       try {
         const {salt, voteOption} = JSON.parse(contents)
 
-        this.setState({
-          salt,
-          voteOption
-        })
+        if (this._isMounted) {
+          this.setState({
+            salt,
+            voteOption
+          })
+        }
 
         // TODO: proper way of setting defaultValue
         const saltInput = document.querySelector('#DomainVoteRevealContainerSaltInput')

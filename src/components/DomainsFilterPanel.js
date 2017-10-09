@@ -154,7 +154,7 @@ class DomainsFilterPanel extends Component {
 /*
 DomainsFilterPanel.propTypes = {
   filters: PropTypes.object,
-  onFiltersChange: PropTypes.function
+  onFiltersChange: PropTypes.func
 }
 */
 

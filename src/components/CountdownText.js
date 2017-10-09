@@ -31,7 +31,13 @@ class CountdownText extends Component {
     }, 1e3)
   }
 
+  componentDidMount () {
+    this._isMounted = true
+  }
+
   componentWillUnmount () {
+    this._isMounted = false
+
     window.clearInterval(this.interval)
   }
 
@@ -43,13 +49,15 @@ class CountdownText extends Component {
       const diff = endDate.diff(now, 'seconds')
       const isExpired = (diff <= 0)
 
-      this.setState({
-        endDate: endDate,
-        isExpired,
+      if (this._isMounted) {
+        this.setState({
+          endDate: endDate,
+          isExpired,
 
-        // don't call expired callback if immediately already expired
-        onExpireCalled: isExpired
-      })
+          // don't call expired callback if immediately already expired
+          onExpireCalled: isExpired
+        })
+      }
     }
   }
 
@@ -67,10 +75,13 @@ class CountdownText extends Component {
     const {endDate, onExpireCalled} = this.state
 
     if (!endDate) {
-      this.setState({
-        countdown: '00:00:00',
-        isExpired: true
-      })
+      if (this._isMounted) {
+        this.setState({
+          countdown: '00:00:00',
+          isExpired: true
+        })
+      }
+
       return false
     }
 
@@ -78,13 +89,18 @@ class CountdownText extends Component {
     const diff = endDate.diff(now, 'seconds')
 
     if (diff <= 0) {
-      this.setState({
-        countdown: '00:00:00',
-        isExpired: true
-      })
+      if (this._isMounted) {
+        this.setState({
+          countdown: '00:00:00',
+          isExpired: true
+        })
+      }
 
       if (!onExpireCalled) {
-        this.setState({onExpireCalled: true})
+        if (this._isMounted) {
+          this.setState({onExpireCalled: true})
+        }
+
         this.onExpire()
       }
       return false
@@ -93,10 +109,12 @@ class CountdownText extends Component {
     const dur = moment.duration(diff, 'seconds')
     const countdown = `${pad(dur.hours(), 2, 0)}:${pad(dur.minutes(), 2, 0)}:${pad(dur.seconds(), 2, 0)}`
 
-    this.setState({
-      countdown,
-      isExpired: false
-    })
+    if (this._isMounted) {
+      this.setState({
+        countdown,
+        isExpired: false
+      })
+    }
   }
 
   onExpire () {
@@ -106,7 +124,7 @@ class CountdownText extends Component {
 
 CountdownText.propTypes = {
   endDate: PropTypes.object,
-  onExpire: PropTypes.function
+  onExpire: PropTypes.func
 }
 
 export default CountdownText

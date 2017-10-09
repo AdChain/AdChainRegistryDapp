@@ -34,7 +34,7 @@ class TrollboxComponent extends Component {
 
     this.state = {
       channel,
-      user
+      user: user || 'anonymous'
     }
   }
 

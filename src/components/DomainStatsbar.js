@@ -24,6 +24,14 @@ class DomainStatsbar extends Component {
     this.fetchStats()
   }
 
+  componentDidMount () {
+    this._isMounted = true
+  }
+
+  componentWillUnmount () {
+    this._isMounted = false
+  }
+
   render () {
     const {
       domain,
@@ -82,14 +90,16 @@ class DomainStatsbar extends Component {
     const response = await window.fetch(`https://adchain-registry-api.metax.io/stats/domain?domain=${domain}`)
     const data = await response.json()
 
-    this.setState({
-      globalRank: data.globalRank,
-      dailyPageViewsPerVisitor: data.dailyPageViewsPerVisitor,
-      bounceRate: data.bounceRate,
-      dailyTimeOnSite: data.dailyTimeOnSite,
-      category: data.categories[0],
-      totalSitesLinkingIn: data.totalSitesLinkingIn
-    })
+    if (this._isMounted) {
+      this.setState({
+        globalRank: data.globalRank,
+        dailyPageViewsPerVisitor: data.dailyPageViewsPerVisitor,
+        bounceRate: data.bounceRate,
+        dailyTimeOnSite: data.dailyTimeOnSite,
+        category: data.categories[0],
+        totalSitesLinkingIn: data.totalSitesLinkingIn
+      })
+    }
   }
 }
 

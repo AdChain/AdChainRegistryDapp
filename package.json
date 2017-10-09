@@ -33,7 +33,7 @@
     "react": "^15.6.1",
     "react-addons-css-transition-group": "^15.6.0",
     "react-countdown-moment": "0.0.3",
-    "react-disqus-thread": "^0.4.0",
+    "react-disqus-comments": "^1.1.0",
     "react-dom": "^15.6.1",
     "react-router-dom": "^4.1.2",
     "react-scripts": "1.0.10",
@@ -45,7 +45,8 @@
     "toastr": "^2.1.2",
     "trollbox": "0.0.19",
     "truffle-contract": "2.0.5",
-    "update-query": "^1.0.5"
+    "update-query": "^1.0.5",
+    "web3-detect-network": "0.0.4"
   },
   "scripts": {
     "start": "serve -s build",
