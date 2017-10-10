@@ -10,10 +10,7 @@ import plcr from './plcr'
 import { getProvider } from './provider'
 import parameterizer from './parameterizer'
 import saltHashVote from '../utils/saltHashVote'
-import { getAddress } from '../config'
-import Registry from '../config/registry.json'
-
-const address = getAddress('registry')
+import { getAbi } from '../config'
 
 const parameters = keyMirror({
   minDeposit: null,
@@ -26,29 +23,21 @@ const parameters = keyMirror({
 class RegistryService {
   constructor () {
     this.registry = null
-    this.address = address
-    this.provider = null
+    this.address = null
+    this.provider = getProvider()
   }
 
-  async initContract () {
+  initContract = async () => {
     if (this.registry) {
       return false
     }
 
-    if (this.pendingDeployed) {
-      await this.pendingDeployed
-      this.pendingDeploy = null
-      return false
-    }
+    const Registry = await getAbi('Registry')
+    const registry = tc(Registry)
+    registry.setProvider(this.provider)
 
-    const contract = tc(Registry)
-
-    this.provider = getProvider()
-    contract.setProvider(this.provider)
-    this.pendingDeployed = contract.deployed()
-    const deployed = await this.pendingDeployed
-    this.registry = deployed
-    this.pendingDeploy = null
+    this.registry = await registry.deployed()
+    this.address = this.registry.address
 
     this.setUpEvents()
 

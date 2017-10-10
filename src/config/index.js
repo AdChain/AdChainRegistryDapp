@@ -1,28 +1,22 @@
 const addresses = require('./address.json')
 
-/*
-TODO: fetch from
-https://s3-us-west-2.amazonaws.com/adchain-registry-contracts/Registry.json
-https://s3-us-west-2.amazonaws.com/adchain-registry-contracts/Parameterizer.json
-https://s3-us-west-2.amazonaws.com/adchain-registry-contracts/HumanStandardToken.json
-*/
-
 const net = 'rinkeby'
 
-function getAddress (contract) {
+export function getAddress (contract) {
   return addresses[net][contract]
 }
 
-function getAbi (contract) {
-  return require(`./${contract}.json`).abi
+export const getAbi = async (contract) => {
+  const url = 'https://s3-us-west-2.amazonaws.com/adchain-registry-contracts'
+  const data = await fetch(`${url}/${contract}.json`)
+  const json = await data.json()
+  return json
 }
 
-function getProviderUrl (contract) {
+export function getProviderUrl (contract) {
   if (net === 'testrpc') {
     return 'http://localhost:8545'
   } else {
     return `https://${net}.infura.io:443`
   }
 }
-
-module.exports = { getAddress, getAbi, getProviderUrl }
