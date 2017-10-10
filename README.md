@@ -19,3 +19,7 @@ npm run start:dev
 ```
 
 Then head over to [http://localhost:3000/](http://localhost:3000/)
+
+# LICENSE
+
+MIT

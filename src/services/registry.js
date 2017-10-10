@@ -10,10 +10,7 @@ import plcr from './plcr'
 import { getProvider } from './provider'
 import parameterizer from './parameterizer'
 import saltHashVote from '../utils/saltHashVote'
-import { getAddress } from '../config'
-import Registry from '../config/registry.json'
-
-const address = getAddress('registry')
+import { getAbi } from '../config'
 
 const parameters = keyMirror({
   minDeposit: null,
@@ -26,8 +23,8 @@ const parameters = keyMirror({
 class RegistryService {
   constructor () {
     this.registry = null
-    this.address = address
-    this.provider = null
+    this.address = null
+    this.provider = getProvider()
   }
 
   async initContract () {
@@ -35,20 +32,12 @@ class RegistryService {
       return false
     }
 
-    if (this.pendingDeployed) {
-      await this.pendingDeployed
-      this.pendingDeploy = null
-      return false
-    }
+    const Registry = await getAbi('Registry')
+    const registry = tc(Registry)
+    registry.setProvider(this.provider)
 
-    const contract = tc(Registry)
-
-    this.provider = getProvider()
-    contract.setProvider(this.provider)
-    this.pendingDeployed = contract.deployed()
-    const deployed = await this.pendingDeployed
-    this.registry = deployed
-    this.pendingDeploy = null
+    this.registry = await registry.deployed()
+    this.address = this.registry.address
 
     this.setUpEvents()
 
@@ -84,10 +73,6 @@ class RegistryService {
       throw new Error('Domain is required')
     }
 
-    if (!this.registry) {
-      await this.initContract()
-    }
-
     domain = domain.toLowerCase()
     deposit = deposit * Math.pow(10, token.decimals)
 
@@ -120,8 +105,6 @@ class RegistryService {
       throw new Error('Domain is required')
     }
 
-    await this.initContract()
-
     domain = domain.toLowerCase()
     let minDeposit = 0
 
@@ -146,8 +129,6 @@ class RegistryService {
       throw new Error('Domain is required')
     }
 
-    await this.initContract()
-
     domain = domain.toLowerCase()
     let challengeId = null
 
@@ -170,8 +151,6 @@ class RegistryService {
       throw new Error('Domain is required')
     }
 
-    await this.initContract()
-
     domain = domain.toLowerCase()
 
     try {
@@ -187,8 +166,6 @@ class RegistryService {
     }
 
     try {
-      await this.initContract()
-
       domain = domain.toLowerCase()
 
       const hash = sha3(domain)
@@ -212,8 +189,6 @@ class RegistryService {
     if (!challengeId) {
       throw new Error('Challenge ID is required')
     }
-
-    await this.initContract()
 
     try {
       const challenge = await this.registry.challengeMap.call(challengeId)
@@ -243,8 +218,6 @@ class RegistryService {
 
     domain = domain.toLowerCase()
 
-    await this.initContract()
-
     try {
       const listing = await this.getListing(domain)
 
@@ -263,8 +236,6 @@ class RegistryService {
       throw new Error('Domain is required')
     }
 
-    await this.initContract()
-
     domain = domain.toLowerCase()
 
     try {
@@ -278,8 +249,6 @@ class RegistryService {
     if (!domain) {
       throw new Error('Domain is required')
     }
-
-    await this.initContract()
 
     domain = domain.toLowerCase()
 
@@ -304,10 +273,6 @@ class RegistryService {
         return false
       }
 
-      if (!this.registry) {
-        await this.initContract()
-      }
-
       try {
         const value = await parameterizer.get(name)
         resolve(value)
@@ -329,10 +294,6 @@ class RegistryService {
 
   async getCurrentBlockNumber () {
     return new Promise(async (resolve, reject) => {
-      if (!this.registry) {
-        await this.initContract()
-      }
-
       const result = await pify(window.web3.eth.getBlockNumber)()
 
       resolve(result)
@@ -341,10 +302,6 @@ class RegistryService {
 
   async getCurrentBlockTimestamp () {
     return new Promise(async (resolve, reject) => {
-      if (!this.registry) {
-        await this.initContract()
-      }
-
       try {
         const result = await pify(window.web3.eth.getBlock)('latest')
 
@@ -357,8 +314,6 @@ class RegistryService {
   }
 
   async getPlcrAddress () {
-    await this.initContract()
-
     try {
       return this.registry.voting.call()
     } catch (error) {
@@ -370,8 +325,6 @@ class RegistryService {
     if (!domain) {
       throw new Error('Domain is required')
     }
-
-    await this.initContract()
 
     domain = domain.toLowerCase()
     let pollId = null
@@ -394,8 +347,6 @@ class RegistryService {
   }
 
   async revealStageActive (domain) {
-    await this.initContract()
-
     if (!domain) {
       throw new Error('Domain is required')
     }
@@ -421,8 +372,6 @@ class RegistryService {
   }
 
   async commitVote ({domain, votes, voteOption, salt}) {
-    await this.initContract()
-
     if (!domain) {
       throw new Error('Domain is required')
     }
@@ -450,8 +399,6 @@ class RegistryService {
   }
 
   async revealVote ({domain, voteOption, salt}) {
-    await this.initContract()
-
     domain = domain.toLowerCase()
     let challengeId = null
 
@@ -651,10 +598,6 @@ class RegistryService {
 
   async getTransaction (tx) {
     return new Promise(async (resolve, reject) => {
-      if (!this.registry) {
-        await this.initContract()
-      }
-
       try {
         const result = await pify(window.web3.eth.getTransaction)(tx)
         resolve(result)
@@ -667,10 +610,6 @@ class RegistryService {
 
   async getTransactionReceipt (tx) {
     return new Promise(async (resolve, reject) => {
-      if (!this.registry) {
-        await this.initContract()
-      }
-
       try {
         const result = await pify(window.web3.eth.getTransactionReceipt)(tx)
         resolve(result)
