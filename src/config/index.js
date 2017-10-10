@@ -7,9 +7,27 @@ export function getAddress (contract) {
 }
 
 export const getAbi = async (contract) => {
+  const storageKey = `adchain:abi:${contract}`
+  const cached = window.sessionStorage.getItem(storageKey)
+
+  try {
+    if (cached) {
+      return JSON.parse(cached)
+    }
+  } catch (error) {
+    console.error(error)
+  }
+
   const url = 'https://s3-us-west-2.amazonaws.com/adchain-registry-contracts'
-  const data = await fetch(`${url}/${contract}.json`)
+  const data = await window.fetch(`${url}/${contract}.json`)
   const json = await data.json()
+
+  try {
+    window.sessionStorage.setItem(storageKey, JSON.stringify(json))
+  } catch (error) {
+    console.error(error)
+  }
+
   return json
 }
 
