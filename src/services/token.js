@@ -1,15 +1,9 @@
-import tc from 'truffle-contract' // truffle-contract
-
-import { getAddress } from '../config'
-import { getProvider } from './provider'
+import { getToken } from '../config'
 import store from '../store'
-import Token from '../config/token.json'
-
-const address = getAddress('token')
 
 class TokenService {
   constructor () {
-    this.address = address
+    this.address = null
     this.token = null
     this.decimals = 9
     this.name = null
@@ -19,28 +13,21 @@ class TokenService {
   }
 
   async initContract () {
-    if (this.pendingDeployed) {
-      await this.pendingDeployed
-      this.pendingDeploy = null
+    this.token = await getToken()
+    if (!this.token) {
       return false
     }
+    // This logs twice sometimes, and thrice other times.
+    console.log('this.token.address', this.token.address);
+    this.address = this.token.address
 
-    if (!this.token) {
-      const contract = tc(Token)
-      contract.setProvider(getProvider())
-      this.pendingDeployed = contract.at(address)
-      const deployed = await this.pendingDeployed
-      this.token = deployed
-      this.pendingDeploy = null
+    this.getDecimals()
+    this.getName()
+    this.getSymbol()
 
-      this.getDecimals()
-      this.getName()
-      this.getSymbol()
-
-      store.dispatch({
-        type: 'TOKEN_CONTRACT_INIT'
-      })
-    }
+    store.dispatch({
+      type: 'TOKEN_CONTRACT_INIT'
+    })
   }
 
   setUpEvents () {

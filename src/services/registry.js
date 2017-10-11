@@ -1,16 +1,14 @@
 import sha3 from 'solidity-sha3'
 import pify from 'pify'
 import keyMirror from 'key-mirror'
-import tc from 'truffle-contract' // truffle-contract
 import detectNetwork from 'web3-detect-network'
 
 import store from '../store'
 import token from './token'
 import plcr from './plcr'
-import { getProvider } from './provider'
 import parameterizer from './parameterizer'
 import saltHashVote from '../utils/saltHashVote'
-import { getAbi } from '../config'
+import { getRegistry, getProvider } from '../config'
 
 const parameters = keyMirror({
   minDeposit: null,
@@ -28,15 +26,11 @@ class RegistryService {
   }
 
   async initContract () {
-    if (this.registry) {
+    this.registry = await getRegistry()
+    if (!this.registry) {
       return false
     }
 
-    const Registry = await getAbi('Registry')
-    const registry = tc(Registry)
-    registry.setProvider(this.provider)
-
-    this.registry = await registry.deployed()
     this.address = this.registry.address
 
     this.setUpEvents()
