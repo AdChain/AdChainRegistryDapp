@@ -1,9 +1,19 @@
+import contract from 'truffle-contract'
 const addresses = require('./address.json')
 
 const net = 'rinkeby'
 
 export function getAddress (contract) {
   return addresses[net][contract]
+}
+
+export const getProvider = () => {
+  if (window.web3) {
+    return window.web3.currentProvider
+  } else {
+    const provider = new window.Web3.providers.HttpProvider(getProviderUrl())
+    return provider
+  }
 }
 
 export const getAbi = async (contract) => {
@@ -29,6 +39,24 @@ export const getAbi = async (contract) => {
   }
 
   return json
+}
+
+export const getRegistry = async () => {
+  const registryArtifact = await getAbi('Registry')
+  const Registry = contract(registryArtifact)
+  Registry.setProvider(getProvider())
+
+  return Registry.deployed()
+}
+
+export const getToken = async () => {
+  const registry = await getRegistry()
+  const tokenAddress = await registry.token.call()
+  const tokenArtifact = await getAbi('HumanStandardToken')
+  const Token = contract(tokenArtifact)
+  Token.setProvider(getProvider())
+
+  return Token.at(tokenAddress)
 }
 
 export function getProviderUrl (contract) {
