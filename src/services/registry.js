@@ -1,16 +1,21 @@
+import Eth from 'ethjs'
 import sha3 from 'solidity-sha3'
 import pify from 'pify'
 import keyMirror from 'key-mirror'
-import tc from 'truffle-contract' // truffle-contract
 import detectNetwork from 'web3-detect-network'
 
 import store from '../store'
 import token from './token'
 import plcr from './plcr'
-import { getProvider } from './provider'
 import parameterizer from './parameterizer'
 import saltHashVote from '../utils/saltHashVote'
-import { getAbi } from '../config'
+import { getRegistry } from '../config'
+import { getProvider } from './provider'
+
+// TODO: check number param
+const big = (number) => new Eth.BN(number.toString(10))
+const tenToTheNinth = big(10).pow(big(9))
+const tenToTheEighteenth = big(10).pow(big(18))
 
 const parameters = keyMirror({
   minDeposit: null,
@@ -23,23 +28,17 @@ const parameters = keyMirror({
 class RegistryService {
   constructor () {
     this.registry = null
+    this.account = null
     this.address = null
     this.provider = getProvider()
+    this.eth = new Eth(getProvider())
   }
 
-  async initContract () {
-    if (this.registry) {
-      return false
-    }
-
-    const Registry = await getAbi('Registry')
-    const registry = tc(Registry)
-    registry.setProvider(this.provider)
-
-    this.registry = await registry.deployed()
+  async init () {
+    this.registry = await getRegistry()
     this.address = this.registry.address
-
     this.setUpEvents()
+    this.setAccount()
 
     store.dispatch({
       type: 'REGISTRY_CONTRACT_INIT'
@@ -60,12 +59,17 @@ class RegistryService {
       })
   }
 
-  getAccount () {
-    if (!window.web3) {
-      return null
-    }
+  async setAccount () {
+    const accounts = await this.eth.accounts()
+    this.account = accounts[0]
 
-    return window.web3.eth.defaultAccount || window.web3.eth.accounts[0]
+    if (window.web3 && !window.web3.eth.defaultAccount) {
+      window.web3.eth.defaultAccount = this.account
+    }
+  }
+
+  getAccount () {
+    return this.account
   }
 
   async apply (domain, deposit = 0) {
@@ -74,7 +78,8 @@ class RegistryService {
     }
 
     domain = domain.toLowerCase()
-    deposit = deposit * Math.pow(10, token.decimals)
+
+    const bigDeposit = big(deposit).mul(tenToTheNinth).toString(10)
 
     const exists = await this.applicationExists(domain)
 
@@ -83,13 +88,13 @@ class RegistryService {
     }
 
     try {
-      await token.approve(this.address, deposit)
+      await token.approve(this.address, bigDeposit)
     } catch (error) {
       throw error
     }
 
     try {
-      await this.registry.apply(domain, deposit, {from: this.getAccount()})
+      await this.registry.apply(domain, bigDeposit)
     } catch (error) {
       throw error
     }
@@ -106,14 +111,13 @@ class RegistryService {
     }
 
     domain = domain.toLowerCase()
-    let minDeposit = 0
 
     try {
-      minDeposit = await this.getMinDeposit()
-      minDeposit = minDeposit * Math.pow(10, token.decimals)
+      const minDeposit = await this.getMinDeposit()
+      const minDepositAdt = minDeposit.mul(tenToTheNinth)
 
-      await token.approve(this.address, minDeposit)
-      await this.registry.challenge(domain, {from: this.getAccount()})
+      await token.approve(this.address, minDepositAdt)
+      await this.registry.challenge(domain)
     } catch (error) {
       throw error
     }
@@ -140,7 +144,7 @@ class RegistryService {
 
     try {
       const challenge = await this.getChallenge(challengeId)
-      return (challenge.challenger === this.getAccount())
+      return (challenge.challenger === this.account)
     } catch (error) {
       throw error
     }
@@ -172,11 +176,11 @@ class RegistryService {
       const result = await this.registry.listingMap.call(hash)
 
       const map = {
-        applicationExpiry: result[0].toNumber(),
+        applicationExpiry: result[0].toString(10),
         isWhitelisted: result[1],
         ownerAddress: result[2],
-        currentDeposit: result[3].toNumber(),
-        challengeId: result[4].toNumber()
+        currentDeposit: result[3].toString(10),
+        challengeId: result[4].toString(10)
       }
 
       return map
@@ -253,7 +257,7 @@ class RegistryService {
     domain = domain.toLowerCase()
 
     try {
-      const result = await this.registry.updateStatus(domain, {from: this.getAccount()})
+      const result = await this.registry.updateStatus(domain)
 
       store.dispatch({
         type: 'REGISTRY_DOMAIN_UPDATE_STATUS',
@@ -289,7 +293,7 @@ class RegistryService {
 
   async getMinDeposit () {
     const min = await this.getParameter('minDeposit')
-    return min / Math.pow(10, token.decimals)
+    return min.div(tenToTheNinth)
   }
 
   async getCurrentBlockNumber () {
@@ -377,7 +381,7 @@ class RegistryService {
     }
 
     // nano ADT to normal ADT
-    votes = votes * Math.pow(10, token.decimals)
+    const bigVotes = big(votes).mul(tenToTheNinth).toString(10)
 
     domain = domain.toLowerCase()
     let challengeId = null
@@ -391,7 +395,7 @@ class RegistryService {
     try {
       const hash = saltHashVote(voteOption, salt)
 
-      await plcr.commit({pollId: challengeId, hash, tokens: votes})
+      await plcr.commit({pollId: challengeId, hash, tokens: bigVotes})
       return this.didCommitForPoll(challengeId)
     } catch (error) {
       throw error
@@ -448,7 +452,7 @@ class RegistryService {
 
   async getCommitHash (domain) {
     domain = domain.toLowerCase()
-    const voter = this.getAccount()
+    const voter = this.account
 
     if (!voter) {
       return false
@@ -475,7 +479,7 @@ class RegistryService {
 
   async didCommitForPoll (pollId) {
     try {
-      const voter = this.getAccount()
+      const voter = this.account
 
       if (!voter) {
         return false
@@ -497,7 +501,7 @@ class RegistryService {
   async didReveal (domain) {
     domain = domain.toLowerCase()
 
-    const voter = this.getAccount()
+    const voter = this.account
 
     if (!voter) {
       return false
@@ -522,7 +526,7 @@ class RegistryService {
         return false
       }
 
-      const voter = this.getAccount()
+      const voter = this.account
 
       if (!voter) {
         return false
@@ -541,8 +545,7 @@ class RegistryService {
   async didClaim (domain) {
     try {
       const challengeId = await this.getChallengeId(domain)
-      const account = this.getAccount()
-      return this.registry.tokenClaims(challengeId, account, {from: account})
+      return this.registry.tokenClaims(challengeId, this.account)
     } catch (error) {
       throw error
     }
@@ -551,8 +554,7 @@ class RegistryService {
   didClaimForPoll (challengeId) {
     return new Promise(async (resolve, reject) => {
       try {
-        const account = this.getAccount()
-        const hasClaimed = await this.registry.tokenClaims(challengeId, account, {from: account})
+        const hasClaimed = await this.registry.tokenClaims(challengeId, this.account)
         resolve(hasClaimed)
       } catch (error) {
         reject(error)
@@ -563,7 +565,7 @@ class RegistryService {
   claimReward (challengeId, salt) {
     return new Promise(async (resolve, reject) => {
       try {
-        const voter = this.getAccount()
+        const voter = this.account
         const voterReward = (await this.calculateVoterReward(voter, challengeId, salt)).toNumber()
 
         if (voterReward <= 0) {
@@ -571,7 +573,7 @@ class RegistryService {
           return false
         }
 
-        await this.registry.claimReward(challengeId, salt, {from: this.getAccount()})
+        await this.registry.claimReward(challengeId, salt)
 
         store.dispatch({
           type: 'REGISTRY_CLAIM_REWARD'
@@ -587,7 +589,7 @@ class RegistryService {
   calculateVoterReward (voter, challengeId, salt) {
     return new Promise(async (resolve, reject) => {
       try {
-        const reward = await this.registry.calculateVoterReward(voter, challengeId, salt, {from: this.getAccount()})
+        const reward = await this.registry.calculateVoterReward(voter, challengeId, salt)
 
         resolve(reward)
       } catch (error) {
@@ -625,8 +627,8 @@ class RegistryService {
       return 0
     }
 
-    const result = await pify(window.web3.eth.getBalance)(this.getAccount())
-    return result.toNumber() / Math.pow(10, 18)
+    const result = await pify(window.web3.eth.getBalance)(this.account)
+    return result.div(tenToTheEighteenth)
   }
 
   getNetwork () {

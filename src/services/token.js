@@ -1,46 +1,25 @@
-import tc from 'truffle-contract' // truffle-contract
-
-import { getAddress } from '../config'
-import { getProvider } from './provider'
+import { getToken } from '../config'
 import store from '../store'
-import Token from '../config/token.json'
-
-const address = getAddress('token')
 
 class TokenService {
   constructor () {
-    this.address = address
+    this.address = null
     this.token = null
     this.decimals = 9
     this.name = null
     this.symbol = null
-
-    this.initContract()
   }
 
-  async initContract () {
-    if (this.pendingDeployed) {
-      await this.pendingDeployed
-      this.pendingDeploy = null
-      return false
-    }
+  async init () {
+    this.token = await getToken()
+    this.address = this.token.address
+    this.getDecimals()
+    this.getName()
+    this.getSymbol()
 
-    if (!this.token) {
-      const contract = tc(Token)
-      contract.setProvider(getProvider())
-      this.pendingDeployed = contract.at(address)
-      const deployed = await this.pendingDeployed
-      this.token = deployed
-      this.pendingDeploy = null
-
-      this.getDecimals()
-      this.getName()
-      this.getSymbol()
-
-      store.dispatch({
-        type: 'TOKEN_CONTRACT_INIT'
-      })
-    }
+    store.dispatch({
+      type: 'TOKEN_CONTRACT_INIT'
+    })
   }
 
   setUpEvents () {
@@ -59,10 +38,6 @@ class TokenService {
 
   getName () {
     return new Promise(async (resolve, reject) => {
-      if (!this.token) {
-        await this.initContract()
-      }
-
       try {
         const name = await this.token.name()
         this.name = name
@@ -77,10 +52,6 @@ class TokenService {
 
   getSymbol () {
     return new Promise(async (resolve, reject) => {
-      if (!this.token) {
-        await this.initContract()
-      }
-
       try {
         const symbol = await this.token.symbol()
         this.symbol = symbol
@@ -95,10 +66,6 @@ class TokenService {
 
   getDecimals () {
     return new Promise(async (resolve, reject) => {
-      if (!this.token) {
-        await this.initContract()
-      }
-
       try {
         const result = await this.token.decimals()
         const decimals = result.toNumber()
@@ -123,10 +90,6 @@ class TokenService {
         return false
       }
 
-      if (!this.token) {
-        await this.initContract()
-      }
-
       try {
         const result = await this.token.balanceOf(account, {from: this.getAccount()})
         const balance = result.toNumber() / Math.pow(10, this.decimals)
@@ -144,10 +107,6 @@ class TokenService {
       if (!sender) {
         reject(new Error('Sender is required'))
         return false
-      }
-
-      if (!this.token) {
-        await this.initContract()
       }
 
       try {

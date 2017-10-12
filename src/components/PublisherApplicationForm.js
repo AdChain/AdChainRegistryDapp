@@ -26,14 +26,10 @@ class PublisherApplicationForm extends Component {
     this.history = props.history
     this.onMinDepositClick = this.onMinDepositClick.bind(this)
     this.onFormSubmit = this.onFormSubmit.bind(this)
-
-    this.getMinDeposit()
   }
 
-  async getMinDeposit () {
-    this.setState({
-      minDeposit: await registry.getMinDeposit()
-    })
+  componentWillMount () {
+    this.getMinDeposit()
   }
 
   render () {
@@ -150,6 +146,12 @@ class PublisherApplicationForm extends Component {
         {inProgress ? <PublisherApplicationFormInProgress /> : null}
       </div>
     )
+  }
+
+  async getMinDeposit () {
+    this.setState({
+      minDeposit: (await registry.getMinDeposit()).toNumber()
+    })
   }
 
   onMinDepositClick (event) {
