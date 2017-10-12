@@ -1,3 +1,4 @@
+import Eth from 'ethjs'
 import pify from 'pify'
 
 import { getPLCR } from '../config'
@@ -7,6 +8,8 @@ import store from '../store'
 /**
  * PollId = ChallengeId
  */
+
+const big = (number) => new Eth.BN(number.toString(10))
 
 class PlcrService {
   constructor () {
