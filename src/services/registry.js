@@ -1,3 +1,4 @@
+import Eth from 'ethjs'
 import sha3 from 'solidity-sha3'
 import pify from 'pify'
 import keyMirror from 'key-mirror'
@@ -10,6 +11,10 @@ import parameterizer from './parameterizer'
 import saltHashVote from '../utils/saltHashVote'
 import { getRegistry } from '../config'
 import { getProvider } from './provider'
+
+const big = (number) => new Eth.BN(number.toString(10))
+const tenToTheNinth = big(10).pow(big(9))
+const tenToTheEighteenth = big(10).pow(big(18))
 
 const parameters = keyMirror({
   minDeposit: null,
@@ -24,6 +29,7 @@ class RegistryService {
     this.registry = null
     this.address = null
     this.provider = getProvider()
+    this.eth = new Eth(getProvider())
   }
 
   async initContract () {
@@ -69,7 +75,8 @@ class RegistryService {
     }
 
     domain = domain.toLowerCase()
-    deposit = deposit * Math.pow(10, token.decimals)
+    
+    const bigDeposit = big(deposit).mul(tenToTheNinth)
 
     const exists = await this.applicationExists(domain)
 
@@ -78,13 +85,13 @@ class RegistryService {
     }
 
     try {
-      await token.approve(this.address, deposit)
+      await token.approve(this.address, bigDeposit)
     } catch (error) {
       throw error
     }
 
     try {
-      await this.registry.apply(domain, deposit, {from: this.getAccount()})
+      await this.registry.apply(domain, bigDeposit, {from: this.getAccount()})
     } catch (error) {
       throw error
     }
@@ -105,9 +112,9 @@ class RegistryService {
 
     try {
       minDeposit = await this.getMinDeposit()
-      minDeposit = minDeposit * Math.pow(10, token.decimals)
+      const minDepositAdt = minDeposit.mul(tenToTheNinth)
 
-      await token.approve(this.address, minDeposit)
+      await token.approve(this.address, minDepositAdt)
       await this.registry.challenge(domain, {from: this.getAccount()})
     } catch (error) {
       throw error
@@ -284,7 +291,7 @@ class RegistryService {
 
   async getMinDeposit () {
     const min = await this.getParameter('minDeposit')
-    return min / Math.pow(10, token.decimals)
+    return min.div(tenToTheNinth)
   }
 
   async getCurrentBlockNumber () {
@@ -372,7 +379,7 @@ class RegistryService {
     }
 
     // nano ADT to normal ADT
-    votes = votes * Math.pow(10, token.decimals)
+    const bigVotes = big(votes).mul(tenToTheNinth)
 
     domain = domain.toLowerCase()
     let challengeId = null
@@ -386,7 +393,7 @@ class RegistryService {
     try {
       const hash = saltHashVote(voteOption, salt)
 
-      await plcr.commit({pollId: challengeId, hash, tokens: votes})
+      await plcr.commit({pollId: challengeId, hash, tokens: bigVotes})
       return this.didCommitForPoll(challengeId)
     } catch (error) {
       throw error
@@ -621,7 +628,7 @@ class RegistryService {
     }
 
     const result = await pify(window.web3.eth.getBalance)(this.getAccount())
-    return result.toNumber() / Math.pow(10, 18)
+    return result.div(tenToTheEighteenth)
   }
 
   getNetwork () {
