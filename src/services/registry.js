@@ -154,7 +154,7 @@ class RegistryService {
     domain = domain.toLowerCase()
 
     try {
-      return this.registry.appExists(domain)
+      return this.registry.appWasMade(domain)
     } catch (error) {
       throw error
     }
