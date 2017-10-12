@@ -1,7 +1,6 @@
 import contract from 'truffle-contract'
 import { getProvider } from '../services/provider'
 
-
 export const getAbi = async (contract) => {
   const storageKey = `adchain:abi:${contract}`
   const cached = window.sessionStorage.getItem(storageKey)
@@ -65,11 +64,3 @@ export const getParameterizer = async () => {
   return Parameterizer.at(pAddress)
 }
 
-export function getProviderUrl (contract) {
-  const net = 'rinkeby'
-  if (net === 'testrpc') {
-    return 'http://localhost:8545'
-  } else {
-    return `https://${net}.infura.io:443`
-  }
-}
