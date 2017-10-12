@@ -8,19 +8,11 @@ class TokenService {
     this.decimals = 9
     this.name = null
     this.symbol = null
-
-    this.initContract()
   }
 
-  async initContract () {
+  async init () {
     this.token = await getToken()
-    if (!this.token) {
-      return false
-    }
-    // This logs twice sometimes, and thrice other times.
-    console.log('this.token.address', this.token.address);
     this.address = this.token.address
-
     this.getDecimals()
     this.getName()
     this.getSymbol()
@@ -46,10 +38,6 @@ class TokenService {
 
   getName () {
     return new Promise(async (resolve, reject) => {
-      if (!this.token) {
-        await this.initContract()
-      }
-
       try {
         const name = await this.token.name()
         this.name = name
@@ -64,10 +52,6 @@ class TokenService {
 
   getSymbol () {
     return new Promise(async (resolve, reject) => {
-      if (!this.token) {
-        await this.initContract()
-      }
-
       try {
         const symbol = await this.token.symbol()
         this.symbol = symbol
@@ -82,10 +66,6 @@ class TokenService {
 
   getDecimals () {
     return new Promise(async (resolve, reject) => {
-      if (!this.token) {
-        await this.initContract()
-      }
-
       try {
         const result = await this.token.decimals()
         const decimals = result.toNumber()
@@ -110,10 +90,6 @@ class TokenService {
         return false
       }
 
-      if (!this.token) {
-        await this.initContract()
-      }
-
       try {
         const result = await this.token.balanceOf(account, {from: this.getAccount()})
         const balance = result.toNumber() / Math.pow(10, this.decimals)
@@ -131,10 +107,6 @@ class TokenService {
       if (!sender) {
         reject(new Error('Sender is required'))
         return false
-      }
-
-      if (!this.token) {
-        await this.initContract()
       }
 
       try {

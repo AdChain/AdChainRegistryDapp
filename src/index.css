@@ -87,13 +87,6 @@ p {
   border: 1px solid #ea5e5e;
 }
 
-.RootLoading {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 3em;
-}
-
 .BoxFrame {
   background: #fff;
   padding: 20px;

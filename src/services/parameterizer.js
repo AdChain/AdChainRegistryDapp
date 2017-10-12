@@ -5,11 +5,9 @@ class ParameterizerService {
   constructor () {
     this.parameterizer = null
     this.address = null
-
-    this.initContract()
   }
 
-  async initContract () {
+  async init () {
     this.parameterizer = await getParameterizer()
     this.address = this.parameterizer.address
 
@@ -38,8 +36,6 @@ class ParameterizerService {
         reject(new Error('Name is required'))
         return false
       }
-
-      await this.initContract()
 
       let result = await this.parameterizer.get(name)
 

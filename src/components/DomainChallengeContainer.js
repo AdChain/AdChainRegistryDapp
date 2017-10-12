@@ -22,13 +22,13 @@ class DomainChallengeContainer extends Component {
       currentDeposit: null,
       inProgress: false
     }
-
-    this.getMinDeposit()
-    this.getListing()
   }
 
   componentDidMount () {
     this._isMounted = true
+
+    this.getMinDeposit()
+    this.getListing()
   }
 
   componentWillUnmount () {
@@ -99,7 +99,7 @@ class DomainChallengeContainer extends Component {
   async getMinDeposit () {
     if (this._isMounted) {
       this.setState({
-        minDeposit: await registry.getMinDeposit()
+        minDeposit: (await registry.getMinDeposit()).toNumber()
       })
     }
   }

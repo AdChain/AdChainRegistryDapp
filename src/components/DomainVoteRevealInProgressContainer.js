@@ -12,9 +12,9 @@ class DomainVoteRevealInProgressContainer extends Component {
     return (
       <div className='DomainVoteRevealInProgressContainer'>
         <div className='Content'>
-          <p><strong>Vote reveal in progress. </strong>
+          <div><strong>Vote reveal in progress. </strong>
             <Loader indeterminate active inline />
-          </p>
+          </div>
           <p>You will receive <strong>one</strong> MetaMask prompts:</p>
           <p><strong>First prompt:</strong> Submit vote reveal hash to the adChain Registry PLCR contract.</p>
         </div>

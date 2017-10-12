@@ -23,15 +23,15 @@ class DomainInRegistryContainer extends Component {
     }
 
     this.onChallenge = this.onChallenge.bind(this)
+  }
+
+  componentDidMount () {
+    this._isMounted = true
 
     this.getPoll()
     this.getReveal()
     this.getClaims()
     this.getMinDeposit()
-  }
-
-  componentDidMount () {
-    this._isMounted = true
   }
 
   componentWillUnmount () {
@@ -117,7 +117,7 @@ class DomainInRegistryContainer extends Component {
   async getMinDeposit () {
     if (this._isMounted) {
       this.setState({
-        minDeposit: await registry.getMinDeposit()
+        minDeposit: (await registry.getMinDeposit()).toNumber()
       })
     }
   }

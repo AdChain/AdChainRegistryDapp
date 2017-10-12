@@ -6,6 +6,9 @@ import App from './App'
 import AdBlockAlert from './AdBlockAlert'
 
 import registry from './services/registry'
+import plcr from './services/plcr'
+import parameterizer from './services/parameterizer'
+import token from './services/token'
 
 import './index.css'
 
@@ -22,7 +25,12 @@ async function init () {
   }
 
   try {
-    await registry.initContract()
+    await Promise.all([
+      registry.init(),
+      plcr.init(),
+      parameterizer.init(),
+      token.init()
+    ])
   } catch (error) {
     console.error(error)
   }

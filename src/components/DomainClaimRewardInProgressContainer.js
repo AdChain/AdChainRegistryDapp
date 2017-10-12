@@ -12,9 +12,9 @@ class DomainClaimRewardInProgressContainer extends Component {
     return (
       <div className='DomainClaimRewardInProgressContainer'>
         <div className='Content'>
-          <p><strong>Reward claim in progress. </strong>
+          <div><strong>Reward claim in progress. </strong>
             <Loader indeterminate active inline />
-          </p>
+          </div>
           <p>You will receive <strong>one</strong> MetaMask prompts:</p>
           <p><strong>First prompt:</strong> Claim reward from adChain Registry contract.</p>
         </div>

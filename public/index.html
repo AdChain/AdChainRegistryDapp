@@ -19,6 +19,14 @@
     <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
     <link rel="stylesheet" href="%PUBLIC_URL%/vendor/semantic.min.css">
     <link rel="stylesheet" href="%PUBLIC_URL%/vendor/toastr.css">
+    <style>
+    :root:root .RootLoader {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+    </style>
     <!--
       Notice the use of %PUBLIC_URL% in the tags above.
       It will be replaced with the URL of the `public` folder during the build.
@@ -35,7 +43,7 @@
       You need to enable JavaScript to run this app.
     </noscript>
     <div id="root">
-      <div class="RootLoading">Loading...</div>
+      <div class="ui active inline loader RootLoader"></div>
     </div>
     <!--
       This HTML file is a template.
@@ -47,7 +55,6 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
-
   <script
     src="//code.jquery.com/jquery-3.2.1.min.js"
     integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
