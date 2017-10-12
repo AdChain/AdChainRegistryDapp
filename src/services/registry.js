@@ -12,6 +12,7 @@ import saltHashVote from '../utils/saltHashVote'
 import { getRegistry } from '../config'
 import { getProvider } from './provider'
 
+// TODO: check number param
 const big = (number) => new Eth.BN(number.toString(10))
 const tenToTheNinth = big(10).pow(big(9))
 const tenToTheEighteenth = big(10).pow(big(18))
@@ -27,12 +28,17 @@ const parameters = keyMirror({
 class RegistryService {
   constructor () {
     this.registry = null
+    this.account = null
     this.address = null
     this.provider = getProvider()
     this.eth = new Eth(getProvider())
   }
 
   async initContract () {
+    const accounts = await this.eth.accounts()
+    this.account = accounts[0]
+    window.web3.eth.defaultAccount = this.account
+
     this.registry = await getRegistry()
     if (!this.registry) {
       return false
@@ -75,8 +81,8 @@ class RegistryService {
     }
 
     domain = domain.toLowerCase()
-    
-    const bigDeposit = big(deposit).mul(tenToTheNinth)
+
+    const bigDeposit = big(deposit).mul(tenToTheNinth).toString(10)
 
     const exists = await this.applicationExists(domain)
 
@@ -91,7 +97,7 @@ class RegistryService {
     }
 
     try {
-      await this.registry.apply(domain, bigDeposit, {from: this.getAccount()})
+      await this.registry.apply(domain, bigDeposit)
     } catch (error) {
       throw error
     }
@@ -108,14 +114,13 @@ class RegistryService {
     }
 
     domain = domain.toLowerCase()
-    let minDeposit = 0
 
     try {
-      minDeposit = await this.getMinDeposit()
+      const minDeposit = await this.getMinDeposit()
       const minDepositAdt = minDeposit.mul(tenToTheNinth)
 
       await token.approve(this.address, minDepositAdt)
-      await this.registry.challenge(domain, {from: this.getAccount()})
+      await this.registry.challenge(domain)
     } catch (error) {
       throw error
     }
@@ -174,11 +179,11 @@ class RegistryService {
       const result = await this.registry.listingMap.call(hash)
 
       const map = {
-        applicationExpiry: result[0].toNumber(),
+        applicationExpiry: result[0].toString(10),
         isWhitelisted: result[1],
         ownerAddress: result[2],
-        currentDeposit: result[3].toNumber(),
-        challengeId: result[4].toNumber()
+        currentDeposit: result[3].toString(10),
+        challengeId: result[4].toString(10)
       }
 
       return map
@@ -255,7 +260,7 @@ class RegistryService {
     domain = domain.toLowerCase()
 
     try {
-      const result = await this.registry.updateStatus(domain, {from: this.getAccount()})
+      const result = await this.registry.updateStatus(domain)
 
       store.dispatch({
         type: 'REGISTRY_DOMAIN_UPDATE_STATUS',
@@ -544,7 +549,7 @@ class RegistryService {
     try {
       const challengeId = await this.getChallengeId(domain)
       const account = this.getAccount()
-      return this.registry.tokenClaims(challengeId, account, {from: account})
+      return this.registry.tokenClaims(challengeId, account)
     } catch (error) {
       throw error
     }
@@ -554,7 +559,7 @@ class RegistryService {
     return new Promise(async (resolve, reject) => {
       try {
         const account = this.getAccount()
-        const hasClaimed = await this.registry.tokenClaims(challengeId, account, {from: account})
+        const hasClaimed = await this.registry.tokenClaims(challengeId, account)
         resolve(hasClaimed)
       } catch (error) {
         reject(error)
@@ -573,7 +578,7 @@ class RegistryService {
           return false
         }
 
-        await this.registry.claimReward(challengeId, salt, {from: this.getAccount()})
+        await this.registry.claimReward(challengeId, salt)
 
         store.dispatch({
           type: 'REGISTRY_CLAIM_REWARD'
@@ -589,7 +594,7 @@ class RegistryService {
   calculateVoterReward (voter, challengeId, salt) {
     return new Promise(async (resolve, reject) => {
       try {
-        const reward = await this.registry.calculateVoterReward(voter, challengeId, salt, {from: this.getAccount()})
+        const reward = await this.registry.calculateVoterReward(voter, challengeId, salt)
 
         resolve(reward)
       } catch (error) {
