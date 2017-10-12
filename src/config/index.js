@@ -1,20 +1,6 @@
 import contract from 'truffle-contract'
-const addresses = require('./address.json')
+import { getProvider } from '../services/provider'
 
-const net = 'rinkeby'
-
-export function getAddress (contract) {
-  return addresses[net][contract]
-}
-
-export const getProvider = () => {
-  if (window.web3) {
-    return window.web3.currentProvider
-  } else {
-    const provider = new window.Web3.providers.HttpProvider(getProviderUrl())
-    return provider
-  }
-}
 
 export const getAbi = async (contract) => {
   const storageKey = `adchain:abi:${contract}`
@@ -59,7 +45,28 @@ export const getToken = async () => {
   return Token.at(tokenAddress)
 }
 
+export const getPLCR = async () => {
+  const registry = await getRegistry()
+  const plcrAddress = await registry.voting.call()
+  const plcrArtifact = await getAbi('PLCRVoting')
+  const PLCRVoting = contract(plcrArtifact)
+  PLCRVoting.setProvider(getProvider())
+
+  return PLCRVoting.at(plcrAddress)
+}
+
+export const getParameterizer = async () => {
+  const registry = await getRegistry()
+  const pAddress = await registry.parameterizer.call()
+  const pArtifact = await getAbi('Parameterizer')
+  const Parameterizer = contract(pArtifact)
+  Parameterizer.setProvider(getProvider())
+
+  return Parameterizer.at(pAddress)
+}
+
 export function getProviderUrl (contract) {
+  const net = 'rinkeby'
   if (net === 'testrpc') {
     return 'http://localhost:8545'
   } else {
