@@ -1,37 +1,17 @@
-import tc from 'truffle-contract' // truffle-contract
-
+import { getParameterizer } from '../config'
 import store from '../store'
-import { getProvider } from './provider'
-import { getAddress } from '../config'
-import Parameterizer from '../config/parameterizer.json'
-
-const address = getAddress('parameterizer')
 
 class ParameterizerService {
   constructor () {
     this.parameterizer = null
-    this.address = address
+    this.address = null
 
     this.initContract()
   }
 
   async initContract () {
-    if (this.parameterizer) {
-      return false
-    }
-
-    if (this.pendingDeployed) {
-      await this.pendingDeployed
-      this.pendingDeploy = null
-      return false
-    }
-
-    const contract = tc(Parameterizer)
-    contract.setProvider(getProvider())
-    this.pendingDeployed = contract.deployed()
-    const deployed = await this.pendingDeployed
-    this.parameterizer = deployed
-    this.pendingDeploy = null
+    this.parameterizer = await getParameterizer()
+    this.address = this.parameterizer.address
 
     store.dispatch({
       type: 'PARAMETERIZER_CONTRACT_INIT'

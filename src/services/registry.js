@@ -8,7 +8,8 @@ import token from './token'
 import plcr from './plcr'
 import parameterizer from './parameterizer'
 import saltHashVote from '../utils/saltHashVote'
-import { getRegistry, getProvider } from '../config'
+import { getRegistry } from '../config'
+import { getProvider } from './provider'
 
 const parameters = keyMirror({
   minDeposit: null,
@@ -148,7 +149,7 @@ class RegistryService {
     domain = domain.toLowerCase()
 
     try {
-      return this.registry.appExists(domain)
+      return this.registry.appWasMade(domain)
     } catch (error) {
       throw error
     }

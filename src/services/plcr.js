@@ -1,8 +1,6 @@
 import pify from 'pify'
-import tc from 'truffle-contract' // truffle-contract
 
-import { getProvider } from './provider'
-import PLCR from '../config/plcr.json'
+import { getPLCR } from '../config'
 import token from './token'
 import store from '../store'
 
@@ -19,31 +17,14 @@ class PlcrService {
   }
 
   async initContract () {
-    if (this.pendingDeployed) {
-      await this.pendingDeployed
-      this.pendingDeploy = null
-      return false
-    }
+    this.plcr = await getPLCR()
+    this.address = this.plcr.address
 
-    const registry = require('./registry').default
+    this.setUpEvents()
 
-    if (!this.plcr && registry && registry.getPlcrAddress) {
-      const address = await registry.getPlcrAddress()
-      this.address = address
-
-      const contract = tc(PLCR)
-      contract.setProvider(getProvider())
-      this.pendingDeployed = contract.at(address)
-      const deployed = await this.pendingDeployed
-      this.plcr = deployed
-      this.pendingDeploy = null
-
-      this.setUpEvents()
-
-      store.dispatch({
-        type: 'PLCR_CONTRACT_INIT'
-      })
-    }
+    store.dispatch({
+      type: 'PLCR_CONTRACT_INIT'
+    })
   }
 
   setUpEvents () {
