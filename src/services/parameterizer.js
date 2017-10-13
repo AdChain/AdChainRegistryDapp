@@ -1,3 +1,5 @@
+import Eth from 'ethjs'
+import { getProvider } from './provider'
 import { getParameterizer } from '../config'
 import store from '../store'
 
@@ -5,10 +7,12 @@ class ParameterizerService {
   constructor () {
     this.parameterizer = null
     this.address = null
+    this.eth = new Eth(getProvider())
   }
 
   async init () {
-    this.parameterizer = await getParameterizer()
+    const accounts = await this.eth.accounts()
+    this.parameterizer = await getParameterizer(accounts[0])
     this.address = this.parameterizer.address
 
     store.dispatch({
