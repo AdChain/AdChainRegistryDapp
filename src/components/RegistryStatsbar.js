@@ -21,6 +21,14 @@ class RegistryStatsbar extends Component {
     this.fetchStats()
   }
 
+  componentDidMount () {
+    this._isMounted = true
+  }
+
+  componentWillUnmount () {
+    this._isMounted = false
+  }
+
   render () {
     const {
       totalStaked,
@@ -103,13 +111,15 @@ class RegistryStatsbar extends Component {
       totalStaked = totalStaked / Math.pow(10, token.decimals)
     }
 
-    this.setState({
-      totalStaked,
-      totalInApplication,
-      totalInCommit,
-      totalInReveal,
-      totalInRegistry
-    })
+    if (this._isMounted) {
+      this.setState({
+        totalStaked,
+        totalInApplication,
+        totalInCommit,
+        totalInReveal,
+        totalInRegistry
+      })
+    }
   }
 }
 

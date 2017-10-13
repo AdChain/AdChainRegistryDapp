@@ -6,6 +6,7 @@ import isValidEmail from 'is-valid-email'
 import commafy from 'commafy'
 import qs from 'qs'
 
+import postJson from '../utils/postJson'
 import registry from '../services/registry'
 import PublisherApplicationFormInProgress from './PublisherApplicationFormInProgress'
 
@@ -207,7 +208,7 @@ class PublisherApplicationForm extends Component {
       return false
     }
 
-    await this.save({
+    const isSaved = await this.save({
       domain,
       siteName,
       country,
@@ -221,14 +222,34 @@ class PublisherApplicationForm extends Component {
       inProgress: false
     })
 
-    this.history.push(`/domains?domain=${domain}`)
+    if (isSaved) {
+      this.history.push(`/domains?domain=${domain}`)
+    }
   }
 
   // TODO save to DB
   async save (data) {
-    toastr.success('Successfully applied')
+    const url = 'https://adchain-registry-api.metax.io/applications'
 
-    return Promise.resolve()
+    const payload = {
+      domain: data.domain,
+      site_name: data.siteName,
+      country: data.country,
+      first_name: data.firstName,
+      last_name: data.lastName,
+      email: data.email,
+      address: registry.getAccount()
+    }
+
+    try {
+      await postJson(url, payload)
+      toastr.success('Successfully applied')
+      return true
+    } catch (error) {
+      toastr.error(error.message)
+      console.error(error)
+      return false
+    }
   }
 }
 
