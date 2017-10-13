@@ -179,11 +179,11 @@ class RegistryService {
       const result = await this.registry.listingMap.call(hash)
 
       const map = {
-        applicationExpiry: result[0].toString(10),
+        applicationExpiry: result[0].toNumber(),
         isWhitelisted: result[1],
         ownerAddress: result[2],
-        currentDeposit: result[3].toString(10),
-        challengeId: result[4].toString(10)
+        currentDeposit: result[3].toNumber(),
+        challengeId: result[4].toNumber()
       }
 
       return map
