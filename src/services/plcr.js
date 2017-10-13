@@ -1,4 +1,3 @@
-import Eth from 'ethjs'
 import pify from 'pify'
 
 import { getPLCR } from '../config'
@@ -9,20 +8,15 @@ import store from '../store'
  * PollId = ChallengeId
  */
 
-const big = (number) => new Eth.BN(number.toString(10))
-
 class PlcrService {
   constructor () {
     this.plcr = null
     this.address = null
-
-    this.initContract()
   }
 
-  async initContract () {
+  async init () {
     this.plcr = await getPLCR(window.web3.eth.defaultAccount)
     this.address = this.plcr.address
-
     this.setUpEvents()
 
     store.dispatch({
@@ -49,10 +43,6 @@ class PlcrService {
       if (!pollId) {
         reject(new Error('Poll ID is required'))
         return false
-      }
-
-      if (!this.plcr) {
-        await this.initContract()
       }
 
       try {
@@ -105,10 +95,6 @@ class PlcrService {
         return false
       }
 
-      if (!this.plcr) {
-        await this.initContract()
-      }
-
       try {
         const result = await this.plcr.commitStageActive(pollId)
         resolve(result)
@@ -125,10 +111,6 @@ class PlcrService {
       if (!pollId) {
         reject(new Error('Poll ID is required'))
         return false
-      }
-
-      if (!this.plcr) {
-        await this.initContract()
       }
 
       try {
@@ -157,10 +139,6 @@ class PlcrService {
       if (!tokens) {
         reject(new Error('Tokens are required'))
         return false
-      }
-
-      if (!this.plcr) {
-        await this.initContract()
       }
 
       let active = null
@@ -243,10 +221,6 @@ class PlcrService {
 
   hasEnoughTokens (tokens) {
     return new Promise(async (resolve, reject) => {
-      if (!this.plcr) {
-        await this.initContract()
-      }
-
       if (!tokens) {
         reject(new Error('Tokens is required'))
         return false
@@ -265,10 +239,6 @@ class PlcrService {
 
   async pollEnded (pollId) {
     return new Promise(async (resolve, reject) => {
-      if (!this.plcr) {
-        await this.initContract()
-      }
-
       try {
         const result = await this.plcr.pollEnded(pollId)
         resolve(result)
@@ -282,10 +252,6 @@ class PlcrService {
 
   async getCommitHash (voter, pollId) {
     return new Promise(async (resolve, reject) => {
-      if (!this.plcr) {
-        await this.initContract()
-      }
-
       try {
         const hash = await this.plcr.getCommitHash(voter, pollId)
         resolve(hash)
@@ -297,10 +263,6 @@ class PlcrService {
 
   async hasBeenRevealed (voter, pollId) {
     return new Promise(async (resolve, reject) => {
-      if (!this.plcr) {
-        await this.initContract()
-      }
-
       if (!pollId) {
         resolve(false)
         return false
@@ -318,10 +280,6 @@ class PlcrService {
 
   async getTransactionReceipt (tx) {
     return new Promise(async (resolve, reject) => {
-      if (!this.plcr) {
-        this.initContract()
-      }
-
       try {
         const result = await pify(window.web3.eth.getTransactionReceipt)(tx)
         resolve(result)

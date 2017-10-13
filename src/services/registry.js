@@ -34,7 +34,7 @@ class RegistryService {
     this.eth = new Eth(getProvider())
   }
 
-  async initContract () {
+  async init () {
     const accounts = await this.eth.accounts()
     this.account = accounts[0]
     window.web3.eth.defaultAccount = this.account
@@ -45,8 +45,8 @@ class RegistryService {
     }
 
     this.address = this.registry.address
-
     this.setUpEvents()
+    this.setAccount()
 
     store.dispatch({
       type: 'REGISTRY_CONTRACT_INIT'
@@ -67,12 +67,17 @@ class RegistryService {
       })
   }
 
-  getAccount () {
-    if (!window.web3) {
-      return null
-    }
+  async setAccount () {
+    const accounts = await this.eth.accounts()
+    this.account = accounts[0]
 
-    return window.web3.eth.defaultAccount || window.web3.eth.accounts[0]
+    if (window.web3 && !window.web3.eth.defaultAccount) {
+      window.web3.eth.defaultAccount = this.account
+    }
+  }
+
+  getAccount () {
+    return this.account
   }
 
   async apply (domain, deposit = 0) {
@@ -147,7 +152,7 @@ class RegistryService {
 
     try {
       const challenge = await this.getChallenge(challengeId)
-      return (challenge.challenger === this.getAccount())
+      return (challenge.challenger === this.account)
     } catch (error) {
       throw error
     }
@@ -384,7 +389,7 @@ class RegistryService {
     }
 
     // nano ADT to normal ADT
-    const bigVotes = big(votes).mul(tenToTheNinth)
+    const bigVotes = big(votes).mul(tenToTheNinth).toString(10)
 
     domain = domain.toLowerCase()
     let challengeId = null
@@ -455,7 +460,7 @@ class RegistryService {
 
   async getCommitHash (domain) {
     domain = domain.toLowerCase()
-    const voter = this.getAccount()
+    const voter = this.account
 
     if (!voter) {
       return false
@@ -482,7 +487,7 @@ class RegistryService {
 
   async didCommitForPoll (pollId) {
     try {
-      const voter = this.getAccount()
+      const voter = this.account
 
       if (!voter) {
         return false
@@ -504,7 +509,7 @@ class RegistryService {
   async didReveal (domain) {
     domain = domain.toLowerCase()
 
-    const voter = this.getAccount()
+    const voter = this.account
 
     if (!voter) {
       return false
@@ -529,7 +534,7 @@ class RegistryService {
         return false
       }
 
-      const voter = this.getAccount()
+      const voter = this.account
 
       if (!voter) {
         return false
@@ -548,8 +553,7 @@ class RegistryService {
   async didClaim (domain) {
     try {
       const challengeId = await this.getChallengeId(domain)
-      const account = this.getAccount()
-      return this.registry.tokenClaims(challengeId, account)
+      return this.registry.tokenClaims(challengeId, this.account)
     } catch (error) {
       throw error
     }
@@ -558,8 +562,7 @@ class RegistryService {
   didClaimForPoll (challengeId) {
     return new Promise(async (resolve, reject) => {
       try {
-        const account = this.getAccount()
-        const hasClaimed = await this.registry.tokenClaims(challengeId, account)
+        const hasClaimed = await this.registry.tokenClaims(challengeId, this.account)
         resolve(hasClaimed)
       } catch (error) {
         reject(error)
@@ -570,7 +573,7 @@ class RegistryService {
   claimReward (challengeId, salt) {
     return new Promise(async (resolve, reject) => {
       try {
-        const voter = this.getAccount()
+        const voter = this.account
         const voterReward = (await this.calculateVoterReward(voter, challengeId, salt)).toNumber()
 
         if (voterReward <= 0) {
@@ -632,7 +635,7 @@ class RegistryService {
       return 0
     }
 
-    const result = await pify(window.web3.eth.getBalance)(this.getAccount())
+    const result = await pify(window.web3.eth.getBalance)(this.account)
     return result.div(tenToTheEighteenth)
   }
 
