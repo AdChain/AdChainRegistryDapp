@@ -10,10 +10,9 @@ export const getProviderUrl = () => {
 }
 
 export const getProvider = () => {
-  if (window.web3) {
+  if (typeof window.web3 !== 'undefined' && typeof window.web3.currentProvider !== 'undefined') {
     return window.web3.currentProvider
   } else {
-    const provider = new Eth.HttpProvider(getProviderUrl())
-    return provider
+    return new Eth.HttpProvider(getProviderUrl())
   }
 }

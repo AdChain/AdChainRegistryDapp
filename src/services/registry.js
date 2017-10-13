@@ -39,7 +39,7 @@ class RegistryService {
     this.account = accounts[0]
     window.web3.eth.defaultAccount = this.account
 
-    this.registry = await getRegistry()
+    this.registry = await getRegistry(this.account)
     if (!this.registry) {
       return false
     }

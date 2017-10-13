@@ -26,41 +26,46 @@ export const getAbi = async (contract) => {
   return json
 }
 
-export const getRegistry = async () => {
+export const getRegistry = async (account) => {
   const registryArtifact = await getAbi('Registry')
   const Registry = contract(registryArtifact)
+  Registry.defaults({from: account})
   Registry.setProvider(getProvider())
 
   return Registry.deployed()
 }
 
-export const getToken = async () => {
+export const getToken = async (account) => {
   const registry = await getRegistry()
   const tokenAddress = await registry.token.call()
   const tokenArtifact = await getAbi('HumanStandardToken')
   const Token = contract(tokenArtifact)
+  Token.defaults({from: account})
   Token.setProvider(getProvider())
 
   return Token.at(tokenAddress)
 }
 
-export const getPLCR = async () => {
+export const getPLCR = async (account) => {
   const registry = await getRegistry()
   const plcrAddress = await registry.voting.call()
   const plcrArtifact = await getAbi('PLCRVoting')
   const PLCRVoting = contract(plcrArtifact)
+  PLCRVoting.defaults({from: account})
   PLCRVoting.setProvider(getProvider())
 
   return PLCRVoting.at(plcrAddress)
 }
 
-export const getParameterizer = async () => {
+export const getParameterizer = async (account) => {
   const registry = await getRegistry()
   const pAddress = await registry.parameterizer.call()
   const pArtifact = await getAbi('Parameterizer')
   const Parameterizer = contract(pArtifact)
+  Parameterizer.defaults({from: account})
   Parameterizer.setProvider(getProvider())
 
   return Parameterizer.at(pAddress)
 }
 
+// sendTransaction

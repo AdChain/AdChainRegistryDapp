@@ -20,7 +20,7 @@ class PlcrService {
   }
 
   async initContract () {
-    this.plcr = await getPLCR()
+    this.plcr = await getPLCR(window.web3.eth.defaultAccount)
     this.address = this.plcr.address
 
     this.setUpEvents()
@@ -185,7 +185,7 @@ class PlcrService {
       }
 
       try {
-        await this.plcr.requestVotingRights(tokens, {from: this.getAccount()})
+        await this.plcr.requestVotingRights(tokens)
       } catch (error) {
         reject(error)
         return false
@@ -194,7 +194,7 @@ class PlcrService {
       try {
         const prevPollId =
           await this.plcr.getInsertPointForNumTokens.call(this.getAccount(), tokens)
-        const result = await this.plcr.commitVote(pollId, hash, tokens, prevPollId, {from: this.getAccount()})
+        const result = await this.plcr.commitVote(pollId, hash, tokens, prevPollId)
 
         store.dispatch({
           type: 'PLCR_VOTE_COMMIT',
@@ -213,7 +213,7 @@ class PlcrService {
   async reveal ({pollId, voteOption, salt}) {
     return new Promise(async (resolve, reject) => {
       try {
-        await this.plcr.revealVote(pollId, voteOption, salt, {from: this.getAccount()})
+        await this.plcr.revealVote(pollId, voteOption, salt)
 
         store.dispatch({
           type: 'PLCR_VOTE_REVEAL',

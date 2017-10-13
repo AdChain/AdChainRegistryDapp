@@ -10,7 +10,7 @@ class ParameterizerService {
   }
 
   async initContract () {
-    this.parameterizer = await getParameterizer()
+    this.parameterizer = await getParameterizer(window.web3.eth.defaultAccount)
     this.address = this.parameterizer.address
 
     store.dispatch({

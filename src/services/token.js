@@ -13,7 +13,7 @@ class TokenService {
   }
 
   async initContract () {
-    this.token = await getToken()
+    this.token = await getToken(window.web3.eth.defaultAccount)
     if (!this.token) {
       return false
     }
@@ -115,7 +115,7 @@ class TokenService {
       }
 
       try {
-        const result = await this.token.balanceOf(account, {from: this.getAccount()})
+        const result = await this.token.balanceOf(account)
         const balance = result.toNumber() / Math.pow(10, this.decimals)
         resolve(balance)
         return false
@@ -138,7 +138,7 @@ class TokenService {
       }
 
       try {
-        const result = await this.token.approve(sender, value, {from: this.getAccount()})
+        const result = await this.token.approve(sender, value)
         resolve(result)
         return false
       } catch (error) {
