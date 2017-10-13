@@ -1,3 +1,5 @@
+import Eth from 'ethjs'
+import { getProvider } from './provider'
 import pify from 'pify'
 
 import { getPLCR } from '../config'
@@ -12,10 +14,12 @@ class PlcrService {
   constructor () {
     this.plcr = null
     this.address = null
+    this.eth = new Eth(getProvider())
   }
 
   async init () {
-    this.plcr = await getPLCR(window.web3.eth.defaultAccount)
+    const accounts = await this.eth.accounts()
+    this.plcr = await getPLCR(accounts[0])
     this.address = this.plcr.address
     this.setUpEvents()
 

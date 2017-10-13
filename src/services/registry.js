@@ -37,14 +37,10 @@ class RegistryService {
   async init () {
     const accounts = await this.eth.accounts()
     this.account = accounts[0]
-    window.web3.eth.defaultAccount = this.account
 
     this.registry = await getRegistry(this.account)
-    if (!this.registry) {
-      return false
-    }
-
     this.address = this.registry.address
+
     this.setUpEvents()
     this.setAccount()
 
@@ -69,10 +65,9 @@ class RegistryService {
 
   async setAccount () {
     const accounts = await this.eth.accounts()
-    this.account = accounts[0]
 
     if (window.web3 && !window.web3.eth.defaultAccount) {
-      window.web3.eth.defaultAccount = this.account
+      window.web3.eth.defaultAccount = accounts[0]
     }
   }
 

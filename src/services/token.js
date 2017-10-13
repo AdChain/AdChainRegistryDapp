@@ -1,3 +1,5 @@
+import Eth from 'ethjs'
+import { getProvider } from './provider'
 import { getToken } from '../config'
 import store from '../store'
 
@@ -8,16 +10,14 @@ class TokenService {
     this.decimals = 9
     this.name = null
     this.symbol = null
+    this.eth = new Eth(getProvider())
   }
 
   async init () {
-    this.token = await getToken(window.web3.eth.defaultAccount)
-    if (!this.token) {
-      return false
-    }
-    // This logs twice sometimes, and thrice other times.
-    console.log('this.token.address', this.token.address);
+    const accounts = await this.eth.accounts()
+    this.token = await getToken(accounts[0])
     this.address = this.token.address
+
     this.getDecimals()
     this.getName()
     this.getSymbol()
