@@ -5,7 +5,7 @@ import store from '../store'
 import registry from '../services/registry'
 import DomainsTable from './DomainsTable'
 import AccountHeader from './AccountHeader'
-import AdtCalculator from './AdtCalculator'
+import AccountStatsbar from './AccountStatsbar'
 import DomainsFilterPanel from './DomainsFilterPanel'
 
 import './AccountDashboard.css'
@@ -62,7 +62,7 @@ class AccountDashboard extends Component {
               <AccountHeader account={account} />
             </div>
             <div className='column seven wide NoPaddingBottom'>
-              <AdtCalculator />
+              <AccountStatsbar account={account} />
             </div>
           </div>
           <div className='row'>

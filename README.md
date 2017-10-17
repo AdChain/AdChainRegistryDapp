@@ -6,13 +6,17 @@
 
 Currently in Alpha stage.
 
+# Demo
+
+[https://app.adchain.com](https://app.adchain.com)
+
 # Install
 
 ```bash
 npm install
 ```
 
-# Run
+# Development
 
 ```bash
 npm run start:dev
