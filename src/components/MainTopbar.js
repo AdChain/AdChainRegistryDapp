@@ -16,25 +16,23 @@ class MainTopbar extends Component {
     super()
 
     this.state = {
+      address: null,
       account: null,
       ethBalance: null,
       adtBalance: null,
       isLoading: true,
       invalidNetwork: false
     }
-
-    setTimeout(() => {
-      this.updateAddress()
-      this.updateBalance()
-      this.updateNetwork()
-
-      this.setState({
-        isLoading: false
-      })
-    }, 250)
   }
 
   componentDidMount () {
+    this.updateAddress()
+    this.updateBalance()
+    this.updateNetwork()
+    this.setState({
+      isLoading: false
+    })
+
     store.subscribe(x => {
       this.updateAddress()
       this.updateBalance()
@@ -43,7 +41,7 @@ class MainTopbar extends Component {
   }
 
   render () {
-    const {
+    let {
       adtBalance,
       ethBalance,
       address,
@@ -79,22 +77,28 @@ class MainTopbar extends Component {
           <div className='menu right'>
             {address ?
               <div className='item'>
+                <div className='EthLogo ui image'>
+                  <img
+                    src={ethLogo}
+                    alt='ETH' />
+                </div>
+                {ethBalance !== null ? commafy(ethBalance.toFixed(4)) : '-'} ETH
+              {ethBalance === 0 ?
+                <span>&nbsp;(<a href='https://faucet.rinkeby.io/' target='_blank' rel='noopener noreferrer' className='AcquireLink'>Acquire ETH</a>)</span>
+              : null}
+              </div>
+            : null}
+            {address ?
+              <div className='item'>
                 <div className='AdtLogo ui image'>
                   <img
                     src={adtLogo}
                     alt='ADT' />
                 </div>
                 {adtBalance !== null ? commafy(adtBalance) : '-'} ADT
-              </div>
-            : null}
-            {address ?
-              <div className='item'>
-                <div className='EthLogo ui image'>
-                  <img
-                    src={ethLogo}
-                    alt='ETH' />
-                </div>
-                {ethBalance !== null ? commafy(ethBalance) : '-'} ETH
+              {adtBalance === 0 ?
+                <span>&nbsp;(<a href='https://consensysadtech.net/' target='_blank' rel='noopener noreferrer' className='AcquireLink'>Acquire ADT</a>)</span>
+              : null}
               </div>
             : null}
             <div className='item'>
@@ -114,7 +118,7 @@ class MainTopbar extends Component {
   }
 
   async updateAddress () {
-    const address = await registry.getAccount()
+    const address = registry.getAccount()
 
     this.setState({
       address
@@ -138,7 +142,7 @@ class MainTopbar extends Component {
       const ethBalance = await registry.getEthBalance()
 
       this.setState({
-        ethBalance: ethBalance.toFixed(4)
+        ethBalance: ethBalance.toNumber()
       })
     } catch (error) {
       this.setState({

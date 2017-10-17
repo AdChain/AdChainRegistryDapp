@@ -39,4 +39,13 @@ async function init () {
   registerServiceWorker()
 }
 
-init()
+document.addEventListener('DOMContentLoaded', () => {
+  if (window.web3) {
+    init()
+  } else {
+    // wait for metamask web3 to be injected
+    setTimeout(() => {
+      init()
+    }, 1e3)
+  }
+}, false)

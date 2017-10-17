@@ -7,10 +7,14 @@ class ParameterizerService {
   constructor () {
     this.parameterizer = null
     this.address = null
-    this.eth = new Eth(getProvider())
   }
 
   async init () {
+    /* important to check for provider in
+     * init function (rather than constructor),
+     * so that injected web3 has time to load.
+     */
+    this.eth = new Eth(getProvider())
     const accounts = await this.eth.accounts()
     this.parameterizer = await getParameterizer(accounts[0])
     this.address = this.parameterizer.address

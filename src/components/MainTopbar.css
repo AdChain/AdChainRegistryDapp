@@ -64,6 +64,10 @@
   margin-right: 5px;
 }
 
+.MainTopbar .AcquireLink {
+  color: #aeebff;
+}
+
 @media only screen and (max-width: 767px) {
   :root:root .MainTopbar {
     padding: 0;

@@ -30,11 +30,15 @@ class RegistryService {
     this.registry = null
     this.account = null
     this.address = null
-    this.provider = getProvider()
-    this.eth = new Eth(getProvider())
   }
 
   async init () {
+    /* important to check for provider in
+     * init function (rather than constructor),
+     * so that injected web3 has time to load.
+     */
+    this.provider = getProvider()
+    this.eth = new Eth(getProvider())
     const accounts = await this.eth.accounts()
     this.account = accounts[0]
 

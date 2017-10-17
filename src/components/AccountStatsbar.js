@@ -9,7 +9,6 @@ class AccountStatsbar extends Component {
     super()
 
     this.state = {
-      domain: props.domain,
       account: props.account,
       totalTimesChallenged: null,
       totalTimesCommitted: null,
@@ -30,7 +29,6 @@ class AccountStatsbar extends Component {
 
   render () {
     const {
-      domain,
       totalTimesChallenged,
       totalTimesCommitted,
       totalTimesRevealed,
