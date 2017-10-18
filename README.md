@@ -6,9 +6,11 @@
 
 Currently in Alpha stage.
 
+<!--
 # Demo
 
 [https://app.adchain.com](https://app.adchain.com)
+-->
 
 # Install
 
@@ -24,6 +26,6 @@ npm run start:dev
 
 Then head over to [http://localhost:3000/](http://localhost:3000/)
 
-# LICENSE
+# License
 
 MIT
