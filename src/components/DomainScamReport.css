@@ -2,6 +2,11 @@
   position: relative;
 }
 
+.DomainScamReport .unknown,
+.DomainScamReport .unknown a {
+  color: #333;
+}
+
 .DomainScamReport .safe,
 .DomainScamReport .safe a {
   color: green;
