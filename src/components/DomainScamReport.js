@@ -6,7 +6,18 @@ import { Loader } from 'semantic-ui-react'
 import './DomainScamReport.css'
 
 function item (x) {
-  return <div className='DomainScamReportListItem' key={Math.random()}><label>{x.key}</label> <span className={x.flag}><i className={`icon ${x.flag === 'safe' ? 'check circle' : 'warning sign'}`}></i>{x.value}</span></div>
+  return <div className='DomainScamReportListItem' key={Math.random()}><label>{x.key}</label> <span className={x.flag}><i className={`icon ${x.flag === 'safe' ? 'check circle' : 'warning sign'}`}></i>
+      {x.link ?
+        <a
+          href={x.link}
+          target='_blank'
+          rel='noopener noreferrer'>
+          {x.value}
+          <i className='icon external tiny'></i>
+        </a>
+      :
+      x.value}
+      </span></div>
 }
 
 class DomainScamReport extends Component {
@@ -55,7 +66,7 @@ class DomainScamReport extends Component {
               {item(get(report, 'verdict'))}
               <div className='ui divider'></div>
               <div className='ListSubSection'>
-                {get(report, 'verdict.report').slice(1, 6).map(x => {
+                {get(report, 'verdict.report').slice(1, 6).filter(x => x.key && x.flag).map(x => {
                   return item(x)
                 })}
               </div>
@@ -64,7 +75,7 @@ class DomainScamReport extends Component {
               <div className='ui divider'></div>
               {item(get(report, 'blacklist'))}
               <div className='ListSubSection'>
-                {get(report, 'blacklist.report').filter(x => x.key).map(x => {
+                {get(report, 'blacklist.report').filter(x => x.key && x.flag).map(x => {
                   return item(x)
                 })}
               </div>
@@ -73,7 +84,7 @@ class DomainScamReport extends Component {
             </div>
             :
             <div className='column sixteen wide center aligned'>
-              <div className='ui message warning'><i className='icon warning sign'></i> Not enough data to generate report for this domain</div>
+              <div className='ui message warning'><i className='icon warning sign'></i> Report for this domain was not found.</div>
             </div>
             :
             <div className='column sixteen wide center aligned'>
