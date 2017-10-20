@@ -32,6 +32,9 @@ class DomainsContainer extends Component {
     setTimeout(() => {
       this.updateTableFilters(query)
     }, 0)
+
+    // scroll to top
+    window.scrollTo(0, -1)
   }
 
   componentWillReceiveProps (props) {

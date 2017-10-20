@@ -29,6 +29,9 @@ class DomainProfile extends Component {
       country: null,
       action
     }
+
+    // scroll to top
+    window.scrollTo(0, -1)
   }
 
   render () {

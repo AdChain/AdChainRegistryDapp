@@ -6,6 +6,7 @@
   padding-bottom: 0;
 }
 
-.DomainProfile > .grid > .row > .column:first-child {
+.DomainProfile > .grid > .row > .column:first-child,
+.DomainProfile > .grid > .row > .column:nth-child(2) {
   padding-right: 0;
 }
