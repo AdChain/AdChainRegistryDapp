@@ -1,0 +1,54 @@
+.DomainScamReport {
+  position: relative;
+}
+
+.DomainScamReport .safe {
+  color: green;
+}
+
+.DomainScamReport .unsafe {
+  color: red;
+}
+
+.DomainScamReport .warning:not(.icon) {
+  color: orange;
+}
+
+.DomainScamReportList {
+}
+
+.DomainScamReportListItem {
+  width: 100%;
+  margin-bottom: 0.5em;
+}
+
+.DomainScamReportListItem label {
+  display: block;
+  font-size: 0.8em;
+}
+
+.DomainScamReportListItem span {
+  display: block;
+}
+
+
+.DomainScamReportList .ListSubSection {
+  border-left: 5px solid #f4f7fa;
+  padding-left: 0.5em;
+}
+
+:root:root:root .DomainScamReport .Source {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  font-size: 0.7em;
+  color: #999;
+}
+
+:root:root:root .DomainScamReport .Source a {
+  color: #999;
+}
+
+:root:root:root .DomainScamReport .Source a:hover {
+  text-decoration: underline;
+}

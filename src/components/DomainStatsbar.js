@@ -91,14 +91,17 @@ class DomainStatsbar extends Component {
     const data = await response.json()
 
     if (this._isMounted) {
-      this.setState({
-        globalRank: data.globalRank,
-        dailyPageViewsPerVisitor: data.dailyPageViewsPerVisitor,
-        bounceRate: data.bounceRate,
-        dailyTimeOnSite: data.dailyTimeOnSite,
-        category: data.categories[0],
-        totalSitesLinkingIn: data.totalSitesLinkingIn
-      })
+      if (data.stats) {
+        const stats = data.stats.alexa
+        this.setState({
+          globalRank: stats.globalRank,
+          dailyPageViewsPerVisitor: stats.dailyPageViewsPerVisitor,
+          bounceRate: stats.bounceRate,
+          dailyTimeOnSite: stats.dailyTimeOnSite,
+          category: stats.categories[0],
+          totalSitesLinkingIn: stats.totalSitesLinkingIn
+        })
+      }
     }
   }
 }

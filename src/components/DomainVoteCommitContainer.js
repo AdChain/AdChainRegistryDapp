@@ -283,7 +283,7 @@ class DomainVoteCommitContainer extends Component {
 
     const filename = `${domainUnderscored}--challenge_id_${challengeId}--reveal_start_${revealDateString}--reminder.ics`
     const title = `Reveal Vote for ${domain}`
-    const url = `https://app.adchain.com/domains/${domain}`
+    const url = `${window.location.protocol}//${window.location.host}/domains/${domain}`
 
     const data = await generateReminder({
       start: revealDate,
