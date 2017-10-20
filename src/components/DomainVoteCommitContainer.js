@@ -6,6 +6,7 @@ import { Radio, Popup } from 'semantic-ui-react'
 import randomInt from 'random-int'
 
 import saveFile from '../utils/saveFile'
+import generateReminder from '../utils/generateReminder'
 import Countdown from './CountdownText'
 import registry from '../services/registry'
 import DomainVoteCommitInProgressContainer from './DomainVoteCommitInProgressContainer'
@@ -31,7 +32,8 @@ class DomainVoteCommitContainer extends Component {
       salt,
       voteOption: null,
       enableDownload: false,
-      commitDownloaded: false
+      commitDownloaded: false,
+      revealReminderDownloaded: false
     }
 
     this.getListing()
@@ -43,6 +45,7 @@ class DomainVoteCommitContainer extends Component {
     this.onVoteOptionChange = this.onVoteOptionChange.bind(this)
     this.onFormSubmit = this.onFormSubmit.bind(this)
     this.onDownload = this.onDownload.bind(this)
+    this.onReminderDownload = this.onReminderDownload.bind(this)
     this.enableDownloadCheck = this.enableDownloadCheck.bind(this)
   }
 
@@ -72,7 +75,8 @@ class DomainVoteCommitContainer extends Component {
       challengeId,
       enableDownload,
       commitDownloaded,
-      votes
+      votes,
+      revealReminderDownloaded
     } = this.state
 
     const stageEndMoment = commitEndDate ? moment.unix(commitEndDate) : null
@@ -174,6 +178,18 @@ class DomainVoteCommitContainer extends Component {
                   <i className='icon download'></i>
                 </button>
               </div>
+              {commitDownloaded ?
+              <div className='ui field'>
+                <label><small>Download a calendar reminder for revealing vote</small></label>
+                <button
+                  onClick={this.onReminderDownload}
+                  title='Download commit info'
+                  className={`ui mini button right labeled icon ${revealReminderDownloaded ? 'default' : 'blue'}`}>
+                  Reveal Reminder
+                  <i className='icon download'></i>
+                </button>
+              </div>
+              : null}
               <div className='ui field'>
                 {(voteOption === null || !votes || !commitDownloaded) ?
                   <button
@@ -249,6 +265,36 @@ class DomainVoteCommitContainer extends Component {
 
     this.setState({
       commitDownloaded: true
+    })
+  }
+
+  async onReminderDownload (event) {
+    event.preventDefault()
+
+    const {
+      domain,
+      challengeId,
+      commitEndDate
+    } = this.state
+
+    const domainUnderscored = domain.replace('.', '_')
+    const revealDate = moment.unix(commitEndDate)
+    const revealDateString = revealDate.format('YYYY-MM-DD_HH-mm-ss')
+
+    const filename = `${domainUnderscored}--challenge_id_${challengeId}--reveal_start_${revealDateString}--reminder.ics`
+    const title = `Reveal Vote for ${domain}`
+    const url = `https://app.adchain.com/domains/${domain}`
+
+    const data = await generateReminder({
+      start: revealDate,
+      title,
+      url
+    })
+
+    saveFile(data, filename)
+
+    this.setState({
+      revealReminderDownloaded: true
     })
   }
 

@@ -208,7 +208,7 @@ class PublisherApplicationForm extends Component {
       return false
     }
 
-    const isSaved = await this.save({
+    await this.save({
       domain,
       siteName,
       country,
@@ -222,12 +222,9 @@ class PublisherApplicationForm extends Component {
       inProgress: false
     })
 
-    if (isSaved) {
-      this.history.push(`/domains?domain=${domain}`)
-    }
+    this.history.push(`/domains?domain=${domain}`)
   }
 
-  // TODO save to DB
   async save (data) {
     const url = 'https://adchain-registry-api.metax.io/applications'
 
@@ -238,17 +235,14 @@ class PublisherApplicationForm extends Component {
       first_name: data.firstName,
       last_name: data.lastName,
       email: data.email,
-      address: registry.getAccount()
+      account: registry.getAccount()
     }
 
     try {
       await postJson(url, payload)
-      toastr.success('Successfully applied')
-      return true
     } catch (error) {
       toastr.error(error.message)
       console.error(error)
-      return false
     }
   }
 }
