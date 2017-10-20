@@ -50,6 +50,7 @@ class DomainScamReport extends Component {
             </div>
           :
           report ?
+           report.verdict.value ?
             <div className='column sixteen wide DomainScamReportList'>
               {item(get(report, 'verdict'))}
               <div className='ui divider'></div>
@@ -70,7 +71,14 @@ class DomainScamReport extends Component {
               <div className='ui divider'></div>
               {item(get(report, 'creation'))}
             </div>
-            : <div>Error fetching report</div>}
+            :
+            <div className='column sixteen wide center aligned'>
+              <div className='ui message warning'><i className='icon warning sign'></i> Not enough data to generate report for this domain</div>
+            </div>
+            :
+            <div className='column sixteen wide center aligned'>
+              <div className='ui message default'>Error fetching report</div>
+            </div>}
           <div className='Source'>
             <a
               href={`https://www.scamvoid.com/check/${domain}`}
