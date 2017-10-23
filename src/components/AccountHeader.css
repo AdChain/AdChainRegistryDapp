@@ -3,16 +3,6 @@
   min-height: 105px;
 }
 
-.AccountDashboard > .grid > .row:first-child,
-:root:root:root .AccountDashboard .NoPaddingBottom {
-  padding-bottom: 0;
-}
-
-.AccountDashboard > .grid > .row > .column:first-child,
-:root:root:root .AccountDashboard .NoPaddingRight {
-  padding-right: 0;
-}
-
 .AccountHeader .Identicon {
   width: 60px;
   height: 60px;

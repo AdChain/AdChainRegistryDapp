@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import commafy from 'commafy'
 import toastr from 'toastr'
+import { Popup } from 'semantic-ui-react'
 
 import store from '../store'
 import registry from '../services/registry'
@@ -45,11 +46,16 @@ class WithdrawVotingRightsContainer extends Component {
       <div className='WithdrawVotingRightsContainer BoxFrame'>
         <div className='ui grid stackable center aligned'>
           <div className='column sixteen wide'>
-            <p>Withdraw Voting Rights</p>
+            <p>Withdraw Voting Rights
+              <Popup
+                trigger={<i className='icon info circle' />}
+                content='Withdraw adToken held by the PLCR contract. This adToken is locked during voting and unlocked after the reveal stage.'
+              />
+            </p>
             <button
               onClick={this.onWithdraw}
               className='ui button blue tiny'>
-              Withdraw {availableTokens === null ? '' : commafy(availableTokens)} Tokens
+              Withdraw {availableTokens === null ? '' : commafy(availableTokens)} ADT
             </button>
           </div>
         </div>

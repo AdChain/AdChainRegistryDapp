@@ -8,6 +8,7 @@ import AccountHeader from './AccountHeader'
 import AccountStatsbar from './AccountStatsbar'
 import DomainsFilterPanel from './DomainsFilterPanel'
 
+import RequestVotingRightsContainer from './RequestVotingRightsContainer.js'
 import WithdrawVotingRightsContainer from './WithdrawVotingRightsContainer.js'
 import './AccountDashboard.css'
 
@@ -59,15 +60,18 @@ class AccountDashboard extends Component {
       <div className='AccountDashboard'>
         <div className='ui grid stackable padded'>
           <div className='row'>
-            <div className='column five wide'>
+            <div className='column seven wide'>
               <AccountHeader account={account} />
+            </div>
+            <div className='column five wide NoPaddingRight'>
+              <RequestVotingRightsContainer account={account} />
             </div>
             <div className='column four wide'>
               <WithdrawVotingRightsContainer account={account} />
             </div>
-            <div className='column seven wide NoPaddingBottom'>
-              <AccountStatsbar account={account} />
-            </div>
+          </div>
+          <div className='column sixteen wide NoPaddingBottom'>
+            <AccountStatsbar account={account} />
           </div>
           <div className='row'>
             <div className='column four wide'>

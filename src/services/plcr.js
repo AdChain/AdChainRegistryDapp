@@ -164,18 +164,22 @@ class PlcrService {
         return false
       }
 
-      try {
-        await token.approve(this.address, tokens)
-      } catch (error) {
-        reject(error)
-        return false
-      }
+      const voteTokenBalance = await this.plcr.voteTokenBalance(this.getAccount())
 
-      try {
-        await this.plcr.requestVotingRights(tokens)
-      } catch (error) {
-        reject(error)
-        return false
+      if (voteTokenBalance >= tokens) {
+        try {
+          await token.approve(this.address, tokens)
+        } catch (error) {
+          reject(error)
+          return false
+        }
+
+        try {
+          await this.plcr.requestVotingRights(tokens)
+        } catch (error) {
+          reject(error)
+          return false
+        }
       }
 
       try {
@@ -213,6 +217,17 @@ class PlcrService {
         return false
       }
     })
+  }
+
+  requestVotingRights (tokens) {
+    const result = this.plcr.requestVotingRights(tokens)
+
+    store.dispatch({
+      type: 'PLCR_REQUEST_VOTING_RIGHTS',
+      tokens
+    })
+
+    return result
   }
 
   async getTokensCommited (pollId) {

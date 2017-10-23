@@ -33,6 +33,8 @@ function reducer (state = -1, action) {
     case 'PLCR_VOTE_COMMIT':
     case 'PLCR_VOTE_REVEAL':
     case 'PLCR_EVENT':
+    case 'PLCR_REQUEST_VOTING_RIGHTS':
+    case 'PLCR_WITHDRAW_VOTING_RIGHTS':
     case 'PARAMETERIZER_CONTRACT_INIT':
     case 'PARAMETERIZER_EVENT':
       return state + 1

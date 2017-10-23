@@ -39,18 +39,16 @@ class AccountStatsbar extends Component {
       <div className='AccountStatsbar BoxFrame'>
         <div className='ui grid stackable'>
           <div className='row'>
-            <div className='column eight wide'>
+            <div className='column four wide'>
               Total Times Challenged: <strong>{totalTimesChallenged === null ? '-' : commafy(totalTimesChallenged)}</strong>
             </div>
-            <div className='column eight wide'>
+            <div className='column four wide'>
               Total Times Committed: <strong>{totalTimesCommitted === null ? '-' : totalTimesCommitted}</strong>
             </div>
-          </div>
-          <div className='row'>
-            <div className='column eight wide'>
+            <div className='column four wide'>
               Total Times Revealed: <strong>{totalTimesRevealed === null ? '-' : totalTimesRevealed}</strong>
             </div>
-            <div className='column eight wide Category'>
+            <div className='column four wide Category'>
               Total Tokens Claimed: <strong>{totalTokensClaimed === null ? '-' : totalTokensClaimed}</strong>
             </div>
           </div>

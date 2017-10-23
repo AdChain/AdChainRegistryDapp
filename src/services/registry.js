@@ -605,6 +605,19 @@ class RegistryService {
     })
   }
 
+  async requestVotingRights (votes) {
+    // normal ADT to nano ADT
+    const tokens = big(votes).mul(tenToTheNinth).toString(10)
+
+    await token.approve(plcr.address, tokens)
+    await plcr.requestVotingRights(tokens)
+  }
+
+  async getAvailableTokensToWithdraw () {
+    const tokens = await plcr.getAvailableTokensToWithdraw()
+    return big(tokens).div(tenToTheNinth)
+  }
+
   async withdrawVotingRights (tokens) {
     if (!tokens) {
       throw new Error('Number of tokens required')
@@ -615,11 +628,6 @@ class RegistryService {
     await plcr.withdrawVotingRights(tokens)
 
     return true
-  }
-
-  async getAvailableTokensToWithdraw () {
-    const tokens = await plcr.getAvailableTokensToWithdraw()
-    return big(tokens).div(tenToTheNinth)
   }
 
   async getTransaction (tx) {

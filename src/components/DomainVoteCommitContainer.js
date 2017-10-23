@@ -213,15 +213,19 @@ class DomainVoteCommitContainer extends Component {
   }
 
   onDepositKeyUp (event) {
-    this.setState({
-      votes: event.target.value | 0
-    })
+    if (this._isMounted) {
+      this.setState({
+        votes: event.target.value | 0 // coerce to int
+      })
+    }
   }
 
   onVoteOptionChange (event, { value }) {
-    this.setState({
-      voteOption: parseInt(value, 10)
-    })
+    if (this._isMounted) {
+      this.setState({
+        voteOption: parseInt(value, 10)
+      })
+    }
   }
 
   enableDownloadCheck () {
@@ -347,9 +351,11 @@ class DomainVoteCommitContainer extends Component {
     try {
       const didChallenge = await registry.didChallenge(domain)
 
-      this.setState({
-        didChallenge
-      })
+      if (this._isMounted) {
+        this.setState({
+          didChallenge
+        })
+      }
     } catch (error) {
       toastr.error(error.message)
     }
