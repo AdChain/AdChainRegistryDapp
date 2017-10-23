@@ -33,6 +33,14 @@ class PublisherApplicationForm extends Component {
     this.getMinDeposit()
   }
 
+  componentDidMount () {
+    this._isMounted = true
+  }
+
+  componentWillUnmount () {
+    this._isMounted = false
+  }
+
   render () {
     const {
       minDeposit,
@@ -150,9 +158,13 @@ class PublisherApplicationForm extends Component {
   }
 
   async getMinDeposit () {
-    this.setState({
-      minDeposit: (await registry.getMinDeposit()).toNumber()
-    })
+    const minDeposit = await registry.getMinDeposit()
+
+    if (this._isMounted) {
+      this.setState({
+        minDeposit: minDeposit.toNumber()
+      })
+    }
   }
 
   onMinDepositClick (event) {
@@ -194,17 +206,21 @@ class PublisherApplicationForm extends Component {
       return false
     }
 
-    this.setState({
-      inProgress: true
-    })
+    if (this._isMounted) {
+      this.setState({
+        inProgress: true
+      })
+    }
 
     try {
       await registry.apply(domain, stake)
     } catch (error) {
       toastr.error(error.message)
-      this.setState({
-        inProgress: false
-      })
+      if (this._isMounted) {
+        this.setState({
+          inProgress: false
+        })
+      }
       return false
     }
 
@@ -218,9 +234,11 @@ class PublisherApplicationForm extends Component {
       stake
     })
 
-    this.setState({
-      inProgress: false
-    })
+    if (this._isMounted) {
+      this.setState({
+        inProgress: false
+      })
+    }
 
     this.history.push(`/domains?domain=${domain}`)
   }
