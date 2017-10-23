@@ -605,6 +605,23 @@ class RegistryService {
     })
   }
 
+  async withdrawVotingRights (tokens) {
+    if (!tokens) {
+      throw new Error('Number of tokens required')
+    }
+
+    tokens = big(tokens).mul(tenToTheNinth).toString(10)
+
+    await plcr.withdrawVotingRights(tokens)
+
+    return true
+  }
+
+  async getAvailableTokensToWithdraw () {
+    const tokens = await plcr.getAvailableTokensToWithdraw()
+    return big(tokens).div(tenToTheNinth)
+  }
+
   async getTransaction (tx) {
     return new Promise(async (resolve, reject) => {
       try {

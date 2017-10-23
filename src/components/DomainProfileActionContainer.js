@@ -95,7 +95,7 @@ class DomainProfileActionContainer extends Component {
     try {
       await registry.updateStatus(domain)
     } catch (error) {
-      toastr.error(error)
+      toastr.error(error.message)
     }
 
     this.getData()
@@ -137,7 +137,7 @@ class DomainProfileActionContainer extends Component {
         })
       }
     } catch (error) {
-      toastr.error(error)
+      toastr.error(error.message)
     }
   }
 }

@@ -5,3 +5,7 @@
 .AccountDashboard > .grid > .row:first-child {
   padding-bottom: 0;
 }
+
+.AccountDashboard > .grid > .row:first-child > .column:nth-child(2) {
+  padding-right: 0;
+}

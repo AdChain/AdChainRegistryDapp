@@ -16,6 +16,7 @@ class DomainInRegistryContainer extends Component {
 
     this.state = {
       domain: props.domain,
+      account: registry.getAccount(),
       didReveal: false,
       didClaim: false,
       inChallengeProgress: false,
@@ -123,7 +124,11 @@ class DomainInRegistryContainer extends Component {
   }
 
   async getReveal () {
-    const {domain} = this.state
+    const {domain, account} = this.state
+
+    if (!account) {
+      return false
+    }
 
     try {
       const didReveal = await registry.didReveal(domain)
@@ -134,7 +139,7 @@ class DomainInRegistryContainer extends Component {
         })
       }
     } catch (error) {
-      toastr.error(error)
+      toastr.error(error.message)
     }
   }
 
@@ -159,7 +164,11 @@ class DomainInRegistryContainer extends Component {
   }
 
   async getClaims () {
-    const {domain} = this.state
+    const {domain, account} = this.state
+
+    if (!account) {
+      return false
+    }
 
     try {
       const claimed = await registry.didClaim(domain)
@@ -170,7 +179,7 @@ class DomainInRegistryContainer extends Component {
         })
       }
     } catch (error) {
-      toastr.error(error)
+      toastr.error(error.message)
     }
   }
 
@@ -188,7 +197,7 @@ class DomainInRegistryContainer extends Component {
     try {
       inApplication = await registry.applicationExists(domain)
     } catch (error) {
-      toastr.error(error)
+      toastr.error(error.message)
     }
 
     if (inApplication) {

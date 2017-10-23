@@ -337,7 +337,7 @@ class DomainVoteCommitContainer extends Component {
         })
       }
     } catch (error) {
-      toastr.error(error)
+      toastr.error(error.message)
     }
   }
 
@@ -351,7 +351,7 @@ class DomainVoteCommitContainer extends Component {
         didChallenge
       })
     } catch (error) {
-      toastr.error(error)
+      toastr.error(error.message)
     }
   }
 
@@ -367,7 +367,7 @@ class DomainVoteCommitContainer extends Component {
         })
       }
     } catch (error) {
-      toastr.error(error)
+      toastr.error(error.message)
     }
   }
 

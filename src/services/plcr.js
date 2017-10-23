@@ -23,7 +23,8 @@ class PlcrService {
      */
     this.eth = new Eth(getProvider())
     const accounts = await this.eth.accounts()
-    this.plcr = await getPLCR(accounts[0])
+    this.account = accounts[0]
+    this.plcr = await getPLCR(this.account)
     this.address = this.plcr.address
     this.setUpEvents()
 
@@ -297,6 +298,23 @@ class PlcrService {
         return false
       }
     })
+  }
+
+  async withdrawVotingRights (tokens) {
+    await this.plcr.withdrawVotingRights(tokens)
+
+    store.dispatch({
+      type: 'PLCR_WITHDRAW_VOTING_RIGHTS',
+      tokens
+    })
+  }
+
+  async getAvailableTokensToWithdraw () {
+    const balance = await this.plcr.voteTokenBalance.call(this.account)
+    const lockedTokens = await this.plcr.getLockedTokens(this.account)
+    const availableTokens = balance - lockedTokens
+
+    return availableTokens
   }
 
   getAccount () {

@@ -17,6 +17,7 @@ class DomainVoteRevealContainer extends Component {
 
     this.state = {
       domain: props.domain,
+      account: registry.getAccount(),
       applicationExpiry: null,
       votesFor: 0,
       votesAgainst: 0,
@@ -211,7 +212,11 @@ class DomainVoteRevealContainer extends Component {
   }
 
   async getCommit () {
-    const {domain} = this.state
+    const {domain, account} = this.state
+
+    if (!account) {
+      return false
+    }
 
     try {
       const didCommit = await registry.didCommit(domain)
@@ -225,7 +230,11 @@ class DomainVoteRevealContainer extends Component {
   }
 
   async getReveal () {
-    const {domain} = this.state
+    const {domain, account} = this.state
+
+    if (!account) {
+      return false
+    }
 
     try {
       const didReveal = await registry.didReveal(domain)
@@ -265,7 +274,11 @@ class DomainVoteRevealContainer extends Component {
   }
 
   async getChallenge () {
-    const {domain} = this.state
+    const {domain, account} = this.state
+
+    if (!account) {
+      return false
+    }
 
     try {
       const didChallenge = await registry.didChallenge(domain)

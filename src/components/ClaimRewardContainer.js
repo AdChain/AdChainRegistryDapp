@@ -13,6 +13,7 @@ class ClaimRewardContainer extends Component {
 
     this.state = {
       domain: props.domain,
+      account: registry.getAccount(),
       claimChallengeId: null,
       claimSalt: null,
       didClaim: false,
@@ -104,7 +105,11 @@ class ClaimRewardContainer extends Component {
   }
 
   async getClaims () {
-    const {domain} = this.state
+    const {domain, account} = this.state
+
+    if (!account) {
+      return false
+    }
 
     try {
       const claimed = await registry.didClaim(domain)
@@ -115,7 +120,7 @@ class ClaimRewardContainer extends Component {
         })
       }
     } catch (error) {
-      toastr.error(error)
+      toastr.error(error.message)
     }
   }
 
