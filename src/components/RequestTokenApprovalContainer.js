@@ -49,10 +49,10 @@ class RequestTokenApprovalContainer extends Component {
       <div className='RequestTokenApprovalContainer BoxFrame'>
         <div className='ui grid stackable center aligned'>
           <div className='column sixteen wide'>
-            <p>Request Token Approval
+            <p>Pre-approve ADT Transfer
               <Popup
                 trigger={<i className='icon info circle' />}
-                content='Pre-authorizing adToken will minimizes the number of calls to smart contracts when applying, which can save gas fees if applying frequently. This does not Withdraw adToken from you account, until time of application.'
+                content='Pre-approve adToken transfer to the adChain Registry will minimize the number of transactions when applying. This can can save gas fees if applying frequently. Pre-approving does not withdraw adToken from your adToken account, only until time of application.'
               />
             </p>
             <div><small>Current approved ADT: <strong>{allowedTokens !== null ? commafy(allowedTokens) : '-'}</strong></small></div>
@@ -66,7 +66,7 @@ class RequestTokenApprovalContainer extends Component {
               <button
                 onClick={this.onRequest}
                 className='ui button blue tiny'>
-                Request Token Approval
+                Pre-approve ADT
               </button>
             </div>
           </div>

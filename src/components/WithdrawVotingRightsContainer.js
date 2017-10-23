@@ -49,10 +49,10 @@ class WithdrawVotingRightsContainer extends Component {
             <p>Withdraw Voting Rights
               <Popup
                 trigger={<i className='icon info circle' />}
-                content='Withdraw adToken held by the PLCR contract. This adToken is locked during voting and unlocked after the reveal stage.'
+                content='Withdraw adToken held by the adChain Registry PLCR contract. AdToken is locked up during voting and unlocked after the reveal stage. When it is unlocked you may withdraw the adToken to your account at any time.'
               />
             </p>
-            <div><small>Available ADT: <strong>{availableTokens !== null ? commafy(availableTokens) : '-'}</strong></small></div>
+            <div><small>Available unlocked ADT: <strong>{availableTokens !== null ? commafy(availableTokens) : '-'}</strong></small></div>
             <div>
               <button
                 onClick={this.onWithdraw}

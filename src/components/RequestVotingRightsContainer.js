@@ -42,7 +42,7 @@ class RequestVotingRightsContainer extends Component {
             <p>Request Voting Rights
               <Popup
                 trigger={<i className='icon info circle' />}
-                content='Pre-requesting adToken will minimizes the number of calls to smart contracts when voting, which can save gas fees if voting frequently. 1 ADT = 1 Vote. AdToken will be withdrawn from your account to the adChain registry PLCR contract. You may withdraw at any time.'
+                content='Pre-requesting voting rights will minimizes the number of transactions when performing commit votes. This can save gas fees if voting frequently. 1 ADT = 1 Vote. Pre-requesting voting rights will withdraw AdToken from your account to the adChain registry PLCR contract. You may convert the votes to adToken and withdraw at any time.'
               />
             </p>
             <div><small>Enter amount of ADT to convert to votes</small></div>
