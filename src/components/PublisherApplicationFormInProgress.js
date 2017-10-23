@@ -16,8 +16,8 @@ class PublisherApplicationFormInProgress extends Component {
             <strong>Submission in progress. </strong>
             <Loader indeterminate active inline />
           </div>
-          <p>You will receive <strong>two</strong> MetaMask prompts:</p>
-          <p><strong>First prompt:</strong> Allow adChain Registry contract to transfer adToken deposit from your account.</p>
+          <p>You will receive a maximum of <strong>two</strong> MetaMask prompts:</p>
+          <p><strong>First prompt:</strong> Allow adChain Registry contract to transfer adToken deposit from your account (if not done so already).</p>
           <p><strong>Second prompt:</strong> Submit domain application to the adChain Registry contract.</p>
         </div>
       </div>

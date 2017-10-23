@@ -42,9 +42,10 @@ class RequestVotingRightsContainer extends Component {
             <p>Request Voting Rights
               <Popup
                 trigger={<i className='icon info circle' />}
-                content='Pre-authorizing adToken will minimizes the number of calls to smart contracts when voting. 1 ADT = 1 Vote. AdToken will be withdrawn from your account to the adChain registry PLCR contract. You may withdraw at any time.'
+                content='Pre-requesting adToken will minimizes the number of calls to smart contracts when voting, which can save gas fees if voting frequently. 1 ADT = 1 Vote. AdToken will be withdrawn from your account to the adChain registry PLCR contract. You may withdraw at any time.'
               />
             </p>
+            <div><small>Enter amount of ADT to convert to votes</small></div>
             <div className='ui input action mini'>
               <input
                 type='text'
@@ -85,9 +86,11 @@ class RequestVotingRightsContainer extends Component {
       return false
     }
 
-    this.setState({
-      inProgress: true
-    })
+    if (this._isMounted) {
+      this.setState({
+        inProgress: true
+      })
+    }
 
     try {
       await registry.requestVotingRights(requestVotes)
@@ -104,9 +107,11 @@ class RequestVotingRightsContainer extends Component {
       toastr.error(error.message)
     }
 
-    this.setState({
-      inProgress: false
-    })
+    if (this._isMounted) {
+      this.setState({
+        inProgress: false
+      })
+    }
   }
 }
 

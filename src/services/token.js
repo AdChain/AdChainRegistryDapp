@@ -129,6 +129,10 @@ class TokenService {
     })
   }
 
+  async allowance (owner, spender) {
+    return this.token.allowance.call(owner, spender)
+  }
+
   async getBalance () {
     const balance = await this.balanceOf(this.getAccount())
     return balance

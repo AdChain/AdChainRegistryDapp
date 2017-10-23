@@ -52,11 +52,14 @@ class WithdrawVotingRightsContainer extends Component {
                 content='Withdraw adToken held by the PLCR contract. This adToken is locked during voting and unlocked after the reveal stage.'
               />
             </p>
-            <button
-              onClick={this.onWithdraw}
-              className='ui button blue tiny'>
-              Withdraw {availableTokens === null ? '' : commafy(availableTokens)} ADT
+            <div><small>Available ADT: <strong>{availableTokens !== null ? commafy(availableTokens) : '-'}</strong></small></div>
+            <div>
+              <button
+                onClick={this.onWithdraw}
+                className='ui button blue tiny'>
+                Withdraw ADT
             </button>
+            </div>
           </div>
         </div>
         {inProgress ? <WithdrawVotingRightsInProgressContainer /> : null}
@@ -91,9 +94,11 @@ class WithdrawVotingRightsContainer extends Component {
   async withdrawTokens () {
     const {availableTokens} = this.state
 
-    this.setState({
-      inProgress: true
-    })
+    if (this._isMounted) {
+      this.setState({
+        inProgress: true
+      })
+    }
 
     try {
       await registry.withdrawVotingRights(availableTokens)
@@ -102,9 +107,11 @@ class WithdrawVotingRightsContainer extends Component {
       toastr.error(error.message)
     }
 
-    this.setState({
-      inProgress: false
-    })
+    if (this._isMounted) {
+      this.setState({
+        inProgress: false
+      })
+    }
   }
 }
 

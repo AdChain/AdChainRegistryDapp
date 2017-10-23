@@ -94,10 +94,14 @@ class RegistryService {
       throw new Error('Application already exists')
     }
 
-    try {
-      await token.approve(this.address, bigDeposit)
-    } catch (error) {
-      throw error
+    const allowed = await token.allowance(this.account, this.address).toString('10')
+
+    if (allowed < bigDeposit) {
+      try {
+        await token.approve(this.address, bigDeposit)
+      } catch (error) {
+        throw error
+      }
     }
 
     try {
@@ -495,7 +499,7 @@ class RegistryService {
       const hash = await plcr.getCommitHash(voter, pollId)
       let committed = false
 
-      if (hash !== '0x0000000000000000000000000000000000000000000000000000000000000000') {
+      if (parseInt(hash, 16) !== 0) {
         committed = true
       }
 
@@ -628,6 +632,17 @@ class RegistryService {
     await plcr.withdrawVotingRights(tokens)
 
     return true
+  }
+
+  async approveTokens (tokens) {
+    const bigTokens = big(tokens).mul(tenToTheNinth).toString(10)
+    return token.approve(this.address, bigTokens)
+  }
+
+  async getTokenAllowance () {
+    const allowed = await token.allowance(this.account, this.address)
+    const bigTokens = big(allowed).div(tenToTheNinth)
+    return bigTokens
   }
 
   async getTransaction (tx) {

@@ -4,10 +4,11 @@ import PropTypes from 'prop-types'
 import store from '../store'
 import registry from '../services/registry'
 import DomainsTable from './DomainsTable'
-import AccountHeader from './AccountHeader'
+// import AccountHeader from './AccountHeader'
 import AccountStatsbar from './AccountStatsbar'
 import DomainsFilterPanel from './DomainsFilterPanel'
 
+import RequestTokenApprovalContainer from './RequestTokenApprovalContainer.js'
 import RequestVotingRightsContainer from './RequestVotingRightsContainer.js'
 import WithdrawVotingRightsContainer from './WithdrawVotingRightsContainer.js'
 import './AccountDashboard.css'
@@ -59,19 +60,19 @@ class AccountDashboard extends Component {
     return (
       <div className='AccountDashboard'>
         <div className='ui grid stackable padded'>
-          <div className='row'>
-            <div className='column seven wide'>
-              <AccountHeader account={account} />
+          <div className='column sixteen wide NoPaddingBottom'>
+            <AccountStatsbar account={account} />
+          </div>
+          <div className='row NoPaddingBottom'>
+            <div className='column five wide NoPaddingRight'>
+              <RequestTokenApprovalContainer account={account} />
             </div>
             <div className='column five wide NoPaddingRight'>
               <RequestVotingRightsContainer account={account} />
             </div>
-            <div className='column four wide'>
+            <div className='column six wide'>
               <WithdrawVotingRightsContainer account={account} />
             </div>
-          </div>
-          <div className='column sixteen wide NoPaddingBottom'>
-            <AccountStatsbar account={account} />
           </div>
           <div className='row'>
             <div className='column four wide'>
