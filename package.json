@@ -29,6 +29,7 @@
     "koa-static": "^4.0.1",
     "left-pad": "^1.1.3",
     "moment": "^2.18.1",
+    "object-omit": "^1.0.0",
     "pify": "^3.0.0",
     "promise-wait": "^1.0.0",
     "prop-types": "^15.5.10",

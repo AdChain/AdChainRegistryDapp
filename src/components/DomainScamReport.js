@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import get from 'get-prop'
+import omit from 'object-omit'
 import { Loader } from 'semantic-ui-react'
 
 import './DomainScamReport.css'
@@ -63,15 +64,7 @@ class DomainScamReport extends Component {
           report ?
            report.verdict.value ?
             <div className='column sixteen wide DomainScamReportList'>
-              {item(get(report, 'verdict'))}
-              <div className='ui divider'></div>
-              <div className='ListSubSection'>
-                {get(report, 'verdict.report').slice(1, 6).filter(x => x.key && x.flag).map(x => {
-                  return item(x)
-                })}
-              </div>
-              <div className='ui divider'></div>
-              {item(get(report, 'wot'))}
+              {item(omit(get(report, 'verdict'), 'key'))}
               <div className='ui divider'></div>
               {item(get(report, 'blacklist'))}
               <div className='ListSubSection'>
@@ -79,6 +72,8 @@ class DomainScamReport extends Component {
                   return item(x)
                 })}
               </div>
+              <div className='ui divider'></div>
+              {item(get(report, 'popularity'))}
               <div className='ui divider'></div>
               {item(get(report, 'creation'))}
             </div>
