@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import commafy from 'commafy'
-import {Dropdown} from 'semantic-ui-react'
+import { Dropdown, Popup } from 'semantic-ui-react'
 
 import priceStats from '../services/priceStats'
 import toCurrency from '../utils/toCurrency'
@@ -76,6 +76,10 @@ class AdtCalculator extends Component {
           <div className='row'>
             <div className='column seven wide'>
               ETH/USD: <strong>{ethUsd ? toCurrency(ethUsd) : '-'}</strong>
+              <Popup
+                trigger={<i className='icon info circle' />}
+                content='Price in USD for 1 ETH'
+              />
             </div>
             <div className='column nine wide'>
               <div className='ui right labeled mini input'>
@@ -97,6 +101,10 @@ class AdtCalculator extends Component {
           <div className='row'>
             <div className='column seven wide'>
               ADT/ETH: <strong>{adtUsd ? formatValue(adtEth) : '-'}Ξ</strong>
+              <Popup
+                trigger={<i className='icon info circle' />}
+                content='Price in ETH for 1 ADT'
+              />
             </div>
             <div className='column nine wide'>
               {selectedOption === 'eth' || selectedOption === 'adt' ? <span>Amount in USD: <strong>{toCurrency(conversionUsd)}</strong></span> : <span>Amount in ETH: <strong>{formatValue(conversionEth)}Ξ</strong></span>}
@@ -105,6 +113,10 @@ class AdtCalculator extends Component {
           <div className='row'>
             <div className='column seven wide'>
               ADT/USD: <strong>{adtUsd ? toCurrency(adtUsd) : '-'}</strong>
+              <Popup
+                trigger={<i className='icon info circle' />}
+                content='Price in ADT for 1 USD'
+              />
             </div>
             <div className='column nine wide'>
               {selectedOption === 'usd' || selectedOption === 'eth' ? <span>Amount in ADT: <strong>{formatValue(conversionAdt)}</strong></span> : <span>Amount in ETH: <strong>{formatValue(conversionEth)}</strong></span>}

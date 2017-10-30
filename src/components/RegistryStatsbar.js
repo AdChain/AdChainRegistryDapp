@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import commafy from 'commafy'
+import { Popup } from 'semantic-ui-react'
 
 import token from '../services/token'
 import './RegistryStatsbar.css'
@@ -56,7 +57,11 @@ class RegistryStatsbar extends Component {
                   {totalStaked != null ? commafy(totalStaked) : '-'}
                 </div>
                 <div className='label'>
-                  TOTAL ADT STAKED
+                  TOTAL ADT STAKED&nbsp;
+                  <Popup
+                    trigger={<i className='icon info circle' />}
+                    content='Total amount of adToken deposited when applying and challenging'
+                  />
                 </div>
               </div>
               <div className='statistic'>
@@ -64,7 +69,11 @@ class RegistryStatsbar extends Component {
                   {totalInApplication != null ? commafy(totalInApplication) : '-'}
                 </div>
                 <div className='label'>
-                  IN APPLICATION
+                  IN APPLICATION&nbsp;
+                  <Popup
+                    trigger={<i className='icon info circle' />}
+                    content='Total number of domains currently in application stage'
+                  />
                 </div>
               </div>
               <div className='statistic'>
@@ -72,8 +81,11 @@ class RegistryStatsbar extends Component {
                   {totalInCommit != null ? commafy(totalInCommit) : '-'}
                 </div>
                 <div className='label'>
-                IN VOTING
-                COMMIT
+                  IN VOTING COMMIT&nbsp;
+                  <Popup
+                    trigger={<i className='icon info circle' />}
+                    content='Total number of domains currently in voting commit stage'
+                  />
                 </div>
               </div>
               <div className='statistic'>
@@ -81,8 +93,11 @@ class RegistryStatsbar extends Component {
                   {totalInReveal != null ? commafy(totalInReveal) : '-'}
                 </div>
                 <div className='label'>
-                  IN VOTING
-                  REVEAL
+                  IN VOTING REVEAL&nbsp;
+                  <Popup
+                    trigger={<i className='icon info circle' />}
+                    content='Total number of domains currently in voting reveal stage'
+                  />
                 </div>
               </div>
               <div className='statistic'>
@@ -90,7 +105,11 @@ class RegistryStatsbar extends Component {
                   {totalInRegistry != null ? commafy(totalInRegistry) : '-'}
                 </div>
                 <div className='label'>
-                  IN REGISTRY
+                  IN REGISTRY&nbsp;
+                  <Popup
+                    trigger={<i className='icon info circle' />}
+                    content='Total number of domains currently accepted into the adChain Registry'
+                  />
                 </div>
               </div>
             </div>

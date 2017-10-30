@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import commafy from 'commafy'
+import { Popup } from 'semantic-ui-react'
 
 import './AccountStatsbar.css'
 
@@ -41,15 +42,31 @@ class AccountStatsbar extends Component {
           <div className='row'>
             <div className='column four wide'>
               Total Times Challenged: <strong>{totalTimesChallenged === null ? '-' : commafy(totalTimesChallenged)}</strong>
+              <Popup
+                trigger={<i className='icon info circle' />}
+                content='Total number of times this account has challenged domains'
+              />
             </div>
             <div className='column four wide'>
               Total Times Committed: <strong>{totalTimesCommitted === null ? '-' : totalTimesCommitted}</strong>
+              <Popup
+                trigger={<i className='icon info circle' />}
+                content='Total number of times this account has commited votes for domains'
+              />
             </div>
             <div className='column four wide'>
               Total Times Revealed: <strong>{totalTimesRevealed === null ? '-' : totalTimesRevealed}</strong>
+              <Popup
+                trigger={<i className='icon info circle' />}
+                content='Total number of times this account has revealed votes for domains'
+              />
             </div>
             <div className='column four wide Category'>
-              Total Tokens Claimed: <strong>{totalTokensClaimed === null ? '-' : totalTokensClaimed}</strong>
+              Total adToken Claimed: <strong>{totalTokensClaimed === null ? '-' : totalTokensClaimed}</strong>
+              <Popup
+                trigger={<i className='icon info circle' />}
+                content='Total number of adToken this account has claimed for winning challenges'
+              />
             </div>
           </div>
         </div>

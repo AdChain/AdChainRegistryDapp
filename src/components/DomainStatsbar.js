@@ -87,7 +87,12 @@ class DomainStatsbar extends Component {
   async fetchStats () {
     const {domain} = this.state
 
-    const response = await window.fetch(`https://adchain-registry-api.metax.io/stats/domain?domain=${domain}`)
+    const options = {
+      mode: 'cors',
+      cache: 'no-cache'
+    }
+
+    const response = await window.fetch(`https://adchain-registry-api.metax.io/stats/domain?domain=${domain}`, options)
     const data = await response.json()
 
     if (this._isMounted) {
