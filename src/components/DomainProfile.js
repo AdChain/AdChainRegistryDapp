@@ -22,10 +22,8 @@ class DomainProfile extends Component {
 
     this.state = {
       domain,
-
-      // dummy
-      siteName: domain.toUpperCase().replace(/\..*/gi, ''),
-
+      siteName: '',
+      siteDescription: '',
       country: null,
       action
     }
@@ -34,10 +32,21 @@ class DomainProfile extends Component {
     window.scrollTo(0, -1)
   }
 
+  componentDidMount () {
+    this._isMounted = true
+
+    this.fetchSiteMetadata()
+  }
+
+  componentWillUnmount () {
+    this._isMounted = false
+  }
+
   render () {
     const {
       domain,
       siteName,
+      siteDescription,
       country,
       action
     } = this.state
@@ -50,6 +59,7 @@ class DomainProfile extends Component {
               <DomainProfileHeader
                 domain={domain}
                 name={siteName}
+                description={siteDescription}
                 country={country}
               />
             </div>
@@ -76,6 +86,32 @@ class DomainProfile extends Component {
         </div>
       </div>
     )
+  }
+
+  async fetchSiteMetadata () {
+    const {domain} = this.state
+
+    if (!domain) {
+      return false
+    }
+
+    const response = await window.fetch(`https://adchain-registry-api.metax.io/domains/metadata?domain=${domain}`)
+
+    try {
+      const {
+        title,
+        description,
+      } = await response.json()
+
+      if (this._isMounted) {
+        this.setState({
+          siteName: title,
+          siteDescription: description
+        })
+      }
+    } catch (error) {
+
+    }
   }
 }
 
