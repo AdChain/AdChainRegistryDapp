@@ -184,7 +184,7 @@ class RegistryService {
       domain = domain.toLowerCase()
 
       const hash = sha3(domain)
-      const result = await this.registry.listingMap.call(hash)
+      const result = await this.registry.listings.call(hash)
 
       const map = {
         applicationExpiry: result[0].toNumber(),
@@ -206,7 +206,7 @@ class RegistryService {
     }
 
     try {
-      const challenge = await this.registry.challengeMap.call(challengeId)
+      const challenge = await this.registry.challenges.call(challengeId)
       const map = {
         // (remaining) pool of tokens distributed amongst winning voters
         rewardPool: challenge[0] ? challenge[0].toNumber() : 0,
@@ -556,7 +556,7 @@ class RegistryService {
   async didClaim (domain) {
     try {
       const challengeId = await this.getChallengeId(domain)
-      return this.registry.tokenClaims(challengeId, this.account)
+      return await this.didClaimForPoll(challengeId)
     } catch (error) {
       throw error
     }
@@ -565,7 +565,10 @@ class RegistryService {
   didClaimForPoll (challengeId) {
     return new Promise(async (resolve, reject) => {
       try {
-        const hasClaimed = await this.registry.tokenClaims(challengeId, this.account)
+        // BROKEN!
+        //const hasClaimed = await this.registry.challenges(challengeId)
+        //.tokenClaims(challengeId, this.account)
+        const hasClaimed = false
         resolve(hasClaimed)
       } catch (error) {
         reject(error)
