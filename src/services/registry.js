@@ -600,7 +600,7 @@ class RegistryService {
   calculateVoterReward (voter, challengeId, salt) {
     return new Promise(async (resolve, reject) => {
       try {
-        const reward = await this.registry.calculateVoterReward(voter, challengeId, salt)
+        const reward = await this.registry.voterReward(voter, challengeId, salt)
 
         resolve(reward)
       } catch (error) {
