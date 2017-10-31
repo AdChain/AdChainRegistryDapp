@@ -75,7 +75,7 @@ class DomainsContainer extends Component {
                     Global Trollbox
                   </div>
                   <Trollbox
-                    channel={'adchainRegistryGlobal'}
+                    channel={'adchainRegistry:v001/global'}
                   />
                 </div>
               </div>

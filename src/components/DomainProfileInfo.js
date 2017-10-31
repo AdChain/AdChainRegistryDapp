@@ -77,7 +77,7 @@ class DomainProfileInfo extends Component {
               Trollbox for {domain}
             </div>
             <Trollbox
-              channel={domain}
+              channel={`adchainRegistry:v001/${domain}`}
             />
           </div>
           <div className='column sixteen wide'>

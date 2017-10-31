@@ -164,9 +164,10 @@ class PlcrService {
         return false
       }
 
-      const voteTokenBalance = await this.plcr.voteTokenBalance(this.getAccount())
+      const voteTokenBalance = (await this.plcr.voteTokenBalance(this.getAccount())).toString(10)
 
-      if (voteTokenBalance >= tokens) {
+      // if there's already enough approved tokens then don't request
+      if (!voteTokenBalance || voteTokenBalance < tokens) {
         try {
           await token.approve(this.address, tokens)
         } catch (error) {
