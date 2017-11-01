@@ -622,6 +622,11 @@ class RegistryService {
     return big(tokens).div(tenToTheNinth)
   }
 
+  async getLockedTokens () {
+    const tokens = await plcr.getLockedTokens()
+    return big(tokens).div(tenToTheNinth)
+  }
+
   async withdrawVotingRights (tokens) {
     if (!tokens) {
       throw new Error('Number of tokens required')

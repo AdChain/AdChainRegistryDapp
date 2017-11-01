@@ -21,6 +21,7 @@ function reducer (state = -1, action) {
     case 'WEB3_FETCH_NETWORK_ERROR':
     case 'TOKEN_CONTRACT_INIT':
     case 'TOKEN_EVENT':
+    case 'TOKEN_APPROVE':
     case 'REGISTRY_CONTRACT_INIT':
     case 'REGISTRY_DOMAIN_APPLY':
     case 'REGISTRY_DOMAIN_CHALLENGE':

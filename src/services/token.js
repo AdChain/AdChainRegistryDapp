@@ -120,6 +120,12 @@ class TokenService {
 
       try {
         const result = await this.token.approve(sender, value)
+
+        store.dispatch({
+          type: 'TOKEN_APPROVE',
+          value
+        })
+
         resolve(result)
         return false
       } catch (error) {

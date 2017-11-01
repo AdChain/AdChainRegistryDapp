@@ -17,6 +17,7 @@ class WithdrawVotingRightsContainer extends Component {
     this.state = {
       account: props.account,
       availableTokens: null,
+      lockedTokens: null,
       inProgress: false
     }
 
@@ -39,6 +40,7 @@ class WithdrawVotingRightsContainer extends Component {
   render () {
     const {
       availableTokens,
+      lockedTokens,
       inProgress
     } = this.state
 
@@ -52,7 +54,7 @@ class WithdrawVotingRightsContainer extends Component {
                 content='Withdraw adToken held by the adChain Registry PLCR contract. AdToken is locked up during voting and unlocked after the reveal stage. When it is unlocked you may withdraw the adToken to your account at any time.'
               />
             </p>
-            <div><small>Available unlocked ADT: <strong>{availableTokens !== null ? commafy(availableTokens) : '-'}</strong></small></div>
+            <div><small>Available unlocked ADT: <strong>{availableTokens !== null ? commafy(availableTokens) : '-'}</strong> (Locked ADT: {lockedTokens !== null ? commafy(lockedTokens) : '-'})</small></div>
             <div>
               <button
                 onClick={this.onWithdraw}
@@ -76,9 +78,11 @@ class WithdrawVotingRightsContainer extends Component {
 
     try {
       const availableTokens = await registry.getAvailableTokensToWithdraw()
+      const lockedTokens = (await registry.getLockedTokens()).toNumber()
 
       this.setState({
-        availableTokens
+        availableTokens,
+        lockedTokens
       })
     } catch (error) {
       toastr.error(error.message)
