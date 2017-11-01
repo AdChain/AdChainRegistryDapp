@@ -77,18 +77,18 @@ class MainSidebar extends Component {
                   href='https://adchain.zendesk.com/hc/en-us/requests/new'
                   target='_blank'
                   rel='noopener noreferrer'>
-                  Submit Request
+                  Submit Request / Bug
                 </a>
               </li>
               <li className='item'>
                 <a href='https://faucet.rinkeby.io/'
                   target='_blank'
-                  rel='noopener noreferrer'>Acquire ETH</a>
+                  rel='noopener noreferrer'>ETH Faucet</a>
               </li>
               <li className='item'>
                 <a href='https://rinkebyadt.consensysadtech.net/'
                   target='_blank'
-                  rel='noopener noreferrer'>Acquire ADT</a>
+                  rel='noopener noreferrer'>ADT Faucet</a>
               </li>
             </ul>
             <div className='ListTitle ui header'>

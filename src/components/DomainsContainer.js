@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import qs from 'qs'
 import updateQuery from 'update-query'
+import { Popup } from 'semantic-ui-react'
 
 import normalizeQueryObj from '../utils/normalizeQueryObj'
 
@@ -72,7 +73,11 @@ class DomainsContainer extends Component {
                 />
                 <div className='GlobalTrollbox BoxFrame'>
                   <div className='Header'>
-                    Global Trollbox
+                    Global Trollbox&nbsp;
+                    <Popup
+                      trigger={<i className='icon info circle' />}
+                      content='The trollbox is global anonymous chat box'
+                    />
                   </div>
                   <Trollbox
                     channel={'adchainRegistry:v001/global'}

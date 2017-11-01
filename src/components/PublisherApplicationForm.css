@@ -10,3 +10,7 @@
 :root:root .PublisherApplicationForm .form label {
   text-transform: uppercase;
 }
+
+.PublisherApplicationForm .icon.external {
+  vertical-align: super;
+}
