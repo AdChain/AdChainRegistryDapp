@@ -566,8 +566,8 @@ class RegistryService {
     return new Promise(async (resolve, reject) => {
       try {
         // BROKEN!
-        //const hasClaimed = await this.registry.challenges(challengeId)
-        //.tokenClaims(challengeId, this.account)
+        //const hasClaimed = await this.registry.challenges.call(challengeId, this.account).tokenClaims(challengeId, this.account)
+        //const hasClaimed = await this.registry.tokenClaims(challengeId, this.account)
         const hasClaimed = false
         resolve(hasClaimed)
       } catch (error) {

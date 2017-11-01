@@ -38,16 +38,16 @@ class MainSidebar extends Component {
               <li className='item SubListContainer'>
                 <ul className='ui list'>
                   <li className='item'>
-                    <Link to='/domains?inRegistry=true'>in registry</Link>
+                    <Link to='/domains?inRegistry=true'>In Registry</Link>
                   </li>
                   <li className='item'>
-                    <Link to='/domains?inApplication=true'>in application</Link>
+                    <Link to='/domains?inApplication=true'>In Application</Link>
                   </li>
                   <li className='item'>
-                    <Link to='/domains?inVotingCommit=true'>in voting commit</Link>
+                    <Link to='/domains?inVotingCommit=true'>In Voting Commit</Link>
                   </li>
                   <li className='item'>
-                    <Link to='/domains?inVotingReveal=true'>in voting reveal</Link>
+                    <Link to='/domains?inVotingReveal=true'>In Voting Reveal</Link>
                   </li>
                 </ul>
               </li>
@@ -80,6 +80,16 @@ class MainSidebar extends Component {
                   Submit Request
                 </a>
               </li>
+              <li className='item'>
+                <a href='https://faucet.rinkeby.io/'
+                  target='_blank'
+                  rel='noopener noreferrer'>Acquire ETH</a>
+              </li>
+              <li className='item'>
+                <a href='https://rinkebyadt.consensysadtech.net/'
+                  target='_blank'
+                  rel='noopener noreferrer'>Acquire ADT</a>
+              </li>
             </ul>
             <div className='ListTitle ui header'>
               Education
@@ -91,6 +101,51 @@ class MainSidebar extends Component {
                   target='_blank'
                   rel='noopener noreferrer'>
                   adToken
+                </a>
+              </li>
+            </ul>
+            <div className='ListTitle ui header'>
+              Social
+            </div>
+            <ul className='ui list'>
+              <li className='item'>
+                <a
+                  href='https://twitter.com/ad_chain'
+                  target='_blank'
+                  rel='noopener noreferrer'>
+                  Twitter
+                </a>
+              </li>
+              <li className='item'>
+                <a
+                  href='https://medium.com/@AdChain'
+                  target='_blank'
+                  rel='noopener noreferrer'>
+                  Medium
+                </a>
+              </li>
+              <li className='item'>
+                <a
+                  href='https://www.reddit.com/r/adChain/'
+                  target='_blank'
+                  rel='noopener noreferrer'>
+                  Reddit
+                </a>
+              </li>
+              <li className='item'>
+                <a
+                  href='https://chat.adchain.com'
+                  target='_blank'
+                  rel='noopener noreferrer'>
+                  Rocket Chat
+                </a>
+              </li>
+              <li className='item'>
+                <a
+                  href='https://github.com/adchain'
+                  target='_blank'
+                  rel='noopener noreferrer'>
+                  Github
                 </a>
               </li>
             </ul>

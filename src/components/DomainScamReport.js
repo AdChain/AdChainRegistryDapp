@@ -107,7 +107,7 @@ class DomainScamReport extends Component {
       cache: 'no-cache'
     }
 
-    const response = await window.fetch(`https://adchain-registry-api.metax.io/stats/domain?domain=${domain}`, options)
+    const response = await window.fetch(`https://adchain-registry-api.metax.io/stats/domain?domain=${domain}&filter=scamvoid`, options)
     const data = await response.json()
 
     if (this._isMounted) {
