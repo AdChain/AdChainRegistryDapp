@@ -326,6 +326,10 @@ class PlcrService {
     })
   }
 
+  async getTokenBalance () {
+    return this.plcr.voteTokenBalance.call(this.account)
+  }
+
   async getAvailableTokensToWithdraw () {
     const balance = await this.plcr.voteTokenBalance.call(this.account)
     const lockedTokens = await this.plcr.getLockedTokens(this.account)

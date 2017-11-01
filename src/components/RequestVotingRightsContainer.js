@@ -1,9 +1,11 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import toastr from 'toastr'
+import commafy from 'commafy'
 import { Popup } from 'semantic-ui-react'
 
 import registry from '../services/registry'
+import store from '../store'
 
 import RequestVotingRightsInProgressContainer from './RequestVotingRightsInProgressContainer'
 import './RequestVotingRightsContainer.css'
@@ -14,6 +16,7 @@ class RequestVotingRightsContainer extends Component {
 
     this.state = {
       account: props.account,
+      availableVotes: null,
       requestVotes: null,
       inProgress: false
     }
@@ -24,6 +27,12 @@ class RequestVotingRightsContainer extends Component {
 
   componentDidMount () {
     this._isMounted = true
+
+    this.getAvailableVotes()
+
+    store.subscribe(x => {
+      this.getAvailableVotes()
+    })
   }
 
   componentWillUnmount () {
@@ -32,7 +41,8 @@ class RequestVotingRightsContainer extends Component {
 
   render () {
     const {
-      inProgress
+      inProgress,
+      availableVotes
     } = this.state
 
     return (
@@ -45,6 +55,9 @@ class RequestVotingRightsContainer extends Component {
                 content='Pre-requesting voting rights will minimizes the number of transactions when performing commit votes. This can save gas fees if voting frequently. 1 ADT = 1 Vote. Pre-requesting voting rights will withdraw AdToken from your account to the adChain registry PLCR contract. You may convert the votes to adToken and withdraw at any time.'
               />
             </p>
+
+            <div><small>Total current voting rights: <strong>{availableVotes !== null ? commafy(availableVotes) : '-'}</strong></small></div>
+
             <div><small>Enter amount of ADT to convert to votes</small></div>
             <div className='ui input action mini'>
               <input
@@ -111,6 +124,24 @@ class RequestVotingRightsContainer extends Component {
       this.setState({
         inProgress: false
       })
+    }
+  }
+
+  async getAvailableVotes () {
+    const {account} = this.state
+
+    if (!account) {
+      return false
+    }
+
+    try {
+      const availableVotes = (await registry.getTotalVotingRights()).toNumber()
+
+      this.setState({
+        availableVotes
+      })
+    } catch (error) {
+      toastr.error(error.message)
     }
   }
 }

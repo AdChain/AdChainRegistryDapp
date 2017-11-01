@@ -617,6 +617,11 @@ class RegistryService {
     await plcr.requestVotingRights(tokens)
   }
 
+  async getTotalVotingRights () {
+    const tokens = await plcr.getTokenBalance()
+    return big(tokens).div(tenToTheNinth)
+  }
+
   async getAvailableTokensToWithdraw () {
     const tokens = await plcr.getAvailableTokensToWithdraw()
     return big(tokens).div(tenToTheNinth)
