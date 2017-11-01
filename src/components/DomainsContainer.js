@@ -76,7 +76,7 @@ class DomainsContainer extends Component {
                     Global Trollbox&nbsp;
                     <Popup
                       trigger={<i className='icon info circle' />}
-                      content='The trollbox is global anonymous chat box'
+                      content='The trollbox is a global anonymous chat box'
                     />
                   </div>
                   <Trollbox

@@ -28,22 +28,9 @@ class PublisherApplicationInfo extends Component {
                 </div>
                 <div className='content'>
                   <p>
-                    Publishers in the adChain Registry attract more premium campaigns
+                    Publishers in the adChain Registry attract more premium campaigns. Drive competition for every impression.
                   </p>
 
-                </div>
-              </div>
-              <div className='column eight wide'>
-                <div className='ui image'>
-                  <img src={discoverImage} alt='' />
-                </div>
-                <div className='header'>
-                  Maximize Discoverability
-                </div>
-                <div className='content'>
-                  <p>
-                  Drive competition for every impression
-                  </p>
                 </div>
               </div>
               <div className='column eight wide'>
@@ -55,20 +42,7 @@ class PublisherApplicationInfo extends Component {
                 </div>
                 <div className='content'>
                   <p>
-                  Advertisers’ increased confidence that their ads are being placed on sites free of fraud and being viewed by real human traffic drives higher CPMs
-                  </p>
-                </div>
-              </div>
-              <div className='column eight wide'>
-                <div className='ui image'>
-                  <img src={identityImage} alt='' />
-                </div>
-                <div className='header'>
-                  Impenetrable Identity
-                </div>
-                <div className='content'>
-                  <p>
-                  100% confidence knowing your identity cannot be replicated or spoofed. See Nefarious behavior (e.g. Bot traffic)
+                  Advertisers’ increased confidence that their ads are being placed on non-fraudulent sites and being viewed by real human traffic drives higher CPMs
                   </p>
                 </div>
               </div>
