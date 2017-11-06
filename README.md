@@ -6,11 +6,9 @@
 
 Currently in Alpha stage.
 
-<!--
 # Demo
 
 [https://app.adchain.com](https://app.adchain.com)
--->
 
 # Install
 

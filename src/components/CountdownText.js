@@ -107,7 +107,9 @@ class CountdownText extends Component {
     }
 
     const dur = moment.duration(diff, 'seconds')
-    const countdown = `${pad(dur.hours(), 2, 0)}:${pad(dur.minutes(), 2, 0)}:${pad(dur.seconds(), 2, 0)}`
+    const hours = dur.hours() + (dur.days() * 24)
+
+    const countdown = `${pad(hours, 2, 0)}:${pad(dur.minutes(), 2, 0)}:${pad(dur.seconds(), 2, 0)}`
 
     if (this._isMounted) {
       this.setState({
