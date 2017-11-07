@@ -353,8 +353,9 @@ class DomainsTable extends Component {
         const challengeOpen = (challengeId === 0 && !isWhitelisted && applicationExpiry)
         const commitOpen = await registry.commitStageActive(domain)
         const revealOpen = await registry.revealStageActive(domain)
+        const isInRegistry = (isWhitelisted && !commitOpen && !revealOpen)
 
-        if (isWhitelisted) {
+        if (isInRegistry) {
           item.stage = 'in_registry'
           item.deposit = listing.currentDeposit
         } else if (challengeOpen) {
