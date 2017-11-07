@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import commafy from 'commafy'
-import store from '../store'
 
 import './DomainStatsbar.css'
 
@@ -27,9 +26,6 @@ class DomainStatsbar extends Component {
     this._isMounted = true
 
     this.fetchStats()
-    store.subscribe(x => {
-      this.fetchStats()
-    })
   }
 
   componentWillUnmount () {

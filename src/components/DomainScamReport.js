@@ -64,8 +64,6 @@ class DomainScamReport extends Component {
           report ?
            report.verdict.value ?
             <div className='column sixteen wide DomainScamReportList'>
-              {item(omit(get(report, 'verdict'), 'key'))}
-              <div className='ui divider'></div>
               {item(get(report, 'blacklist'))}
               <div className='ListSubSection'>
                 {get(report, 'blacklist.report').filter(x => x.key && x.flag).map(x => {

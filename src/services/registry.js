@@ -10,7 +10,7 @@ import plcr from './plcr'
 import parameterizer from './parameterizer'
 import saltHashVote from '../utils/saltHashVote'
 import { getRegistry } from '../config'
-import { getProvider } from './provider'
+import { getProvider, getWebsocketProvider } from './provider'
 
 // TODO: check number param
 const big = (number) => new Eth.BN(number.toString(10))
@@ -53,18 +53,26 @@ class RegistryService {
     })
   }
 
-  setUpEvents () {
-    this.registry.allEvents()
-      .watch((error, log) => {
-        if (error) {
-          console.error(error)
-          return false
-        }
+  async setUpEvents () {
+    try {
+      // websocket provider required for events
+      const provider = getWebsocketProvider()
+      const registry = await getRegistry(null, provider)
 
-        store.dispatch({
-          type: 'REGISTRY_EVENT'
+      registry.allEvents()
+        .watch((error, log) => {
+          if (error) {
+            console.error(error)
+            return false
+          }
+
+          store.dispatch({
+            type: 'REGISTRY_EVENT'
+          })
         })
-      })
+    } catch (error) {
+      console.error(error)
+    }
   }
 
   async setAccount () {

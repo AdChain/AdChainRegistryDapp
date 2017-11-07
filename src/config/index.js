@@ -26,11 +26,11 @@ export const getAbi = async (contract) => {
   return json
 }
 
-export const getRegistry = async (account) => {
+export const getRegistry = async (account, provider) => {
   const registryArtifact = await getAbi('Registry')
   const Registry = contract(registryArtifact)
   Registry.defaults({from: account})
-  Registry.setProvider(getProvider())
+  Registry.setProvider(provider || getProvider())
 
   return Registry.deployed()
 }

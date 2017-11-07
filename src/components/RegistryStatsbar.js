@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import commafy from 'commafy'
 import { Popup } from 'semantic-ui-react'
 
+import store from '../store'
 import token from '../services/token'
 import './RegistryStatsbar.css'
 
@@ -24,6 +25,11 @@ class RegistryStatsbar extends Component {
 
   componentDidMount () {
     this._isMounted = true
+
+    this.fetchStats()
+    store.subscribe(x => {
+      this.fetchStats()
+    })
   }
 
   componentWillUnmount () {
