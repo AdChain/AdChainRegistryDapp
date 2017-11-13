@@ -45,6 +45,7 @@
     "react-table": "^6.5.1",
     "redux": "^3.7.2",
     "semantic-ui-react": "^0.71.3",
+    "serve": "^6.4.1",
     "snakecase-keys": "^1.1.0",
     "solidity-sha3": "^0.4.1",
     "toastr": "^2.1.2",
