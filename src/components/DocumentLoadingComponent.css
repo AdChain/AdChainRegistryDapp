@@ -1,0 +1,8 @@
+.MobileDeviceAlert{
+	text-align: center;
+	padding-top: 90px;
+	font-size: 18px;
+	background:url("./assets/nebula_background.jpg") no-repeat center center fixed;
+	color:white;
+	text-shadow: 1px 1px black;
+}

@@ -93,6 +93,10 @@ p {
   box-shadow: 0 1px 1px #b7b7b7;
 }
 
+.RootLoader{
+  position:relative;
+}
+
 :root:root .form label {
   color: #54555d;
 }
@@ -111,12 +115,32 @@ p {
   width: 100%;
 }
 
+/*utility margin styles*/
+.mt-25{margin-top:25px;}
+.mt-50{margin-top:50px;}
+.mt-100{margin-top:100px;}
+.mb-25{margin-bottom:25px;}
+.m-25{margin:25px 0;}
+
+/*utility padding styles*/
+.pd-15{padding:15px;}
+
+/*utility text center*/
+.t-center{text-align:center;}
+
+/*utility font size*/
+.f-14{font-size:14px;}
+.f-16{font-size:16px;}
+.f-18{font-size:18px;}
+
 @media only screen and (max-width: 767px) {
   :root:root:root:root .MainContainerWrap {
     margin-top: 70px !important;
     padding-left: inherit;
   }
+
 }
+
 
 /*
  * /END GLOBALS
