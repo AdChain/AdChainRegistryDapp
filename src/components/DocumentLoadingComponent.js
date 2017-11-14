@@ -1,5 +1,7 @@
 import  React, { Component }  from 'react'
 import { determineScreenLoader } from "../index.js"
+import adTokenLogo from "./assets/ad_chain.png"
+import adChainLogo from "./assets/adtoken_logo_white.png"
 import './DocumentLoadingComponent.css'
 
 // This component has logic to determine which loader view to render on app start
@@ -30,20 +32,20 @@ class DocumentLoadingComponent extends Component{
                   </div>
                 </div>
               </div>
-              <div className="mt-100">
+              <div className="mt-50">
                 <div className="ui grid">
                       <div className="m-25 f-16">
                           For full functionality, please access the site on a <b>Chrome <u>Desktop</u> Browser</b> with <b>MetaMask</b> extension installed.
-                       <hr/>
+                       <hr className="GreyDivider"/>
                       </div>
-                  <div className="two column row t-center mt-100">
+                  <div className="two column row t-center mb-25">
                       <div className="column">
                         <div>
-                          <img height="50" width="auto" src="../assets/ad_chain.png" alt="adChain"/>
+                          <img height="50" width="auto" src={adTokenLogo} alt="adChain"/>
                         </div>
                       </div>
                       <div className="column">
-                          <img height="50" width="auto" src="../assets/adToken_logo_white.png" alt="adToken"/>
+                          <img height="50" width="auto" src={adChainLogo} alt="adToken"/>
                       </div>
                   </div>
                 </div>
