@@ -97,7 +97,7 @@ class MainTopbar extends Component {
                 </div>
                 {adtBalance !== null ? commafy(adtBalance) : '-'} ADT
               {adtBalance === 0 ?
-                <span>&nbsp;(<a href='https://rinkebyadt.consensysadtech.net/' target='_blank' rel='noopener noreferrer' className='AcquireLink'>Acquire ADT</a>)</span>
+                <span>&nbsp;(<a href='https://faucet.adtoken.com' target='_blank' rel='noopener noreferrer' className='AcquireLink'>Acquire ADT</a>)</span>
               : null}
               </div>
             : null}

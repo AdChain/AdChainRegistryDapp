@@ -86,7 +86,7 @@ class MainSidebar extends Component {
                   rel='noopener noreferrer'>ETH Faucet</a>
               </li>
               <li className='item'>
-                <a href='https://rinkebyadt.consensysadtech.net/'
+                <a href='https://faucet.adtoken.com'
                   target='_blank'
                   rel='noopener noreferrer'>ADT Faucet</a>
               </li>
