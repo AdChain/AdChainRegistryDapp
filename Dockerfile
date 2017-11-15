@@ -8,7 +8,7 @@ RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 COPY . /usr/src/app
 
+run rm -rf node_modules/
 RUN npm install
-RUN npm install -g serve
 ENTRYPOINT ["npm"]
-CMD ["run", "start:dev"]
+CMD ["start"]
