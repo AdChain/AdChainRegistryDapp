@@ -1,12 +1,15 @@
 {
-  "main.css": "static/css/main.e01332ca.css",
-  "main.css.map": "static/css/main.e01332ca.css.map",
-  "main.js": "static/js/main.6181a8ee.js",
-  "main.js.map": "static/js/main.6181a8ee.js.map",
+  "main.css": "static/css/main.6e767fc8.css",
+  "main.css.map": "static/css/main.6e767fc8.css.map",
+  "main.js": "static/js/main.8d3da7c2.js",
+  "main.js.map": "static/js/main.8d3da7c2.js.map",
+  "static/media/ad_chain.png": "static/media/ad_chain.4c56c52c.png",
   "static/media/ad_chain_logo_white_text.png": "static/media/ad_chain_logo_white_text.2be8e5a4.png",
+  "static/media/adtoken_logo_white.png": "static/media/adtoken_logo_white.e208f95e.png",
   "static/media/certificate_blue_circle.png": "static/media/certificate_blue_circle.6f8c6d84.png",
   "static/media/cylinder_blue_lock_circle.png": "static/media/cylinder_blue_lock_circle.7cd7668c.png",
   "static/media/dollar_blue_circle.png": "static/media/dollar_blue_circle.085b0bdf.png",
   "static/media/expand_blue_circle.png": "static/media/expand_blue_circle.63e68881.png",
-  "static/media/metax_logo_white_text.png": "static/media/metax_logo_white_text.dfaa691f.png"
+  "static/media/metax_logo_white_text.png": "static/media/metax_logo_white_text.dfaa691f.png",
+  "static/media/nebula_background.jpg": "static/media/nebula_background.f8678e0e.jpg"
 }
