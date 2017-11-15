@@ -31,7 +31,6 @@ class AccountDashboard extends Component {
     }
 
     this.state.tableFilters = [{id: 'account', value: account || '0x0'}]
-
     this.onQueryChange = this.onQueryChange.bind(this)
     this.updateTableFilters = this.updateTableFilters.bind(this)
   }
