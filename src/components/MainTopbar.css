@@ -53,6 +53,12 @@
 .MainTopbar .NoWalletMessage a:hover {
   text-decoration: underline;
 }
+.MainTopbar.NoWallet .ui > .item:first-of-type{
+  background:#961919;
+}
+:root:root:root .MainTopbar .RedAlert {
+  background:#961919;
+}
 
 .MainTopbar .AdtLogo {
   width: 28px;

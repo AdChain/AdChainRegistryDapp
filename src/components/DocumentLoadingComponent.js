@@ -23,7 +23,7 @@ class DocumentLoadingComponent extends Component{
                 <div className="one column row">
                   <div className="column ">
                    <b> The adChain Registry dApp is not fully ready for mobile use.</b>
-                    <br/><br/>You are able to view all the content, but token functionality is limited.
+                    <br/><br/>All content is viewable, but token functionality is limited.
                     <div className="mt-25">
                          <button className="huge ui primary button" onClick={ () => this.determineScreenLoader(true) }>Continue</button>
                          <div className="mt-50"></div>
@@ -34,7 +34,7 @@ class DocumentLoadingComponent extends Component{
               </div>
               <div className="mt-50">
                 <div className="ui grid">
-                      <div className="m-25 f-16">
+                      <div className="m-20 f-16">
                           For full functionality, please access the site on a <b>Chrome <u>Desktop</u> Browser</b> with <b>MetaMask</b> extension installed.
                        <hr className="GreyDivider"/>
                       </div>

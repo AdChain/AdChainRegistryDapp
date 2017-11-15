@@ -50,7 +50,7 @@ class MainTopbar extends Component {
     } = this.state
 
     return (
-      <div className='MainTopbar'>
+      <div className={'MainTopbar ' + (address ? '' : 'NoWallet') }>
         <div className='ui top attached menu stackable inverted overflow-x'>
           <div className='item'>
             {address ?
@@ -66,7 +66,7 @@ class MainTopbar extends Component {
             </div>}
           </div>
           {address ?
-            <div className='item'>
+            <div className={'item ' + (invalidNetwork ? 'RedAlert' : '')}>
               <div>
                 {invalidNetwork ?
                   <strong>Please connect to Rinkeby Test Network</strong>
@@ -76,7 +76,7 @@ class MainTopbar extends Component {
           : null}
           <div className='menu right'>
             {address ?
-              <div className='item'>
+              <div className={'item ' + (ethBalance === 0 || ethBalance === null  ? 'RedAlert' : '')}>
                 <div className='EthLogo ui image'>
                   <img
                     src={ethLogo}
@@ -89,7 +89,7 @@ class MainTopbar extends Component {
               </div>
             : null}
             {address ?
-              <div className='item'>
+              <div className={'item ' + (adtBalance === 0 || adtBalance === null ? 'RedAlert' : '')}>
                 <div className='AdtLogo ui image'>
                   <img
                     src={adtLogo}

@@ -2,6 +2,7 @@
 	text-align: center;
 	padding-top: 60px;
 	font-size: 18px;
+	height: 100vh;
 	background:url("./assets/nebula_background.jpg") no-repeat center center fixed;
 	color:white;
 	text-shadow: 1px 1px black;
