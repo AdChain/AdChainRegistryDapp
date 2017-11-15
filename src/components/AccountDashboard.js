@@ -27,7 +27,7 @@ class AccountDashboard extends Component {
     const account = registry.getAccount()
 
     if (account) {
-      this.state.account = account
+      this.state.account = account;
     }
 
     this.state.tableFilters = [{id: 'account', value: account || '0x0'}]
