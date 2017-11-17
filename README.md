@@ -2,9 +2,11 @@
 
 > Interface for applying, voting, and challenging domain entries into the adChain Registry.
 
-[![JavaScript Style Guide](https://cdn.rawgit.com/standard/standard/master/badge.svg)](https://github.com/standard/standard)
+[![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
-Currently in Alpha stage.
+[ ![Codeship Status for AdChain/AdChainRegistryDapp](https://app.codeship.com/projects/3bdbcb30-abc8-0135-1d7c-326c62bbc0df/status?branch=master)](https://app.codeship.com/projects/256831)
+
+Currently in Beta on Rinkeby testnet.
 
 # Demo
 
