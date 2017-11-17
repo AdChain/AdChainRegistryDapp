@@ -50,11 +50,11 @@ class MainTopbar extends Component {
     } = this.state
 
     return (
-      <div className={'MainTopbar ' + (address ? '' : 'NoWallet') }>
+      <div className={'MainTopbar ' + (address ? '' : 'NoWallet')}>
         <div className='ui top attached menu stackable inverted overflow-x'>
           <div className='item'>
-            {address ?
-              <div className='AddressContainer'>
+            {address
+              ? <div className='AddressContainer'>
                 <Identicon
                   address={address}
                   size={6}
@@ -65,39 +65,39 @@ class MainTopbar extends Component {
                Please download or unlock <a href='https://metamask.io/' target='_blank' rel='noopener noreferrer'>MetaMask</a> extension to load application and Ethereum wallet
             </div>}
           </div>
-          {address ?
-            <div className={'item ' + (invalidNetwork ? 'RedAlert' : '')}>
+          {address
+            ? <div className={'item ' + (invalidNetwork ? 'RedAlert' : '')}>
               <div>
-                {invalidNetwork ?
-                  <strong>Please connect to Rinkeby Test Network</strong>
+                {invalidNetwork
+                  ? <strong>Please connect to Rinkeby Test Network</strong>
                 : <span>Network: <strong>Rinkeby Testnet</strong></span>}
               </div>
             </div>
           : null}
           <div className='menu right'>
-            {address ?
-              <div className={'item ' + (ethBalance === 0 || ethBalance === null  ? 'RedAlert' : '')}>
+            {address
+              ? <div className={'item ' + (ethBalance === 0 || ethBalance === null ? 'RedAlert' : '')}>
                 <div className='EthLogo ui image'>
                   <img
                     src={ethLogo}
                     alt='ETH' />
                 </div>
                 {ethBalance !== null ? commafy(ethBalance.toFixed(4)) : '-'} ETH
-              {ethBalance === 0 ?
-                <span>&nbsp;(<a href='https://faucet.rinkeby.io/' target='_blank' rel='noopener noreferrer' className='AcquireLink'>Acquire ETH</a>)</span>
+              {ethBalance === 0
+                ? <span>&nbsp;(<a href='https://faucet.rinkeby.io/' target='_blank' rel='noopener noreferrer' className='AcquireLink'>Acquire ETH</a>)</span>
               : null}
               </div>
             : null}
-            {address ?
-              <div className={'item ' + (adtBalance === 0 || adtBalance === null ? 'RedAlert' : '')}>
+            {address
+              ? <div className={'item ' + (adtBalance === 0 || adtBalance === null ? 'RedAlert' : '')}>
                 <div className='AdtLogo ui image'>
                   <img
                     src={adtLogo}
                     alt='ADT' />
                 </div>
                 {adtBalance !== null ? commafy(adtBalance) : '-'} ADT
-              {adtBalance === 0 ?
-                <span>&nbsp;(<a href='https://faucet.adtoken.com' target='_blank' rel='noopener noreferrer' className='AcquireLink'>Acquire ADT</a>)</span>
+              {adtBalance === 0
+                ? <span>&nbsp;(<a href='https://faucet.adtoken.com' target='_blank' rel='noopener noreferrer' className='AcquireLink'>Acquire ADT</a>)</span>
               : null}
               </div>
             : null}

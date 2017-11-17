@@ -100,7 +100,7 @@ class DomainProfile extends Component {
     try {
       const {
         title,
-        description,
+        description
       } = await response.json()
 
       if (this._isMounted) {

@@ -53,7 +53,7 @@ class DomainChallengeContainer extends Component {
             <div className='ui large header center aligned'>
               IN APPLICATION
               <Popup
-                trigger={<i className='icon info circle'></i>}
+                trigger={<i className='icon info circle' />}
                 content='ADT holders are encouraged to challenge publisher applications where the token holders believe the Publisher to be fraudulent.'
               />
             </div>
@@ -64,8 +64,8 @@ class DomainChallengeContainer extends Component {
               <p>Challenge stage ends</p>
               <p><strong>{stageEnd}</strong></p>
               <p>Remaining time: <Countdown
-                  endDate={stageEndMoment}
-                  onExpire={this.onCountdownExpire.bind(this)} /></p>
+                endDate={stageEndMoment}
+                onExpire={this.onCountdownExpire.bind(this)} /></p>
             </div>
           </div>
           <div className='ui divider' />
@@ -85,7 +85,7 @@ class DomainChallengeContainer extends Component {
                   onClick={this.onChallenge.bind(this)}
                   className='ui button purple right labeled icon'>
                   CHALLENGE
-                  <i className='icon thumbs down'></i>
+                  <i className='icon thumbs down' />
                 </button>
               </div>
             </form>

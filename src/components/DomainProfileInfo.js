@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-//import commafy from 'commafy'
+// import commafy from 'commafy'
 import Trollbox from './Trollbox'
 
 import DomainProfileComments from './DomainProfileComments'

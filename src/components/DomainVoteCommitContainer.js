@@ -89,7 +89,7 @@ class DomainVoteCommitContainer extends Component {
             <div className='ui large header center aligned'>
               VOTING – COMMIT
               <Popup
-                trigger={<i className='icon info circle'></i>}
+                trigger={<i className='icon info circle' />}
                 content='The first phase of the voting process is the commit phase where the ADT holder stakes a hidden amount of votes to SUPPORT or OPPOSE the domain application. The second phase is the reveal phase where the ADT holder reveals the staked amount of votes to either the SUPPORT or OPPOSE side.'
               />
             </div>
@@ -114,8 +114,8 @@ class DomainVoteCommitContainer extends Component {
               </p>
               <p><strong>{stageEnd}</strong></p>
               <p>Remaining time: <Countdown
-                  endDate={stageEndMoment}
-                  onExpire={this.onCountdownExpire.bind(this)} /></p>
+                endDate={stageEndMoment}
+                onExpire={this.onCountdownExpire.bind(this)} /></p>
             </div>
           </div>
           <div className='ui divider' />
@@ -163,7 +163,7 @@ class DomainVoteCommitContainer extends Component {
                 </div>
               </div>
               <div className='ui field'>
-                <label>Secret Phrase<br/><small>PLEASE SAVE THIS. This random phrase (known as a "salt") will be required to reveal your vote and claim rewards.</small></label>
+                <label>Secret Phrase<br /><small>PLEASE SAVE THIS. This random phrase (known as a "salt") will be required to reveal your vote and claim rewards.</small></label>
                 <div className='ui message tiny default SaltField'>
                   {salt}
                 </div>
@@ -175,32 +175,31 @@ class DomainVoteCommitContainer extends Component {
                   title='Download commit info'
                   className={`ui button ${enableDownload ? '' : 'disabled'} right labeled icon ${commitDownloaded ? 'default' : 'blue'}`}>
                   Download Commit
-                  <i className='icon download'></i>
+                  <i className='icon download' />
                 </button>
               </div>
-              {commitDownloaded ?
-              <div className='ui field'>
+              {commitDownloaded
+              ? <div className='ui field'>
                 <label><small>Download a calendar reminder for revealing vote</small></label>
                 <button
                   onClick={this.onReminderDownload}
                   title='Download commit info'
                   className={`ui mini button right labeled icon ${revealReminderDownloaded ? 'default' : 'blue'}`}>
                   Reveal Reminder
-                  <i className='icon download'></i>
+                  <i className='icon download' />
                 </button>
               </div>
               : null}
               <div className='ui field'>
-                {(voteOption === null || !votes || !commitDownloaded) ?
-                  <button
+                {(voteOption === null || !votes || !commitDownloaded)
+                  ? <button
                     className='ui button disabled'>
                     {voteOption === null ? 'Select Vote Option' : (!votes ? 'Enter votes' : 'Vote')}
                   </button>
-                :
-                <button
+                : <button
                   type='submit'
                   className={`ui button ${voteOption ? 'blue' : 'purple'} right labeled icon`}>
-                    VOTE TO {voteOption ? 'SUPPORT' : 'OPPOSE'} <i className={`icon thumbs ${voteOption ? 'up' : 'down'}`}></i>
+                    VOTE TO {voteOption ? 'SUPPORT' : 'OPPOSE'} <i className={`icon thumbs ${voteOption ? 'up' : 'down'}`} />
                 </button>
                 }
               </div>

@@ -63,7 +63,7 @@ class TrollboxComponent extends Component {
 
 TrollboxComponent.propTypes = {
   channel: PropTypes.string
-  //user: PropTypes.string
+  // user: PropTypes.string
 }
 
 export default TrollboxComponent

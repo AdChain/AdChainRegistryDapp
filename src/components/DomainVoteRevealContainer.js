@@ -74,7 +74,7 @@ class DomainVoteRevealContainer extends Component {
             <div className='ui large header center aligned'>
               VOTING – REVEAL
               <Popup
-                trigger={<i className='icon info circle'></i>}
+                trigger={<i className='icon info circle' />}
                 content='The first phase of the voting process is the commit phase where the ADT holder stakes a hidden amount of votes to SUPPORT or OPPOSE the domain application. The second phase is the reveal phase where the ADT holder reveals the staked amount of votes to either the SUPPORT or OPPOSE side.'
               />
             </div>
@@ -107,8 +107,8 @@ class DomainVoteRevealContainer extends Component {
               </p>
               <p><strong>{stageEnd}</strong></p>
               <p>Remaining time: <Countdown
-                  endDate={stageEndMoment}
-                  onExpire={this.onCountdownExpire.bind(this)} /></p>
+                endDate={stageEndMoment}
+                onExpire={this.onCountdownExpire.bind(this)} /></p>
             </div>
           </div>
           <div className='ui divider' />
@@ -166,17 +166,16 @@ class DomainVoteRevealContainer extends Component {
                 </div>
               </div>
               <div className='ui field'>
-                {voteOption === null ?
-                  <button
+                {voteOption === null
+                  ? <button
                     className='ui button disabled'>
                       Select Vote Option
                   </button>
-                :
-                <button
+                : <button
                   type='submit'
                   className={`ui button ${voteOption ? 'blue' : 'purple'} right labeled icon`}>
                   REVEAL {voteOption ? 'SUPPORT' : 'OPPOSE'} VOTE
-                  <i className={`icon thumbs ${voteOption ? 'up' : 'down'}`}></i>
+                  <i className={`icon thumbs ${voteOption ? 'up' : 'down'}`} />
                 </button>
                 }
               </div>

@@ -81,7 +81,7 @@ class DomainInRegistryContainer extends Component {
           : null}
           {hasVotes ? [
             <div className='ui divider' key={Math.random()} />,
-            <DomainVoteTokenDistribution domain={domain} key={Math.random()} />,
+            <DomainVoteTokenDistribution domain={domain} key={Math.random()} />
           ] : null}
           <div className='ui divider' />,
           <div className='column sixteen wide center aligned DomainChallengeFormContainer'>
@@ -100,7 +100,7 @@ class DomainInRegistryContainer extends Component {
                   onClick={this.onChallenge}
                   className='ui button purple right labeled icon'>
                   CHALLENGE
-                  <i className='icon thumbs down'></i>
+                  <i className='icon thumbs down' />
                 </button>
               </div>
             </form>

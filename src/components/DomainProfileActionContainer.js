@@ -74,7 +74,7 @@ class DomainProfileActionContainer extends Component {
                 href='#!'
                 title='Refresh status'
                 onClick={this.updateStatus}>
-                  <i className='icon refresh'></i>
+                <i className='icon refresh' />
                   Refresh status
               </a>
             </div>
@@ -83,7 +83,7 @@ class DomainProfileActionContainer extends Component {
         <div className='DomainProfileActionContainer BoxFrame'>
           {component}
         </div>
-    </div>
+      </div>
     )
   }
 

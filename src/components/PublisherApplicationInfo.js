@@ -2,9 +2,9 @@ import React, { Component } from 'react'
 
 import './PublisherApplicationInfo.css'
 
-import discoverImage from './assets/expand_blue_circle.png'
+// import discoverImage from './assets/expand_blue_circle.png'
 import cpmImage from './assets/dollar_blue_circle.png'
-import identityImage from './assets/cylinder_blue_lock_circle.png'
+// import identityImage from './assets/cylinder_blue_lock_circle.png'
 import campaignsImage from './assets/certificate_blue_circle.png'
 
 class PublisherApplicationInfo extends Component {

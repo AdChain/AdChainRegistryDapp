@@ -24,6 +24,12 @@ npm run start:dev
 
 Then head over to [http://localhost:3000/](http://localhost:3000/)
 
+Lint and test
+
+```bash
+npm run lint:fix && npm test
+```
+
 # License
 
 MIT

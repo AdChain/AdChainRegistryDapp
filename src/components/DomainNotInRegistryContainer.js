@@ -12,7 +12,6 @@ class DomainNotInRegistryContainer extends Component {
     this.state = {
       domain: props.domain
     }
-
   }
 
   render () {
@@ -27,7 +26,7 @@ class DomainNotInRegistryContainer extends Component {
             <div className='ui large header center aligned'>
               APPLY
               <Popup
-                trigger={<i className='icon info circle'></i>}
+                trigger={<i className='icon info circle' />}
                 content='Apply domain to be included into adChain Registry.'
               />
             </div>

@@ -11,8 +11,8 @@ function AccountHeader (props) {
   return (
     <div className='AccountHeader BoxFrame'>
       <div className='ui image'>
-        {address ?
-          <Identicon address={address} size={8} scale={8} />
+        {address
+          ? <Identicon address={address} size={8} scale={8} />
         : '-'}
       </div>
       <div className='Content'>
@@ -20,7 +20,7 @@ function AccountHeader (props) {
           Account
         </div>
         <div className='SubHeader overflow-x'>
-          {address ? address : 'No account connected'}
+          {address || 'No account connected'}
         </div>
       </div>
     </div>

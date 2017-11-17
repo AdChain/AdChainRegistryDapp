@@ -58,12 +58,12 @@ class PublisherApplicationForm extends Component {
           </div>
           <div className='column sixteen wide left aligned'>
             <p>Please complete the information below in order to apply a domain to the adChain Registry.&nbsp;
-            <a href="https://adchain.zendesk.com/hc/en-us/articles/115003191014-Applying-a-Domain"
-                target='_blank'
-                rel='noopener noreferrer'>
+            <a href='https://adchain.zendesk.com/hc/en-us/articles/115003191014-Applying-a-Domain'
+              target='_blank'
+              rel='noopener noreferrer'>
                 Learn More
-                <i className='icon external tiny'></i>
-              </a>
+                <i className='icon external tiny' />
+            </a>
             </p>
           </div>
           <div className='column sixteen wide left aligned'>

@@ -38,22 +38,22 @@ function DomainProfileHeader (props) {
           </a>
         </div>
         <div className='SubHeader'>
-          <div className='Name' title="Website title">
-            <em>{name ? name : <span>(no title)</span>}</em>
+          <div className='Name' title='Website title'>
+            <em>{name || <span>(no title)</span>}</em>
             <Popup
               trigger={<i className='icon info circle' />}
               content='Title displayed on website'
             />
           </div>
-          <div className='Description' title="Website description">
-            <em>{description ? description : <span>(no description)</span>}</em>
+          <div className='Description' title='Website description'>
+            <em>{description || <span>(no description)</span>}</em>
             <Popup
               trigger={<i className='icon info circle' />}
               content='Description displayed on website'
             />
           </div>
-          {country ?
-            <div className='Country'>
+          {country
+            ? <div className='Country'>
               <i className='icon marker' /> {country}
             </div>
           : null}

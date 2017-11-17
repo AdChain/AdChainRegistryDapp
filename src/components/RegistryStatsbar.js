@@ -49,8 +49,8 @@ class RegistryStatsbar extends Component {
     return (
       <div className='RegistryStatsbar BoxFrame'>
         <div className='ui grid stackable'>
-          {showHeader ?
-            <div className='column sixteen wide'>
+          {showHeader
+            ? <div className='column sixteen wide'>
               <div className='ui large header'>
                 Registry Status
               </div>

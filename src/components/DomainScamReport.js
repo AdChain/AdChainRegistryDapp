@@ -1,24 +1,22 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import get from 'get-prop'
-import omit from 'object-omit'
 import { Loader } from 'semantic-ui-react'
 
 import './DomainScamReport.css'
 
 function item (x) {
-  return <div className='DomainScamReportListItem' key={Math.random()}><label>{x.key}</label> <span className={x.flag}><i className={`icon ${x.flag === 'safe' ? 'check circle' : 'warning sign'}`}></i>
-      {x.link ?
-        <a
+  return <div className='DomainScamReportListItem' key={Math.random()}><label>{x.key}</label> <span className={x.flag}><i className={`icon ${x.flag === 'safe' ? 'check circle' : 'warning sign'}`} />
+    {x.link
+        ? <a
           href={x.link}
           target='_blank'
           rel='noopener noreferrer'>
           {x.value}
-          <i className='icon external tiny'></i>
+          <i className='icon external tiny' />
         </a>
-      :
-      x.value}
-      </span></div>
+      : x.value}
+  </span></div>
 }
 
 class DomainScamReport extends Component {
@@ -56,31 +54,28 @@ class DomainScamReport extends Component {
               Domain Report
             </div>
           </div>
-          {isLoading ?
-            <div className='column sixteen wide center aligned'>
+          {isLoading
+            ? <div className='column sixteen wide center aligned'>
               <Loader indeterminate active inline />
             </div>
-          :
-          report ?
-           report.verdict.value ?
-            <div className='column sixteen wide DomainScamReportList'>
+          : report
+           ? report.verdict.value
+            ? <div className='column sixteen wide DomainScamReportList'>
               {item(get(report, 'blacklist'))}
               <div className='ListSubSection'>
                 {get(report, 'blacklist.report').filter(x => x.key && x.flag).map(x => {
                   return item(x)
                 })}
               </div>
-              <div className='ui divider'></div>
+              <div className='ui divider' />
               {item(get(report, 'popularity'))}
-              <div className='ui divider'></div>
+              <div className='ui divider' />
               {item(get(report, 'creation'))}
             </div>
-            :
-            <div className='column sixteen wide center aligned'>
-              <div className='ui message warning'><i className='icon warning sign'></i> Report for this domain was not found.</div>
+            : <div className='column sixteen wide center aligned'>
+              <div className='ui message warning'><i className='icon warning sign' /> Report for this domain was not found.</div>
             </div>
-            :
-            <div className='column sixteen wide center aligned'>
+            : <div className='column sixteen wide center aligned'>
               <div className='ui message default'>Error fetching report</div>
             </div>}
           <div className='Source'>

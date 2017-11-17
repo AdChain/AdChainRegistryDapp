@@ -124,18 +124,19 @@ class DomainsTable extends Component {
             className='Domain'
             title='View profile'
             onClick={(event) => {
-          event.preventDefault()
+              event.preventDefault()
 
-          history.push(`/domains/${props.value}`)
-        }}>
-          <img
-            src={`https://www.google.com/s2/favicons?domain=${domain}`}
-            width={16}
-            alt=''
+              history.push(`/domains/${props.value}`)
+            }}>
+            <img
+              src={`https://www.google.com/s2/favicons?domain=${domain}`}
+              width={16}
+              alt=''
           />
-          {domain}
-        </a>
-      )},
+            {domain}
+          </a>
+        )
+      },
       minWidth: 200
     },
     /*
@@ -180,15 +181,15 @@ class DomainsTable extends Component {
           href='#!'
           title={label}
           onClick={(event) => {
-          event.preventDefault()
+            event.preventDefault()
 
-          if (stage === 'apply') {
-            history.push(`/apply/?domain=${domain}`)
-            return false
-          }
+            if (stage === 'apply') {
+              history.push(`/apply/?domain=${domain}`)
+              return false
+            }
 
-          history.push(`/domains/${domain}`)
-        }}>{label}</a>
+            history.push(`/domains/${domain}`)
+          }}>{label}</a>
       },
       minWidth: 120
     }, {
@@ -232,9 +233,9 @@ class DomainsTable extends Component {
             <span className={color}>
               {label}
             </span>
-            <i className='icon refresh'></i>
-          </a> :
-          <span className={color} key={Math.random()}>
+            <i className='icon refresh' />
+          </a>
+          : <span className={color} key={Math.random()}>
             {label}
           </span>
         ])
@@ -261,7 +262,7 @@ class DomainsTable extends Component {
         return value
       },
       minWidth: 150
-  },
+    }
   /*
   {
       Header: 'Staked',
@@ -480,7 +481,7 @@ class DomainsTable extends Component {
     })
 
     // if (!this.state.data.length) {
-      this.onTableFetchData({page: 0, pageSize})
+    this.onTableFetchData({page: 0, pageSize})
     // }
   }
 
