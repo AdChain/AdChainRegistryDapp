@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import adTokenLogo from './assets/ad_chain_logo_white_text.png'
 import adChainLogo from './assets/adtoken_logo_white.png'
-import store from "store"
+import store from 'store'
 
 import './DocumentLoadingComponent.css'
 
@@ -54,12 +54,12 @@ class DocumentLoadingComponent extends Component {
       </div>
     )
   }
-  isMobile(){
-      store.set("hasAcceptedMobile", "true")
-      window.location.reload();
-    }
+  isMobile () {
+    store.set('hasAcceptedMobile', 'true')
+    window.location.reload()
+  }
 
-  render(){
+  render () {
     return (this.documentLoader)
   }
 }

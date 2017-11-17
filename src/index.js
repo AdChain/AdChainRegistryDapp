@@ -21,10 +21,10 @@ function adBlockDetected () {
 }
 
 async function init () {
-  let hasAcceptedMobile;
+  let hasAcceptedMobile
 
   try{
-    hasAcceptedMobile = store.get('hasAcceptedMobile');
+    hasAcceptedMobile = store.get('hasAcceptedMobile')
   }
   catch(error){
   }
