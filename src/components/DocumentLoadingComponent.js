@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { determineScreenLoader } from '../index.js'
-import adTokenLogo from './assets/ad_chain.png'
+import adTokenLogo from './assets/ad_chain_logo_white_text.png'
 import adChainLogo from './assets/adtoken_logo_white.png'
 import './DocumentLoadingComponent.css'
 
@@ -27,7 +27,7 @@ class DocumentLoadingComponent extends Component {
                     <div className='mt-25'>
                       <button className='huge ui primary button' onClick={() => this.determineScreenLoader(true)}>Continue</button>
                       <div className='mt-50' />
-                      <a href='https://adtoken.com'><button className='medium ui button'>Back to AdToken.com</button></a>
+                      <a href='https://adtoken.com'><button className='medium ui button'>Back to adToken.com</button></a>
                     </div>
               </div>
             </div>
