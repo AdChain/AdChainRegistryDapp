@@ -19,7 +19,6 @@ class RegistryStatsbar extends Component {
       totalInReveal: null,
       totalInRegistry: null
     }
-
     this.fetchStats()
   }
 
