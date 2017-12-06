@@ -27,11 +27,12 @@ async function init () {
     hasAcceptedMobile = store.get('hasAcceptedMobile')
   }
   catch(error){
+    console.log(error)
   }
 
   if (isMobile() && !hasAcceptedMobile) {
        ReactDOM.render(<DocumentLoadingComponent />, document.getElementById("root"))
-       return;
+       return
   }
 
   if (typeof window.fuckAdBlock === 'undefined') {

@@ -1,6 +1,6 @@
 import Eth from 'ethjs'
 import sha3 from 'solidity-sha3'
-import pify from 'pify'
+import { promisify as pify } from 'bluebird'
 import keyMirror from 'key-mirror'
 import detectNetwork from 'web3-detect-network'
 
@@ -33,10 +33,11 @@ class RegistryService {
   }
 
   async init () {
-    /* important to check for provider in
+    /* 
+     * important to check for provider in
      * init function (rather than constructor),
      * so that injected web3 has time to load.
-     */
+    */
     this.provider = getProvider()
     this.eth = new Eth(getProvider())
     const accounts = await this.eth.accounts()

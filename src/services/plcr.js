@@ -1,6 +1,6 @@
 import Eth from 'ethjs'
 import { getProvider } from './provider'
-import pify from 'pify'
+import { promisify as pify } from 'bluebird'
 
 import { getPLCR } from '../config'
 import token from './token'
