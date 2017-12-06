@@ -33,7 +33,7 @@ class RegistryService {
   }
 
   async init () {
-    /* 
+    /*
      * important to check for provider in
      * init function (rather than constructor),
      * so that injected web3 has time to load.
