@@ -52,11 +52,10 @@
     "build": "react-scripts build",
     "lint": "standard src/**/*.js",
     "lint:fix": "standard --fix src/**/*.js",
-    "test": "react-scripts test --env=jsdom",
+    "test": "npm run lint && CI=true react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
   "devDependencies": {
-    "serve": "^6.4.1",
     "download": "^6.2.5",
     "eslint": "^4.5.0",
     "eslint-config-standard": "^10.2.1",
@@ -66,6 +65,8 @@
     "eslint-plugin-promise": "^3.5.0",
     "eslint-plugin-react": "^7.3.0",
     "eslint-plugin-standard": "^3.0.1",
+    "pre-commit": "^1.2.2",
+    "serve": "^6.4.1",
     "standard": "^10.0.2"
   },
   "standard": {
