@@ -259,7 +259,6 @@ class PublisherApplicationForm extends Component {
       email: data.email,
       account: registry.getAccount()
     }
-
     try {
       await postJson(url, payload)
     } catch (error) {
