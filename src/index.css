@@ -95,10 +95,17 @@ p {
 }
 .BoxFrame .BoxFrameLabel{
     color: #909090; 
-    font-size: 12px;  
-    font-weight: 400;
+/*    color:#bdbebd;
+*/    font-size: 12px;  
+    font-weight: 600;
     min-height: 13px;
     font-family: Open Sans,sans-serif;
+    margin-right:3px;
+}
+.BoxFrame .BoxFrameLabel::after{
+    content: url(./components/assets/info_gray.svg);
+    transform:scale(1.2) translateY(1.2px);
+    padding-left:10px;
 }
 
 .RootLoader{
