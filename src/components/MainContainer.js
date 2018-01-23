@@ -6,6 +6,7 @@ import ApplicationContainer from './ApplicationContainer'
 import DomainsContainer from './DomainsContainer'
 import DomainProfile from './DomainProfile'
 import AccountDashboard from './AccountDashboard'
+import RocketChat from './RocketChat'
 
 import './MainContainer.css'
 
@@ -33,6 +34,7 @@ function MainContainer (props) {
             <Route path='/domains' exact component={DomainsContainer} />
             <Route path='/domains/:domain' exact component={DomainProfile} />
             <Route path='/account' exact component={AccountDashboard} />
+            <Route path='/chat' exact component={RocketChat} />
             <Route path='/' exact component={DomainsContainer} />
           </Switch>
         </Route>

@@ -56,9 +56,10 @@ class RegistryStatsbar extends Component {
               </div>
             </div>
           : null}
+          <span className='ui grid BoxFrameLabel'>GLOBAL REGISTRY USAGE</span>
+
           <div className='column sixteen wide'>
-            <span className='ui grid BoxFrameLabel'>GLOBAL REGISTRY USAGE</span>
-            <div className='ui mini statistics'>
+            <div className='ui mini statistics t-center'>
               <div className='statistic'>
                 <div className='value'>
                   {totalStaked != null ? commafy(totalStaked) : '-'}
