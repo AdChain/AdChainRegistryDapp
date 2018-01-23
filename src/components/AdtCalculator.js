@@ -72,7 +72,7 @@ class AdtCalculator extends Component {
 
     return (
       <div className='AdtCalculator BoxFrame'>
-        <span className="ui grid BoxFrameLabel">ADTOKEN CALCULATOR</span>
+        <span className='ui grid BoxFrameLabel'>ADTOKEN CALCULATOR</span>
         <div className='ui grid'>
           <div className='row'>
             <div className='column seven wide'>

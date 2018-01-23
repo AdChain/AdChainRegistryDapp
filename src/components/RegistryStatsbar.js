@@ -57,7 +57,7 @@ class RegistryStatsbar extends Component {
             </div>
           : null}
           <div className='column sixteen wide'>
-            <span className="ui grid BoxFrameLabel">GLOBAL REGISTRY USAGE</span>
+            <span className='ui grid BoxFrameLabel'>GLOBAL REGISTRY USAGE</span>
             <div className='ui mini statistics'>
               <div className='statistic'>
                 <div className='value'>

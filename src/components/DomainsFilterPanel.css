@@ -15,16 +15,19 @@
   }
 }
 
-.DomainsFilterPanel .SearchContainer {
-  background: #3a445a;
-}
 
 .DomainsFilterPanel .SearchContainer .input {
   width: 100%;
 }
+.DomainsFilterPanel .SearchContainer label {
+  padding-left: 6px;
+  margin-top: 4px;
+  display: inline-block;
+}
+
 
 :root:root .DomainsFilterPanel .SearchContainer .input input {
-  color: #fff;
+  color: black;
 }
 
 .DomainsFilterPanel .SearchContainer .icon {

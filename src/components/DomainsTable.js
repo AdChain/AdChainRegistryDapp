@@ -89,7 +89,7 @@ class DomainsTable extends Component {
 
     return (
       <div className='DomainsTable BoxFrame'>
-        <span className="BoxFrameLabel ui grid">DOMAINS</span>
+        <span className='BoxFrameLabel ui grid'>DOMAINS</span>
         <div className='ui grid'>
           <ReactTable
             loading={isLoading}

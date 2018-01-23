@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import qs from 'qs'
 import updateQuery from 'update-query'
-import { Popup } from 'semantic-ui-react'
+// import { Popup } from 'semantic-ui-react'
 
 import normalizeQueryObj from '../utils/normalizeQueryObj'
 
@@ -72,8 +72,7 @@ class DomainsContainer extends Component {
                   onFiltersChange={this.onQueryChange}
                 />
                 <div className='GlobalTrollbox BoxFrame'>
-                <span className="ui grid BoxFrameLabel">GLOBAL COMMENT BOX</span> &nbsp;&nbsp;&nbsp;&nbsp;
-
+                  <span className='ui grid BoxFrameLabel'>GLOBAL COMMENT BOX</span> &nbsp;&nbsp;&nbsp;&nbsp;
 
                   <Trollbox
                     channel={'adchainRegistry:v001/global'}
