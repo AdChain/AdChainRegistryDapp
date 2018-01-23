@@ -31,8 +31,7 @@ class SideBarApplicationContainer extends Component {
       <div className='ApplicationContainer'>
         <Form
           className={this.state.active ? 'ActiveForm' : null}
-          onBlur={this.removeClass}
-        >
+          onBlur={this.removeClass}>
           <Form.Field>
             <label className='ApplicationLabel'>Domain URL</label>
             <input

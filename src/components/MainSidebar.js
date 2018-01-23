@@ -23,9 +23,9 @@ class MainSidebar extends Component {
   }
 
   handleClick (e, titleProps) {
-    const { index } = titleProps
+    const { id } = titleProps
     const { activeIndex } = this.state
-    const newIndex = activeIndex === index ? -1 : index
+    const newIndex = activeIndex === id ? -1 : id
 
     this.setState({ activeIndex: newIndex })
   }
@@ -63,6 +63,9 @@ class MainSidebar extends Component {
           <a href='https://medium.com/@adchain' target='_blank' rel='noopener noreferrer'>Medium</a>
         </li>
         <li>
+          <a href='https://github.com/adchain' target='_blank' rel='noopener noreferrer'>GitHub</a>
+        </li>
+        <li>
           <a href='https://reddit.com/adchain' target='_blank' rel='noopener noreferrer'>Reddit</a>
         </li>
       </ul>
@@ -70,8 +73,7 @@ class MainSidebar extends Component {
 
     return (
       // <Menu vertical inverted className='MainSidebar sidebar visible overflow-y'>
-      <Accordion as={Menu} vertical inverted className='MainSidebar sidebar visible overflow-y'>
-
+      <Accordion as={Menu} vertical inverted className='MainSidebar sidebar visible overflow-y borderless'>
         <div className='adChainLogo ui image'>
           <a href='/'>
             <img src={adchainLogo} alt='adChain' />
@@ -84,21 +86,21 @@ class MainSidebar extends Component {
             </div>
             <Menu.Item name='domain'>
               <img src={wwwLogo} alt='www' />
-              <Link to='/domains' activeClassName='active'>Domains</Link>
+              <Link to='/domains' className='NavLink' activeClassName='active'>Domains</Link>
             </Menu.Item>
             <Menu.Item name='account'>
               <img src={dashboardLogo} alt='dashboard' />
-              <Link to='/account' activeClassName='active'>My Dashboard</Link>
+              <Link to='/account' className='NavLink' activeClassName='active'>My Dashboard</Link>
             </Menu.Item>
             <Menu.Item name='parameter'>
               <img src={parametersLogo} alt='governance' />
-              <Link to='/parameter' activeClassName='active'>Governance</Link>
+              <Link to='/parameter' className='NavLink' activeClassName='active'>Governance</Link>
             </Menu.Item>
             <Menu.Item name='help'>
               <img src={helpLogo} alt='help' />
               <Accordion.Title
+                id={1}
                 active={activeIndex === 1}
-                index={1}
                 onClick={this.handleClick}
                 content='Help'
               />
@@ -107,8 +109,8 @@ class MainSidebar extends Component {
             <Menu.Item name='social'>
               <img src={socialLogo} alt='social' />
               <Accordion.Title
+                id={2}
                 active={activeIndex === 2}
-                index={2}
                 onClick={this.handleClick}
                 content='Social'
               />
