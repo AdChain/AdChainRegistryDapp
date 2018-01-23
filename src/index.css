@@ -5,7 +5,7 @@
 body {
   margin: 0;
   padding: 0;
-  background: #F4F7FA;
+  background: #fcfcff;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -90,7 +90,22 @@ p {
 .BoxFrame {
   background: #fff;
   padding: 20px;
-  box-shadow: 0 1px 1px #b7b7b7;
+  box-shadow: 0 2px 10px 0 rgba(213,215,228,0.5);
+  border-radius: 10px;
+}
+.BoxFrame .BoxFrameLabel{
+    color: #909090; 
+/*    color:#bdbebd;
+*/    font-size: 12px;  
+    font-weight: 600;
+    min-height: 13px;
+    font-family: Open Sans,sans-serif;
+    margin-right:3px;
+}
+.BoxFrame .BoxFrameLabel::after{
+    content: url(./components/assets/info_gray.svg);
+    transform:scale(1.2) translateY(1.2px);
+    padding-left:10px;
 }
 
 .RootLoader{
@@ -132,6 +147,8 @@ p {
 .f-14{font-size:14px;}
 .f-16{font-size:16px;}
 .f-18{font-size:18px;}
+/*utility inline block*/
+.ib{display: inline-block !important;}
 
 @media only screen and (max-width: 767px) {
   :root:root:root:root .MainContainerWrap {

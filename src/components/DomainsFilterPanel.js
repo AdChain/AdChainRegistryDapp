@@ -30,8 +30,11 @@ class DomainsFilterPanel extends Component {
       <div className='DomainsFilterPanel BoxFrame'>
         <div className='ui grid stackable'>
           <div className='SearchContainer column sixteen wide'>
+            <span className='BoxFrameLabel ui grid'>DOMAINS FILTER</span>
+            <label>Search Domain</label>
             <div className='ui left icon input'>
-              <i className='search icon' />
+              <i className='search icon' /> &nbsp;
+              <br />
               <input
                 name='domain'
                 id='DomainsFiltersPanelDomainSearch'
