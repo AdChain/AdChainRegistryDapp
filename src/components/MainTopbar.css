@@ -1,7 +1,22 @@
 .MainTopbar {
   width: 100%;
-  background: #3a445a;
+  background: white;
   box-shadow: 0 2px 4px 0 rgba(0,0,0,0.50);
+  color:black;
+}
+.MainTopbar .item{
+  color:black !important;
+  color: #424242;
+  font-family: Open Sans,sans-serif;
+  font-size: 14px;
+  font-weight: 100;
+}
+.MainTopbar .item span{
+  color:black !important;
+  color: #424242;
+  font-family: Open Sans,sans-serif;
+  font-size: 15px;
+  font-weight: 100;
 }
 
 :root:root .MainTopbar .menu {

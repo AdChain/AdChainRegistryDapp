@@ -72,13 +72,9 @@ class DomainsContainer extends Component {
                   onFiltersChange={this.onQueryChange}
                 />
                 <div className='GlobalTrollbox BoxFrame'>
-                  <div className='Header'>
-                    Global Trollbox&nbsp;
-                    <Popup
-                      trigger={<i className='icon info circle' />}
-                      content='The trollbox is a global anonymous chat box'
-                    />
-                  </div>
+                <span className="ui grid BoxFrameLabel">GLOBAL COMMENT BOX</span> &nbsp;&nbsp;&nbsp;&nbsp;
+
+
                   <Trollbox
                     channel={'adchainRegistry:v001/global'}
                   />
