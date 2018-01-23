@@ -1,0 +1,61 @@
+
+:root:root:root .ApplicationContainer .field {
+  margin-left: 1em;
+}
+
+.ApplicationContainer {
+  border: 2px solid #3434CE;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px 0 rgba(13,6,62,0.5);
+  margin-left: 8%;
+  margin-right: 8%;
+}
+
+:root:root:root .ApplicationButton {
+  color: #10C903 !important;
+  border: 1px solid #10C903;
+  border-radius: 3px;
+  display: block;
+  margin: 0 auto;
+  text-transform: uppercase;
+  height: 20px;
+  font-size: 8px;
+  font-weight: bold;
+}
+
+.ApplicationContainer .ActiveForm {
+  background-color: #3434CE;
+}
+
+:root:root:root .ApplicationContainer .ActiveForm .ApplicationLabel {
+  color: #FFF;
+}
+
+:root:root:root .ApplicationContainer .ActiveForm .ApplicationButton {
+  background-color: #10C903 !important;
+  color: #FFF !important;
+  border-style: none;
+}
+
+
+.ApplicationContainer form {
+  font-size: 12px !important;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+:root:root:root .ApplicationInput {
+  border-top: none;
+  border-right: none;
+  border-left: none;
+  border-radius: 0;
+  background: transparent;
+  border-bottom: 1px solid #F4F7FA;
+  width: 90%;
+  color: #FFF !important;
+}
+
+:root:root:root .ApplicationInput:focus{
+  background: transparent;
+  border-radius: 0;
+}

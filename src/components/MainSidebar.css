@@ -1,15 +1,53 @@
+/* New Styles */
+
+:root:root:root .HelpButton {
+  color: #CE4034 !important;
+  /* border-color: #CE4034 !important; */
+}
+
+.ui.sidebar.menu .item {
+  font-family: 'Open Sans', sans-serif !important;
+  text-transform: uppercase !important;
+}
+
+.ui.sidebar.menu .item a {
+  padding-left: 10px;
+}
+
+.ui.sidebar.menu .item .active {
+  opacity: 1;
+}
+
+.ui.sidebar.menu .item :not(.active) {
+  opacity: .5;
+}
+
+.ui.accordion.menu .item .title>.dropdown.icon {
+  color: #3434CE;
+  float: none !important;
+  opacity: unset;
+}
+
+.ui.sidebar.menu .item .content ul li a {
+  color: white !important;
+  opacity: unset;
+}
+
 :root:root:root .MainSidebar {
-  background: #272B34;
+  /* background: #272B34; */
   display: flex;
   flex-direction: column;
   height: 100%;
+  border-radius: 0 10px 0 0;
+  background: linear-gradient(180deg, #20206B 0%, #0E0E39 100%);
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.5);
 }
 
 :root:root .MainSidebar .adChainLogo {
   width: 100%;
   padding: 0.6em;
   text-align: center;
-  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.50);
+  /* box-shadow: 0 2px 4px 0 rgba(0,0,0,0.50); */
 }
 
 :root:root .MainSidebar .adChainLogo img {
