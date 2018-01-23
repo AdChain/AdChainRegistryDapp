@@ -3,34 +3,74 @@
 :root:root:root .HelpButton {
   color: #CE4034 !important;
   /* border-color: #CE4034 !important; */
+  border: 1px solid #CE4034;
+  box-shadow: none !important;
+  text-transform: uppercase;
+  font-size: 10px;
 }
+
+:root:root:root .HelpButton:hover {
+  color: #FFF !important;
+  font-weight: bold !important;
+  background-color: #CE4034;
+}
+
 
 .ui.sidebar.menu .item {
   font-family: 'Open Sans', sans-serif !important;
   text-transform: uppercase !important;
+  border: none;
 }
 
 .ui.sidebar.menu .item a {
   padding-left: 10px;
 }
 
-.ui.sidebar.menu .item .active {
+.ui.sidebar.menu .item img {
+  width: 13%;
+}
+
+.ui.sidebar.menu .item .NavLink,
+.ui.sidebar.menu .item img {
+  opacity: .5;
+}
+
+.ui.sidebar.menu .item .NavLink.active {
   opacity: 1;
 }
 
-.ui.sidebar.menu .item :not(.active) {
+
+.ui.accordion.menu .item .title {
+  display: inline;
   opacity: .5;
 }
+
+.ui.accordion.menu .item .title.active {
+  opacity: 1;
+}
+
 
 .ui.accordion.menu .item .title>.dropdown.icon {
   color: #3434CE;
   float: none !important;
   opacity: unset;
+  margin: unset;
+}
+
+.ui.sidebar.menu .item .content ul {
+  padding-left: 2em;
+  margin-top: 0;
+}
+
+.ui.sidebar.menu .item .content ul li {
+  padding-bottom: 5px;
 }
 
 .ui.sidebar.menu .item .content ul li a {
-  color: white !important;
+  color: #F4F7FA !important;
   opacity: unset;
+  font-size: 8px;
+  line-height: 11px;
 }
 
 :root:root:root .MainSidebar {
