@@ -1,4 +1,5 @@
 /* New Styles */
+@import url('https://fonts.googleapis.com/css?family=Titillium+Web:400,700');
 
 :root:root:root .HelpButton {
   color: #CE4034 !important;
@@ -24,6 +25,7 @@
 
 .ui.sidebar.menu .item a {
   padding-left: 10px;
+  font-size: 16px;
 }
 
 .ui.sidebar.menu .item img {
@@ -43,12 +45,14 @@
 .ui.accordion.menu .item .title {
   display: inline;
   opacity: .5;
+  font-size: 16px;
+  padding-left: 10px;
 }
+
 
 .ui.accordion.menu .item .title.active {
   opacity: 1;
 }
-
 
 .ui.accordion.menu .item .title>.dropdown.icon {
   color: #3434CE;
@@ -57,9 +61,22 @@
   margin: unset;
 }
 
+.ui.accordion.menu .item .AccordionArrow {
+  float: none !important;
+  color: #3434CE;
+}
+
+:root:root:root .ui.accordion.menu .item .AccordionArrowRotatedHelp,
+:root:root:root .ui.accordion.menu .item .AccordionArrowRotatedSocial  {
+  float: none !important;
+  color: #3434CE;
+  transform: rotate(-90deg);
+}
+
 .ui.sidebar.menu .item .content ul {
   padding-left: 2em;
   margin-top: 0;
+  margin-bottom: 0;
 }
 
 .ui.sidebar.menu .item .content ul li {
@@ -72,6 +89,44 @@
   font-size: 8px;
   line-height: 11px;
 }
+
+.SidebarFooter {
+  position: absolute;
+  /* left: 50%; */
+  bottom: 0;
+  /* transform: translate(-50%, -50%); */
+  width: 100%;
+}
+
+.PoweredBy {
+  text-align: center;
+  color: #F4F7FA;
+  font-family: "Open Sans", sans-serif;
+  font-size: 8px;
+  font-weight: 600;
+  line-height: 8px;
+}
+
+.SidebarFooterLogos {
+  width: 65px;
+  display: inline !important;
+  vertical-align: middle;
+}
+
+.ImageBorder {
+	box-sizing: border-box;
+	height: 23px;
+	width: 3px;
+	border: .5px solid #FFFFFF;
+  opacity: .4 !important;
+  margin-right: 10px;
+  margin-left: 10px;
+  line-height: 2em;
+  padding-top: 3px;
+  padding-bottom: 3px;
+}
+
+/* End New Style Changes */
 
 :root:root:root .MainSidebar {
   /* background: #272B34; */
@@ -161,7 +216,7 @@
 }
 
 :root:root .MainSidebar .metaxLogo {
-  padding: 2em;
+  /* padding: 2em; */
   width: 100%;
   text-align: center;
 }

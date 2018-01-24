@@ -9,6 +9,7 @@
   box-shadow: 0 2px 10px 0 rgba(13,6,62,0.5);
   margin-left: 8%;
   margin-right: 8%;
+  margin-top: 2em;
 }
 
 :root:root:root .ApplicationButton {
@@ -18,14 +19,43 @@
   display: block;
   margin: 0 auto;
   text-transform: uppercase;
-  height: 20px;
+  height: 24px;
   font-size: 8px;
   font-weight: bold;
+}
+
+:root:root:root .ApplicationButton:hover {
+  background-color: #10C903 !important;
+  color: #FFF !important;
+  border: none;
 }
 
 .ApplicationContainer .ActiveForm {
   background-color: #3434CE;
 }
+
+:root:root:root .ApplicationContainer .ApplicationLabel {
+  color: #FFF;
+}
+
+:root:root:root .ApplicationContainer .DomainUrlLabel::after {
+  content: url(./assets/info_blue.svg);
+  -webkit-transform: scale(1.2) translateY(1.2px);
+  -ms-transform: scale(1.2) translateY(1.2px);
+  transform: scale(1.2) translateY(1.2px);
+  float: right;
+  padding-right: 1em;
+}
+
+:root:root:root .ApplicationContainer .ActiveForm .DomainUrlLabel::after {
+  content: url(./assets/info_white.svg);
+  -webkit-transform: scale(1.2) translateY(1.2px);
+  -ms-transform: scale(1.2) translateY(1.2px);
+  transform: scale(1.2) translateY(1.2px);
+  float: right;
+  padding-right: 1em;
+}
+
 
 :root:root:root .ApplicationContainer .ActiveForm .ApplicationLabel {
   color: #FFF;

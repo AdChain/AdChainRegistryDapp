@@ -4,8 +4,9 @@ import { Menu, Button, Accordion } from 'semantic-ui-react'
 import SideBarApplicationContainer from './SideBarApplicationContainer'
 import './MainSidebar.css'
 
-import adchainLogo from './assets/ad_chain_logo_white_text.png'
-import metaxLogo from './assets/metax_logo_white_text.png'
+import adchainLogo from './assets/white_text_adchain_logo.svg'
+import metaxLogo from './assets/white_text_metax_logo.svg'
+import adtokenLogo from './assets/white_text_adtoken_logo.svg'
 import wwwLogo from './assets/WWW.svg'
 import dashboardLogo from './assets/DASHBOARD.svg'
 import helpLogo from './assets/HELP.svg'
@@ -16,18 +17,24 @@ class MainSidebar extends Component {
   constructor (props) {
     super()
     this.state = {
-      activeIndex: 0
+      activeIndex: 0,
+      accordionArrow: false,
+      clicked: false
     }
     this._Link = props.Link
     this.handleClick = this.handleClick.bind(this)
   }
 
   handleClick (e, titleProps) {
+    console.log(titleProps)
     const { id } = titleProps
-    const { activeIndex } = this.state
+    const { activeIndex, clicked } = this.state
     const newIndex = activeIndex === id ? -1 : id
-
-    this.setState({ activeIndex: newIndex })
+    this.setState({
+      activeIndex: newIndex,
+      accordionArrow: (id === 1) ? 'help' : 'social',
+      clicked: !clicked
+    })
   }
 
   render () {
@@ -102,8 +109,10 @@ class MainSidebar extends Component {
                 id={1}
                 active={activeIndex === 1}
                 onClick={this.handleClick}
-                content='Help'
-              />
+              >
+                Help
+              </Accordion.Title>
+              <i aria-hidden='true' className={this.state.accordionArrow === 'help' ? this.state.clicked ? 'dropdown icon AccordionArrowRotatedHelp' : 'dropdown icon AccordionArrow' : 'dropdown icon AccordionArrow'} />
               <Accordion.Content active={activeIndex === 1} content={HelpOptions} />
             </Menu.Item>
             <Menu.Item name='social'>
@@ -112,8 +121,10 @@ class MainSidebar extends Component {
                 id={2}
                 active={activeIndex === 2}
                 onClick={this.handleClick}
-                content='Social'
-              />
+              >
+              Social
+              </Accordion.Title>
+              <i aria-hidden='true' className={this.state.accordionArrow === 'social' ? this.state.clicked ? 'dropdown icon AccordionArrow' : 'dropdown icon AccordionArrowRotatedSocial' : 'dropdown icon AccordionArrow'} />
               <Accordion.Content active={activeIndex === 2} content={SocialLinks} />
             </Menu.Item>
             {
@@ -244,13 +255,20 @@ class MainSidebar extends Component {
         </div>
         <SideBarApplicationContainer />
         <div className='SidebarFooter'>
+          <div className='PoweredBy'>
+            Powered By
+          </div>
           <div className='metaxLogo ui image'>
             <a href='https://metax.io' target='_blank' rel='noopener noreferrer'>
-              <img src={metaxLogo} alt='MetaX' />
+              <img src={metaxLogo} alt='MetaX' className='SidebarFooterLogos' />
+            </a>
+            <span className='ImageBorder' />
+            <a href='https://adtoken.com' target='_blank' rel='noopener noreferrer'>
+              <img src={adtokenLogo} alt='AdToken' className='SidebarFooterLogos' />
             </a>
           </div>
           <div className='Copyright'>
-            <p>© Copyright 2017 MetaXchain, Inc.<br />
+            <p>© Copyright 2017 MetaXchain, Inc.
             All rights reserved.</p>
           </div>
         </div>
