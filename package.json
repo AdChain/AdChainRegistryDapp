@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "dependencies": {
+    "adblock-detect": "^1.0.5",
     "blockies": "0.0.2",
     "commafy": "0.0.5",
     "dns": "^0.2.2",

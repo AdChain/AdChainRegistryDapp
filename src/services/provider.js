@@ -23,5 +23,5 @@ export const getWebsocketProvider = () => {
     window.Web3.providers.WebsocketProvider.prototype.sendAsync = window.Web3.providers.WebsocketProvider.prototype.send
   }
 
-  return new window.Web3.providers.WebsocketProvider('wss://rinkeby.infura.io/ws')
+  return new window.Web3.providers.WebsocketProvider('wss://rinkeby.infura.io/_ws')
 }

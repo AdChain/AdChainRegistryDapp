@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 // import PropTypes from 'prop-types'
-
 import './MainSidebar.css'
 
 import adchainLogo from './assets/ad_chain_logo_white_text.png'
@@ -64,6 +63,9 @@ class MainSidebar extends Component {
               Support
             </div>
             <ul className='ui list'>
+              <li className='item'>
+                <Link to='/chat'>Chat</Link>
+              </li>
               <li className='item'>
                 <a
                   href='https://adchain.zendesk.com/hc/en-us'
