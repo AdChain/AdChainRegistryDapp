@@ -12,11 +12,10 @@
   font-weight: 100;
 }
 .MainTopbar .item span{
-  color:black !important;
   color: #424242;
   font-family: Open Sans,sans-serif;
-  font-size: 15px;
-  font-weight: 100;
+  font-size: 16px;
+  font-weight: 300;
 }
 
 :root:root .MainTopbar .menu {
@@ -99,6 +98,7 @@
   }
 
   .MainTopbar .AddressContainer span {
+    color:#424242;
     display: inline-block;
     overflow-x: auto;
     white-space: nowrap;

@@ -7,6 +7,7 @@ body {
   padding: 0;
   background: #fcfcff;
   -webkit-font-smoothing: antialiased;
+  font-family: Open Sans,sans-serif;
 }
 
 body,
@@ -86,7 +87,9 @@ p {
 :root:root .form input[type="password"].error {
   border: 1px solid #ea5e5e;
 }
-
+:root:root button,:root:root a{
+    font-family: "Open Sans",sans-serif;
+}
 .BoxFrame {
   background: #fff;
   padding: 20px;
@@ -106,11 +109,19 @@ p {
     content: url(./components/assets/info_gray.svg);
     transform:scale(1.2) translateY(1.2px);
     padding-left:10px;
+    cursor:pointer;
 }
+
 
 .RootLoader{
   position:relative;
 }
+.ui.icon.input>i.icon:not(.link) {
+  color:#909090;
+}
+.BoxFrameLabel.ui.grid label,
+.rt-resizable-header-content
+{font-family: Open Sans, sans-serif;}
 
 :root:root .form label {
   color: #54555d;
@@ -136,7 +147,7 @@ p {
 .mt-100{margin-top:100px;}
 .mb-25{margin-bottom:25px;}
 .m-25{margin:25px 0;}
-
+.f-os{font-family: Open Sans, sans-serif}
 /*utility padding styles*/
 .pd-15{padding:15px;}
 

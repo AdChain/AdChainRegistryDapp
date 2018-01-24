@@ -23,15 +23,26 @@
   padding-left: 6px;
   margin-top: 4px;
   display: inline-block;
+  color:#7a7b83;
+  font-size: 13px
 }
 
+.DomainsFilterPanel  label {
+  color:#7a7b83;
+}
+.DomainsFilterPanel .ui.input{
+    display: inline-block;
+    margin-bottom: -3px;
 
+}
 :root:root .DomainsFilterPanel .SearchContainer .input input {
-  color: black;
+  color:#595959;
 }
 
 .DomainsFilterPanel .SearchContainer .icon {
   color: #F4F7FA;
+  height: 50px;
+  margin-top: -10px;
 }
 
 .DomainsFilterPanel .SearchContainer input,
@@ -51,11 +62,15 @@
 }
 
 .DomainsFilterPanel .ListTitle {
-  font-size: 1em;
-  color: #686972;
-  margin-bottom: 10px;
+    font-size: 1em;
+    color: #686972;
+    margin-bottom: 0px;
+    padding-left: 26px;
+    font-weight: 600;
 }
-
+#DomainsFiltersPanelDomainSearch{
+  padding:0;
+}
 :root:root .DomainsFilterPanel .list {
   margin: 0;
   padding: 0;
@@ -69,6 +84,7 @@
 
 :root:root .DomainsFilterPanel .list .item {
   margin-bottom: 5px;
+  min-height:25px;
 }
 
 :root:root .DomainsFilterPanel .list .item:before {
@@ -77,11 +93,26 @@
 
 .DomainsFilterPanel .Reset {
   text-align: center;
+  padding-bottom:10px;
 }
 
 .DomainsFilterPanel .Reset a {
-  text-transform: uppercase;
+    text-transform: uppercase;
+    display: inline-block;
+    padding: 2px 16px;
+    border: 1px solid #3434CE;
+    text-decoration: none;
+    border-radius: 3px;
+    color: #3434CE;
+    font-size: 10px;
+    font-weight: 600;
 }
+.DomainsFilterPanel .Reset a:hover {
+  color:white;
+  text-decoration: none !important;
+  background:#3434CE;
+}
+
 
 .DomainsFilterPanel .Reset a:hover {
   text-decoration: underline;
