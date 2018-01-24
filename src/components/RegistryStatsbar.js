@@ -17,7 +17,8 @@ class RegistryStatsbar extends Component {
       totalInApplication: null,
       totalInCommit: null,
       totalInReveal: null,
-      totalInRegistry: null
+      totalInRegistry: null,
+      adBlock: false
     }
 
     this.fetchStats()
@@ -126,24 +127,28 @@ class RegistryStatsbar extends Component {
   }
 
   async fetchStats () {
-    let totalStaked = await (await window.fetch(`https://adchain-registry-api.metax.io/registry/domains/stake/count`)).json()
-    const totalInApplication = await (await window.fetch(`https://adchain-registry-api.metax.io/registry/domains/application/count`)).json()
-    const totalInCommit = await (await window.fetch(`https://adchain-registry-api.metax.io/registry/domains/incommit/count`)).json()
-    const totalInReveal = await (await window.fetch(`https://adchain-registry-api.metax.io/registry/domains/inreveal/count`)).json()
-    const totalInRegistry = await (await window.fetch(`https://adchain-registry-api.metax.io/registry/domains/registry/count`)).json()
+    try {
+      let totalStaked = await (await window.fetch(`https://adchain-registry-api.metax.io/registry/domains/stake/count`)).json()
+      const totalInApplication = await (await window.fetch(`https://adchain-registry-api.metax.io/registry/domains/application/count`)).json()
+      const totalInCommit = await (await window.fetch(`https://adchain-registry-api.metax.io/registry/domains/incommit/count`)).json()
+      const totalInReveal = await (await window.fetch(`https://adchain-registry-api.metax.io/registry/domains/inreveal/count`)).json()
+      const totalInRegistry = await (await window.fetch(`https://adchain-registry-api.metax.io/registry/domains/registry/count`)).json()
 
-    if (totalStaked) {
-      totalStaked = totalStaked / Math.pow(10, token.decimals)
-    }
+      if (totalStaked) {
+        totalStaked = totalStaked / Math.pow(10, token.decimals)
+      }
 
-    if (this._isMounted) {
-      this.setState({
-        totalStaked,
-        totalInApplication,
-        totalInCommit,
-        totalInReveal,
-        totalInRegistry
-      })
+      if (this._isMounted) {
+        this.setState({
+          totalStaked,
+          totalInApplication,
+          totalInCommit,
+          totalInReveal,
+          totalInRegistry
+        })
+      }
+    } catch (error) {
+      console.log(error)
     }
   }
 }

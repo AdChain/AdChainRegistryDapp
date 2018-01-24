@@ -1,12 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
 import MainTopbar from './MainTopbar'
 import ApplicationContainer from './ApplicationContainer'
 import DomainsContainer from './DomainsContainer'
 import DomainProfile from './DomainProfile'
 import AccountDashboard from './AccountDashboard'
-
+import RocketChat from './RocketChat'
 import './MainContainer.css'
 
 function MainContainer (props) {
@@ -26,13 +25,14 @@ function MainContainer (props) {
         transitionEnterTimeout={500}
         transitionLeaveTimeout={500}>
 
-        <Route location={location} key={key}>
+        <Route location={location} key={key} >
           <Switch>
             <Redirect path='/' to='/domains' exact />
             <Route path='/apply' exact component={ApplicationContainer} />
             <Route path='/domains' exact component={DomainsContainer} />
             <Route path='/domains/:domain' exact component={DomainProfile} />
             <Route path='/account' exact component={AccountDashboard} />
+            <Route path='/chat' exact component={RocketChat} />
             <Route path='/' exact component={DomainsContainer} />
           </Switch>
         </Route>

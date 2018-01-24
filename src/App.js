@@ -30,7 +30,8 @@ function App () {
                 CSSTransitionGroup={CSSTransitionGroup}
                 Switch={Switch}
                 Redirect={Redirect}
-                location={location} />
+                location={location} 
+                Link={Link}/>
             </div>
           </div>
         </div>

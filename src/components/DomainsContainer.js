@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import qs from 'qs'
 import updateQuery from 'update-query'
-import { Popup } from 'semantic-ui-react'
+// import { Popup } from 'semantic-ui-react'
 
 import normalizeQueryObj from '../utils/normalizeQueryObj'
 
@@ -10,7 +10,8 @@ import RegistryStatsbar from './RegistryStatsbar'
 import AdtCalculator from './AdtCalculator'
 import DomainsTable from './DomainsTable'
 import DomainsFilterPanel from './DomainsFilterPanel'
-import Trollbox from './Trollbox'
+import { NavLink as Link } from 'react-router-dom'
+import RightCaret from './assets/right_caret.png'
 
 import './DomainsContainer.css'
 
@@ -25,7 +26,6 @@ class DomainsContainer extends Component {
       history: props.history,
       tableFilters: []
     }
-
     this.onQueryChange = this.onQueryChange.bind(this)
     this.updateTableFilters = this.updateTableFilters.bind(this)
 
@@ -71,18 +71,14 @@ class DomainsContainer extends Component {
                   filters={query}
                   onFiltersChange={this.onQueryChange}
                 />
-                <div className='GlobalTrollbox BoxFrame'>
-                  <div className='Header'>
-                    Global Trollbox&nbsp;
-                    <Popup
-                      trigger={<i className='icon info circle' />}
-                      content='The trollbox is a global anonymous chat box'
-                    />
+                <Link to='/chat'>
+                  <div className='GlobalTrollbox BoxFrame'>
+                    <div className='Header'>
+                      <strong style={{color: '#606060'}}>adChain Registry Chat</strong>
+                      <img src={RightCaret} style={{right: '26px', position: 'absolute'}} height='20' alt='arrow' />
+                    </div>
                   </div>
-                  <Trollbox
-                    channel={'adchainRegistry:v001/global'}
-                  />
-                </div>
+                </Link>
               </div>
               <div className='column twelve wide'>
                 <DomainsTable
