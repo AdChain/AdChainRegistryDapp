@@ -57,12 +57,6 @@ p {
   line-height: 1.6;
 }
 
-:root:root .ui.button.blue,
-:root:root .ui.blue.label,
-:root:root .ui.blue.labels .label {
-  background-color: #4585c7 !important;
-  border-color: #4585c7 !important;
-}
 
 :root:root .ui.button.purple {
   background-color: #633e80;
@@ -160,7 +154,8 @@ p {
 .f-18{font-size:18px;}
 /*utility inline block*/
 .ib{display: inline-block !important;}
-
+/*utility hide*/
+.hide{display: none !important;}
 @media only screen and (max-width: 767px) {
   :root:root:root:root .MainContainerWrap {
     margin-top: 70px !important;

@@ -10,7 +10,7 @@ import RegistryStatsbar from './RegistryStatsbar'
 import AdtCalculator from './AdtCalculator'
 import DomainsTable from './DomainsTable'
 import DomainsFilterPanel from './DomainsFilterPanel'
-import Trollbox from './Trollbox'
+// import Trollbox from './Trollbox'
 
 import './DomainsContainer.css'
 
@@ -71,13 +71,7 @@ class DomainsContainer extends Component {
                   filters={query}
                   onFiltersChange={this.onQueryChange}
                 />
-                <div className='GlobalTrollbox BoxFrame'>
-                  <span className='ui grid BoxFrameLabel'>GLOBAL COMMENT BOX</span> &nbsp;&nbsp;&nbsp;&nbsp;
 
-                  <Trollbox
-                    channel={'adchainRegistry:v001/global'}
-                  />
-                </div>
               </div>
               <div className='column twelve wide'>
                 <DomainsTable

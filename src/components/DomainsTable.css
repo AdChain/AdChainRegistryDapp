@@ -1,6 +1,3 @@
-.DomainsTable {
-}
-
 .DomainsTable .ui.table {
   width: 100%;
   border: none;
@@ -81,12 +78,55 @@
 
 :root:root .DomainsTable .ReactTable .Domain {
   display: inline-block;
-  font-weight: bold;
+  color:#424242;
+  font-weight: 600;
+  font-family: Open Sans, sans-serif;
 }
 
 :root:root .DomainsTable .ReactTable .Domain img {
   margin-right: 0.3em;
   vertical-align: middle;
+}
+:root:root .DomainsTable .ui.red.button, .ui.red.buttons .button {
+    color: #db2828;
+    background: white;
+    /* color: #fff; */
+    text-shadow: none;
+    background-image: none;
+    border: 1px solid;
+    border: 1px solid #CE3434;
+}
+:root:root .DomainsTable .ui.red.button:hover, .ui.red.buttons .button:hover {
+    color: white;
+    background: #db2828;
+    text-decoration: none;
+}
+:root:root .DomainsTable .ui.green.button:hover, .ui.green.buttons .button:hover {
+    color: white;
+    background: #10C903;
+    text-decoration: none;
+}
+:root:root .DomainsTable .ui.blue.button:hover, .ui.blue.buttons .button:hover {
+    color: white;
+    background: #3434CE;
+    text-decoration: none;
+}
+:root:root .DomainsTable .ReactTable .rt-tbody .rt-td a:hover {
+    text-decoration: none;
+}
+:root:root .DomainsTable  .ui.blue.button, .ui.blue.buttons .button {
+    background-color: white;
+    color: #3434CE;
+    text-shadow: none;
+    background-image: none;
+    border: 1px solid #3434CE;
+}
+:root:root .DomainsTable .ui.green.button, .ui.green.buttons .button {
+    background-color: white;
+    color: #10C903;
+    text-shadow: none;
+    background-image: none;
+    border: 1px solid #10C903;
 }
 
 :root:root .DomainsTable .ReactTable .-pagination {

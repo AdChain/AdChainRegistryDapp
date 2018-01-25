@@ -120,8 +120,7 @@ class DomainsTable extends Component {
         const domain = props.value
 
         return (
-          <a
-            href='#!'
+          <span
             className='Domain'
             title='View profile'
             onClick={(event) => {
@@ -133,9 +132,9 @@ class DomainsTable extends Component {
               src={`https://www.google.com/s2/favicons?domain=${domain}`}
               width={16}
               alt=''
-          />
+          />&nbsp;
             {domain}
-          </a>
+          </span>
         )
       },
       minWidth: 200
@@ -160,25 +159,28 @@ class DomainsTable extends Component {
         const stage = props.value
         const {row} = props
         const {domain} = row
-
+        let color
         let label = 'View'
 
         if (stage === 'in_registry') {
           label = 'View'
+          color = ''
         } else if (stage === 'in_application') {
           label = 'Challenge'
+          color = 'red'
         } else if (stage === 'voting_commit') {
           label = 'Vote'
+          color = 'blue'
         } else if (stage === 'voting_reveal') {
           label = 'Reveal'
+          color = 'green'
         } else if (stage === 'apply') {
           label = 'Apply'
+          color = 'blue'
         }
 
-        const color = (stage === 'in_application' ? 'purple' : 'blue')
-
         return <a
-          className={`ui mini button ${color}`}
+          className={`ui mini button ${color || 'hide'}`}
           href='#!'
           title={label}
           onClick={(event) => {
