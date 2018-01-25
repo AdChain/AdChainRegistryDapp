@@ -19,22 +19,32 @@ class MainSidebar extends Component {
     this.state = {
       activeIndex: 0,
       accordionArrow: false,
-      clicked: false
+      helpClicked: false,
+      socialClicked: false
     }
     this._Link = props.Link
     this.handleClick = this.handleClick.bind(this)
   }
 
   handleClick (e, titleProps) {
-    console.log(titleProps)
     const { id } = titleProps
-    const { activeIndex, clicked } = this.state
+    const { activeIndex, helpClicked, socialClicked } = this.state
     const newIndex = activeIndex === id ? -1 : id
-    this.setState({
-      activeIndex: newIndex,
-      accordionArrow: (id === 1) ? 'help' : 'social',
-      clicked: !clicked
-    })
+    if (id === 1) {
+      this.setState({
+        activeIndex: newIndex,
+        accordionArrow: 'help',
+        helpClicked: !helpClicked,
+        socialClicked: false
+      })
+    } else {
+      this.setState({
+        activeIndex: newIndex,
+        accordionArrow: 'social',
+        socialClicked: !socialClicked,
+        helpClicked: false
+      })
+    }
   }
 
   render () {
@@ -79,7 +89,6 @@ class MainSidebar extends Component {
     )
 
     return (
-      // <Menu vertical inverted className='MainSidebar sidebar visible overflow-y'>
       <Accordion as={Menu} vertical inverted className='MainSidebar sidebar visible overflow-y borderless'>
         <div className='adChainLogo ui image'>
           <a href='/'>
@@ -92,165 +101,36 @@ class MainSidebar extends Component {
               <Button inverted className='HelpButton' color='orange' content='How Does This Thing Work' />
             </div>
             <Menu.Item name='domain'>
-              <img src={wwwLogo} alt='www' />
-              <Link to='/domains' className='NavLink' activeClassName='active'>Domains</Link>
+              <Link to='/domains' className='NavLink' activeClassName='active'><img src={wwwLogo} alt='www' />Domains</Link>
             </Menu.Item>
             <Menu.Item name='account'>
-              <img src={dashboardLogo} alt='dashboard' />
-              <Link to='/account' className='NavLink' activeClassName='active'>My Dashboard</Link>
+              <Link to='/account' className='NavLink' activeClassName='active'><img src={dashboardLogo} alt='dashboard' />My Dashboard</Link>
             </Menu.Item>
             <Menu.Item name='parameter'>
-              <img src={parametersLogo} alt='governance' />
-              <Link to='/parameter' className='NavLink' activeClassName='active'>Governance</Link>
+              <Link to='/parameter' className='NavLink' activeClassName='active'><img src={parametersLogo} alt='governance' />Governance</Link>
             </Menu.Item>
             <Menu.Item name='help'>
-              <img src={helpLogo} alt='help' />
               <Accordion.Title
                 id={1}
                 active={activeIndex === 1}
-                onClick={this.handleClick}
-              >
-                Help
+                onClick={this.handleClick}>
+                <img src={helpLogo} alt='help' />
+              Help
               </Accordion.Title>
-              <i aria-hidden='true' className={this.state.accordionArrow === 'help' ? this.state.clicked ? 'dropdown icon AccordionArrowRotatedHelp' : 'dropdown icon AccordionArrow' : 'dropdown icon AccordionArrow'} />
+              <i aria-hidden='true' className={this.state.accordionArrow === 'help' ? this.state.helpClicked ? 'dropdown icon AccordionArrowRotatedHelp' : 'dropdown icon AccordionArrow' : 'dropdown icon AccordionArrow'} />
               <Accordion.Content active={activeIndex === 1} content={HelpOptions} />
             </Menu.Item>
             <Menu.Item name='social'>
-              <img src={socialLogo} alt='social' />
               <Accordion.Title
                 id={2}
                 active={activeIndex === 2}
-                onClick={this.handleClick}
-              >
+                onClick={this.handleClick}>
+                <img src={socialLogo} alt='social' />
               Social
               </Accordion.Title>
-              <i aria-hidden='true' className={this.state.accordionArrow === 'social' ? this.state.clicked ? 'dropdown icon AccordionArrow' : 'dropdown icon AccordionArrowRotatedSocial' : 'dropdown icon AccordionArrow'} />
+              <i aria-hidden='true' className={this.state.accordionArrow === 'social' ? this.state.socialClicked ? 'dropdown icon AccordionArrowRotatedSocial' : 'dropdown icon AccordionArrow' : 'dropdown icon AccordionArrow'} />
               <Accordion.Content active={activeIndex === 2} content={SocialLinks} />
             </Menu.Item>
-            {
-              // <ul className='ui list'>
-            //   <li className='item ApplyLink'>
-            //     <Link to='/apply'>Apply now</Link>
-            //   </li>
-            //   <li className='item'>
-            //     <Link to='/domains' activeClassName='active'>Domains</Link>
-            //   </li>
-            //   <li className='item SubListContainer'>
-            //     <ul className='ui list'>
-            //       <li className='item'>
-            //         <Link to='/domains?inRegistry=true'>In Registry</Link>
-            //       </li>
-            //       <li className='item'>
-            //         <Link to='/domains?inApplication=true'>In Application</Link>
-            //       </li>
-            //       <li className='item'>
-            //         <Link to='/domains?inVotingCommit=true'>In Voting Commit</Link>
-            //       </li>
-            //       <li className='item'>
-            //         <Link to='/domains?inVotingReveal=true'>In Voting Reveal</Link>
-            //       </li>
-            //     </ul>
-            //   </li>
-            // </ul>
-            //
-            // <div className='ListTitle ui header'>
-            //   adChain Account
-            // </div>
-            // <ul className='ui list'>
-            //   <li className='item'>
-            //     <Link to='/account'>Account Dashboard</Link>
-            //   </li>
-            // </ul>
-            // <div className='ListTitle ui header'>
-            //   Support
-            // </div>
-            // <ul className='ui list'>
-            //   <li className='item'>
-            //     <a
-            //       href='https://adchain.zendesk.com/hc/en-us'
-            //       target='_blank'
-            //       rel='noopener noreferrer'>
-            //       Help Desk
-            //     </a>
-            //   </li>
-            //   <li className='item'>
-            //     <a
-            //       href='https://adchain.zendesk.com/hc/en-us/requests/new'
-            //       target='_blank'
-            //       rel='noopener noreferrer'>
-            //       Submit Request / Bug
-            //     </a>
-            //   </li>
-            //   <li className='item'>
-            //     <a href='https://faucet.rinkeby.io/'
-            //       target='_blank'
-            //       rel='noopener noreferrer'>ETH Faucet</a>
-            //   </li>
-            //   <li className='item'>
-            //     <a href='https://faucet.adtoken.com'
-            //       target='_blank'
-            //       rel='noopener noreferrer'>ADT Faucet</a>
-            //   </li>
-            // </ul>
-            // <div className='ListTitle ui header'>
-            //   Education
-            // </div>
-            // <ul className='ui list'>
-            //   <li className='item'>
-            //     <a
-            //       href='https://adtoken.com/'
-            //       target='_blank'
-            //       rel='noopener noreferrer'>
-            //       adToken
-            //     </a>
-            //   </li>
-            // </ul>
-            // <div className='ListTitle ui header'>
-            //   Social
-            // </div>
-            // <ul className='ui list'>
-            //   <li className='item'>
-            //     <a
-            //       href='https://twitter.com/ad_chain'
-            //       target='_blank'
-            //       rel='noopener noreferrer'>
-            //       Twitter
-            //     </a>
-            //   </li>
-            //   <li className='item'>
-            //     <a
-            //       href='https://medium.com/@AdChain'
-            //       target='_blank'
-            //       rel='noopener noreferrer'>
-            //       Medium
-            //     </a>
-            //   </li>
-            //   <li className='item'>
-            //     <a
-            //       href='https://www.reddit.com/r/adChain/'
-            //       target='_blank'
-            //       rel='noopener noreferrer'>
-            //       Reddit
-            //     </a>
-            //   </li>
-            //   <li className='item'>
-            //     <a
-            //       href='https://chat.adchain.com'
-            //       target='_blank'
-            //       rel='noopener noreferrer'>
-            //       Rocket Chat
-            //     </a>
-            //   </li>
-            //   <li className='item'>
-            //     <a
-            //       href='https://github.com/adchain'
-            //       target='_blank'
-            //       rel='noopener noreferrer'>
-            //       Github
-            //     </a>
-            //   </li>
-            // </ul>
-          }
           </div>
         </div>
         <SideBarApplicationContainer />

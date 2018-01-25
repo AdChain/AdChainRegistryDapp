@@ -30,6 +30,9 @@
 
 .ui.sidebar.menu .item img {
   width: 13%;
+  vertical-align: middle;
+  position: relative;
+  right: 10px;
 }
 
 .ui.sidebar.menu .item .NavLink,
