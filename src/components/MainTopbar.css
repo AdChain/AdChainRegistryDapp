@@ -17,7 +17,9 @@
   font-size: 16px;
   font-weight: 300;
 }
-
+.TimeZoneDropdown{
+  border:1px solid #3534ce;
+}
 :root:root .MainTopbar .menu {
   border: none;
   border-radius: 0;

@@ -492,7 +492,11 @@ class DomainsTable extends Component {
     try {
       await registry.updateStatus(domain)
     } catch (error) {
-      toastr.error(error)
+      try {
+        toastr.error(error)
+      } catch (err) {
+        console.log(err)
+      }
     }
 
     this.getData()

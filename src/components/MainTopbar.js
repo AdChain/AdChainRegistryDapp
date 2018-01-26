@@ -3,7 +3,7 @@ import commafy from 'commafy'
 import store from '../store'
 import registry from '../services/registry'
 import token from '../services/token'
-
+import {timeZones} from '../utils/timeZones'
 import Identicon from './Identicon'
 
 import adtLogo from './assets/adtoken_logo.png'
@@ -59,22 +59,37 @@ class MainTopbar extends Component {
                   address={address}
                   size={6}
                   scale={6} />
-                <span>{address}</span>
+                <span>&nbsp;{address}</span>
               </div>
               : isLoading ? 'Loading...' : <div className='NoWalletMessage'>
                Please download or unlock <a href='https://metamask.io/' target='_blank' rel='noopener noreferrer'>MetaMask</a> extension to load application and Ethereum wallet
             </div>}
           </div>
-          {address
-            ? <div className={'item ' + (invalidNetwork ? 'RedAlert' : '')}>
+
+          <div className='menu right'>
+            {address
+              ? <div className={'item ' + (invalidNetwork ? 'RedAlert' : '')}>
+                <div>
+                  {invalidNetwork
+                    ? <strong>Please connect to Rinkeby Test Network</strong>
+                  : <span><strong>Network: </strong>Rinkeby Testnet</span>}
+                </div>
+              </div>
+            : null}
+            <div className='item TimeZone'>
               <div>
-                {invalidNetwork
-                  ? <strong>Please connect to Rinkeby Test Network</strong>
-                : <span>Network: <strong>Rinkeby Testnet</strong></span>}
+                <span>
+                  <strong>Time Zone:</strong> &nbsp;&nbsp;
+                  <select className='TimeZoneDropdown'>
+                    {
+                      timeZones.map((time, i) => {
+                        return (<option key={i} value={time.value}>{time.name}</option>)
+                      })
+                    }
+                  </select>
+                </span>
               </div>
             </div>
-          : null}
-          <div className='menu right'>
             {address
               ? <div className={'item ' + (ethBalance === 0 || ethBalance === null ? 'RedAlert' : '')}>
                 <div className='EthLogo ui image'>
