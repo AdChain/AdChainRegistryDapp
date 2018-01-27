@@ -10,6 +10,7 @@ import './DomainsTable.css'
 
 import store from '../store'
 import registry from '../services/registry'
+
 // import StatProgressBar from './StatProgressBar'
 
 function filterMethod (filter, row, column) {
@@ -48,7 +49,6 @@ class DomainsTable extends Component {
       pageSize: 10,
       isLoading: false
     }
-
     history = props.history
 
     this.onTableFetchData = this.onTableFetchData.bind(this)
@@ -252,13 +252,11 @@ class DomainsTable extends Component {
       Cell: (props) => {
         const {value, row} = props
 
-        if (value) {
+        if (value || (typeof props.value === 'number')) {
           if (isExpired(row)) {
             return <span className='error'>{value}</span>
           }
-        }
 
-        if (typeof props.value === 'number') {
           return commafy(value)
         }
 
@@ -368,14 +366,14 @@ class DomainsTable extends Component {
           item.stageEnds = moment.unix(applicationExpiry).format('YYYY-MM-DD HH:mm:ss')
         } else if (commitOpen) {
           item.stage = 'voting_commit'
-          const {
+          let {
             commitEndDate
           } = await registry.getChallengePoll(domain)
           item.stageEndsTimestamp = commitEndDate
           item.stageEnds = moment.unix(commitEndDate).format('YYYY-MM-DD HH:mm:ss')
         } else if (revealOpen) {
           item.stage = 'voting_reveal'
-          const {
+          let {
             revealEndDate,
             votesFor,
             votesAgainst

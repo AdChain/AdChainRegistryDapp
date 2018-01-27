@@ -3,8 +3,8 @@ import commafy from 'commafy'
 import store from '../store'
 import registry from '../services/registry'
 import token from '../services/token'
-import {timeZones} from '../utils/timeZones'
 import Identicon from './Identicon'
+import moment from 'moment-timezone'
 
 import adtLogo from './assets/adtoken_logo.png'
 import ethLogo from './assets/ethereum_purple_logo.png'
@@ -79,14 +79,7 @@ class MainTopbar extends Component {
             <div className='item TimeZone'>
               <div>
                 <span>
-                  <strong>Time Zone:</strong> &nbsp;&nbsp;
-                  <select className='TimeZoneDropdown'>
-                    {
-                      timeZones.map((time, i) => {
-                        return (<option key={i} value={time.value}>{time.name}</option>)
-                      })
-                    }
-                  </select>
+                  <strong>Time Zone:</strong> &nbsp;&nbsp; {moment.tz(moment.tz.guess()).zoneAbbr()}
                 </span>
               </div>
             </div>
