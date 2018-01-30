@@ -1,3 +1,8 @@
+:root:root .DomainsTable {
+   padding: 2em 3em;
+}
+
+
 .DomainsTable .ui.table {
   width: 100%;
   border: none;
@@ -50,6 +55,9 @@
 :root:root .DomainsTable .ReactTable .rt-thead .rt-td.Number,
 :root:root .DomainsTable .ReactTable .rt-tbody .rt-td.Number {
   text-align: right;
+  height: 100%;
+  width: 100%;
+  display: inline-block;
 }
 
 :root:root .DomainsTable .ReactTable .rt-thead .rt-th.-sort-desc,
@@ -90,19 +98,25 @@
 }
 :root:root .DomainsTable .ReactTable .Domain, 
 :root:root .DomainsTable .ReactTable span,
-:root:root .DomainsTable .ReactTable .Number {
-  display: inline-block;
+:root:root .DomainsTable .ReactTable .Number,
+:root:root .DomainsTable .ReactTable .rt-tr div {
   color:#424242;
   font-weight: 600;
   font-family: Open Sans, sans-serif;
   padding:4px 0;
+  height: 100%;
+  width: 100%;
+  display: inline-block;
 }
 
 :root:root .DomainsTable .ReactTable span,
 :root:root .DomainsTable .ReactTable .Number  {
   font-weight: 400;
 }
-
+:root:root .ReactTable .rt-tr {
+    min-height: 37px;
+    padding: 4px 2px;
+}
 :root:root .DomainsTable .ReactTable .rt-thead .rt-resizable-header:nth-child(2) .rt-resizable-header-content{
     padding-left: 22px;
 }
@@ -154,7 +168,9 @@
     background-image: none;
     border: 1px solid #10C903;
 }
-
+:root:root .table-button{
+  margin-top: 2px;
+}
 :root:root .DomainsTable .ReactTable .-pagination {
   font-size: 0.8em;
 }

@@ -197,7 +197,7 @@ class RegistryService {
       const result = await this.registry.listings.call(hash)
 
       const map = {
-        applicationExpiry: moment.tz(result[0].toNumber(), moment.tz.guess()),
+        applicationExpiry: result[0].toNumber() <= 0 ? null : moment.tz(result[0].toNumber(), moment.tz.guess()),
         isWhitelisted: result[1],
         ownerAddress: result[2],
         currentDeposit: result[3].toNumber(),
