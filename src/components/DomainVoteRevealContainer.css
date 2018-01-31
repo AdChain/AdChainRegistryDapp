@@ -1,3 +1,105 @@
 .DomainVoteRevealContainer {
   position: relative;
 }
+
+.DomainVoteRevealContainer .header {
+  display: inline-block;
+}
+
+:root:root:root .DomainVoteRevealContainer .refresh {
+  display: inline-block;
+  float: right;
+  border: 1px solid #3434CE;
+  border-radius: 3px;
+  color: #3434CE !important;
+  font-family: "Open Sans", sans-serif;
+  font-size: 8px;
+  font-weight: bold;
+  line-height: 11px;
+  text-transform: uppercase;
+}
+
+.DomainVoteRevealContainer .HeaderColumn {
+  padding-bottom: 0px !important;
+}
+
+.DomainVoteRevealContainer .HeaderRow {
+  padding-top: 10px;
+}
+
+:root:root:root .DomainVoteRevealContainer .LeftSegment {
+  width: 48%;
+  margin-right: 0 !important;
+  display: inline-block;
+  font-size: 10px;
+  height: 100%;
+  padding-left: 14px;
+}
+
+:root:root:root .DomainVoteRevealContainer .RightSegment {
+  width: 48%;
+  margin-top: 0;
+  display: inline-block;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  font-size: 10px;
+  height: 100%;
+}
+
+.DomainVoteRevealContainer .NumberCircleContainer {
+  position: absolute;
+  margin-top: 5.5em;
+  display: block;
+}
+
+.DomainVoteRevealContainer .NumberCircle {
+  border-radius: 10px;
+  display: inline-block;
+  float: left;
+  font-size:8px;
+  color: #F4F7FA;
+  font-weight: bold;
+  line-height: 13px;
+  font-family: 'Open Sans', sans-serif;
+  text-align:center;
+  border: 1px solid #BEC0C2;
+  padding: 2px;
+  background: #BEC0C2 content-box;
+  width: 21px;
+  height: 21px;
+}
+
+:root:root:root .DomainVoteRevealContainer .UploadCommitButton {
+  color: #3434CE !important;
+  font-family: "Open Sans", sans-serif;
+  font-size: 8px;
+  font-weight: bold;
+  height: 21px;
+  border-radius: 3px;
+  border: 1px solid #3434CE;
+  text-transform: uppercase;
+}
+
+:root:root:root .DomainVoteRevealContainer .UploadCommitButtonContainer {
+  padding-top: 3em;
+  padding-left: 1em;
+}
+
+:root:root:root .DomainVoteRevealContainer .UploadCommitButton .icon{
+  margin-right: 0 !important;
+  font-weight: 600;
+}
+
+:root:root:root .DomainVoteRevealContainer .VoteRevealInput input {
+  border-top: none;
+  border-right: none;
+  border-left: none;
+  border-radius: 0;
+  border-bottom: 1px solid;
+  width: 9em;
+}
+
+:root:root:root .DomainVoteRevealContainer .VoteRevealLabel {
+  display: flex;
+  align-items: flex-end;
+}

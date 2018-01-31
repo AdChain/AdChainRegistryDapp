@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import toastr from 'toastr'
 import moment from 'moment'
-import { Radio, Popup } from 'semantic-ui-react'
+import { Popup, Input, Segment, Button } from 'semantic-ui-react'
 
 import Countdown from './CountdownText'
 import registry from '../services/registry'
@@ -58,10 +58,10 @@ class DomainVoteRevealContainer extends Component {
       inProgress,
       didChallenge,
       didCommit,
-      didReveal,
-      voteOption,
-      challengeId,
-      salt
+      didReveal
+      // voteOption,
+      // challengeId,
+      // salt
     } = this.state
 
     const stageEndMoment = revealEndDate ? moment.unix(revealEndDate) : null
@@ -70,13 +70,34 @@ class DomainVoteRevealContainer extends Component {
     return (
       <div className='DomainVoteRevealContainer'>
         <div className='ui grid stackable'>
-          <div className='column sixteen wide'>
-            <div className='ui large header center aligned'>
-              VOTING – REVEAL
+          <div className='column sixteen wide HeaderColumn'>
+            <div className='row HeaderRow'>
+              <div className='ui large header'>
+              Stage: Reveal
               <Popup
                 trigger={<i className='icon info circle' />}
                 content='The first phase of the voting process is the commit phase where the ADT holder stakes a hidden amount of votes to SUPPORT or OPPOSE the domain application. The second phase is the reveal phase where the ADT holder reveals the staked amount of votes to either the SUPPORT or OPPOSE side.'
               />
+              </div>
+              <Button
+                basic
+                className='right refresh'
+                onClick={this.updateStatus}
+              >
+                Refresh Status
+              </Button>
+            </div>
+          </div>
+          <div className='ui divider' />
+          <div className='column sixteen wide center aligned'>
+            <div className='ui message info'>
+              <p>
+            Reveal stage ends
+              </p>
+              <p><strong>{stageEnd}</strong></p>
+              <p>Remaining time: <Countdown
+                endDate={stageEndMoment}
+                onExpire={this.onCountdownExpire.bind(this)} /></p>
             </div>
           </div>
           {didChallenge ? <div className='column sixteen wide center aligned'>
@@ -101,86 +122,101 @@ class DomainVoteRevealContainer extends Component {
           <DomainVoteTokenDistribution domain={domain} />
           <div className='ui divider' />
           <div className='column sixteen wide center aligned'>
-            <div className='ui message info'>
-              <p>
-            Reveal stage ends
-              </p>
-              <p><strong>{stageEnd}</strong></p>
-              <p>Remaining time: <Countdown
-                endDate={stageEndMoment}
-                onExpire={this.onCountdownExpire.bind(this)} /></p>
-            </div>
+            <Segment className='LeftSegment' floated='left'>
+              <div className='NumberCircleContainer'>
+                <div className='NumberCircle'>1</div>
+              </div>
+                  Upload your JSON commit file to reveal your vote:
+                <div className='UploadCommitButtonContainer'>
+                  <Button className='UploadCommitButton' basic>Upload Commit<i className='icon long arrow up' /></Button>
+                </div>
+            </Segment>
+            <Segment className='RightSegment' floated='right'>
+                If you misplaced your JSON commit file, you can enter the information below to reveal:
+                <div className='VoteRevealLabel'>
+                  Challenge ID: <Input className='VoteRevealInput' />
+                </div>
+              <div className='VoteRevealLabel'>
+                  Secret Phrase: <Input className='VoteRevealInput' />
+              </div>
+              <div className='VoteRevealLabel'>
+                  Vote Option <Input className='VoteRevealInput' />
+              </div>
+            </Segment>
           </div>
-          <div className='ui divider' />
-          <div className='column sixteen wide center aligned'>
-            <form
-              onSubmit={this.onFormSubmit}
-              className='ui form'>
-              <div className='ui field'>
-                <p>Challenge ID: <label className='ui label'>{challengeId}</label></p>
-              </div>
-              <div className='ui field'>
-                <label>Upload Commit File to reveal vote</label>
-                <input
-                  type='file'
-                  name='file'
-                  onChange={this.onFileInput}
-                  className='ui file' />
-              </div>
-              <div className='ui field'>
-                  or
-              </div>
-              <div className='ui field'>
-                <label>Secret Phrase (salt)</label>
-                <div className='ui input small'>
-                  <input
-                    type='text'
-                    placeholder='phrase'
-                    id='DomainVoteRevealContainerSaltInput'
-                    defaultValue={salt}
-                    onKeyUp={event => this.setState({salt: parseInt(event.target.value, 10)})}
-                  />
-                </div>
-              </div>
-              <div className='ui field'>
-                <label>Vote Option<br /><small>must be what you committed</small></label>
-              </div>
-              <div className='ui two fields VoteOptions'>
-                <div className='ui field'>
-                  <Radio
-                    label='SUPPORT'
-                    name='voteOption'
-                    value='1'
-                    checked={this.state.voteOption === 1}
-                    onChange={this.onVoteOptionChange}
-                  />
-                </div>
-                <div className='ui field'>
-                  <Radio
-                    label='OPPOSE'
-                    name='voteOption'
-                    value='0'
-                    checked={this.state.voteOption === 0}
-                    onChange={this.onVoteOptionChange}
-                  />
-                </div>
-              </div>
-              <div className='ui field'>
-                {voteOption === null
-                  ? <button
-                    className='ui button disabled'>
-                      Select Vote Option
-                  </button>
-                : <button
-                  type='submit'
-                  className={`ui button ${voteOption ? 'blue' : 'purple'} right labeled icon`}>
-                  REVEAL {voteOption ? 'SUPPORT' : 'OPPOSE'} VOTE
-                  <i className={`icon thumbs ${voteOption ? 'up' : 'down'}`} />
-                </button>
-                }
-              </div>
-            </form>
-          </div>
+
+          {
+          // <div className='column sixteen wide center aligned'>
+          //   <form
+          //     onSubmit={this.onFormSubmit}
+          //     className='ui form'>
+          //     <div className='ui field'>
+          //       <p>Challenge ID: <label className='ui label'>{challengeId}</label></p>
+          //     </div>
+          //     <div className='ui field'>
+          //       <label>Upload Commit File to reveal vote</label>
+          //       <input
+          //         type='file'
+          //         name='file'
+          //         onChange={this.onFileInput}
+          //         className='ui file' />
+          //     </div>
+          //     <div className='ui field'>
+          //         or
+          //     </div>
+          //     <div className='ui field'>
+          //       <label>Secret Phrase (salt)</label>
+          //       <div className='ui input small'>
+          //         <input
+          //           type='text'
+          //           placeholder='phrase'
+          //           id='DomainVoteRevealContainerSaltInput'
+          //           defaultValue={salt}
+          //           onKeyUp={event => this.setState({salt: parseInt(event.target.value, 10)})}
+          //         />
+          //       </div>
+          //     </div>
+          //     <div className='ui field'>
+          //       <label>Vote Option<br /><small>must be what you committed</small></label>
+          //     </div>
+          //     <div className='ui two fields VoteOptions'>
+          //       <div className='ui field'>
+          //         <Radio
+          //           label='SUPPORT'
+          //           name='voteOption'
+          //           value='1'
+          //           checked={this.state.voteOption === 1}
+          //           onChange={this.onVoteOptionChange}
+          //         />
+          //       </div>
+          //       <div className='ui field'>
+          //         <Radio
+          //           label='OPPOSE'
+          //           name='voteOption'
+          //           value='0'
+          //           checked={this.state.voteOption === 0}
+          //           onChange={this.onVoteOptionChange}
+          //         />
+          //       </div>
+          //     </div>
+          //     <div className='ui field'>
+          //       {voteOption === null
+          //         ? <button
+          //           className='ui button disabled'>
+          //             Select Vote Option
+          //         </button>
+          //       : <button
+          //         type='submit'
+          //         className={`ui button ${voteOption ? 'blue' : 'purple'} right labeled icon`}>
+          //         REVEAL {voteOption ? 'SUPPORT' : 'OPPOSE'} VOTE
+          //         <i className={`icon thumbs ${voteOption ? 'up' : 'down'}`} />
+          //       </button>
+          //       }
+          //     </div>
+          //   </form>
+          // </div>
+        }
+
         </div>
         {inProgress ? <DomainVoteRevealInProgressContainer /> : null}
       </div>

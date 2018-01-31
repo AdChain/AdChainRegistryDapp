@@ -4,9 +4,11 @@ import qs from 'qs'
 
 import DomainProfileHeader from './DomainProfileHeader'
 import DomainStatsbar from './DomainStatsbar'
-import DomainScamReport from './DomainScamReport'
+// import DomainScamReport from './DomainScamReport'
 import DomainProfileInfo from './DomainProfileInfo'
 import DomainProfileActionContainer from './DomainProfileActionContainer'
+import DomainProfileAdsTxtStatus from './DomainProfileAdsTxtStatus'
+import DomainProfileStageMap from './DomainProfileStageMap'
 
 import './DomainProfile.css'
 
@@ -68,15 +70,21 @@ class DomainProfile extends Component {
             </div>
           </div>
           <div className='row'>
+            {
+            // <div className='column five wide'>
+            //   <DomainScamReport domain={domain} />
+            // </div>
+            }
             <div className='column five wide'>
-              <DomainScamReport domain={domain} />
+              <DomainProfileStageMap domain={domain} />
             </div>
-            <div className='column five wide'>
+            <div className='column four wide'>
               <DomainProfileInfo
                 domain={domain}
               />
+              <DomainProfileAdsTxtStatus />
             </div>
-            <div className='column six wide'>
+            <div className='column seven wide'>
               <DomainProfileActionContainer
                 domain={domain}
                 action={action}

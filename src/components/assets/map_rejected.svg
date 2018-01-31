@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="300px" height="500px" viewBox="0 0 231 354" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 48.2 (47327) - http://www.bohemiancoding.com/sketch -->
+    <title>Map – Rejected</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <rect id="path-1" x="65" y="5" width="97" height="24" rx="12"></rect>
+        <rect id="path-2" x="121" y="314" width="103" height="30" rx="15"></rect>
+        <rect id="path-3" x="7" y="109" width="97" height="24" rx="12"></rect>
+        <rect id="path-4" x="124" y="109" width="97" height="24" rx="12"></rect>
+        <rect id="path-5" x="7" y="317" width="97" height="24" rx="12"></rect>
+        <rect id="path-6" x="7" y="213" width="97" height="24" rx="12"></rect>
+        <rect id="path-7" x="124" y="317" width="97" height="24" rx="12"></rect>
+    </defs>
+    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Map-–-Rejected">
+            <path d="M172.961373,109.879303 L115,29" id="Line-3" stroke="#F4F7FA" stroke-linecap="square"></path>
+            <path d="M55.5,109.5 L114.343137,28.6176471" id="Line-3" stroke="#3434CE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+            <path d="M57,323.365422 L57,224.397641" id="Line-3" stroke="#F4F7FA" stroke-linecap="square"></path>
+            <path d="M56,223.365422 L56,124.397641" id="Line-3" stroke="#3434CE" stroke-width="2" stroke-linecap="square"></path>
+            <path d="M174.5,318.5 L57.3654354,235.846606" id="Line-3" stroke="#3434CE" stroke-width="2" stroke-linecap="square"></path>
+            <g id="Rectangle-8">
+                <use fill="#F4F7FA" fill-rule="evenodd" xlink:href="#path-1"></use>
+                <rect stroke="#3434CE" stroke-width="1" x="65.5" y="5.5" width="96" height="23" rx="11.5"></rect>
+            </g>
+            <text id="In-Application" font-family="Open Sans, sans-serif" font-size="10" font-weight="normal" fill="#424242">
+                <tspan x="82.137207" y="20">In Application</tspan>
+            </text>
+            <g id="Rectangle-8-Copy">
+                <use fill="#F4F7FA" fill-rule="evenodd" xlink:href="#path-2"></use>
+                <rect stroke="#CE3434" stroke-width="1" x="121.5" y="314.5" width="102" height="29" rx="14.5"></rect>
+            </g>
+            <g id="Rectangle-8-Copy">
+                <use fill="#F4F7FA" fill-rule="evenodd" xlink:href="#path-3"></use>
+                <rect stroke="#3434CE" stroke-width="1" x="7.5" y="109.5" width="96" height="23" rx="11.5"></rect>
+            </g>
+            <text id="Voting" font-family="Open Sans, sans-serif" font-size="10" font-weight="normal" fill="#424242">
+                <tspan x="41.2661133" y="125">Voting</tspan>
+            </text>
+            <g id="Rectangle-8-Copy-2">
+                <use fill="#F4F7FA" fill-rule="evenodd" xlink:href="#path-4"></use>
+                <rect stroke="#10C903" stroke-width="1" x="124.5" y="109.5" width="96" height="23" rx="11.5"></rect>
+            </g>
+            <text id="In-Registry" font-family="Open Sans, sans-serif" font-size="10" font-weight="normal" fill="#424242">
+                <tspan x="148.127441" y="124">In Registry</tspan>
+            </text>
+            <g id="Rectangle-8-Copy">
+                <use fill="#F4F7FA" fill-rule="evenodd" xlink:href="#path-5"></use>
+                <rect stroke="#10C903" stroke-width="1" x="7.5" y="317.5" width="96" height="23" rx="11.5"></rect>
+            </g>
+            <text id="In-Registry" font-family="Open Sans, sans-serif" font-size="10" font-weight="normal" fill="#424242">
+                <tspan x="32.1274414" y="332">In Registry</tspan>
+            </text>
+            <g id="Rectangle-8-Copy-3">
+                <use fill="#F4F7FA" fill-rule="evenodd" xlink:href="#path-6"></use>
+                <rect stroke="#3434CE" stroke-width="1" x="7.5" y="213.5" width="96" height="23" rx="11.5"></rect>
+            </g>
+            <text id="Reveal" font-family="Open Sans, sans-serif" font-size="10" font-weight="normal" fill="#424242">
+                <tspan x="40.3486328" y="229">Reveal</tspan>
+            </text>
+            <g id="Rectangle-8-Copy-2">
+                <use fill="#CE3434" fill-rule="evenodd" xlink:href="#path-7"></use>
+                <rect stroke="#CE3434" stroke-width="1" x="124.5" y="317.5" width="96" height="23" rx="11.5"></rect>
+            </g>
+            <text id="Rejected" font-family="Open Sans, sans-serif" font-size="10" font-weight="bold" fill="#F4F7FA">
+                <tspan x="153.405762" y="332">Rejected</tspan>
+            </text>
+            <text id="Challenged" font-family="Open Sans, sans-serif" font-size="8" font-weight="bold" fill="#CE3434">
+                <tspan x="29.8183594" y="70">Challenged</tspan>
+            </text>
+            <text id="If-Supported" opacity="0.7" font-family="Open Sans, sans-serif" font-size="8" font-weight="normal" fill="#424242">
+                <tspan x="7.28125" y="280">If Supported</tspan>
+            </text>
+            <text id="Opposed" font-family="Open Sans, sans-serif" font-size="8" font-weight="bold" fill="#CE3434">
+                <tspan x="133.894531" y="280">Opposed</tspan>
+            </text>
+            <text id="If-Not-Challenged" opacity="0.7" font-family="Open Sans, sans-serif" font-size="8" font-weight="normal" fill="#424242">
+                <tspan x="150" y="70">If Not Challenged</tspan>
+            </text>
+        </g>
+    </g>
+</svg>

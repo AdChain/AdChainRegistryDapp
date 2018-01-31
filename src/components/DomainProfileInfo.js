@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 // import commafy from 'commafy'
 import Trollbox from './Trollbox'
 
-import DomainProfileComments from './DomainProfileComments'
+// import DomainProfileComments from './DomainProfileComments'
 
 import './DomainProfileInfo.css'
 
@@ -79,9 +79,6 @@ class DomainProfileInfo extends Component {
             <Trollbox
               channel={`adchainRegistry:v001/${domain}`}
             />
-          </div>
-          <div className='column sixteen wide'>
-            <DomainProfileComments domain={domain} />
           </div>
         </div>
       </div>

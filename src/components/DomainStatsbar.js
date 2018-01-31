@@ -48,6 +48,11 @@ class DomainStatsbar extends Component {
         <div className='ui grid stackable'>
           <div className='row'>
             <div className='column eight wide'>
+              <span className='Header'>Site Analytics For: </span>{domain}
+            </div>
+          </div>
+          <div className='row'>
+            <div className='column eight wide'>
               Daily Page Views per Visitor: <strong>{commafy(dailyPageViewsPerVisitor)}</strong>
             </div>
             <div className='column eight wide'>

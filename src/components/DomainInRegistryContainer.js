@@ -57,7 +57,7 @@ class DomainInRegistryContainer extends Component {
         <div className='ui grid stackable'>
           <div className='column sixteen wide'>
             <div className='ui large header center aligned'>
-              In Registry
+              Stage: In Registry
               <Popup
                 trigger={<i className='icon info circle' />}
                 content='Domain was unchallenged or voted into adChain Registry.'
