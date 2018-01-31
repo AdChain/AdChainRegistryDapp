@@ -3,6 +3,7 @@ import sha3 from 'solidity-sha3'
 import { promisify as pify } from 'bluebird'
 import keyMirror from 'key-mirror'
 import detectNetwork from 'web3-detect-network'
+import moment from 'moment-timezone'
 
 import store from '../store'
 import token from './token'
@@ -196,13 +197,12 @@ class RegistryService {
       const result = await this.registry.listings.call(hash)
 
       const map = {
-        applicationExpiry: result[0].toNumber(),
+        applicationExpiry: result[0].toNumber() <= 0 ? null : moment.tz(result[0].toNumber(), moment.tz.guess()),
         isWhitelisted: result[1],
         ownerAddress: result[2],
         currentDeposit: result[3].toNumber(),
         challengeId: result[4].toNumber()
       }
-
       return map
     } catch (error) {
       throw error
@@ -449,7 +449,19 @@ class RegistryService {
 
     try {
       const challengeId = await this.getChallengeId(domain)
-      return plcr.getPoll(challengeId)
+      const {
+        commitEndDate,
+        revealEndDate,
+        voteQuorum,
+        votesFor
+      } = await plcr.getPoll(challengeId)
+      let result = {
+        commitEndDate: moment.tz(commitEndDate, moment.tz.guess()),
+        revealEndDate: moment.tz(revealEndDate, moment.tz.guess()),
+        voteQuorum,
+        votesFor
+      }
+      return result
     } catch (error) {
       throw error
     }

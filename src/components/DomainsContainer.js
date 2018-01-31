@@ -71,7 +71,6 @@ class DomainsContainer extends Component {
                   filters={query}
                   onFiltersChange={this.onQueryChange}
                 />
-
               </div>
               <div className='column twelve wide'>
                 <DomainsTable

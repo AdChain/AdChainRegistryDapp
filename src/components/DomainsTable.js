@@ -10,6 +10,7 @@ import './DomainsTable.css'
 
 import store from '../store'
 import registry from '../services/registry'
+
 // import StatProgressBar from './StatProgressBar'
 
 function filterMethod (filter, row, column) {
@@ -48,7 +49,6 @@ class DomainsTable extends Component {
       pageSize: 10,
       isLoading: false
     }
-
     history = props.history
 
     this.onTableFetchData = this.onTableFetchData.bind(this)
@@ -180,7 +180,7 @@ class DomainsTable extends Component {
         }
 
         return <a
-          className={`ui mini button ${color || 'hide'}`}
+          className={`ui mini button table-button ${color || 'hide'}`}
           href='#!'
           title={label}
           onClick={(event) => {
@@ -233,12 +233,20 @@ class DomainsTable extends Component {
 
               this.updateStatus(domain)
             }}>
-            <span className={color}>
+            <span className={color}
+              onClick={(event) => {
+                event.preventDefault()
+                history.push(`/domains/${domain}`)
+              }}>
               {label}
             </span>
             <i className='icon refresh' />
           </a>
-          : <span className={color} key={Math.random()}>
+          : <span className={color}
+            onClick={(event) => {
+              event.preventDefault()
+              history.push(`/domains/${domain}`)
+            }} key={Math.random()}>
             {label}
           </span>
         ])
@@ -251,18 +259,29 @@ class DomainsTable extends Component {
       headerClassName: 'Number',
       Cell: (props) => {
         const {value, row} = props
+        const {domain} = row
 
         if (value) {
           if (isExpired(row)) {
-            return <span className='error'>{value}</span>
+            return <span className='error'
+              onClick={(event) => {
+                event.preventDefault()
+                history.push(`/domains/${domain}`)
+              }}>{value}</span>
           }
         }
 
         if (typeof props.value === 'number') {
-          return commafy(value)
+          return <span onClick={(event) => {
+            event.preventDefault()
+            history.push(`/domains/${domain}`)
+          }}>{commafy(value)}</span>
         }
 
-        return value
+        return <span onClick={(event) => {
+          event.preventDefault()
+          history.push(`/domains/${domain}`)
+        }}>{value}</span>
       },
       minWidth: 150
     }
@@ -368,14 +387,14 @@ class DomainsTable extends Component {
           item.stageEnds = moment.unix(applicationExpiry).format('YYYY-MM-DD HH:mm:ss')
         } else if (commitOpen) {
           item.stage = 'voting_commit'
-          const {
+          let {
             commitEndDate
           } = await registry.getChallengePoll(domain)
           item.stageEndsTimestamp = commitEndDate
           item.stageEnds = moment.unix(commitEndDate).format('YYYY-MM-DD HH:mm:ss')
         } else if (revealOpen) {
           item.stage = 'voting_reveal'
-          const {
+          let {
             revealEndDate,
             votesFor,
             votesAgainst
@@ -492,7 +511,11 @@ class DomainsTable extends Component {
     try {
       await registry.updateStatus(domain)
     } catch (error) {
-      toastr.error(error)
+      try {
+        toastr.error(error)
+      } catch (err) {
+        console.log(err)
+      }
     }
 
     this.getData()
