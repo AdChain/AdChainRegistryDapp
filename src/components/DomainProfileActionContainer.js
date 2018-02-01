@@ -66,10 +66,11 @@ class DomainProfileActionContainer extends Component {
 
     return (
       <div>
-        <div className='DomainProfileActionContainer BoxFrame'>
-          <div className='ui grid stackable'>
-            <div className='column sixteen wid center aligned'>
-              {
+        {
+        // <div className='DomainProfileActionContainer BoxFrame'>
+        //   <div className='ui grid stackable'>
+        //     <div className='column sixteen wid center aligned'>
+        //
               // <a
               //   className='ui button mini blue icon labeled right'
               //   href='#!'
@@ -78,10 +79,11 @@ class DomainProfileActionContainer extends Component {
               //   <i className='icon refresh' />
               //     Refresh status
               // </a>
-            }
-            </div>
-          </div>
-        </div>
+        //
+        //     </div>
+        //   </div>
+        // </div>
+      }
         <div className='DomainProfileActionContainer BoxFrame'>
           { component }
         </div>

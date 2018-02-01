@@ -1,3 +1,94 @@
 .DomainChallengeContainer {
   position: relative;
 }
+
+.DomainChallengeContainer .header {
+  display: inline-block;
+}
+
+:root:root:root .DomainChallengeContainer .refresh {
+  display: inline-block;
+  float: right;
+  border: 1px solid #3434CE;
+  border-radius: 3px;
+  color: #3434CE !important;
+  font-family: "Open Sans", sans-serif;
+  font-size: 8px;
+  font-weight: bold;
+  line-height: 11px;
+  text-transform: uppercase;
+}
+
+.DomainChallengeContainer .HeaderColumn {
+  padding-bottom: 0px !important;
+}
+
+.DomainChallengeContainer .HeaderRow {
+  padding-top: 10px;
+}
+
+.DomainChallengeContainer .NumberCircle {
+  border-radius: 10px;
+  display: inline-block;
+  float: left;
+  font-size:8px;
+  color: #F4F7FA;
+  font-weight: bold;
+  line-height: 13px;
+  font-family: 'Open Sans', sans-serif;
+  text-align:center;
+  border: 1px solid #BEC0C2;
+  padding: 2px;
+  background: #BEC0C2 content-box;
+  width: 21px;
+  height: 21px;
+}
+
+:root:root:root .DomainChallengeContainer .SegmentOne {
+  padding-left: 4em;
+  padding-right: 4em;
+  padding-top: 3em;
+}
+
+:root:root:root .DomainChallengeContainer .SegmentOne p,
+:root:root:root .DomainChallengeContainer .SegmentTwo p,
+:root:root:root .DomainChallengeContainer .SegmentThree p {
+	color: #424242;
+	font-family: "Open Sans", sans-serif;
+	font-size: 10px;
+	line-height: 14px;
+}
+
+:root:root:root .DomainChallengeContainer .SegmentTwo {
+  border-top: none !important;
+}
+
+:root:root:root .DomainChallengeContainer .SegmentTwo p {
+  padding-left: 3em;
+  padding-right: 3em;
+}
+
+:root:root:root .DomainChallengeContainer .SegmentFour {
+  border-top: none !important;
+  padding-left: 4em;
+  padding-right: 4em;
+  padding-bottom: 3em;
+}
+
+:root:root:root .DomainChallengeContainer .SegmentThree {
+  border-top: none !important;
+  padding-left: 4em;
+  padding-right: 4em;
+}
+
+:root:root:root .ChallengeButton {
+	color: #CE3434 !important;
+	font-family: "Open Sans", sans-serif;
+	font-size: 7px;
+	font-weight: bold;
+	text-align: center;
+  width: 60px;
+  border: 1px solid #CE3434;
+  border-radius: 3px;
+  text-transform: uppercase;
+}

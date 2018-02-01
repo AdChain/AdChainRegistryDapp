@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import commafy from 'commafy'
 import toastr from 'toastr'
 import moment from 'moment'
-import { Popup } from 'semantic-ui-react'
+import { Popup, Button, Segment } from 'semantic-ui-react'
 
 import Countdown from './CountdownText'
 import registry from '../services/registry'
@@ -49,16 +49,24 @@ class DomainChallengeContainer extends Component {
     return (
       <div className='DomainChallengeContainer'>
         <div className='ui grid stackable'>
-          <div className='column sixteen wide'>
-            <div className='ui large header center aligned'>
-              IN APPLICATION
+          <div className='column sixteen wide HeaderColumn'>
+            <div className='row HeaderRow'>
+              <div className='ui large header'>
+              Stage: In Application
               <Popup
                 trigger={<i className='icon info circle' />}
-                content='ADT holders are encouraged to challenge publisher applications where the token holders believe the Publisher to be fraudulent.'
+                content='The first phase of the voting process is the commit phase where the ADT holder stakes a hidden amount of votes to SUPPORT or OPPOSE the domain application. The second phase is the reveal phase where the ADT holder reveals the staked amount of votes to either the SUPPORT or OPPOSE side.'
               />
+              </div>
+              <Button
+                basic
+                className='right refresh'
+                onClick={this.updateStatus}
+              >
+                Refresh Status
+              </Button>
             </div>
           </div>
-          <div className='ui divider' />
           <div className='column sixteen wide center aligned'>
             <div className='ui message info'>
               <p>Challenge stage ends</p>
@@ -68,27 +76,33 @@ class DomainChallengeContainer extends Component {
                 onExpire={this.onCountdownExpire.bind(this)} /></p>
             </div>
           </div>
-          <div className='ui divider' />
           <div className='column sixteen wide center aligned'>
-            <form className='ui form'>
-              <div className='ui field'>
-                <label>Challenge {domain}</label>
-              </div>
-              <div className='ui field'>
-                <div className='ui message default'>
-                  <p>Minimum deposit required</p>
-                  <p><strong>{minDeposit ? commafy(minDeposit) : '-'} ADT</strong></p>
-                </div>
-              </div>
-              <div className='ui field'>
-                <button
-                  onClick={this.onChallenge.bind(this)}
-                  className='ui button purple right labeled icon'>
-                  CHALLENGE
-                  <i className='icon thumbs down' />
-                </button>
-              </div>
-            </form>
+            <Segment.Group>
+              <Segment className='SegmentOne'>
+                <p>
+                  You should challenge <strong>{domain}&#8217;s </strong>application
+                  if you don&#8217;t believe it should be in the adChain Registry.
+                  Clicking the &#8220;CHALLENGE&#8221; button below will
+                  initiate <strong>{domain}&#8217;s </strong> Voting stage.
+                </p>
+              </Segment>
+              <Segment className='SegmentTwo'>
+                <div className='NumberCircle'>1</div>
+                <p>
+                  ADT required to challenge: <strong>{minDeposit ? commafy(minDeposit) : '-'} ADT</strong>
+                  <br />
+                Your percentage payout if your challenge is successful: <strong>50%</strong>
+                </p>
+              </Segment>
+              <Segment className='SegmentThree'>
+                <p>
+                  If your challenge is successful once the Reveal stage ends, you will have your ADT reimbursed and be awarded the payout.
+                </p>
+              </Segment>
+              <Segment className='SegmentFour'>
+                <Button basic className='ChallengeButton' onClick={this.onChallenge.bind(this)}>Challenge</Button>
+              </Segment>
+            </Segment.Group>
           </div>
         </div>
         {inProgress ? <DomainChallengeInProgressContainer /> : null}
