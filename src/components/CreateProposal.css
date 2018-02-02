@@ -1,0 +1,34 @@
+.BlueDropdown{
+  border: none;
+  background: white;
+  border-radius: 0;
+  box-shadow: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  /* Add some styling */
+  color: #111042;
+  font-weight: 600;
+  display: block;
+  width: 100%;
+  max-width: 320px;
+  line-height: 1.75;
+  color: #333;
+  background-color: none;
+  background-image: none;
+  -ms-word-break: normal;
+  word-break: normal;
+  padding: 2px;
+}
+.BlueDropdown option{
+  color:blue;
+}
+.ProposalInput{
+  border:none;
+  display: inline-block;
+
+}
+.ProposalInputWrapper{
+  padding:2px;
+  border-bottom:1px solid #ddd;
+}

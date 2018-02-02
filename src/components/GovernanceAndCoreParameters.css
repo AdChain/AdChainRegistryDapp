@@ -1,0 +1,20 @@
+.ParameterRow{
+	padding:10px 0;
+	border-bottom:1px solid #ddd;
+}
+.ParameterRow span:last-of-type {
+	position: absolute;
+    right: 54px;
+}
+.ValuesTitle{
+	position: absolute;
+    right: 38px;
+}
+.AllParameters{
+	font-family: "Open Sans", sans-serif;
+	font-weight:600;
+	font-size: 12px;
+}
+.ParameterRow:last-of-type{
+	border-bottom:none;
+}

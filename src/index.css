@@ -142,14 +142,18 @@ p {
 .f-os{font-family: Open Sans, sans-serif}
 /*utility padding styles*/
 .pd-15{padding:15px;}
+.pd-25{padding:25px;}
 
 /*utility text center*/
 .t-center{text-align:center;}
-
+.t-right{text-align: right;}
 /*utility font size*/
 .f-14{font-size:14px;}
 .f-16{font-size:16px;}
 .f-18{font-size:18px;}
+/*utitlity font color*/
+.f-red{color:#CE3434;}
+.f-blue{color:#3434CE;}
 /*utility inline block*/
 .ib{display: inline-block !important;}
 /*utility hide*/
@@ -162,10 +166,52 @@ p {
   height: 100%;
   width: 100%;
 }
+select:focus{
+  text-decoration: none;
+  outline: none;
+  border:none;
+}
+select:hover{
+  cursor:pointer;
+}
+.selectdiv{
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 5px;
+}
+.selectdiv:after {
+    content: '\f078';
+    font: normal normal normal 17px/1 FontAwesome;
+    color: #3434CE;
+    right: 13px;
+    top: 35px;
+    height: 30px;
+    padding: 15px 0px 0px 8px;
+    position: absolute;
+    pointer-events: none;
+}
+
+/* IE11 hide native button (thanks Matt!) */
+select::-ms-expand {
+  display: none;
+}
+
 .transparent-button:hover{
   color:transparent;
   background: transparent;
   border-color: transparent;
+}
+.ui.blue.button, .ui.blue.buttons .button {
+    background-color: white;
+    color: #3434CE;
+    text-shadow: none;
+    background-image: none;
+    border: 1px solid #3434CE;
+    font-size:9.8px;
+}
+.ui.blue.button:hover, .ui.blue.buttons .button:hover {
+    color: white;
+    background: #3434CE;
+    text-decoration: none;
 }
 
 @media only screen and (max-width: 767px) {
