@@ -194,7 +194,7 @@ class DomainVoteCommitContainer extends Component {
                   </div>
                   Your commit is needed to reveal your vote in the Reveal stage:
                   <div className='DownloadCommitButtonContainer'>
-                    <Button className='DownloadCommitButton' basic>Download Commit<i className='icon long arrow down' /></Button>
+                    <Button className='DownloadCommitButton' basic>Download Commit &nbsp;<i className='icon long arrow down' /></Button>
                   </div>
                 </Segment>
                 <Segment className='RightSegment' floated='right'>

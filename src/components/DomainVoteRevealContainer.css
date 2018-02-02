@@ -104,6 +104,7 @@
 :root:root:root .DomainVoteRevealContainer .VoteRevealLabel {
   display: flex;
   align-items: flex-end;
+  justify-content: center;
 }
 
 :root:root:root .DomainVoteRevealContainer .SubmitVoteButton {
@@ -122,4 +123,5 @@
 :root:root:root .DomainVoteRevealContainer .SubmitVoteButtonContainer {
   width: 100%;
   display: inline-block;
+  text-align: center;
 }

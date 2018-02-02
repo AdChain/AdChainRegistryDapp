@@ -41,6 +41,7 @@
 
 :root:root:root .DomainVoteCommitContainer .InputVoteCommit input[type='text']{
   text-align:right;
+  padding-bottom: 0;
 }
 
 .DomainVoteCommitContainer .NumberCircle {
@@ -71,10 +72,12 @@
 }
 :root:root:root .DomainVoteCommitContainer .SegmentOne {
   padding-right: 0;
+  text-align: left;
 }
 
 :root:root:root .DomainVoteCommitContainer .SegmentOne label {
-  font-size: 8px;
+  font-size: 10px;
+  padding-left: 5px;
 }
 
 :root:root:root .DomainVoteCommitContainer .SegmentTwo {

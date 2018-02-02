@@ -70,6 +70,7 @@ class DomainChallengeContainer extends Component {
                   Refresh Status
                 </Button>
               </div>
+              <div className='ui divider' />
             </div>
           }
 

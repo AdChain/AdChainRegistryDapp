@@ -37,7 +37,6 @@ class DomainProfileStageMap extends Component {
 
   render () {
     const {
-      domain,
       action
     } = this.state
 
@@ -62,7 +61,7 @@ class DomainProfileStageMap extends Component {
         <div className='ui grid stackable'>
           <div className='row'>
             <div className='column sixteen wide'>
-              <span className='Header'>Site Analytics For: </span>{domain}
+              <span className='Header'>Stage Map</span>
             </div>
           </div>
           <div className='column sixteen wide MapPicture'>

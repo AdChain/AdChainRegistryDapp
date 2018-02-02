@@ -82,7 +82,7 @@ class DomainProfile extends Component {
               <DomainProfileInfo
                 domain={domain}
               />
-              <DomainProfileAdsTxtStatus />
+              <DomainProfileAdsTxtStatus domain={domain} />
             </div>
             <div className='column seven wide'>
               <DomainProfileActionContainer
