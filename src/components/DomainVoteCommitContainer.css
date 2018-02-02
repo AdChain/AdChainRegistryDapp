@@ -2,3 +2,174 @@
   position: relative;
 }
 
+.DomainVoteCommitContainer .header {
+  display: inline-block;
+}
+
+:root:root:root .DomainVoteCommitContainer .refresh {
+  display: inline-block;
+  float: right;
+  border: 1px solid #3434CE;
+  border-radius: 3px;
+  color: #3434CE !important;
+  font-family: "Open Sans", sans-serif;
+  font-size: 8px;
+  font-weight: bold;
+  line-height: 11px;
+  text-transform: uppercase;
+}
+
+.DomainVoteCommitContainer .HeaderColumn {
+  padding-bottom: 0px !important;
+}
+
+.DomainVoteCommitContainer .HeaderRow {
+  padding-top: 10px;
+}
+
+.DomainVoteCommitContainer .VotingDeadline {
+
+}
+
+:root:root:root .DomainVoteCommitContainer .InputVoteCommit input {
+  background-color: #FFF;
+  border-bottom: 1px solid;
+  border-radius: 0;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+:root:root:root .DomainVoteCommitContainer .InputVoteCommit input[type='text']{
+  text-align:right;
+}
+
+.DomainVoteCommitContainer .NumberCircle {
+  border-radius: 10px;
+  display: inline-block;
+  float: left;
+  font-size:8px;
+  color: #F4F7FA;
+  font-weight: bold;
+  line-height: 13px;
+  font-family: 'Open Sans', sans-serif;
+  text-align:center;
+  border: 1px solid #BEC0C2;
+  padding: 2px;
+  background: #BEC0C2 content-box;
+  width: 21px;
+  height: 21px;
+}
+
+.DomainVoteCommitContainer .NumCircle3 {
+  top: 4em;
+  position: relative;
+}
+
+.ui.horizontal.segments {
+  display: flex;
+  align-items: center;
+}
+:root:root:root .DomainVoteCommitContainer .SegmentOne {
+  padding-right: 0;
+}
+
+:root:root:root .DomainVoteCommitContainer .SegmentOne label {
+  font-size: 8px;
+}
+
+:root:root:root .DomainVoteCommitContainer .SegmentTwo {
+  border-left: none;
+  padding-left: 0;
+  padding-right: 0;
+  /* width: 100%; */
+}
+
+:root:root:root .DomainVoteCommitContainer .SegmentThree {
+  border-left: none;
+  padding-left: 0;
+}
+
+:root:root:root .DomainVoteCommitContainer .SupportButton {
+  border: 1px solid #10C903;
+  border-radius: 3px;
+  height: 21px;
+  width: 66px;
+  color: #424242;
+  font-family: "Open Sans", sans-serif;
+  font-size: 8px;
+  font-weight: bold;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+:root:root:root .DomainVoteCommitContainer .OpposeButton {
+	border: 1px solid #CE3434;
+  border-radius: 3px;
+  height: 21px;
+  width: 66px;
+  color: #424242;
+  font-family: "Open Sans", sans-serif;
+  font-size: 8px;
+  font-weight: bold;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+:root:root:root .DomainVoteCommitContainer .LeftSegment {
+  width: 48%;
+  margin-right: 0 !important;
+  display: inline-block;
+  font-size: 10px;
+  min-height: 130px;
+  padding-left: 14px;
+}
+
+:root:root:root .DomainVoteCommitContainer .RightSegment {
+  width: 48%;
+  margin-top: 0;
+  display: inline-block;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  font-size: 10px;
+  min-height: 130px;
+}
+
+:root:root:root .DomainVoteCommitContainer .DownloadCommitButton {
+  background-color: #3434CE !important;
+  color: #FFFFFF !important;
+  font-family: "Open Sans", sans-serif;
+  font-size: 8px;
+  font-weight: bold;
+  height: 21px;
+  border-radius: 3px;
+  background-color: #3434CE;
+  text-transform: uppercase;
+}
+
+:root:root:root .DomainVoteCommitContainer .DownloadCommitButtonContainer {
+  padding-top: 3em;
+  padding-left: 1em;
+}
+
+:root:root:root .DomainVoteCommitContainer .DownloadCommitButton .icon{
+  margin-right: 0 !important;
+  font-weight: 600;
+}
+
+:root:root:root .DomainVoteCommitContainer .SubmitVoteButton {
+  border-radius: 3px;
+  background-color: #10C903 !important;
+  font-family: "Open Sans", sans-serif;
+  font-size: 8px;
+  font-weight: bold;
+  text-align: center;
+  text-transform: uppercase;
+  color: #FFFFFF !important;
+  height: 21px;
+  width: 83px;
+}
+
+:root:root:root .DomainVoteCommitContainer .SubmitVoteButtonContainer {
+  width: 100%;
+  display: inline-block;
+}

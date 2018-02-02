@@ -34,7 +34,9 @@ function DomainProfileHeader (props) {
               alt=''
             />
             {domain}
-            <i className='icon external tiny' />
+            {
+              // <i className='icon external tiny' />
+            }
           </a>
         </div>
         <div className='SubHeader'>

@@ -53,3 +53,118 @@
 .DomainInRegistryContainer .DomainChallengeFormContainer {
   position: relative;
 }
+
+.DomainInRegistryContainer .header {
+  display: inline-block;
+}
+
+:root:root:root .DomainInRegistryContainer .refresh {
+  display: inline-block;
+  float: right;
+  border: 1px solid #3434CE;
+  border-radius: 3px;
+  color: #3434CE !important;
+  font-family: "Open Sans", sans-serif;
+  font-size: 8px;
+  font-weight: bold;
+  line-height: 11px;
+  text-transform: uppercase;
+}
+
+.DomainInRegistryContainer .HeaderColumn {
+  padding-bottom: 0px !important;
+}
+
+.DomainInRegistryContainer .HeaderRow {
+  padding-top: 10px;
+}
+
+
+:root:root:root .DomainInRegistryContainer .LeftSegment {
+  width: 48%;
+  margin-right: 0 !important;
+  display: inline-block;
+  font-size: 10px;
+  min-height: 180px;
+  padding-left: 14px;
+  position: relative;
+}
+
+:root:root:root .DomainInRegistryContainer .RightSegment {
+  width: 48%;
+  margin-top: 0;
+  display: inline-block;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  font-size: 10px;
+  min-height: 180px;
+  position: relative;
+}
+
+:root:root:root .DomainInRegistryContainer .WithdrawButtonContainer,
+:root:root:root .DomainInRegistryContainer .TopOffButtonContainer {
+  position: absolute;
+  bottom: 10px;
+  margin: 0 auto;
+  left: 0;
+  right: 0;
+}
+
+:root:root:root .DomainInRegistryContainer .WithdrawButton {
+	border: 1px solid #CE3434;
+	border-radius: 3px;
+  color: #CE3434 !important;
+  font-family: "Open Sans", sans-serif;
+  font-size: 7px;
+  font-weight: bold;
+  line-height: 9px;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+:root:root:root .DomainInRegistryContainer .TopOffButton {
+  border: 1px solid #3434CE;
+  border-radius: 3px;
+  color: #3434CE !important;
+  font-family: "Open Sans", sans-serif;
+  font-size: 7px;
+  font-weight: bold;
+  line-height: 9px;
+  text-align: center;
+  width: 60px;
+  text-transform: uppercase;
+}
+
+:root:root:root .DomainInRegistryContainer .TopOffInput input{
+  border-top: none;
+  border-right: none;
+  border-left: none;
+  border-bottom: 1px solid;
+  border-radius: 0;
+  width: 50px;
+  padding: 0;
+}
+
+:root:root:root .DomainInRegistryContainer .TopOffInput input::-webkit-input-placeholder {
+text-align: center;
+}
+:root:root:root .DomainInRegistryContainer .TopOffInput input:-moz-placeholder { /* Firefox 18- */
+text-align: center;
+}
+:root:root:root .DomainInRegistryContainer .TopOffInput input::-moz-placeholder {  /* Firefox 19+ */
+text-align: center;
+}
+:root:root:root .DomainInRegistryContainer .TopOffInput input:-ms-input-placeholder {
+text-align: center;
+}
+
+
+:root:root:root .DomainInRegistryContainer .InRegistryWarning {
+  text-transform: uppercase;
+  color: #CE3434 !important;
+  font-family: "Open Sans", sans-serif;
+  font-size: 8px;
+  font-weight: bold;
+  line-height: 11px;
+  text-align: center;
+}

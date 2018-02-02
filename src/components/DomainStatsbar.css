@@ -1,6 +1,8 @@
 :root:root:root .DomainStatsbar {
   position: relative;
   min-height: 105px;
+  font-size: 12px;
+  font-family: "Open Sans", sans-serif;
 }
 
 :root:root:root .DomainStatsbar .row {
@@ -27,8 +29,22 @@
   /*border-right: 1px solid #ddd;*/
 }
 
+:root:root:root .DomainStatsbar .Header {
+  text-transform: uppercase;
+  color: #909090;
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 14px;
+}
+
 :root:root:root .DomainStatsbar .Category {
   display: flex;
+}
+
+:root:root:root .DomainStatsbar .Category ::-webkit-scrollbar {
+  width: 137px;
+  height: 3px;
+  color: #F4F7FA;
 }
 
 :root:root:root .DomainStatsbar .Category strong {

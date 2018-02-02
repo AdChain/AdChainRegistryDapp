@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Popup } from 'semantic-ui-react'
-
-import ClaimRewardContainer from './ClaimRewardContainer'
+import { Popup, Button } from 'semantic-ui-react'
 import './DomainNotInRegistryContainer.css'
 
 class DomainNotInRegistryContainer extends Component {
@@ -20,23 +18,33 @@ class DomainNotInRegistryContainer extends Component {
     } = this.state
 
     return (
-      <div className='DomainInRegistryContainer'>
-        <div className='ui grid stackable'>
-          <div className='column sixteen wide'>
-            <div className='ui large header center aligned'>
-              APPLY
+      <div className='DomainNotInRegistryContainer'>
+        <div className='ui grid stackable DomainNotInRegistryBody'>
+          <div className='column sixteen wide HeaderColumn'>
+            <div className='row HeaderRow'>
+              <div className='ui large header'>
+              Stage: None
               <Popup
                 trigger={<i className='icon info circle' />}
-                content='Apply domain to be included into adChain Registry.'
+                content='The first phase of the voting process is the commit phase where the ADT holder stakes a hidden amount of votes to SUPPORT or OPPOSE the domain application. The second phase is the reveal phase where the ADT holder reveals the staked amount of votes to either the SUPPORT or OPPOSE side.'
               />
+              </div>
+              <Button
+                basic
+                className='right refresh'
+                onClick={this.updateStatus}
+              >
+                Refresh Status
+              </Button>
             </div>
+            <div className='ui divider' />
           </div>
           <div className='column sixteen wide center aligned'>
-            <a href={`/apply?domain=${domain}`} className='ui button blue'>Apply to Registry</a>
-          </div>
-          <div className='ui divider' />,
-          <div className='column sixteen wide center aligned'>
-            <ClaimRewardContainer domain={domain} />
+            <p className='NotInRegistryMessage'>
+              You can apply <strong>{domain}</strong> into the
+              adChain Registry within the application modal
+              on the left navigation column.
+            </p>
           </div>
         </div>
       </div>

@@ -1,14 +1,14 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import toastr from 'toastr'
-import { Popup } from 'semantic-ui-react'
+import { Popup, Button, Input, Segment } from 'semantic-ui-react'
 import commafy from 'commafy'
 
 import registry from '../services/registry'
 import './DomainInRegistryContainer.css'
 import DomainVoteTokenDistribution from './DomainVoteTokenDistribution'
 import DomainChallengeInProgressContainer from './DomainChallengeInProgressContainer'
-import ClaimRewardContainer from './ClaimRewardContainer'
+import DomainChallengeContainer from './DomainChallengeContainer'
 
 class DomainInRegistryContainer extends Component {
   constructor (props) {
@@ -55,18 +55,25 @@ class DomainInRegistryContainer extends Component {
     return (
       <div className='DomainInRegistryContainer'>
         <div className='ui grid stackable'>
-          <div className='column sixteen wide'>
-            <div className='ui large header center aligned'>
-              In Registry
+          <div className='column sixteen wide HeaderColumn'>
+            <div className='row HeaderRow'>
+              <div className='ui large header'>
+              Stage: In Registry
               <Popup
                 trigger={<i className='icon info circle' />}
-                content='Domain was unchallenged or voted into adChain Registry.'
+                content='The first phase of the voting process is the commit phase where the ADT holder stakes a hidden amount of votes to SUPPORT or OPPOSE the domain application. The second phase is the reveal phase where the ADT holder reveals the staked amount of votes to either the SUPPORT or OPPOSE side.'
               />
+              </div>
+              <Button
+                basic
+                className='right refresh'
+                onClick={this.updateStatus}
+              >
+                Refresh Status
+              </Button>
             </div>
           </div>
-          <div className='column sixteen wide center aligned'>
-            <p>{domain} is in adChain Registry.</p>
-          </div>
+          <div className='ui divider' />
           {didReveal ? <div className='column sixteen wide center aligned'>
             <div className='ui message warning'>
               You've <strong>revealed</strong> for this domain.
@@ -83,31 +90,40 @@ class DomainInRegistryContainer extends Component {
             <div className='ui divider' key={Math.random()} />,
             <DomainVoteTokenDistribution domain={domain} key={Math.random()} />
           ] : null}
-          <div className='ui divider' />,
-          <div className='column sixteen wide center aligned DomainChallengeFormContainer'>
-            <form className='ui form'>
-              <div className='ui field'>
-                <label>Challenge {domain}</label>
-              </div>
-              <div className='ui field'>
-                <div className='ui message default'>
-                  <p>Minimum deposit required</p>
-                  <p><strong>{minDeposit ? commafy(minDeposit) : '-'} ADT</strong></p>
-                </div>
-              </div>
-              <div className='ui field'>
-                <button
-                  onClick={this.onChallenge}
-                  className='ui button purple right labeled icon'>
-                  CHALLENGE
-                  <i className='icon thumbs down' />
-                </button>
-              </div>
-            </form>
-          </div>
-          <div className='ui divider' />,
+          <DomainChallengeContainer domain={domain} source='InRegistry' />
           <div className='column sixteen wide center aligned'>
-            <ClaimRewardContainer domain={domain} />
+            <div>
+              <Segment className='LeftSegment' floated='left'>
+                <p>
+                Because you applied <strong>{domain}</strong> into the adChain Registry,
+                you have the ability to remove it. Clicking “WITHDRAW LISTING”
+                below will remove <strong>{domain}</strong> from the adChain Registry and refund you of:
+              </p>
+                <p>
+                  <strong>{minDeposit ? commafy(minDeposit) : '-'} ADT</strong>
+                </p>
+                <div className='WithdrawButtonContainer'>
+                  <Button className='WithdrawButton' basic>Withdraw Listing</Button>
+                </div>
+              </Segment>
+              <Segment className='RightSegment' floated='right'>
+                <p>
+                ADT used to apply {domain}: <strong>{minDeposit ? commafy(minDeposit) : '-'} ADT</strong>
+                </p>
+                <p>
+                Current minDeposit: <strong>{minDeposit ? commafy(minDeposit) : '-'} ADT</strong>
+                </p>
+                <div className='InRegistryWarning'>
+                You are subject to having your domain touched & removed
+              </div>
+                <div>
+                Enter ADT amount to top off:<Input placeholder='ADT' className='TopOffInput' />
+                </div>
+                <div className='TopOffButtonContainer'>
+                  <Button className='TopOffButton' basic>Top Off</Button>
+                </div>
+              </Segment>
+            </div>
           </div>
         </div>
         {inChallengeProgress ? <DomainChallengeInProgressContainer /> : null}

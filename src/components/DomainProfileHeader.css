@@ -2,6 +2,7 @@
   display: flex;
   min-height: 105px;
   overflow: auto;
+  max-height: 128px;
 }
 
 .DomainProfileHeader .image {
@@ -32,7 +33,7 @@
 .DomainProfileHeader .Header a {
   color: #000;
   text-decoration: none;
-  text-transform: uppercase;
+  /* text-transform: uppercase; */
   white-space: nowrap;
 }
 
@@ -55,14 +56,24 @@
   margin-bottom: 0.2em;
   font-weight: bold;
   white-space: nowrap;
+  margin-left: 1.5em;
 }
 
 .DomainProfileHeader .SubHeader .Description {
   display: inline-block;
   margin-right: 10px;
-  border-left: 5px solid #f4f7fa;
-  padding-left: 0.5em;
+  /* border-left: 5px solid #f4f7fa; */
+  /* padding-left: 0.5em; */
+  margin-left: 1.5em;
+  max-height: 35px;
+  overflow: scroll;
 }
+
+/* :root:root:root .DomainProfileHeader .SubHeader .Description ::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+  color: #000;
+} */
 
 .DomainProfileHeader .SubHeader .Country {
   display: block;
