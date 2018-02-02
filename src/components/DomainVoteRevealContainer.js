@@ -90,14 +90,14 @@ class DomainVoteRevealContainer extends Component {
           </div>
           <div className='ui divider' />
           <div className='column sixteen wide center aligned'>
-            <div className='ui message info'>
+            <div>
               <p>
             Reveal stage ends
               </p>
               <p><strong>{stageEnd}</strong></p>
-              <p>Remaining time: <Countdown
+              <div>Remaining time: <Countdown
                 endDate={stageEndMoment}
-                onExpire={this.onCountdownExpire.bind(this)} /></p>
+                onExpire={this.onCountdownExpire.bind(this)} /></div>
             </div>
           </div>
           {didChallenge ? <div className='column sixteen wide center aligned'>
@@ -140,9 +140,12 @@ class DomainVoteRevealContainer extends Component {
                   Secret Phrase: <Input className='VoteRevealInput' />
               </div>
               <div className='VoteRevealLabel'>
-                  Vote Option <Input className='VoteRevealInput' />
+                  Vote Option: <Input className='VoteRevealInput' />
               </div>
             </Segment>
+          </div>
+          <div className='SubmitVoteButtonContainer'>
+            <Button className='SubmitVoteButton centered' basic type='submit'>Submit Vote</Button>
           </div>
 
           {

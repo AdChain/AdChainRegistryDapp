@@ -66,24 +66,6 @@ class DomainProfileActionContainer extends Component {
 
     return (
       <div className='OuterDomainProfileActionContainer'>
-        {
-        // <div className='DomainProfileActionContainer BoxFrame'>
-        //   <div className='ui grid stackable'>
-        //     <div className='column sixteen wid center aligned'>
-        //
-              // <a
-              //   className='ui button mini blue icon labeled right'
-              //   href='#!'
-              //   title='Refresh status'
-              //   onClick={this.updateStatus}>
-              //   <i className='icon refresh' />
-              //     Refresh status
-              // </a>
-        //
-        //     </div>
-        //   </div>
-        // </div>
-      }
         <div className='DomainProfileActionContainer BoxFrame'>
           {component}
         </div>
