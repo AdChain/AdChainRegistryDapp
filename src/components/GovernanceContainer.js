@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 
-import CoreParameters from './CoreParameters'
+import GovernanceAndCoreParameters from './GovernanceAndCoreParameters'
+import CreateProposal from './CreateProposal'
 
 class GovernanceContainer extends Component {
   constructor (props) {
@@ -9,9 +10,15 @@ class GovernanceContainer extends Component {
 
   render () {
     return (
-      <div className='ui container grid'>
+      <div className='ui grid padded'>
         <div className='column five wide'>
-          <CoreParameters />
+          <GovernanceAndCoreParameters />
+        </div>
+        <div className='column three wide'>
+          <CreateProposal />
+        </div>
+        <div className='column eight wide'>
+          <GovernanceAndCoreParameters />
         </div>
       </div>
     )
