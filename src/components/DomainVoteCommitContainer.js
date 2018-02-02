@@ -80,7 +80,7 @@ class DomainVoteCommitContainer extends Component {
     } = this.state
 
     const stageEndMoment = commitEndDate ? moment.unix(commitEndDate) : null
-    const stageEnd = stageEndMoment ? stageEndMoment.format('YYYY-MM-DD HH:mm:ss') : '-'
+    const stageEnd = stageEndMoment ? stageEndMoment.format('MMMM Do YYYY HH:mm:ss') : '-'
 
     return (
       <div className='DomainVoteCommitContainer'>
@@ -122,9 +122,11 @@ class DomainVoteCommitContainer extends Component {
               Voting stage ends:
               </p>
               <p><strong>{stageEnd}</strong></p>
-              <p>Remaining time: <Countdown
-                endDate={stageEndMoment}
-                onExpire={this.onCountdownExpire.bind(this)} /></p>
+              <div>Remaining time:
+                <Countdown
+                  endDate={stageEndMoment}
+                  onExpire={this.onCountdownExpire.bind(this)} />
+              </div>
             </div>
           </div>
           <div className='ui divider' />

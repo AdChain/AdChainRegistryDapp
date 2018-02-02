@@ -76,12 +76,12 @@ class DomainChallengeContainer extends Component {
           {
             (source === 'InRegistry') ? null
           : <div className='column sixteen wide center aligned'>
-            <div className='ui message info'>
+            <div>
               <p>Challenge stage ends</p>
               <p><strong>{stageEnd}</strong></p>
-              <p>Remaining time: <Countdown
+              <div>Remaining time: <Countdown
                 endDate={stageEndMoment}
-                onExpire={this.onCountdownExpire.bind(this)} /></p>
+                onExpire={this.onCountdownExpire.bind(this)} /></div>
             </div>
           </div>
           }
