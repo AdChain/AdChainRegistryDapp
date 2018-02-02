@@ -31,7 +31,6 @@ class ParameterizerService {
           console.error(error)
           return false
         }
-
         store.dispatch({
           type: 'PARAMETERIZER_EVENT'
         })
@@ -39,19 +38,21 @@ class ParameterizerService {
   }
 
   async get (name) {
+    let result
     return new Promise(async (resolve, reject) => {
       if (!name) {
         reject(new Error('Name is required'))
         return false
       }
-
-      let result = await this.parameterizer.get(name)
-
-      if (typeof result === 'object' && result.isBigNumber) {
-        result = result.toNumber()
+      try {
+        if (typeof result === 'object' && result.isBigNumber) {
+          result = result.toNumber()
+        }
+        result = await this.parameterizer.get(name)
+        resolve(result)
+      } catch (error) {
+        console.log(error)
       }
-
-      resolve(result)
     })
   }
 }

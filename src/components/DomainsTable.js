@@ -125,7 +125,6 @@ class DomainsTable extends Component {
             title='View profile'
             onClick={(event) => {
               event.preventDefault()
-
               history.push(`/domains/${props.value}`)
             }}>
             <img
@@ -180,7 +179,7 @@ class DomainsTable extends Component {
         }
 
         return <a
-          className={`ui mini button table-button ${color || 'hide'}`}
+          className={color ? `ui mini button table-button ${color}` : ' table-button transparent-button '}
           href='#!'
           title={label}
           onClick={(event) => {

@@ -7,7 +7,7 @@ import DomainsContainer from './DomainsContainer'
 import DomainProfile from './DomainProfile'
 import AccountDashboard from './AccountDashboard'
 import RocketChat from './RocketChat'
-
+import GovernanceContainer from './GovernanceContainer'
 import './MainContainer.css'
 
 function MainContainer (props) {
@@ -35,6 +35,7 @@ function MainContainer (props) {
             <Route path='/domains/:domain' exact component={DomainProfile} />
             <Route path='/account' exact component={AccountDashboard} />
             <Route path='/chat' exact component={RocketChat} />
+            <Route path='/governance' exact component={GovernanceContainer} />
             <Route path='/' exact component={DomainsContainer} />
           </Switch>
         </Route>

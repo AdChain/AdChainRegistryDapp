@@ -105,7 +105,9 @@ class WithdrawVotingRightsContainer extends Component {
     }
 
     try {
+      console.log('available tokens: ', availableTokens)
       await registry.withdrawVotingRights(availableTokens)
+
       toastr.success('Success')
     } catch (error) {
       toastr.error(error.message)

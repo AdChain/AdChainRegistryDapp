@@ -107,7 +107,7 @@ class MainSidebar extends Component {
               <Link to='/account' className='NavLink' activeClassName='active'><img src={dashboardLogo} alt='dashboard' />My Dashboard</Link>
             </Menu.Item>
             <Menu.Item name='parameter'>
-              <Link to='/parameter' className='NavLink' activeClassName='active'><img src={parametersLogo} alt='governance' />Governance</Link>
+              <Link to='/governance' className='NavLink' activeClassName='active'><img src={parametersLogo} alt='governance' />Governance</Link>
             </Menu.Item>
             <Menu.Item name='help'>
               <Accordion.Title

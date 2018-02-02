@@ -57,7 +57,6 @@ p {
   line-height: 1.6;
 }
 
-
 :root:root .ui.button.purple {
   background-color: #633e80;
 }
@@ -105,7 +104,6 @@ p {
     padding-left:10px;
     cursor:pointer;
 }
-
 
 .RootLoader{
   position:relative;
@@ -156,12 +154,25 @@ p {
 .ib{display: inline-block !important;}
 /*utility hide*/
 .hide{display: none !important;}
+.transparent-button{
+  color:transparent;
+  background: transparent;
+  border-color: transparent;
+  display: inline-block;
+  height: 100%;
+  width: 100%;
+}
+.transparent-button:hover{
+  color:transparent;
+  background: transparent;
+  border-color: transparent;
+}
+
 @media only screen and (max-width: 767px) {
   :root:root:root:root .MainContainerWrap {
     margin-top: 70px !important;
     padding-left: inherit;
   }
-
 }
 
 
