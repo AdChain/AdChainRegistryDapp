@@ -108,7 +108,12 @@
   width: 100%;
   display: inline-block;
 }
-
+:root:root .DomainsTable .ReactTable .Domain, 
+:root:root .DomainsTable .ReactTable span:last-of-type
+{
+  width: 10px;
+  display: inline;
+}
 :root:root .DomainsTable .ReactTable span,
 :root:root .DomainsTable .ReactTable .Number  {
   font-weight: 400;
