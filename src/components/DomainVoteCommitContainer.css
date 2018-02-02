@@ -120,7 +120,7 @@
   margin-right: 0 !important;
   display: inline-block;
   font-size: 10px;
-  min-height: 120px;
+  min-height: 130px;
   padding-left: 14px;
 }
 
@@ -131,7 +131,7 @@
   margin-left: 0 !important;
   margin-right: 0 !important;
   font-size: 10px;
-  min-height: 120px;
+  min-height: 130px;
 }
 
 :root:root:root .DomainVoteCommitContainer .DownloadCommitButton {

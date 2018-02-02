@@ -20,7 +20,8 @@ class DomainChallengeContainer extends Component {
       applicationExpiry: null,
       minDeposit: null,
       currentDeposit: null,
-      inProgress: false
+      inProgress: false,
+      source: props.source
     }
   }
 
@@ -40,7 +41,8 @@ class DomainChallengeContainer extends Component {
       domain,
       applicationExpiry,
       minDeposit,
-      inProgress
+      inProgress,
+      source
     } = this.state
 
     const stageEndMoment = applicationExpiry ? moment.unix(applicationExpiry) : null
@@ -49,25 +51,31 @@ class DomainChallengeContainer extends Component {
     return (
       <div className='DomainChallengeContainer'>
         <div className='ui grid stackable'>
-          <div className='column sixteen wide HeaderColumn'>
-            <div className='row HeaderRow'>
-              <div className='ui large header'>
-              Stage: In Application
-              <Popup
-                trigger={<i className='icon info circle' />}
-                content='The first phase of the voting process is the commit phase where the ADT holder stakes a hidden amount of votes to SUPPORT or OPPOSE the domain application. The second phase is the reveal phase where the ADT holder reveals the staked amount of votes to either the SUPPORT or OPPOSE side.'
-              />
+          {
+            (source === 'InRegistry') ? null
+            : <div className='column sixteen wide HeaderColumn'>
+              <div className='row HeaderRow'>
+                <div className='ui large header'>
+                  Stage: In Application
+                  <Popup
+                    trigger={<i className='icon info circle' />}
+                    content='The first phase of the voting process is the commit phase where the ADT holder stakes a hidden amount of votes to SUPPORT or OPPOSE the domain application. The second phase is the reveal phase where the ADT holder reveals the staked amount of votes to either the SUPPORT or OPPOSE side.'
+                    />
+                </div>
+                <Button
+                  basic
+                  className='right refresh'
+                  onClick={this.updateStatus}
+                  >
+                  Refresh Status
+                </Button>
               </div>
-              <Button
-                basic
-                className='right refresh'
-                onClick={this.updateStatus}
-              >
-                Refresh Status
-              </Button>
             </div>
-          </div>
-          <div className='column sixteen wide center aligned'>
+          }
+
+          {
+            (source === 'InRegistry') ? null
+          : <div className='column sixteen wide center aligned'>
             <div className='ui message info'>
               <p>Challenge stage ends</p>
               <p><strong>{stageEnd}</strong></p>
@@ -76,6 +84,7 @@ class DomainChallengeContainer extends Component {
                 onExpire={this.onCountdownExpire.bind(this)} /></p>
             </div>
           </div>
+          }
           <div className='column sixteen wide center aligned'>
             <Segment.Group>
               <Segment className='SegmentOne'>
@@ -87,7 +96,10 @@ class DomainChallengeContainer extends Component {
                 </p>
               </Segment>
               <Segment className='SegmentTwo'>
-                <div className='NumberCircle'>1</div>
+                {
+                  (source === 'InRegistry') ? null
+                  : <div className='NumberCircle'>1</div>
+                }
                 <p>
                   ADT required to challenge: <strong>{minDeposit ? commafy(minDeposit) : '-'} ADT</strong>
                   <br />

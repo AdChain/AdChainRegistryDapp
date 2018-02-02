@@ -1,3 +1,39 @@
 .DomainNotInRegistryContainer {
   position: relative;
+  height: 100%;
+}
+
+
+.DomainNotInRegistryContainer .header {
+  display: inline-block;
+}
+
+:root:root:root .DomainNotInRegistryContainer .refresh {
+  display: inline-block;
+  float: right;
+  border: 1px solid #3434CE;
+  border-radius: 3px;
+  color: #3434CE !important;
+  font-family: "Open Sans", sans-serif;
+  font-size: 8px;
+  font-weight: bold;
+  line-height: 11px;
+  text-transform: uppercase;
+}
+
+.DomainNotInRegistryContainer .HeaderColumn {
+  padding-bottom: 0px !important;
+}
+
+.DomainNotInRegistryContainer .HeaderRow {
+  padding-top: 10px;
+}
+
+.DomainNotInRegistryContainer .DomainNotInRegistryBody {
+  height: 100%;
+}
+
+.NotInRegistryMessage {
+  padding-left: 20px;
+  padding-right: 20px;
 }

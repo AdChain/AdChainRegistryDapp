@@ -65,7 +65,7 @@ class DomainProfileActionContainer extends Component {
     }
 
     return (
-      <div>
+      <div className='OuterDomainProfileActionContainer'>
         {
         // <div className='DomainProfileActionContainer BoxFrame'>
         //   <div className='ui grid stackable'>
@@ -85,7 +85,7 @@ class DomainProfileActionContainer extends Component {
         // </div>
       }
         <div className='DomainProfileActionContainer BoxFrame'>
-          { component }
+          {component}
         </div>
       </div>
     )
