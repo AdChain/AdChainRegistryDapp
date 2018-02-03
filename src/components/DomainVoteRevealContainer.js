@@ -128,7 +128,7 @@ class DomainVoteRevealContainer extends Component {
               </div>
                   Upload your JSON commit file to reveal your vote:
                 <div className='UploadCommitButtonContainer'>
-                  <Button className='UploadCommitButton' basic>Upload Commit<i className='icon long arrow up' /></Button>
+                  <Button className='UploadCommitButton' basic>Upload Commit &nbsp;<i className='icon long arrow up' /></Button>
                 </div>
             </Segment>
             <Segment className='RightSegment' floated='right'>

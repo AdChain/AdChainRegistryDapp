@@ -3,8 +3,20 @@
 }
 
 .DomainProfileInfo .Header {
-  font-weight: bold;
-  margin-bottom: 10px;
+  text-transform: uppercase;
+  color: #909090;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 14px;
+  min-height: 13px;
+  font-family: 'Open Sans',sans-serif;
+}
+
+.DomainProfileInfo .Header::after {
+  content: url(./assets/info_gray.svg);
+  transform: scale(1.2) translateY(1.2px);
+  padding-left: 7px;
+  cursor: pointer;
 }
 
 .DomainProfileInfo .green {

@@ -64,8 +64,9 @@
 }
 
 :root:root:root .DomainChallengeContainer .SegmentTwo p {
-  padding-left: 3em;
+  padding-left: 6em;
   padding-right: 3em;
+  text-align: left;
 }
 
 :root:root:root .DomainChallengeContainer .SegmentFour {
