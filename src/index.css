@@ -60,7 +60,11 @@ p {
 :root:root .ui.button.purple {
   background-color: #633e80;
 }
-
+input:focus{
+  border:none;
+  outline:none;
+  text-decoration: none;
+}
 :root:root .form input[type="text"],
 :root:root .form input[type="password"] {
   background: #F4F7FA;
@@ -174,22 +178,6 @@ select:focus{
 select:hover{
   cursor:pointer;
 }
-.selectdiv{
-  border-bottom: 1px solid #ddd;
-  padding-bottom: 5px;
-}
-.selectdiv:after {
-    content: '\f078';
-    font: normal normal normal 17px/1 FontAwesome;
-    color: #3434CE;
-    right: 13px;
-    top: 35px;
-    height: 30px;
-    padding: 15px 0px 0px 8px;
-    position: absolute;
-    pointer-events: none;
-}
-
 /* IE11 hide native button (thanks Matt!) */
 select::-ms-expand {
   display: none;

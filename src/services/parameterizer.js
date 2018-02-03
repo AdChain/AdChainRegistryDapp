@@ -48,7 +48,7 @@ class ParameterizerService {
         if (typeof result === 'object' && result.isBigNumber) {
           result = result.toNumber()
         }
-        result = await this.parameterizer.get(name)
+        result = await this.parameterizer.get.call(name)
         resolve(result)
       } catch (error) {
         console.log(error)

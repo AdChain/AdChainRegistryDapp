@@ -2,22 +2,23 @@ import React, { Component } from 'react'
 import ParameterizerService from '../services/parameterizer'
 import _ from 'lodash'
 import './GovernanceAndCoreParameters.css'
+const commafy = require('commafy')
 
 const coreParameterData = {
-  '_minDeposit': 1,
-  '_applyStageLen': 0,
-  '_commitStageLen': 0,
-  '_revealStageLen': 0,
-  '_dispensationPct': 0,
-  '_voteQuorum': 0
+  'minDeposit': 0,
+  'applyStageLen': 0,
+  'commitStageLen': 0,
+  'revealStageLen': 0,
+  'dispensationPct': 0,
+  'voteQuorum': 0
 }
 const governanceParameterData = {
-  '_pMinDeposit': 0,
-  '_pApplyStageLen': 0,
-  '_pCommitStageLen': 0,
-  '_pRevealStageLen': 0,
-  '_pDispensationPct': 0,
-  '_pVoteQuorum': 0
+  'pMinDeposit': 0,
+  'pApplyStageLen': 0,
+  'pCommitStageLen': 0,
+  'pRevealStageLen': 0,
+  'pDispensationPct': 0,
+  'pVoteQuorum': 0
 }
 
 class GovernanceAndCoreParameters extends Component {
@@ -77,7 +78,7 @@ class GovernanceAndCoreParameters extends Component {
         ParameterizerService.get(name)
           .then((response) => {
             result = this.state[parameterType]
-            result[name] = response.c[0]
+            result[name] = response.toNumber()
             this.setState({
               [parameterType]: result
             })
@@ -92,11 +93,33 @@ class GovernanceAndCoreParameters extends Component {
     if (!this.state.coreParameterData) return
     let parameterNames = []
     let i = 0
+
     const table = _.reduce(parameterData, (result, value, name) => {
-      name = name.match('_p') ? name.replace(/_p/g, 'g') : name.replace(/_/g, '')
+      switch (name) {
+        case 'minDeposit':
+        case 'pMinDeposit':
+          value = commafy(Math.floor(value / 1000000000)) + ' ADT'
+          break
+        case 'applyStageLen':
+        case 'pApplyStageLen':
+        case 'commitStageLen':
+        case 'pCommitStageLen':
+        case 'revealStageLen':
+        case 'pRevealStageLen':
+          value = (value / 1440 / 60) + ' days'
+          break
+        case 'dispensationPct':
+        case 'pDispensationPct':
+        case 'voteQuorum':
+        case 'pVoteQuorum':
+          value = value + '%'
+          break
+        default:
+          break
+      }
       name = name.replace(/Len/g, 'Length')
       parameterNames.push(
-        <div className='ParameterRow'>
+        <div key={value + name} className='ParameterRow'>
           <span key={name} className={parameterData === this.state.coreParameterData ? 'f-blue' : 'f-red'}>{name}</span>
           <span key={i++}>{value}</span>
         </div>

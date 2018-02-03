@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 
 import GovernanceAndCoreParameters from './GovernanceAndCoreParameters'
 import CreateProposal from './CreateProposal'
+import OpenProposalsTable from './OpenProposalsTable'
 
 class GovernanceContainer extends Component {
   constructor (props) {
@@ -18,7 +19,7 @@ class GovernanceContainer extends Component {
           <CreateProposal />
         </div>
         <div className='column eight wide'>
-          <GovernanceAndCoreParameters />
+          <OpenProposalsTable />
         </div>
       </div>
     )

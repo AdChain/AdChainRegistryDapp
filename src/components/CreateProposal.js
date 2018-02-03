@@ -1,25 +1,68 @@
 import React, { Component } from 'react'
+import _ from 'lodash'
+
 import './CreateProposal.css'
 
-const allParameters = [
-  'minDeposit',
-  'applyStageLength',
-  'commitStageLength',
-  'revealStageLength',
-  'dispensationPct',
-  'voteQuorum',
-  'gMinDeposit',
-  'gApplyStageLength',
-  'gCommitStageLength',
-  'gRevealStageLength',
-  'gDispensationPct',
-  'gVoteQuorum'
-]
+// const allParameters = [
+//   'minDeposit',
+//   'applyStageLength',
+//   'commitStageLength',
+//   'revealStageLength',
+//   'dispensationPct',
+//   'voteQuorum',
+//   'gMinDeposit',
+//   'gApplyStageLength',
+//   'gCommitStageLength',
+//   'gRevealStageLength',
+//   'gDispensationPct',
+//   'gVoteQuorum'
+// ]
+
+const paramDataMapping = {
+  minDeposit: {
+    metric: 'ADT'
+  },
+  applyStageLength: {
+    metric: 'days'
+  },
+  commitStageLength: {
+    metric: 'days'
+  },
+  revealStageLength: {
+    metric: 'days'
+  },
+  dispensationPct: {
+    metric: '%'
+  },
+  voteQuorum: {
+    metric: '%'
+  },
+  gMinDeposit: {
+    metric: 'ADT'
+  },
+  gApplyStageLength: {
+    metric: 'days'
+  },
+  gCommitStageLength: {
+    metric: 'days'
+  },
+  gRevealStageLength: {
+    metric: 'days'
+  },
+  gDispensationPct: {
+    metric: '%'
+  },
+  gVoteQuorum: {
+    metric: '%'
+  }
+}
 
 class CreateProposal extends Component {
   constructor () {
     super()
     this.state = {
+      inputlabel: ''
+
     }
   }
 
@@ -28,26 +71,22 @@ class CreateProposal extends Component {
 
   render () {
     return (
-      <div>
+      <div className='CreateProposal'>
         <div className='BoxFrame mt-25'>
           <span className='BoxFrameLabel ui grid'>CREATE PROPOSAL</span>
           <div className='ui grid'>
             <div className='column sixteen wide'>
-              <h4>Select Parameter</h4>
+              <div className='header'>Select Parameter</div>
               <div className='selectdiv '>
-                <select className='BlueDropdown'>
-                  {
-                    allParameters.map(param => {
-                      return (<option key={param}>{param}</option>)
-                    })
-                  }
+                <select className='BlueDropdown' onSelect={() => {}}>
+                  { this.generateList(paramDataMapping) }
                 </select>
               </div>
-              <h5>Enter Proposed Value</h5>
+              <div className='header'>Enter Proposed Value</div>
               <div className='ProposalInputWrapper'>
-                <input type='text' placeholder='1000' className='ProposalInput' />
+                <input type='text' placeholder='0' className='ProposalInput' />
               </div>
-              <h5>ADT to Stake: min 100 ADT</h5>
+              <div className='header'>ADT to Stake: min 100 ADT</div>
               <div className='t-center'>
                 <button className='ui mini button table-button blue'>SUBMIT PROPOSAL</button>
               </div>
@@ -56,6 +95,14 @@ class CreateProposal extends Component {
         </div>
       </div>
     )
+  }
+
+  generateList (listData) {
+    let list = []
+    _.reduce(listData, (result, value, param) => {
+      list.push(<option key={param}>{param}</option>)
+    }, [])
+    return list
   }
 }
 

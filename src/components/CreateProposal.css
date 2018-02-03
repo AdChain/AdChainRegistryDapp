@@ -1,3 +1,17 @@
+.CreateProposal{
+  font-family: "Open Sans", sans-serif;
+  font-weight:600;
+  font-size: 12px;
+}
+.CreateProposal .header{
+  padding:10px 0;
+}
+.CreateProposal .header:first-of-type{
+  padding-top: 0;
+}
+.CreateProposal .header:last-of-type{
+  margin-bottom: 20px;
+}
 .BlueDropdown{
   border: none;
   background: white;
@@ -20,15 +34,38 @@
   word-break: normal;
   padding: 2px;
 }
+.selectdiv{
+  margin-bottom: 10px;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 5px;
+}
+.selectdiv:after {
+    content: '\f078';
+    font: normal normal normal 17px/1 FontAwesome;
+    color: #3434CE;
+    right: 30px;
+    top: 32px;
+    height: 25px;
+    padding: 15px 0px 0px 8px;
+    position: absolute;
+    pointer-events: none;
+}
+
 .BlueDropdown option{
   color:blue;
 }
 .ProposalInput{
   border:none;
   display: inline-block;
-
 }
+
 .ProposalInputWrapper{
   padding:2px;
-  border-bottom:1px solid #ddd;
+  border-bottom:1px solid #ddd;  
+  margin-bottom:10px;
+
 }
+.ProposalInputWrapper::after{
+  content: "ADT";
+}
+
