@@ -47,7 +47,7 @@
 :root:root:root .DomainChallengeContainer .SegmentOne {
   padding-left: 4em;
   padding-right: 4em;
-  padding-top: 3em;
+  /* padding-top: 3em; */
 }
 
 :root:root:root .DomainChallengeContainer .SegmentOne p,
@@ -73,7 +73,7 @@
   border-top: none !important;
   padding-left: 4em;
   padding-right: 4em;
-  padding-bottom: 3em;
+  /* padding-bottom: 3em; */
 }
 
 :root:root:root .DomainChallengeContainer .SegmentThree {

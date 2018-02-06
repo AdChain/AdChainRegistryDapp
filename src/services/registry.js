@@ -126,6 +126,27 @@ class RegistryService {
     })
   }
 
+  async deposit (domain, amount = 0) {
+    if (!domain) {
+      throw new Error('Domain is required')
+    }
+    if (!amount) {
+      throw new Error('You did not specify an amount')
+    }
+
+    domain = domain.toLowerCase()
+
+    const bigDeposit = big(amount).mul(tenToTheNinth).toString(10)
+
+    // const allowed = await token.allowance(this.account, this.address).toString('10')
+
+    try {
+      await this.registry.deposit(domain, bigDeposit)
+    } catch (error) {
+      throw error
+    }
+  }
+
   async challenge (domain) {
     if (!domain) {
       throw new Error('Domain is required')
@@ -707,6 +728,15 @@ class RegistryService {
 
     const result = await pify(window.web3.eth.getBalance)(this.account)
     return result.div(tenToTheEighteenth)
+  }
+
+  async exit (domain) {
+    domain = domain.toLowerCase()
+    try {
+      await this.registry.exit(domain)
+    } catch (error) {
+      throw error
+    }
   }
 
   getNetwork () {

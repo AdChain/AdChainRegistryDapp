@@ -104,13 +104,13 @@
 	.st98{fill:url(#SVGID_96_);}
 	.st99{fill:none;stroke:url(#SVGID_97_);stroke-width:5;stroke-miterlimit:10;}
 	.st100{fill:url(#SVGID_98_);}
-	.st101{font-family:'TitilliumWeb-Bold';}
+	.st101{font-family:'Titillium Web', sans-serif;}
 	.st102{font-size:111.741px;}
 </style>
 <g>
 	<g>
 		<g id="Layer_1_2_">
-			
+
 				<image style="overflow:visible;opacity:0.75;enable-background:new    ;" width="1470" height="1657" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABcUAAAZ+CAYAAACGskw+AAAACXBIWXMAAGFZAABhWQHOSU/AAAAA
 GXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAABOilJREFUeNrs3Yly20jThekUqfu/
 Youa6JkP85fTuRYKAJf3iXCIErSSbAs4zj4pAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
@@ -1527,7 +1527,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAu4f8ABwuztTbPBiMAAAAASUVORK5CYII=" tr
 			</image>
 			<path class="st34" d="M160.4,48.4L91.9,8.9c-3-1.7-6.7-1.7-9.7,0L13.7,48.4c-3,1.7-4.8,4.9-4.8,8.4v79.1c0,3.5,1.8,6.7,4.8,8.4
 				l68.5,39.5c3,1.7,6.7,1.7,9.7,0l68.5-39.5c3-1.7,4.8-4.9,4.8-8.4V56.8C165.3,53.4,163.4,50.2,160.4,48.4z"/>
-			
+
 				<linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="19.4387" y1="2496.0686" x2="177.5307" y2="2404.7942" gradientTransform="matrix(1 0 0 -1 -11.4067 2546.7986)">
 				<stop  offset="0" style="stop-color:#0071BC"/>
 				<stop  offset="1" style="stop-color:#662D91"/>
@@ -1535,14 +1535,14 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAu4f8ABwuztTbPBiMAAAAASUVORK5CYII=" tr
 			<path style="fill:none;stroke:url(#SVGID_1_);stroke-width:5;stroke-miterlimit:10;" d="M160.4,48.4L91.9,8.9
 				c-3-1.7-6.7-1.7-9.7,0L13.7,48.4c-3,1.7-4.8,4.9-4.8,8.4v79.1c0,3.5,1.8,6.7,4.8,8.4l68.5,39.5c3,1.7,6.7,1.7,9.7,0l68.5-39.5
 				c3-1.7,4.8-4.9,4.8-8.4V56.8C165.3,53.4,163.4,50.2,160.4,48.4z"/>
-			
+
 				<linearGradient id="SVGID_2_" gradientUnits="userSpaceOnUse" x1="-1394.3436" y1="1064.8793" x2="-1233.3202" y2="1064.8793" gradientTransform="matrix(0.866 0.5 0.5 -0.866 692.4519 1675.4896)">
 				<stop  offset="0" style="stop-color:#0071BC"/>
 				<stop  offset="1" style="stop-color:#662D91"/>
 			</linearGradient>
 			<path class="st3" d="M153.3,52.6L91.9,17.1c-3-1.7-6.6-1.7-9.6,0L20.9,52.6c-3,1.7-4.8,4.9-4.8,8.3v70.9c0,3.4,1.8,6.6,4.8,8.3
 				l61.4,35.5c3,1.7,6.6,1.7,9.6,0l61.4-35.5c3-1.7,4.8-4.9,4.8-8.3V60.9C158.1,57.5,156.3,54.3,153.3,52.6z"/>
-			
+
 				<image style="overflow:visible;enable-background:new    ;" width="770" height="792" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAwYAAAMgCAYAAACZM3X/AAAACXBIWXMAAF0yAABdMgFowdHnAAAA
 GXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAghNJREFUeNrs3QeYXOWV//nbojFg
 shE5OYwNJopskzMmRwdsg8Fhwo5n5j+763me/8x/Z9az88zu+u+ZWdsz44gBZ4YkEEkkCZCEBCIn

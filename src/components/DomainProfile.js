@@ -27,11 +27,14 @@ class DomainProfile extends Component {
       siteName: '',
       siteDescription: '',
       country: null,
-      action
+      action,
+      stage: null
     }
 
     // scroll to top
     window.scrollTo(0, -1)
+
+    this.updateStageMap = this.updateStageMap.bind(this)
   }
 
   componentDidMount () {
@@ -50,7 +53,8 @@ class DomainProfile extends Component {
       siteName,
       siteDescription,
       country,
-      action
+      action,
+      stage
     } = this.state
 
     return (
@@ -70,13 +74,8 @@ class DomainProfile extends Component {
             </div>
           </div>
           <div className='row'>
-            {
-            // <div className='column five wide'>
-            //   <DomainScamReport domain={domain} />
-            // </div>
-            }
             <div className='column five wide'>
-              <DomainProfileStageMap domain={domain} />
+              <DomainProfileStageMap stage={stage} domain={domain} />
             </div>
             <div className='column four wide'>
               <DomainProfileInfo
@@ -88,6 +87,7 @@ class DomainProfile extends Component {
               <DomainProfileActionContainer
                 domain={domain}
                 action={action}
+                updateStageMap={this.updateStageMap}
               />
             </div>
           </div>
@@ -119,6 +119,14 @@ class DomainProfile extends Component {
       }
     } catch (error) {
 
+    }
+  }
+
+  async updateStageMap (newAction) {
+    if (this._isMounted) {
+      this.setState({
+        stage: newAction
+      })
     }
   }
 }
