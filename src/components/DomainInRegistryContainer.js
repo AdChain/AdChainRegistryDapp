@@ -75,7 +75,9 @@ class DomainInRegistryContainer extends Component {
           <div className='ui divider' />
           <DomainChallengeContainer domain={domain} source='InRegistry' />
           <div className='column sixteen wide center aligned'>
-
+            {
+              // need to re-add canWithdraw check to hide this section from non-owners
+            }
             <div>
               <Segment className='LeftSegment' floated='left'>
                 <p>
