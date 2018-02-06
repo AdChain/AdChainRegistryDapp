@@ -4,11 +4,11 @@
 }
 .ParameterRow span:last-of-type {
 	position: absolute;
-    right: 54px;
+    right: 34px;
 }
 .ValuesTitle{
 	position: absolute;
-    right: 38px;
+    right: 42px;
 }
 .AllParameters{
 	font-family: "Open Sans", sans-serif;
