@@ -85,7 +85,7 @@
   margin-right: 0 !important;
   display: inline-block;
   font-size: 10px;
-  min-height: 180px;
+  min-height: 210px;
   padding-left: 14px;
   position: relative;
 }
@@ -97,7 +97,7 @@
   margin-left: 0 !important;
   margin-right: 0 !important;
   font-size: 10px;
-  min-height: 180px;
+  min-height: 210px;
   position: relative;
 }
 
@@ -167,4 +167,5 @@ text-align: center;
   font-weight: bold;
   line-height: 11px;
   text-align: center;
+  padding-bottom: 1em;
 }

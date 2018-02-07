@@ -6,7 +6,6 @@ import commafy from 'commafy'
 
 import registry from '../services/registry'
 import './DomainInRegistryContainer.css'
-import DomainVoteTokenDistribution from './DomainVoteTokenDistribution'
 import DomainChallengeInProgressContainer from './DomainChallengeInProgressContainer'
 import DomainChallengeContainer from './DomainChallengeContainer'
 
@@ -20,10 +19,13 @@ class DomainInRegistryContainer extends Component {
       didReveal: false,
       didClaim: false,
       inChallengeProgress: false,
-      minDeposit: null
+      minDeposit: null,
+      canWithdraw: false
     }
 
     this.onChallenge = this.onChallenge.bind(this)
+    this.withdrawListing = this.withdrawListing.bind(this)
+    this.topOff = this.topOff.bind(this)
   }
 
   componentDidMount () {
@@ -33,6 +35,7 @@ class DomainInRegistryContainer extends Component {
     this.getReveal()
     this.getClaims()
     this.getMinDeposit()
+    this.checkOwner()
   }
 
   componentWillUnmount () {
@@ -42,15 +45,11 @@ class DomainInRegistryContainer extends Component {
   render () {
     const {
       domain,
-      didReveal,
-      didClaim,
       inChallengeProgress,
-      votesFor,
-      votesAgainst,
       minDeposit
     } = this.state
 
-    const hasVotes = (votesFor || votesAgainst)
+    // const hasVotes = (votesFor || votesAgainst)
 
     return (
       <div className='DomainInRegistryContainer'>
@@ -74,24 +73,11 @@ class DomainInRegistryContainer extends Component {
             </div>
           </div>
           <div className='ui divider' />
-          {didReveal ? <div className='column sixteen wide center aligned'>
-            <div className='ui message warning'>
-              You've <strong>revealed</strong> for this domain.
-            </div>
-          </div>
-          : null}
-          {didClaim ? <div className='column sixteen wide center aligned'>
-            <div className='ui message warning'>
-              You've <strong>claimed reward</strong> for this domain.
-            </div>
-          </div>
-          : null}
-          {hasVotes ? [
-            <div className='ui divider' key={Math.random()} />,
-            <DomainVoteTokenDistribution domain={domain} key={Math.random()} />
-          ] : null}
           <DomainChallengeContainer domain={domain} source='InRegistry' />
           <div className='column sixteen wide center aligned'>
+            {
+              // need to re-add canWithdraw check to hide this section from non-owners
+            }
             <div>
               <Segment className='LeftSegment' floated='left'>
                 <p>
@@ -103,7 +89,10 @@ class DomainInRegistryContainer extends Component {
                   <strong>{minDeposit ? commafy(minDeposit) : '-'} ADT</strong>
                 </p>
                 <div className='WithdrawButtonContainer'>
-                  <Button className='WithdrawButton' basic>Withdraw Listing</Button>
+                  <Button
+                    className='WithdrawButton'
+                    basic
+                    onClick={this.withdrawListing}>Withdraw Listing</Button>
                 </div>
               </Segment>
               <Segment className='RightSegment' floated='right'>
@@ -117,13 +106,17 @@ class DomainInRegistryContainer extends Component {
                 You are subject to having your domain touched & removed
               </div>
                 <div>
-                Enter ADT amount to top off:<Input placeholder='ADT' className='TopOffInput' />
+                Enter ADT amount to top off:<Input type='number' placeholder='ADT' id='TopOff' className='TopOffInput' />
                 </div>
                 <div className='TopOffButtonContainer'>
-                  <Button className='TopOffButton' basic>Top Off</Button>
+                  <Button
+                    className='TopOffButton'
+                    basic
+                    onClick={this.topOff}>Top Off</Button>
                 </div>
               </Segment>
             </div>
+
           </div>
         </div>
         {inChallengeProgress ? <DomainChallengeInProgressContainer /> : null}
@@ -203,6 +196,49 @@ class DomainInRegistryContainer extends Component {
     event.preventDefault()
 
     this.challenge()
+  }
+
+  async checkOwner () {
+    const {domain, account} = this.state
+
+    try {
+      const listing = await registry.getListing(domain)
+      if (listing.ownerAddress === account) {
+        this.setState({
+          canWithdraw: true
+        })
+      }
+    } catch (error) {
+      toastr.error(error.message)
+    }
+  }
+
+  async withdrawListing () {
+    const {domain} = this.state
+
+    try {
+      await registry.exit(domain)
+      this.setState({
+        canWithdraw: false
+      })
+      await this.updateStatus()
+      toastr.success('Successfully withdrew listing')
+    } catch (error) {
+      toastr.error(error.message)
+    }
+  }
+
+  async topOff () {
+    const {domain} = this.state
+    const amount = document.getElementById('TopOff').value
+
+    // Possibly include other verification checks
+
+    try {
+      await registry.deposit(domain, amount)
+    } catch (error) {
+      toastr.error(error.message)
+    }
   }
 
   async challenge () {

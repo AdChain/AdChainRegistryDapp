@@ -121,6 +121,7 @@ class DomainProfileActionContainer extends Component {
         this.setState({
           action
         })
+        await this.props.updateStageMap(action)
       }
     } catch (error) {
       toastr.error(error.message)

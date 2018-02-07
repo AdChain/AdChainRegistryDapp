@@ -6,7 +6,7 @@ import './MainSidebar.css'
 
 import adchainLogo from './assets/white_text_adchain_logo.svg'
 import metaxLogo from './assets/white_text_metax_logo.svg'
-import adtokenLogo from './assets/white_text_adtoken_logo.svg'
+import adtokenLogo from './assets/adtoken_logo_white.png'
 import wwwLogo from './assets/WWW.svg'
 import dashboardLogo from './assets/DASHBOARD.svg'
 import helpLogo from './assets/HELP.svg'

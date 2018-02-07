@@ -17,12 +17,14 @@ class DomainProfileStageMap extends Component {
 
     const {
       domain,
-      action
+      action,
+      stage
     } = props
 
     this.state = {
       domain,
-      action
+      action,
+      stage
     }
     this.getData()
   }
@@ -33,6 +35,14 @@ class DomainProfileStageMap extends Component {
 
   componentWillUnmount () {
     this._isMounted = false
+  }
+
+  componentWillReceiveProps (nextProps) {
+    if (nextProps.stage !== this.props.stage) {
+      this.setState({
+        action: nextProps.stage
+      })
+    }
   }
 
   render () {
