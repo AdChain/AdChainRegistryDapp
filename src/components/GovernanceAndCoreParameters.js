@@ -1,42 +1,11 @@
 import React, { Component } from 'react'
-import ParameterizerService from '../services/parameterizer'
 import _ from 'lodash'
 import './GovernanceAndCoreParameters.css'
-const commafy = require('commafy')
-
-const coreParameterData = {
-  'minDeposit': 0,
-  'applyStageLen': 0,
-  'commitStageLen': 0,
-  'revealStageLen': 0,
-  'dispensationPct': 0,
-  'voteQuorum': 0
-}
-const governanceParameterData = {
-  'pMinDeposit': 0,
-  'pApplyStageLen': 0,
-  'pCommitStageLen': 0,
-  'pRevealStageLen': 0,
-  'pDispensationPct': 0,
-  'pVoteQuorum': 0
-}
+import commafy from 'commafy'
 
 class GovernanceAndCoreParameters extends Component {
-  constructor () {
-    super()
-    this.state = {
-      coreParameterData: Object.assign({}, coreParameterData),
-      governanceParameterData: Object.assign({}, governanceParameterData)
-    }
-  }
-
-  async componentWillMount () {
-    await ParameterizerService.init()
-    await this.getParameterValues('governanceParameterData')
-    await this.getParameterValues('coreParameterData')
-  }
-
   render () {
+    const props = this.props
     return (
       <div className='AllParameters'>
         <div className='BoxFrame mt-25'>
@@ -48,7 +17,7 @@ class GovernanceAndCoreParameters extends Component {
                 <span className='ValuesTitle'>Values</span>
               </div>
               <div>
-                {this.generateCoreParameterTable(this.state.coreParameterData)}
+                {this.generateCoreParameterTable(props.coreParameterData)}
               </div>
             </div>
           </div>
@@ -62,7 +31,7 @@ class GovernanceAndCoreParameters extends Component {
                 <span className='ValuesTitle'>Values</span>
               </div>
               <div>
-                {this.generateCoreParameterTable(this.state.governanceParameterData)}
+                {this.generateCoreParameterTable(props.governanceParameterData)}
               </div>
             </div>
           </div>
@@ -71,30 +40,11 @@ class GovernanceAndCoreParameters extends Component {
     )
   }
 
-  getParameterValues (parameterType) {
-    let result
-    _.forOwn(this.state[parameterType], (value, name) => {
-      try {
-        ParameterizerService.get(name)
-          .then((response) => {
-            result = this.state[parameterType]
-            result[name] = response.toNumber()
-            this.setState({
-              [parameterType]: result
-            })
-          })
-      } catch (error) {
-        console.log('error: ', error)
-      }
-    })
-  }
-
   generateCoreParameterTable (parameterData) {
-    if (!this.state.coreParameterData) return
-    let parameterNames = []
+    if (!this.props.coreParameterData || !this.props.governanceParameterData) return
     let i = 0
-
     const table = _.reduce(parameterData, (result, value, name) => {
+      value = parameterData[name].value
       switch (name) {
         case 'minDeposit':
         case 'pMinDeposit':
@@ -117,14 +67,12 @@ class GovernanceAndCoreParameters extends Component {
         default:
           break
       }
-      name = name.replace(/Len/g, 'Length')
-      parameterNames.push(
+      result.push(
         <div key={value + name} className='ParameterRow'>
-          <span key={name} className={parameterData === this.state.coreParameterData ? 'f-blue' : 'f-red'}>{name}</span>
+          <span key={name} className={parameterData === this.props.coreParameterData ? 'f-blue' : 'f-red'}>{parameterData[name].name}</span>
           <span key={i++}>{value}</span>
         </div>
       )
-      result = parameterNames
       return result
     }, [])
     return table

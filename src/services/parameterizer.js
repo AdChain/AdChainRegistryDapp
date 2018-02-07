@@ -2,6 +2,7 @@ import Eth from 'ethjs'
 import { getProvider } from './provider'
 import { getParameterizer } from '../config'
 import store from '../store'
+import sha3 from 'solidity-sha3'
 
 class ParameterizerService {
   constructor () {
@@ -54,6 +55,30 @@ class ParameterizerService {
         console.log(error)
       }
     })
+  }
+
+  async getProposals (name, value) {
+    let result
+    try {
+      const hash = sha3(name, value)
+      result = await this.parameterizer.proposals.call(hash)
+    } catch (error) {
+      console.log(error)
+    }
+    return result
+  }
+
+  async proposeReparameterization (name, value) {
+    let result
+    if (!name || !value) { console.log('name or value missing'); return }
+    try {
+      value = Number(value)
+      console.log(typeof value, value)
+      result = await this.parameterizer.proposeReparameterization(name, value)
+    } catch (error) {
+      console.log(error)
+    }
+    return result
   }
 }
 
