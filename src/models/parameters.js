@@ -14,17 +14,17 @@ export const parameterData = {
       value: 0
     },
     applyStageLen: {
-      metric: 'days',
+      metric: 'min',
       name: 'applyStageLength',
       value: 0
     },
     commitStageLen: {
-      metric: 'days',
+      metric: 'min',
       name: 'commitStageLength',
       value: 0
     },
     revealStageLen: {
-      metric: 'days',
+      metric: 'min',
       name: 'revealStageLength',
       value: 0
     },
@@ -47,16 +47,16 @@ export const parameterData = {
       value: 0
     },
     pApplyStageLen: {
-      metric: 'days',
+      metric: 'min',
       name: 'gApplyStageLength',
       value: 0
     },
     pCommitStageLen: {
-      metric: 'days',
+      metric: 'min',
       name: 'gCommitStageLength'
     },
     pRevealStageLen: {
-      metric: 'days',
+      metric: 'min',
       name: 'gRevealStageLength',
       value: 0
     },

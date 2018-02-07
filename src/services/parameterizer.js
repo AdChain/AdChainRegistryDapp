@@ -20,9 +20,9 @@ class ParameterizerService {
     this.parameterizer = await getParameterizer(accounts[0])
     this.address = this.parameterizer.address
 
-    store.dispatch({
-      type: 'PARAMETERIZER_CONTRACT_INIT'
-    })
+    // store.dispatch({
+    //   type: 'PARAMETERIZER_CONTRACT_INIT'
+    // })
   }
 
   setUpEvents () {
@@ -46,10 +46,10 @@ class ParameterizerService {
         return false
       }
       try {
+        result = await this.parameterizer.get.call(name)
         if (typeof result === 'object' && result.isBigNumber) {
           result = result.toNumber()
         }
-        result = await this.parameterizer.get.call(name)
         resolve(result)
       } catch (error) {
         console.log(error)

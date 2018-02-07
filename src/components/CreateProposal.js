@@ -113,7 +113,7 @@ class CreateProposal extends Component {
         case 'pCommitStageLen':
         case 'revealStageLen':
         case 'pRevealStageLen':
-          value = value * 1440 * 60
+          value = value * 60
           break
         default:
           break

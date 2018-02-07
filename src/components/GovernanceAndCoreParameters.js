@@ -48,7 +48,7 @@ class GovernanceAndCoreParameters extends Component {
       switch (name) {
         case 'minDeposit':
         case 'pMinDeposit':
-          value = commafy(Math.floor(value / 1000000000)) + ' ADT'
+          value = commafy(value) + ' ADT'
           break
         case 'applyStageLen':
         case 'pApplyStageLen':
@@ -56,7 +56,7 @@ class GovernanceAndCoreParameters extends Component {
         case 'pCommitStageLen':
         case 'revealStageLen':
         case 'pRevealStageLen':
-          value = (value / 1440 / 60) + ' days'
+          value = (value / 60) + ' min'
           break
         case 'dispensationPct':
         case 'pDispensationPct':
