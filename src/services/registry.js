@@ -1,5 +1,5 @@
 import Eth from 'ethjs'
-import sha3 from 'solidity-sha3'
+// import sha3 from 'solidity-sha3'
 import { promisify as pify } from 'bluebird'
 import keyMirror from 'key-mirror'
 import detectNetwork from 'web3-detect-network'
@@ -194,16 +194,16 @@ class RegistryService {
     }
   }
 
-  async applicationExists (domain) {
-    if (!domain) {
+  async applicationExists (domainHash) {
+    if (!domainHash) {
       throw new Error('Domain is required')
     }
 
-    domain = domain.toLowerCase()
-    const hash = `0x${soliditySHA3(['bytes32'], [domain.toLowerCase().trim()]).toString('hex')}`
+    // domain = domain.toLowerCase()
+    // const hash = `0x${soliditySHA3(['bytes32'], [domain.toLowerCase().trim()]).toString('hex')}`
 
     try {
-      return this.registry.appWasMade(hash)
+      return this.registry.appWasMade(domainHash)
     } catch (error) {
       throw error
     }
@@ -217,7 +217,8 @@ class RegistryService {
     try {
       domain = domain.toLowerCase()
 
-      const hash = sha3(domain)
+      // const hash = sha3(domain)
+      const hash = `0x${soliditySHA3(['bytes32'], [domain.toLowerCase().trim()]).toString('hex')}`
       const result = await this.registry.listings.call(hash)
 
       const map = {
@@ -337,8 +338,7 @@ class RegistryService {
 
   async getMinDeposit () {
     const min = await this.getParameter('minDeposit')
-    // return min.div(tenToTheNinth)
-    return min
+    return min.div(tenToTheNinth)
   }
 
   async getCurrentBlockNumber () {
