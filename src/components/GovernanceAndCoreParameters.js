@@ -42,6 +42,7 @@ class GovernanceAndCoreParameters extends Component {
 
   generateCoreParameterTable (parameterData) {
     if (!this.props.coreParameterData || !this.props.governanceParameterData) return
+
     let i = 0
     const table = _.reduce(parameterData, (result, value, name) => {
       value = parameterData[name].value
