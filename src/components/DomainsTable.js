@@ -8,7 +8,7 @@ import toastr from 'toastr'
 import 'react-table/react-table.css'
 import './DomainsTable.css'
 
-import store from '../store'
+// import store from '../store'
 import registry from '../services/registry'
 
 // import StatProgressBar from './StatProgressBar'
@@ -60,9 +60,9 @@ class DomainsTable extends Component {
 
     // infinite calls if enabled,
     // need to debug
-    store.subscribe(x => {
+    // store.subscribe(x => {
       // this.getData()
-    })
+    // })
   }
 
   componentWillUnmount () {

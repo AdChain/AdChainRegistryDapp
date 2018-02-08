@@ -4,6 +4,7 @@ import { promisify as pify } from 'bluebird'
 import keyMirror from 'key-mirror'
 import detectNetwork from 'web3-detect-network'
 import moment from 'moment-timezone'
+import { soliditySHA3 } from 'ethereumjs-abi'
 
 import store from '../store'
 import token from './token'
@@ -89,7 +90,7 @@ class RegistryService {
     return this.account
   }
 
-  async apply (domain, deposit = 0) {
+  async apply (domain, deposit = 0, data = '') {
     if (!domain) {
       throw new Error('Domain is required')
     }
@@ -97,8 +98,9 @@ class RegistryService {
     domain = domain.toLowerCase()
 
     const bigDeposit = big(deposit).mul(tenToTheNinth).toString(10)
+    const hash = `0x${soliditySHA3(['bytes32'], [domain.toLowerCase().trim()]).toString('hex')}`
 
-    const exists = await this.applicationExists(domain)
+    const exists = await this.applicationExists(hash)
 
     if (exists) {
       throw new Error('Application already exists')
@@ -115,7 +117,7 @@ class RegistryService {
     }
 
     try {
-      await this.registry.apply(domain, bigDeposit)
+      await this.registry.apply(hash, bigDeposit, data)
     } catch (error) {
       throw error
     }
@@ -198,9 +200,10 @@ class RegistryService {
     }
 
     domain = domain.toLowerCase()
+    const hash = `0x${soliditySHA3(['bytes32'], [domain.toLowerCase().trim()]).toString('hex')}`
 
     try {
-      return this.registry.appWasMade(domain)
+      return this.registry.appWasMade(hash)
     } catch (error) {
       throw error
     }
@@ -334,7 +337,8 @@ class RegistryService {
 
   async getMinDeposit () {
     const min = await this.getParameter('minDeposit')
-    return min.div(tenToTheNinth)
+    // return min.div(tenToTheNinth)
+    return min
   }
 
   async getCurrentBlockNumber () {
