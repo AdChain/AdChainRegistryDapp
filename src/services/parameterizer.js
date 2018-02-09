@@ -8,6 +8,7 @@ class ParameterizerService {
   constructor () {
     this.parameterizer = null
     this.address = null
+    this.account = null
   }
 
   async init () {
@@ -17,12 +18,15 @@ class ParameterizerService {
      */
     this.eth = new Eth(getProvider())
     const accounts = await this.eth.accounts()
-    this.parameterizer = await getParameterizer(accounts[0])
+    this.account = accounts[0]
+    this.eth.defaultAccount = accounts[0]
+    this.parameterizer = await getParameterizer(this.account)
     this.address = this.parameterizer.address
 
-    // store.dispatch({
-    //   type: 'PARAMETERIZER_CONTRACT_INIT'
-    // })
+    await this.setUpEvents()
+    store.dispatch({
+      type: 'PARAMETERIZER_CONTRACT_INIT'
+    })
   }
 
   setUpEvents () {
@@ -46,7 +50,8 @@ class ParameterizerService {
         return false
       }
       try {
-        result = await this.parameterizer.get.call(name)
+        result = await this.parameterizer.get.call(
+          name)
         if (typeof result === 'object' && result.isBigNumber) {
           result = result.toNumber()
         }
@@ -73,7 +78,6 @@ class ParameterizerService {
     if (!name || !value) { console.log('name or value missing'); return }
     try {
       value = Number(value)
-      console.log(typeof value, value)
       result = await this.parameterizer.proposeReparameterization(name, value)
     } catch (error) {
       console.log(error)

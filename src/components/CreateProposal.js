@@ -1,3 +1,4 @@
+import Eth from 'ethjs'
 import React, { Component } from 'react'
 import _ from 'lodash'
 import ParameterizerService from '../services/parameterizer'
@@ -10,7 +11,7 @@ class CreateProposal extends Component {
     super()
     this.state = {
       paramMetric: 'ADT',
-      proposalParam: '',
+      proposalParam: 'minDeposit',
       proposalValue: '',
       currentMinDeposit: ''
 
@@ -32,7 +33,7 @@ class CreateProposal extends Component {
             <div className='column sixteen wide'>
               <div className='header'>Select Parameter</div>
               <div className='selectdiv '>
-                <select className='BlueDropdown' name='proposal' type='text' defaultValue={this.state.paramMetric} onChange={this.setParamMetricAndName}>
+                <select className='BlueDropdown' name='proposal' type='text' defaultValue={this.state.proposalParam} onChange={this.setParamMetricAndName}>
                   { this.generateList() }
                 </select>
               </div>
@@ -55,7 +56,8 @@ class CreateProposal extends Component {
     let listData = Object.assign({}, this.props.coreParameterData, this.props.governanceParameterData)
     this.setState({
       paramMetric: listData[target.value].metric,
-      proposalParam: target.value
+      proposalParam: target.value,
+      proposalValue: ''
     })
   }
 
@@ -92,7 +94,7 @@ class CreateProposal extends Component {
         .then((response) => {
           result = response.toNumber()
           this.setState({
-            currentMinDeposit: commafy(Math.floor(result / 1000000000))
+            currentMinDeposit: commafy(result / 1000000000)
           })
         })
     } catch (error) {
@@ -101,11 +103,17 @@ class CreateProposal extends Component {
   }
 
   formatProposedValue (name, value) {
+    // Old contract needed formatting,
+    // Currently this fn just returns input
+    // Will leave for now and evaluate later
+    const big = (value) => new Eth.BN(value.toString(10))
+    const tenToTheNinth = big(10).pow(big(9))
+    const bigTokens = big(value).mul(tenToTheNinth).toString(10)
     try {
       switch (name) {
         case 'minDeposit':
         case 'pMinDeposit':
-          value = value * 1000000000
+          value = bigTokens
           break
         case 'applyStageLen':
         case 'pApplyStageLen':

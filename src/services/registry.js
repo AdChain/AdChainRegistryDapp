@@ -44,7 +44,6 @@ class RegistryService {
     this.eth = new Eth(getProvider())
     const accounts = await this.eth.accounts()
     this.account = accounts[0]
-
     this.registry = await getRegistry(this.account)
     this.address = this.registry.address
 

@@ -39,7 +39,7 @@ class OpenProposalsTable extends Component {
         temp = ParameterizerService.getProposals(param, this.props.coreParameterData[param])
         return temp
       })
-      console.log('result: ', result)
+      return result
     } catch (error) {
       console.log(error)
     }
