@@ -49,7 +49,7 @@ class GovernanceAndCoreParameters extends Component {
       switch (name) {
         case 'minDeposit':
         case 'pMinDeposit':
-          value = commafy(value) + ' ADT'
+          value = commafy(value / 1000000000) + ' ADT'
           break
         case 'applyStageLen':
         case 'pApplyStageLen':
