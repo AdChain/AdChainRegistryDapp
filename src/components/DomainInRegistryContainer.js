@@ -7,6 +7,7 @@ import commafy from 'commafy'
 import registry from '../services/registry'
 import './DomainInRegistryContainer.css'
 import DomainChallengeInProgressContainer from './DomainChallengeInProgressContainer'
+import WithdrawInProgressContainer from './WithdrawInProgressContainer'
 import DomainChallengeContainer from './DomainChallengeContainer'
 
 class DomainInRegistryContainer extends Component {
@@ -19,6 +20,7 @@ class DomainInRegistryContainer extends Component {
       didReveal: false,
       didClaim: false,
       inChallengeProgress: false,
+      inWithdrawProgress: false,
       minDeposit: null,
       canWithdraw: false
     }
@@ -46,7 +48,9 @@ class DomainInRegistryContainer extends Component {
     const {
       domain,
       inChallengeProgress,
-      minDeposit
+      inWithdrawProgress,
+      minDeposit,
+      canWithdraw
     } = this.state
 
     // const hasVotes = (votesFor || votesAgainst)
@@ -75,51 +79,52 @@ class DomainInRegistryContainer extends Component {
           <div className='ui divider' />
           <DomainChallengeContainer domain={domain} source='InRegistry' />
           <div className='column sixteen wide center aligned'>
-            {
-              // need to re-add canWithdraw check to hide this section from non-owners
-            }
-            <div>
-              <Segment className='LeftSegment' floated='left'>
-                <p>
-                Because you applied <strong>{domain}</strong> into the adChain Registry,
-                you have the ability to remove it. Clicking “WITHDRAW LISTING”
-                below will remove <strong>{domain}</strong> from the adChain Registry and refund you of:
-              </p>
-                <p>
-                  <strong>{minDeposit ? commafy(minDeposit) : '-'} ADT</strong>
+            { canWithdraw
+              ? <div>
+                <Segment className='LeftSegment' floated='left'>
+                  <p>
+                  Because you applied <strong>{domain}</strong> into the adChain Registry,
+                  you have the ability to remove it. Clicking “WITHDRAW LISTING”
+                  below will remove <strong>{domain}</strong> from the adChain Registry and refund you of:
                 </p>
-                <div className='WithdrawButtonContainer'>
-                  <Button
-                    className='WithdrawButton'
-                    basic
-                    onClick={this.withdrawListing}>Withdraw Listing</Button>
+                  <p>
+                    <strong>{minDeposit ? commafy(minDeposit) : '-'} ADT</strong>
+                  </p>
+                  <div className='WithdrawButtonContainer'>
+                    <Button
+                      className='WithdrawButton'
+                      basic
+                      onClick={this.withdrawListing}>Withdraw Listing</Button>
+                  </div>
+                </Segment>
+                <Segment className='RightSegment' floated='right'>
+                  <p>
+                  ADT used to apply {domain}: <strong>{minDeposit ? commafy(minDeposit) : '-'} ADT</strong>
+                  </p>
+                  <p>
+                  Current minDeposit: <strong>{minDeposit ? commafy(minDeposit) : '-'} ADT</strong>
+                  </p>
+                  <div className='InRegistryWarning'>
+                  You are subject to having your domain touched & removed
                 </div>
-              </Segment>
-              <Segment className='RightSegment' floated='right'>
-                <p>
-                ADT used to apply {domain}: <strong>{minDeposit ? commafy(minDeposit) : '-'} ADT</strong>
-                </p>
-                <p>
-                Current minDeposit: <strong>{minDeposit ? commafy(minDeposit) : '-'} ADT</strong>
-                </p>
-                <div className='InRegistryWarning'>
-                You are subject to having your domain touched & removed
+                  <div>
+                  Enter ADT amount to top off:<Input type='number' placeholder='ADT' id='TopOff' className='TopOffInput' />
+                  </div>
+                  <div className='TopOffButtonContainer'>
+                    <Button
+                      className='TopOffButton'
+                      basic
+                      onClick={this.topOff}>Top Off</Button>
+                  </div>
+                </Segment>
               </div>
-                <div>
-                Enter ADT amount to top off:<Input type='number' placeholder='ADT' id='TopOff' className='TopOffInput' />
-                </div>
-                <div className='TopOffButtonContainer'>
-                  <Button
-                    className='TopOffButton'
-                    basic
-                    onClick={this.topOff}>Top Off</Button>
-                </div>
-              </Segment>
-            </div>
-
+              : null
+            }
           </div>
         </div>
         {inChallengeProgress ? <DomainChallengeInProgressContainer /> : null}
+        {inWithdrawProgress ? <WithdrawInProgressContainer /> : null}
+
       </div>
     )
   }
@@ -216,6 +221,12 @@ class DomainInRegistryContainer extends Component {
   async withdrawListing () {
     const {domain} = this.state
 
+    if (this._isMounted) {
+      this.setState({
+        inWithdrawProgress: true
+      })
+    }
+
     try {
       await registry.exit(domain)
       this.setState({
@@ -223,8 +234,18 @@ class DomainInRegistryContainer extends Component {
       })
       await this.updateStatus()
       toastr.success('Successfully withdrew listing')
+      if (this._isMounted) {
+        this.setState({
+          inWithdrawProgress: false
+        })
+      }
     } catch (error) {
       toastr.error(error.message)
+      if (this._isMounted) {
+        this.setState({
+          inWithdrawProgress: false
+        })
+      }
     }
   }
 

@@ -1,9 +1,10 @@
 import Eth from 'ethjs'
-import sha3 from 'solidity-sha3'
+// import sha3 from 'solidity-sha3'
 import { promisify as pify } from 'bluebird'
 import keyMirror from 'key-mirror'
 import detectNetwork from 'web3-detect-network'
 import moment from 'moment-timezone'
+import { soliditySHA3 } from 'ethereumjs-abi'
 
 import store from '../store'
 import token from './token'
@@ -88,7 +89,7 @@ class RegistryService {
     return this.account
   }
 
-  async apply (domain, deposit = 0) {
+  async apply (domain, deposit = 0, data = '') {
     if (!domain) {
       throw new Error('Domain is required')
     }
@@ -96,8 +97,9 @@ class RegistryService {
     domain = domain.toLowerCase()
 
     const bigDeposit = big(deposit).mul(tenToTheNinth).toString(10)
+    const hash = `0x${soliditySHA3(['bytes32'], [domain.toLowerCase().trim()]).toString('hex')}`
 
-    const exists = await this.applicationExists(domain)
+    const exists = await this.applicationExists(hash)
 
     if (exists) {
       throw new Error('Application already exists')
@@ -114,7 +116,7 @@ class RegistryService {
     }
 
     try {
-      await this.registry.apply(domain, bigDeposit)
+      await this.registry.apply(hash, bigDeposit, data)
     } catch (error) {
       throw error
     }
@@ -191,15 +193,16 @@ class RegistryService {
     }
   }
 
-  async applicationExists (domain) {
-    if (!domain) {
+  async applicationExists (domainHash) {
+    if (!domainHash) {
       throw new Error('Domain is required')
     }
 
-    domain = domain.toLowerCase()
+    // domain = domain.toLowerCase()
+    // const hash = `0x${soliditySHA3(['bytes32'], [domain.toLowerCase().trim()]).toString('hex')}`
 
     try {
-      return this.registry.appWasMade(domain)
+      return this.registry.appWasMade(domainHash)
     } catch (error) {
       throw error
     }
@@ -213,7 +216,8 @@ class RegistryService {
     try {
       domain = domain.toLowerCase()
 
-      const hash = sha3(domain)
+      // const hash = sha3(domain)
+      const hash = `0x${soliditySHA3(['bytes32'], [domain.toLowerCase().trim()]).toString('hex')}`
       const result = await this.registry.listings.call(hash)
 
       const map = {
