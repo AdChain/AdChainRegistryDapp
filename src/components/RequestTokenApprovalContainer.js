@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import toastr from 'toastr'
 import commafy from 'commafy'
-import { Popup } from 'semantic-ui-react'
+// import { Popup } from 'semantic-ui-react'
 
 import store from '../store'
 import registry from '../services/registry'
@@ -49,12 +49,15 @@ class RequestTokenApprovalContainer extends Component {
       <div className='RequestTokenApprovalContainer BoxFrame'>
         <div className='ui grid stackable center aligned'>
           <div className='column sixteen wide'>
-            <p>Pre-approve ADT Transfer
-              <Popup
-                trigger={<i className='icon info circle' />}
-                content='Pre-approve adToken transfer to the adChain Registry will minimize the number of transactions when applying. This can can save gas fees if applying frequently. Pre-approving does not withdraw adToken from your adToken account, only until time of application.'
-              />
-            </p>
+            <span className='ui grid BoxFrameLabel'>PRE-APPROVE ADT TRANSFER</span>
+            {
+              // <Popup
+              //   trigger={<i className='icon info circle' />}
+              //   content='Pre-approve adToken transfer to the adChain Registry will minimize the number of transactions when applying. This can can save gas fees if applying frequently. Pre-approving does not withdraw adToken from your adToken account, only until time of application.'
+              //   />
+            }
+          </div>
+          <div className='column sixteen wide'>
             <div><small>Current approved ADT: <strong>{allowedTokens !== null ? commafy(allowedTokens) : '-'}</strong></small></div>
             <div className='ui input action mini'>
               <input
