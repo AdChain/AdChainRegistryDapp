@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Popup, Button } from 'semantic-ui-react'
 import './DomainNotInRegistryContainer.css'
+import registry from '../services/registry'
+import toastr from 'toastr'
 
 class DomainNotInRegistryContainer extends Component {
   constructor (props) {
@@ -32,7 +34,7 @@ class DomainNotInRegistryContainer extends Component {
               <Button
                 basic
                 className='right refresh'
-                onClick={this.updateStatus}
+                onClick={() => { this.updateStatus(domain) }}
               >
                 Refresh Status
               </Button>
@@ -49,6 +51,18 @@ class DomainNotInRegistryContainer extends Component {
         </div>
       </div>
     )
+  }
+
+  async updateStatus (domain) {
+    try {
+      await registry.updateStatus(domain)
+    } catch (error) {
+      try {
+        toastr.error(error)
+      } catch (err) {
+        console.log(err)
+      }
+    }
   }
 }
 

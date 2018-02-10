@@ -50,7 +50,7 @@ class RegistryStatsbar extends Component {
       <div className='RegistryStatsbar BoxFrame'>
         <div className='ui grid stackable'>
           {showHeader
-            ? <div className='column sixteen wide'>
+            ? <div className='column sixteen wide' >
               <div className='ui large header'>
                 Registry Status
               </div>
@@ -58,7 +58,7 @@ class RegistryStatsbar extends Component {
           : null}
           <span className='ui grid BoxFrameLabel'>GLOBAL REGISTRY USAGE</span>
 
-          <div className='column sixteen wide'>
+          <div className='column sixteen wide' style={{overflow: 'scroll'}}>
             <div className='ui mini statistics t-center'>
               <div className='statistic'>
                 <div className='value'>

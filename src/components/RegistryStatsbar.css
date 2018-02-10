@@ -45,6 +45,10 @@
   margin-bottom: 0.2em;
 }
 
+:root:root .RegistryStatsbar .statistics {
+  min-width: 800px;
+
+}
 
 @media only screen and (max-width: 767px) {
   :root:root .RegistryStatsbar .grid {
@@ -54,6 +58,8 @@
   :root:root .RegistryStatsbar .statistics {
     margin: 0 auto;
     flex-direction: column;
+    min-width: 800px;
+
   }
 
   :root:root:root .RegistryStatsbar .statistic {
