@@ -94,11 +94,12 @@
 }
 
 .SidebarFooter {
-  position: absolute;
+  position: relative;
   /* left: 50%; */
-  bottom: 0;
+  /* bottom: 0; */
   /* transform: translate(-50%, -50%); */
   width: 100%;
+  margin-top: 20px;
 }
 
 .PoweredBy {

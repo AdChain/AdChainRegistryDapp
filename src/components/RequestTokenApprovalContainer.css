@@ -5,3 +5,13 @@
 :root:root .RequestTokenApprovalContainer input {
   max-width: 70px;
 }
+
+.RequestTokenApprovalContainer .Header {
+  text-transform: uppercase;
+  color: #909090;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 14px;
+  min-height: 13px;
+  font-family: 'Open Sans', sans-serif;
+}

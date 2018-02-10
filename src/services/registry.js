@@ -94,6 +94,7 @@ class RegistryService {
     }
 
     domain = domain.toLowerCase()
+    data = domain
 
     const bigDeposit = big(deposit).mul(tenToTheNinth).toString(10)
     const hash = `0x${soliditySHA3(['bytes32'], [domain.toLowerCase().trim()]).toString('hex')}`

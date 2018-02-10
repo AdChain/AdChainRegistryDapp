@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import toastr from 'toastr'
 import commafy from 'commafy'
-import { Popup } from 'semantic-ui-react'
+// import { Popup } from 'semantic-ui-react'
 
 import registry from '../services/registry'
 import store from '../store'
@@ -49,16 +49,20 @@ class RequestVotingRightsContainer extends Component {
       <div className='RequestVotingRightsContainer BoxFrame'>
         <div className='ui grid stackable center aligned'>
           <div className='column sixteen wide'>
-            <p>Request Voting Rights
-              <Popup
-                trigger={<i className='icon info circle' />}
-                content='Pre-requesting voting rights will minimizes the number of transactions when performing commit votes. This can save gas fees if voting frequently. 1 ADT = 1 Vote. Pre-requesting voting rights will withdraw AdToken from your account to the adChain registry PLCR contract. You may convert the votes to adToken and withdraw at any time.'
-              />
-            </p>
+            <span className='ui grid BoxFrameLabel'>REQUEST VOTING RIGHTS</span>
+            {
 
+            // <p>Request Voting Rights
+            //   <Popup
+            //     trigger={<i className='icon info circle' />}
+            //     content='Pre-requesting voting rights will minimizes the number of transactions when performing commit votes. This can save gas fees if voting frequently. 1 ADT = 1 Vote. Pre-requesting voting rights will withdraw AdToken from your account to the adChain registry PLCR contract. You may convert the votes to adToken and withdraw at any time.'
+            //   />
+            // </p>
+            }
+
+          </div>
+          <div className='column sixteen wide'>
             <div><small>Total current voting rights: <strong>{availableVotes !== null ? commafy(availableVotes) : '-'}</strong></small></div>
-
-            <div><small>Enter amount of ADT to convert to votes</small></div>
             <div className='ui input action mini'>
               <input
                 type='text'
