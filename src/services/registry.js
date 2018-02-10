@@ -1,11 +1,10 @@
 import Eth from 'ethjs'
-// import sha3 from 'solidity-sha3'
+import sha3 from 'solidity-sha3'
 import { promisify as pify } from 'bluebird'
 import keyMirror from 'key-mirror'
 import detectNetwork from 'web3-detect-network'
 import moment from 'moment-timezone'
 import { soliditySHA3 } from 'ethereumjs-abi'
-
 import store from '../store'
 import token from './token'
 import plcr from './plcr'
@@ -298,10 +297,14 @@ class RegistryService {
       throw new Error('Domain is required')
     }
 
+    domain = 'lakers.com'
     domain = domain.toLowerCase()
-
+    console.log(domain)
+    const hash1 = `0x${soliditySHA3(['bytes32'], [domain]).toString('hex')}`
+    const hash2 = sha3(domain)
+    console.log(hash1, hash2)
     try {
-      const result = await this.registry.updateStatus(domain)
+      const result = await this.registry.updateStatus(hash1)
 
       store.dispatch({
         type: 'REGISTRY_DOMAIN_UPDATE_STATUS',

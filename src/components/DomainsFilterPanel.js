@@ -89,7 +89,7 @@ class DomainsFilterPanel extends Component {
                       onChange={this.onFilterChange}
                   />
                   </div>
-                  <label htmlFor='DomainsFilterPanel_InVotingCommit'>In Voting Commit</label>
+                  <label htmlFor='DomainsFilterPanel_InVotingCommit'>In Commit</label>
                 </li>
                 <li className='item'>
                   <div className='ui input'>
@@ -101,7 +101,7 @@ class DomainsFilterPanel extends Component {
                       onChange={this.onFilterChange}
                   />
                   </div>
-                  <label htmlFor='DomainsFilterPanel_InVotingReveal'>In Voting Reveal</label>
+                  <label htmlFor='DomainsFilterPanel_InVotingReveal'>In Reveal</label>
                 </li>
               </ul>
             </div>

@@ -1,7 +1,7 @@
 import Eth from 'ethjs'
 import { getProvider } from './provider'
 import { getParameterizer } from '../config'
-import store from '../store'
+// import store from '../store'
 import sha3 from 'solidity-sha3'
 
 class ParameterizerService {
@@ -23,10 +23,10 @@ class ParameterizerService {
     this.parameterizer = await getParameterizer(this.account)
     this.address = this.parameterizer.address
 
-    await this.setUpEvents()
-    store.dispatch({
-      type: 'PARAMETERIZER_CONTRACT_INIT'
-    })
+    // await this.setUpEvents()
+    // store.dispatch({
+    //   type: 'PARAMETERIZER_CONTRACT_INIT'
+    // })
   }
 
   setUpEvents () {
@@ -36,9 +36,9 @@ class ParameterizerService {
           console.error(error)
           return false
         }
-        store.dispatch({
-          type: 'PARAMETERIZER_EVENT'
-        })
+        // store.dispatch({
+        //   type: 'PARAMETERIZER_EVENT'
+        // })
       })
   }
 
