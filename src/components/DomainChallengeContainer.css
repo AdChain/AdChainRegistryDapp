@@ -13,7 +13,7 @@
   border-radius: 3px;
   color: #3434CE !important;
   font-family: "Open Sans", sans-serif;
-  font-size: 8px;
+  font-size: 8.5px;
   font-weight: bold;
   line-height: 11px;
   text-transform: uppercase;
@@ -55,7 +55,7 @@
 :root:root:root .DomainChallengeContainer .SegmentThree p {
 	color: #424242;
 	font-family: "Open Sans", sans-serif;
-	font-size: 10px;
+	font-size: 11px;
 	line-height: 14px;
 }
 
@@ -85,10 +85,9 @@
 :root:root:root .ChallengeButton {
 	color: #CE3434 !important;
 	font-family: "Open Sans", sans-serif;
-	font-size: 7px;
+	font-size: 9px;
 	font-weight: bold;
 	text-align: center;
-  width: 60px;
   border: 1px solid #CE3434;
   border-radius: 3px;
   text-transform: uppercase;

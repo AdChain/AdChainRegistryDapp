@@ -4,6 +4,7 @@ import commafy from 'commafy'
 import toastr from 'toastr'
 import moment from 'moment'
 import { Popup, Button, Segment } from 'semantic-ui-react'
+import { soliditySHA3 } from 'ethereumjs-abi'
 
 import Countdown from './CountdownText'
 import registry from '../services/registry'
@@ -27,7 +28,6 @@ class DomainChallengeContainer extends Component {
 
   componentDidMount () {
     this._isMounted = true
-
     this.getMinDeposit()
     this.getListing()
   }
@@ -158,6 +158,7 @@ class DomainChallengeContainer extends Component {
     const {domain} = this.state
 
     let inApplication = null
+    const hash = `0x${soliditySHA3(['bytes32'], [domain.toLowerCase().trim()]).toString('hex')}`
 
     try {
       inApplication = await registry.applicationExists(domain)
@@ -173,7 +174,7 @@ class DomainChallengeContainer extends Component {
       }
 
       try {
-        await registry.challenge(domain)
+        await registry.challenge(hash, domain)
 
         toastr.success('Successfully challenged domain')
 

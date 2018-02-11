@@ -1,5 +1,4 @@
 import Eth from 'ethjs'
-import sha3 from 'solidity-sha3'
 import { promisify as pify } from 'bluebird'
 import keyMirror from 'key-mirror'
 import detectNetwork from 'web3-detect-network'
@@ -96,10 +95,10 @@ class RegistryService {
     domain = domain.toLowerCase()
     data = domain
 
+    const exists = await this.applicationExists(domain)
+
     const bigDeposit = big(deposit).mul(tenToTheNinth).toString(10)
     const hash = `0x${soliditySHA3(['bytes32'], [domain.toLowerCase().trim()]).toString('hex')}`
-
-    const exists = await this.applicationExists(hash)
 
     if (exists) {
       throw new Error('Application already exists')
@@ -148,7 +147,7 @@ class RegistryService {
     }
   }
 
-  async challenge (domain) {
+  async challenge (hash, domain) {
     if (!domain) {
       throw new Error('Domain is required')
     }
@@ -158,9 +157,8 @@ class RegistryService {
     try {
       const minDeposit = await this.getMinDeposit()
       const minDepositAdt = minDeposit.mul(tenToTheNinth)
-
       await token.approve(this.address, minDepositAdt)
-      await this.registry.challenge(domain)
+      await this.registry.challenge(hash, domain)
     } catch (error) {
       throw error
     }
@@ -193,16 +191,16 @@ class RegistryService {
     }
   }
 
-  async applicationExists (domainHash) {
-    if (!domainHash) {
+  async applicationExists (domain) {
+    if (!domain) {
       throw new Error('Domain is required')
     }
 
-    // domain = domain.toLowerCase()
-    // const hash = `0x${soliditySHA3(['bytes32'], [domain.toLowerCase().trim()]).toString('hex')}`
+    domain = domain.toLowerCase()
+    const hash = `0x${soliditySHA3(['bytes32'], [domain.toLowerCase().trim()]).toString('hex')}`
 
     try {
-      return this.registry.appWasMade(domainHash)
+      return this.registry.appWasMade(hash)
     } catch (error) {
       throw error
     }
@@ -298,14 +296,10 @@ class RegistryService {
       throw new Error('Domain is required')
     }
 
-    domain = 'lakers.com'
     domain = domain.toLowerCase()
-    console.log(domain)
-    const hash1 = `0x${soliditySHA3(['bytes32'], [domain]).toString('hex')}`
-    const hash2 = sha3(domain)
-    console.log(hash1, hash2)
+    const hash = `0x${soliditySHA3(['bytes32'], [domain]).toString('hex')}`
     try {
-      const result = await this.registry.updateStatus(hash1)
+      const result = await this.registry.updateStatus(hash)
 
       store.dispatch({
         type: 'REGISTRY_DOMAIN_UPDATE_STATUS',

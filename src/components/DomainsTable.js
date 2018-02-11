@@ -341,7 +341,6 @@ class DomainsTable extends Component {
 
     const allDomains = this.state.allDomains
     let domains = allDomains
-    console.log('AD: ', domains)
 
     if (filtered && filtered[0]) {
       domains = domains.filter(domain => {
@@ -490,7 +489,6 @@ class DomainsTable extends Component {
 
     try {
       domains = await (await window.fetch(`https://adchain-registry-api-staging.metax.io/registry/domains?${query}`)).json()
-      console.log('domains: ', domains)
       if (!Array.isArray(domains)) {
         domains = []
       }
