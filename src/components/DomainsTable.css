@@ -111,7 +111,6 @@
 :root:root .DomainsTable .ReactTable .Domain, 
 :root:root .DomainsTable .ReactTable span:last-of-type
 {
-  width: 10px;
   display: inline;
 }
 :root:root .DomainsTable .ReactTable span,

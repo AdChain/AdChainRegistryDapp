@@ -179,16 +179,16 @@ class DomainsTable extends Component {
         }
 
         return <a
-          className={color ? `ui mini button table-button ${color}` : ' table-button transparent-button '}
+          className={stage === 'apply' ? 'transparent-button ' : (color ? `ui mini button table-button ${color}` : ' table-button transparent-button')}
           href='#!'
           title={label}
           onClick={(event) => {
             event.preventDefault()
 
-            if (stage === 'apply') {
-              history.push(`/apply/?domain=${domain}`)
-              return false
-            }
+            // if (stage === 'apply') {
+            //   history.push(`/apply/?domain=${domain}`)
+            //   return false
+            // }
 
             history.push(`/domains/${domain}`)
           }}>{label}</a>
@@ -341,6 +341,7 @@ class DomainsTable extends Component {
 
     const allDomains = this.state.allDomains
     let domains = allDomains
+    console.log('AD: ', domains)
 
     if (filtered && filtered[0]) {
       domains = domains.filter(domain => {
@@ -352,6 +353,7 @@ class DomainsTable extends Component {
     domains = domains.slice(start, end)
 
     const data = await Promise.all(domains.map(async domain => {
+      domain = domain.domain
       try {
         const item = {
           domain,
@@ -487,13 +489,13 @@ class DomainsTable extends Component {
     }
 
     try {
-      domains = await (await window.fetch(`https://adchain-registry-api.metax.io/registry/domains?${query}`)).json()
-
+      domains = await (await window.fetch(`https://adchain-registry-api-staging.metax.io/registry/domains?${query}`)).json()
+      console.log('domains: ', domains)
       if (!Array.isArray(domains)) {
         domains = []
       }
     } catch (error) {
-
+      console.log(error)
     }
 
     this.setState({
