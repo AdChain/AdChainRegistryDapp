@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 // import PropTypes from 'prop-types'
-import { Menu, Button, Accordion } from 'semantic-ui-react'
+import { Menu, Accordion } from 'semantic-ui-react'
 import SideBarApplicationContainer from './SideBarApplicationContainer'
 import './MainSidebar.css'
 
@@ -97,9 +97,11 @@ class MainSidebar extends Component {
         </div>
         <div className='SidebarListContainer overflow-x'>
           <div className='SidebarList overflow-y overflow-x'>
-            <div className='ListTitle ui header'>
-              <Button inverted className='HelpButton' color='orange' content='How Does This Thing Work' />
-            </div>
+            {
+            // <div className='ListTitle ui header'>
+            //   <Button inverted className='HelpButton' color='orange' content='How Does This Thing Work' />
+            // </div>
+            }
             <Menu.Item name='domain'>
               <Link to='/domains' className='NavLink' activeClassName='active'><img src={wwwLogo} alt='www' />Domains</Link>
             </Menu.Item>
