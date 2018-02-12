@@ -118,7 +118,6 @@ class DomainsTable extends Component {
       accessor: 'domain',
       Cell: (props) => {
         const domain = props.value
-
         return (
           <span
             className='Domain'
@@ -204,7 +203,6 @@ class DomainsTable extends Component {
         let color = ''
 
         const expired = isExpired(row) || row.stage === 'view'
-
         if (expired) {
           label = 'Refresh Status '
           color = 'info'
@@ -350,20 +348,19 @@ class DomainsTable extends Component {
 
     const pages = Math.ceil(domains.length / pageSize, 10)
     domains = domains.slice(start, end)
+    const data = await Promise.all(domains.map(async domainData => {
+      let domain = domainData.domain
 
-    const data = await Promise.all(domains.map(async domain => {
-      domain = domain.domain
+      const item = {
+        domain,
+        siteName: domain,
+        stage: null,
+        stageEndsTimestamp: null,
+        stageEnds: null,
+        action: null,
+        stats: null
+      }
       try {
-        const item = {
-          domain,
-          siteName: domain,
-          stage: null,
-          stageEndsTimestamp: null,
-          stageEnds: null,
-          action: null,
-          stats: null
-        }
-
         const listing = await registry.getListing(domain)
 
         const {
@@ -416,7 +413,6 @@ class DomainsTable extends Component {
         return {}
       }
     }))
-
     if (this._isMounted) {
       this.setState({
         data,
@@ -434,7 +430,6 @@ class DomainsTable extends Component {
 
     let domains = []
     const queryFilters = []
-
     const stageFilter = (filters || []).reduce((acc, x) => {
       if (x.id === 'stage') {
         return x
@@ -495,7 +490,6 @@ class DomainsTable extends Component {
     } catch (error) {
       console.log(error)
     }
-
     this.setState({
       allDomains: domains,
       pages: Math.ceil(domains.length / pageSize, 10)

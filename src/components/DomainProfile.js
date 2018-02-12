@@ -103,7 +103,7 @@ class DomainProfile extends Component {
       return false
     }
 
-    const response = await window.fetch(`https://adchain-registry-api.metax.io/domains/metadata?domain=${domain}`)
+    const response = await window.fetch(`https://adchain-registry-api-staging.metax.io/domains/metadata?domain=${domain}`)
 
     try {
       const {

@@ -373,10 +373,12 @@ class RegistryService {
     }
 
     domain = domain.toLowerCase()
+    const hash = `0x${soliditySHA3(['bytes32'], [domain]).toString('hex')}`
+
     let pollId = null
 
     try {
-      pollId = await this.getChallengeId(domain)
+      pollId = await this.getChallengeId(hash)
     } catch (error) {
       throw error
     }
@@ -398,10 +400,12 @@ class RegistryService {
     }
 
     domain = domain.toLowerCase()
+    const hash = `0x${soliditySHA3(['bytes32'], [domain]).toString('hex')}`
+
     let pollId = null
 
     try {
-      pollId = await this.getChallengeId(domain)
+      pollId = await this.getChallengeId(hash)
     } catch (error) {
       throw error
     }
