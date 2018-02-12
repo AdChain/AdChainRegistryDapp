@@ -135,13 +135,21 @@ class RegistryService {
     }
 
     domain = domain.toLowerCase()
-
+    const domainHash = `0x${soliditySHA3(['bytes32'], [domain]).toString('hex')}`
     const bigDeposit = big(amount).mul(tenToTheNinth).toString(10)
 
-    // const allowed = await token.allowance(this.account, this.address).toString('10')
+    const allowed = await token.allowance(this.account, this.address).toString('10')
+
+    if (allowed >= bigDeposit) {
+      try {
+        await token.approve(this.address, bigDeposit)
+      } catch (error) {
+        throw error
+      }
+    }
 
     try {
-      await this.registry.deposit(domain, bigDeposit)
+      await this.registry.deposit(domainHash, bigDeposit)
     } catch (error) {
       throw error
     }
@@ -297,9 +305,10 @@ class RegistryService {
     }
 
     domain = domain.toLowerCase()
-    const hash = `0x${soliditySHA3(['bytes32'], [domain]).toString('hex')}`
+    const domainHash = `0x${soliditySHA3(['bytes32'], [domain]).toString('hex')}`
+
     try {
-      const result = await this.registry.updateStatus(hash)
+      const result = await this.registry.updateStatus(domainHash)
 
       store.dispatch({
         type: 'REGISTRY_DOMAIN_UPDATE_STATUS',
@@ -733,8 +742,10 @@ class RegistryService {
 
   async exit (domain) {
     domain = domain.toLowerCase()
+    const domainHash = `0x${soliditySHA3(['bytes32'], [domain]).toString('hex')}`
+
     try {
-      await this.registry.exit(domain)
+      await this.registry.exit(domainHash)
     } catch (error) {
       throw error
     }
