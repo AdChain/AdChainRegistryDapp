@@ -8,7 +8,12 @@ import registry from '../services/registry'
 import './DomainInRegistryContainer.css'
 import DomainChallengeInProgressContainer from './DomainChallengeInProgressContainer'
 import WithdrawInProgressContainer from './WithdrawInProgressContainer'
+import TopOffInProgressContainer from './TopOffInProgressContainer'
 import DomainChallengeContainer from './DomainChallengeContainer'
+import Eth from 'ethjs'
+
+const big = (number) => new Eth.BN(number.toString(10))
+const tenToTheNinth = big(10).pow(big(9))
 
 class DomainInRegistryContainer extends Component {
   constructor (props) {
@@ -21,8 +26,10 @@ class DomainInRegistryContainer extends Component {
       didClaim: false,
       inChallengeProgress: false,
       inWithdrawProgress: false,
+      inTopOffProgress: false,
       minDeposit: null,
-      canWithdraw: false
+      canWithdraw: false,
+      currentDeposit: null
     }
 
     this.onChallenge = this.onChallenge.bind(this)
@@ -35,8 +42,9 @@ class DomainInRegistryContainer extends Component {
 
     this.getPoll()
     this.getReveal()
-    this.getClaims()
+    // this.getClaims()
     this.getMinDeposit()
+    this.getCurrentDeposit()
     this.checkOwner()
   }
 
@@ -49,8 +57,10 @@ class DomainInRegistryContainer extends Component {
       domain,
       inChallengeProgress,
       inWithdrawProgress,
+      inTopOffProgress,
       minDeposit,
-      canWithdraw
+      canWithdraw,
+      currentDeposit
     } = this.state
 
     // const hasVotes = (votesFor || votesAgainst)
@@ -88,7 +98,7 @@ class DomainInRegistryContainer extends Component {
                   below will remove <strong>{domain}</strong> from the adChain Registry and refund you of:
                 </p>
                   <p>
-                    <strong>{minDeposit ? commafy(minDeposit) : '-'} ADT</strong>
+                    <strong>{currentDeposit ? commafy(currentDeposit) : '-'} ADT</strong>
                   </p>
                   <div className='WithdrawButtonContainer'>
                     <Button
@@ -124,7 +134,7 @@ class DomainInRegistryContainer extends Component {
         </div>
         {inChallengeProgress ? <DomainChallengeInProgressContainer /> : null}
         {inWithdrawProgress ? <WithdrawInProgressContainer /> : null}
-
+        {inTopOffProgress ? <TopOffInProgressContainer /> : null}
       </div>
     )
   }
@@ -218,6 +228,20 @@ class DomainInRegistryContainer extends Component {
     }
   }
 
+  async getCurrentDeposit () {
+    const {domain} = this.state
+    try {
+      const listing = await registry.getListing(domain)
+      if (listing.currentDeposit) {
+        this.setState({
+          currentDeposit: big(listing.currentDeposit).div(tenToTheNinth)
+        })
+      }
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
   async withdrawListing () {
     const {domain} = this.state
 
@@ -250,15 +274,31 @@ class DomainInRegistryContainer extends Component {
   }
 
   async topOff () {
-    const {domain} = this.state
+    const {domain, currentDeposit} = this.state
     const amount = document.getElementById('TopOff').value
 
     // Possibly include other verification checks
 
+    if (this._isMounted) {
+      this.setState({
+        inTopOffProgress: true
+      })
+    }
+
     try {
       await registry.deposit(domain, amount)
+      if (this._isMounted) {
+        this.setState({
+          currentDeposit: parseInt(amount, 10) + parseInt(currentDeposit, 10),
+          inTopOffProgress: false
+        })
+        document.getElementById('TopOff').value = null
+      }
     } catch (error) {
       toastr.error(error.message)
+      this.setState({
+        inTopOffProgress: false
+      })
     }
   }
 

@@ -65,7 +65,7 @@ class DomainChallengeContainer extends Component {
                 <Button
                   basic
                   className='right refresh'
-                  onClick={this.updateStatus}
+                  onClick={() => this.updateStatus(domain)}
                   >
                   Refresh Status
                 </Button>
@@ -152,6 +152,15 @@ class DomainChallengeContainer extends Component {
     event.preventDefault()
 
     this.challenge()
+  }
+
+  async updateStatus (domain) {
+    try {
+      await registry.updateStatus(domain)
+    } catch (error) {
+      toastr.error(error)
+      console.error(error)
+    }
   }
 
   async challenge () {
