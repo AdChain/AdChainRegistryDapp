@@ -128,11 +128,11 @@ class RegistryStatsbar extends Component {
   }
 
   async fetchStats () {
-    let totalStaked = await (await window.fetch(`https://adchain-registry-api.metax.io/registry/domains/stake/count`)).json()
-    const totalInApplication = await (await window.fetch(`https://adchain-registry-api.metax.io/registry/domains/application/count`)).json()
-    const totalInCommit = await (await window.fetch(`https://adchain-registry-api.metax.io/registry/domains/incommit/count`)).json()
-    const totalInReveal = await (await window.fetch(`https://adchain-registry-api.metax.io/registry/domains/inreveal/count`)).json()
-    const totalInRegistry = await (await window.fetch(`https://adchain-registry-api.metax.io/registry/domains/registry/count`)).json()
+    let totalStaked = await (await window.fetch(`https://adchain-registry-api-staging.metax.io/registry/domains/stake/count`)).json()
+    const totalInApplication = await (await window.fetch(`https://adchain-registry-api-staging.metax.io/registry/domains/application/count`)).json()
+    const totalInCommit = await (await window.fetch(`https://adchain-registry-api-staging.metax.io/registry/domains/incommit/count`)).json()
+    const totalInReveal = await (await window.fetch(`https://adchain-registry-api-staging.metax.io/registry/domains/inreveal/count`)).json()
+    const totalInRegistry = await (await window.fetch(`https://adchain-registry-api-staging.metax.io/registry/domains/registry/count`)).json()
 
     if (totalStaked) {
       totalStaked = totalStaked / Math.pow(10, token.decimals)
