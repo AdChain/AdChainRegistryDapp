@@ -482,6 +482,7 @@ class RegistryService {
         votesFor
       } = await plcr.getPoll(challengeId)
       let result = {
+        // formatting to client's local timezone
         commitEndDate: moment.tz(commitEndDate, moment.tz.guess()),
         revealEndDate: moment.tz(revealEndDate, moment.tz.guess()),
         voteQuorum,

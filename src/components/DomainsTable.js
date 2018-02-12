@@ -159,10 +159,14 @@ class DomainsTable extends Component {
         const {domain} = row
         let color
         let label = 'View'
+        const expired = isExpired(row) || row.stage === 'view'
 
         if (stage === 'in_registry') {
           label = 'View'
           color = ''
+        } else if (stage === 'in_application' && expired) {
+          label = 'REFRESH STATUS'
+          color = 'greyblack'
         } else if (stage === 'in_application') {
           label = 'Challenge'
           color = 'red'
@@ -175,22 +179,26 @@ class DomainsTable extends Component {
         } else if (stage === 'apply') {
           label = 'Apply'
           color = 'blue'
+        } else {
+          label = 'Apply'
+          color = 'blue'
         }
 
         return <a
-          className={stage === 'apply' ? 'transparent-button ' : (color ? `ui mini button table-button ${color}` : ' table-button transparent-button')}
+          className={color ? `ui mini button table-button ${color}` : ' table-button transparent-button'}
           href='#!'
           title={label}
           onClick={(event) => {
             event.preventDefault()
-
+            if (label === 'REFRESH STATUS') {
+              this.updateStatus(domain)
+            }
             // if (stage === 'apply') {
             //   history.push(`/apply/?domain=${domain}`)
             //   return false
             // }
-
             history.push(`/domains/${domain}`)
-          }}>{label}</a>
+          }}>{label} &nbsp;{label === 'REFRESH STATUS' ? <i className='icon refresh' /> : '' }</a>
       },
       minWidth: 120
     }, {
@@ -204,10 +212,10 @@ class DomainsTable extends Component {
 
         const expired = isExpired(row) || row.stage === 'view'
         if (expired) {
-          label = 'Refresh Status '
+          label = ' '
           color = 'info'
         } else if (value === 'in_registry') {
-          label = <span><i className='icon check circle' />In Registry</span>
+          label = <span><i className='icon check circle' style={{color: 'green'}} />In Registry</span>
           color = 'success'
         } else if (value === 'in_application') {
           label = 'In Application'
@@ -237,7 +245,6 @@ class DomainsTable extends Component {
               }}>
               {label}
             </span>
-            <i className='icon refresh' />
           </a>
           : <span className={color}
             onClick={(event) => {
