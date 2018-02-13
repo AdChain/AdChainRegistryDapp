@@ -183,8 +183,8 @@ class DomainsTable extends Component {
           label = ''
           color = ''
         } else {
-          label = 'Apply'
-          color = 'blue'
+          label = 'REFRESH STATUS'
+          color = 'greyblack'
         }
 
         return <a
