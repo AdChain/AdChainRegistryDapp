@@ -36,8 +36,7 @@ class DomainVoteRevealContainer extends Component {
     this.onFormSubmit = this.onFormSubmit.bind(this)
     this.onFileInput = this.onFileInput.bind(this)
     this.uploadClick = this.uploadClick.bind(this)
-    this.handleSaltChange = this.handleSaltChange.bind(this)
-    this.handleVoteChange = this.handleVoteChange.bind(this)
+    this.onSaltChange = this.onSaltChange.bind(this)
 
     this.getListing()
     this.getPoll()
@@ -140,10 +139,10 @@ class DomainVoteRevealContainer extends Component {
                   Challenge ID: <Input id='DomainVoteRevealChallengeIdInput' value={this.state.challengeId} className='VoteRevealInput' />
                 </div>
               <div className='VoteRevealLabel'>
-                  Secret Phrase: <Input id='DomainVoteRevealSaltInput' onChange={this.onSaltChange} value={this.state.salt} className='VoteRevealInput' />
+                  Secret Phrase: <Input id='DomainVoteRevealSaltInput' onChange={this.onSaltChange} className='VoteRevealInput' />
               </div>
               <div className='VoteRevealLabel'>
-                  Vote Option: <Input list='voteOptions' onChange={this.onVoteOptionChange} value={this.state.voteOption === '' ? '' : this.state.voteOption === 1 ? 'Support' : 'Oppose'} className='VoteRevealInput' placeholder='' />
+                  Vote Option: <Input list='voteOptions' id='DomainVoteRevealVoteOption' onChange={this.onVoteOptionChange} className='VoteRevealInput' placeholder='' />
                 <datalist id='voteOptions'>
                   <option value='Support' />
                   <option value='Oppose' />
@@ -241,25 +240,20 @@ class DomainVoteRevealContainer extends Component {
   }
 
   onVoteOptionChange (event, { value }) {
+    value = value === 'Support' ? 1 : 0
     this.setState({
       voteOption: parseInt(value, 10)
     })
   }
 
-  uploadClick (e) {
-    this.refs.HiddenFileUploader.click()
-  }
-
-  handleSaltChange (e) {
+  onSaltChange (e) {
     this.setState({
       salt: e.target.value
     })
   }
 
-  handleVoteChange (e) {
-    this.setState({
-      voteOption: e.target.value
-    })
+  uploadClick (e) {
+    this.refs.HiddenFileUploader.click()
   }
 
   async getListing () {
@@ -431,6 +425,19 @@ class DomainVoteRevealContainer extends Component {
             challengeId
           })
         }
+
+        // find element
+        let saltInput = document.querySelector('#DomainVoteRevealSaltInput')
+        let voteOptionDropdown = document.querySelector('#DomainVoteRevealVoteOption')
+
+      // create event
+        // let event = new Event('input', { bubbles: true })
+      // set value
+        saltInput.value = salt
+        voteOptionDropdown.value = voteOption === 1 ? 'Support' : 'Oppose'
+      // trigger event
+        // saltInput.dispatchEvent(event)
+        // voteOptionDropdown.dispatchEvent(event)
       } catch (error) {
         toastr.error('Invalid Commit JSON file')
         return false
