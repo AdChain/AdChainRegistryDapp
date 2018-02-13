@@ -91,13 +91,22 @@
   font-weight: 600;
 }
 
-:root:root:root .DomainVoteRevealContainer .VoteRevealInput input {
+:root:root:root .DomainVoteRevealContainer .VoteRevealLabelText {
+  padding-right: 1em;
+}
+
+:root:root:root .DomainVoteRevealContainer .VoteRevealInput input,
+:root:root:root .DomainVoteRevealContainer .VoteRevealDropdown {
   border-top: none;
   border-right: none;
   border-left: none;
   border-radius: 0;
   border-bottom: 1px solid;
-  width: 9em;
+  width: 9em !important
+}
+
+:root:root:root .DomainVoteRevealContainer .VoteRevealDropdown {
+  min-width: 9em;
 }
 
 :root:root:root .DomainVoteRevealContainer .VoteRevealLabel {

@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import toastr from 'toastr'
 import moment from 'moment'
-import { Popup, Input, Segment, Button } from 'semantic-ui-react'
+import { Popup, Input, Segment, Button, Dropdown } from 'semantic-ui-react'
 
 import Countdown from './CountdownText'
 import registry from '../services/registry'
@@ -65,6 +65,11 @@ class DomainVoteRevealContainer extends Component {
       // challengeId,
       // salt
     } = this.state
+
+    const voteOptions = [
+      { key: 1, text: 'Support', value: 1 },
+      { key: 2, text: 'Oppose', value: 0 }
+    ]
 
     const stageEndMoment = revealEndDate ? moment.unix(revealEndDate) : null
     const stageEnd = stageEndMoment ? stageEndMoment.format('YYYY-MM-DD HH:mm:ss') : '-'
@@ -136,17 +141,30 @@ class DomainVoteRevealContainer extends Component {
             <Segment className='RightSegment' floated='right'>
                 If you misplaced your JSON commit file, you can enter the information below to reveal:
                 <div className='VoteRevealLabel'>
-                  Challenge ID: <Input id='DomainVoteRevealChallengeIdInput' value={this.state.challengeId} className='VoteRevealInput' />
+                  <span className='VoteRevealLabelText'>
+                    Challenge ID:
+                  </span>
+                  <Input id='DomainVoteRevealChallengeIdInput' value={this.state.challengeId} className='VoteRevealInput' />
                 </div>
               <div className='VoteRevealLabel'>
-                  Secret Phrase: <Input id='DomainVoteRevealSaltInput' onChange={this.onSaltChange} className='VoteRevealInput' />
+                <span className='VoteRevealLabelText'>
+                  Secret Phrase:
+                </span>
+                <Input id='DomainVoteRevealSaltInput' onChange={this.onSaltChange} className='VoteRevealInput' />
               </div>
               <div className='VoteRevealLabel'>
-                  Vote Option: <Input list='voteOptions' id='DomainVoteRevealVoteOption' onChange={this.onVoteOptionChange} className='VoteRevealInput' placeholder='' />
-                <datalist id='voteOptions'>
-                  <option value='Support' />
-                  <option value='Oppose' />
-                </datalist>
+                <span className='VoteRevealLabelText'>
+                  Vote Option:
+                </span>
+                <Dropdown
+                  onChange={this.onVoteOptionChange}
+                  options={voteOptions}
+                  placeholder=''
+                  selection
+                  id='DomainVoteRevealVoteOption'
+                  className='VoteRevealDropdown'
+                  value={this.state.voteOption}
+                    />
               </div>
             </Segment>
           </div>
@@ -240,7 +258,6 @@ class DomainVoteRevealContainer extends Component {
   }
 
   onVoteOptionChange (event, { value }) {
-    value = value === 'Support' ? 1 : 0
     this.setState({
       voteOption: parseInt(value, 10)
     })
