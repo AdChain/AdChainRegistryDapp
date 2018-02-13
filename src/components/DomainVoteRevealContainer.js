@@ -29,13 +29,15 @@ class DomainVoteRevealContainer extends Component {
       didReveal: false,
       salt: '',
       voteOption: '',
-      challengeId: null
+      challengeId: ''
     }
 
     this.onVoteOptionChange = this.onVoteOptionChange.bind(this)
     this.onFormSubmit = this.onFormSubmit.bind(this)
     this.onFileInput = this.onFileInput.bind(this)
     this.uploadClick = this.uploadClick.bind(this)
+    this.handleSaltChange = this.handleSaltChange.bind(this)
+    this.handleVoteChange = this.handleVoteChange.bind(this)
 
     this.getListing()
     this.getPoll()
@@ -64,20 +66,6 @@ class DomainVoteRevealContainer extends Component {
       // challengeId,
       // salt
     } = this.state
-
-    // const voteOptions = [
-    //   {
-    //     text: 'Support',
-    //     value: '1'
-    //   },
-    //   {
-    //     text: 'Oppose',
-    //     value: '2'
-    //   },
-    //   { text: '',
-    //     value: ''
-    //   }
-    // ]
 
     const stageEndMoment = revealEndDate ? moment.unix(revealEndDate) : null
     const stageEnd = stageEndMoment ? stageEndMoment.format('YYYY-MM-DD HH:mm:ss') : '-'
@@ -149,13 +137,13 @@ class DomainVoteRevealContainer extends Component {
             <Segment className='RightSegment' floated='right'>
                 If you misplaced your JSON commit file, you can enter the information below to reveal:
                 <div className='VoteRevealLabel'>
-                  Challenge ID: <Input id='DomainVoteRevealChallengeIdInput' className='VoteRevealInput' />
+                  Challenge ID: <Input id='DomainVoteRevealChallengeIdInput' value={this.state.challengeId} className='VoteRevealInput' />
                 </div>
               <div className='VoteRevealLabel'>
-                  Secret Phrase: <Input id='DomainVoteRevealSaltInput' className='VoteRevealInput' />
+                  Secret Phrase: <Input id='DomainVoteRevealSaltInput' onChange={this.onSaltChange} value={this.state.salt} className='VoteRevealInput' />
               </div>
               <div className='VoteRevealLabel'>
-                  Vote Option: <Input list='voteOptions' className='VoteRevealInput' placeholder='' />
+                  Vote Option: <Input list='voteOptions' onChange={this.onVoteOptionChange} value={this.state.voteOption === '' ? '' : this.state.voteOption === 1 ? 'Support' : 'Oppose'} className='VoteRevealInput' placeholder='' />
                 <datalist id='voteOptions'>
                   <option value='Support' />
                   <option value='Oppose' />
@@ -260,6 +248,18 @@ class DomainVoteRevealContainer extends Component {
 
   uploadClick (e) {
     this.refs.HiddenFileUploader.click()
+  }
+
+  handleSaltChange (e) {
+    this.setState({
+      salt: e.target.value
+    })
+  }
+
+  handleVoteChange (e) {
+    this.setState({
+      voteOption: e.target.value
+    })
   }
 
   async getListing () {
@@ -423,9 +423,6 @@ class DomainVoteRevealContainer extends Component {
 
       try {
         const {salt, voteOption, challengeId} = JSON.parse(contents)
-
-        this.challengeIdInput.value = challengeId
-        this.saltInputValue.value = salt
 
         if (this._isMounted) {
           this.setState({
