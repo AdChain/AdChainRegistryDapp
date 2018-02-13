@@ -155,6 +155,7 @@ class PlcrService {
       try {
         active = await this.commitStageActive(pollId)
       } catch (error) {
+        console.error(error)
         reject(error)
         return false
       }
@@ -165,7 +166,6 @@ class PlcrService {
       }
 
       const voteTokenBalance = (await this.plcr.voteTokenBalance(this.getAccount())).toString(10)
-
       const requiredVotes = (tokens - voteTokenBalance)
 
       if (requiredVotes > 0) {

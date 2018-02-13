@@ -204,7 +204,7 @@ class DomainChallengeContainer extends Component {
           window.location.reload()
         }, 2e3)
       } catch (error) {
-        toastr.error('There was an error with your request')
+        toastr.error(error)
         if (this._isMounted) {
           this.setState({
             inProgress: false

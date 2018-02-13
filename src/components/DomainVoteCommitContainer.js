@@ -75,7 +75,7 @@ class DomainVoteCommitContainer extends Component {
       challengeId
       // enableDownload,
       // commitDownloaded,
-      // votes,
+      // votes
       // revealReminderDownloaded
     } = this.state
 
@@ -111,7 +111,7 @@ class DomainVoteCommitContainer extends Component {
           : null}
           {didCommit ? <div className='column sixteen wide center aligned'>
             <div className='ui message warning'>
-              You've <strong>commited</strong> for this domain.
+              You've <strong>committed</strong> for this domain.
             </div>
           </div>
           : null}
@@ -131,9 +131,7 @@ class DomainVoteCommitContainer extends Component {
           </div>
           <div className='ui divider' />
           <div className='column sixteen wide center aligned'>
-            <form
-              onSubmit={this.onFormSubmit}
-              className='ui form center aligned'>
+            <form className='ui form center aligned'>
               {
 
               // <div className='ui field'>
@@ -194,7 +192,7 @@ class DomainVoteCommitContainer extends Component {
                   </div>
                   Your commit is needed to reveal your vote in the Reveal stage:
                   <div className='DownloadCommitButtonContainer'>
-                    <Button className='DownloadCommitButton' basic>Download Commit &nbsp;<i className='icon long arrow down' /></Button>
+                    <Button className='DownloadCommitButton' basic onClick={this.onDownload}>Download Commit &nbsp;<i className='icon long arrow down' /></Button>
                   </div>
                 </Segment>
                 <Segment className='RightSegment' floated='right'>
@@ -208,7 +206,7 @@ class DomainVoteCommitContainer extends Component {
                 </Segment>
               </div>
               <div className='SubmitVoteButtonContainer'>
-                <Button className='SubmitVoteButton centered' basic type='submit'>Submit Vote</Button>
+                <Button className='SubmitVoteButton centered' basic onClick={this.onFormSubmit}>Submit Vote</Button>
               </div>
               {
               // <div className='ui two fields VoteOptions'>
@@ -296,6 +294,8 @@ class DomainVoteCommitContainer extends Component {
   }
 
   onVoteOptionChange (event, { value }) {
+    event.preventDefault()
+
     if (this._isMounted) {
       this.setState({
         voteOption: parseInt(value, 10)
@@ -472,7 +472,7 @@ class DomainVoteCommitContainer extends Component {
     }
 
     try {
-      const commited = await registry.commitVote({domain, votes, voteOption, salt})
+      const committed = await registry.commitVote({domain, votes, voteOption, salt})
 
       if (this._isMounted) {
         this.setState({
@@ -480,7 +480,7 @@ class DomainVoteCommitContainer extends Component {
         })
       }
 
-      if (commited) {
+      if (committed) {
         toastr.success('Successfully committed')
 
         // TODO: better way of resetting state

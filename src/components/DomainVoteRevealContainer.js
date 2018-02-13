@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import toastr from 'toastr'
 import moment from 'moment'
-import { Popup, Input, Segment, Button } from 'semantic-ui-react'
+import { Popup, Input, Segment, Button, Dropdown } from 'semantic-ui-react'
 
 import Countdown from './CountdownText'
 import registry from '../services/registry'
@@ -35,6 +35,7 @@ class DomainVoteRevealContainer extends Component {
     this.onVoteOptionChange = this.onVoteOptionChange.bind(this)
     this.onFormSubmit = this.onFormSubmit.bind(this)
     this.onFileInput = this.onFileInput.bind(this)
+    this.uploadClick = this.uploadClick.bind(this)
 
     this.getListing()
     this.getPoll()
@@ -63,6 +64,17 @@ class DomainVoteRevealContainer extends Component {
       // challengeId,
       // salt
     } = this.state
+
+    const voteOptions = [
+      {
+        text: 'Support',
+        value: '1'
+      },
+      {
+        text: 'Oppose',
+        value: '2'
+      }
+    ]
 
     const stageEndMoment = revealEndDate ? moment.unix(revealEndDate) : null
     const stageEnd = stageEndMoment ? stageEndMoment.format('YYYY-MM-DD HH:mm:ss') : '-'
@@ -108,7 +120,7 @@ class DomainVoteRevealContainer extends Component {
           : null}
           {didCommit ? <div className='column sixteen wide center aligned'>
             <div className='ui message warning'>
-              You've <strong>commited</strong> for this domain.
+              You've <strong>committed</strong> for this domain.
             </div>
           </div>
           : null}
@@ -128,7 +140,14 @@ class DomainVoteRevealContainer extends Component {
               </div>
                   Upload your JSON commit file to reveal your vote:
                 <div className='UploadCommitButtonContainer'>
-                  <Button className='UploadCommitButton' basic>Upload Commit &nbsp;<i className='icon long arrow up' /></Button>
+                  <Button className='UploadCommitButton' basic onClick={this.uploadClick}>Upload Commit &nbsp;<i className='icon long arrow up' /></Button>
+                  <input
+                    type='file'
+                    name='file'
+                    id='HiddenCommitFile'
+                    ref='HiddenFileUploader' style={{display: 'none'}}
+                    onChange={this.onFileInput}
+                    className='ui file' />
                 </div>
             </Segment>
             <Segment className='RightSegment' floated='right'>
@@ -140,12 +159,19 @@ class DomainVoteRevealContainer extends Component {
                   Secret Phrase: <Input className='VoteRevealInput' />
               </div>
               <div className='VoteRevealLabel'>
-                  Vote Option: <Input className='VoteRevealInput' />
+                  Vote Option: <Dropdown className='VoteRevealInput' fluid selection options={voteOptions} />
               </div>
             </Segment>
           </div>
           <div className='SubmitVoteButtonContainer'>
-            <Button className='SubmitVoteButton centered' basic type='submit'>Submit Vote</Button>
+            <Button
+              className='SubmitVoteButton centered'
+              basic
+              type='submit'
+              onClick={this.onFormSubmit}
+              >
+              Reveal Vote
+            </Button>
           </div>
 
           {
@@ -230,6 +256,10 @@ class DomainVoteRevealContainer extends Component {
     this.setState({
       voteOption: parseInt(value, 10)
     })
+  }
+
+  uploadClick (e) {
+    this.refs.HiddenFileUploader.click()
   }
 
   async getListing () {
