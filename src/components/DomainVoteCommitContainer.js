@@ -33,7 +33,9 @@ class DomainVoteCommitContainer extends Component {
       voteOption: null,
       enableDownload: false,
       commitDownloaded: false,
-      revealReminderDownloaded: false
+      revealReminderDownloaded: false,
+      SupportState: 'SupportButton',
+      OpposeState: 'OpposeButton'
     }
 
     this.getListing()
@@ -71,6 +73,8 @@ class DomainVoteCommitContainer extends Component {
       didCommit,
       inProgress,
       salt,
+      SupportState,
+      OpposeState,
       // voteOption,
       challengeId
       // enableDownload,
@@ -165,7 +169,7 @@ class DomainVoteCommitContainer extends Component {
                 <Segment className='SegmentTwo'>
                   <Button
                     basic
-                    className='SupportButton'
+                    className={SupportState}
                     name='voteOption'
                     value='1'
                     onClick={this.onVoteOptionChange}
@@ -176,7 +180,7 @@ class DomainVoteCommitContainer extends Component {
                 <Segment className='SegmentThree'>
                   <Button
                     basic
-                    className='OpposeButton'
+                    className={OpposeState}
                     name='voteOption'
                     value='0'
                     onClick={this.onVoteOptionChange}
@@ -297,9 +301,20 @@ class DomainVoteCommitContainer extends Component {
     event.preventDefault()
 
     if (this._isMounted) {
-      this.setState({
-        voteOption: parseInt(value, 10)
-      })
+      if (value === '1') {
+        this.setState({
+          voteOption: parseInt(value, 10),
+          SupportState: 'SupportButton clicked',
+          OpposeState: 'OpposeButton'
+
+        })
+      } else {
+        this.setState({
+          voteOption: parseInt(value, 10),
+          OpposeState: 'OpposeButton clicked',
+          SupportState: 'SupportButton'
+        })
+      }
     }
   }
 

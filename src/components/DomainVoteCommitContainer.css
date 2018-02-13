@@ -118,6 +118,16 @@
   text-transform: uppercase;
 }
 
+:root:root:root .DomainVoteCommitContainer .SupportButton.clicked {
+  background-color: #10C903 !important;
+  color: #FFF !important;
+}
+
+:root:root:root .DomainVoteCommitContainer .OpposeButton.clicked {
+  background-color: #CE3434 !important;
+  color: #FFF !important;
+}
+
 :root:root:root .DomainVoteCommitContainer .LeftSegment {
   width: 48%;
   margin-right: 0 !important;
