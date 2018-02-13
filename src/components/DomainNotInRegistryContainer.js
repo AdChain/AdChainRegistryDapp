@@ -54,8 +54,8 @@ class DomainNotInRegistryContainer extends Component {
   }
 
   async updateStatus () {
-    const {domain} = this.state
     try {
+      const {domain} = this.state
       await registry.updateStatus(domain)
     } catch (error) {
       try {

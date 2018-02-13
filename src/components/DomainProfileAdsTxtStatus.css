@@ -14,13 +14,15 @@
 
 .DomainProfileAdsTxtStatus .Header::after {
   content: url(./assets/info_gray.svg);
-  transform: scale(1.2) translateY(1.2px);
+  transform: scale(1.4) translateY(1.1px);
   padding-left: 7px;
   cursor: pointer;
 }
 
 .DomainProfileAdsTxtStatus .AdsTxtStatus {
   font-size: 12px !important;
+   font-family: "Open Sans", sans-serif;
+   padding-bottom:10px;
 }
 
 .DomainProfileAdsTxtStatus .AdsTxtStatus .InAdsTxt {
