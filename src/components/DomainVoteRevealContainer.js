@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import toastr from 'toastr'
 import moment from 'moment'
-import { Popup, Input, Segment, Button, Dropdown } from 'semantic-ui-react'
+import { Popup, Input, Segment, Button } from 'semantic-ui-react'
 
 import Countdown from './CountdownText'
 import registry from '../services/registry'
@@ -27,8 +27,8 @@ class DomainVoteRevealContainer extends Component {
       didChallenge: false,
       didCommit: false,
       didReveal: false,
-      salt: null,
-      voteOption: null,
+      salt: '',
+      voteOption: '',
       challengeId: null
     }
 
@@ -65,16 +65,19 @@ class DomainVoteRevealContainer extends Component {
       // salt
     } = this.state
 
-    const voteOptions = [
-      {
-        text: 'Support',
-        value: '1'
-      },
-      {
-        text: 'Oppose',
-        value: '2'
-      }
-    ]
+    // const voteOptions = [
+    //   {
+    //     text: 'Support',
+    //     value: '1'
+    //   },
+    //   {
+    //     text: 'Oppose',
+    //     value: '2'
+    //   },
+    //   { text: '',
+    //     value: ''
+    //   }
+    // ]
 
     const stageEndMoment = revealEndDate ? moment.unix(revealEndDate) : null
     const stageEnd = stageEndMoment ? stageEndMoment.format('YYYY-MM-DD HH:mm:ss') : '-'
@@ -91,13 +94,6 @@ class DomainVoteRevealContainer extends Component {
                 content='The first phase of the voting process is the commit phase where the ADT holder stakes a hidden amount of votes to SUPPORT or OPPOSE the domain application. The second phase is the reveal phase where the ADT holder reveals the staked amount of votes to either the SUPPORT or OPPOSE side.'
               />
               </div>
-              <Button
-                basic
-                className='right refresh'
-                onClick={this.updateStatus}
-              >
-                Refresh Status
-              </Button>
             </div>
           </div>
           <div className='ui divider' />
@@ -153,13 +149,17 @@ class DomainVoteRevealContainer extends Component {
             <Segment className='RightSegment' floated='right'>
                 If you misplaced your JSON commit file, you can enter the information below to reveal:
                 <div className='VoteRevealLabel'>
-                  Challenge ID: <Input className='VoteRevealInput' />
+                  Challenge ID: <Input id='DomainVoteRevealChallengeIdInput' className='VoteRevealInput' />
                 </div>
               <div className='VoteRevealLabel'>
-                  Secret Phrase: <Input className='VoteRevealInput' />
+                  Secret Phrase: <Input id='DomainVoteRevealSaltInput' className='VoteRevealInput' />
               </div>
               <div className='VoteRevealLabel'>
-                  Vote Option: <Dropdown className='VoteRevealInput' fluid selection options={voteOptions} />
+                  Vote Option: <Input list='voteOptions' className='VoteRevealInput' placeholder='' />
+                <datalist id='voteOptions'>
+                  <option value='Support' />
+                  <option value='Oppose' />
+                </datalist>
               </div>
             </Segment>
           </div>
@@ -422,19 +422,17 @@ class DomainVoteRevealContainer extends Component {
       const contents = fr.result
 
       try {
-        const {salt, voteOption} = JSON.parse(contents)
+        const {salt, voteOption, challengeId} = JSON.parse(contents)
+
+        this.challengeIdInput.value = challengeId
+        this.saltInputValue.value = salt
 
         if (this._isMounted) {
           this.setState({
             salt,
-            voteOption
+            voteOption,
+            challengeId
           })
-        }
-
-        // TODO: proper way of setting defaultValue
-        const saltInput = document.querySelector('#DomainVoteRevealContainerSaltInput')
-        if (saltInput) {
-          saltInput.value = salt
         }
       } catch (error) {
         toastr.error('Invalid Commit JSON file')

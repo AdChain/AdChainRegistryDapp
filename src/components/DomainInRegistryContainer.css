@@ -65,7 +65,7 @@
   border-radius: 3px;
   color: #3434CE !important;
   font-family: "Open Sans", sans-serif;
-  font-size: 8px;
+  font-size: 9.5px;
   font-weight: bold;
   line-height: 11px;
   text-transform: uppercase;
@@ -115,7 +115,7 @@
 	border-radius: 3px;
   color: #CE3434 !important;
   font-family: "Open Sans", sans-serif;
-  font-size: 7px;
+  font-size: 9.5px;
   font-weight: bold;
   line-height: 9px;
   text-align: center;
@@ -127,11 +127,10 @@
   border-radius: 3px;
   color: #3434CE !important;
   font-family: "Open Sans", sans-serif;
-  font-size: 7px;
+  font-size: 9.5px;
   font-weight: bold;
   line-height: 9px;
   text-align: center;
-  width: 60px;
   text-transform: uppercase;
 }
 

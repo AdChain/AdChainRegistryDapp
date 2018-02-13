@@ -13,7 +13,7 @@
   border-radius: 3px;
   color: #3434CE !important;
   font-family: "Open Sans", sans-serif;
-  font-size: 8px;
+  font-size: 9.5px;
   font-weight: bold;
   line-height: 11px;
   text-transform: uppercase;
@@ -95,11 +95,9 @@
 :root:root:root .DomainVoteCommitContainer .SupportButton {
   border: 1px solid #10C903;
   border-radius: 3px;
-  height: 21px;
-  width: 66px;
   color: #424242;
   font-family: "Open Sans", sans-serif;
-  font-size: 8px;
+  font-size: 9.5px;
   font-weight: bold;
   text-align: center;
   text-transform: uppercase;
@@ -108,11 +106,9 @@
 :root:root:root .DomainVoteCommitContainer .OpposeButton {
 	border: 1px solid #CE3434;
   border-radius: 3px;
-  height: 21px;
-  width: 66px;
   color: #424242;
   font-family: "Open Sans", sans-serif;
-  font-size: 8px;
+  font-size: 9.5px;
   font-weight: bold;
   text-align: center;
   text-transform: uppercase;
@@ -151,9 +147,8 @@
   background-color: #3434CE !important;
   color: #FFFFFF !important;
   font-family: "Open Sans", sans-serif;
-  font-size: 8px;
+  font-size: 9.5px;
   font-weight: bold;
-  height: 21px;
   border-radius: 3px;
   background-color: #3434CE;
   text-transform: uppercase;
@@ -173,13 +168,11 @@
   border-radius: 3px;
   background-color: #10C903 !important;
   font-family: "Open Sans", sans-serif;
-  font-size: 8px;
+  font-size: 9.5px;
   font-weight: bold;
   text-align: center;
   text-transform: uppercase;
   color: #FFFFFF !important;
-  height: 21px;
-  width: 83px;
 }
 
 :root:root:root .DomainVoteCommitContainer .SubmitVoteButtonContainer {

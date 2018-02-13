@@ -13,7 +13,7 @@
   border-radius: 3px;
   color: #3434CE !important;
   font-family: "Open Sans", sans-serif;
-  font-size: 8px;
+  font-size: 9.5px;
   font-weight: bold;
   line-height: 11px;
   text-transform: uppercase;
@@ -74,9 +74,8 @@
 :root:root:root .DomainVoteRevealContainer .UploadCommitButton {
   color: #3434CE !important;
   font-family: "Open Sans", sans-serif;
-  font-size: 8px;
+  font-size: 9.5px;
   font-weight: bold;
-  height: 21px;
   border-radius: 3px;
   border: 1px solid #3434CE;
   text-transform: uppercase;
@@ -111,13 +110,11 @@
   border-radius: 3px;
   background-color: #10C903 !important;
   font-family: "Open Sans", sans-serif;
-  font-size: 8px;
+  font-size: 9.5px;
   font-weight: bold;
   text-align: center;
   text-transform: uppercase;
   color: #FFFFFF !important;
-  height: 21px;
-  width: 83px;
 }
 
 :root:root:root .DomainVoteRevealContainer .SubmitVoteButtonContainer {
