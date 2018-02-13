@@ -526,7 +526,7 @@ class DomainsTable extends Component {
       await registry.updateStatus(domain)
     } catch (error) {
       try {
-        toastr.error(error)
+        toastr.error('Update Error')
       } catch (err) {
         console.log(err)
       }

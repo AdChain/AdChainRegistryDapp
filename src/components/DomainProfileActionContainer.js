@@ -83,7 +83,7 @@ class DomainProfileActionContainer extends Component {
       await registry.updateStatus(domain)
       this.updateStageMap('updated')
     } catch (error) {
-      toastr.error(error.message)
+      toastr.error('There was an error with your request')
     }
 
     this.getData()
@@ -124,7 +124,7 @@ class DomainProfileActionContainer extends Component {
         })
       }
     } catch (error) {
-      toastr.error(error.message)
+      toastr.error('There was an error with your request')
     }
   }
 }

@@ -59,7 +59,7 @@ class DomainNotInRegistryContainer extends Component {
       await registry.updateStatus(domain)
     } catch (error) {
       try {
-        toastr.error(error)
+        toastr.error('There was an error updating domain')
       } catch (err) {
         console.log(err)
       }

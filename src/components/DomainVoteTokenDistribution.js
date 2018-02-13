@@ -45,7 +45,7 @@ class DomainVoteTokenDistribution extends Component {
         })
       }
     } catch (error) {
-      toastr.error(error)
+      toastr.error('There was an error getting poll')
     }
   }
 

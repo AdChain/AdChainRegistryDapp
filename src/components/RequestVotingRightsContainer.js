@@ -121,7 +121,7 @@ class RequestVotingRightsContainer extends Component {
 
       toastr.success('Success')
     } catch (error) {
-      toastr.error(error.message)
+      toastr.error('There was an error with your request')
     }
 
     if (this._isMounted) {
@@ -145,7 +145,7 @@ class RequestVotingRightsContainer extends Component {
         availableVotes
       })
     } catch (error) {
-      toastr.error(error.message)
+      toastr.error('There was an error with your request')
     }
   }
 }

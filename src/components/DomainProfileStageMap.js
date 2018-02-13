@@ -125,7 +125,7 @@ class DomainProfileStageMap extends Component {
         })
       }
     } catch (error) {
-      toastr.error(error.message)
+      toastr.error('There was an error with your request')
     }
   }
 }

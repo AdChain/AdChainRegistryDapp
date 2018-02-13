@@ -263,7 +263,7 @@ class DomainVoteRevealContainer extends Component {
         didCommit: didCommit
       })
     } catch (error) {
-      toastr.error(error)
+      toastr.error('There was an error getting commit')
     }
   }
 
@@ -283,7 +283,7 @@ class DomainVoteRevealContainer extends Component {
         })
       }
     } catch (error) {
-      toastr.error(error)
+      toastr.error('There was an error getting reveal')
     }
   }
 
@@ -307,7 +307,7 @@ class DomainVoteRevealContainer extends Component {
         })
       }
     } catch (error) {
-      toastr.error(error)
+      toastr.error('There was an error getting poll')
     }
   }
 
@@ -327,7 +327,7 @@ class DomainVoteRevealContainer extends Component {
         })
       }
     } catch (error) {
-      toastr.error(error)
+      toastr.error('There was an error getting challenge')
     }
   }
 
@@ -373,7 +373,7 @@ class DomainVoteRevealContainer extends Component {
         toastr.error('Reveal did not go through')
       }
     } catch (error) {
-      toastr.error(error.message)
+      toastr.error('There was an error with your request')
 
       if (this._isMounted) {
         this.setState({

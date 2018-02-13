@@ -86,7 +86,7 @@ class SideBarApplicationContainer extends Component {
     try {
       await registry.apply(domain, stake)
     } catch (error) {
-      toastr.error(error.message)
+      toastr.error('There was an error with your request')
       if (this._isMounted) {
         this.setState({
           inProgress: false
@@ -118,7 +118,7 @@ class SideBarApplicationContainer extends Component {
     try {
       await postJson(url, payload)
     } catch (error) {
-      toastr.error(error.message)
+      toastr.error('There was an error with your request')
       console.error(error)
     }
   }

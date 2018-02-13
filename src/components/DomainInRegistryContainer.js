@@ -168,7 +168,7 @@ class DomainInRegistryContainer extends Component {
         })
       }
     } catch (error) {
-      toastr.error(error.message)
+      toastr.error('There was an error with your request')
     }
   }
 
@@ -208,7 +208,7 @@ class DomainInRegistryContainer extends Component {
         })
       }
     } catch (error) {
-      toastr.error(error.message)
+      toastr.error('There was an error with your request')
     }
   }
 
@@ -229,7 +229,7 @@ class DomainInRegistryContainer extends Component {
         })
       }
     } catch (error) {
-      toastr.error(error.message)
+      toastr.error('There was an error with your request')
     }
   }
 
@@ -238,7 +238,7 @@ class DomainInRegistryContainer extends Component {
     try {
       await registry.updateStatus(domain)
     } catch (error) {
-      toastr.error(error)
+      toastr.error('There was an error updating status')
       console.error(error)
     }
   }
@@ -278,7 +278,7 @@ class DomainInRegistryContainer extends Component {
         })
       }
     } catch (error) {
-      toastr.error(error.message)
+      toastr.error('There was an error with your request')
       if (this._isMounted) {
         this.setState({
           inWithdrawProgress: false
@@ -309,7 +309,7 @@ class DomainInRegistryContainer extends Component {
         document.getElementById('TopOff').value = null
       }
     } catch (error) {
-      toastr.error(error.message)
+      toastr.error('There was an error with your request')
       this.setState({
         inTopOffProgress: false
       })
@@ -324,7 +324,7 @@ class DomainInRegistryContainer extends Component {
     try {
       inApplication = await registry.applicationExists(domain)
     } catch (error) {
-      toastr.error(error.message)
+      toastr.error('There was an error with your request')
     }
 
     if (inApplication) {
@@ -350,7 +350,7 @@ class DomainInRegistryContainer extends Component {
           window.location.reload()
         }, 2e3)
       } catch (error) {
-        toastr.error(error.message)
+        toastr.error('There was an error with your request')
         if (this._isMounted) {
           this.setState({
             inChallengeProgress: false

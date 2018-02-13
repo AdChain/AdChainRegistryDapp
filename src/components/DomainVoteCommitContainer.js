@@ -416,7 +416,7 @@ class DomainVoteCommitContainer extends Component {
         })
       }
     } catch (error) {
-      toastr.error(error.message)
+      toastr.error('There was an error with your request')
     }
   }
 
@@ -432,7 +432,7 @@ class DomainVoteCommitContainer extends Component {
         })
       }
     } catch (error) {
-      toastr.error(error.message)
+      toastr.error('There was an error with your request')
     }
   }
 
@@ -448,7 +448,7 @@ class DomainVoteCommitContainer extends Component {
         })
       }
     } catch (error) {
-      toastr.error(error.message)
+      toastr.error('There was an error with your request')
     }
   }
 
@@ -491,7 +491,7 @@ class DomainVoteCommitContainer extends Component {
         toastr.error('Commit did not go through')
       }
     } catch (error) {
-      toastr.error(error.message)
+      toastr.error('There was an error with your request')
       if (this._isMounted) {
         this.setState({
           inProgress: false

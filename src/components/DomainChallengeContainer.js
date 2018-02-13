@@ -163,7 +163,7 @@ class DomainChallengeContainer extends Component {
       await registry.updateStatus(domain)
       this.updateStageMap('updated')
     } catch (error) {
-      toastr.error(error)
+      toastr.error('There was an error updating domain status')
       console.error(error)
     }
   }
@@ -204,7 +204,7 @@ class DomainChallengeContainer extends Component {
           window.location.reload()
         }, 2e3)
       } catch (error) {
-        toastr.error(error.message)
+        toastr.error('There was an error with your request')
         if (this._isMounted) {
           this.setState({
             inProgress: false
