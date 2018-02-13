@@ -87,6 +87,10 @@
   color:white;
   background:#3434CE;
 }
+:root:root .DomainsTable .ReactTable .rt-tr-group:hover .greyblack{
+  color:white;
+  background:#424242;
+}
 :root:root .DomainsTable .ReactTable .rt-tr-group:hover .green{
   color:white;
   background:#10C903;
@@ -149,14 +153,23 @@
     color: white;
     background: #10C903;
     text-decoration: none;
+    cursor: pointer;
 }
 :root:root .DomainsTable .ui.blue.button:hover, .ui.blue.buttons .button:hover {
     color: white;
     background: #3434CE;
     text-decoration: none;
+    cursor:pointer;
+}
+:root:root .DomainsTable .ui.greyblack.button:hover, .ui.greyblack.buttons .button:hover {
+    color: white;
+    background: #424242;
+    text-decoration: none;
+    cursor:pointer;
 }
 :root:root .DomainsTable .ReactTable .rt-tbody .rt-td a:hover {
     text-decoration: none;
+    cursor:pointer;
 }
 :root:root .DomainsTable  .ui.blue.button, .ui.blue.buttons .button {
     background-color: white;
@@ -164,6 +177,13 @@
     text-shadow: none;
     background-image: none;
     border: 1px solid #3434CE;
+}
+:root:root .DomainsTable  .ui.greyblack.button, .ui.greyblack.buttons .button {
+    background-color: white;
+    color: #424242;
+    text-shadow: none;
+    background-image: none;
+    border: 1px solid #424242;
 }
 :root:root .DomainsTable .ui.green.button, .ui.green.buttons .button {
     background-color: white;
@@ -203,6 +223,9 @@
   color: #b10000;
 }
 
+:root:root .ReactTable .rt-tr:hover{
+  cursor:pointer !important;
+}
 :root:root .DomainsTable span.info {
   color: #4183c4;
 }

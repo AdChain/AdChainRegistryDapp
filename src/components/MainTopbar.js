@@ -71,8 +71,8 @@ class MainTopbar extends Component {
               ? <div className={'item ' + (invalidNetwork ? 'RedAlert' : '')}>
                 <div>
                   {invalidNetwork
-                    ? <strong>Please connect to Rinkeby Test Network</strong>
-                  : <span><strong>Network: </strong>Rinkeby Testnet</span>}
+                    ? <strong>Please connect to Main Ethereum Network</strong>
+                  : <span><strong>Network: </strong>Main Network</span>}
                 </div>
               </div>
             : null}
@@ -161,7 +161,6 @@ class MainTopbar extends Component {
 
   async updateNetwork () {
     const network = await registry.getNetwork()
-
     this.setState({
       invalidNetwork: (network.type !== 'rinkeby')
     })

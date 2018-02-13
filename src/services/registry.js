@@ -227,7 +227,6 @@ class RegistryService {
       // const hash = sha3(domain)
       const hash = `0x${soliditySHA3(['bytes32'], [domain.toLowerCase().trim()]).toString('hex')}`
       const result = await this.registry.listings.call(hash)
-
       const map = {
         applicationExpiry: result[0].toNumber() <= 0 ? null : moment.tz(result[0].toNumber(), moment.tz.guess()),
         isWhitelisted: result[1],
@@ -345,8 +344,12 @@ class RegistryService {
   }
 
   async getMinDeposit () {
-    const min = await this.getParameter('minDeposit')
-    return min.div(tenToTheNinth)
+    try {
+      const min = await this.getParameter('minDeposit')
+      return min.div(tenToTheNinth)
+    } catch (error) {
+      console.log('error getting min deposit')
+    }
   }
 
   async getCurrentBlockNumber () {
@@ -493,6 +496,7 @@ class RegistryService {
         votesFor
       } = await plcr.getPoll(challengeId)
       let result = {
+        // formatting to client's local timezone
         commitEndDate: moment.tz(commitEndDate, moment.tz.guess()),
         revealEndDate: moment.tz(revealEndDate, moment.tz.guess()),
         voteQuorum,

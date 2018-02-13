@@ -86,6 +86,7 @@ input:focus{
 }
 :root:root button,:root:root a{
     font-family: "Open Sans",sans-serif;
+    cursor: pointer;
 }
 .BoxFrame {
   background: #fff;
