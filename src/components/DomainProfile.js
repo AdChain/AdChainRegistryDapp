@@ -39,7 +39,6 @@ class DomainProfile extends Component {
 
   componentDidMount () {
     this._isMounted = true
-
     this.fetchSiteMetadata()
   }
 
@@ -122,10 +121,10 @@ class DomainProfile extends Component {
     }
   }
 
-  async updateStageMap (newAction) {
+  async updateStageMap (status) {
     if (this._isMounted) {
       this.setState({
-        stage: newAction
+        stage: status
       })
     }
   }

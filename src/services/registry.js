@@ -44,6 +44,7 @@ class RegistryService {
     this.account = accounts[0]
     this.registry = await getRegistry(this.account)
     this.address = this.registry.address
+    plcr.init()
 
     this.setUpEvents()
     this.setAccount()
@@ -155,18 +156,19 @@ class RegistryService {
     }
   }
 
-  async challenge (hash, domain) {
+  async challenge (domain, data) {
     if (!domain) {
       throw new Error('Domain is required')
     }
 
     domain = domain.toLowerCase()
+    const domainHash = `0x${soliditySHA3(['bytes32'], [domain.toLowerCase().trim()]).toString('hex')}`
 
     try {
       const minDeposit = await this.getMinDeposit()
       const minDepositAdt = minDeposit.mul(tenToTheNinth)
       await token.approve(this.address, minDepositAdt)
-      await this.registry.challenge(hash, domain)
+      await this.registry.challenge(domainHash, data)
     } catch (error) {
       throw error
     }
@@ -382,12 +384,12 @@ class RegistryService {
     }
 
     domain = domain.toLowerCase()
-    const hash = `0x${soliditySHA3(['bytes32'], [domain]).toString('hex')}`
+    // const hash = `0x${soliditySHA3(['bytes32'], [domain]).toString('hex')}`
 
     let pollId = null
 
     try {
-      pollId = await this.getChallengeId(hash)
+      pollId = await this.getChallengeId(domain)
     } catch (error) {
       throw error
     }
@@ -409,12 +411,12 @@ class RegistryService {
     }
 
     domain = domain.toLowerCase()
-    const hash = `0x${soliditySHA3(['bytes32'], [domain]).toString('hex')}`
+    // const hash = `0x${soliditySHA3(['bytes32'], [domain]).toString('hex')}`
 
     let pollId = null
 
     try {
-      pollId = await this.getChallengeId(hash)
+      pollId = await this.getChallengeId(domain)
     } catch (error) {
       throw error
     }

@@ -407,7 +407,6 @@ class DomainsTable extends Component {
         } else {
           item.stage = 'apply'
         }
-
         return item
       } catch (error) {
         return {}

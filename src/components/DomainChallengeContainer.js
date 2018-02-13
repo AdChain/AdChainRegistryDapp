@@ -4,7 +4,7 @@ import commafy from 'commafy'
 import toastr from 'toastr'
 import moment from 'moment'
 import { Popup, Button, Segment } from 'semantic-ui-react'
-import { soliditySHA3 } from 'ethereumjs-abi'
+// import { soliditySHA3 } from 'ethereumjs-abi'
 
 import Countdown from './CountdownText'
 import registry from '../services/registry'
@@ -24,6 +24,9 @@ class DomainChallengeContainer extends Component {
       inProgress: false,
       source: props.source
     }
+
+    this.updateStatus = this.updateStatus.bind(this)
+    this.updateStageMap = props.updateStageMap
   }
 
   componentDidMount () {
@@ -65,7 +68,7 @@ class DomainChallengeContainer extends Component {
                 <Button
                   basic
                   className='right refresh'
-                  onClick={() => this.updateStatus(domain)}
+                  onClick={this.updateStatus}
                   >
                   Refresh Status
                 </Button>
@@ -154,9 +157,11 @@ class DomainChallengeContainer extends Component {
     this.challenge()
   }
 
-  async updateStatus (domain) {
+  async updateStatus () {
+    const {domain} = this.state
     try {
       await registry.updateStatus(domain)
+      this.updateStageMap('updated')
     } catch (error) {
       toastr.error(error)
       console.error(error)
@@ -167,7 +172,8 @@ class DomainChallengeContainer extends Component {
     const {domain} = this.state
 
     let inApplication = null
-    const hash = `0x${soliditySHA3(['bytes32'], [domain.toLowerCase().trim()]).toString('hex')}`
+    // const hash = `0x${soliditySHA3(['bytes32'], [domain.toLowerCase().trim()]).toString('hex')}`
+    let data = ''
 
     try {
       inApplication = await registry.applicationExists(domain)
@@ -183,7 +189,7 @@ class DomainChallengeContainer extends Component {
       }
 
       try {
-        await registry.challenge(hash, domain)
+        await registry.challenge(domain, data)
 
         toastr.success('Successfully challenged domain')
 

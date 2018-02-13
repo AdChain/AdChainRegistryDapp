@@ -35,6 +35,8 @@ class DomainInRegistryContainer extends Component {
     this.onChallenge = this.onChallenge.bind(this)
     this.withdrawListing = this.withdrawListing.bind(this)
     this.topOff = this.topOff.bind(this)
+    this.updateStatus = this.updateStatus.bind(this)
+    this.updateStageMap = props.updateStageMap
   }
 
   componentDidMount () {
@@ -77,13 +79,16 @@ class DomainInRegistryContainer extends Component {
                 content='The first phase of the voting process is the commit phase where the ADT holder stakes a hidden amount of votes to SUPPORT or OPPOSE the domain application. The second phase is the reveal phase where the ADT holder reveals the staked amount of votes to either the SUPPORT or OPPOSE side.'
               />
               </div>
-              <Button
-                basic
-                className='right refresh'
-                onClick={this.updateStatus}
-              >
-                Refresh Status
-              </Button>
+              {
+
+              // <Button
+              //   basic
+              //   className='right refresh'
+              //   onClick={this.updateStatus}
+              // >
+              //   Refresh Status
+              // </Button>
+            }
             </div>
           </div>
           <div className='ui divider' />
@@ -228,6 +233,16 @@ class DomainInRegistryContainer extends Component {
     }
   }
 
+  async updateStatus () {
+    const {domain} = this.state
+    try {
+      await registry.updateStatus(domain)
+    } catch (error) {
+      toastr.error(error)
+      console.error(error)
+    }
+  }
+
   async getCurrentDeposit () {
     const {domain} = this.state
     try {
@@ -256,7 +271,6 @@ class DomainInRegistryContainer extends Component {
       this.setState({
         canWithdraw: false
       })
-      await this.updateStatus()
       toastr.success('Successfully withdrew listing')
       if (this._isMounted) {
         this.setState({

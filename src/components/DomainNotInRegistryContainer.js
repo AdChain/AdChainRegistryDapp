@@ -34,7 +34,7 @@ class DomainNotInRegistryContainer extends Component {
               <Button
                 basic
                 className='right refresh'
-                onClick={() => { this.updateStatus(domain) }}
+                onClick={this.updateStatus}
               >
                 Refresh Status
               </Button>
@@ -53,7 +53,8 @@ class DomainNotInRegistryContainer extends Component {
     )
   }
 
-  async updateStatus (domain) {
+  async updateStatus () {
+    const {domain} = this.state
     try {
       await registry.updateStatus(domain)
     } catch (error) {

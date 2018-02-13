@@ -39,9 +39,10 @@ class DomainProfileStageMap extends Component {
 
   componentWillReceiveProps (nextProps) {
     if (nextProps.stage !== this.props.stage) {
-      this.setState({
-        action: nextProps.stage
-      })
+      // this.setState({
+      //   action: nextProps.stage
+      // })
+      this.getData()
     }
   }
 
