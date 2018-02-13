@@ -105,7 +105,7 @@ class PlcrService {
       }
 
       try {
-        const result = await this.plcr.commitStageActive(pollId)
+        const result = await this.plcr.commitPeriodActive(pollId)
         resolve(result)
         return false
       } catch (error) {
@@ -123,7 +123,7 @@ class PlcrService {
       }
 
       try {
-        const result = await this.plcr.revealStageActive(pollId)
+        const result = await this.plcr.revealPeriodActive(pollId)
         resolve(result)
         return false
       } catch (error) {
