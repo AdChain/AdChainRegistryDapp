@@ -179,6 +179,9 @@ class DomainsTable extends Component {
         } else if (stage === 'apply') {
           label = 'Apply'
           color = 'blue'
+        } else if (stage === 'wrong network') {
+          label = ''
+          color = ''
         } else {
           label = 'Apply'
           color = 'blue'
@@ -417,7 +420,19 @@ class DomainsTable extends Component {
 
         return item
       } catch (error) {
-        return {}
+        if (item.domain) {
+          return {
+            domain: item.domain || '',
+            siteName: domain || '',
+            stage: 'wrong network',
+            stageEndsTimestamp: '',
+            stageEnds: '',
+            action: 'wrong network',
+            stats: 'wrong network'
+          }
+        } else {
+          return {}
+        }
       }
     }))
     if (this._isMounted) {

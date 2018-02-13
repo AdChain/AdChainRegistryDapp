@@ -12,17 +12,21 @@ class ParameterizerService {
   }
 
   async init () {
-    /* important to check for provider in
+    /*
+     * important to check for provider in
      * init function (rather than constructor),
      * so that injected web3 has time to load.
      */
-    this.eth = new Eth(getProvider())
-    const accounts = await this.eth.accounts()
-    this.account = accounts[0]
-    this.eth.defaultAccount = accounts[0]
-    this.parameterizer = await getParameterizer(this.account)
-    this.address = this.parameterizer.address
-
+    try {
+      this.eth = new Eth(getProvider())
+      const accounts = await this.eth.accounts()
+      this.account = accounts[0]
+      this.eth.defaultAccount = accounts[0]
+      this.parameterizer = await getParameterizer(this.account)
+      this.address = this.parameterizer.address
+    } catch (error) {
+      console.log(error)
+    }
     // await this.setUpEvents()
     // store.dispatch({
     //   type: 'PARAMETERIZER_CONTRACT_INIT'
@@ -44,6 +48,8 @@ class ParameterizerService {
 
   async get (name) {
     let result
+    if (!this.parameterizer) return
+
     return new Promise(async (resolve, reject) => {
       if (!name) {
         reject(new Error('Name is required'))
