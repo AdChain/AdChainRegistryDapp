@@ -34,7 +34,7 @@ class DomainNotInRegistryContainer extends Component {
               <Button
                 basic
                 className='right refresh'
-                onClick={this.updateStatus}
+                onClick={() => this.updateStatus(domain)}
               >
                 Refresh Status
               </Button>
@@ -53,12 +53,12 @@ class DomainNotInRegistryContainer extends Component {
     )
   }
 
-  async updateStatus () {
+  async updateStatus (domain) {
     try {
-      const {domain} = this.state
       await registry.updateStatus(domain)
     } catch (error) {
       try {
+        console.log(error)
         toastr.error('There was an error updating domain')
       } catch (err) {
         console.log(err)
