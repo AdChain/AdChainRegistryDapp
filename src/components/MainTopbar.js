@@ -72,7 +72,7 @@ class MainTopbar extends Component {
                 <div>
                   {invalidNetwork
                     ? <strong>Please connect to Main Ethereum Network</strong>
-                  : <span><strong>Network: </strong>Main Network</span>}
+                  : <span><strong>Network: </strong>Main Ethereum Network</span>}
                 </div>
               </div>
             : null}
