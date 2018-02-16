@@ -13,7 +13,7 @@ export const getAbi = async (contract) => {
     console.error(error)
   }
 
-  const url = 'https://s3-us-west-2.amazonaws.com/tcr-contracts-main'
+  const url = 'https://s3-us-west-2.amazonaws.com/tcr-contracts'
   const data = await window.fetch(`${url}/${contract}.json`)
   const json = await data.json()
 

@@ -1,7 +1,7 @@
 import Eth from 'ethjs'
 
 export const getProviderUrl = () => {
-  const net = 'mainnet'
+  const net = 'rinkeby'
   if (net === 'testrpc') {
     return 'http://localhost:8545'
   } else {
@@ -23,5 +23,5 @@ export const getWebsocketProvider = () => {
     window.Web3.providers.WebsocketProvider.prototype.sendAsync = window.Web3.providers.WebsocketProvider.prototype.send
   }
 
-  return new window.Web3.providers.WebsocketProvider('wss://mainnet.infura.io/_ws')
+  return new window.Web3.providers.WebsocketProvider('wss://rinkeby.infura.io/_ws')
 }
