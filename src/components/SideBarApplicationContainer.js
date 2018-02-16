@@ -109,7 +109,7 @@ class SideBarApplicationContainer extends Component {
   }
 
   async save (data) {
-    const url = 'https://adchain-registry-api-mainnet.metax.io/applications'
+    const url = 'https://adchain-registry-api-staging.metax.io//applications'
 
     const payload = {
       domain: data.domain,
@@ -145,12 +145,12 @@ class SideBarApplicationContainer extends Component {
               placeholder='domain.com' />
           </Form.Field>
           <Form.Field>
-            <label className='ApplicationLabel'>ADT to Stake (min. 10,000)</label>
+            <label className='ApplicationLabel'>ADT to Stake (min. 3,000)</label>
             <input
               onFocus={this.addClass}
               className='ApplicationInput'
               name='stake'
-              placeholder='10,000'
+              placeholder='3,000'
               />
           </Form.Field>
           <Button basic className='ApplicationButton' type='submit'>Apply Domain</Button>

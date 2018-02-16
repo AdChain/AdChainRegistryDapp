@@ -504,7 +504,7 @@ class DomainsTable extends Component {
     }
 
     try {
-      domains = await (await window.fetch(`https://adchain-registry-api-mainnet.metax.io/registry/domains?${query}`)).json()
+      domains = await (await window.fetch(`https://adchain-registry-api-staging.metax.io//registry/domains?${query}`)).json()
       if (!Array.isArray(domains)) {
         domains = []
       }
