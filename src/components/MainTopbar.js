@@ -162,7 +162,7 @@ class MainTopbar extends Component {
   async updateNetwork () {
     const network = await registry.getNetwork()
     this.setState({
-      invalidNetwork: (network.type !== 'mainnet')
+      invalidNetwork: (network.type !== 'main')
     })
   }
 }
