@@ -61,8 +61,8 @@ class RequestVotingRightsContainer extends Component {
             }
 
           </div>
-          <div className='column sixteen wide'>
-            <div><small>Total current voting rights: <strong>{availableVotes !== null ? commafy(availableVotes) : '-'}</strong></small></div>
+          <div className='column sixteen wide VotingRights'>
+            <div className='VotingRightsText'><small>Total Current Voting Rights: <strong>{availableVotes !== null ? commafy(availableVotes) + ' Rights' : '-'}</strong></small></div>
             <div className='ui input action mini'>
               <input
                 type='text'
@@ -73,7 +73,7 @@ class RequestVotingRightsContainer extends Component {
               <button
                 onClick={this.onRequest}
                 className='ui button blue tiny'>
-                Request Voting Rights
+                DEPOSIT VOTING RIGHTS
               </button>
             </div>
           </div>

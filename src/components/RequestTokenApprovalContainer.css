@@ -15,3 +15,11 @@
   min-height: 13px;
   font-family: 'Open Sans', sans-serif;
 }
+
+:root:root .RequestTokenApprovalContainer .ApprovedAdt {
+  padding-top: 0;
+}
+
+:root:root .RequestTokenApprovalContainer .ApprovedAdtText {
+  padding-bottom: 1em;
+}
