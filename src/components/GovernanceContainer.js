@@ -11,7 +11,9 @@ class GovernanceContainer extends Component {
     super(props)
     this.state = {
       coreParameterData: Object.assign({}, parameterData.coreParameterData),
-      governanceParameterData: Object.assign({}, parameterData.governanceParameterData)
+      governanceParameterData: Object.assign({}, parameterData.governanceParameterData),
+      coreParameterProposals: Object.assign({}, parameterData.coreParameterData),
+      governanceParameterProposals: Object.assign({}, parameterData.governanceParameterData)
     }
   }
 
@@ -40,7 +42,7 @@ class GovernanceContainer extends Component {
 
   getParameterValues (parameterType) {
     let result
-    _.forOwn(this.state[parameterType], (value, name) => {
+    _.forOwn(this.state[parameterType], (param, name) => {
       try {
         ParameterizerService.get(name)
           .then((response) => {
@@ -49,11 +51,24 @@ class GovernanceContainer extends Component {
             this.setState({
               [parameterType]: result
             })
+            this.getProposals(name, result[name].value)
           })
       } catch (error) {
         console.log('error: ', error)
       }
     })
+  }
+
+  getProposals (name, value) {
+    let result
+    try {
+      ParameterizerService.getProposals(name, value)
+          .then((response) => {
+            console.log(result)
+          })
+    } catch (error) {
+      console.log('error: ', error)
+    }
   }
 }
 

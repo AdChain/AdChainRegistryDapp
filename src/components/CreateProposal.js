@@ -9,12 +9,12 @@ class CreateProposal extends Component {
   constructor () {
     super()
     this.state = {
-      // default
+      // defaults
       paramMetric: 'ADT',
-      // default
       proposalParam: 'minDeposit',
       proposalValue: '',
-      currentMinDeposit: ''
+      currentMinDeposit: 0,
+      rawCurrentMinDeposit: 0
 
     }
     this.setParamMetricAndName = this.setParamMetricAndName.bind(this)
@@ -80,9 +80,7 @@ class CreateProposal extends Component {
   async submitProposal () {
     let result
     try {
-      console.log(this.state.proposalParam, this.formatProposedValue(this.state.proposalParam, this.state.proposalValue))
-      console.log(ParameterizerService)
-      result = await ParameterizerService.proposeReparameterization(this.state.proposalParam, this.formatProposedValue(this.state.proposalParam, this.state.proposalValue))
+      result = await ParameterizerService.proposeReparameterization(this.state.rawCurrentMinDeposit, this.state.proposalParam, this.formatProposedValue(this.state.proposalParam, this.state.proposalValue))
     } catch (error) {
       console.log(error)
     }
@@ -96,7 +94,8 @@ class CreateProposal extends Component {
         .then((response) => {
           result = response.toNumber()
           this.setState({
-            currentMinDeposit: commafy(result / 1000000000)
+            currentMinDeposit: commafy(result / 1000000000),
+            rawCurrentMinDeposit: result
           })
         })
     } catch (error) {
