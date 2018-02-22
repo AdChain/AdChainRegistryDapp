@@ -3,14 +3,15 @@ import React, { Component } from 'react'
 import _ from 'lodash'
 import ParameterizerService from '../services/parameterizer'
 import commafy from 'commafy'
-
 import './CreateProposal.css'
 
 class CreateProposal extends Component {
   constructor () {
     super()
     this.state = {
+      // default
       paramMetric: 'ADT',
+      // default
       proposalParam: 'minDeposit',
       proposalValue: '',
       currentMinDeposit: ''
@@ -80,6 +81,7 @@ class CreateProposal extends Component {
     let result
     try {
       console.log(this.state.proposalParam, this.formatProposedValue(this.state.proposalParam, this.state.proposalValue))
+      console.log(ParameterizerService)
       result = await ParameterizerService.proposeReparameterization(this.state.proposalParam, this.formatProposedValue(this.state.proposalParam, this.state.proposalValue))
     } catch (error) {
       console.log(error)
@@ -103,9 +105,6 @@ class CreateProposal extends Component {
   }
 
   formatProposedValue (name, value) {
-    // Old contract needed formatting,
-    // Currently this fn just returns input
-    // Will leave for now and evaluate later
     const big = (value) => new Eth.BN(value.toString(10))
     const tenToTheNinth = big(10).pow(big(9))
     const bigTokens = big(value).mul(tenToTheNinth).toString(10)

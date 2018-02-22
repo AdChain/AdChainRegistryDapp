@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import _ from 'lodash'
 import GovernanceAndCoreParameters from './GovernanceAndCoreParameters'
-// import CreateProposal from './CreateProposal'
-// import OpenProposalsTable from './OpenProposalsTable'
+import CreateProposal from './CreateProposal'
+import OpenProposalsTable from './OpenProposalsTable'
 import ParameterizerService from '../services/parameterizer'
 import { parameterData } from '../models/parameters'
 
@@ -25,18 +25,15 @@ class GovernanceContainer extends Component {
     let props = this.state
     return (
       <div className='ui stackable  grid padded'>
-        <div className='column seven wide'>
+        <div className='column four wide'>
           <GovernanceAndCoreParameters {...props} />
         </div>
-        {/*
-      <div className='column three wide'>
+        <div className='column three wide'>
           <CreateProposal {...props} />
         </div>
         <div className='column eight wide'>
-          // <OpenProposalsTable {...props} />
+          <OpenProposalsTable {...props} />
         </div>
-
-      */}
       </div>
     )
   }
