@@ -6,6 +6,7 @@
     "adblock-detect": "^1.0.5",
     "blockies": "0.0.2",
     "commafy": "0.0.5",
+    "delay": "^2.0.0",
     "dns": "^0.2.2",
     "ethereumjs-abi": "^0.6.4",
     "ethjs": "^0.2.8",
