@@ -1,3 +1,16 @@
 .OpenProposalsTable{
 	width:100%;
 }
+.OpenProposalsTable th{
+	text-align: left;
+}
+.OpenProposalsTable .table-row{
+	font-family: "Open Sans", sans-serif;
+	border-bottom: 1px solid #e9e9e9;
+}
+.OpenProposalsTable .table-row:last-of-type{
+	border-bottom: none;
+}
+.OpenProposalsTable .table-row td{
+	padding:8px 0;
+}

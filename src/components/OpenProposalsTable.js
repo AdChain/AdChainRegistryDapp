@@ -6,10 +6,9 @@ import ParameterizerService from '../services/parameterizer'
 import './OpenProposalsTable.css'
 
 class OpenProposalsTable extends Component {
-  componentDidMount () {
-    this.getProposals()
-  }
   render () {
+    if (this.props.currentProposals.length < 1) return false
+    console.log('currentProposals: ', this.props.currentProposals)
     return (
       <div className='BoxFrame mt-25'>
         <span className='BoxFrameLabel ui grid'>OPEN PROPOSALS</span>
@@ -23,14 +22,26 @@ class OpenProposalsTable extends Component {
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>1</td><td>2</td><td>3</td><td>4</td>
-            </tr>
+            {this.createTable()}
           </tbody>
         </table>
       </div>
     )
   }
+
+  createTable () {
+    return this.props.currentProposals.map((proposal, i) => {
+      return (
+        <tr className='table-row' key={i}>
+          <td>{proposal.name}</td>
+          <td>{proposal.value}</td>
+          <td>{proposal.processBy}</td>
+          <td>action</td>
+        </tr>
+      )
+    })
+  }
+
   async getProposals () {
     let result
     try {
