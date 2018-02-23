@@ -1,5 +1,6 @@
 .OpenProposalsTable{
 	width:100%;
+	font-size:12px;
 }
 .OpenProposalsTable th{
 	text-align: left;
@@ -13,4 +14,9 @@
 }
 .OpenProposalsTable .table-row td{
 	padding:8px 0;
+} 
+.OpenProposalsTable .ui.mini.button{
+	font-size: 9.8px;
+	background-color: transparent;
+	padding: 6px 15px;
 }

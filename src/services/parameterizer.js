@@ -104,6 +104,38 @@ class ParameterizerService {
     }
     return result
   }
+
+  async challengeReparameterization (deposit, name, value) {
+    let result
+    try {
+      const bigDeposit = big(deposit).mul(tenToTheNinth).toString(10)
+      const allowed = await token.allowance(this.account, this.address).toString('10')
+
+      if (allowed >= bigDeposit) {
+        try {
+          await token.approve(this.address, bigDeposit)
+        } catch (error) {
+          throw error
+        }
+      }
+      const propId = sha3('voteQuorum', '51')
+      result = await this.parameterizer.challengeReparameterization(propId)
+      window.location.reload()
+    } catch (error) {
+      console.log(error)
+    }
+    return result
+  }
+
+  async propExists (name, value) {
+    if (!name || !value) { console.log('name or value missing'); return }
+    try {
+      const propId = sha3('voteQuorum', '51')
+      this.parameterizer.propExists(propId)
+    } catch (error) {
+      console.log('error prop exists')
+    }
+  }
 }
 
 export default new ParameterizerService()

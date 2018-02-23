@@ -65,7 +65,6 @@ class GovernanceContainer extends Component {
     try {
       ParameterizerService.getProposals(name, value)
           .then((response) => {
-            console.log(response)
             proposals = this.state.currentProposals
             proposals.push(this.formatProposal(response))
 
