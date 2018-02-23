@@ -13,7 +13,8 @@ class GovernanceContainer extends Component {
       coreParameterData: Object.assign({}, parameterData.coreParameterData),
       governanceParameterData: Object.assign({}, parameterData.governanceParameterData),
       coreParameterProposals: Object.assign({}, parameterData.coreParameterData),
-      governanceParameterProposals: Object.assign({}, parameterData.governanceParameterData)
+      governanceParameterProposals: Object.assign({}, parameterData.governanceParameterData),
+      currentProposals: []
     }
   }
 
@@ -60,14 +61,32 @@ class GovernanceContainer extends Component {
   }
 
   getProposals (name, value) {
-    let result
+    let proposals
     try {
       ParameterizerService.getProposals(name, value)
           .then((response) => {
-            console.log(result)
+            // console.log(response)
+            proposals = this.state.currentProposals
+            proposals.push(this.formatProposal(response))
+
+            this.setState({
+              currentProposals: proposals
+            })
           })
     } catch (error) {
       console.log('error: ', error)
+    }
+  }
+
+  formatProposal (proposal) {
+    return {
+      appExpiry: proposal[0].c[0],
+      challengeID: proposal[1].c[0],
+      deposit: proposal[2].c[0],
+      name: proposal[3],
+      owner: proposal[4],
+      processBy: proposal[5].c[0],
+      value: proposal[6].c[0]
     }
   }
 }
