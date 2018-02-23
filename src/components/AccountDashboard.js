@@ -3,15 +3,22 @@ import PropTypes from 'prop-types'
 
 import store from '../store'
 import registry from '../services/registry'
-import DomainsTable from './DomainsTable'
+// import DomainsTable from './DomainsTable'
 // import AccountHeader from './AccountHeader'
 import AccountStatsbar from './AccountStatsbar'
-import DomainsFilterPanel from './DomainsFilterPanel'
+// import DomainsFilterPanel from './DomainsFilterPanel'
 
 import RequestTokenApprovalContainer from './RequestTokenApprovalContainer.js'
 import RequestVotingRightsContainer from './RequestVotingRightsContainer.js'
 import WithdrawVotingRightsContainer from './WithdrawVotingRightsContainer.js'
+import UserAppliedDomains from './UserAppliedDomains.js'
+import UserChallengedDomains from './UserChallengedDomains.js'
+import UserCommitsToReveal from './UserCommitsToReveal.js'
+import UserRewardsToClaim from './UserRewardsToClaim.js'
+
 import './AccountDashboard.css'
+
+const url = 'http://adchain-registry-api-staging.metax.io/'
 
 class AccountDashboard extends Component {
   constructor (props) {
@@ -21,7 +28,11 @@ class AccountDashboard extends Component {
       history: props.history,
       account: null,
       tableFilters: [],
-      query: {}
+      query: {},
+      appliedDomains: [],
+      challengedDomains: [],
+      commitsToReveal: [],
+      rewards: []
     }
 
     const account = registry.getAccount()
@@ -33,9 +44,19 @@ class AccountDashboard extends Component {
     this.state.tableFilters = [{id: 'account', value: account || '0x0'}]
     this.onQueryChange = this.onQueryChange.bind(this)
     this.updateTableFilters = this.updateTableFilters.bind(this)
+    this.fetchAppliedDomains = this.fetchAppliedDomains.bind(this)
+    this.fetchChallengedDomains = this.fetchChallengedDomains.bind(this)
+    this.fetchCommitsToReveal = this.fetchCommitsToReveal.bind(this)
+    this.fetchRewards = this.fetchRewards.bind(this)
+    this.fetchDomainStage = this.fetchDomainStage.bind(this)
   }
 
   componentDidMount () {
+    this.fetchAppliedDomains()
+    this.fetchChallengedDomains()
+    this.fetchCommitsToReveal()
+    this.fetchRewards()
+
     store.subscribe(() => {
       if (!this.state.account) {
         const account = registry.getAccount()
@@ -50,10 +71,11 @@ class AccountDashboard extends Component {
 
   render () {
     const {
-      history,
       account,
-      tableFilters,
-      query
+      appliedDomains,
+      challengedDomains,
+      commitsToReveal,
+      rewards
     } = this.state
 
     return (
@@ -73,19 +95,11 @@ class AccountDashboard extends Component {
               <WithdrawVotingRightsContainer account={account} />
             </div>
           </div>
-          <div className='row'>
-            <div className='column four wide'>
-              <DomainsFilterPanel
-                filters={query}
-                onFiltersChange={this.onQueryChange}
-              />
-            </div>
-            <div className='column twelve wide'>
-              <DomainsTable
-                history={history}
-                filters={tableFilters}
-              />
-            </div>
+          <div className='row DomainsRow'>
+            <UserAppliedDomains appliedDomains={appliedDomains} />
+            <UserChallengedDomains challengedDomains={challengedDomains} />
+            <UserCommitsToReveal commitsToReveal={commitsToReveal} />
+            <UserRewardsToClaim rewards={rewards} />
           </div>
         </div>
       </div>
@@ -144,6 +158,105 @@ class AccountDashboard extends Component {
 
     console.log(query)
     this.updateTableFilters()
+  }
+
+  async fetchDomainStage (domain) {
+    const listing = await registry.getListing(domain)
+    let stage = ''
+
+    const {
+      applicationExpiry,
+      isWhitelisted,
+      challengeId
+    } = listing
+
+    const applicationExists = !!applicationExpiry
+    const challengeOpen = (challengeId === 0 && !isWhitelisted && applicationExpiry)
+    const commitOpen = await registry.commitStageActive(domain)
+    const revealOpen = await registry.revealStageActive(domain)
+    const isInRegistry = (isWhitelisted && !commitOpen && !revealOpen)
+
+    if (isInRegistry) {
+      stage = 'In Registry'
+    } else if (challengeOpen) {
+      stage = 'In Application'
+    } else if (commitOpen) {
+      stage = 'Voting - Commit'
+    } else if (revealOpen) {
+      stage = 'Voting - Reveal'
+    } else if (applicationExists) {
+      stage = 'View'
+    } else {
+      stage = 'Apply'
+    }
+
+    return stage
+  }
+
+  async fetchAppliedDomains () {
+    const { account } = this.state
+
+    if (!account) {
+      return false
+    }
+
+    const response = await window.fetch(`${url}/registry/domains?account=${account}&include=applied`)
+    const data = await response.json()
+
+    for (let i = 0; i <= data.length; i++) {
+      if (data[i]) {
+        data[i].stage = await this.fetchDomainStage(data[i].domain)
+      }
+    }
+
+    this.setState({
+      appliedDomains: data
+    })
+  }
+
+  async fetchChallengedDomains () {
+    const { account } = this.state
+
+    if (!account) {
+      return false
+    }
+
+    const response = await window.fetch(`${url}/registry/domains?account=${account}&include=challenged`)
+    const data = await response.json()
+
+    this.setState({
+      challengedDomains: data
+    })
+  }
+
+  async fetchCommitsToReveal () {
+    const { account } = this.state
+
+    if (!account) {
+      return false
+    }
+
+    const response = await window.fetch(`${url}/registry/domains/commit?account=${account}`)
+    const data = await response.json()
+
+    this.setState({
+      commitsToReveal: data
+    })
+  }
+
+  async fetchRewards () {
+    const { account } = this.state
+
+    if (!account) {
+      return false
+    }
+
+    const response = await window.fetch(`${url}/account/rewards?account=${account}`)
+    const data = await response.json()
+
+    this.setState({
+      rewards: data
+    })
   }
 }
 

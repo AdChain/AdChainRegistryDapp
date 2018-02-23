@@ -51,7 +51,7 @@ class AccountStatsbar extends Component {
               Total Times Committed: <strong>{totalTimesCommitted === null ? '-' : totalTimesCommitted}</strong>
               <Popup
                 trigger={<i className='icon info circle' />}
-                content='Total number of times this account has commited votes for domains'
+                content='Total number of times this account has committed votes for domains'
               />
             </div>
             <div className='column four wide'>

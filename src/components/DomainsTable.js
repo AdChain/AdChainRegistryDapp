@@ -500,7 +500,7 @@ class DomainsTable extends Component {
     if (accountFilter) {
       const account = accountFilter.value || ''
 
-      query += `&account=${account}&include=applied,challenged,commited,reveled,registry`
+      query += `&account=${account}&include=applied,challenged,committed,revealed,registry`
     }
 
     try {
