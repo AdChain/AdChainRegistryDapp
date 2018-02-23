@@ -109,7 +109,7 @@ class SideBarApplicationContainer extends Component {
   }
 
   async save (data) {
-    const url = 'https://adchain-registry-api-staging.metax.io//applications'
+    const url = 'https://adchain-registry-api-staging.metax.io/applications'
 
     const payload = {
       domain: data.domain,

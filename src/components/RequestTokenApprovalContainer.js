@@ -57,8 +57,8 @@ class RequestTokenApprovalContainer extends Component {
               //   />
             }
           </div>
-          <div className='column sixteen wide'>
-            <div><small>Current approved ADT: <strong>{allowedTokens !== null ? commafy(allowedTokens) : '-'}</strong></small></div>
+          <div className='column sixteen wide ApprovedAdt'>
+            <div className='ApprovedAdtText'><small>Current Approved ADT: <strong>{allowedTokens !== null ? commafy(allowedTokens) + ' ADT' : '-'}</strong></small></div>
             <div className='ui input action mini'>
               <input
                 type='text'
@@ -69,7 +69,7 @@ class RequestTokenApprovalContainer extends Component {
               <button
                 onClick={this.onRequest}
                 className='ui button blue tiny'>
-                Pre-approve ADT
+                PRE-APPROVE ADT
               </button>
             </div>
           </div>

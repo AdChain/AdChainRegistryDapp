@@ -500,11 +500,11 @@ class DomainsTable extends Component {
     if (accountFilter) {
       const account = accountFilter.value || ''
 
-      query += `&account=${account}&include=applied,challenged,commited,reveled,registry`
+      query += `&account=${account}&include=applied,challenged,committed,revealed,registry`
     }
 
     try {
-      domains = await (await window.fetch(`https://adchain-registry-api-staging.metax.io//registry/domains?${query}`)).json()
+      domains = await (await window.fetch(`https://adchain-registry-api-staging.metax.io/registry/domains?${query}`)).json()
       if (!Array.isArray(domains)) {
         domains = []
       }

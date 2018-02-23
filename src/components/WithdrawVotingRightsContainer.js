@@ -40,7 +40,7 @@ class WithdrawVotingRightsContainer extends Component {
   render () {
     const {
       availableTokens,
-      lockedTokens,
+      // lockedTokens,
       inProgress
     } = this.state
 
@@ -59,13 +59,13 @@ class WithdrawVotingRightsContainer extends Component {
             //   />
             // </p>
           }
-          <div className='column sixteen wide'>
-            <div><small>Available unlocked ADT: <strong>{availableTokens !== null ? commafy(availableTokens) : '-'}</strong> (Locked ADT: {lockedTokens !== null ? commafy(lockedTokens) : '-'})</small></div>
+          <div className='column sixteen wide UnlockedAdt'>
+            <div className='UnlockedAdtText'><small>Available Unlocked Voting Rights: <strong>{availableTokens !== null ? commafy(availableTokens) + ' Rights' : '-'}</strong></small></div>
             <div>
               <button
                 onClick={this.onWithdraw}
                 className='ui button blue tiny'>
-                Withdraw ADT
+                WITHDRAW VOTING RIGHTS
             </button>
             </div>
           </div>
