@@ -147,6 +147,7 @@ input:focus{
 .f-os{font-family: Open Sans, sans-serif}
 /*utility padding styles*/
 .pd-15{padding:15px;}
+.pd-20{padding:20px !important;}
 .pd-25{padding:25px;}
 
 /*utility text center*/
