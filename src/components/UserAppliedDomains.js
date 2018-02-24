@@ -27,20 +27,22 @@ class UserAppliedDomains extends Component {
 
   render () {
     const { appliedDomains } = this.state
-    const data = appliedDomains ? appliedDomains.map((domain, idx) => <div key={idx}><span>{domain.domain}</span><span>{domain.stage}</span></div>) : null
+    const data = appliedDomains ? appliedDomains.map((domain, idx) => <tr key={idx} className='DashboardRow'><td className='DashboardFirstCell'>{domain.domain}</td><td>{domain.stage}</td></tr>) : null
 
     return (
       <div className='BoxFrame DashboardColumn'>
         <span className='BoxFrameLabel ui grid'>DOMAINS YOU APPLIED</span>
         <div className='ui grid DomainList'>
           <div className='column sixteen wide'>
-            <div>
-              <span className='DomainTitle'>Domain</span>
-              <span className='StageTitle'>Stage</span>
-            </div>
-            <div>
-              {data}
-            </div>
+            <table>
+              <tbody>
+                <tr>
+                  <th className='DashboardTitle'>Domain</th>
+                  <th className='DashboardTitle'>Stage</th>
+                </tr>
+                {data}
+              </tbody>
+            </table>
           </div>
         </div>
       </div>

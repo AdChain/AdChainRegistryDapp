@@ -1,4 +1,6 @@
 import React, { Component } from 'react'
+import { Button } from 'semantic-ui-react'
+
 import './UserCommitsToReveal.css'
 
 class UserCommitsToReveal extends Component {
@@ -27,20 +29,22 @@ class UserCommitsToReveal extends Component {
 
   render () {
     const { commitsToReveal } = this.state
-    const data = commitsToReveal ? commitsToReveal.map((domain, idx) => <div key={idx}><span>{domain.domain}</span></div>) : null
+    const data = commitsToReveal ? commitsToReveal.map((domain, idx) => <tr key={idx} className='DashboardRow'><td className='DashboardFirstCell'>{domain.domain}</td><td><Button basic className='RevealButton'>Reveal</Button></td></tr>) : null
 
     return (
       <div className='BoxFrame DashboardColumn'>
         <span className='BoxFrameLabel ui grid'>YOUR COMMITS TO REVEAL</span>
         <div className='ui grid'>
           <div className='column sixteen wide'>
-            <div>
-              <span>Domain</span>
-              <span className='StageTitle'>Action</span>
-            </div>
-            <div>
-              {data}
-            </div>
+            <table>
+              <tbody>
+                <tr>
+                  <th className='DashboardTitle'>Domain</th>
+                  <th className='DashboardTitle'>Action</th>
+                </tr>
+                {data}
+              </tbody>
+            </table>
           </div>
         </div>
       </div>

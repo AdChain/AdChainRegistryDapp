@@ -15,10 +15,14 @@ import UserAppliedDomains from './UserAppliedDomains.js'
 import UserChallengedDomains from './UserChallengedDomains.js'
 import UserCommitsToReveal from './UserCommitsToReveal.js'
 import UserRewardsToClaim from './UserRewardsToClaim.js'
+import Eth from 'ethjs'
+import _ from 'lodash'
 
 import './AccountDashboard.css'
 
 const url = 'http://adchain-registry-api-staging.metax.io/'
+const big = (number) => new Eth.BN(number.toString(10))
+const tenToTheNinth = big(10).pow(big(9))
 
 class AccountDashboard extends Component {
   constructor (props) {
@@ -96,10 +100,18 @@ class AccountDashboard extends Component {
             </div>
           </div>
           <div className='row DomainsRow'>
-            <UserAppliedDomains appliedDomains={appliedDomains} />
-            <UserChallengedDomains challengedDomains={challengedDomains} />
-            <UserCommitsToReveal commitsToReveal={commitsToReveal} />
-            <UserRewardsToClaim rewards={rewards} />
+            <div className='column four wide'>
+              <UserAppliedDomains appliedDomains={appliedDomains} />
+            </div>
+            <div className='column four wide NoPaddingRight'>
+              <UserChallengedDomains challengedDomains={challengedDomains} />
+            </div>
+            <div className='column four wide NoPaddingRight'>
+              <UserCommitsToReveal commitsToReveal={commitsToReveal} />
+            </div>
+            <div className='column four wide'>
+              <UserRewardsToClaim rewards={rewards} />
+            </div>
           </div>
         </div>
       </div>
@@ -203,7 +215,7 @@ class AccountDashboard extends Component {
     const response = await window.fetch(`${url}/registry/domains?account=${account}&include=applied`)
     const data = await response.json()
 
-    for (let i = 0; i <= data.length; i++) {
+    for (let i = 0; i < data.length; i++) {
       if (data[i]) {
         data[i].stage = await this.fetchDomainStage(data[i].domain)
       }
@@ -224,6 +236,12 @@ class AccountDashboard extends Component {
     const response = await window.fetch(`${url}/registry/domains?account=${account}&include=challenged`)
     const data = await response.json()
 
+    for (let i = 0; i < data.length; i++) {
+      if (data[i]) {
+        data[i].stage = await this.fetchDomainStage(data[i].domain)
+      }
+    }
+
     this.setState({
       challengedDomains: data
     })
@@ -236,7 +254,7 @@ class AccountDashboard extends Component {
       return false
     }
 
-    const response = await window.fetch(`${url}/registry/domains/commit?account=${account}`)
+    const response = await window.fetch(`${url}/registry/domains?account=${account}&filter=inreveal`)
     const data = await response.json()
 
     this.setState({
@@ -252,7 +270,13 @@ class AccountDashboard extends Component {
     }
 
     const response = await window.fetch(`${url}/account/rewards?account=${account}`)
-    const data = await response.json()
+    let data = await response.json()
+
+    data = _.filter(data, (domain) => domain.status === 'unclaimed')
+    for (let i = 0; i < data.length; i++) {
+      let reward = await registry.calculateVoterReward(data[i].sender, data[i].challenge_id, data[i].salt)
+      data[i].reward = big(reward).div(tenToTheNinth).words[0]
+    }
 
     this.setState({
       rewards: data

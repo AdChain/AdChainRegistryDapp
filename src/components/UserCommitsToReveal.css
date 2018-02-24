@@ -1,0 +1,13 @@
+:root:root:root .DashboardColumn .RevealButton {
+	border: 1px solid #10C903;
+	border-radius: 3px;
+  color: #3ECE34 !important;
+  font-family: "Open Sans", sans-serif !important;
+  font-size: 10px;
+  font-weight: bold;
+  line-height: 9px;
+  text-align: center;
+  text-transform: uppercase;
+  box-shadow: unset;
+  width: 100%;
+}

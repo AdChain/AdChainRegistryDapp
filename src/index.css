@@ -210,15 +210,6 @@ select::-ms-expand {
   }
 }
 
-.DashboardColumn {
-  margin-right: 14px;
-}
-
-.StageTitle {
-  float: right;
-}
-
-
 /*
  * /END GLOBALS
  */

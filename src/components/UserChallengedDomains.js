@@ -27,20 +27,22 @@ class UserChallengedDomains extends Component {
 
   render () {
     const { challengedDomains } = this.state
-    const data = challengedDomains ? challengedDomains.map((domain, idx) => <div key={idx}><span>{domain.domain}</span></div>) : null
+    const data = challengedDomains ? challengedDomains.map((domain, idx) => <tr key={idx} className='DashboardRow'><td className='DashboardFirstCell'>{domain.domain}</td><td>{domain.stage}</td></tr>) : null
 
     return (
       <div className='BoxFrame DashboardColumn'>
         <span className='BoxFrameLabel ui grid'>DOMAINS YOU CHALLENGED</span>
         <div className='ui grid'>
           <div className='column sixteen wide'>
-            <div>
-              <span>Domain</span>
-              <span className='StageTitle'>Stage</span>
-            </div>
-            <div>
-              {data}
-            </div>
+            <table>
+              <tbody>
+                <tr>
+                  <th className='DashboardTitle'>Domain</th>
+                  <th className='DashboardTitle'>Stage</th>
+                </tr>
+                {data}
+              </tbody>
+            </table>
           </div>
         </div>
       </div>
