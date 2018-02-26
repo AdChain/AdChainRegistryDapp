@@ -8,8 +8,11 @@ class UserCommitsToReveal extends Component {
     super()
 
     this.state = {
-      commitsToReveal: props.commitsToReveal
+      commitsToReveal: props.commitsToReveal,
+      history: props.history
     }
+
+    this.goToReveal = this.goToReveal.bind(this)
   }
 
   componentDidMount () {
@@ -29,7 +32,7 @@ class UserCommitsToReveal extends Component {
 
   render () {
     const { commitsToReveal } = this.state
-    const data = commitsToReveal ? commitsToReveal.map((domain, idx) => <tr key={idx} className='DashboardRow'><td className='DashboardFirstCell'>{domain.domain}</td><td><Button basic className='RevealButton'>Reveal</Button></td></tr>) : null
+    const data = commitsToReveal ? commitsToReveal.map((domain, idx) => <tr key={idx} className='DashboardRow'><td className='DashboardFirstCell'>{domain.domain}</td><td><Button basic className='RevealButton DashboardSecondCell' onClick={() => this.goToReveal(domain.domain)}>Reveal</Button></td></tr>) : null
 
     return (
       <div className='BoxFrame DashboardColumn'>
@@ -49,6 +52,11 @@ class UserCommitsToReveal extends Component {
         </div>
       </div>
     )
+  }
+
+  goToReveal (domain) {
+    const { history } = this.state
+    history.push(`/domains/${domain}`)
   }
 }
 

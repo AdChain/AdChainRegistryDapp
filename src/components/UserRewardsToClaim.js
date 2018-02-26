@@ -35,7 +35,7 @@ class UserRewardsToClaim extends Component {
 
   render () {
     const { rewards, claimProgress } = this.state
-    const data = rewards ? rewards.map((domain, idx) => <tr key={idx} className='DashboardRow'><td className='DashboardFirstCell'>{domain.domain}</td><td id={domain.domain} className='RewardValueCell'>{domain.reward ? domain.reward : ' - '}</td><td><Button basic id={domain.domain + 'Button'} className='RewardClaimButton' onClick={() => this.claimReward(domain.challenge_id, domain.salt, domain.domain)}>Claim</Button></td></tr>) : null
+    const data = rewards ? rewards.map((domain, idx) => <tr key={idx} className='DashboardRow'><td className='DashboardFirstCell'>{domain.domain}</td><td id={domain.domain} className='RewardValueCell'>{domain.reward ? domain.reward + ' ADT' : ' - '}</td><td><Button basic id={domain.domain + 'Button'} className='RewardClaimButton' onClick={() => this.claimReward(domain.challenge_id, domain.salt, domain.domain)}>Claim</Button></td></tr>) : null
 
     return (
       <div className='BoxFrame DashboardColumn'>
@@ -46,7 +46,7 @@ class UserRewardsToClaim extends Component {
               <tbody>
                 <tr>
                   <th className='DashboardTitle'>Domain</th>
-                  <th className='ValueTitle'>Value (ADT)</th>
+                  <th className='DashboardTitle'>Value</th>
                   <th className='DashboardTitle'>Action</th>
                 </tr>
                 {data}

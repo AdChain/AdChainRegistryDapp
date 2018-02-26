@@ -15,6 +15,8 @@ import UserAppliedDomains from './UserAppliedDomains.js'
 import UserChallengedDomains from './UserChallengedDomains.js'
 import UserCommitsToReveal from './UserCommitsToReveal.js'
 import UserRewardsToClaim from './UserRewardsToClaim.js'
+import AccountDashboardLoadingInProgress from './AccountDashboardLoadingInProgress'
+
 import Eth from 'ethjs'
 import _ from 'lodash'
 
@@ -36,7 +38,8 @@ class AccountDashboard extends Component {
       appliedDomains: [],
       challengedDomains: [],
       commitsToReveal: [],
-      rewards: []
+      rewards: [],
+      inProgress: false
     }
 
     const account = registry.getAccount()
@@ -55,11 +58,14 @@ class AccountDashboard extends Component {
     this.fetchDomainStage = this.fetchDomainStage.bind(this)
   }
 
-  componentDidMount () {
-    this.fetchAppliedDomains()
-    this.fetchChallengedDomains()
-    this.fetchCommitsToReveal()
-    this.fetchRewards()
+  async componentDidMount () {
+    this.setState({
+      inProgress: true
+    })
+    await this.fetchAppliedDomains()
+    await this.fetchChallengedDomains()
+    await this.fetchCommitsToReveal()
+    await this.fetchRewards()
 
     store.subscribe(() => {
       if (!this.state.account) {
@@ -71,6 +77,9 @@ class AccountDashboard extends Component {
         this.updateTableFilters()
       }
     })
+    this.setState({
+      inProgress: false
+    })
   }
 
   render () {
@@ -79,7 +88,9 @@ class AccountDashboard extends Component {
       appliedDomains,
       challengedDomains,
       commitsToReveal,
-      rewards
+      rewards,
+      history,
+      inProgress
     } = this.state
 
     return (
@@ -99,20 +110,23 @@ class AccountDashboard extends Component {
               <WithdrawVotingRightsContainer account={account} />
             </div>
           </div>
-          <div className='row DomainsRow'>
-            <div className='column four wide'>
-              <UserAppliedDomains appliedDomains={appliedDomains} />
+          { inProgress
+            ? <AccountDashboardLoadingInProgress />
+            : <div className='row DomainsRow'>
+              <div className='column wide UserAppliedDomainsContainer'>
+                <UserAppliedDomains appliedDomains={appliedDomains} />
+              </div>
+              <div className='column wide UserChallengedDomainsContainer NoPaddingRight'>
+                <UserChallengedDomains challengedDomains={challengedDomains} />
+              </div>
+              <div className='column UserCommitsToRevealContainer wide NoPaddingRight'>
+                <UserCommitsToReveal commitsToReveal={commitsToReveal} history={history} />
+              </div>
+              <div className='column UserRewardsToClaimContainer wide'>
+                <UserRewardsToClaim rewards={rewards} history={history} />
+              </div>
             </div>
-            <div className='column four wide NoPaddingRight'>
-              <UserChallengedDomains challengedDomains={challengedDomains} />
-            </div>
-            <div className='column four wide NoPaddingRight'>
-              <UserCommitsToReveal commitsToReveal={commitsToReveal} />
-            </div>
-            <div className='column four wide'>
-              <UserRewardsToClaim rewards={rewards} />
-            </div>
-          </div>
+          }
         </div>
       </div>
     )
