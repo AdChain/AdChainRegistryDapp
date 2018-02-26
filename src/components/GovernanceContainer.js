@@ -22,6 +22,7 @@ class GovernanceContainer extends Component {
     await ParameterizerService.init()
     await this.getParameterValues('governanceParameterData')
     await this.getParameterValues('coreParameterData')
+    this.getProposalsAndPropIds()
   }
 
   render () {
@@ -52,7 +53,6 @@ class GovernanceContainer extends Component {
             this.setState({
               [parameterType]: result
             })
-            this.getProposals(name, result[name].value)
           })
       } catch (error) {
         console.log('error: ', error)
@@ -60,14 +60,15 @@ class GovernanceContainer extends Component {
     })
   }
 
-  getProposals (name, value) {
+  getProposalsAndPropIds () {
     let proposals
     try {
-      ParameterizerService.getProposals(name, value)
+      ParameterizerService.getProposalsAndPropIds()
           .then((response) => {
             proposals = this.state.currentProposals
-            proposals.push(this.formatProposal(response))
-
+            for (let i = 0; i < response[0].length; i++) {
+              proposals.push(this.formatProposal(response[0][i], response[1][i]))
+            }
             this.setState({
               currentProposals: proposals
             })
@@ -77,7 +78,7 @@ class GovernanceContainer extends Component {
     }
   }
 
-  formatProposal (proposal) {
+  formatProposal (proposal, propId) {
     return {
       appExpiry: proposal[0].c[0],
       challengeID: proposal[1].c[0],
@@ -85,7 +86,8 @@ class GovernanceContainer extends Component {
       name: proposal[3],
       owner: proposal[4],
       processBy: proposal[5].c[0],
-      value: proposal[6].c[0]
+      value: proposal[6].c[0],
+      propId
     }
   }
 }

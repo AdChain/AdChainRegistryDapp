@@ -72,15 +72,24 @@ class ParameterizerService {
     })
   }
 
-  async getProposals (name, value) {
-    let result
-    try {
-      const hash = sha3('voteQuorum', 51)
-      result = await this.parameterizer.proposals.call(hash)
-    } catch (error) {
-      console.log(error)
+  async getProposalsAndPropIds () {
+    let proposals = await (await window.fetch(`https://adchain-registry-api-staging.metax.io/parameterization/proposals`)).json()
+
+    let propIds = proposals.map(proposal => {
+      return proposal.prop_id
+    })
+
+    let item
+    let result = []
+    for (let i = 0; i < propIds.length; i++) {
+      try {
+        item = await this.parameterizer.proposals.call(propIds[i])
+        result.push(item)
+      } catch (error) {
+        console.log(error)
+      }
     }
-    return result
+    return [result, propIds]
   }
 
   async proposeReparameterization (deposit, name, value) {
@@ -127,13 +136,42 @@ class ParameterizerService {
     return result
   }
 
-  async propExists (name, value) {
-    if (!name || !value) { console.log('name or value missing'); return }
+  async propExists (propId) {
+    let result
+    if (!propId) { console.log('propId missing'); return }
     try {
-      const propId = sha3('voteQuorum', '51')
       this.parameterizer.propExists(propId)
     } catch (error) {
       console.log('error prop exists')
+    }
+    return result
+  }
+
+  // Similar function to updateStatus from registry contract
+  // Call this for the refresh status of parameter proposal
+  async processProposal (propId) {
+    let result
+    if (!propId) { console.log('name'); return }
+    try {
+      // const propId = await this.getPropId(name)
+      result = this.parameterizer.processProposal(propId)
+    } catch (error) {
+      console.log('error prop exists')
+    }
+    return result
+  }
+
+  // propIds are fetched from db
+  async getPropId (name) {
+    try {
+      let proposals = await (await window.fetch(`https://adchain-registry-api-staging.metax.io/parameterization/proposals`)).json()
+      for (let i = 0; i < proposals.length; i++) {
+        if (proposals[i].name === name) {
+          return proposals[i].prop_id
+        }
+      }
+    } catch (error) {
+      console.log(error)
     }
   }
 }

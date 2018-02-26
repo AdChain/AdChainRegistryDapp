@@ -36,12 +36,15 @@ class GovernanceChallengeContainer extends Component {
   }
 
   render () {
+    if (!this.props) return false
     const {
       applicationExpiry,
       minDeposit,
       inProgress,
       source
-    } = this.state
+      // parameterName,
+      // parameterValue
+    } = this.props
 
     const stageEndMoment = applicationExpiry ? moment.unix(applicationExpiry) : null
     const stageEnd = stageEndMoment ? stageEndMoment.format('YYYY-MM-DD HH:mm:ss') : '-'
@@ -124,20 +127,20 @@ class GovernanceChallengeContainer extends Component {
     this.challenge()
   }
 
-  async updateStatus () {
+  async updateStatus (name, value) {
     try {
-      // await registry.updateStatus(domain)
+      await ParameterizerService.processProposal(name, value)
     } catch (error) {
       toastr.error('There was an error updating domain status')
       console.error(error)
     }
   }
 
-  async challenge () {
+  async challenge (name, value) {
+    // let result
     let propExists = null
-    // const hash = `0x${soliditySHA3(['bytes32'], [domain.toLowerCase().trim()]).toString('hex')}`
     try {
-      // = await ParameterizerService.propExists(name, value)
+      propExists = await ParameterizerService.propExists(name, value)
     } catch (error) {
       toastr.error(error)
     }
