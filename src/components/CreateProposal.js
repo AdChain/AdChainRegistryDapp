@@ -95,7 +95,7 @@ class CreateProposal extends Component {
           result = response.toNumber()
           this.setState({
             currentMinDeposit: commafy(result / 1000000000),
-            rawCurrentMinDeposit: result
+            rawCurrentMinDeposit: result / 10
           })
         })
     } catch (error) {

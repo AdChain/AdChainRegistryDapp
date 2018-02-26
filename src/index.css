@@ -190,7 +190,7 @@ select::-ms-expand {
   background: transparent;
   border-color: transparent;
 }
-.ui.blue.button, .ui.blue.buttons .button {
+:root:root  .ui.blue.button, .ui.blue.buttons .button {
     background-color: white;
     color: #3434CE;
     text-shadow: none;
@@ -198,10 +198,28 @@ select::-ms-expand {
     border: 1px solid #3434CE;
     font-size:9.8px;
 }
-.ui.blue.button:hover, .ui.blue.buttons .button:hover {
+:root:root  .ui.blue.button:hover, .ui.blue.buttons .button:hover {
     color: white;
     background: #3434CE;
     text-decoration: none;
+}
+:root:root  .ui.greyblack.button, .ui.greyblack.buttons .button:hover .greyblack{
+  color:white;
+  background:#424242;
+}
+
+:root:root  .ui.greyblack.button:hover, .ui.greyblack.buttons .button:hover {
+    color: white;
+    background: #424242;
+    text-decoration: none;
+    cursor:pointer;
+}
+:root:root  .ui.greyblack.button, .ui.greyblack.buttons .button {
+    background-color: white;
+    color: #424242;
+    text-shadow: none;
+    background-image: none;
+    border: 1px solid #424242;
 }
 
 @media only screen and (max-width: 767px) {

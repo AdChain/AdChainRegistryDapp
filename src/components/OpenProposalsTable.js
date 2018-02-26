@@ -4,19 +4,23 @@ import { Modal } from 'semantic-ui-react'
 import './OpenProposalsTable.css'
 import moment from 'moment-timezone'
 import GovernanceChallengeContainer from './GovernanceChallengeContainer'
+import ParamterizerService from '../services/parameterizer'
 
 class OpenProposalsTable extends Component {
   constructor () {
     super()
     this.state = {
       open: false,
+      size: 'mini',
       selectedProposal: null
     }
+    this.close = this.close.bind(this)
   }
 
   show (size) {
     this.setState({ size, open: true })
   }
+
   close () {
     this.setState({ open: false })
   }
@@ -70,17 +74,21 @@ class OpenProposalsTable extends Component {
       label: ''
     }
 
-    if (proposal.appExpiry < Date.now()) {
+    if (proposal.appExpiry > Date.now()) {
       action.class = 'ui mini button blue challenge'
       action.label = 'CHALLENGE'
-      action.event = this.promptModal
+      action.event = () => { this.promptModal('tiny') }
+    } else if (proposal) {
+      action.class = 'ui mini button greyblack refresh'
+      action.label = 'REFRESH STATUS'
+      action.event = () => { ParamterizerService.processProposal(proposal.propId) }
     } else {
-      console.log('not foud')
+      console.log('not found')
     }
 
     return (
       <td>
-        <a onClick={() => { this.show('mini') }} className={action.class}>
+        <a onClick={() => { action.event() }} name={proposal.propId} className={action.class}>
           {action.label}
         </a>
       </td>
@@ -89,7 +97,15 @@ class OpenProposalsTable extends Component {
 
   promptModal (modalType) {
     console.log('modale prompt')
-    this.show('tiny')
+    this.show(modalType)
+  }
+
+  isExpired (row) {
+    const now = moment().unix()
+    const end = row._original.stageEndsTimestamp
+
+    if (!end) return false
+    return end < now
   }
 }
 
