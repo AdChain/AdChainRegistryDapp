@@ -19,7 +19,31 @@
   padding-right: 0;
 }
 
+.DashboardColumn {
+  font-family: "Open Sans", sans-serif;
+}
 
-:root:root:root .AccountDashboard .DomainsRow {
-  margin-left: 14px;
+.DashboardColumn table {
+  table-layout: fixed;
+  width: 100%;
+}
+
+.DashboardColumn table td {
+  word-break: break-all;
+}
+
+.DashboardTitle {
+  text-align: left;
+  font-size: 14px;
+}
+
+.DashboardFirstCell {
+  /* padding-right: 2em; */
+  font-weight: 600;
+}
+
+.DashboardRow {
+  height: 3em;
+  border-bottom: 1px solid #F4F7FA;
+  font-size: 12px;
 }

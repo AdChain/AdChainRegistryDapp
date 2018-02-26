@@ -650,7 +650,7 @@ class RegistryService {
           return false
         }
 
-        await this.registry.claimReward(challengeId, salt)
+        await this.registry.claimVoterReward(challengeId, salt)
 
         store.dispatch({
           type: 'REGISTRY_CLAIM_REWARD'
