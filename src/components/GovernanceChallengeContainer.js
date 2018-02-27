@@ -142,7 +142,7 @@ class GovernanceChallengeContainer extends Component {
     try {
       propExists = await ParameterizerService.propExists(name, value)
     } catch (error) {
-      toastr.error(error)
+      toastr.error('Error')
     }
 
     if (propExists) {
@@ -167,7 +167,7 @@ class GovernanceChallengeContainer extends Component {
           window.location.reload()
         }, 2e3)
       } catch (error) {
-        toastr.error(error)
+        toastr.error('Error')
         if (this._isMounted) {
           this.setState({
             inProgress: false

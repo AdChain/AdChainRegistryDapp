@@ -39,7 +39,6 @@ class DomainsTable extends Component {
 
     const filters = props.filters || []
     const columns = this.getColumns()
-
     this.state = {
       columns,
       data: [],
@@ -171,13 +170,13 @@ class DomainsTable extends Component {
           label = 'Challenge'
           color = 'red'
         } else if (stage === 'voting_commit') {
-          label = 'Vote'
+          label = 'VOTE'
           color = 'blue'
         } else if (stage === 'voting_reveal') {
-          label = 'Reveal'
+          label = 'REVEAL'
           color = 'green'
         } else if (stage === 'apply') {
-          label = 'Apply'
+          label = 'APPLY'
           color = 'blue'
         } else if (stage === 'wrong network') {
           label = ''

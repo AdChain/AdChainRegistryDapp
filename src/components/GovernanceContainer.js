@@ -83,10 +83,12 @@ class GovernanceContainer extends Component {
       appExpiry: proposal[0].c[0],
       challengeID: proposal[1].c[0],
       deposit: proposal[2].c[0],
-      name: proposal[3],
+      contractName: proposal[3],
       owner: proposal[4],
       processBy: proposal[5].c[0],
       value: proposal[6].c[0],
+      name: parameterData.coreParameterData[proposal[3]].name || parameterData.governanceParameterData[proposal[3]].name,
+      color: parameterData.coreParameterData[proposal[3]].name ? 'f-blue bold' : 'f-red bold',
       propId
     }
   }

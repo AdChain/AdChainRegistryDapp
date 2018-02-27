@@ -4,6 +4,9 @@ import { getParameterizer } from '../config'
 import store from '../store'
 import sha3 from 'solidity-sha3'
 import token from './token'
+import plcr from './plcr'
+import moment from 'moment-timezone'
+import saltHashVote from '../utils/saltHashVote'
 
 const big = (number) => new Eth.BN(number.toString(10))
 const tenToTheNinth = big(10).pow(big(9))
@@ -172,6 +175,333 @@ class ParameterizerService {
       }
     } catch (error) {
       console.log(error)
+    }
+  }
+
+  async getPlcrAddress () {
+    try {
+      return this.parameterizer.voting.call()
+    } catch (error) {
+      throw error
+    }
+  }
+
+  async commitStageActive (propId) {
+    if (!propId) {
+      throw new Error('Parameter is required')
+    }
+
+    let pollId = null
+
+    try {
+      pollId = await this.getChallengeId(propId)
+    } catch (error) {
+      throw error
+    }
+
+    if (!pollId) {
+      return false
+    }
+
+    try {
+      return plcr.commitStageActive(pollId)
+    } catch (error) {
+      throw error
+    }
+  }
+
+  async revealStageActive (propId) {
+    if (!propId) {
+      throw new Error('Domain is required')
+    }
+
+    // const hash = `0x${soliditySHA3(['bytes32'], [domain]).toString('hex')}`
+
+    let pollId = null
+
+    try {
+      pollId = await this.getChallengeId(propId)
+    } catch (error) {
+      throw error
+    }
+
+    if (!pollId) {
+      return false
+    }
+
+    try {
+      return plcr.revealStageActive(pollId)
+    } catch (error) {
+      throw error
+    }
+  }
+
+  async commitVote ({parameter, votes, voteOption, salt}) {
+    if (!parameter) {
+      throw new Error('Parameter is required')
+    }
+
+    // nano ADT to normal ADT
+    const bigVotes = big(votes).mul(tenToTheNinth).toString(10)
+
+    let challengeId = null
+
+    try {
+      challengeId = await this.getChallengeId(parameter)
+      console.log('challengeid', challengeId)
+    } catch (error) {
+      throw error
+    }
+
+    try {
+      const hash = saltHashVote(voteOption, salt)
+
+      console.log('hash vote:', hash)
+
+      await plcr.commit({pollId: challengeId, hash, tokens: bigVotes})
+      return this.didCommitForPoll(challengeId)
+    } catch (error) {
+      throw error
+    }
+  }
+
+  async revealVote ({parameter, voteOption, salt}) {
+    let challengeId = null
+
+    try {
+      challengeId = await this.getChallengeId(parameter)
+    } catch (error) {
+      throw error
+    }
+
+    try {
+      await plcr.reveal({pollId: challengeId, voteOption, salt})
+      return this.didRevealForPoll(challengeId)
+    } catch (error) {
+      throw error
+    }
+  }
+
+  async getChallengePoll (propId) {
+    if (!propId) {
+      throw new Error('Parameter is required')
+    }
+
+    try {
+      const challengeId = await this.getChallengeId(propId)
+      const {
+        commitEndDate,
+        revealEndDate,
+        votesAgainst,
+        votesFor
+      } = await plcr.getPoll(challengeId)
+      let result = {
+        // formatting to client's local timezone
+        commitEndDate: moment.tz(commitEndDate, moment.tz.guess()),
+        revealEndDate: moment.tz(revealEndDate, moment.tz.guess()),
+        votesAgainst,
+        votesFor
+      }
+      return result
+    } catch (error) {
+      throw error
+    }
+  }
+
+  async pollEnded (propId) {
+    const challengeId = await this.getChallengeId(propId)
+
+    if (!challengeId) {
+      return false
+    }
+
+    try {
+      return plcr.pollEnded(challengeId)
+    } catch (error) {
+      throw error
+    }
+  }
+
+  async getCommitHash (propId) {
+    const voter = this.account
+
+    if (!voter) {
+      return false
+    }
+
+    try {
+      const challengeId = await this.getChallengeId(propId)
+      return plcr.getCommitHash(voter, challengeId)
+    } catch (error) {
+      throw error
+    }
+  }
+
+  async didCommit (propId) {
+    try {
+      const challengeId = await this.getChallengeId(propId)
+      return this.didCommitForPoll(challengeId)
+    } catch (error) {
+      throw error
+    }
+  }
+
+  async didCommitForPoll (pollId) {
+    try {
+      const voter = this.account
+
+      if (!voter) {
+        return false
+      }
+
+      const hash = await plcr.getCommitHash(voter, pollId)
+      let committed = false
+
+      if (parseInt(hash, 16) !== 0) {
+        committed = true
+      }
+
+      return committed
+    } catch (error) {
+      throw error
+    }
+  }
+
+  async didReveal (propId) {
+    const voter = this.account
+
+    if (!voter) {
+      return false
+    }
+
+    try {
+      const challengeId = await this.getChallengeId(propId)
+
+      if (!challengeId) {
+        return false
+      }
+
+      return plcr.hasBeenRevealed(voter, challengeId)
+    } catch (error) {
+      throw error
+    }
+  }
+
+  async didRevealForPoll (pollId) {
+    try {
+      if (!pollId) {
+        return false
+      }
+
+      const voter = this.account
+
+      if (!voter) {
+        return false
+      }
+
+      return plcr.hasBeenRevealed(voter, pollId)
+    } catch (error) {
+      throw error
+    }
+  }
+
+  voterHasEnoughVotingTokens (tokens) {
+    return plcr.hasEnoughTokens(tokens)
+  }
+
+  async didClaim (parameter) {
+    try {
+      const challengeId = await this.getChallengeId(parameter)
+      return await this.didClaimForPoll(challengeId)
+    } catch (error) {
+      throw error
+    }
+  }
+
+  didClaimForPoll (challengeId) {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const hasClaimed = await this.parameterizer.tokenClaims(challengeId, this.account)
+        resolve(hasClaimed)
+      } catch (error) {
+        reject(error)
+      }
+    })
+  }
+
+  claimReward (challengeId, salt) {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const voter = this.account
+        const voterReward = (await this.calculateVoterReward(voter, challengeId, salt)).toNumber()
+
+        if (voterReward <= 0) {
+          reject(new Error('Account has no reward for challenge ID'))
+          return false
+        }
+
+        await this.parameterizer.claimVoterReward(challengeId, salt)
+
+        resolve()
+      } catch (error) {
+        reject(error)
+      }
+    })
+  }
+
+  calculateVoterReward (voter, challengeId, salt) {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const reward = await this.parameterizer.voterReward(voter, challengeId, salt)
+
+        resolve(reward)
+      } catch (error) {
+        reject(error)
+      }
+    })
+  }
+
+  async getChallenge (challengeId) {
+    if (!challengeId) {
+      throw new Error('Challenge ID is required')
+    }
+
+    try {
+      const challenge = await this.registry.challenges.call(challengeId)
+      const map = {
+        // (remaining) pool of tokens distributed amongst winning voters
+        rewardPool: challenge[0] ? challenge[0].toNumber() : 0,
+        // owner of challenge
+        challenger: challenge[1],
+        // indication of if challenge is resolved
+        resolved: challenge[2],
+        // number of tokens at risk for either party during challenge
+        stake: challenge[3] ? challenge[3].toNumber() : 0,
+        // (remaining) amount of tokens used for voting by the winning side
+        totalTokens: challenge[4]
+      }
+
+      return map
+    } catch (error) {
+      throw error
+    }
+  }
+
+  async getChallengeId (propId) {
+    if (!propId) {
+      throw new Error('Domain is required')
+    }
+
+    try {
+      const listing = await this.parameterizer.proposals.call(propId)
+
+      const {
+        challengeId
+      } = listing
+
+      return challengeId
+    } catch (error) {
+      throw error
     }
   }
 }

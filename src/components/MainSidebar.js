@@ -71,7 +71,7 @@ class MainSidebar extends Component {
     const SocialLinks = (
       <ul style={{listStyle: 'none'}}>
         <li>
-          <a href='https://chat.adchain.com' target='_blank' rel='noopener noreferrer'>RocketChat</a>
+          <Link to='/chat' activeClassName='active'>Chat</Link>
         </li>
         <li>
           <a href='https://twitter.com/ad_chain' target='_blank' rel='noopener noreferrer'>Twitter</a>

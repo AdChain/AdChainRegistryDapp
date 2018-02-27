@@ -14,6 +14,7 @@
 }
 .OpenProposalsTable .table-row td{
 	padding:8px 0;
+	font-weight: 600;
 } 
 .OpenProposalsTable .ui.mini.button{
 	font-size: 9.8px;

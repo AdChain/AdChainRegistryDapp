@@ -158,8 +158,14 @@ input:focus{
 .f-16{font-size:16px;}
 .f-18{font-size:18px;}
 /*utitlity font color*/
-.f-red{color:#CE3434;}
-.f-blue{color:#3434CE;}
+.f-red{
+  color:#CE3434;
+  font-weight: 600
+}
+.f-blue{
+  color:#3434CE;
+  font-weight: 600
+}
 /*utility inline block*/
 .ib{display: inline-block !important;}
 /*utility hide*/
