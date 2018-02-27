@@ -27,7 +27,7 @@ class UserChallengedDomains extends Component {
 
   render () {
     const { challengedDomains } = this.state
-    const data = challengedDomains ? challengedDomains.map((domain, idx) => <tr key={idx} className='DashboardRow'><td className='DashboardFirstCell'>{domain.domain}</td><td>{domain.stage}</td></tr>) : null
+    const data = challengedDomains ? challengedDomains.map((domain, idx) => <tr key={idx} className='DashboardRow'><td className='DashboardFirstCell'>{domain.domain}</td><td className='DashboardSecondCell'>{domain.stage}</td></tr>) : null
 
     return (
       <div className='BoxFrame DashboardColumn'>

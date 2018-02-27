@@ -2,6 +2,19 @@
   width: 100%;
 }
 
+.UserAppliedDomainsContainer {
+  width: 22% !important;
+}
+.UserChallengedDomainsContainer {
+  width: 22% !important;
+}
+.UserCommitsToRevealContainer {
+  width: 22% !important;
+}
+.UserRewardsToClaimContainer {
+  width: 34% !important;
+}
+
 .AccountDashboard > .grid > .row:first-child,
 :root:root:root .AccountDashboard .NoPaddingBottom {
   padding-bottom: 0;
@@ -24,7 +37,6 @@
 }
 
 .DashboardColumn table {
-  table-layout: fixed;
   width: 100%;
 }
 
@@ -40,6 +52,10 @@
 .DashboardFirstCell {
   /* padding-right: 2em; */
   font-weight: 600;
+}
+
+.DashboardSecondCell {
+  text-align: left;
 }
 
 .DashboardRow {
