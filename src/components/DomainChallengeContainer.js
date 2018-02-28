@@ -178,7 +178,7 @@ class DomainChallengeContainer extends Component {
     try {
       inApplication = await registry.applicationExists(domain)
     } catch (error) {
-      toastr.error(error)
+      toastr.error('Error')
     }
 
     if (inApplication) {
@@ -204,7 +204,7 @@ class DomainChallengeContainer extends Component {
           window.location.reload()
         }, 2e3)
       } catch (error) {
-        toastr.error(error)
+        toastr.error('Error')
         if (this._isMounted) {
           this.setState({
             inProgress: false

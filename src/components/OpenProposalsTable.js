@@ -58,7 +58,7 @@ class OpenProposalsTable extends Component {
     return this.props.currentProposals.map((proposal, i) => {
       return (
         <tr className='table-row' key={i}>
-          <td>{proposal.name}</td>
+          <td className={proposal.color}>{proposal.name}</td>
           <td>{proposal.value}</td>
           <td>{moment.unix(moment.tz(proposal.appExpiry, moment.tz.guess())).format('YYYY-MM-DD HH:mm:ss')}</td>
           {this.determineAction(proposal)}
@@ -73,22 +73,46 @@ class OpenProposalsTable extends Component {
       class: '',
       label: ''
     }
+    const propId = proposal.propId
+    const applicationExists = !!proposal.appExpiry
+    const challengeOpen = (propId === 0 && proposal.appExpiry)
+    let commitOpen
+    let revealOpen
+    let isInRegistry
+    let getStage = async () => {
+      commitOpen = await ParamterizerService.commitStageActive(propId)
+      revealOpen = await ParamterizerService.revealStageActive(propId)
+      isInRegistry = (!commitOpen && !revealOpen)
+    }
+
+    getStage()
+
+    console.log(applicationExists, challengeOpen, isInRegistry)
 
     if (proposal.appExpiry > Date.now()) {
       action.class = 'ui mini button blue challenge'
       action.label = 'CHALLENGE'
       action.event = () => { this.promptModal('tiny') }
     } else if (proposal) {
+      action.class = 'ui mini button blue vote'
+      action.label = 'VOTE'
+      action.event = () => { ParamterizerService.processProposal(propId) }
+    } else if (proposal) {
       action.class = 'ui mini button greyblack refresh'
       action.label = 'REFRESH STATUS'
-      action.event = () => { ParamterizerService.processProposal(proposal.propId) }
+      action.event = () => { ParamterizerService.processProposal(propId) }
+    } else if (proposal) {
+      action.class = 'ui mini button green reveal'
+      action.label = 'REVEAL'
+      action.event = () => { ParamterizerService.processProposal(propId) }
     } else {
       console.log('not found')
+      return false
     }
 
     return (
       <td>
-        <a onClick={() => { action.event() }} name={proposal.propId} className={action.class}>
+        <a onClick={() => { action.event() }} name={propId} className={action.class}>
           {action.label}
         </a>
       </td>

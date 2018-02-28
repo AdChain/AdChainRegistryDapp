@@ -42,7 +42,7 @@ class CreateProposal extends Component {
               <div className='ProposalInputWrapper '>
                 <input min='0' placeholder='0' className='ProposalInput' onChange={this.setValue} value={this.state.proposalValue} /> {this.state.paramMetric}
               </div>
-              <div className='header t-center'>ADT amount needed to stake to open a proposal: <br /><br /> {this.state.currentMinDeposit} ADT</div>
+              <div className='header t-center'>ADT amount needed to stake an open proposal: <br /><br /> {this.state.currentMinDeposit} ADT</div>
               <div className='t-center'>
                 <button className='ui mini button table-button blue' onClick={() => { this.submitProposal() }}>SUBMIT PROPOSAL</button>
               </div>
