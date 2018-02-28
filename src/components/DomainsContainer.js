@@ -11,6 +11,7 @@ import AdtCalculator from './AdtCalculator'
 import DomainsTable from './DomainsTable'
 import DomainsFilterPanel from './DomainsFilterPanel'
 // import Trollbox from './Trollbox'
+import WelcomeModal from './WelcomeModal'
 
 import './DomainsContainer.css'
 
@@ -79,6 +80,7 @@ class DomainsContainer extends Component {
                 />
               </div>
             </div>
+            <WelcomeModal />
           </div>
         </div>
       </div>
