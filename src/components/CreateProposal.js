@@ -22,7 +22,7 @@ class CreateProposal extends Component {
   }
 
   componentDidMount () {
-    this.getParameterValues('minDeposit')
+    this.getParameterValues('pMinDeposit')
   }
 
   render () {

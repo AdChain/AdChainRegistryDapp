@@ -21,3 +21,11 @@
 	background-color: transparent;
 	padding: 6px 15px;
 }
+.OpenProposalsTable .table-row td:last-of-type,
+.OpenProposalsTable tr th:last-of-type{
+	text-align: center;
+}
+.OpenProposalsTable th{
+	font-family: "Open Sans", sans-serif;
+	padding-top: 4px;
+}

@@ -38,22 +38,23 @@ class GovernanceChallengeContainer extends Component {
   render () {
     if (!this.props) return false
     const {
-      applicationExpiry,
+      appExpiry,
       minDeposit,
       inProgress,
-      source
-      // parameterName,
-      // parameterValue
-    } = this.props
+      stage,
+      // name,
+      // value,
+      propId
+    } = this.props.proposal
 
-    const stageEndMoment = applicationExpiry ? moment.unix(applicationExpiry) : null
+    const stageEndMoment = appExpiry ? moment.unix(appExpiry) : null
     const stageEnd = stageEndMoment ? stageEndMoment.format('YYYY-MM-DD HH:mm:ss') : '-'
 
     return (
       <div className='DomainChallengeContainer'>
         <div className='ui grid stackable pd-20'>
           {
-            (source === 'InRegistry') ? null
+            (stage === 'InRegistry') ? null
             : <div className='column sixteen wide HeaderColumn'>
               <div className='row HeaderRow'>
                 <div className='ui large header'>
@@ -76,7 +77,7 @@ class GovernanceChallengeContainer extends Component {
           }
 
           {
-            (source === 'InRegistry') ? null
+            (stage === 'InRegistry') ? null
           : <div className='column sixteen wide center aligned'>
             <div>
               <p>Challenge stage ends</p>
@@ -96,7 +97,7 @@ class GovernanceChallengeContainer extends Component {
               </Segment>
               <Segment className='SegmentTwo'>
                 {
-                  (source === 'InRegistry') ? null
+                  (stage === 'InRegistry') ? null
                   : <div className='NumberCircle'>1</div>
                 }
                 <p>
@@ -111,7 +112,7 @@ class GovernanceChallengeContainer extends Component {
                 </p>
               </Segment>
               <Segment className='SegmentFour'>
-                <Button basic className='ChallengeButton' onClick={this.onChallenge.bind(this)}>Challenge</Button>
+                <Button basic className='ChallengeButton' onClick={() => { this.challenge(propId) }}>Challenge</Button>
               </Segment>
             </Segment.Group>
           </div>
@@ -119,12 +120,6 @@ class GovernanceChallengeContainer extends Component {
         {inProgress ? <DomainChallengeInProgressContainer /> : null}
       </div>
     )
-  }
-
-  onChallenge (event) {
-    event.preventDefault()
-
-    this.challenge()
   }
 
   async updateStatus (name, value) {
@@ -136,11 +131,12 @@ class GovernanceChallengeContainer extends Component {
     }
   }
 
-  async challenge (name, value) {
+  async challenge (propId) {
     // let result
     let propExists = null
+
     try {
-      propExists = await ParameterizerService.propExists(name, value)
+      propExists = await ParameterizerService.propExists(propId)
     } catch (error) {
       toastr.error('Error')
     }
@@ -151,9 +147,9 @@ class GovernanceChallengeContainer extends Component {
           inProgress: true
         })
       }
-
       try {
-        await ParameterizerService.challengeReparameterization()
+        console.log(this.props)
+        await ParameterizerService.challengeReparameterization(this.props.governanceParameterProposals.pMinDeposit.value, propId)
         toastr.success('Successfully challenged parameter')
 
         if (this._isMounted) {
@@ -161,7 +157,6 @@ class GovernanceChallengeContainer extends Component {
             inProgress: false
           })
         }
-
         // TODO: better way of resetting state
         setTimeout(() => {
           window.location.reload()

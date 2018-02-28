@@ -111,6 +111,8 @@ class DomainsTable extends Component {
     )
   }
 
+  // The 'props' parameter used here is coming from the data prop in the ReactTable
+  // It is how the react table requires you to pass custom data: https://github.com/react-tools/react-table#props
   getColumns () {
     const columns = [{
       Header: 'Domain',
@@ -167,7 +169,7 @@ class DomainsTable extends Component {
           label = 'REFRESH STATUS'
           color = 'greyblack'
         } else if (stage === 'in_application') {
-          label = 'Challenge'
+          label = 'CHALLENGE'
           color = 'red'
         } else if (stage === 'voting_commit') {
           label = 'VOTE'
