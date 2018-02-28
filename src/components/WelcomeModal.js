@@ -3,7 +3,7 @@ import Button from 'antd/lib/button'
 import Steps from 'antd/lib/steps'
 import 'antd/lib/button/style/css'
 import 'antd/lib/steps/style/css'
-import { Modal } from 'semantic-ui-react'
+import { Modal, Checkbox } from 'semantic-ui-react'
 import './WelcomeModal.css'
 
 const Step = Steps.Step
@@ -12,7 +12,7 @@ const steps = [
   {
     title: 'Goal',
     content: <div><b>The Goal</b><br /><p>The goal of the adChain Registry is to provide advertisers with a list of websites that offer high - quality inventory for serving digital ads.</p><br />
-      <b>General Overview</b> <p>The adChain Registry is known as a token curated registry(TCR) because it relies on a community of token holders to curate it.The token for the adChain Registry is called adToken(ADT), and curation takes place through various stages of applying, challenging and voting.To sweeten the pot, we built a rewards system to incentivize participants to curate judiciously.</p></div>
+      <b>General Overview</b> <p>The adChain Registry is known as a token curated registry (TCR) because it relies on a community of token holders to curate it. The token for the adChain Registry is called adToken (ADT), and curation takes place through various stages of applying, challenging and voting. To sweeten the pot, we built a rewards system to incentivize participants to curate judiciously.</p></div>
   }, {
     title: 'Applying',
     content: <div><b>Applying a Domain</b><p>Anyone can apply a domain into the adChain Registry. All that it requires is a minimum deposit paid in adToken and the URL of the domain being applied.</p><p>For this example, let’s say the minimum is 100 ADT. To apply the website <b><i>example.com</i></b> into the registry, you would simply enter the domain URL and pay 100 adToken. Voila! That’s it. If you make it through the application stage length period without being challenged, then your domain will be admitted into the adChain Registry.</p></div>
@@ -33,7 +33,9 @@ class WelcomeModal extends Component {
     super(props)
     this.state = {
       current: 0,
-      open: false // temporarily set to false so modal doesn't open on load
+      open: true,
+      size: 'small',
+      returningUser: false
     }
   }
   next () {
@@ -46,12 +48,24 @@ class WelcomeModal extends Component {
   }
   close () {
     this.setState({ open: false })
+
+    if (this.state.returningUser) {
+      window.localStorage.setItem('returningUser', 'true')
+    } else {
+      window.localStorage.setItem('returningUser', 'false')
+    }
   }
+  setReturningUser () {
+    this.setState(prevState => ({
+      returningUser: !prevState.returningUser
+    }))
+  }
+
   render () {
-    const { current, open } = this.state
+    const { current, open, size } = this.state
     return (
       open
-        ? <Modal open={open}>
+        ? <Modal size={size} open={open} onClose={() => this.close()} closeIcon>
           <Modal.Header className='WelcomeHeader'><span className='WelcomeHeaderUnderline'>WELCOME TO THE ADCHAIN REGISTRY</span></Modal.Header>
           <Modal.Content>
             <div>
@@ -72,6 +86,9 @@ class WelcomeModal extends Component {
                   this.state.current === (steps.length - 1) &&
                   <Button className='WelcomeCloseButton' onClick={() => this.close()}>Finish</Button>
                 }
+              </div>
+              <div className='WelcomeCheckBox'>
+                <Checkbox label="I don't want to see this again" onClick={() => this.setReturningUser()} />
               </div>
             </div>
           </Modal.Content>

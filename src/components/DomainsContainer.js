@@ -80,7 +80,7 @@ class DomainsContainer extends Component {
                 />
               </div>
             </div>
-            <WelcomeModal />
+            {window.localStorage.returningUser === 'false' ? <WelcomeModal /> : null}
           </div>
         </div>
       </div>

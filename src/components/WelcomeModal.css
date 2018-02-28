@@ -1,9 +1,11 @@
 .steps-content {
   margin-top: 16px;
   min-height: 200px;
-  text-align: center;
+  text-align: left;
   padding-top: 40px;
   font-family: 'Open Sans', sans-serif;
+  padding-left: 40px;
+  padding-right: 40px;
 }
 
 .steps-content p {
@@ -108,4 +110,38 @@
   background-color: #10C903;
   color: #FFF;
   text-transform: uppercase;
+}
+
+.WelcomeCheckBox {
+  text-align: right;  
+}
+
+.WelcomeCheckBox label {
+  font-size: 10px !important;
+  line-height: 14px;
+  color: #909090 !important;
+  font-family: 'Open Sans', sans-serif;
+}
+
+.WelcomeCheckBox label:before {
+  width: 14px !important;
+  height: 14px !important;
+}
+
+.WelcomeCheckBox label:after {
+  width: 14px !important;
+  height: 14px !important;
+  font-size: 10px !important;
+}
+
+.ant-steps-item-process .ant-steps-item-icon > .ant-steps-icon .ant-steps-icon-dot {
+    background: #3434CE !important;
+}
+
+.ant-steps-item-finish .ant-steps-item-icon > .ant-steps-icon .ant-steps-icon-dot {
+    background: #3434CE !important;
+}
+
+.ant-steps-item-finish > .ant-steps-item-tail:after {
+    background-color: #3434CE !important;
 }
