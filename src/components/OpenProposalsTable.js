@@ -4,6 +4,8 @@ import { Modal } from 'semantic-ui-react'
 import './OpenProposalsTable.css'
 import moment from 'moment-timezone'
 import GovernanceChallengeContainer from './GovernanceChallengeContainer'
+import GovernanceVoteCommitContainer from './GovernanceVoteCommitContainer'
+
 import ParamterizerService from '../services/parameterizer'
 
 class OpenProposalsTable extends Component {
@@ -55,11 +57,23 @@ class OpenProposalsTable extends Component {
         </table>
         <Modal size={'small'} open={open} onClose={this.close}>
           <div>
-            <GovernanceChallengeContainer proposal={this.state.selectedProposal} {...this.props} />
+            {
+            this.getModal(this.state.selectedProposal.stage)
+          }
           </div>
         </Modal>
       </div>
     )
+  }
+
+  getModal (stage) {
+    if (stage === 'InApplication') {
+      return <GovernanceChallengeContainer proposal={this.state.selectedProposal} {...this.props} />
+    } else if (stage === 'InCommit') {
+      return <GovernanceVoteCommitContainer proposal={this.state.selectedProposal} {...this.props} />
+    } else {
+      return []
+    }
   }
 
   createTable () {
@@ -92,17 +106,16 @@ class OpenProposalsTable extends Component {
     let commitOpen = await ParamterizerService.commitStageActive(propId)
     let revealOpen = await ParamterizerService.revealStageActive(propId)
 
-    console.log(commitOpen, revealOpen, challengeOpen)
     if (commitOpen) {
       action.class = 'ui mini button blue'
       action.label = 'VOTE'
       proposal.stage = 'InCommit'
-      action.event = () => { ParamterizerService.processProposal(propId) }
+      action.event = () => { this.promptModal('challenge', proposal) }
     } else if (revealOpen) {
       action.class = 'ui mini button green'
       action.label = 'REVEAL'
       proposal.stage = 'InReveal'
-      action.event = () => { ParamterizerService.processProposal(propId) }
+      action.event = () => { this.promptModal('challenge', proposal) }
     } else if (challengeOpen) {
       action.class = 'ui mini button red challenge'
       action.label = 'CHALLENGE'
@@ -128,11 +141,12 @@ class OpenProposalsTable extends Component {
 
   promptModal (type, proposal) {
     this.show()
-    if (type === 'challenge') {
-      this.setState({
-        selectedProposal: proposal
-      })
-    }
+    this.setState({
+      selectedProposal: proposal
+    })
+    // if (type === 'challenge') {
+
+    // }
   }
 
   isExpired (row) {

@@ -39,7 +39,6 @@ class GovernanceChallengeContainer extends Component {
     if (!this.props) return false
     const {
       appExpiry,
-      minDeposit,
       inProgress,
       stage,
       // name,
@@ -47,6 +46,7 @@ class GovernanceChallengeContainer extends Component {
       propId
     } = this.props.proposal
 
+    const minDeposit = this.props.governanceParameterProposals.pMinDeposit.value / 1000000000
     const stageEndMoment = appExpiry ? moment.unix(appExpiry) : null
     const stageEnd = stageEndMoment ? stageEndMoment.format('YYYY-MM-DD HH:mm:ss') : '-'
 

@@ -201,7 +201,6 @@ class ParameterizerService {
 
     try {
       pollId = await this.getChallengeId(propId)
-      console.log('pollID: ', pollId)
     } catch (error) {
       throw error
     }
@@ -224,46 +223,35 @@ class ParameterizerService {
 
     // const hash = `0x${soliditySHA3(['bytes32'], [domain]).toString('hex')}`
 
-    let pollId = null
+    let challengeId = null
 
     try {
-      pollId = await this.getChallengeId(propId)
+      challengeId = await this.getChallengeId(propId)
     } catch (error) {
       throw error
     }
 
-    if (!pollId) {
+    if (!challengeId) {
       return false
     }
 
     try {
-      return plcr.revealStageActive(pollId)
+      return plcr.revealStageActive(challengeId)
     } catch (error) {
       throw error
     }
   }
 
-  async commitVote ({parameter, votes, voteOption, salt}) {
-    if (!parameter) {
-      throw new Error('Parameter is required')
+  async commitVote ({challengeId, propId, votes, voteOption, salt}) {
+    if (!propId) {
+      throw new Error('PropId is required')
     }
 
     // nano ADT to normal ADT
     const bigVotes = big(votes).mul(tenToTheNinth).toString(10)
 
-    let challengeId = null
-
-    try {
-      challengeId = await this.getChallengeId(parameter)
-      console.log('challengeid', challengeId)
-    } catch (error) {
-      throw error
-    }
-
     try {
       const hash = saltHashVote(voteOption, salt)
-
-      console.log('hash vote:', hash)
 
       await plcr.commit({pollId: challengeId, hash, tokens: bigVotes})
       return this.didCommitForPoll(challengeId)
@@ -290,6 +278,7 @@ class ParameterizerService {
   }
 
   async getChallengePoll (propId) {
+    console.log('prop ID: ', propId)
     if (!propId) {
       throw new Error('Parameter is required')
     }
@@ -311,6 +300,7 @@ class ParameterizerService {
       }
       return result
     } catch (error) {
+      console.log(error)
       throw error
     }
   }
@@ -344,16 +334,15 @@ class ParameterizerService {
     }
   }
 
-  async didCommit (propId) {
+  async didCommit (challengeId) {
     try {
-      const challengeId = await this.getChallengeId(propId)
       return this.didCommitForPoll(challengeId)
     } catch (error) {
       throw error
     }
   }
 
-  async didCommitForPoll (pollId) {
+  async didCommitForPoll (challengeId) {
     try {
       const voter = this.account
 
@@ -361,7 +350,7 @@ class ParameterizerService {
         return false
       }
 
-      const hash = await plcr.getCommitHash(voter, pollId)
+      const hash = await plcr.getCommitHash(voter, challengeId)
       let committed = false
 
       if (parseInt(hash, 16) !== 0) {
