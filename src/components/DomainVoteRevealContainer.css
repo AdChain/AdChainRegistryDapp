@@ -131,3 +131,21 @@
   display: inline-block;
   text-align: center;
 }
+/*
+  Proposal Modal Style Overrides
+*/
+:root:root:root .ProposalChallengeContainer .SegmentOne p, 
+:root:root:root .ProposalChallengeContainer .SegmentTwo p, 
+:root:root:root .ProposalChallengeContainer .SegmentThree p {
+    color: #424242;
+    font-family: "Open Sans", sans-serif;
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+:root:root:root  p,
+:root:root:root .ui.large.header{
+  font-family: "Open Sans", sans-serif !important;
+  color:rgb(66, 66, 66);
+}
+

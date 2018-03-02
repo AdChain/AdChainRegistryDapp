@@ -8,7 +8,7 @@ import Countdown from './CountdownText'
 import ParameterizerService from '../services/parameterizer'
 import registry from '../services/registry'
 import DomainVoteRevealInProgressContainer from './DomainVoteRevealInProgressContainer'
-import DomainVoteTokenDistribution from './DomainVoteTokenDistribution'
+// import DomainVoteTokenDistribution from './DomainVoteTokenDistribution'
 
 import './DomainVoteRevealContainer.css'
 
@@ -40,14 +40,15 @@ class GovernanceVoteRevealContainer extends Component {
     this.onSaltChange = this.onSaltChange.bind(this)
   }
 
-  compoenentWillReceiveProps () {
-    this.getPoll()
-    this.getCommit()
-    this.getReveal()
+  componentWillReceiveProps () {
+
   }
 
-  componentDidMount () {
+  async componentDidMount () {
     this._isMounted = true
+    await this.getPoll()
+    await this.getCommit()
+    await this.getReveal()
   }
 
   componentWillUnmount () {
@@ -66,8 +67,6 @@ class GovernanceVoteRevealContainer extends Component {
       // salt
     } = this.state
 
-    const { name } = this.props.proposal
-
     const voteOptions = [
       { key: 1, text: 'Support', value: 1 },
       { key: 2, text: 'Oppose', value: 0 }
@@ -77,7 +76,7 @@ class GovernanceVoteRevealContainer extends Component {
     const stageEnd = stageEndMoment ? stageEndMoment.format('YYYY-MM-DD HH:mm:ss') : '-'
 
     return (
-      <div className='DomainVoteRevealContainer'>
+      <div className='DomainVoteRevealContainer GovernanceVoteRevealContainer pd-25'>
         <div className='ui grid stackable'>
           <div className='column sixteen wide HeaderColumn'>
             <div className='row HeaderRow'>
@@ -90,7 +89,7 @@ class GovernanceVoteRevealContainer extends Component {
               </div>
             </div>
           </div>
-          <div className='ui divider' />
+          <div className='ui divider' style={{width: '100%'}} />
           <div className='column sixteen wide center aligned'>
             <div>
               <p>
@@ -110,7 +109,7 @@ class GovernanceVoteRevealContainer extends Component {
           : null}
           {didCommit ? <div className='column sixteen wide center aligned'>
             <div className='ui message warning'>
-              You've <strong>committed</strong> for this proposal.
+              You've <strong>committed</strong> vote for this proposal.
             </div>
           </div>
           : null}
@@ -120,9 +119,9 @@ class GovernanceVoteRevealContainer extends Component {
             </div>
           </div>
           : null}
-          <div className='ui divider' />
-          <DomainVoteTokenDistribution domain={name} />
-          <div className='ui divider' />
+          {
+          // <DomainVoteTokenDistribution {...this.props} />
+          }
           <div className='column sixteen wide center aligned'>
             <Segment className='LeftSegment' floated='left'>
               <div className='NumberCircleContainer'>
@@ -202,23 +201,6 @@ class GovernanceVoteRevealContainer extends Component {
     this.refs.HiddenFileUploader.click()
   }
 
-  async getListing () {
-    const {domain} = this.state
-    const listing = await ParameterizerService.getListing(domain)
-
-    const {
-      applicationExpiry,
-      challengeId
-    } = listing
-
-    if (this._isMounted) {
-      this.setState({
-        applicationExpiry,
-        challengeId
-      })
-    }
-  }
-
   async getReveal () {
     const {account} = this.state
     const {challengeId, propId} = this.props.proposal
@@ -251,8 +233,8 @@ class GovernanceVoteRevealContainer extends Component {
         commitEndDate,
         revealEndDate
       } = await ParameterizerService.getChallengePoll(challengeId, propId)
-
       if (this._isMounted) {
+        console.log('hit')
         this.setState({
           votesFor,
           votesAgainst,

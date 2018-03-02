@@ -57,8 +57,8 @@ class OpenProposalsTable extends Component {
         <Modal size={'small'} open={open} onClose={this.close}>
           <div>
             {
-            this.getModal(this.state.selectedProposal.stage)
-          }
+              this.getModal(this.state.selectedProposal.stage)
+            }
           </div>
         </Modal>
       </div>
@@ -71,6 +71,7 @@ class OpenProposalsTable extends Component {
     } else if (stage === 'InCommit') {
       return <GovernanceVoteCommitContainer proposal={this.state.selectedProposal} {...this.props} />
     } else if (stage === 'InReveal') {
+      console.log('InReveal')
       return <GovernanceVoteRevealContainer proposal={this.state.selectedProposal} {...this.props} />
     } else {
       return []
