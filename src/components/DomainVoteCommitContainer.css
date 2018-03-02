@@ -1,5 +1,6 @@
-.DomainVoteCommitContainer {
+:root:root:root  .DomainVoteCommitContainer {
   position: relative;
+  font-family: "Open Sans", sans-serif !important
 }
 
 .DomainVoteCommitContainer .header {
@@ -25,6 +26,11 @@
 
 .DomainVoteCommitContainer .HeaderRow {
   padding-top: 10px;
+  font-family: "Open Sans", sans-serif !important
+}
+.DomainVoteCommitContainer .HeaderRow .ui.large.header,
+.DomainVoteCommitContainer p {
+  font-family: "Open Sans", sans-serif !important
 }
 
 .DomainVoteCommitContainer .VotingDeadline {
@@ -59,6 +65,13 @@
   background: #BEC0C2 content-box;
   width: 21px;
   height: 21px;
+}
+
+.GovernanceVoteCommitContainer .ui.header>.icon {
+    padding-left: 10px;
+    padding-bottom: 6px;
+    width: 50px;
+    height: 35px;
 }
 
 .DomainVoteCommitContainer .NumCircle3 {

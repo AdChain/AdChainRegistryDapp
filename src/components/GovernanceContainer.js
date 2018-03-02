@@ -5,6 +5,8 @@ import CreateProposal from './CreateProposal'
 import OpenProposalsTable from './OpenProposalsTable'
 import ParameterizerService from '../services/parameterizer'
 import { parameterData } from '../models/parameters'
+import moment from 'moment-timezone'
+import commafy from 'commafy'
 
 class GovernanceContainer extends Component {
   constructor (props) {
@@ -67,7 +69,10 @@ class GovernanceContainer extends Component {
           .then((response) => {
             proposals = this.state.currentProposals
             for (let i = 0; i < response[0].length; i++) {
-              proposals.push(this.formatProposal(response[0][i], response[1][i]))
+              if (response[0][i][4] === '0x0000000000000000000000000000000000000000') {
+              } else {
+                proposals.push(this.formatProposal(response[0][i], response[1][i]))
+              }
             }
             this.setState({
               currentProposals: proposals
@@ -80,17 +85,39 @@ class GovernanceContainer extends Component {
 
   formatProposal (proposal, propId) {
     return {
-      appExpiry: proposal[0].c[0],
-      challengeID: proposal[1].c[0],
+      appExpiry: moment.tz(proposal[0].c[0], moment.tz.guess())._i,
+      challengeId: proposal[1].c[0],
       deposit: proposal[2].c[0],
       contractName: proposal[3],
       owner: proposal[4],
       processBy: proposal[5].c[0],
-      value: proposal[6].c[0],
-      name: parameterData.coreParameterData[proposal[3]].name || parameterData.governanceParameterData[proposal[3]].name,
-      color: parameterData.coreParameterData[proposal[3]].name ? 'f-blue bold' : 'f-red bold',
-      propId
+      propId,
+      proposedValue: this.formatValue(proposal[3], proposal[6].c[0]),
+      currentValue: parameterData.coreParameterData[proposal[3]] ? parameterData.coreParameterData[proposal[3]].value : parameterData.governanceParameterData[proposal[3]].value,
+      name: parameterData.coreParameterData[proposal[3]] ? parameterData.coreParameterData[proposal[3]].name : parameterData.governanceParameterData[proposal[3]].name,
+      color: parameterData.coreParameterData[proposal[3]] ? 'f-blue bold' : 'f-red bold',
+      metric: parameterData.coreParameterData[proposal[3]] ? parameterData.coreParameterData[proposal[3]].metric : parameterData.governanceParameterData[proposal[3]].metric
     }
+  }
+
+  formatValue (name, value) {
+    switch (name) {
+      case 'minDeposit':
+      case 'pMinDeposit':
+        value = commafy(value / 1000000000)
+        break
+      case 'applyStageLen':
+      case 'pApplyStageLen':
+      case 'commitStageLen':
+      case 'pCommitStageLen':
+      case 'revealStageLen':
+      case 'pRevealStageLen':
+        value = (value / 60)
+        break
+      default:
+        break
+    }
+    return value
   }
 }
 

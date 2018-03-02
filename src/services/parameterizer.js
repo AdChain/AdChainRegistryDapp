@@ -2,7 +2,6 @@ import Eth from 'ethjs'
 import { getProvider } from './provider'
 import { getParameterizer } from '../config'
 import store from '../store'
-import sha3 from 'solidity-sha3'
 import token from './token'
 import plcr from './plcr'
 import moment from 'moment-timezone'
@@ -117,7 +116,7 @@ class ParameterizerService {
     return result
   }
 
-  async challengeReparameterization (deposit, name, value) {
+  async challengeReparameterization (deposit, propId) {
     let result
     try {
       const bigDeposit = big(deposit).mul(tenToTheNinth).toString(10)
@@ -130,7 +129,6 @@ class ParameterizerService {
           throw error
         }
       }
-      const propId = sha3('voteQuorum', '51')
       result = await this.parameterizer.challengeReparameterization(propId)
       window.location.reload()
     } catch (error) {
@@ -143,7 +141,7 @@ class ParameterizerService {
     let result
     if (!propId) { console.log('propId missing'); return }
     try {
-      this.parameterizer.propExists(propId)
+      result = await this.parameterizer.propExists(propId)
     } catch (error) {
       console.log('error prop exists')
     }
@@ -157,7 +155,8 @@ class ParameterizerService {
     if (!propId) { console.log('name'); return }
     try {
       // const propId = await this.getPropId(name)
-      result = this.parameterizer.processProposal(propId)
+      result = await this.parameterizer.processProposal(propId)
+      window.location.reload()
     } catch (error) {
       console.log('error prop exists')
     }
@@ -177,6 +176,13 @@ class ParameterizerService {
       console.log(error)
     }
   }
+
+/*
+ * ------------------------------------------------
+ * The below funcitons are specific to PLCR voting,
+ * rewards and determining a proposal's current state
+ * ------------------------------------------------
+*/
 
   async getPlcrAddress () {
     try {
@@ -217,46 +223,35 @@ class ParameterizerService {
 
     // const hash = `0x${soliditySHA3(['bytes32'], [domain]).toString('hex')}`
 
-    let pollId = null
+    let challengeId = null
 
     try {
-      pollId = await this.getChallengeId(propId)
+      challengeId = await this.getChallengeId(propId)
     } catch (error) {
       throw error
     }
 
-    if (!pollId) {
+    if (!challengeId) {
       return false
     }
 
     try {
-      return plcr.revealStageActive(pollId)
+      return plcr.revealStageActive(challengeId)
     } catch (error) {
       throw error
     }
   }
 
-  async commitVote ({parameter, votes, voteOption, salt}) {
-    if (!parameter) {
-      throw new Error('Parameter is required')
+  async commitVote ({challengeId, propId, votes, voteOption, salt}) {
+    if (!propId) {
+      throw new Error('PropId is required')
     }
 
     // nano ADT to normal ADT
     const bigVotes = big(votes).mul(tenToTheNinth).toString(10)
 
-    let challengeId = null
-
-    try {
-      challengeId = await this.getChallengeId(parameter)
-      console.log('challengeid', challengeId)
-    } catch (error) {
-      throw error
-    }
-
     try {
       const hash = saltHashVote(voteOption, salt)
-
-      console.log('hash vote:', hash)
 
       await plcr.commit({pollId: challengeId, hash, tokens: bigVotes})
       return this.didCommitForPoll(challengeId)
@@ -265,15 +260,7 @@ class ParameterizerService {
     }
   }
 
-  async revealVote ({parameter, voteOption, salt}) {
-    let challengeId = null
-
-    try {
-      challengeId = await this.getChallengeId(parameter)
-    } catch (error) {
-      throw error
-    }
-
+  async revealVote ({challengeId, propId, voteOption, salt}) {
     try {
       await plcr.reveal({pollId: challengeId, voteOption, salt})
       return this.didRevealForPoll(challengeId)
@@ -282,13 +269,12 @@ class ParameterizerService {
     }
   }
 
-  async getChallengePoll (propId) {
+  async getChallengePoll (challengeId, propId) {
     if (!propId) {
       throw new Error('Parameter is required')
     }
 
     try {
-      const challengeId = await this.getChallengeId(propId)
       const {
         commitEndDate,
         revealEndDate,
@@ -304,13 +290,12 @@ class ParameterizerService {
       }
       return result
     } catch (error) {
+      console.log(error)
       throw error
     }
   }
 
-  async pollEnded (propId) {
-    const challengeId = await this.getChallengeId(propId)
-
+  async pollEnded (challengeId, propId) {
     if (!challengeId) {
       return false
     }
@@ -322,7 +307,7 @@ class ParameterizerService {
     }
   }
 
-  async getCommitHash (propId) {
+  async getCommitHash (challengeId, propId) {
     const voter = this.account
 
     if (!voter) {
@@ -330,23 +315,21 @@ class ParameterizerService {
     }
 
     try {
-      const challengeId = await this.getChallengeId(propId)
       return plcr.getCommitHash(voter, challengeId)
     } catch (error) {
       throw error
     }
   }
 
-  async didCommit (propId) {
+  async didCommit (challengeId) {
     try {
-      const challengeId = await this.getChallengeId(propId)
       return this.didCommitForPoll(challengeId)
     } catch (error) {
       throw error
     }
   }
 
-  async didCommitForPoll (pollId) {
+  async didCommitForPoll (challengeId) {
     try {
       const voter = this.account
 
@@ -354,7 +337,7 @@ class ParameterizerService {
         return false
       }
 
-      const hash = await plcr.getCommitHash(voter, pollId)
+      const hash = await plcr.getCommitHash(voter, challengeId)
       let committed = false
 
       if (parseInt(hash, 16) !== 0) {
@@ -367,7 +350,7 @@ class ParameterizerService {
     }
   }
 
-  async didReveal (propId) {
+  async didReveal (challengeId, propId) {
     const voter = this.account
 
     if (!voter) {
@@ -375,8 +358,6 @@ class ParameterizerService {
     }
 
     try {
-      const challengeId = await this.getChallengeId(propId)
-
       if (!challengeId) {
         return false
       }
@@ -467,7 +448,7 @@ class ParameterizerService {
     }
 
     try {
-      const challenge = await this.registry.challenges.call(challengeId)
+      const challenge = await this.parameterizer.challenges.call(challengeId)
       const map = {
         // (remaining) pool of tokens distributed amongst winning voters
         rewardPool: challenge[0] ? challenge[0].toNumber() : 0,
@@ -493,12 +474,8 @@ class ParameterizerService {
     }
 
     try {
-      const listing = await this.parameterizer.proposals.call(propId)
-
-      const {
-        challengeId
-      } = listing
-
+      const paramProposal = await this.parameterizer.proposals.call(propId)
+      const challengeId = paramProposal[1].c[0]
       return challengeId
     } catch (error) {
       throw error

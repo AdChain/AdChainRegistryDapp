@@ -38,22 +38,23 @@ class GovernanceChallengeContainer extends Component {
   render () {
     if (!this.props) return false
     const {
-      applicationExpiry,
-      minDeposit,
+      appExpiry,
       inProgress,
-      source
-      // parameterName,
-      // parameterValue
-    } = this.props
+      stage,
+      name,
+      color,
+      propId
+    } = this.props.proposal
 
-    const stageEndMoment = applicationExpiry ? moment.unix(applicationExpiry) : null
+    const minDeposit = this.props.governanceParameterProposals.pMinDeposit.value / 1000000000
+    const stageEndMoment = appExpiry ? moment.unix(appExpiry) : null
     const stageEnd = stageEndMoment ? stageEndMoment.format('YYYY-MM-DD HH:mm:ss') : '-'
 
     return (
-      <div className='DomainChallengeContainer'>
+      <div className='DomainChallengeContainer ProposalChallengeContainer'>
         <div className='ui grid stackable pd-20'>
           {
-            (source === 'InRegistry') ? null
+            (stage === 'InRegistry') ? null
             : <div className='column sixteen wide HeaderColumn'>
               <div className='row HeaderRow'>
                 <div className='ui large header'>
@@ -63,20 +64,13 @@ class GovernanceChallengeContainer extends Component {
                     content='The first phase of the voting process is the commit phase where the ADT holder stakes a hidden amount of votes to SUPPORT or OPPOSE the domain application. The second phase is the reveal phase where the ADT holder reveals the staked amount of votes to either the SUPPORT or OPPOSE side.'
                     />
                 </div>
-                <Button
-                  basic
-                  className='right refresh'
-                  onClick={this.updateStatus}
-                  >
-                  Refresh Status
-                </Button>
               </div>
               <div className='ui divider' />
             </div>
           }
 
           {
-            (source === 'InRegistry') ? null
+            (stage === 'InRegistry') ? null
           : <div className='column sixteen wide center aligned'>
             <div>
               <p>Challenge stage ends</p>
@@ -91,12 +85,12 @@ class GovernanceChallengeContainer extends Component {
             <Segment.Group>
               <Segment className='SegmentOne'>
                 <p>
-                  You should challenge cbs.com’s application if you don’t believe it should be in the adChain Registry. Clicking the “CHALLENGE” button below will initiate cbs.com’s Voting stage.
+                  You should challenge <strong className={color}>{name}</strong> application if you don’t believe it should be in the adChain Registry. Clicking the “CHALLENGE” button below will initiate <strong className={color}>{name}</strong> Voting stage.
                 </p>
               </Segment>
               <Segment className='SegmentTwo'>
                 {
-                  (source === 'InRegistry') ? null
+                  (stage === 'InRegistry') ? null
                   : <div className='NumberCircle'>1</div>
                 }
                 <p>
@@ -111,7 +105,7 @@ class GovernanceChallengeContainer extends Component {
                 </p>
               </Segment>
               <Segment className='SegmentFour'>
-                <Button basic className='ChallengeButton' onClick={this.onChallenge.bind(this)}>Challenge</Button>
+                <Button basic className='ChallengeButton' onClick={() => { this.challenge(propId) }}>Challenge</Button>
               </Segment>
             </Segment.Group>
           </div>
@@ -119,12 +113,6 @@ class GovernanceChallengeContainer extends Component {
         {inProgress ? <DomainChallengeInProgressContainer /> : null}
       </div>
     )
-  }
-
-  onChallenge (event) {
-    event.preventDefault()
-
-    this.challenge()
   }
 
   async updateStatus (name, value) {
@@ -136,11 +124,12 @@ class GovernanceChallengeContainer extends Component {
     }
   }
 
-  async challenge (name, value) {
+  async challenge (propId) {
     // let result
     let propExists = null
+
     try {
-      propExists = await ParameterizerService.propExists(name, value)
+      propExists = await ParameterizerService.propExists(propId)
     } catch (error) {
       toastr.error('Error')
     }
@@ -151,9 +140,9 @@ class GovernanceChallengeContainer extends Component {
           inProgress: true
         })
       }
-
       try {
-        await ParameterizerService.challengeReparameterization()
+        console.log(this.props)
+        await ParameterizerService.challengeReparameterization(this.props.governanceParameterProposals.pMinDeposit.value, propId)
         toastr.success('Successfully challenged parameter')
 
         if (this._isMounted) {
@@ -161,7 +150,6 @@ class GovernanceChallengeContainer extends Component {
             inProgress: false
           })
         }
-
         // TODO: better way of resetting state
         setTimeout(() => {
           window.location.reload()
