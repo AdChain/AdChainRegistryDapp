@@ -14,7 +14,9 @@ class RegistryGuideModalDomainJourney extends Component {
       <div>
         <Modal.Header className='RegistryGuideModalHeader'><span className='RegistryGuideModalHeaderText'>What is a Domain's Journey in the adChain Registry?</span></Modal.Header>
         <Modal.Content>
-          <div className='GuideText' />
+          <div className='GuideText'>
+          Placeholder
+          </div>
         </Modal.Content>
       </div>
     )
