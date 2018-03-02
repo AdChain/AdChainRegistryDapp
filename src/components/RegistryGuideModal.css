@@ -70,3 +70,71 @@
 .RegistryGuideModalHeader.header  {
   padding-bottom: 0 !important;
 }
+
+:root:root .ReturnButton {
+  border: 1px solid #3434CE;
+  border-radius: 3px;
+  color: #3434CE !important;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: bold;
+  font-size: 10px;
+  line-height: 11px;
+  box-shadow: unset;
+  text-transform: uppercase;
+  margin-right: 20px;
+}
+
+:root:root .ExitButton {
+  border: 1px solid #CE3434;
+  border-radius: 3px;
+  color: #CE3434 !important;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: bold;
+  font-size: 10px;
+  line-height: 11px;
+  box-shadow: unset;
+  text-transform: uppercase;
+  margin-left: 20px;
+}
+
+:root:root .ContinueButton {
+  border: 1px solid #10C903;
+  border-radius: 3px;
+  color: #10C903 !important;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: bold;
+  font-size: 10px;
+  line-height: 11px;
+  box-shadow: unset;
+  text-transform: uppercase;
+  margin-left: 20px;
+}
+
+:root:root .ReturnButton:hover {
+  background-color: #3434CE !important;
+  color: #FFF !important;
+  box-shadow: unset;
+}
+
+:root:root .ExitButton:hover {
+  background-color: #CE3434 !important;
+  color: #FFF !important;
+  box-shadow: unset;
+}
+
+:root:root .ContinueButton:hover {
+  background-color: #10C903 !important;
+  color: #FFF !important;
+  box-shadow: unset;
+}
+
+.GuideDesc {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 12px;
+  line-height: 18px;
+  color: #424242;
+  text-align: left;
+  padding-top: 20px;
+  padding-left: 50px;
+  padding-right: 50px;
+}

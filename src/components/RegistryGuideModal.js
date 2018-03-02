@@ -14,6 +14,7 @@ class RegistryGuideModal extends Component {
   constructor (props) {
     super(props)
     this.state = {
+      open: false,
       size: 'small',
       menu: true,
       one: false,
@@ -28,12 +29,14 @@ class RegistryGuideModal extends Component {
 
     this.setGuideContent = this.setGuideContent.bind(this)
     this.returnToMenu = this.returnToMenu.bind(this)
+    this.close = this.close.bind(this)
+    this.show = this.show.bind(this)
   }
 
   render () {
-    const { size, menu, one, two, three, four, five, six, seven } = this.state
+    const { open, size, menu, one, two, three, four, five, six, seven } = this.state
     return (
-      <Modal size={size} trigger={<Button inverted className='HelpButton' color='orange' content='How Does This Thing Work' />} closeIcon className='RegistryGuideModal' onClose={this.returnToMenu}>
+      <Modal size={size} open={open} trigger={<Button inverted className='HelpButton' onClick={this.show} color='orange' content='How Does This Thing Work' />} closeIcon className='RegistryGuideModal' onClose={this.close}>
         {menu
           ? <div>
             <Modal.Header className='RegistryGuideModalHeader'><span className='RegistryGuideModalHeaderText'>What is the Adchain Registry?</span></Modal.Header>
@@ -67,7 +70,7 @@ class RegistryGuideModal extends Component {
               </div>
             </Modal.Content>
           </div>
-          : one ? <RegistryGuideModalAdchainRegistry returnToMenu={this.returnToMenu} section={'one'} />
+          : one ? <RegistryGuideModalAdchainRegistry returnToMenu={this.returnToMenu} close={this.close} section={'one'} />
             : two ? <RegistryGuideModalApplyDomain returnToMenu={this.returnToMenu} section={'two'} />
               : three ? <RegistryGuideModalChallengeDomain returnToMenu={this.returnToMenu} section={'three'} />
                 : four ? <RegistryGuideModalCommitVote returnToMenu={this.returnToMenu} section={'four'} />
@@ -100,6 +103,19 @@ class RegistryGuideModal extends Component {
     guideToDisplay[lastOpened] = false
     guideToDisplay['menu'] = true
     this.setState(guideToDisplay)
+  }
+
+  close () {
+    const { lastOpened } = this.state
+    let obj = {}
+    obj[lastOpened] = false
+    obj['menu'] = true
+    obj['open'] = false
+    this.setState(obj)
+  }
+
+  show () {
+    this.setState({ open: true })
   }
 }
 
