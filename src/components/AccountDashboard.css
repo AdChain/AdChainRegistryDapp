@@ -34,6 +34,7 @@
 
 .DashboardColumn {
   font-family: "Open Sans", sans-serif;
+  min-height:155px;
 }
 
 .DashboardColumn table {
@@ -48,7 +49,9 @@
   text-align: left;
   font-size: 14px;
 }
-
+.DashboardRow:last-of-type{
+  border:none;
+}
 .DashboardFirstCell {
   /* padding-right: 2em; */
   font-weight: 600;

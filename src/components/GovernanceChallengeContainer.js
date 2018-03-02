@@ -41,8 +41,8 @@ class GovernanceChallengeContainer extends Component {
       appExpiry,
       inProgress,
       stage,
-      // name,
-      // value,
+      name,
+      color,
       propId
     } = this.props.proposal
 
@@ -92,7 +92,7 @@ class GovernanceChallengeContainer extends Component {
             <Segment.Group>
               <Segment className='SegmentOne'>
                 <p>
-                  You should challenge cbs.com’s application if you don’t believe it should be in the adChain Registry. Clicking the “CHALLENGE” button below will initiate cbs.com’s Voting stage.
+                  You should challenge <strong className={color}>{name}</strong> application if you don’t believe it should be in the adChain Registry. Clicking the “CHALLENGE” button below will initiate <strong className={color}>{name}</strong> Voting stage.
                 </p>
               </Segment>
               <Segment className='SegmentTwo'>

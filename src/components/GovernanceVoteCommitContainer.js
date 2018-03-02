@@ -50,6 +50,7 @@ class GovernanceVoteCommitContainer extends Component {
     await this.getPoll()
     await this.getCommit()
   }
+
   componentDidMount () {
     this._isMounted = true
   }
@@ -66,27 +67,26 @@ class GovernanceVoteCommitContainer extends Component {
 
   render () {
     const {
-      // domain,
       commitEndDate,
       didChallenge,
       didCommit,
       inProgress,
       salt,
       SupportState,
-      OpposeState,
+      OpposeState
       // voteOption,
-      challengeId
       // enableDownload,
       // commitDownloaded,
       // votes
       // revealReminderDownloaded
     } = this.state
 
+    const { challengeId } = this.props.proposal
     const stageEndMoment = commitEndDate ? moment.unix(commitEndDate) : null
     const stageEnd = stageEndMoment ? stageEndMoment.format('MMMM Do YYYY HH:mm:ss') : '-'
 
     return (
-      <div className='DomainVoteCommitContainer'>
+      <div className='DomainVoteCommitContainer GovernanceVoteCommitContainer'>
         <div className='ui grid stackable pd-20'>
           <div className='column sixteen wide HeaderColumn'>
             <div className='row HeaderRow'>
@@ -94,24 +94,24 @@ class GovernanceVoteCommitContainer extends Component {
               Stage: Voting
               <Popup
                 trigger={<i className='icon info circle' />}
-                content='The first phase of the voting process is the commit phase where the ADT holder stakes a hidden amount of votes to SUPPORT or OPPOSE the domain application. The second phase is the reveal phase where the ADT holder reveals the staked amount of votes to either the SUPPORT or OPPOSE side.'
+                content='The first phase of the voting process is the commit phase where the ADT holder stakes a hidden amount of votes to SUPPORT or OPPOSE the parameter application. The second phase is the reveal phase where the ADT holder reveals the staked amount of votes to either the SUPPORT or OPPOSE side.'
               />
               </div>
             </div>
           </div>
           {didChallenge ? <div className='column sixteen wide center aligned'>
             <div className='ui message warning'>
-              You've <strong>challenged</strong> this domain.
+              You've <strong>challenged</strong> this Parameter.
             </div>
           </div>
           : null}
           {didCommit ? <div className='column sixteen wide center aligned'>
             <div className='ui message warning'>
-              You've <strong>committed</strong> for this domain.
+              You've <strong>committed</strong> votes for this proposal.
             </div>
           </div>
           : null}
-          <div className='ui divider' />
+          <div className='ui divider' style={{width: '100%'}} />
           <div className='column sixteen wide center aligned'>
             <div className='VotingDeadline'>
               <p>
@@ -125,7 +125,7 @@ class GovernanceVoteCommitContainer extends Component {
               </div>
             </div>
           </div>
-          <div className='ui divider' />
+
           <div className='column sixteen wide center aligned'>
             <form className='ui form center aligned'>
               {
@@ -135,9 +135,11 @@ class GovernanceVoteCommitContainer extends Component {
               // </div>
             }
               <Segment.Group horizontal>
-                <Segment className='SegmentOne'>
+                <Segment className='SegmentOne' >
                   <div className='NumberCircle'>1</div>
-                  <label>Enter the Number of votes to commit:</label>
+                  <label style={{lineHeight: 1.8, fontSize: '13px', paddingLeft: '16px'}}>
+                  Enter the Number of votes to commit:
+                  </label>
                   {
               // </Segment>
               // <Segment className='SegmentTwo'>
@@ -154,9 +156,11 @@ class GovernanceVoteCommitContainer extends Component {
                 </Segment>
               </Segment.Group>
               <Segment.Group horizontal>
-                <Segment className='SegmentOne'>
+                <Segment className='SegmentOne' >
                   <div className='NumberCircle'>2</div>
-                  <label>Choose Your Vote Option:</label>
+                  <label style={{lineHeight: 1.8, fontSize: '13px', paddingLeft: '16px'}}>
+                  Choose Your Vote Option:
+                  </label>
                 </Segment>
                 <Segment className='SegmentTwo'>
                   <Button
@@ -182,7 +186,7 @@ class GovernanceVoteCommitContainer extends Component {
                 </Segment>
               </Segment.Group>
               <div>
-                <Segment className='LeftSegment' floated='left'>
+                <Segment className='LeftSegment' style={{fontSize: '11px'}} floated='left'>
                   <div>
                     <div className='NumberCircle NumCircle3'>3</div>
                   </div>
@@ -191,7 +195,7 @@ class GovernanceVoteCommitContainer extends Component {
                     <Button className='DownloadCommitButton' basic onClick={this.onDownload}>Download Commit &nbsp;<i className='icon long arrow down' /></Button>
                   </div>
                 </Segment>
-                <Segment className='RightSegment' floated='right'>
+                <Segment className='RightSegment' style={{lineHeight: 2, fontSize: '11px'}} floated='right'>
                   If you misplace your commit, you can enter the information below to reveal your vote:
                   <div>
                     Challenge ID: <strong>{challengeId}</strong>
@@ -259,25 +263,25 @@ class GovernanceVoteCommitContainer extends Component {
     event.preventDefault()
 
     const {
-      domain,
       voteOption,
       salt,
-      challengeId,
       commitEndDate
     } = this.state
+    const {
+      challengeId,
+      name
+    } = this.props.proposal
 
     const json = {
-      domain,
-      voteOption,
       salt,
+      voteOption,
       challengeId,
       commitEndDate
     }
 
-    const domainUnderscored = domain.replace('.', '_')
     const endDateString = moment.unix(commitEndDate).format('YYYY-MM-DD_HH-mm-ss')
-
-    const filename = `${domainUnderscored}--challenge_id_${challengeId}--commit_end_${endDateString}--commit-vote.json`
+    json.commitEndDate = endDateString
+    const filename = `${name}--challenge_id_${challengeId}--commit_end_${endDateString}--commit-vote.json`
     saveFile(json, filename)
 
     this.setState({
@@ -289,23 +293,23 @@ class GovernanceVoteCommitContainer extends Component {
     event.preventDefault()
 
     const {
-      domain,
-      challengeId,
       commitEndDate
     } = this.state
 
-    const domainUnderscored = domain.replace('.', '_')
+    const {
+      challengeId,
+      name
+    } = this.props.proposal
+
     const revealDate = moment.unix(commitEndDate)
     const revealDateString = revealDate.format('YYYY-MM-DD_HH-mm-ss')
 
-    const filename = `${domainUnderscored}--challenge_id_${challengeId}--reveal_start_${revealDateString}--reminder.ics`
-    const title = `Reveal Vote for ${domain}`
-    const url = `${window.location.protocol}//${window.location.host}/domains/${domain}`
+    const filename = `${name}--challenge_id_${challengeId}--reveal_start_${revealDateString}--reminder.ics`
+    const title = `Reveal Vote for ${name}`
 
     const data = await generateReminder({
       start: revealDate,
-      title,
-      url
+      title
     })
 
     saveFile(data, filename)
@@ -322,33 +326,25 @@ class GovernanceVoteCommitContainer extends Component {
 
   async getPoll () {
     try {
+      const {challengeId, propId} = this.props.proposal
       const {
+        votesFor,
+        votesAgainst,
         commitEndDate,
         revealEndDate
-      } = await ParameterizerService.getChallengePoll(this.props.proposal.propId)
+      } = await ParameterizerService.getChallengePoll(challengeId, propId)
 
       if (this._isMounted) {
         this.setState({
+          votesFor,
+          votesAgainst,
           commitEndDate,
           revealEndDate
         })
       }
     } catch (error) {
-      toastr.error('There was an error getting challenge poll')
-    }
-  }
-
-  async getChallenge () {
-    try {
-      const didChallenge = await ParameterizerService.didChallenge(this.props.proposal.propId)
-
-      if (this._isMounted) {
-        this.setState({
-          didChallenge
-        })
-      }
-    } catch (error) {
-      toastr.error('There was an error getting challenge')
+      toastr.error('There was an error getting poll')
+      console.log('get poll error: ', error)
     }
   }
 
@@ -388,7 +384,6 @@ class GovernanceVoteCommitContainer extends Component {
     }
 
     try {
-      console.log(challengeId, propId, votes, voteOption, salt)
       const committed = await ParameterizerService.commitVote({challengeId, propId, votes, voteOption, salt})
 
       if (this._isMounted) {

@@ -1,12 +1,11 @@
 import React, { Component } from 'react'
-// import commafy from 'commafy'
 import { Modal } from 'semantic-ui-react'
-import './OpenProposalsTable.css'
 import moment from 'moment-timezone'
+import ParamterizerService from '../services/parameterizer'
 import GovernanceChallengeContainer from './GovernanceChallengeContainer'
 import GovernanceVoteCommitContainer from './GovernanceVoteCommitContainer'
-
-import ParamterizerService from '../services/parameterizer'
+import GovernanceVoteRevealContainer from './GovernanceVoteRevealContainer'
+import './OpenProposalsTable.css'
 
 class OpenProposalsTable extends Component {
   constructor () {
@@ -71,6 +70,8 @@ class OpenProposalsTable extends Component {
       return <GovernanceChallengeContainer proposal={this.state.selectedProposal} {...this.props} />
     } else if (stage === 'InCommit') {
       return <GovernanceVoteCommitContainer proposal={this.state.selectedProposal} {...this.props} />
+    } else if (stage === 'InReveal') {
+      return <GovernanceVoteRevealContainer proposal={this.state.selectedProposal} {...this.props} />
     } else {
       return []
     }
@@ -110,12 +111,12 @@ class OpenProposalsTable extends Component {
       action.class = 'ui mini button blue'
       action.label = 'VOTE'
       proposal.stage = 'InCommit'
-      action.event = () => { this.promptModal('challenge', proposal) }
+      action.event = () => { this.promptModal('commit', proposal) }
     } else if (revealOpen) {
       action.class = 'ui mini button green'
       action.label = 'REVEAL'
       proposal.stage = 'InReveal'
-      action.event = () => { this.promptModal('challenge', proposal) }
+      action.event = () => { this.promptModal('reveal', proposal) }
     } else if (challengeOpen) {
       action.class = 'ui mini button red challenge'
       action.label = 'CHALLENGE'
@@ -127,7 +128,11 @@ class OpenProposalsTable extends Component {
       proposal.stage = 'InApplication'
       action.event = () => { ParamterizerService.processProposal(propId) }
     } else {
-      console.log('not found')
+      action.class = 'ui mini button hide'
+      action.label = ' '
+      proposal.stage = ' '
+      action.event = null
+      console.log('proposal not found')
     }
 
     return (

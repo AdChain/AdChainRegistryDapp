@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import toastr from 'toastr'
 
 import store from '../store'
 import registry from '../services/registry'
@@ -267,13 +268,18 @@ class AccountDashboard extends Component {
     if (!account) {
       return false
     }
-
-    const response = await window.fetch(`${url}/registry/domains?account=${account}&filter=inreveal`)
-    const data = await response.json()
-
-    this.setState({
-      commitsToReveal: data
-    })
+    try {
+      const response = await window.fetch(`${url}/registry/domains?account=${account}&filter=inreveal`)
+      const data = await response.json()
+      this.setState({
+        commitsToReveal: data
+      })
+    } catch (error) {
+      toastr.error('Error getting dashboard data')
+      this.setState({
+        commitsToReveal: []
+      })
+    }
   }
 
   async fetchRewards () {

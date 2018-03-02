@@ -260,15 +260,7 @@ class ParameterizerService {
     }
   }
 
-  async revealVote ({parameter, voteOption, salt}) {
-    let challengeId = null
-
-    try {
-      challengeId = await this.getChallengeId(parameter)
-    } catch (error) {
-      throw error
-    }
-
+  async revealVote ({challengeId, propId, voteOption, salt}) {
     try {
       await plcr.reveal({pollId: challengeId, voteOption, salt})
       return this.didRevealForPoll(challengeId)
@@ -277,14 +269,12 @@ class ParameterizerService {
     }
   }
 
-  async getChallengePoll (propId) {
-    console.log('prop ID: ', propId)
+  async getChallengePoll (challengeId, propId) {
     if (!propId) {
       throw new Error('Parameter is required')
     }
 
     try {
-      const challengeId = await this.getChallengeId(propId)
       const {
         commitEndDate,
         revealEndDate,
@@ -305,9 +295,7 @@ class ParameterizerService {
     }
   }
 
-  async pollEnded (propId) {
-    const challengeId = await this.getChallengeId(propId)
-
+  async pollEnded (challengeId, propId) {
     if (!challengeId) {
       return false
     }
@@ -319,7 +307,7 @@ class ParameterizerService {
     }
   }
 
-  async getCommitHash (propId) {
+  async getCommitHash (challengeId, propId) {
     const voter = this.account
 
     if (!voter) {
@@ -327,7 +315,6 @@ class ParameterizerService {
     }
 
     try {
-      const challengeId = await this.getChallengeId(propId)
       return plcr.getCommitHash(voter, challengeId)
     } catch (error) {
       throw error
@@ -363,7 +350,7 @@ class ParameterizerService {
     }
   }
 
-  async didReveal (propId) {
+  async didReveal (challengeId, propId) {
     const voter = this.account
 
     if (!voter) {
@@ -371,8 +358,6 @@ class ParameterizerService {
     }
 
     try {
-      const challengeId = await this.getChallengeId(propId)
-
       if (!challengeId) {
         return false
       }
