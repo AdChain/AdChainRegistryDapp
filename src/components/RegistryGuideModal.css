@@ -1,0 +1,72 @@
+:root:root:root .RegistryGuideModal {
+  border-radius: 10px !important;
+}
+
+:root:root:root .RegistryGuideModal .content {
+  padding-top: 0;
+}
+
+.RegistryGuideModalHeader {
+  text-align: center;
+  padding-top: 2em;
+}
+.RegistryGuideModalHeaderText {
+  text-transform: uppercase;
+  border-bottom: 2px solid #3434CE;
+  font-size: 16px;	
+  font-weight: bold;	
+  line-height: 22px;
+}
+
+:root:root .GuideButtons {
+  border: 1px solid #3434CE;	
+  border-radius: 3px;
+  color: #3434CE !important;
+  font-family: 'Open Sans', sans-serif;
+  width: 60%;
+  font-weight: bold;
+  font-size: 12px;
+}
+
+:root:root .GuideButtons:hover {
+  border: 1px solid #3434CE;	
+  border-radius: 3px;
+  color: #FFF !important;
+  background-color: #3434CE !important;
+  font-family: 'Open Sans', sans-serif;
+  width: 60%;
+  font-weight: bold;
+  font-size: 12px;
+  box-shadow: 0 2px 10px 0 rgba(63,63,63,0.5);
+}
+
+
+.GuideButtonsContainer {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: center;
+}
+
+.GuideText {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 12px;
+  line-height: 14px;
+  color: #424242;
+  text-align: center;
+  padding-bottom: 20px;
+  padding-top: 20px;
+}
+
+.GuideText a {
+  color: #424242;
+  text-decoration: underline;
+}
+
+.GuideText a:hover {
+  color: #3434CE;
+  text-decoration: underline;
+}
+
+.RegistryGuideModalHeader.header  {
+  padding-bottom: 0 !important;
+}

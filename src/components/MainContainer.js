@@ -8,6 +8,7 @@ import DomainProfile from './DomainProfile'
 import AccountDashboard from './AccountDashboard'
 import RocketChat from './RocketChat'
 import GovernanceContainer from './GovernanceContainer'
+// import RegistryGuideModal from './RegistryGuideModal'
 import './MainContainer.css'
 
 function MainContainer (props) {

@@ -13,6 +13,8 @@ import helpLogo from './assets/HELP.svg'
 import parametersLogo from './assets/PARAMETERS.svg'
 import socialLogo from './assets/SOCIALS (OPEN).svg'
 
+import RegistryGuideModal from './RegistryGuideModal'
+
 class MainSidebar extends Component {
   constructor (props) {
     super()
@@ -97,11 +99,9 @@ class MainSidebar extends Component {
         </div>
         <div className='SidebarListContainer overflow-x'>
           <div className='SidebarList overflow-y overflow-x'>
-            {
-            // <div className='ListTitle ui header'>
-            //   <Button inverted className='HelpButton' color='orange' content='How Does This Thing Work' />
-            // </div>
-            }
+            <div className='ListTitle ui header'>
+              <RegistryGuideModal />
+            </div>
             <Menu.Item name='domain'>
               <Link to='/domains' className='NavLink' activeClassName='active'><img src={wwwLogo} alt='www' />Domains</Link>
             </Menu.Item>

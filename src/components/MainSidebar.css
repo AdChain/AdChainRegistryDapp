@@ -10,12 +10,13 @@
   font-size: 10px;
 }
 
-:root:root:root .HelpButton:hover {
+:root:root:root .HelpButton:hover,
+:root:root:root .HelpButton:active,
+:root:root:root .HelpButton:focus {
   color: #FFF !important;
   font-weight: bold !important;
   background-color: #CE4034;
 }
-
 
 .ui.sidebar.menu .item {
   font-family: 'Open Sans', sans-serif !important;

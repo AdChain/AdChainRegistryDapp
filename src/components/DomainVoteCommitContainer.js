@@ -346,6 +346,7 @@ class DomainVoteCommitContainer extends Component {
 
     const domainUnderscored = domain.replace('.', '_')
     const endDateString = moment.unix(commitEndDate).format('YYYY-MM-DD_HH-mm-ss')
+    json.commitEndDate = endDateString
 
     const filename = `${domainUnderscored}--challenge_id_${challengeId}--commit_end_${endDateString}--commit-vote.json`
     saveFile(json, filename)
@@ -419,8 +420,8 @@ class DomainVoteCommitContainer extends Component {
 
       if (this._isMounted) {
         this.setState({
-          commitEndDate,
-          revealEndDate
+          commitEndDate: commitEndDate._i,
+          revealEndDate: revealEndDate._i
         })
       }
     } catch (error) {
