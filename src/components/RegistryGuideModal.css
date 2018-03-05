@@ -128,6 +128,12 @@
   box-shadow: unset;
 }
 
+:root:root .ContinueButton:focus {
+  box-shadow: unset;
+  color: #10C903 !important;
+}
+
+
 .GuideDesc {
   font-family: 'Open Sans', sans-serif;
   font-size: 12px;

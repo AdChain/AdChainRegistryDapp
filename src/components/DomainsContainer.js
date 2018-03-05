@@ -39,6 +39,14 @@ class DomainsContainer extends Component {
     window.scrollTo(0, -1)
   }
 
+  componentDidMount () {
+    let returningUser = window.localStorage.getItem('returningUser')
+
+    if (!returningUser || returningUser === 'false') {
+      window.localStorage.setItem('returningUser', 'false')
+    }
+  }
+
   componentWillReceiveProps (props) {
     const query = qs.parse(props.location.search.substr(1))
 
