@@ -3,12 +3,15 @@ import React, { Component } from 'react'
 import _ from 'lodash'
 import ParameterizerService from '../services/parameterizer'
 import commafy from 'commafy'
+import toastr from 'toastr'
+
 import './CreateProposal.css'
 
 class CreateProposal extends Component {
   constructor () {
     super()
     this.state = {
+      inProgress: false,
       // defaults
       paramMetric: 'ADT',
       proposalParam: 'minDeposit',
@@ -28,6 +31,38 @@ class CreateProposal extends Component {
   render () {
     return (
       <div className='CreateProposal'>
+        <div className={this.state.inProgress === true ? 'show InProgressProposal' : 'hide'}>
+          <div className='Content'>
+            <div>
+              <strong>Submission in progress. </strong>
+              <div className='ui active indeterminate inline small loader' />
+            </div>
+            <br />
+            <p>
+              You will receive a maximum of <strong><u>two</u></strong> MetaMask prompts:
+            </p>
+            <p>
+              <strong><u>First prompt</u>:</strong><br />
+              Allow adChain Registry contract to transfer adToken deposit from your account (if not done so already).
+            </p>
+            <p>
+              <strong><u>Second prompt</u>:</strong><br />
+              Submit proposal application to the Governance contract.
+            </p>
+          </div>
+        </div>
+        <div className={this.state.inProgress === null ? 'show InProgressProposal' : 'hide'}>
+          <div className='Content' style={{paddingTop: '62px'}}>
+            <div className='t-center'>
+              <strong>Transaction Successful </strong><br />
+              <i className='icon check circle' style={{color: 'green'}} />
+            </div>
+            <br />
+            <p className='t-center'>
+              It may take up to <u>20 seconds</u> for your proposal to appear in the <strong> Open Proposals Table</strong>
+            </p>
+          </div>
+        </div>
         <div className='BoxFrame mt-25'>
           <span className='BoxFrameLabel ui grid'>CREATE PROPOSAL</span>
           <div className='ui grid'>
@@ -79,12 +114,31 @@ class CreateProposal extends Component {
 
   async submitProposal () {
     let result
+
+    this.setState({
+      inProgress: true
+    })
+
     try {
       result = await ParameterizerService.proposeReparameterization(this.state.rawCurrentMinDeposit, this.state.proposalParam, this.formatProposedValue(this.state.proposalParam, this.state.proposalValue))
+
+      this.setState({
+        inProgress: null
+      })
     } catch (error) {
       console.log(error)
+      toastr.error('There was an error creating proposal')
+
+      this.setState({
+        inProgress: false
+      })
     }
-    console.log(result)
+
+    setTimeout(() => {
+      this.getParameterValues('pMinDeposit')
+    }, 20000)
+
+    return result
   }
 
   getParameterValues (name) {
@@ -94,6 +148,7 @@ class CreateProposal extends Component {
         .then((response) => {
           result = response.toNumber()
           this.setState({
+            inProgress: false,
             currentMinDeposit: commafy(result / 1000000000),
             rawCurrentMinDeposit: result / 10
           })

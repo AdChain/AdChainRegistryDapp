@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import _ from 'lodash'
 import GovernanceAndCoreParameters from './GovernanceAndCoreParameters'
+import GovernanceRewardsTable from './GovernanceRewardsTable'
 import CreateProposal from './CreateProposal'
 import OpenProposalsTable from './OpenProposalsTable'
 import ParameterizerService from '../services/parameterizer'
@@ -36,6 +37,7 @@ class GovernanceContainer extends Component {
         </div>
         <div className='column three wide'>
           <CreateProposal {...props} />
+          <GovernanceRewardsTable {...props} />
         </div>
         <div className='column eight wide'>
           <OpenProposalsTable {...props} />
