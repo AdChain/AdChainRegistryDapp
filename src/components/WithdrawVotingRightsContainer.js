@@ -85,11 +85,12 @@ class WithdrawVotingRightsContainer extends Component {
     try {
       const availableTokens = await registry.getAvailableTokensToWithdraw()
       const lockedTokens = (await registry.getLockedTokens()).toNumber()
-
-      this.setState({
-        availableTokens,
-        lockedTokens
-      })
+      if (this._isMounted) {
+        this.setState({
+          availableTokens,
+          lockedTokens
+        })
+      }
     } catch (error) {
       toastr.error('There was an error with your request')
     }

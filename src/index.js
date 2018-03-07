@@ -18,11 +18,6 @@ import './index.css'
 const adblockDetect = require('adblock-detect');
 
 
-function adBlockDetected () {
-  ReactDOM.render(<AdBlockAlert />, document.getElementById('root'))
-  return
-}
-
 async function init () {
   let hasAcceptedMobile
   try{
@@ -67,6 +62,29 @@ async function init () {
         });    
   }
 }
+
+function adBlockDetected () {
+  ReactDOM.render(<AdBlockAlert />, document.getElementById('root'))
+  return
+}
+
+/*
+ *
+ *
+ *
+*/
+
+const mapStateToProps = (state) => {
+  return {
+    all: 
+  }
+}
+
+const getAllState = () => {
+  all,
+  action
+}
+
 
 document.addEventListener('DOMContentLoaded', () => {
   if (window.web3) {

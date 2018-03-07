@@ -84,9 +84,11 @@ class RequestVotingRightsContainer extends Component {
   }
 
   onVotesKeyUp (event) {
-    this.setState({
-      requestVotes: event.target.value | 0 // coerce to int
-    })
+    if (this._isMounted) {
+      this.setState({
+        requestVotes: event.target.value | 0 // coerce to int
+      })
+    }
   }
 
   onRequest (event) {
@@ -140,10 +142,11 @@ class RequestVotingRightsContainer extends Component {
 
     try {
       const availableVotes = (await registry.getTotalVotingRights()).toNumber()
-
-      this.setState({
-        availableVotes
-      })
+      if (this._isMounted) {
+        this.setState({
+          availableVotes
+        })
+      }
     } catch (error) {
       toastr.error('There was an error with your request')
     }

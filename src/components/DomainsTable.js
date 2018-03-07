@@ -4,7 +4,7 @@ import ReactTable from 'react-table'
 import commafy from 'commafy'
 import moment from 'moment'
 import toastr from 'toastr'
-
+import store from '../store'
 import 'react-table/react-table.css'
 import './DomainsTable.css'
 
@@ -48,10 +48,11 @@ class DomainsTable extends Component {
       pageSize: 10,
       isLoading: false
     }
+
     history = props.history
 
     this.onTableFetchData = this.onTableFetchData.bind(this)
-    this.getData()
+    // this.getData()
   }
 
   componentDidMount () {
@@ -59,9 +60,9 @@ class DomainsTable extends Component {
 
     // infinite calls if enabled,
     // need to debug
-    // store.subscribe(x => {
-      // this.getData()
-    // })
+    store.subscribe(x => {
+      this.getData()
+    })
   }
 
   componentWillUnmount () {
@@ -70,11 +71,10 @@ class DomainsTable extends Component {
 
   componentWillReceiveProps (props) {
     const {filters} = props
-    this.setState({filters})
-
-    setTimeout(() => {
-      this.getData()
-    }, 0)
+    if (this._isMounted) {
+      this.setState({filters})
+    }
+    this.getData()
   }
 
   render () {
@@ -512,10 +512,12 @@ class DomainsTable extends Component {
     } catch (error) {
       console.log(error)
     }
-    this.setState({
-      allDomains: domains,
-      pages: Math.ceil(domains.length / pageSize, 10)
-    })
+    if (this._isMounted) {
+      this.setState({
+        allDomains: domains,
+        pages: Math.ceil(domains.length / pageSize, 10)
+      })
+    }
 
     // if (!this.state.data.length) {
     this.onTableFetchData({page: 0, pageSize})

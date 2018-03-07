@@ -34,9 +34,9 @@ class ParameterizerService {
       console.log(error)
     }
     // await this.setUpEvents()
-    // store.dispatch({
-    //   type: 'PARAMETERIZER_CONTRACT_INIT'
-    // })
+    store.dispatch({
+      type: 'PARAMETERIZER_CONTRACT_INIT'
+    })
   }
 
   async setUpEvents () {

@@ -8,6 +8,7 @@ import ParameterizerService from '../services/parameterizer'
 import { parameterData } from '../models/parameters'
 import moment from 'moment-timezone'
 import commafy from 'commafy'
+// import store from '../store'
 
 class GovernanceContainer extends Component {
   constructor (props) {
@@ -21,11 +22,23 @@ class GovernanceContainer extends Component {
     }
   }
 
-  async componentWillMount () {
+  async componentDidMount () {
+    this._isMounted = true
+
     await ParameterizerService.init()
     await this.getParameterValues('governanceParameterData')
     await this.getParameterValues('coreParameterData')
     this.getProposalsAndPropIds()
+
+    // store.subscribe( x => {
+    //   this.getParameterValues('governanceParameterData')
+    //   this.getParameterValues('coreParameterData')
+    //   this.getProposalsAndPropIds()
+    // })
+  }
+
+  componentWillUnmount () {
+    this._isMounted = false
   }
 
   render () {
@@ -54,9 +67,11 @@ class GovernanceContainer extends Component {
           .then((response) => {
             result = this.state[parameterType]
             result[name].value = response.toNumber()
-            this.setState({
-              [parameterType]: result
-            })
+            if (this._isMounted) {
+              this.setState({
+                [parameterType]: result
+              })
+            }
           })
       } catch (error) {
         console.log('error: ', error)
@@ -76,9 +91,11 @@ class GovernanceContainer extends Component {
                 proposals.push(this.formatProposal(response[0][i], response[1][i]))
               }
             }
-            this.setState({
-              currentProposals: proposals
-            })
+            if (this._isMounted) {
+              this.setState({
+                currentProposals: proposals
+              })
+            }
           })
     } catch (error) {
       console.log('error: ', error)

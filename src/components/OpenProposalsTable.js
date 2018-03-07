@@ -23,14 +23,6 @@ class OpenProposalsTable extends Component {
     this.close = this.close.bind(this)
   }
 
-  show () {
-    this.setState({ open: true })
-  }
-
-  close () {
-    this.setState({ open: false })
-  }
-
   async componentWillReceiveProps () {
     if (!this.props || !this.props.hasOwnProperty('currentProposals')) return false
     await this.createTable()
@@ -146,13 +138,18 @@ class OpenProposalsTable extends Component {
   }
 
   promptModal (type, proposal) {
-    this.show()
     this.setState({
       selectedProposal: proposal
     })
-    // if (type === 'challenge') {
+    this.show()
+  }
 
-    // }
+  show () {
+    this.setState({ open: true })
+  }
+
+  close () {
+    this.setState({ open: false })
   }
 
   isExpired (row) {
