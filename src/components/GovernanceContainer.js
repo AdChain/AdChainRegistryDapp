@@ -8,6 +8,7 @@ import ParameterizerService from '../services/parameterizer'
 import { parameterData } from '../models/parameters'
 import moment from 'moment-timezone'
 import commafy from 'commafy'
+import PubSub from 'pubsub-js'
 
 class GovernanceContainer extends Component {
   constructor (props) {
@@ -26,6 +27,7 @@ class GovernanceContainer extends Component {
     await this.getParameterValues('governanceParameterData')
     await this.getParameterValues('coreParameterData')
     this.getProposalsAndPropIds()
+    this.subEvent = PubSub.subscribe('GovernanceContainer.getProposalsAndPropIds', this.getProposalsAndPropIds.bind(this))
   }
 
   render () {
@@ -66,6 +68,10 @@ class GovernanceContainer extends Component {
 
   getProposalsAndPropIds () {
     let proposals
+    // reset state
+    this.setState({
+      currentProposals: []
+    })
     try {
       ParameterizerService.getProposalsAndPropIds()
           .then((response) => {

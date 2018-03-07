@@ -4,6 +4,7 @@ import _ from 'lodash'
 import ParameterizerService from '../services/parameterizer'
 import commafy from 'commafy'
 import toastr from 'toastr'
+import PubSub from 'pubsub-js'
 
 import './CreateProposal.css'
 
@@ -121,7 +122,6 @@ class CreateProposal extends Component {
 
     try {
       result = await ParameterizerService.proposeReparameterization(this.state.rawCurrentMinDeposit, this.state.proposalParam, this.formatProposedValue(this.state.proposalParam, this.state.proposalValue))
-
       this.setState({
         inProgress: null
       })
@@ -135,14 +135,15 @@ class CreateProposal extends Component {
     }
 
     setTimeout(() => {
-      this.getParameterValues('pMinDeposit')
-    }, 20000)
+      PubSub.publish('GovernanceContainer.getProposalsAndPropIds')
+    }, 18000)
 
     return result
   }
 
-  getParameterValues (name) {
+  getParameterValues (name, t) {
     let result
+    if (this.state.currentMinDeposit) return true
     try {
       ParameterizerService.get(name)
         .then((response) => {
