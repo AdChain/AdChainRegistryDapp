@@ -150,9 +150,6 @@ class OpenProposalsTable extends Component {
     this.setState({
       selectedProposal: proposal
     })
-    // if (type === 'challenge') {
-
-    // }
   }
 
   isExpired (row) {

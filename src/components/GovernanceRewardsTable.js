@@ -1,11 +1,9 @@
 import React, { Component } from 'react'
 import _ from 'lodash'
 import './GovernanceAndCoreParameters.css'
-import commafy from 'commafy'
 
 class GovernanceRewardsTable extends Component {
   render () {
-    const props = this.props
     return (
       <div className='AllParameters'>
         <div className='BoxFrame mt-25'>
@@ -17,7 +15,7 @@ class GovernanceRewardsTable extends Component {
                 <span className='ValuesTitle'>Values</span>
               </div>
               <div>
-                {this.generateCoreParameterTable(props.coreParameterData)}
+                {this.generateRewardsTable()}
               </div>
             </div>
           </div>
@@ -26,38 +24,19 @@ class GovernanceRewardsTable extends Component {
     )
   }
 
-  generateCoreParameterTable (parameterData) {
-    if (!this.props.coreParameterData || !this.props.governanceParameterData) return
+  generateRewardsTable () {
+    if (this.props.rewards.length < 1) return false
 
+    const rewards = this.props.rewards
     let i = 0
-    const table = _.reduce(parameterData, (result, value, name) => {
-      value = parameterData[name].value
-      switch (name) {
-        case 'minDeposit':
-        case 'pMinDeposit':
-          value = commafy(value / 1000000000) + ' ADT'
-          break
-        case 'applyStageLen':
-        case 'pApplyStageLen':
-        case 'commitStageLen':
-        case 'pCommitStageLen':
-        case 'revealStageLen':
-        case 'pRevealStageLen':
-          value = (value / 60) + ' min'
-          break
-        case 'dispensationPct':
-        case 'pDispensationPct':
-        case 'voteQuorum':
-        case 'pVoteQuorum':
-          value = value + '%'
-          break
-        default:
-          break
-      }
+    let color
+    const table = _.reduce(rewards, (result, { name }) => {
+      // If name exists in core param data, use blue color, else use red
+      color = this.props.coreParameterData[name] ? 'f-blue bold' : 'f-red bold'
       result.push(
-        <div key={value + name} className='ParameterRow'>
-          <span key={name} className={parameterData === this.props.coreParameterData ? 'f-blue' : 'f-red'}>{parameterData[name].name}</span>
-          <span key={i++}>{value}</span>
+        <div key={name} className='ParameterRow'>
+          <span key={name} className={color}>{name}</span>
+          <span key={i++} className='ui button green' style={{padding: '.571429em 1em .571429em'}}>CLAIM</span>
         </div>
       )
       return result

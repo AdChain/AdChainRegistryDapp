@@ -5,10 +5,16 @@ import GovernanceRewardsTable from './GovernanceRewardsTable'
 import CreateProposal from './CreateProposal'
 import OpenProposalsTable from './OpenProposalsTable'
 import ParameterizerService from '../services/parameterizer'
+import registry from '../services/registry'
 import { parameterData } from '../models/parameters'
 import moment from 'moment-timezone'
 import commafy from 'commafy'
 import PubSub from 'pubsub-js'
+import Eth from 'ethjs'
+
+const url = 'http://adchain-registry-api-staging.metax.io/'
+const big = (number) => new Eth.BN(number.toString(10))
+const tenToTheNinth = big(10).pow(big(9))
 
 class GovernanceContainer extends Component {
   constructor (props) {
@@ -18,7 +24,9 @@ class GovernanceContainer extends Component {
       governanceParameterData: Object.assign({}, parameterData.governanceParameterData),
       coreParameterProposals: Object.assign({}, parameterData.coreParameterData),
       governanceParameterProposals: Object.assign({}, parameterData.governanceParameterData),
-      currentProposals: []
+      currentProposals: [],
+      rewards: [],
+      account: ''
     }
   }
 
@@ -26,12 +34,35 @@ class GovernanceContainer extends Component {
     await ParameterizerService.init()
     await this.getParameterValues('governanceParameterData')
     await this.getParameterValues('coreParameterData')
+    await this.getAccount()
+    await this.fetchRewards()
     this.getProposalsAndPropIds()
+
+    /*
+     * ---------------------- PubSub Pattern -----------------------
+     * Used to subscribe and publish events on non-related components.
+     * Very useful for updating state on another component that is not in the same component
+     * heirarchy or does not have access to the same props/state.
+     * Convention for usage is to use the name of the component and the function that
+     * is going to be triggered as the first parameter in the subscribe event, and the
+     * second parameter is the name of the function that will be invoked and binded by 'this'.
+     * In the other component you will publish the event by calling PubSub.subscribe('GovernanceContainer.getProposalsAndPropIds','extradata')
+     * You can unsubscribe to an action by calling PubSub.unsubscribe(this.subEvent).
+     *
+    */
+
+    // PubSub subscription set here
     this.subEvent = PubSub.subscribe('GovernanceContainer.getProposalsAndPropIds', this.getProposalsAndPropIds.bind(this))
+  }
+
+  componentWillUnmount () {
+    // Unsubscribe from event once unmounting
+    PubSub.unsubscribe(this.subEvent)
   }
 
   render () {
     let props = this.state
+    if (!this.state.rewards) return false
     return (
       <div className='ui stackable  grid padded'>
         <div className='column four wide'>
@@ -64,6 +95,14 @@ class GovernanceContainer extends Component {
         console.log('error: ', error)
       }
     })
+  }
+  getAccount () {
+    if (!this.state.account) {
+      const account = registry.getAccount()
+      this.setState({
+        account
+      })
+    }
   }
 
   getProposalsAndPropIds () {
@@ -126,6 +165,19 @@ class GovernanceContainer extends Component {
         break
     }
     return value
+  }
+
+  async fetchRewards () {
+    let data = await (await window.fetch(`${url}/parameterization/rewards?account=${this.state.account}`)).json()
+    // data = _.filter(data, (rewards) => rewards.status === 'unclaimed')
+
+    for (let i = 0; i < data.length; i++) {
+      let reward = await ParameterizerService.calculateVoterReward(data[i].sender, data[i].challenge_id, data[i].salt)
+      data[i].reward = big(reward).div(tenToTheNinth).words[0]
+    }
+    this.setState({
+      rewards: data
+    })
   }
 }
 
