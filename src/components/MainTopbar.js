@@ -84,7 +84,7 @@ class MainTopbar extends Component {
               </div>
             </div>
             {address
-              ? <div className={'item ' + (ethBalance === 0 || ethBalance === null ? 'RedAlert' : '')}>
+              ? <div className={'JoyrideTopBar item ' + (ethBalance === 0 || ethBalance === null ? 'RedAlert' : '')}>
                 <div className='EthLogo ui image'>
                   <img
                     src={ethLogo}
@@ -97,7 +97,7 @@ class MainTopbar extends Component {
               </div>
             : null}
             {address
-              ? <div className={'item ' + (adtBalance === 0 || adtBalance === null ? 'RedAlert' : '')}>
+              ? <div className={'JoyrideTopBar item ' + (adtBalance === 0 || adtBalance === null ? 'RedAlert' : '')}>
                 <div className='AdtLogo ui image'>
                   <img
                     src={adtLogo}

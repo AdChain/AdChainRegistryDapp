@@ -124,7 +124,7 @@ class SideBarApplicationContainer extends Component {
     return (
       <div className='ApplicationContainer'>
         <Form
-          className={active ? 'ActiveForm' : null}
+          className={active ? 'ActiveForm' : 'JoyrideForm'}
           onBlur={this.removeClass}
           onSubmit={this.onFormSubmit}>
           <Form.Field>

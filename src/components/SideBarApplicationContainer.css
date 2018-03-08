@@ -29,6 +29,7 @@
   background-color: #10C903 !important;
   color: #FFF !important;
   border: none;
+  box-shadow: unset;
 }
 
 .ApplicationContainer .ActiveForm {

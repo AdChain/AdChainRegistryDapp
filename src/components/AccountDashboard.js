@@ -17,6 +17,7 @@ import UserChallengedDomains from './UserChallengedDomains.js'
 import UserCommitsToReveal from './UserCommitsToReveal.js'
 import UserRewardsToClaim from './UserRewardsToClaim.js'
 import AccountDashboardLoadingInProgress from './AccountDashboardLoadingInProgress'
+import Joyride from 'react-joyride'
 
 import Eth from 'ethjs'
 import _ from 'lodash'
@@ -60,6 +61,7 @@ class AccountDashboard extends Component {
   }
 
   async componentDidMount () {
+    console.log('this dashboard: ', this)
     this.setState({
       inProgress: true
     })
@@ -83,6 +85,10 @@ class AccountDashboard extends Component {
     })
   }
 
+  handleJoyrideCallback (result) {
+    console.log('result inside dashboard: ', result)
+  }
+
   render () {
     const {
       account,
@@ -94,9 +100,35 @@ class AccountDashboard extends Component {
       inProgress
     } = this.state
 
+    const walkthroughSteps = [
+      {
+        title: 'Sixth Step',
+        text: 'Within your Dashboard, you can also track your domain\'s application into the adChain Registry',
+        selector: '.UserAppliedDomainsContainer',
+        position: 'right',
+        type: 'click',
+        isFixed: true,
+        name: 'my-sixth-step',
+        parent: 'AccountDashboard'
+      }
+    ]
+
     return (
       <div className='AccountDashboard'>
         <div className='ui grid stackable padded'>
+          <Joyride
+            steps={walkthroughSteps}
+            autoStart
+            debug
+            showOverlay
+            run
+            locale={{
+              back: (<span>Back</span>),
+              close: (<span>Close</span>)
+            }}
+            type='single'
+            callback={this.handleJoyrideCallback}
+          />
           <div className='column sixteen wide NoPaddingBottom'>
             <AccountStatsbar account={account} />
           </div>

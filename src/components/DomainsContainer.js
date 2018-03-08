@@ -12,6 +12,8 @@ import DomainsTable from './DomainsTable'
 import DomainsFilterPanel from './DomainsFilterPanel'
 // import Trollbox from './Trollbox'
 import WelcomeModal from './WelcomeModal'
+import RegistryGuideStaticChallenge from './RegistryGuideStaticChallenge'
+import RegistryGuideStaticInRegistry from './RegistryGuideStaticInRegistry'
 
 import './DomainsContainer.css'
 
@@ -24,7 +26,8 @@ class DomainsContainer extends Component {
     this.state = {
       query: normalizeQueryObj(query),
       history: props.history,
-      tableFilters: []
+      tableFilters: [],
+      staticContainer: null
     }
 
     this.onQueryChange = this.onQueryChange.bind(this)
@@ -49,19 +52,25 @@ class DomainsContainer extends Component {
 
   componentWillReceiveProps (props) {
     const query = qs.parse(props.location.search.substr(1))
-
     this.setState({
-      query: normalizeQueryObj(query)
+      query: normalizeQueryObj(query),
+      staticContainer: props.staticContainer
     })
-
     this.updateTableFilters(query)
+  }
+
+  componentDidUpdate (prevProps, prevState) {
+    if (this.props.staticContainer !== prevProps.staticContainer) {
+      prevProps.resumeJoyride()
+    }
   }
 
   render () {
     const {
       query,
       history,
-      tableFilters
+      tableFilters,
+      staticContainer
     } = this.state
 
     return (
@@ -81,12 +90,22 @@ class DomainsContainer extends Component {
                   onFiltersChange={this.onQueryChange}
                 />
               </div>
-              <div className='column twelve wide'>
-                <DomainsTable
-                  history={history}
-                  filters={tableFilters}
-                />
-              </div>
+              {
+                (staticContainer === 'challenge')
+                  ? <div className='column six wide'>
+                    <RegistryGuideStaticChallenge />
+                  </div>
+                  : (staticContainer === 'registry')
+                    ? <div className='column six wide'>
+                      <RegistryGuideStaticInRegistry />
+                    </div>
+                    : <div className='column twelve wide'>
+                      <DomainsTable
+                        history={history}
+                        filters={tableFilters}
+                      />
+                    </div>
+              }
             </div>
             {window.localStorage.returningUser === 'false' ? <WelcomeModal /> : null}
           </div>

@@ -8,10 +8,34 @@ class RegistryGuideModalCommitVote extends Component {
     this.state = {
       section: props.section
     }
+    this.onContinue = this.onContinue.bind(this)
   }
 
   render () {
     const { section } = this.state
+
+    // const walkthroughSteps = [
+    //   {
+    //     title: 'Vote - First Step',
+    //     text: 'You can use the DOMAIN FILTERS box to filter the domains that are in the Voting Commit stage.',
+    //     selector: '.DomainsFilterPanel',
+    //     position: 'right',
+    //     type: 'click',
+    //     isFixed: true,
+    //     name: 'vote-first-step',
+    //     parent: 'DomainsContainer'
+    //   },
+    //   {
+    //     title: 'Vote - Second Step',
+    //     text: 'The filtered domains are all in the Voting Commit stage. Voters have until the Stage Ends period to commit votes.',
+    //     selector: '.DomainsTable',
+    //     position: 'left',
+    //     type: 'click',
+    //     isFixed: true,
+    //     name: 'vote-second-step',
+    //     parent: 'DomainsContainer'
+    //   }
+    // ]
     return (
       <div>
         <Modal.Header className='RegistryGuideModalHeader'><span className='RegistryGuideModalHeaderText'>How Do I Commit a Vote?</span></Modal.Header>

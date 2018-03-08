@@ -8,10 +8,67 @@ class RegistryGuideModalApplyDomain extends Component {
     this.state = {
       section: props.section
     }
+
+    this.onContinue = this.onContinue.bind(this)
   }
 
   render () {
     const { section } = this.state
+
+    const walkthroughSteps = [
+      {
+        title: 'First Step',
+        text: 'Enter the domain you wish to apply. Make sure to use the domain.com format (no www.)',
+        selector: '.JoyrideForm',
+        position: 'right',
+        type: 'click',
+        trigger: '.HelpButton',
+        isFixed: true,
+        name: 'my-first-step',
+        parent: 'SideBarApplicationContainer'
+      },
+      {
+        title: 'Second Step',
+        text: 'Enter the amount of adToken you wish to stake with your application',
+        selector: '.ApplicationContainer',
+        position: 'right',
+        type: 'click',
+        isFixed: true,
+        name: 'my-second-step',
+        parent: 'SideBarApplicationContainer'
+      },
+      {
+        title: 'Third Step',
+        text: 'With MetaMask unlocked, you\'ll be able to see your ETH and ADT balance here. Both ADT and ETH are needed to apply a Domain.',
+        selector: '.JoyrideTopBar',
+        position: 'bottom',
+        type: 'click',
+        isFixed: true,
+        name: 'my-third-step',
+        parent: 'MainTopBar'
+      },
+      {
+        title: 'Fourth Step',
+        text: 'With all of the fields filled out, and enough ETH to cover the transaction, you will have successfully applied a domain.',
+        selector: '.ApplicationContainer',
+        position: 'right',
+        type: 'click',
+        isFixed: true,
+        name: 'my-fourth-step',
+        parent: 'SideBarApplicationContainer'
+      },
+      {
+        title: 'Fifth Step',
+        text: 'Once the transactions are signed, your applied domain can be found in the DOMAINS box.',
+        selector: '.DomainsTable',
+        position: 'left',
+        type: 'click',
+        isFixed: true,
+        name: 'my-fifth-step',
+        parent: 'DomainsContainer'
+      }
+    ]
+
     return (
       <div>
         <Modal.Header className='RegistryGuideModalHeader'><span className='RegistryGuideModalHeaderText'>How Do I Apply a Domain into the adChain Registry?</span></Modal.Header>
@@ -31,7 +88,7 @@ class RegistryGuideModalApplyDomain extends Component {
           </div>
           <div className='GuideButtonsContainer'>
             <Button basic className='ReturnButton' onClick={() => this.props.returnToMenu(section)} content='Return to Guide' />
-            <Button basic className='ContinueButton' content='Continue' />
+            <Button basic className='ContinueButton' content='Continue' onClick={() => this.onContinue(walkthroughSteps)} />
           </div>
           <div className='GuideText'>
               Can’t find what you’re looking for? Click <a href='https://adchain.zendesk.com/hc/en-us' target='_blank' rel='noopener noreferrer'>here</a> to visit the help center.
@@ -39,6 +96,11 @@ class RegistryGuideModalApplyDomain extends Component {
         </Modal.Content>
       </div>
     )
+  }
+
+  onContinue (steps) {
+    this.props.close()
+    this.props.startJoyride(steps)
   }
 }
 

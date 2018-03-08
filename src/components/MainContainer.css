@@ -54,3 +54,7 @@
     margin-top: 125px !important;
   }
 }
+
+.joyride { 
+  z-index: 500;
+}

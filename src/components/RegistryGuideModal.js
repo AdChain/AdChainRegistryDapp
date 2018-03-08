@@ -7,7 +7,6 @@ import RegistryGuideModalCommitVote from './RegistryGuideModalCommitVote'
 import RegistryGuideModalRevealVote from './RegistryGuideModalRevealVote'
 import RegistryGuideModalDomainJourney from './RegistryGuideModalDomainJourney'
 import RegistryGuideModalGovernance from './RegistryGuideModalGovernance'
-
 import './RegistryGuideModal.css'
 
 class RegistryGuideModal extends Component {
@@ -35,6 +34,7 @@ class RegistryGuideModal extends Component {
 
   render () {
     const { open, size, menu, one, two, three, four, five, six, seven } = this.state
+
     return (
       <Modal size={size} open={open} trigger={<Button inverted className='HelpButton' onClick={this.show} color='orange' content='How Does This Thing Work' />} closeIcon className='RegistryGuideModal' onClose={this.close}>
         {menu
@@ -71,8 +71,8 @@ class RegistryGuideModal extends Component {
             </Modal.Content>
           </div>
           : one ? <RegistryGuideModalAdchainRegistry returnToMenu={this.returnToMenu} close={this.close} section={'one'} />
-            : two ? <RegistryGuideModalApplyDomain returnToMenu={this.returnToMenu} section={'two'} />
-              : three ? <RegistryGuideModalChallengeDomain returnToMenu={this.returnToMenu} section={'three'} />
+            : two ? <RegistryGuideModalApplyDomain returnToMenu={this.returnToMenu} section={'two'} close={this.close} startJoyride={this.props.startJoyride} />
+              : three ? <RegistryGuideModalChallengeDomain returnToMenu={this.returnToMenu} section={'three'} close={this.close} startJoyride={this.props.startJoyride} />
                 : four ? <RegistryGuideModalCommitVote returnToMenu={this.returnToMenu} section={'four'} />
                   : five ? <RegistryGuideModalRevealVote returnToMenu={this.returnToMenu} section={'five'} />
                     : six ? <RegistryGuideModalDomainJourney />
