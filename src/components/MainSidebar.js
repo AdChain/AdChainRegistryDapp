@@ -12,7 +12,6 @@ import dashboardLogo from './assets/DASHBOARD.svg'
 import helpLogo from './assets/HELP.svg'
 import parametersLogo from './assets/PARAMETERS.svg'
 import socialLogo from './assets/SOCIALS (OPEN).svg'
-
 import RegistryGuideModal from './RegistryGuideModal'
 
 class MainSidebar extends Component {
@@ -100,7 +99,7 @@ class MainSidebar extends Component {
         <div className='SidebarListContainer overflow-x'>
           <div className='SidebarList overflow-y overflow-x'>
             <div className='ListTitle ui header'>
-              <RegistryGuideModal />
+              <RegistryGuideModal startJoyride={this.props.startJoyride} handleJoyrideCallback={this.props.handleJoyrideCallback} />
             </div>
             <Menu.Item name='domain'>
               <Link to='/domains' className='NavLink' activeClassName='active'><img src={wwwLogo} alt='www' />Domains</Link>
