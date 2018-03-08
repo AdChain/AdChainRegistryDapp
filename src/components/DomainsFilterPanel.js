@@ -49,7 +49,7 @@ class DomainsFilterPanel extends Component {
             </div>
           <div className='ui grid'>
 
-            <div className='eight wide column'>
+            <div className='sixteen wide column'>
               <ul className='ui list'>
                 <li className='item'>
                   <div className='ui input'>
@@ -76,8 +76,7 @@ class DomainsFilterPanel extends Component {
                   <label htmlFor='DomainsFilterPanel_InApplication'>In Application</label>
                 </li>
               </ul>
-            </div>
-            <div className='eight wide column'>
+
               <ul className='ui list'>
                 <li className='item'>
                   <div className='ui input'>

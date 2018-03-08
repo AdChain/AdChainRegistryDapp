@@ -57,6 +57,7 @@
 .ProposalInput{
   border:none;
   display: inline-block;
+  width: 76%;
 }
 
 .ProposalInputWrapper{
@@ -65,6 +66,23 @@
   margin-bottom:10px;
 
 }
+.InProgressProposal{
+  position: absolute;
+  height: 45%;
+  background: rgba(255,255,255,0.9);
+  width: 91%;
+  border-radius: 5px;
+  z-index: 100;
+  padding:14px 9px;
+}
+.CreateProposal .Content > div > strong {
+  padding-right: 8px;
+} 
+
+.Content .icon.check.circle{
+  font-size: 2em;
+}
+
 /*.ProposalInputWrapper::after{
   content: "ADT";
 }*/

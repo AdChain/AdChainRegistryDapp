@@ -1,14 +1,14 @@
 .ParameterRow{
-	padding:10px 0;
+	padding:11px 0;
 	border-bottom:1px solid #ddd;
 }
 .ParameterRow span:last-of-type {
 	position: absolute;
-    right: 34px;
+    right: 20px;
 }
 .ValuesTitle{
 	position: absolute;
-    right: 42px;
+    right: 26px;
 }
 .AllParameters{
 	font-family: "Open Sans", sans-serif;

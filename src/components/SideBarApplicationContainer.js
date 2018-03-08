@@ -6,6 +6,7 @@ import isValidDomain from 'is-valid-domain'
 import registry from '../services/registry'
 import PublisherApplicationFormInProgress from './PublisherApplicationFormInProgress'
 import postJson from '../utils/postJson'
+import commafy from 'commafy'
 
 class SideBarApplicationContainer extends Component {
   constructor (props) {
@@ -45,16 +46,6 @@ class SideBarApplicationContainer extends Component {
     const currentState = this.state.active
     if (currentState) {
       this.setState({ active: !currentState })
-    }
-  }
-
-  async getMinDeposit () {
-    const minDeposit = await registry.getMinDeposit()
-
-    if (this._isMounted) {
-      this.setState({
-        minDeposit: minDeposit
-      })
     }
   }
 
@@ -145,12 +136,12 @@ class SideBarApplicationContainer extends Component {
               placeholder='domain.com' />
           </Form.Field>
           <Form.Field>
-            <label className='ApplicationLabel'>ADT to Stake (min. 3,000)</label>
+            <label className='ApplicationLabel'>ADT to Stake (min. {commafy(this.state.minDeposit)})</label>
             <input
               onFocus={this.addClass}
               className='ApplicationInput'
               name='stake'
-              placeholder='3,000'
+              placeholder={commafy(this.state.minDeposit)}
               />
           </Form.Field>
           <Button basic className='ApplicationButton' type='submit'>Apply Domain</Button>
@@ -158,6 +149,17 @@ class SideBarApplicationContainer extends Component {
         {inProgress ? <PublisherApplicationFormInProgress /> : null}
       </div>
     )
+  }
+
+  async getMinDeposit () {
+    try {
+      const minDeposit = await registry.getMinDeposit()
+      this.setState({
+        minDeposit: minDeposit.toNumber()
+      })
+    } catch (error) {
+      console.log('error getting min deposit')
+    }
   }
 }
 

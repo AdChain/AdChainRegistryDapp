@@ -109,7 +109,6 @@ class ParameterizerService {
         }
       }
       result = await this.parameterizer.proposeReparameterization(name, value)
-      window.location.reload()
     } catch (error) {
       console.log(error)
     }
