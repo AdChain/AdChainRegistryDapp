@@ -70,11 +70,10 @@ class DomainsTable extends Component {
 
   componentWillReceiveProps (props) {
     const {filters} = props
-    this.setState({filters})
-
-    setTimeout(() => {
-      this.getData()
-    }, 0)
+    if (this._isMounted) {
+      this.setState({filters})
+    }
+    this.getData()
   }
 
   render () {
@@ -512,10 +511,13 @@ class DomainsTable extends Component {
     } catch (error) {
       console.log(error)
     }
-    this.setState({
-      allDomains: domains,
-      pages: Math.ceil(domains.length / pageSize, 10)
-    })
+
+    if (this._isMounted) {
+      this.setState({
+        allDomains: domains,
+        pages: Math.ceil(domains.length / pageSize, 10)
+      })
+    }
 
     // if (!this.state.data.length) {
     this.onTableFetchData({page: 0, pageSize})

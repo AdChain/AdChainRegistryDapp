@@ -57,6 +57,7 @@
 .ProposalInput{
   border:none;
   display: inline-block;
+  width: 76%;
 }
 
 .ProposalInputWrapper{
