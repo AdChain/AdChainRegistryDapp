@@ -43,10 +43,10 @@ class GovernanceContainer extends Component {
      * Used to subscribe and publish events on non-related components.
      * Very useful for updating state on another component that is not in the same component
      * heirarchy or does not have access to the same props/state.
-     * Convention for usage is to use the name of the component and the function that
-     * is going to be triggered as the first parameter in the subscribe event, and the
+     * Convention for usage is to include the name of the component and the function that
+     * is going to be invoked as the first parameter in the subscribe event, and the
      * second parameter is the name of the function that will be invoked and binded by 'this'.
-     * In the other component you will publish the event by calling PubSub.subscribe('GovernanceContainer.getProposalsAndPropIds','extradata')
+     * In the publishing component you will publish the event by calling PubSub.publish('GovernanceContainer.getProposalsAndPropIds','extradata')
      * You can unsubscribe to an action by calling PubSub.unsubscribe(this.subEvent).
      *
     */
@@ -170,11 +170,14 @@ class GovernanceContainer extends Component {
   async fetchRewards () {
     let data = await (await window.fetch(`${url}/parameterization/rewards?account=${this.state.account}`)).json()
     // data = _.filter(data, (rewards) => rewards.status === 'unclaimed')
-
     for (let i = 0; i < data.length; i++) {
-      let reward = await ParameterizerService.calculateVoterReward(data[i].sender, data[i].challenge_id, data[i].salt)
-      data[i].reward = big(reward).div(tenToTheNinth).words[0]
+      let alreadyClaimed = await ParameterizerService.didClaim(data[i].challenge_id)
+      if (!alreadyClaimed) {
+        let reward = await ParameterizerService.calculateVoterReward(data[i].sender, data[i].challenge_id, data[i].salt)
+        data[i].reward = big(reward).div(tenToTheNinth).words[0]
+      }
     }
+
     this.setState({
       rewards: data
     })

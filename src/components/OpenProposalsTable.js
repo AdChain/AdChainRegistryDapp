@@ -13,6 +13,7 @@ class OpenProposalsTable extends Component {
     this.state = {
       open: false,
       table: '',
+      loading: true,
       selectedProposal: {
         appExpiry: '',
         name: '',
@@ -44,13 +45,13 @@ class OpenProposalsTable extends Component {
         <table className='OpenProposalsTable mt-25'>
           <thead>
             <tr>
-              <th>Parameter</th>
+              <th>Parameters</th>
               <th>Proposed Value</th>
               <th>Proposal Ends</th>
               <th>Action</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody className={this.state.loading ? 'ui loader small inline active' : ''}>
             { this.state.table || [] }
           </tbody>
         </table>
@@ -135,6 +136,7 @@ class OpenProposalsTable extends Component {
       action.event = null
       console.log('proposal not found')
     }
+    this.setState({loading: false})
 
     return (
       <td>

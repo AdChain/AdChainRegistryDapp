@@ -389,24 +389,12 @@ class ParameterizerService {
     return plcr.hasEnoughTokens(tokens)
   }
 
-  async didClaim (parameter) {
+  async didClaim (challengeId) {
     try {
-      const challengeId = await this.getChallengeId(parameter)
-      return await this.didClaimForPoll(challengeId)
+      return await this.parameterizer.challenges.call(challengeId)
     } catch (error) {
       throw error
     }
-  }
-
-  didClaimForPoll (challengeId) {
-    return new Promise(async (resolve, reject) => {
-      try {
-        const hasClaimed = await this.parameterizer.tokenClaims(challengeId, this.account)
-        resolve(hasClaimed)
-      } catch (error) {
-        reject(error)
-      }
-    })
   }
 
   claimReward (challengeId, salt) {
