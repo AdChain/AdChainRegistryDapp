@@ -3,6 +3,7 @@ import _ from 'lodash'
 import toastr from 'toastr'
 import './GovernanceAndCoreParameters.css'
 import ParameterizerService from '../services/parameterizer'
+import Tooltip from './Tooltip'
 
 class GovernanceRewardsTable extends Component {
   constructor (props) {
@@ -15,7 +16,7 @@ class GovernanceRewardsTable extends Component {
     return (
       <div className='AllParameters'>
         <div className='BoxFrame mt-25'>
-          <span className='BoxFrameLabel ui grid'>CLAIM REWARDS</span>
+          <span className='BoxFrameLabel ui grid'>CLAIM REWARDS <Tooltip info={'These are the proposals you have voted in and can claim rewards. If you can\'t claim your rewards here you may have not yet REFRESHED STATUS of the proposal.'} /></span>
           <div className='ui grid'>
             <div className='column sixteen wide'>
               <div>

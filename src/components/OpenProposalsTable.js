@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Modal } from 'semantic-ui-react'
 import moment from 'moment-timezone'
+import Tooltip from './Tooltip'
 import ParamterizerService from '../services/parameterizer'
 import GovernanceChallengeContainer from './GovernanceChallengeContainer'
 import GovernanceVoteCommitContainer from './GovernanceVoteCommitContainer'
@@ -24,14 +25,6 @@ class OpenProposalsTable extends Component {
     this.close = this.close.bind(this)
   }
 
-  show () {
-    this.setState({ open: true })
-  }
-
-  close () {
-    this.setState({ open: false })
-  }
-
   async componentWillReceiveProps () {
     if (!this.props || !this.props.hasOwnProperty('currentProposals')) return false
     await this.createTable()
@@ -41,7 +34,8 @@ class OpenProposalsTable extends Component {
     const { open } = this.state
     return (
       <div className='BoxFrame mt-25'>
-        <span className='BoxFrameLabel ui grid'>OPEN PROPOSALS</span>
+        <span className='BoxFrameLabel ui grid'>OPEN PROPOSALS <Tooltip info={'These are open proposals for new parameter values.'} /></span>
+
         <table className='OpenProposalsTable mt-25'>
           <thead>
             <tr>
@@ -160,6 +154,14 @@ class OpenProposalsTable extends Component {
 
     if (!end) return false
     return end < now
+  }
+
+  show () {
+    this.setState({ open: true })
+  }
+
+  close () {
+    this.setState({ open: false })
   }
 }
 

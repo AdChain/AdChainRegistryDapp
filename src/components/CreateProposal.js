@@ -5,6 +5,7 @@ import ParameterizerService from '../services/parameterizer'
 import commafy from 'commafy'
 import toastr from 'toastr'
 import PubSub from 'pubsub-js'
+import Tooltip from './Tooltip'
 
 import './CreateProposal.css'
 
@@ -65,7 +66,7 @@ class CreateProposal extends Component {
           </div>
         </div>
         <div className='BoxFrame mt-25'>
-          <span className='BoxFrameLabel ui grid'>CREATE PROPOSAL</span>
+          <span className='BoxFrameLabel ui grid'>CREATE PROPOSAL <Tooltip info={'This is where you create new proposals to change a parameter. You can change Registry and Parameterizer parameters here.'} /></span>
           <div className='ui grid'>
             <div className='column sixteen wide'>
               <div className='header'>Select Parameter</div>

@@ -41,9 +41,9 @@ class GovernanceContainer extends Component {
     /*
      * ---------------------- PubSub Pattern -----------------------
      * Used to subscribe and publish events on non-related components.
-     * Very useful for updating state on another component that is not in the same component
+     * Very useful for updating state on another component that is not in the same
      * heirarchy or does not have access to the same props/state.
-     * Convention for usage is to include the name of the component and the function that
+     * Metax's convention for usage is to include the name of the component and the function that
      * is going to be invoked as the first parameter in the subscribe event, and the
      * second parameter is the name of the function that will be invoked and binded by 'this'.
      * In the publishing component you will publish the event by calling PubSub.publish('GovernanceContainer.getProposalsAndPropIds','extradata')
