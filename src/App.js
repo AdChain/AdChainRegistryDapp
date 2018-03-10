@@ -22,14 +22,18 @@ class App extends Component {
     this.state = {
       shouldRun: false,
       walkthroughSteps: [],
-      staticContainer: null
+      staticContainer: null,
+      domainJourney: null,
+      shouldShowOverlay: true,
+      walkthroughFinished: false
     }
     this.handleJoyrideCallback = this.handleJoyrideCallback.bind(this)
     this.startJoyride = this.startJoyride.bind(this)
     this.resumeJoyride = this.resumeJoyride.bind(this)
+    this.toggleOverlay = this.toggleOverlay.bind(this)
   }
   render () {
-    const { shouldRun, walkthroughSteps, staticContainer } = this.state
+    const { shouldRun, walkthroughSteps, staticContainer, domainJourney, shouldShowOverlay, walkthroughFinished } = this.state
 
     return (
       <Router>
@@ -41,7 +45,7 @@ class App extends Component {
                 steps={walkthroughSteps}
                 run={shouldRun}
                 debug={false}
-                showOverlay
+                showOverlay={shouldShowOverlay}
                 locale={{
                   back: (<span>Back</span>),
                   close: (<span>Close</span>),
@@ -53,7 +57,7 @@ class App extends Component {
               />
               <div
                 className='MainSidebarWrap column four wide'>
-                <MainSidebar Link={Link} startJoyride={this.startJoyride} handleJoyrideCallback={this.handleJoyrideCallback}/>
+                <MainSidebar Link={Link} startJoyride={this.startJoyride} handleJoyrideCallback={this.handleJoyrideCallback} resumeJoyride={this.resumeJoyride} domainJourney={domainJourney} toggleOverlay={this.toggleOverlay} walkthroughFinished={walkthroughFinished} />
               </div>
               <div className='MainContainerWrap column twelve wide'>
                 <MainContainer
@@ -64,7 +68,8 @@ class App extends Component {
                   location={location}
                   staticContainer={staticContainer}
                   joyride={this.joyride}
-                  resumeJoyride={this.resumeJoyride} />
+                  resumeJoyride={this.resumeJoyride}
+                />
               </div>
             </div>
           </div>
@@ -74,40 +79,146 @@ class App extends Component {
   }
   handleJoyrideCallback (result) {
     console.log('result: ', result)
-    if (result.action === 'start' && result.type === 'beacon:before') {
-      this.setState({ shouldRun: false })
-    } else if (result.type === 'overlay:click' || result.type === 'finished') {
+    if (result.type === 'overlay:click' || result.type === 'finished') {
       this.joyride.reset()
-      this.setState({ 
+      this.setState({
         walkthroughSteps: [],
-        staticContainer: null
+        staticContainer: null,
+        walkthroughFinished: true,
+        domainJourney: 'application'
+      })
+    } else if (result.action === 'start' && result.type === 'beacon:before') {
+      this.setState({
+        shouldRun: false
+      })
+    } else if (result.step.name === 'application-fifth-step' && result.action === 'next' && result.type === 'tooltip:before') {
+      this.setState({
+        staticContainer: 'dashboard'
       })
     } else if (result.step.name === 'challenge-second-step' && result.action === 'next' && result.type === 'step:after') {
       this.setState({
         staticContainer: 'challenge',
         shouldRun: false
       })
-    } else if (result.step.name === 'challenge-third-step' && result.action === 'next' && result.type === 'step:after') {
+    } else if (result.step.name === 'challenge-third-step' && result.type === 'step:after') {
+      if (result.action === 'next') {
+        this.setState({
+          staticContainer: 'registry',
+          shouldRun: false
+        })
+      } else if (result.action === 'back') {
+        this.setState({
+          staticContainer: null,
+          shouldRun: false
+        })
+      }
+    } else if (result.step.name === 'challenge-fourth-step' && result.action === 'back' && result.type === 'step:after') {
       this.setState({
-        staticContainer: 'registry',
+        staticContainer: 'challenge',
+        shouldRun: false
+      })
+    } else if (result.step.name === 'challenge-fifth-step' && result.action === 'back' && result.type === 'step:after') {
+      this.setState({
+        staticContainer: 'registry'
+      })
+    } else if (result.step.name === 'vote-second-step' && result.action === 'next' && result.type === 'step:after') {
+      this.setState({
+        staticContainer: 'voting',
+        shouldRun: false
+      })
+    } else if (result.step.name === 'vote-third-step' && result.action === 'back' && result.type === 'step:after') {
+      this.setState({
+        staticContainer: null,
+        shouldRun: false
+      })
+    } else if (result.step.name === 'reveal-second-step' && result.action === 'next' && result.type === 'step:after') {
+      this.setState({
+        staticContainer: 'reveal',
+        shouldRun: false
+      })
+    } else if (result.step.name === 'reveal-third-step' && result.action === 'back' && result.type === 'step:after') {
+      this.setState({
+        staticContainer: null,
+        shouldRun: false
+      })
+    } else if (result.step.name === 'domainsjourney-first-step' && result.action === 'next' && result.type === 'step:after') {
+      this.setState({
+        domainJourney: 'registryNoChallenge',
+        shouldRun: false
+      })
+    } else if (result.step.name === 'domainsjourney-second-step' && result.type === 'step:after') {
+      if (result.action === 'next') {
+        this.setState({
+          domainJourney: 'voting',
+          shouldRun: false
+        })
+      } else if (result.action === 'back') {
+        this.setState({
+          domainJourney: 'application',
+          shouldRun: false
+        })
+      }
+    } else if (result.step.name === 'domainsjourney-third-step' && result.type === 'step:after') {
+      if (result.action === 'next') {
+        this.setState({
+          domainJourney: 'reveal',
+          shouldRun: false
+        })
+      } else if (result.action === 'back') {
+        this.setState({
+          domainJourney: 'registryNoChallenge',
+          shouldRun: false
+        })
+      }
+    } else if (result.step.name === 'domainsjourney-fourth-step' && result.type === 'step:after') {
+      if (result.action === 'next') {
+        this.setState({
+          domainJourney: 'registryChallenge',
+          shouldRun: false
+        })
+      } else if (result.action === 'back') {
+        this.setState({
+          domainJourney: 'voting',
+          shouldRun: false
+        })
+      }
+    } else if (result.step.name === 'domainsjourney-fifth-step' && result.type === 'step:after') {
+      if (result.action === 'next') {
+        this.setState({
+          domainJourney: 'rejected',
+          shouldRun: false
+        })
+      } else if (result.action === 'back') {
+        this.setState({
+          domainJourney: 'reveal',
+          shouldRun: false
+        })
+      }
+    } else if (result.step.name === 'domainsjourney-sixth-step' && result.type === 'step:after' && result.action === 'back') {
+      this.setState({
+        domainJourney: 'registryChallenge',
         shouldRun: false
       })
     }
-    // if (result.type === 'finished') {
-    //  this.props.history.push('/account')
-    // }
   }
 
   startJoyride (steps) {
     this.setState({ 
       shouldRun: true,
-      walkthroughSteps: this.state.walkthroughSteps.concat(steps)
+      walkthroughSteps: this.state.walkthroughSteps.concat(steps),
+      walkthroughFinished: false
     })
   }
   
   resumeJoyride () {
     this.setState({
       shouldRun: true
+    })
+  }
+
+  toggleOverlay () {
+    this.setState({
+      shouldShowOverlay: !this.state.shouldShowOverlay
     })
   }
 }

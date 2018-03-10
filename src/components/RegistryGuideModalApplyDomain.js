@@ -24,7 +24,7 @@ class RegistryGuideModalApplyDomain extends Component {
         type: 'click',
         trigger: '.HelpButton',
         isFixed: true,
-        name: 'my-first-step',
+        name: 'application-first-step',
         parent: 'SideBarApplicationContainer'
       },
       {
@@ -34,7 +34,7 @@ class RegistryGuideModalApplyDomain extends Component {
         position: 'right',
         type: 'click',
         isFixed: true,
-        name: 'my-second-step',
+        name: 'application-second-step',
         parent: 'SideBarApplicationContainer'
       },
       {
@@ -44,7 +44,7 @@ class RegistryGuideModalApplyDomain extends Component {
         position: 'bottom',
         type: 'click',
         isFixed: true,
-        name: 'my-third-step',
+        name: 'application-third-step',
         parent: 'MainTopBar'
       },
       {
@@ -54,7 +54,7 @@ class RegistryGuideModalApplyDomain extends Component {
         position: 'right',
         type: 'click',
         isFixed: true,
-        name: 'my-fourth-step',
+        name: 'application-fourth-step',
         parent: 'SideBarApplicationContainer'
       },
       {
@@ -64,7 +64,17 @@ class RegistryGuideModalApplyDomain extends Component {
         position: 'left',
         type: 'click',
         isFixed: true,
-        name: 'my-fifth-step',
+        name: 'application-fifth-step',
+        parent: 'DomainsContainer'
+      },
+      {
+        title: 'Sixth Step',
+        text: 'Within your Dashboard, you can also track your domain\'s application into the adChain Registry',
+        selector: '.RegistryGuideStaticDashboard',
+        position: 'right',
+        type: 'click',
+        isFixed: true,
+        name: 'application-sixth-step',
         parent: 'DomainsContainer'
       }
     ]

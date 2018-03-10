@@ -32,6 +32,12 @@ class RegistryGuideModal extends Component {
     this.show = this.show.bind(this)
   }
 
+  componentWillReceiveProps (nextProps) {
+    if (nextProps.walkthroughFinished === true) {
+      this.returnToMenu()
+    }
+  }
+
   render () {
     const { open, size, menu, one, two, three, four, five, six, seven } = this.state
 
@@ -73,9 +79,9 @@ class RegistryGuideModal extends Component {
           : one ? <RegistryGuideModalAdchainRegistry returnToMenu={this.returnToMenu} close={this.close} section={'one'} />
             : two ? <RegistryGuideModalApplyDomain returnToMenu={this.returnToMenu} section={'two'} close={this.close} startJoyride={this.props.startJoyride} />
               : three ? <RegistryGuideModalChallengeDomain returnToMenu={this.returnToMenu} section={'three'} close={this.close} startJoyride={this.props.startJoyride} />
-                : four ? <RegistryGuideModalCommitVote returnToMenu={this.returnToMenu} section={'four'} />
-                  : five ? <RegistryGuideModalRevealVote returnToMenu={this.returnToMenu} section={'five'} />
-                    : six ? <RegistryGuideModalDomainJourney />
+                : four ? <RegistryGuideModalCommitVote returnToMenu={this.returnToMenu} section={'four'} close={this.close} startJoyride={this.props.startJoyride} />
+                  : five ? <RegistryGuideModalRevealVote returnToMenu={this.returnToMenu} section={'five'} close={this.close} startJoyride={this.props.startJoyride} />
+                    : six ? <RegistryGuideModalDomainJourney returnToMenu={this.returnToMenu} startJoyride={this.props.startJoyride} resumeJoyride={this.props.resumeJoyride} domainJourney={this.props.domainJourney} toggleOverlay={this.props.toggleOverlay} />
                       : seven ? <RegistryGuideModalGovernance returnToMenu={this.returnToMenu} section={'seven'} />
                         : null
         }
@@ -89,9 +95,6 @@ class RegistryGuideModal extends Component {
     guideToDisplay['menu'] = false
     guideToDisplay['lastOpened'] = section
     this.setState(guideToDisplay)
-
-    // return to guide function that sets current state back to false
-    // needs original state?
   }
 
   async returnToMenu (section = null) {
@@ -102,6 +105,7 @@ class RegistryGuideModal extends Component {
     }
     guideToDisplay[lastOpened] = false
     guideToDisplay['menu'] = true
+    guideToDisplay['open'] = true
     this.setState(guideToDisplay)
   }
 

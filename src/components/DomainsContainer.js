@@ -14,6 +14,9 @@ import DomainsFilterPanel from './DomainsFilterPanel'
 import WelcomeModal from './WelcomeModal'
 import RegistryGuideStaticChallenge from './RegistryGuideStaticChallenge'
 import RegistryGuideStaticInRegistry from './RegistryGuideStaticInRegistry'
+import RegistryGuideStaticVoting from './RegistryGuideStaticVoting'
+import RegistryGuideStaticReveal from './RegistryGuideStaticReveal'
+import RegistryGuideStaticDashboard from './RegistryGuideStaticDashboard'
 
 import './DomainsContainer.css'
 
@@ -85,10 +88,14 @@ class DomainsContainer extends Component {
           <div className='column sixteen wide'>
             <div className='ui grid stackable'>
               <div className='column four wide NoPaddingRight'>
-                <DomainsFilterPanel
-                  filters={query}
-                  onFiltersChange={this.onQueryChange}
-                />
+                {
+                  (staticContainer === 'dashboard')
+                    ? <RegistryGuideStaticDashboard />
+                    : <DomainsFilterPanel
+                      filters={query}
+                      onFiltersChange={this.onQueryChange}
+                    />
+                }
               </div>
               {
                 (staticContainer === 'challenge')
@@ -99,12 +106,20 @@ class DomainsContainer extends Component {
                     ? <div className='column six wide'>
                       <RegistryGuideStaticInRegistry />
                     </div>
-                    : <div className='column twelve wide'>
-                      <DomainsTable
-                        history={history}
-                        filters={tableFilters}
-                      />
-                    </div>
+                    : (staticContainer === 'voting')
+                      ? <div className='column six wide'>
+                        <RegistryGuideStaticVoting />
+                      </div>
+                      : (staticContainer === 'reveal')
+                        ? <div className='column six wide'>
+                          <RegistryGuideStaticReveal />
+                        </div>
+                        : <div className='column twelve wide'>
+                          <DomainsTable
+                            history={history}
+                            filters={tableFilters}
+                          />
+                        </div>
               }
             </div>
             {window.localStorage.returningUser === 'false' ? <WelcomeModal /> : null}

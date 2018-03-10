@@ -14,28 +14,68 @@ class RegistryGuideModalCommitVote extends Component {
   render () {
     const { section } = this.state
 
-    // const walkthroughSteps = [
-    //   {
-    //     title: 'Vote - First Step',
-    //     text: 'You can use the DOMAIN FILTERS box to filter the domains that are in the Voting Commit stage.',
-    //     selector: '.DomainsFilterPanel',
-    //     position: 'right',
-    //     type: 'click',
-    //     isFixed: true,
-    //     name: 'vote-first-step',
-    //     parent: 'DomainsContainer'
-    //   },
-    //   {
-    //     title: 'Vote - Second Step',
-    //     text: 'The filtered domains are all in the Voting Commit stage. Voters have until the Stage Ends period to commit votes.',
-    //     selector: '.DomainsTable',
-    //     position: 'left',
-    //     type: 'click',
-    //     isFixed: true,
-    //     name: 'vote-second-step',
-    //     parent: 'DomainsContainer'
-    //   }
-    // ]
+    const walkthroughSteps = [
+      {
+        title: 'Vote - First Step',
+        text: 'You can use the DOMAIN FILTERS box to filter the domains that are in the Voting Commit stage.',
+        selector: '.DomainsFilterPanel',
+        position: 'right',
+        type: 'click',
+        isFixed: true,
+        name: 'vote-first-step',
+        parent: 'DomainsContainer'
+      },
+      {
+        title: 'Vote - Second Step',
+        text: 'The filtered domains are all in the Voting Commit stage. Voters have until the Stage Ends period to commit votes.',
+        selector: '.DomainsTable',
+        position: 'left',
+        type: 'click',
+        isFixed: true,
+        name: 'vote-second-step',
+        parent: 'DomainsContainer'
+      },
+      {
+        title: 'Vote - Third Step',
+        text: 'To commit votes for a domain, simply enter the number of ADT you wish to commit to either SUPPORT or OPPOSE the domain\'s In Registry status.',
+        selector: '.RegistryGuideStaticVoting',
+        position: 'left',
+        type: 'click',
+        isFixed: true,
+        name: 'vote-third-step',
+        parent: 'DomainsContainer'
+      },
+      {
+        title: 'Vote - Fourth Step',
+        text: 'Choose whether you will SUPPORT or OPPOSE the domain\'s application into the adChain Registry.',
+        selector: '.RegistryGuideStaticVoting .WalkthroughStep4',
+        position: 'left',
+        type: 'click',
+        isFixed: true,
+        name: 'vote-fourth-step',
+        parent: 'DomainsContainer'
+      },
+      {
+        title: 'Vote - Fifth Step',
+        text: 'Always remember to download your JSON commit file. It is needed to reveal your vote in the Reveal stage.',
+        selector: '.RegistryGuideStaticVoting .LeftSegment',
+        position: 'left',
+        type: 'click',
+        isFixed: true,
+        name: 'vote-fifth-step',
+        parent: 'DomainsContainer'
+      },
+      {
+        title: 'Vote - Sixth Step',
+        text: 'Once you have completed steps 1 through 3, you can vote by clicking on "SUBMIT VOTE".',
+        selector: '.RegistryGuideStaticVoting .SubmitVoteButton',
+        position: 'left',
+        type: 'click',
+        isFixed: true,
+        name: 'vote-sixth-step',
+        parent: 'DomainsContainer'
+      }
+    ]
     return (
       <div>
         <Modal.Header className='RegistryGuideModalHeader'><span className='RegistryGuideModalHeaderText'>How Do I Commit a Vote?</span></Modal.Header>
@@ -55,7 +95,7 @@ class RegistryGuideModalCommitVote extends Component {
           </div>
           <div className='GuideButtonsContainer'>
             <Button basic className='ReturnButton' onClick={() => this.props.returnToMenu(section)} content='Return to Guide' />
-            <Button basic className='ContinueButton' content='Continue' />
+            <Button basic className='ContinueButton' content='Continue' onClick={() => this.onContinue(walkthroughSteps)} />
           </div>
           <div className='GuideText'>
           Can’t find what you’re looking for? Click <a href='https://adchain.zendesk.com/hc/en-us' target='_blank' rel='noopener noreferrer'>here</a> to visit the help center.
@@ -63,6 +103,11 @@ class RegistryGuideModalCommitVote extends Component {
         </Modal.Content>
       </div>
     )
+  }
+
+  onContinue (steps) {
+    this.props.close()
+    this.props.startJoyride(steps)
   }
 }
 
