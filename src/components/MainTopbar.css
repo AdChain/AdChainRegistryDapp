@@ -27,7 +27,6 @@
 }
 
 :root:root .MainTopbar .menu.top {
-  overflow-x: auto;
   min-height: 70px;
 }
 

@@ -103,11 +103,22 @@ input:focus{
     font-family: Open Sans,sans-serif;
     margin-right:3px;
 }
-.BoxFrame .BoxFrameLabel::after{
+/*.BoxFrame .BoxFrameLabel::after{
     content: url(./components/assets/info_gray.svg);
     transform:scale(1.2) translateY(1.2px);
     padding-left:10px;
     cursor:pointer;
+}*/
+.InfoIcon{
+  height:14px;
+  margin-top: 2px;
+}
+.InfoIcon:hover,.InfoIconLow:hover{
+  cursor:pointer;
+}
+.InfoPopup{
+  font-family: "Open Sans", sans-serif;
+  font-size: 12px !important;
 }
 
 .RootLoader{

@@ -1,23 +1,30 @@
 import React, { Component } from 'react'
 import _ from 'lodash'
+import toastr from 'toastr'
 import './GovernanceAndCoreParameters.css'
-import commafy from 'commafy'
+import ParameterizerService from '../services/parameterizer'
+import Tooltip from './Tooltip'
 
 class GovernanceRewardsTable extends Component {
+  constructor (props) {
+    super(props)
+    this.state = {
+      claimProgress: false
+    }
+  }
   render () {
-    const props = this.props
     return (
       <div className='AllParameters'>
         <div className='BoxFrame mt-25'>
-          <span className='BoxFrameLabel ui grid'>CLAIM REWARDS</span>
+          <span className='BoxFrameLabel ui grid'>CLAIM REWARDS <Tooltip info={'These are the proposals you have voted in and can claim rewards. If you can\'t claim your rewards here you may have not yet REFRESHED STATUS of the proposal.'} /></span>
           <div className='ui grid'>
             <div className='column sixteen wide'>
               <div>
                 <span>Parameters</span>
-                <span className='ValuesTitle'>Values</span>
+                <span className='ValuesTitle'>Action</span>
               </div>
               <div>
-                {this.generateCoreParameterTable(props.coreParameterData)}
+                {this.generateRewardsTable()}
               </div>
             </div>
           </div>
@@ -26,43 +33,51 @@ class GovernanceRewardsTable extends Component {
     )
   }
 
-  generateCoreParameterTable (parameterData) {
-    if (!this.props.coreParameterData || !this.props.governanceParameterData) return
+  generateRewardsTable () {
+    if (this.props.rewards.length < 1) return false
 
-    let i = 0
-    const table = _.reduce(parameterData, (result, value, name) => {
-      value = parameterData[name].value
-      switch (name) {
-        case 'minDeposit':
-        case 'pMinDeposit':
-          value = commafy(value / 1000000000) + ' ADT'
-          break
-        case 'applyStageLen':
-        case 'pApplyStageLen':
-        case 'commitStageLen':
-        case 'pCommitStageLen':
-        case 'revealStageLen':
-        case 'pRevealStageLen':
-          value = (value / 60) + ' min'
-          break
-        case 'dispensationPct':
-        case 'pDispensationPct':
-        case 'voteQuorum':
-        case 'pVoteQuorum':
-          value = value + '%'
-          break
-        default:
-          break
-      }
+    let i = -1
+    let color
+    const rewards = this.props.rewards
+    const table = _.reduce(rewards, (result, { name, value }) => {
+      // If name exists in core param data, use blue color, else use red
+      i++
+      color = this.props.coreParameterData[name] ? 'f-blue bold' : 'f-red bold'
       result.push(
-        <div key={value + name} className='ParameterRow'>
-          <span key={name} className={parameterData === this.props.coreParameterData ? 'f-blue' : 'f-red'}>{parameterData[name].name}</span>
-          <span key={i++}>{value}</span>
+        <div key={name + i} className='ParameterRow'>
+          <span key={name + i} className={color}>{name}</span>
+          {
+            !this.state.claimProgress
+              ? <span key={i} className='ui button green' onClick={() => { this.claimReward(rewards[i]) }} style={{padding: '0.571429em 1.2em'}}>CLAIM</span>
+              : this.state.claimProgress !== 'SUCCESS'
+              ? <span key={i} className='ui green loader inline mini active' style={{padding: '.571429em 5em .571429em 0', float: 'right'}} />
+              : <span key={i} style={{float: 'right', color: 'green'}}>
+                Claimed <i className='icon check circle' style={{color: 'green', fontSize: '13px'}} />
+              </span>
+          }
         </div>
       )
       return result
     }, [])
     return table
+  }
+
+  async claimReward ({challenge_id, salt}) {
+    this.setState({
+      claimProgress: true
+    })
+
+    try {
+      await ParameterizerService.claimReward(challenge_id, salt)
+      this.setState({
+        claimProgress: 'SUCCESS'
+      })
+    } catch (error) {
+      toastr.error('There was an error claiming your reward')
+      this.setState({
+        claimProgress: false
+      })
+    }
   }
 }
 

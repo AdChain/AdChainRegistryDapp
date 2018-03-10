@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Modal } from 'semantic-ui-react'
 import moment from 'moment-timezone'
+import Tooltip from './Tooltip'
 import ParamterizerService from '../services/parameterizer'
 import GovernanceChallengeContainer from './GovernanceChallengeContainer'
 import GovernanceVoteCommitContainer from './GovernanceVoteCommitContainer'
@@ -13,6 +14,7 @@ class OpenProposalsTable extends Component {
     this.state = {
       open: false,
       table: '',
+      loading: true,
       selectedProposal: {
         appExpiry: '',
         name: '',
@@ -21,14 +23,6 @@ class OpenProposalsTable extends Component {
       }
     }
     this.close = this.close.bind(this)
-  }
-
-  show () {
-    this.setState({ open: true })
-  }
-
-  close () {
-    this.setState({ open: false })
   }
 
   async componentWillReceiveProps () {
@@ -40,17 +34,18 @@ class OpenProposalsTable extends Component {
     const { open } = this.state
     return (
       <div className='BoxFrame mt-25'>
-        <span className='BoxFrameLabel ui grid'>OPEN PROPOSALS</span>
+        <span className='BoxFrameLabel ui grid'>OPEN PROPOSALS <Tooltip info={'These are open proposals for new parameter values.'} /></span>
+
         <table className='OpenProposalsTable mt-25'>
           <thead>
             <tr>
-              <th>Parameter</th>
+              <th>Parameters</th>
               <th>Proposed Value</th>
               <th>Proposal Ends</th>
               <th>Action</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody className={this.state.loading ? 'ui loader small inline active' : ''}>
             { this.state.table || [] }
           </tbody>
         </table>
@@ -135,6 +130,7 @@ class OpenProposalsTable extends Component {
       action.event = null
       console.log('proposal not found')
     }
+    this.setState({loading: false})
 
     return (
       <td>
@@ -150,9 +146,6 @@ class OpenProposalsTable extends Component {
     this.setState({
       selectedProposal: proposal
     })
-    // if (type === 'challenge') {
-
-    // }
   }
 
   isExpired (row) {
@@ -161,6 +154,14 @@ class OpenProposalsTable extends Component {
 
     if (!end) return false
     return end < now
+  }
+
+  show () {
+    this.setState({ open: true })
+  }
+
+  close () {
+    this.setState({ open: false })
   }
 }
 

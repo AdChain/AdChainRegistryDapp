@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import _ from 'lodash'
 import './GovernanceAndCoreParameters.css'
 import commafy from 'commafy'
+import Tooltip from './Tooltip'
 
 class GovernanceAndCoreParameters extends Component {
   render () {
@@ -9,7 +10,7 @@ class GovernanceAndCoreParameters extends Component {
     return (
       <div className='AllParameters'>
         <div className='BoxFrame mt-25'>
-          <span className='BoxFrameLabel ui grid'>CORE PARAMETERS</span>
+          <span className='BoxFrameLabel ui grid'>CORE PARAMETERS <Tooltip info={'The Core Parameters are the current parameters that govern the AdChain Registry. All adToken holders are allowed to submit proposals to change parameter values.'} /></span>
           <div className='ui grid'>
             <div className='column sixteen wide'>
               <div>
@@ -23,7 +24,7 @@ class GovernanceAndCoreParameters extends Component {
           </div>
         </div>
         <div className='BoxFrame mt-25'>
-          <span className='BoxFrameLabel ui grid'>GOVERNANCE PARAMETERS</span>
+          <span className='BoxFrameLabel ui grid'>GOVERNANCE PARAMETERS <Tooltip info={'The Governance Parameters are those which govern the rules in changing parameters. The Governance parameters can also be changed by any user of the adChain Registry. '} /></span>
           <div className='ui grid'>
             <div className='column sixteen wide'>
               <div>
@@ -70,7 +71,7 @@ class GovernanceAndCoreParameters extends Component {
       }
       result.push(
         <div key={value + name} className='ParameterRow'>
-          <span key={name} className={parameterData === this.props.coreParameterData ? 'f-blue' : 'f-red'}>{parameterData[name].name}</span>
+          <span key={name} className={parameterData === this.props.coreParameterData ? 'f-blue' : 'f-red'}>{parameterData[name].name} <Tooltip info={parameterData[name].info} class={'InfoIconLow'} /></span>
           <span key={i++}>{value}</span>
         </div>
       )
