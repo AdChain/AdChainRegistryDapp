@@ -132,6 +132,7 @@ class DomainsContainer extends Component {
   onQueryChange (query) {
     const url = window.location.href
     const newQuery = updateQuery(url, query)
+    console.log('queryk:', query)
 
     window.history.replaceState({}, window.location.pathname, newQuery)
 
@@ -152,7 +153,6 @@ class DomainsContainer extends Component {
     }
 
     let filter = []
-
     // TODO: better way
     for (let k in query) {
       if (query[k]) {
@@ -177,7 +177,6 @@ class DomainsContainer extends Component {
 
     filter = new RegExp(filter.join('|'), 'gi')
     stageFilter.value = filter
-
     this.setState({tableFilters: [domainFilter, stageFilter]})
   }
 }
