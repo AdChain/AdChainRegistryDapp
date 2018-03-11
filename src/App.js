@@ -8,7 +8,7 @@ import {
 } from 'react-router-dom'
 
 import CSSTransitionGroup from 'react-addons-css-transition-group'
-
+import InDevelopmentAlert from "./components/InDevelopmentAlert"
 import MainSidebar from './components/MainSidebar'
 import MainContainer from './components/MainContainer'
 
@@ -19,6 +19,7 @@ function App () {
     <Router>
       <Route render={({ location }) => (
         <div className='App'>
+          <InDevelopmentAlert/>
           <div className='ui grid stackable'>
             <div
               className='MainSidebarWrap column four wide'>
