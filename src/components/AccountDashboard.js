@@ -193,7 +193,13 @@ class AccountDashboard extends Component {
   }
 
   async fetchDomainStage (domain) {
-    const listing = await registry.getListing(domain)
+    let listing
+    try {
+      listing = await registry.getListing(domain)
+    } catch (error) {
+      console.log('Error fetching domains')
+      return false
+    }
     let stage = ''
 
     const {
@@ -293,19 +299,21 @@ class AccountDashboard extends Component {
     if (!account) {
       return false
     }
+    try {
+      const response = await window.fetch(`${url}/account/rewards?account=${account}`)
+      let data = await response.json()
 
-    const response = await window.fetch(`${url}/account/rewards?account=${account}`)
-    let data = await response.json()
-
-    data = _.filter(data, (domain) => domain.status === 'unclaimed')
-    for (let i = 0; i < data.length; i++) {
-      let reward = await registry.calculateVoterReward(data[i].sender, data[i].challenge_id, data[i].salt)
-      data[i].reward = big(reward).div(tenToTheNinth).words[0]
+      data = _.filter(data, (domain) => domain.status === 'unclaimed')
+      for (let i = 0; i < data.length; i++) {
+        let reward = await registry.calculateVoterReward(data[i].sender, data[i].challenge_id, data[i].salt)
+        data[i].reward = big(reward).div(tenToTheNinth).words[0]
+      }
+      this.setState({
+        rewards: data
+      })
+    } catch (error) {
+      console.log('Error fetching rewards')
     }
-
-    this.setState({
-      rewards: data
-    })
   }
 }
 

@@ -4,7 +4,6 @@ import ReactTable from 'react-table'
 import commafy from 'commafy'
 import moment from 'moment'
 import toastr from 'toastr'
-
 import 'react-table/react-table.css'
 import './DomainsTable.css'
 
@@ -210,11 +209,15 @@ class DomainsTable extends Component {
       Cell: (props) => {
         const {value, row} = props
         const {domain} = row
+        const stage = props.value
         let label = ''
         let color = ''
 
         const expired = isExpired(row) || row.stage === 'view'
-        if (expired) {
+        if (stage === 'apply') {
+          label = <span><i className='icon x circle' style={{color: 'red'}} />Rejected</span>
+          color = 'info'
+        } else if (expired) {
           label = ' '
           color = 'info'
         } else if (value === 'in_registry') {
