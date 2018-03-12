@@ -3,7 +3,7 @@ import toastr from 'toastr'
 import registry from '../services/registry'
 
 import './DomainProfileStageMap.css'
-
+import Tooltip from './Tooltip'
 import MapVoting from './assets/map_voting.svg'
 import MapReveal from './assets/map_reveal.svg'
 import MapRejected from './assets/map_rejected.svg'
@@ -69,12 +69,8 @@ class DomainProfileStageMap extends Component {
 
     return (
       <div className='DomainProfileStageMap BoxFrame'>
+        <span className='BoxFrameLabel ui grid'>STAGE MAP: {this.state.domain} <Tooltip info={"A visual map that displays where in the adChain Registry the domain is. The domain's track is highlighted in blue (red if rejected)."} /></span>
         <div className='ui grid stackable'>
-          <div className='row'>
-            <div className='column sixteen wide'>
-              <span className='Header'>Stage Map</span>
-            </div>
-          </div>
           <div className='column sixteen wide MapPicture'>
             <object className='stagesvg' type='image/svg+xml' data={stageMapSrc} aria-label='stageMap' />
           </div>

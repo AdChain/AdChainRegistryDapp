@@ -110,7 +110,7 @@ input:focus{
     cursor:pointer;
 }*/
 .InfoIcon{
-  height:14px;
+  height:14px !important;
   margin-top: 2px;
   z-index: 1000;
   position: relative;

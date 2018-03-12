@@ -1,9 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Popup } from 'semantic-ui-react'
-
-// import Identicon from './Identicon'
-
+import Tooltip from './Tooltip'
 import './DomainProfileHeader.css'
 
 function DomainProfileHeader (props) {
@@ -12,16 +9,10 @@ function DomainProfileHeader (props) {
     name,
     description,
     country
-    // image
   } = props
 
   return (
-    <div className='DomainProfileHeader BoxFrame overflow-x'>
-      {/*
-      <div className='ui image'>
-        {image ? <img src={image} alt='' /> : <Identicon address={domain} size={8} scale={8} />}
-      </div>
-      */}
+    <div className='DomainProfileHeader BoxFrame overflow-x' style={{padding: '9px'}}>
       <div className='Content'>
         <div className='Header'>
           <a
@@ -29,29 +20,25 @@ function DomainProfileHeader (props) {
             rel='noopener noreferrer'
             href={`http://${domain}`}>
             <img
+              style={{marginTop: '-3px'}}
               src={`https://www.google.com/s2/favicons?domain=${domain}`}
               width={16}
               alt=''
             />
             {domain}
-            {
-              // <i className='icon external tiny' />
-            }
           </a>
         </div>
         <div className='SubHeader'>
           <div className='Name' title='Website title'>
-            <em>{name || <span>(no title)</span>}</em>
-            <Popup
-              trigger={<i className='icon info circle' />}
-              content='Title displayed on website'
+            <span>{name || <span>(no title)</span>}</span>
+            <Tooltip
+              info='Title displayed on website'
             />
           </div>
           <div className='Description' title='Website description'>
-            <em>{description || <span>(no description)</span>}</em>
-            <Popup
-              trigger={<i className='icon info circle' />}
-              content='Description displayed on website'
+            <span>{description || <span>(no description)</span>}</span>
+            <Tooltip
+              info='Description displayed on website'
             />
           </div>
           {country

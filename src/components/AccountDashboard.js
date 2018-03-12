@@ -56,7 +56,6 @@ class AccountDashboard extends Component {
   }
 
   async componentDidMount () {
-    console.log('this dashboard: ', this)
     this.setState({
       inProgress: true
     })

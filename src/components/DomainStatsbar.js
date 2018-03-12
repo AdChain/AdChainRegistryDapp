@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import commafy from 'commafy'
-
+import Tooltip from './Tooltip'
 import './DomainStatsbar.css'
 
 class DomainStatsbar extends Component {
@@ -45,12 +45,8 @@ class DomainStatsbar extends Component {
 
     return (
       <div className='DomainStatsbar BoxFrame'>
+        <span className='BoxFrameLabel ui grid'>SITE ANALYTICS <Tooltip info={'Simple site analytics, provided by Alexa'} /></span>
         <div className='ui grid stackable'>
-          <div className='row'>
-            <div className='column eight wide'>
-              <span className='Header'>Site Analytics</span>
-            </div>
-          </div>
           <div className='row'>
             <div className='column eight wide'>
               Daily Page Views per Visitor: <strong>{commafy(dailyPageViewsPerVisitor)}</strong>

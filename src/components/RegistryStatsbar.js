@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import commafy from 'commafy'
-import { Popup } from 'semantic-ui-react'
 import Tooltip from './Tooltip'
 import store from '../store'
 import token from '../services/token'
@@ -66,9 +65,8 @@ class RegistryStatsbar extends Component {
                 </div>
                 <div className='label'>
                   TOTAL ADT STAKED&nbsp;
-                  <Popup
-                    trigger={<i className='icon info circle' />}
-                    content='Total amount of adToken deposited when applying and challenging'
+                  <Tooltip
+                    info='Total amount of adToken deposited when applying and challenging'
                   />
                 </div>
               </div>
@@ -78,9 +76,8 @@ class RegistryStatsbar extends Component {
                 </div>
                 <div className='label'>
                   IN APPLICATION&nbsp;
-                  <Popup
-                    trigger={<i className='icon info circle' />}
-                    content='Total number of domains currently in application stage'
+                  <Tooltip
+                    info='Total number of domains currently in application stage'
                   />
                 </div>
               </div>
@@ -90,9 +87,8 @@ class RegistryStatsbar extends Component {
                 </div>
                 <div className='label'>
                   IN VOTING COMMIT&nbsp;
-                  <Popup
-                    trigger={<i className='icon info circle' />}
-                    content='Total number of domains currently in voting commit stage'
+                  <Tooltip
+                    info='Total number of domains currently in voting commit stage'
                   />
                 </div>
               </div>
@@ -102,9 +98,8 @@ class RegistryStatsbar extends Component {
                 </div>
                 <div className='label'>
                   IN VOTING REVEAL&nbsp;
-                  <Popup
-                    trigger={<i className='icon info circle' />}
-                    content='Total number of domains currently in voting reveal stage'
+                  <Tooltip
+                    info='Total number of domains currently in voting reveal stage'
                   />
                 </div>
               </div>
@@ -114,9 +109,8 @@ class RegistryStatsbar extends Component {
                 </div>
                 <div className='label'>
                   IN REGISTRY&nbsp;
-                  <Popup
-                    trigger={<i className='icon info circle' />}
-                    content='Total number of domains currently accepted into the adChain Registry'
+                  <Tooltip
+                    info='Total number of domains currently accepted into the adChain Registry'
                   />
                 </div>
               </div>
