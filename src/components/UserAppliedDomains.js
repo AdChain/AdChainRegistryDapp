@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import Tooltip from './Tooltip'
 import './UserAppliedDomains.css'
 
 class UserAppliedDomains extends Component {
@@ -8,6 +9,7 @@ class UserAppliedDomains extends Component {
     this.state = {
       appliedDomains: props.appliedDomains
     }
+    this.history = props.history
   }
 
   componentDidMount () {
@@ -27,11 +29,16 @@ class UserAppliedDomains extends Component {
 
   render () {
     const { appliedDomains } = this.state
-    const data = appliedDomains ? appliedDomains.map((domain, idx) => <tr key={idx} className='DashboardRow'><td className='DashboardFirstCell'>{domain.domain}</td><td className='DashboardSecondCell'>{domain.stage}</td></tr>) : null
+    const data = appliedDomains
+            ? appliedDomains.map((domain, idx) =>
+              <tr key={idx} className='DashboardRow'>
+                <td className='DashboardFirstCell' onClick={(event) => { event.preventDefault(); this.history.push(`/domains/${domain.domain}`) }}>{domain.domain}</td>
+                <td className='DashboardSecondCell'>{domain.stage}</td>
+              </tr>) : null
 
     return (
       <div className='BoxFrame DashboardColumn'>
-        <span className='BoxFrameLabel ui grid'>DOMAINS YOU APPLIED</span>
+        <span className='BoxFrameLabel ui grid'>DOMAINS YOU APPLIED <Tooltip info={"The domains below are recorded as domains applied by your wallet address. The domain's status is shown to its right."} /></span>
         <div className='ui grid DomainList'>
           <div className='column sixteen wide'>
             <table>

@@ -5,7 +5,6 @@ import toastr from 'toastr'
 import isValidDomain from 'is-valid-domain'
 import registry from '../services/registry'
 import PublisherApplicationFormInProgress from './PublisherApplicationFormInProgress'
-import postJson from '../utils/postJson'
 import commafy from 'commafy'
 
 class SideBarApplicationContainer extends Component {
@@ -87,31 +86,10 @@ class SideBarApplicationContainer extends Component {
       return false
     }
 
-    // await this.save({
-    //   domain,
-    //   stake
-    // })
-
     if (this._isMounted) {
       this.setState({
         inProgress: false
       })
-    }
-  }
-
-  async save (data) {
-    const url = 'https://adchain-registry-api-staging.metax.io/applications'
-
-    const payload = {
-      domain: data.domain,
-      account: registry.getAccount()
-    }
-
-    try {
-      await postJson(url, payload)
-    } catch (error) {
-      toastr.error('There was an error with your request')
-      console.error(error)
     }
   }
 

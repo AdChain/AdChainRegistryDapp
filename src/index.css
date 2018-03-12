@@ -112,11 +112,13 @@ input:focus{
 .InfoIcon{
   height:14px;
   margin-top: 2px;
+  z-index: 1000;
+  position: relative;
 }
 .InfoIcon:hover,.InfoIconLow:hover{
   cursor:pointer;
 }
-.InfoPopup{
+.Tooltip{
   font-family: "Open Sans", sans-serif;
   font-size: 12px !important;
 }

@@ -2,8 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import commafy from 'commafy'
 import toastr from 'toastr'
-// import { Popup } from 'semantic-ui-react'
-
+import Tooltip from './Tooltip'
 import store from '../store'
 import registry from '../services/registry'
 
@@ -48,17 +47,8 @@ class WithdrawVotingRightsContainer extends Component {
       <div className='WithdrawVotingRightsContainer BoxFrame'>
         <div className='ui grid stackable center aligned'>
           <div className='column sixteen wide'>
-            <span className='ui grid BoxFrameLabel'>WITHDRAW VOTING RIGHTS</span>
+            <span className='ui grid BoxFrameLabel'>WITHDRAW VOTING RIGHTS <Tooltip info='Withdraw adToken held by the adChain Registry PLCR contract. AdToken is locked up during voting and unlocked after the reveal stage. When it is unlocked you may withdraw the adToken to your account at any time.' /></span>
           </div>
-          {
-
-            // <p>Withdraw Voting Rights
-            //   <Popup
-            //     trigger={<i className='icon info circle' />}
-            //     content='Withdraw adToken held by the adChain Registry PLCR contract. AdToken is locked up during voting and unlocked after the reveal stage. When it is unlocked you may withdraw the adToken to your account at any time.'
-            //   />
-            // </p>
-          }
           <div className='column sixteen wide UnlockedAdt'>
             <div className='UnlockedAdtText'><small>Available Unlocked Voting Rights: <strong>{availableTokens !== null ? commafy(availableTokens) + ' Rights' : '-'}</strong></small></div>
             <div>
@@ -85,11 +75,12 @@ class WithdrawVotingRightsContainer extends Component {
     try {
       const availableTokens = await registry.getAvailableTokensToWithdraw()
       const lockedTokens = (await registry.getLockedTokens()).toNumber()
-
-      this.setState({
-        availableTokens,
-        lockedTokens
-      })
+      if (this._isMounted) {
+        this.setState({
+          availableTokens,
+          lockedTokens
+        })
+      }
     } catch (error) {
       toastr.error('There was an error with your request')
     }

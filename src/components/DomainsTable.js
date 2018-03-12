@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import ReactTable from 'react-table'
+import Tooltip from './Tooltip'
 import commafy from 'commafy'
 import moment from 'moment'
 import toastr from 'toastr'
@@ -86,7 +87,7 @@ class DomainsTable extends Component {
 
     return (
       <div className='DomainsTable BoxFrame'>
-        <span className='BoxFrameLabel ui grid'>DOMAINS</span>
+        <span className='BoxFrameLabel ui grid'>DOMAINS <Tooltip info={'The Domains Table shows a holistic view of every active domain that has applied to the registry. Feel free to use the DOMAIN FILTER box to the left to display the desired content.'} /></span>
         <div className='ui grid'>
           <ReactTable
             loading={isLoading}
@@ -535,8 +536,8 @@ class DomainsTable extends Component {
         console.log(err)
       }
     }
-
-    this.getData()
+    const {filters} = this.props
+    this.getData(filters)
   }
 }
 

@@ -4,11 +4,7 @@ import toastr from 'toastr'
 
 import store from '../store'
 import registry from '../services/registry'
-// import DomainsTable from './DomainsTable'
-// import AccountHeader from './AccountHeader'
 import AccountStatsbar from './AccountStatsbar'
-// import DomainsFilterPanel from './DomainsFilterPanel'
-
 import RequestTokenApprovalContainer from './RequestTokenApprovalContainer.js'
 import RequestVotingRightsContainer from './RequestVotingRightsContainer.js'
 import WithdrawVotingRightsContainer from './WithdrawVotingRightsContainer.js'
@@ -120,10 +116,10 @@ class AccountDashboard extends Component {
             ? <AccountDashboardLoadingInProgress />
             : <div className='row DomainsRow'>
               <div className='column wide UserAppliedDomainsContainer'>
-                <UserAppliedDomains appliedDomains={appliedDomains} />
+                <UserAppliedDomains appliedDomains={appliedDomains} history={history} />
               </div>
               <div className='column wide UserChallengedDomainsContainer NoPaddingRight'>
-                <UserChallengedDomains challengedDomains={challengedDomains} />
+                <UserChallengedDomains challengedDomains={challengedDomains} history={history} />
               </div>
               <div className='column UserCommitsToRevealContainer wide NoPaddingRight'>
                 <UserCommitsToReveal commitsToReveal={commitsToReveal} history={history} />

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import commafy from 'commafy'
 import { Dropdown, Popup } from 'semantic-ui-react'
-
+import Tooltip from './Tooltip'
 import priceStats from '../services/priceStats'
 import toCurrency from '../utils/toCurrency'
 
@@ -72,7 +72,7 @@ class AdtCalculator extends Component {
 
     return (
       <div className='AdtCalculator BoxFrame'>
-        <span className='ui grid BoxFrameLabel'>ADTOKEN CALCULATOR</span>
+        <span className='ui grid BoxFrameLabel'>ADTOKEN CALCULATOR <Tooltip info={'The adToken Calculator gives the user real-time conversion prices between USD, ETH, and ADT. The data is provided by coinmarketcap.com'} /></span>
         <div className='ui grid'>
           <div className='row'>
             <div className='column seven wide'>

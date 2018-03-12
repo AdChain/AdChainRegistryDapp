@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Button } from 'semantic-ui-react'
-
+import Tooltip from './Tooltip'
 import './UserCommitsToReveal.css'
 
 class UserCommitsToReveal extends Component {
@@ -32,11 +32,15 @@ class UserCommitsToReveal extends Component {
 
   render () {
     const { commitsToReveal } = this.state
-    const data = commitsToReveal ? commitsToReveal.map((domain, idx) => <tr key={idx} className='DashboardRow'><td className='DashboardFirstCell'>{domain.domain}</td><td><Button basic className='RevealButton DashboardSecondCell' onClick={() => this.goToReveal(domain.domain)}>Reveal</Button></td></tr>) : null
+    const data = commitsToReveal ? commitsToReveal.map((domain, idx) =>
+      <tr key={idx} className='DashboardRow'>
+        <td className='DashboardFirstCell' onClick={(event) => { event.preventDefault(); this.state.history.push(`/domains/${domain.domain}`) }}>{domain.domain}</td>
+        <td><Button basic className='RevealButton DashboardSecondCell' onClick={() => this.goToReveal(domain.domain)}>Reveal</Button>
+        </td></tr>) : null
 
     return (
       <div className='BoxFrame DashboardColumn'>
-        <span className='BoxFrameLabel ui grid'>YOUR COMMITS TO REVEAL</span>
+        <span className='BoxFrameLabel ui grid'>YOUR COMMITS TO REVEAL <Tooltip info={'The domains below you have commited votes to. They are listed below to remind you to reveal your votes. The domains below are still in REVEAL STAGE.'} /></span>
         <div className='ui grid'>
           <div className='column sixteen wide'>
             <table>

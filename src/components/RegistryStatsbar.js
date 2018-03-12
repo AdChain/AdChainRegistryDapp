@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import commafy from 'commafy'
 import { Popup } from 'semantic-ui-react'
-
+import Tooltip from './Tooltip'
 import store from '../store'
 import token from '../services/token'
 import './RegistryStatsbar.css'
@@ -42,9 +42,9 @@ class RegistryStatsbar extends Component {
       totalInApplication,
       totalInCommit,
       totalInReveal,
-      totalInRegistry
+      totalInRegistry,
+      showHeader
     } = this.state
-    const {showHeader} = this.state
 
     return (
       <div className='RegistryStatsbar BoxFrame'>
@@ -56,7 +56,7 @@ class RegistryStatsbar extends Component {
               </div>
             </div>
           : null}
-          <span className='ui grid BoxFrameLabel'>GLOBAL REGISTRY USAGE</span>
+          <span className='ui grid BoxFrameLabel'>GLOBAL REGISTRY USAGE <Tooltip info={'This section outlines the global usage of the adChain Registry. "Total ADT staked" is a sum of all ADT staked in the adChain Registry smart contract for domains to be in the registry.'} /></span>
 
           <div className='column sixteen wide' style={{overflow: 'scroll'}}>
             <div className='ui mini statistics t-center'>
