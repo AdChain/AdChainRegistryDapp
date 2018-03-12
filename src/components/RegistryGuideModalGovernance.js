@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Modal, Button } from 'semantic-ui-react'
 import './RegistryGuideModalGovernance.css'
+import { Redirect } from 'react-router-dom'
 
 class RegistryGuideModalGovernance extends Component {
   constructor (props) {
@@ -8,12 +9,50 @@ class RegistryGuideModalGovernance extends Component {
     this.state = {
       section: props.section
     }
+
+    this.onContinue = this.onContinue.bind(this)
   }
 
   render () {
     const { section } = this.state
+
+    const walkthroughSteps = [
+      {
+        title: 'First Step',
+        text: 'Enter the domain you wish to apply. Make sure to use the domain.com format (no www.)',
+        selector: '.RegistryGuideCoreParameters',
+        position: 'right',
+        type: 'click',
+        trigger: '.HelpButton',
+        isFixed: true,
+        name: 'application-first-step',
+        parent: 'SideBarApplicationContainer'
+      },
+      {
+        title: 'Second Step',
+        text: 'Enter the amount of adToken you wish to stake with your application',
+        selector: '.RegistryGuideGovernanceParameters',
+        position: 'right',
+        type: 'click',
+        isFixed: true,
+        name: 'application-second-step',
+        parent: 'SideBarApplicationContainer'
+      },
+      {
+        title: 'Third Step',
+        text: 'With MetaMask unlocked, you\'ll be able to see your ETH and ADT balance here. Both ADT and ETH are needed to apply a Domain.',
+        selector: '.RegistryGuideCreateProposal',
+        position: 'bottom',
+        type: 'click',
+        isFixed: true,
+        name: 'application-third-step',
+        parent: 'MainTopBar'
+      }
+    ]
+
     return (
       <div>
+        <Redirect to='/governance' />
         <Modal.Header className='RegistryGuideModalHeader'><span className='RegistryGuideModalHeaderText'>How do I Interact with the Governance Module?</span></Modal.Header>
         <Modal.Content>
           <div className='GuideDesc'>
@@ -35,7 +74,7 @@ class RegistryGuideModalGovernance extends Component {
           </div>
           <div className='GuideButtonsContainer'>
             <Button basic className='ReturnButton' onClick={() => this.props.returnToMenu(section)} content='Return to Guide' />
-            <Button basic className='ContinueButton' content='Continue' />
+            <Button basic className='ContinueButton' content='Continue' onClick={() => this.onContinue(walkthroughSteps)} />
           </div>
           <div className='GuideText'>
           Can’t find what you’re looking for? Click <a href='https://adchain.zendesk.com/hc/en-us' target='_blank' rel='noopener noreferrer'>here</a> to visit the help center.
@@ -43,6 +82,10 @@ class RegistryGuideModalGovernance extends Component {
         </Modal.Content>
       </div>
     )
+  }
+  onContinue (steps) {
+    this.props.close()
+    this.props.startJoyride(steps)
   }
 }
 

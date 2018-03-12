@@ -65,7 +65,7 @@ class CreateProposal extends Component {
             </p>
           </div>
         </div>
-        <div className='BoxFrame mt-25'>
+        <div className='BoxFrame mt-25 RegistryGuideCreateProposal'>
           <span className='BoxFrameLabel ui grid'>CREATE PROPOSAL <Tooltip info={'This is where you create new proposals to change a parameter. You can change Registry and Parameterizer parameters here.'} /></span>
           <div className='ui grid'>
             <div className='column sixteen wide'>

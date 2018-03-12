@@ -82,7 +82,7 @@ class RegistryGuideModal extends Component {
                 : four ? <RegistryGuideModalCommitVote returnToMenu={this.returnToMenu} section={'four'} close={this.close} startJoyride={this.props.startJoyride} />
                   : five ? <RegistryGuideModalRevealVote returnToMenu={this.returnToMenu} section={'five'} close={this.close} startJoyride={this.props.startJoyride} />
                     : six ? <RegistryGuideModalDomainJourney returnToMenu={this.returnToMenu} startJoyride={this.props.startJoyride} resumeJoyride={this.props.resumeJoyride} domainJourney={this.props.domainJourney} toggleOverlay={this.props.toggleOverlay} />
-                      : seven ? <RegistryGuideModalGovernance returnToMenu={this.returnToMenu} section={'seven'} />
+                      : seven ? <RegistryGuideModalGovernance returnToMenu={this.returnToMenu} section={'seven'} close={this.close} startJoyride={this.props.startJoyride} />
                         : null
         }
       </Modal>
