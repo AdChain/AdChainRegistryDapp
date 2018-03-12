@@ -4,7 +4,6 @@ import ReactTable from 'react-table'
 import commafy from 'commafy'
 import moment from 'moment'
 import toastr from 'toastr'
-
 import 'react-table/react-table.css'
 import './DomainsTable.css'
 
@@ -13,14 +12,14 @@ import registry from '../services/registry'
 
 // import StatProgressBar from './StatProgressBar'
 
-function filterMethod (filter, row, column) {
+function filterMethod (filter, row) {
   const id = filter.pivotId || filter.id
-
   if (filter.value instanceof RegExp) {
     return row[id] !== undefined ? filter.value.test(row[id]) : true
   }
 
-  return row[id] !== undefined && filter.value ? String(row[id]).indexOf(filter.value) > -1 : true
+  let res = row[id] !== undefined && filter.value ? String(row[id].domain).indexOf(filter.value) > -1 : true
+  return res
 }
 
 var history = null
@@ -37,7 +36,7 @@ class DomainsTable extends Component {
   constructor (props) {
     super()
 
-    const filters = props.filters || []
+    const filters = props.filters
     const columns = this.getColumns()
     this.state = {
       columns,
@@ -51,7 +50,7 @@ class DomainsTable extends Component {
     history = props.history
 
     this.onTableFetchData = this.onTableFetchData.bind(this)
-    this.getData()
+    // this.getData()
   }
 
   componentDidMount () {
@@ -73,7 +72,7 @@ class DomainsTable extends Component {
     if (this._isMounted) {
       this.setState({filters})
     }
-    this.getData()
+    this.getData(filters)
   }
 
   render () {
@@ -210,11 +209,15 @@ class DomainsTable extends Component {
       Cell: (props) => {
         const {value, row} = props
         const {domain} = row
+        const stage = props.value
         let label = ''
         let color = ''
 
         const expired = isExpired(row) || row.stage === 'view'
-        if (expired) {
+        if (stage === 'apply') {
+          label = <span><i className='icon x circle' style={{color: 'red'}} />Rejected</span>
+          color = 'info'
+        } else if (expired) {
           label = ' '
           color = 'info'
         } else if (value === 'in_registry') {
@@ -349,7 +352,6 @@ class DomainsTable extends Component {
 
     const allDomains = this.state.allDomains
     let domains = allDomains
-
     if (filtered && filtered[0]) {
       domains = domains.filter(domain => {
         return filterMethod(filtered[0], {domain})
@@ -443,15 +445,14 @@ class DomainsTable extends Component {
     }
   }
 
-  async getData () {
+  async getData (filters) {
     const {
-      pageSize,
-      filters
+      pageSize
     } = this.state
 
     let domains = []
     const queryFilters = []
-    const stageFilter = (filters || []).reduce((acc, x) => {
+    const stageFilter = (filters).reduce((acc, x) => {
       if (x.id === 'stage') {
         return x
       }

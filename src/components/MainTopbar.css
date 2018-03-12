@@ -72,7 +72,8 @@
   background:#961919;
 }
 :root:root:root .MainTopbar .RedAlert {
-  background:#961919;
+  background: #961919;
+  color: white !important;
 }
 
 .MainTopbar .AdtLogo {

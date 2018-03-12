@@ -38,20 +38,24 @@ class RegistryService {
      * init function (rather than constructor),
      * so that injected web3 has time to load.
     */
-    this.provider = getProvider()
-    this.eth = new Eth(getProvider())
-    const accounts = await this.eth.accounts()
-    this.account = accounts[0]
-    this.registry = await getRegistry(this.account)
-    this.address = this.registry.address
-    plcr.init()
+    try {
+      this.provider = getProvider()
+      this.eth = new Eth(getProvider())
+      const accounts = await this.eth.accounts()
+      this.account = accounts[0]
+      this.registry = await getRegistry(this.account)
+      this.address = this.registry.address
+      plcr.init()
 
-    this.setUpEvents()
-    this.setAccount()
+      this.setUpEvents()
+      this.setAccount()
 
-    store.dispatch({
-      type: 'REGISTRY_CONTRACT_INIT'
-    })
+      store.dispatch({
+        type: 'REGISTRY_CONTRACT_INIT'
+      })
+    } catch (error) {
+      console.log('Error initializing Registry Service')
+    }
   }
 
   async setUpEvents () {

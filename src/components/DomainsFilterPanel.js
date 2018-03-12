@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-// import PropTypes from 'prop-types'
+import PropTypes from 'prop-types'
 
 import './DomainsFilterPanel.css'
 
@@ -125,6 +125,7 @@ class DomainsFilterPanel extends Component {
   }
 
   onFilterChange (event) {
+    console.log('on filter change')
     const target = event.target
     const {name, checked} = target
 
@@ -158,11 +159,9 @@ class DomainsFilterPanel extends Component {
   }
 }
 
-/*
 DomainsFilterPanel.propTypes = {
   filters: PropTypes.object,
   onFiltersChange: PropTypes.func
 }
-*/
 
 export default DomainsFilterPanel
