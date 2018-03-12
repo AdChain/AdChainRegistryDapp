@@ -55,7 +55,7 @@
   },
   "scripts": {
     "start": "serve -s build",
-    "start:dev": "react-scripts start",
+    "start:dev": "react-scripts start --no-info",
     "build": "react-scripts build",
     "lint": "standard src/**/*.js",
     "lint:fix": "standard --fix src/**/*.js",
