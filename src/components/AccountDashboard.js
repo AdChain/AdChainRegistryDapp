@@ -60,7 +60,6 @@ class AccountDashboard extends Component {
   }
 
   async componentDidMount () {
-    console.log('this dashboard: ', this)
     this.setState({
       inProgress: true
     })
@@ -82,10 +81,6 @@ class AccountDashboard extends Component {
     this.setState({
       inProgress: false
     })
-  }
-
-  handleJoyrideCallback (result) {
-    console.log('result inside dashboard: ', result)
   }
 
   render () {

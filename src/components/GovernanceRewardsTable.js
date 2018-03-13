@@ -15,7 +15,7 @@ class GovernanceRewardsTable extends Component {
   render () {
     return (
       <div className='AllParameters'>
-        <div className='BoxFrame mt-25'>
+        <div className='BoxFrame mt-25 RegistryGuideClaimRewards'>
           <span className='BoxFrameLabel ui grid'>CLAIM REWARDS <Tooltip info={'These are the proposals you have voted in and can claim rewards. If you can\'t claim your rewards here you may have not yet REFRESHED STATUS of the proposal.'} /></span>
           <div className='ui grid'>
             <div className='column sixteen wide'>

@@ -53,13 +53,15 @@ class DomainsContainer extends Component {
     }
   }
 
-  componentWillReceiveProps (props) {
-    const query = qs.parse(props.location.search.substr(1))
+  componentWillReceiveProps (nextProps) {
+    // if (nextProps.location.key === this.props.location.key) {
+    const query = qs.parse(nextProps.location.search.substr(1))
     this.setState({
       query: normalizeQueryObj(query),
-      staticContainer: props.staticContainer
+      staticContainer: nextProps.staticContainer
     })
     this.updateTableFilters(query)
+    // }
   }
 
   componentDidUpdate (prevProps, prevState) {

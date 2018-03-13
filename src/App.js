@@ -31,6 +31,7 @@ class App extends Component {
     this.startJoyride = this.startJoyride.bind(this)
     this.resumeJoyride = this.resumeJoyride.bind(this)
     this.toggleOverlay = this.toggleOverlay.bind(this)
+    this.confirmWalkthrough = this.confirmWalkthrough.bind(this)
   }
   render () {
     const { shouldRun, walkthroughSteps, staticContainer, domainJourney, shouldShowOverlay, walkthroughFinished } = this.state
@@ -57,7 +58,7 @@ class App extends Component {
               />
               <div
                 className='MainSidebarWrap column four wide'>
-                <MainSidebar Link={Link} startJoyride={this.startJoyride} handleJoyrideCallback={this.handleJoyrideCallback} resumeJoyride={this.resumeJoyride} domainJourney={domainJourney} toggleOverlay={this.toggleOverlay} walkthroughFinished={walkthroughFinished} />
+                <MainSidebar Link={Link} startJoyride={this.startJoyride} handleJoyrideCallback={this.handleJoyrideCallback} resumeJoyride={this.resumeJoyride} domainJourney={domainJourney} toggleOverlay={this.toggleOverlay} walkthroughFinished={walkthroughFinished} confirmWalkthrough={this.confirmWalkthrough} />
               </div>
               <div className='MainContainerWrap column twelve wide'>
                 <MainContainer
@@ -78,7 +79,7 @@ class App extends Component {
     )
   }
   handleJoyrideCallback (result) {
-    console.log('result: ', result)
+    // console.log('result: ', result)
     if (result.type === 'overlay:click' || result.type === 'finished') {
       this.joyride.reset()
       this.setState({
@@ -219,6 +220,12 @@ class App extends Component {
   toggleOverlay () {
     this.setState({
       shouldShowOverlay: !this.state.shouldShowOverlay
+    })
+  }
+
+  async confirmWalkthrough () {
+    this.setState({
+      walkthroughFinished: false
     })
   }
 }

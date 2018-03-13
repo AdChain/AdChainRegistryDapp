@@ -13,6 +13,7 @@ import helpLogo from './assets/HELP.svg'
 import parametersLogo from './assets/PARAMETERS.svg'
 import socialLogo from './assets/SOCIALS (OPEN).svg'
 import RegistryGuideModal from './RegistryGuideModal'
+import { withRouter } from 'react-router-dom'
 
 class MainSidebar extends Component {
   constructor (props) {
@@ -24,7 +25,9 @@ class MainSidebar extends Component {
       socialClicked: false
     }
     this._Link = props.Link
+    this._history = props.history
     this.handleClick = this.handleClick.bind(this)
+    this.updateRoute = this.updateRoute.bind(this)
   }
 
   handleClick (e, titleProps) {
@@ -46,6 +49,13 @@ class MainSidebar extends Component {
         helpClicked: false
       })
     }
+  }
+
+  async updateRoute (route) {
+    if (route !== window.location.pathname) {
+      this._history.push(`${route}`)
+    }
+    await this.props.confirmWalkthrough()
   }
 
   render () {
@@ -99,7 +109,7 @@ class MainSidebar extends Component {
         <div className='SidebarListContainer overflow-x'>
           <div className='SidebarList overflow-y overflow-x'>
             <div className='ListTitle ui header'>
-              <RegistryGuideModal startJoyride={this.props.startJoyride} handleJoyrideCallback={this.props.handleJoyrideCallback} resumeJoyride={this.props.resumeJoyride} domainJourney={this.props.domainJourney} toggleOverlay={this.props.toggleOverlay} walkthroughFinished={this.props.walkthroughFinished} />
+              <RegistryGuideModal updateRoute={this.updateRoute} startJoyride={this.props.startJoyride} handleJoyrideCallback={this.props.handleJoyrideCallback} resumeJoyride={this.props.resumeJoyride} domainJourney={this.props.domainJourney} toggleOverlay={this.props.toggleOverlay} walkthroughFinished={this.props.walkthroughFinished} />
             </div>
             <Menu.Item name='domain'>
               <Link to='/domains' className='NavLink' activeClassName='active'><img src={wwwLogo} alt='www' />Domains</Link>
@@ -164,4 +174,4 @@ MainSidebar.propTypes = {
 */
 }
 
-export default MainSidebar
+export default withRouter(MainSidebar)

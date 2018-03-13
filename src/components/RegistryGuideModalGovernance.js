@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { Modal, Button } from 'semantic-ui-react'
 import './RegistryGuideModalGovernance.css'
-import { Redirect } from 'react-router-dom'
 
 class RegistryGuideModalGovernance extends Component {
   constructor (props) {
@@ -18,41 +17,59 @@ class RegistryGuideModalGovernance extends Component {
 
     const walkthroughSteps = [
       {
-        title: 'First Step',
-        text: 'Enter the domain you wish to apply. Make sure to use the domain.com format (no www.)',
+        title: 'Governance - First Step',
+        text: 'The CORE PARAMETERS govern the adChain Registry. These values are what dictate interaction with the adChain Registry.',
         selector: '.RegistryGuideCoreParameters',
         position: 'right',
         type: 'click',
-        trigger: '.HelpButton',
         isFixed: true,
-        name: 'application-first-step',
-        parent: 'SideBarApplicationContainer'
+        name: 'governance-first-step',
+        parent: 'GovernanceContainer'
       },
       {
-        title: 'Second Step',
-        text: 'Enter the amount of adToken you wish to stake with your application',
+        title: 'Governance - Second Step',
+        text: 'The GOVERNANCE PARAMETERS dictate the values for the Governance Module. These values govern the process in proposing a new Governance Module value.',
         selector: '.RegistryGuideGovernanceParameters',
         position: 'right',
         type: 'click',
         isFixed: true,
-        name: 'application-second-step',
-        parent: 'SideBarApplicationContainer'
+        name: 'governance-second-step',
+        parent: 'GovernanceContainer'
       },
       {
-        title: 'Third Step',
-        text: 'With MetaMask unlocked, you\'ll be able to see your ETH and ADT balance here. Both ADT and ETH are needed to apply a Domain.',
+        title: 'Governance - Third Step',
+        text: 'The CREATE PROPOSALS box allows you to propose new values for both Core Parameters and Governance Parameters. If not challenged, the newly proposed parameter values are enacted.',
         selector: '.RegistryGuideCreateProposal',
         position: 'bottom',
         type: 'click',
         isFixed: true,
-        name: 'application-third-step',
-        parent: 'MainTopBar'
+        name: 'governance-third-step',
+        parent: 'GovernanceContainer'
+      },
+      {
+        title: 'Governance - Fourth Step',
+        text: 'The OPEN PROPOSALS box demonstrates all of the proposed parameter values for both CORE PARAMETERS and GOVERNANCE PARAMETERS. If an open proposal goes through the gApplyStageLength without being challenged, it is immediately implemented as a new parameter value.',
+        selector: '.RegistryGuideOpenProposals',
+        position: 'left',
+        type: 'click',
+        isFixed: true,
+        name: 'governance-fourth-step',
+        parent: 'GovernanceContainer'
+      },
+      {
+        title: 'Governance - Fifth Step',
+        text: '',
+        selector: '.RegistryGuideClaimRewards',
+        position: 'right',
+        type: 'click',
+        isFixed: true,
+        name: 'governance-fifth-step',
+        parent: 'GovernanceContainer'
       }
     ]
 
     return (
       <div>
-        <Redirect to='/governance' />
         <Modal.Header className='RegistryGuideModalHeader'><span className='RegistryGuideModalHeaderText'>How do I Interact with the Governance Module?</span></Modal.Header>
         <Modal.Content>
           <div className='GuideDesc'>

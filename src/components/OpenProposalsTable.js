@@ -33,7 +33,7 @@ class OpenProposalsTable extends Component {
   render () {
     const { open } = this.state
     return (
-      <div className='BoxFrame mt-25'>
+      <div className='BoxFrame mt-25 RegistryGuideOpenProposals'>
         <span className='BoxFrameLabel ui grid'>OPEN PROPOSALS <Tooltip info={'These are open proposals for new parameter values.'} /></span>
 
         <table className='OpenProposalsTable mt-25'>

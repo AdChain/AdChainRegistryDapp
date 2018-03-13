@@ -113,18 +113,18 @@ class GovernanceContainer extends Component {
     })
     try {
       ParameterizerService.getProposalsAndPropIds()
-          .then((response) => {
-            proposals = this.state.currentProposals
-            for (let i = 0; i < response[0].length; i++) {
-              if (response[0][i][4] === '0x0000000000000000000000000000000000000000') {
-              } else {
-                proposals.push(this.formatProposal(response[0][i], response[1][i]))
-              }
+        .then((response) => {
+          proposals = this.state.currentProposals
+          for (let i = 0; i < response[0].length; i++) {
+            if (response[0][i][4] === '0x0000000000000000000000000000000000000000') {
+            } else {
+              proposals.push(this.formatProposal(response[0][i], response[1][i]))
             }
-            this.setState({
-              currentProposals: proposals
-            })
+          }
+          this.setState({
+            currentProposals: proposals
           })
+        })
     } catch (error) {
       console.log('error: ', error)
     }

@@ -7,6 +7,7 @@ import RegistryGuideModalCommitVote from './RegistryGuideModalCommitVote'
 import RegistryGuideModalRevealVote from './RegistryGuideModalRevealVote'
 import RegistryGuideModalDomainJourney from './RegistryGuideModalDomainJourney'
 import RegistryGuideModalGovernance from './RegistryGuideModalGovernance'
+import { withRouter } from 'react-router-dom'
 import './RegistryGuideModal.css'
 
 class RegistryGuideModal extends Component {
@@ -23,13 +24,15 @@ class RegistryGuideModal extends Component {
       five: false,
       six: false,
       seven: false,
-      lastOpened: ''
+      lastOpened: '',
+      route: 'domains'
     }
 
     this.setGuideContent = this.setGuideContent.bind(this)
     this.returnToMenu = this.returnToMenu.bind(this)
     this.close = this.close.bind(this)
     this.show = this.show.bind(this)
+    this.updateRoute = props.updateRoute
   }
 
   componentWillReceiveProps (nextProps) {
@@ -48,7 +51,7 @@ class RegistryGuideModal extends Component {
             <Modal.Header className='RegistryGuideModalHeader'><span className='RegistryGuideModalHeaderText'>What is the Adchain Registry?</span></Modal.Header>
             <Modal.Content>
               <div className='GuideText'>
-              Choose which step-by-step guide you want to see
+                Choose which step-by-step guide you want to see
               </div>
               <div className='GuideButtonsContainer'>
                 <Button basic className='GuideButtons' onClick={() => this.setGuideContent('one')} content='What is the adChain Registry?' />
@@ -72,7 +75,7 @@ class RegistryGuideModal extends Component {
                 <Button basic className='GuideButtons' onClick={() => this.setGuideContent('seven')} content='How do I interact with the Governance Module?' />
               </div>
               <div className='GuideText'>
-              Can’t find what you’re looking for? Click <a href='https://adchain.zendesk.com/hc/en-us' target='_blank' rel='noopener noreferrer'>here</a> to visit the help center.
+                Can’t find what you’re looking for? Click <a href='https://adchain.zendesk.com/hc/en-us' target='_blank' rel='noopener noreferrer'>here</a> to visit the help center.
               </div>
             </Modal.Content>
           </div>
@@ -94,28 +97,30 @@ class RegistryGuideModal extends Component {
     guideToDisplay[section] = true
     guideToDisplay['menu'] = false
     guideToDisplay['lastOpened'] = section
+    if (section === 'seven') {
+      await this.updateRoute('/governance')
+    }
     this.setState(guideToDisplay)
   }
 
   async returnToMenu (section = null) {
     const { lastOpened } = this.state
     let guideToDisplay = {}
-    if (section) {
-      guideToDisplay[section] = false
-    }
+    guideToDisplay[section] = !(section)
     guideToDisplay[lastOpened] = false
     guideToDisplay['menu'] = true
     guideToDisplay['open'] = true
+    await this.updateRoute('/domains')
     this.setState(guideToDisplay)
   }
 
   close () {
     const { lastOpened } = this.state
-    let obj = {}
-    obj[lastOpened] = false
-    obj['menu'] = true
-    obj['open'] = false
-    this.setState(obj)
+    let guideToDisplay = {}
+    guideToDisplay[lastOpened] = false
+    guideToDisplay['menu'] = true
+    guideToDisplay['open'] = false
+    this.setState(guideToDisplay)
   }
 
   show () {
@@ -123,4 +128,4 @@ class RegistryGuideModal extends Component {
   }
 }
 
-export default RegistryGuideModal
+export default withRouter(RegistryGuideModal)

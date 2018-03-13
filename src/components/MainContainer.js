@@ -9,7 +9,6 @@ import AccountDashboard from './AccountDashboard'
 import RocketChat from './RocketChat'
 import GovernanceContainer from './GovernanceContainer'
 import './MainContainer.css'
-import { withRouter } from 'react-router-dom'
 
 class MainContainer extends Component {
   render () {
@@ -57,4 +56,4 @@ MainContainer.propTypes = {
   location: PropTypes.object
 }
 
-export default withRouter(MainContainer)
+export default MainContainer
