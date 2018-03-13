@@ -48,8 +48,8 @@ class App extends Component {
                 debug={false}
                 showOverlay={shouldShowOverlay}
                 locale={{
-                  back: (<span>Back</span>),
-                  close: (<span>Close</span>),
+                  back: (<span>Previous</span>),
+                  last: (<span>Close</span>),
                   next: (<span>Next</span>)
                 }}
                 type='continuous'

@@ -15,7 +15,21 @@ const walkthroughSteps = [
     type: 'click',
     isFixed: true,
     name: 'domainsjourney-first-step',
-    parent: 'DomainsContainer'
+    parent: 'DomainsContainer',
+    style: {
+      backgroundColor: '#3434CE',
+      textAlign: 'left',
+      width: '29rem',
+      main: {
+        padding: '20px'
+      },
+      footer: {
+        display: 'block'
+      },
+      close: {
+        color: '#FFF'
+      }
+    }
   },
   {
     title: 'Domain\'s Journey - Second Step',
@@ -25,7 +39,21 @@ const walkthroughSteps = [
     type: 'click',
     isFixed: true,
     name: 'domainsjourney-second-step',
-    parent: 'DomainsContainer'
+    parent: 'DomainsContainer',
+    style: {
+      backgroundColor: '#3434CE',
+      textAlign: 'left',
+      width: '29rem',
+      main: {
+        padding: '20px'
+      },
+      footer: {
+        display: 'block'
+      },
+      close: {
+        color: '#FFF'
+      }
+    }
   },
   {
     title: 'Domain\'s Journey - Third Step',
@@ -35,7 +63,21 @@ const walkthroughSteps = [
     type: 'click',
     isFixed: true,
     name: 'domainsjourney-third-step',
-    parent: 'DomainsContainer'
+    parent: 'DomainsContainer',
+    style: {
+      backgroundColor: '#3434CE',
+      textAlign: 'left',
+      width: '29rem',
+      main: {
+        padding: '20px'
+      },
+      footer: {
+        display: 'block'
+      },
+      close: {
+        color: '#FFF'
+      }
+    }
   },
   {
     title: 'Domain\'s Journey - Fourth Step',
@@ -45,7 +87,21 @@ const walkthroughSteps = [
     type: 'click',
     isFixed: true,
     name: 'domainsjourney-fourth-step',
-    parent: 'DomainsContainer'
+    parent: 'DomainsContainer',
+    style: {
+      backgroundColor: '#3434CE',
+      textAlign: 'left',
+      width: '29rem',
+      main: {
+        padding: '20px'
+      },
+      footer: {
+        display: 'block'
+      },
+      close: {
+        color: '#FFF'
+      }
+    }
   },
   {
     title: 'Domain\'s Journey - Fifth Step',
@@ -55,7 +111,21 @@ const walkthroughSteps = [
     type: 'click',
     isFixed: true,
     name: 'domainsjourney-fifth-step',
-    parent: 'DomainsContainer'
+    parent: 'DomainsContainer',
+    style: {
+      backgroundColor: '#3434CE',
+      textAlign: 'left',
+      width: '29rem',
+      main: {
+        padding: '20px'
+      },
+      footer: {
+        display: 'block'
+      },
+      close: {
+        color: '#FFF'
+      }
+    }
   },
   {
     title: 'Domain\'s Journey - Sixth Step',
@@ -65,7 +135,21 @@ const walkthroughSteps = [
     type: 'click',
     isFixed: true,
     name: 'domainsjourney-sixth-step',
-    parent: 'DomainsContainer'
+    parent: 'DomainsContainer',
+    style: {
+      backgroundColor: '#3434CE',
+      textAlign: 'left',
+      width: '29rem',
+      main: {
+        padding: '20px'
+      },
+      footer: {
+        display: 'block'
+      },
+      close: {
+        color: '#FFF'
+      }
+    }
   }
 ]
 

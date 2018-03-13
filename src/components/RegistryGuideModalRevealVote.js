@@ -23,7 +23,21 @@ class RegistryGuideModalRevealVote extends Component {
         type: 'click',
         isFixed: true,
         name: 'reveal-first-step',
-        parent: 'DomainsContainer'
+        parent: 'DomainsContainer',
+        style: {
+          backgroundColor: '#3434CE',
+          textAlign: 'left',
+          width: '29rem',
+          main: {
+            padding: '20px'
+          },
+          footer: {
+            display: 'block'
+          },
+          close: {
+            color: '#FFF'
+          }
+        }
       },
       {
         title: 'Reveal - Second Step',
@@ -33,7 +47,21 @@ class RegistryGuideModalRevealVote extends Component {
         type: 'click',
         isFixed: true,
         name: 'reveal-second-step',
-        parent: 'DomainsContainer'
+        parent: 'DomainsContainer',
+        style: {
+          backgroundColor: '#3434CE',
+          textAlign: 'left',
+          width: '29rem',
+          main: {
+            padding: '20px'
+          },
+          footer: {
+            display: 'block'
+          },
+          close: {
+            color: '#FFF'
+          }
+        }
       },
       {
         title: 'Reveal - Third Step',
@@ -43,7 +71,21 @@ class RegistryGuideModalRevealVote extends Component {
         type: 'click',
         isFixed: true,
         name: 'reveal-third-step',
-        parent: 'DomainsContainer'
+        parent: 'DomainsContainer',
+        style: {
+          backgroundColor: '#3434CE',
+          textAlign: 'left',
+          width: '29rem',
+          main: {
+            padding: '20px'
+          },
+          footer: {
+            display: 'block'
+          },
+          close: {
+            color: '#FFF'
+          }
+        }
       },
       {
         title: 'Reveal - Fourth Step',
@@ -53,7 +95,21 @@ class RegistryGuideModalRevealVote extends Component {
         type: 'click',
         isFixed: true,
         name: 'reveal-fourth-step',
-        parent: 'DomainsContainer'
+        parent: 'DomainsContainer',
+        style: {
+          backgroundColor: '#3434CE',
+          textAlign: 'left',
+          width: '29rem',
+          main: {
+            padding: '20px'
+          },
+          footer: {
+            display: 'block'
+          },
+          close: {
+            color: '#FFF'
+          }
+        }
       }
     ]
     return (

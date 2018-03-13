@@ -17,65 +17,148 @@ class RegistryGuideModalApplyDomain extends Component {
 
     const walkthroughSteps = [
       {
-        title: 'First Step',
+        title: 'Application - First Step',
         text: 'Enter the domain you wish to apply. Make sure to use the domain.com format (no www.)',
         selector: '.JoyrideForm',
         position: 'right',
         type: 'click',
-        trigger: '.HelpButton',
         isFixed: true,
         name: 'application-first-step',
-        parent: 'SideBarApplicationContainer'
+        parent: 'SideBarApplicationContainer',
+        style: {
+          backgroundColor: '#3434CE',
+          textAlign: 'left',
+          width: '29rem',
+          main: {
+            padding: '20px'
+          },
+          footer: {
+            display: 'block'
+          },
+          close: {
+            color: '#FFF'
+          }
+        }
       },
       {
-        title: 'Second Step',
+        title: 'Application - Second Step',
         text: 'Enter the amount of adToken you wish to stake with your application',
         selector: '.ApplicationContainer',
         position: 'right',
         type: 'click',
         isFixed: true,
         name: 'application-second-step',
-        parent: 'SideBarApplicationContainer'
+        parent: 'SideBarApplicationContainer',
+        style: {
+          backgroundColor: '#3434CE',
+          textAlign: 'left',
+          width: '29rem',
+          main: {
+            padding: '20px'
+          },
+          footer: {
+            display: 'block'
+          },
+          close: {
+            color: '#FFF'
+          }
+        }
       },
       {
-        title: 'Third Step',
+        title: 'Application - Third Step',
         text: 'With MetaMask unlocked, you\'ll be able to see your ETH and ADT balance here. Both ADT and ETH are needed to apply a Domain.',
         selector: '.JoyrideTopBar',
         position: 'bottom',
         type: 'click',
         isFixed: true,
         name: 'application-third-step',
-        parent: 'MainTopBar'
+        parent: 'MainTopBar',
+        style: {
+          backgroundColor: '#3434CE',
+          textAlign: 'left',
+          width: '29rem',
+          main: {
+            padding: '20px'
+          },
+          footer: {
+            display: 'block'
+          },
+          close: {
+            color: '#FFF'
+          }
+        }
       },
       {
-        title: 'Fourth Step',
+        title: 'Application - Fourth Step',
         text: 'With all of the fields filled out, and enough ETH to cover the transaction, you will have successfully applied a domain.',
         selector: '.ApplicationContainer',
         position: 'right',
         type: 'click',
         isFixed: true,
         name: 'application-fourth-step',
-        parent: 'SideBarApplicationContainer'
+        parent: 'SideBarApplicationContainer',
+        style: {
+          backgroundColor: '#3434CE',
+          textAlign: 'left',
+          width: '29rem',
+          main: {
+            padding: '20px'
+          },
+          footer: {
+            display: 'block'
+          },
+          close: {
+            color: '#FFF'
+          }
+        }
       },
       {
-        title: 'Fifth Step',
+        title: 'Application - Fifth Step',
         text: 'Once the transactions are signed, your applied domain can be found in the DOMAINS box.',
         selector: '.DomainsTable',
         position: 'left',
         type: 'click',
         isFixed: true,
         name: 'application-fifth-step',
-        parent: 'DomainsContainer'
+        parent: 'DomainsContainer',
+        style: {
+          backgroundColor: '#3434CE',
+          textAlign: 'left',
+          width: '29rem',
+          main: {
+            padding: '20px'
+          },
+          footer: {
+            display: 'block'
+          },
+          close: {
+            color: '#FFF'
+          }
+        }
       },
       {
-        title: 'Sixth Step',
+        title: 'Application - Sixth Step',
         text: 'Within your Dashboard, you can also track your domain\'s application into the adChain Registry',
         selector: '.RegistryGuideStaticDashboard',
         position: 'right',
         type: 'click',
         isFixed: true,
         name: 'application-sixth-step',
-        parent: 'DomainsContainer'
+        parent: 'DomainsContainer',
+        style: {
+          backgroundColor: '#3434CE',
+          textAlign: 'left',
+          width: '29rem',
+          main: {
+            padding: '20px'
+          },
+          footer: {
+            display: 'block'
+          },
+          close: {
+            color: '#FFF'
+          }
+        }
       }
     ]
 

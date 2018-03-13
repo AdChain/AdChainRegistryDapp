@@ -23,7 +23,21 @@ class RegistryGuideModalCommitVote extends Component {
         type: 'click',
         isFixed: true,
         name: 'vote-first-step',
-        parent: 'DomainsContainer'
+        parent: 'DomainsContainer',
+        style: {
+          backgroundColor: '#3434CE',
+          textAlign: 'left',
+          width: '29rem',
+          main: {
+            padding: '20px'
+          },
+          footer: {
+            display: 'block'
+          },
+          close: {
+            color: '#FFF'
+          }
+        }
       },
       {
         title: 'Vote - Second Step',
@@ -33,7 +47,21 @@ class RegistryGuideModalCommitVote extends Component {
         type: 'click',
         isFixed: true,
         name: 'vote-second-step',
-        parent: 'DomainsContainer'
+        parent: 'DomainsContainer',
+        style: {
+          backgroundColor: '#3434CE',
+          textAlign: 'left',
+          width: '29rem',
+          main: {
+            padding: '20px'
+          },
+          footer: {
+            display: 'block'
+          },
+          close: {
+            color: '#FFF'
+          }
+        }
       },
       {
         title: 'Vote - Third Step',
@@ -43,7 +71,21 @@ class RegistryGuideModalCommitVote extends Component {
         type: 'click',
         isFixed: true,
         name: 'vote-third-step',
-        parent: 'DomainsContainer'
+        parent: 'DomainsContainer',
+        style: {
+          backgroundColor: '#3434CE',
+          textAlign: 'left',
+          width: '29rem',
+          main: {
+            padding: '20px'
+          },
+          footer: {
+            display: 'block'
+          },
+          close: {
+            color: '#FFF'
+          }
+        }
       },
       {
         title: 'Vote - Fourth Step',
@@ -53,7 +95,21 @@ class RegistryGuideModalCommitVote extends Component {
         type: 'click',
         isFixed: true,
         name: 'vote-fourth-step',
-        parent: 'DomainsContainer'
+        parent: 'DomainsContainer',
+        style: {
+          backgroundColor: '#3434CE',
+          textAlign: 'left',
+          width: '29rem',
+          main: {
+            padding: '20px'
+          },
+          footer: {
+            display: 'block'
+          },
+          close: {
+            color: '#FFF'
+          }
+        }
       },
       {
         title: 'Vote - Fifth Step',
@@ -63,7 +119,21 @@ class RegistryGuideModalCommitVote extends Component {
         type: 'click',
         isFixed: true,
         name: 'vote-fifth-step',
-        parent: 'DomainsContainer'
+        parent: 'DomainsContainer',
+        style: {
+          backgroundColor: '#3434CE',
+          textAlign: 'left',
+          width: '29rem',
+          main: {
+            padding: '20px'
+          },
+          footer: {
+            display: 'block'
+          },
+          close: {
+            color: '#FFF'
+          }
+        }
       },
       {
         title: 'Vote - Sixth Step',
@@ -73,7 +143,21 @@ class RegistryGuideModalCommitVote extends Component {
         type: 'click',
         isFixed: true,
         name: 'vote-sixth-step',
-        parent: 'DomainsContainer'
+        parent: 'DomainsContainer',
+        style: {
+          backgroundColor: '#3434CE',
+          textAlign: 'left',
+          width: '29rem',
+          main: {
+            padding: '20px'
+          },
+          footer: {
+            display: 'block'
+          },
+          close: {
+            color: '#FFF'
+          }
+        }
       }
     ]
     return (

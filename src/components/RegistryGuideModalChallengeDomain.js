@@ -23,7 +23,21 @@ class RegistryGuideModalChallengeDomain extends Component {
         type: 'click',
         isFixed: true,
         name: 'challenge-first-step',
-        parent: 'DomainsContainer'
+        parent: 'DomainsContainer',
+        style: {
+          backgroundColor: '#3434CE',
+          textAlign: 'left',
+          width: '29rem',
+          main: {
+            padding: '20px'
+          },
+          footer: {
+            display: 'block'
+          },
+          close: {
+            color: '#FFF'
+          }
+        }
       },
       {
         title: 'Challenge - Second Step',
@@ -33,7 +47,21 @@ class RegistryGuideModalChallengeDomain extends Component {
         type: 'click',
         isFixed: true,
         name: 'challenge-second-step',
-        parent: 'DomainsContainer'
+        parent: 'DomainsContainer',
+        style: {
+          backgroundColor: '#3434CE',
+          textAlign: 'left',
+          width: '29rem',
+          main: {
+            padding: '20px'
+          },
+          footer: {
+            display: 'block'
+          },
+          close: {
+            color: '#FFF'
+          }
+        }
       },
       {
         title: 'Challenge - Third Step',
@@ -43,7 +71,21 @@ class RegistryGuideModalChallengeDomain extends Component {
         type: 'click',
         isFixed: true,
         name: 'challenge-third-step',
-        parent: 'DomainsContainer'
+        parent: 'DomainsContainer',
+        style: {
+          backgroundColor: '#3434CE',
+          textAlign: 'left',
+          width: '29rem',
+          main: {
+            padding: '20px'
+          },
+          footer: {
+            display: 'block'
+          },
+          close: {
+            color: '#FFF'
+          }
+        }
       },
       {
         title: 'Challenge - Fourth Step',
@@ -53,7 +95,21 @@ class RegistryGuideModalChallengeDomain extends Component {
         type: 'click',
         isFixed: true,
         name: 'challenge-fourth-step',
-        parent: 'DomainsContainer'
+        parent: 'DomainsContainer',
+        style: {
+          backgroundColor: '#3434CE',
+          textAlign: 'left',
+          width: '29rem',
+          main: {
+            padding: '20px'
+          },
+          footer: {
+            display: 'block'
+          },
+          close: {
+            color: '#FFF'
+          }
+        }
       },
       {
         title: 'Challenge - Fifth Step',
@@ -63,7 +119,21 @@ class RegistryGuideModalChallengeDomain extends Component {
         type: 'click',
         isFixed: true,
         name: 'challenge-fifth-step',
-        parent: 'DomainsContainer'
+        parent: 'DomainsContainer',
+        style: {
+          backgroundColor: '#3434CE',
+          textAlign: 'left',
+          width: '29rem',
+          main: {
+            padding: '20px'
+          },
+          footer: {
+            display: 'block'
+          },
+          close: {
+            color: '#FFF'
+          }
+        }
       }
     ]
 

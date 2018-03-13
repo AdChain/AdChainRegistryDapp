@@ -24,7 +24,21 @@ class RegistryGuideModalGovernance extends Component {
         type: 'click',
         isFixed: true,
         name: 'governance-first-step',
-        parent: 'GovernanceContainer'
+        parent: 'GovernanceContainer',
+        style: {
+          backgroundColor: '#3434CE',
+          textAlign: 'left',
+          width: '29rem',
+          main: {
+            padding: '20px'
+          },
+          footer: {
+            display: 'block'
+          },
+          close: {
+            color: '#FFF'
+          }
+        }
       },
       {
         title: 'Governance - Second Step',
@@ -34,7 +48,18 @@ class RegistryGuideModalGovernance extends Component {
         type: 'click',
         isFixed: true,
         name: 'governance-second-step',
-        parent: 'GovernanceContainer'
+        parent: 'GovernanceContainer',
+        style: {
+          backgroundColor: '#3434CE',
+          textAlign: 'left',
+          width: '29rem',
+          main: {
+            padding: '20px'
+          },
+          footer: {
+            display: 'block'
+          }
+        }
       },
       {
         title: 'Governance - Third Step',
@@ -44,7 +69,18 @@ class RegistryGuideModalGovernance extends Component {
         type: 'click',
         isFixed: true,
         name: 'governance-third-step',
-        parent: 'GovernanceContainer'
+        parent: 'GovernanceContainer',
+        style: {
+          backgroundColor: '#3434CE',
+          textAlign: 'left',
+          width: '29rem',
+          main: {
+            padding: '20px'
+          },
+          footer: {
+            display: 'block'
+          }
+        }
       },
       {
         title: 'Governance - Fourth Step',
@@ -54,7 +90,18 @@ class RegistryGuideModalGovernance extends Component {
         type: 'click',
         isFixed: true,
         name: 'governance-fourth-step',
-        parent: 'GovernanceContainer'
+        parent: 'GovernanceContainer',
+        style: {
+          backgroundColor: '#3434CE',
+          textAlign: 'left',
+          width: '29rem',
+          main: {
+            padding: '20px'
+          },
+          footer: {
+            display: 'block'
+          }
+        }
       },
       {
         title: 'Governance - Fifth Step',
@@ -64,7 +111,18 @@ class RegistryGuideModalGovernance extends Component {
         type: 'click',
         isFixed: true,
         name: 'governance-fifth-step',
-        parent: 'GovernanceContainer'
+        parent: 'GovernanceContainer',
+        style: {
+          backgroundColor: '#3434CE',
+          textAlign: 'left',
+          width: '29rem',
+          main: {
+            padding: '20px'
+          },
+          footer: {
+            display: 'block'
+          }
+        }
       }
     ]
 

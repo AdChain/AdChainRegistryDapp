@@ -133,7 +133,6 @@
   color: #10C903 !important;
 }
 
-
 .GuideDesc {
   font-family: 'Open Sans', sans-serif;
   font-size: 12px;
@@ -143,4 +142,31 @@
   padding-top: 20px;
   padding-left: 50px;
   padding-right: 50px;
+}
+
+:root:root .joyride-tooltip__button--primary {
+  background-color: #3434CE !important;
+  color: #FFF !important;
+  text-transform: uppercase;
+}
+
+:root:root .joyride-tooltip__button--secondary {
+  background-color: #3434CE !important;
+  color: #FFF !important;
+  text-transform: uppercase;
+}
+
+:root:root .joyride-tooltip {
+  background-color: #3434CE !important;
+  color: #FFF !important;
+  font-family: 'Open Sans', sans-serif !important;
+}
+
+:root:root .joyride-tooltip.right .joyride-tooltip__triangle {
+  color: #3434CE !important;
+}
+
+:root:root .joyride-tooltip__header {
+  color: #FFF !important;
+  border-style: none !important;
 }
