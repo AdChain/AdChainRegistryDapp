@@ -29,7 +29,6 @@
 
 .DomainChallengeContainer .NumberCircle {
   border-radius: 10px;
-  display: inline-block;
   float: left;
   font-size:8px;
   color: #F4F7FA;
@@ -42,6 +41,7 @@
   background: #BEC0C2 content-box;
   width: 21px;
   height: 21px;
+  position: absolute;
 }
 
 :root:root:root .DomainChallengeContainer .SegmentOne {
@@ -96,6 +96,36 @@
 :root:root:root .ChallengeButton:hover {
   background-color: #CE3434 !important;
   color: #FFF !important;
+}
+
+.ChallengeInfoContainer { 
+  border: 2px solid #F4F7FA;
+  border-radius: 3px;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 12px;
+  line-height: 17px;
+}
+
+.RequiredADT {
+  background-color: #F4F7FA;
+  border-radius: 3px;
+  margin: 0 auto;
+  padding-left: 50px;
+  padding-right: 50px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.PayoutPercentageContainer {
+  display: -webkit-inline-box;
+  padding-top: 15px;
+}
+
+.PayoutPercentage {
+  background-color: #F4F7FA;
+  border-radius: 3px;
+  padding: 5px;
+  margin-left: 5px;
 }
 
 /*
