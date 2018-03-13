@@ -7,7 +7,7 @@ import DomainStatsbar from './DomainStatsbar'
 // import DomainScamReport from './DomainScamReport'
 import DomainProfileInfo from './DomainProfileInfo'
 import DomainProfileActionContainer from './DomainProfileActionContainer'
-import DomainProfileAdsTxtStatus from './DomainProfileAdsTxtStatus'
+// import DomainProfileAdsTxtStatus from './DomainProfileAdsTxtStatus'
 import DomainProfileStageMap from './DomainProfileStageMap'
 
 import './DomainProfile.css'
@@ -80,7 +80,9 @@ class DomainProfile extends Component {
               <DomainProfileInfo
                 domain={domain}
               />
-              <DomainProfileAdsTxtStatus domain={domain} />
+              {
+                // <DomainProfileAdsTxtStatus domain={domain} />
+              }
             </div>
             <div className='column seven wide'>
               <DomainProfileActionContainer

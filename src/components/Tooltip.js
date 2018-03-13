@@ -8,8 +8,8 @@ import { Popup } from 'semantic-ui-react'
 */
 const Tooltip = (props) => {
   return (
-    <Popup className='InfoPopup'
-      trigger={<img className={props.class || 'InfoIcon'} src={infoIcon} />}
+    <Popup className='Tooltip'
+      trigger={<img alt='i' className={props.class || 'InfoIcon'} src={infoIcon} />}
       content={props.info} />
   )
 }

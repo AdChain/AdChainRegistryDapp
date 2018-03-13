@@ -92,6 +92,8 @@ class RegistryService {
     return this.account
   }
 
+  // When applying a domain, the `data` parameter must be set to the domain's name
+  // The 'domain' parameter will be also be the domain name but it will be hashed in this function before it hits the contract
   async apply (domain, deposit = 0, data = '') {
     if (!domain) {
       throw new Error('Domain is required')
@@ -109,7 +111,7 @@ class RegistryService {
       throw new Error('Application already exists')
     }
 
-    const allowed = await token.allowance(this.account, this.address).toString('10')
+    let allowed = await token.allowance(this.account, this.address).toString('10')
 
     if (allowed >= bigDeposit) {
       try {

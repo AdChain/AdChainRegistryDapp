@@ -134,7 +134,6 @@ class DomainsContainer extends Component {
   onQueryChange (query) {
     const url = window.location.href
     const newQuery = updateQuery(url, query)
-    console.log('queryk:', query)
 
     window.history.replaceState({}, window.location.pathname, newQuery)
 

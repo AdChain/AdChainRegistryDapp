@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import './UserChallengedDomains.css'
+import Tooltip from './Tooltip'
 
 class UserChallengedDomains extends Component {
   constructor (props) {
@@ -8,6 +9,7 @@ class UserChallengedDomains extends Component {
     this.state = {
       challengedDomains: props.challengedDomains
     }
+    this.history = props.history
   }
 
   componentDidMount () {
@@ -27,11 +29,15 @@ class UserChallengedDomains extends Component {
 
   render () {
     const { challengedDomains } = this.state
-    const data = challengedDomains ? challengedDomains.map((domain, idx) => <tr key={idx} className='DashboardRow'><td className='DashboardFirstCell'>{domain.domain}</td><td className='DashboardSecondCell'>{domain.stage}</td></tr>) : null
+    const data = challengedDomains ? challengedDomains.map((domain, idx) =>
+      <tr key={idx} className='DashboardRow'>
+        <td className='DashboardFirstCell' onClick={(event) => { event.preventDefault(); this.history.push(`/domains/${domain.domain}`) }}>{domain.domain}</td>
+        <td className='DashboardSecondCell'>{domain.stage}</td>
+      </tr>) : null
 
     return (
       <div className='BoxFrame DashboardColumn'>
-        <span className='BoxFrameLabel ui grid'>DOMAINS YOU CHALLENGED</span>
+        <span className='BoxFrameLabel ui grid'>DOMAINS YOU CHALLENGE <Tooltip info={"The domains that are in Application that you challenged are recorded here. The domain's status is shown to its right."} /></span>
         <div className='ui grid'>
           <div className='column sixteen wide'>
             <table>

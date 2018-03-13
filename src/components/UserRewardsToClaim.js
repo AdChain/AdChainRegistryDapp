@@ -3,6 +3,7 @@ import { Button } from 'semantic-ui-react'
 import registry from '../services/registry'
 import UserRewardClaimInProgress from './UserRewardClaimInProgress'
 import toastr from 'toastr'
+import Tooltip from './Tooltip'
 
 import './UserRewardsToClaim.css'
 
@@ -14,7 +15,7 @@ class UserRewardsToClaim extends Component {
       rewards: props.rewards,
       claimProgress: null
     }
-
+    this.history = props.history
     this.claimReward = this.claimReward.bind(this)
   }
 
@@ -35,11 +36,16 @@ class UserRewardsToClaim extends Component {
 
   render () {
     const { rewards, claimProgress } = this.state
-    const data = rewards ? rewards.map((domain, idx) => <tr key={idx} className='DashboardRow'><td className='DashboardFirstCell'>{domain.domain}</td><td id={domain.domain} className='RewardValueCell'>{domain.reward ? domain.reward + ' ADT' : ' - '}</td><td><Button basic id={domain.domain + 'Button'} className='RewardClaimButton' onClick={() => this.claimReward(domain.challenge_id, domain.salt, domain.domain)}>Claim</Button></td></tr>) : null
+    const data = rewards ? rewards.map((domain, idx) =>
+      <tr key={idx} className='DashboardRow'>
+        <td className='DashboardFirstCell' onClick={(event) => { event.preventDefault(); this.history.push(`/domains/${domain.domain}`) }}>{domain.domain}</td>
+        <td id={domain.domain} className='RewardValueCell'>{domain.reward ? domain.reward + ' ADT' : ' - '}</td>
+        <td><Button basic id={domain.domain + 'Button'} className='RewardClaimButton' onClick={() => this.claimReward(domain.challenge_id, domain.salt, domain.domain)}>Claim</Button></td>
+      </tr>) : null
 
     return (
       <div className='BoxFrame DashboardColumn'>
-        <span className='BoxFrameLabel ui grid'>CLAIM REWARDS</span>
+        <span className='BoxFrameLabel ui grid'>CLAIM REWARDS <Tooltip info={'The found below are accompanied by the ADT reward you have yet to claim. Domains with rewards are shown here when you have successfully challenged a domain in APPLICATION or correctly voted a domain in VOTING.'} /></span>
         <div className='ui grid'>
           <div className='column sixteen wide'>
             <table className='DashboardTable'>

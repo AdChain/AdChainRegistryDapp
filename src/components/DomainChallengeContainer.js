@@ -3,8 +3,8 @@ import PropTypes from 'prop-types'
 import commafy from 'commafy'
 import toastr from 'toastr'
 import moment from 'moment'
-import { Popup, Button, Segment } from 'semantic-ui-react'
-// import { soliditySHA3 } from 'ethereumjs-abi'
+import { Button, Segment } from 'semantic-ui-react'
+import Tooltip from './Tooltip'
 
 import Countdown from './CountdownText'
 import registry from '../services/registry'
@@ -60,9 +60,8 @@ class DomainChallengeContainer extends Component {
               <div className='row HeaderRow'>
                 <div className='ui large header'>
                   Stage: In Application
-                  <Popup
-                    trigger={<i className='icon info circle' />}
-                    content='The first phase of the voting process is the commit phase where the ADT holder stakes a hidden amount of votes to SUPPORT or OPPOSE the domain application. The second phase is the reveal phase where the ADT holder reveals the staked amount of votes to either the SUPPORT or OPPOSE side.'
+                  <Tooltip
+                    info='The first phase of the voting process is the commit phase where the ADT holder stakes a hidden amount of votes to SUPPORT or OPPOSE the domain application. The second phase is the reveal phase where the ADT holder reveals the staked amount of votes to either the SUPPORT or OPPOSE side.'
                     />
                 </div>
                 <Button

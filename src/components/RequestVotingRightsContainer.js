@@ -2,8 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import toastr from 'toastr'
 import commafy from 'commafy'
-// import { Popup } from 'semantic-ui-react'
-
+import Tooltip from './Tooltip'
 import registry from '../services/registry'
 import store from '../store'
 
@@ -49,17 +48,7 @@ class RequestVotingRightsContainer extends Component {
       <div className='RequestVotingRightsContainer BoxFrame'>
         <div className='ui grid stackable center aligned'>
           <div className='column sixteen wide'>
-            <span className='ui grid BoxFrameLabel'>REQUEST VOTING RIGHTS</span>
-            {
-
-            // <p>Request Voting Rights
-            //   <Popup
-            //     trigger={<i className='icon info circle' />}
-            //     content='Pre-requesting voting rights will minimizes the number of transactions when performing commit votes. This can save gas fees if voting frequently. 1 ADT = 1 Vote. Pre-requesting voting rights will withdraw AdToken from your account to the adChain registry PLCR contract. You may convert the votes to adToken and withdraw at any time.'
-            //   />
-            // </p>
-            }
-
+            <span className='ui grid BoxFrameLabel'>REQUEST VOTING RIGHTS <Tooltip info='Pre-requesting voting rights will minimizes the number of transactions when performing commit votes. This can save gas fees if voting frequently. 1 ADT = 1 Vote. Pre-requesting voting rights will withdraw AdToken from your account to the adChain registry PLCR contract. You may convert the votes to adToken and withdraw at any time.' /></span>
           </div>
           <div className='column sixteen wide VotingRights'>
             <div className='VotingRightsText'><small>Total Current Voting Rights: <strong>{availableVotes !== null ? commafy(availableVotes) + ' Rights' : '-'}</strong></small></div>
@@ -140,10 +129,11 @@ class RequestVotingRightsContainer extends Component {
 
     try {
       const availableVotes = (await registry.getTotalVotingRights()).toNumber()
-
-      this.setState({
-        availableVotes
-      })
+      if (this._isMounted) {
+        this.setState({
+          availableVotes
+        })
+      }
     } catch (error) {
       toastr.error('There was an error with your request')
     }

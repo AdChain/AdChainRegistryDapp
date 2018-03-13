@@ -62,6 +62,7 @@ class App extends Component {
               </div>
               <div className='MainContainerWrap column twelve wide'>
                 <MainContainer
+                  Link={Link}
                   Route={Route}
                   CSSTransitionGroup={CSSTransitionGroup}
                   Switch={Switch}

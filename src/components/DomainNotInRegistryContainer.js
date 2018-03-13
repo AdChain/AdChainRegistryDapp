@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Popup, Button } from 'semantic-ui-react'
+import { Button } from 'semantic-ui-react'
+import Tooltip from './Tooltip'
 import './DomainNotInRegistryContainer.css'
 import registry from '../services/registry'
 import toastr from 'toastr'
@@ -26,9 +27,8 @@ class DomainNotInRegistryContainer extends Component {
             <div className='row HeaderRow'>
               <div className='ui large header'>
               Stage: None
-              <Popup
-                trigger={<i className='icon info circle' />}
-                content='The first phase of the voting process is the commit phase where the ADT holder stakes a hidden amount of votes to SUPPORT or OPPOSE the domain application. The second phase is the reveal phase where the ADT holder reveals the staked amount of votes to either the SUPPORT or OPPOSE side.'
+              <Tooltip
+                info='The first phase of the voting process is the commit phase where the ADT holder stakes a hidden amount of votes to SUPPORT or OPPOSE the domain application. The second phase is the reveal phase where the ADT holder reveals the staked amount of votes to either the SUPPORT or OPPOSE side.'
               />
               </div>
               <Button

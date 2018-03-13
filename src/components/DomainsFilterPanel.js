@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-
+import Tooltip from './Tooltip'
 import './DomainsFilterPanel.css'
 
 class DomainsFilterPanel extends Component {
@@ -30,7 +30,7 @@ class DomainsFilterPanel extends Component {
       <div className='DomainsFilterPanel BoxFrame'>
         <div className='ui grid stackable'>
           <div className='SearchContainer column sixteen wide'>
-            <span className='BoxFrameLabel ui grid'>DOMAIN FILTERS</span>
+            <span className='BoxFrameLabel ui grid'>DOMAIN FILTERS <Tooltip info={'The fields in this box filter the user view in the DOMAINS table.'} /></span>
             <label className='f-os'>Search Domain</label>
             <div className='ui left icon input'>
               <i className='search icon' /> &nbsp;
