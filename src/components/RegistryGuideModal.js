@@ -45,10 +45,10 @@ class RegistryGuideModal extends Component {
     const { open, size, menu, one, two, three, four, five, six, seven } = this.state
 
     return (
-      <Modal size={size} open={open} trigger={<Button inverted className='HelpButton' onClick={this.show} color='orange' content='How Does This Thing Work' />} closeIcon className='RegistryGuideModal' onClose={this.close}>
+      <Modal size={size} open={open} trigger={<Button inverted className='HelpButton' onClick={this.show} color='orange' content='How Does This Thing Work?' />} closeIcon className='RegistryGuideModal' onClose={this.close}>
         {menu
           ? <div>
-            <Modal.Header className='RegistryGuideModalHeader'><span className='RegistryGuideModalHeaderText'>What is the Adchain Registry?</span></Modal.Header>
+            <Modal.Header className='RegistryGuideModalHeader'><span className='RegistryGuideModalHeaderText'>How does this thing Work?</span></Modal.Header>
             <Modal.Content>
               <div className='GuideText'>
                 Choose which step-by-step guide you want to see

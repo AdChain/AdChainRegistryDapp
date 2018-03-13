@@ -11,6 +11,7 @@
   padding-top: 2em;
 }
 .RegistryGuideModalHeaderText {
+  font-family: "Open Sans", Sans-Serif;
   text-transform: uppercase;
   border-bottom: 2px solid #3434CE;
   font-size: 16px;	

@@ -75,19 +75,23 @@ class OpenProposalsTable extends Component {
 
   createTable () {
     let table = []
-    return this.props.currentProposals.map((proposal, i) => {
-      this.determineAction(proposal).then(async item => {
-        table.push(
-          <tr className='table-row' key={i}>
-            <td className={proposal.color}>{proposal.name}</td>
-            <td>{`${proposal.proposedValue + ' ' + proposal.metric}`}</td>
-            <td>{moment.unix(moment.tz(proposal.appExpiry, moment.tz.guess())).format('YYYY-MM-DD HH:mm:ss')}</td>
-            {item}
-          </tr>
-        )
-        this.setState({table})
+    try {
+      return this.props.currentProposals.map((proposal, i) => {
+        return this.determineAction(proposal).then(async item => {
+          table.push(
+            <tr className='table-row' key={i}>
+              <td className={proposal.color}>{proposal.name}</td>
+              <td>{`${proposal.proposedValue + ' ' + proposal.metric}`}</td>
+              <td>{moment.unix(moment.tz(proposal.appExpiry, moment.tz.guess())).format('YYYY-MM-DD HH:mm:ss')}</td>
+              {item}
+            </tr>
+          )
+          this.setState({table})
+        })
       })
-    })
+    } catch (error) {
+      console.log('Error creating table')
+    }
   }
 
   async determineAction (proposal) {
