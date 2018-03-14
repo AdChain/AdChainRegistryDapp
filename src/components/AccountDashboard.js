@@ -5,6 +5,7 @@ import toastr from 'toastr'
 import store from '../store'
 import registry from '../services/registry'
 import AccountStatsbar from './AccountStatsbar'
+import RescueTokens from './RescueTokens'
 import RequestTokenApprovalContainer from './RequestTokenApprovalContainer.js'
 import RequestVotingRightsContainer from './RequestVotingRightsContainer.js'
 import WithdrawVotingRightsContainer from './WithdrawVotingRightsContainer.js'
@@ -121,6 +122,9 @@ class AccountDashboard extends Component {
               </div>
               <div className='column UserRewardsToClaimContainer wide'>
                 <UserRewardsToClaim rewards={rewards} history={history} />
+              </div>
+              <div className='column six wide'>
+                <RescueTokens account={account} />
               </div>
             </div>
           }

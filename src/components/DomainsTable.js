@@ -137,19 +137,6 @@ class DomainsTable extends Component {
       },
       minWidth: 200
     },
-    /*
-    {
-      Header: 'Site Name',
-      accessor: 'siteName',
-      Cell: (props) => {
-        const {value} = props
-
-        // dummy
-        return value.toUpperCase()
-      },
-      minWidth: 200
-    },
-    */
     {
       Header: 'Action',
       accessor: 'stage',
@@ -196,10 +183,6 @@ class DomainsTable extends Component {
             if (label === 'REFRESH STATUS') {
               this.updateStatus(domain)
             }
-            // if (stage === 'apply') {
-            //   history.push(`/apply/?domain=${domain}`)
-            //   return false
-            // }
             history.push(`/domains/${domain}`)
           }}>{label} &nbsp;{label === 'REFRESH STATUS' ? <i className='icon refresh' /> : '' }</a>
       },
