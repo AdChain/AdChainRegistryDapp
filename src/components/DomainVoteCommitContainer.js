@@ -7,7 +7,6 @@ import Tooltip from './Tooltip'
 import randomInt from 'random-int'
 
 import saveFile from '../utils/saveFile'
-import generateReminder from '../utils/generateReminder'
 import Countdown from './CountdownText'
 import registry from '../services/registry'
 import DomainVoteCommitInProgressContainer from './DomainVoteCommitInProgressContainer'
@@ -353,36 +352,6 @@ class DomainVoteCommitContainer extends Component {
 
     this.setState({
       commitDownloaded: true
-    })
-  }
-
-  async onReminderDownload (event) {
-    event.preventDefault()
-
-    const {
-      domain,
-      challengeId,
-      commitEndDate
-    } = this.state
-
-    const domainUnderscored = domain.replace('.', '_')
-    const revealDate = moment.unix(commitEndDate)
-    const revealDateString = revealDate.format('YYYY-MM-DD_HH-mm-ss')
-
-    const filename = `${domainUnderscored}--challenge_id_${challengeId}--reveal_start_${revealDateString}--reminder.ics`
-    const title = `Reveal Vote for ${domain}`
-    const url = `${window.location.protocol}//${window.location.host}/domains/${domain}`
-
-    const data = await generateReminder({
-      start: revealDate,
-      title,
-      url
-    })
-
-    saveFile(data, filename)
-
-    this.setState({
-      revealReminderDownloaded: true
     })
   }
 
