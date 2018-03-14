@@ -4,9 +4,7 @@ import toastr from 'toastr'
 import moment from 'moment'
 import { Popup, Input, Button, Segment } from 'semantic-ui-react'
 import randomInt from 'random-int'
-
 import saveFile from '../utils/saveFile'
-import generateReminder from '../utils/generateReminder'
 import Countdown from './CountdownText'
 import ParameterizerService from '../services/parameterizer'
 import DomainVoteCommitInProgressContainer from './DomainVoteCommitInProgressContainer'
@@ -287,41 +285,6 @@ class GovernanceVoteCommitContainer extends Component {
     this.setState({
       commitDownloaded: true
     })
-  }
-
-  async onReminderDownload (event) {
-    event.preventDefault()
-
-    const {
-      commitEndDate
-    } = this.state
-
-    const {
-      challengeId,
-      name
-    } = this.props.proposal
-
-    const revealDate = moment.unix(commitEndDate)
-    const revealDateString = revealDate.format('YYYY-MM-DD_HH-mm-ss')
-
-    const filename = `${name}--challenge_id_${challengeId}--reveal_start_${revealDateString}--reminder.ics`
-    const title = `Reveal Vote for ${name}`
-
-    const data = await generateReminder({
-      start: revealDate,
-      title
-    })
-
-    saveFile(data, filename)
-
-    this.setState({
-      revealReminderDownloaded: true
-    })
-  }
-
-  onFormSubmit (event) {
-    event.preventDefault()
-    this.commit()
   }
 
   async getPoll () {
