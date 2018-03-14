@@ -84,11 +84,21 @@
   width: 48%;
   margin-right: 0 !important;
   display: inline-block;
-  font-size: 10px;
+  font-size: 12px;
+  line-height: 17px;
   min-height: 210px;
   padding-left: 14px;
   position: relative;
+  border: 2px solid #F4F7FA;
+  box-shadow: unset;
+  border-radius: 3px;
 }
+
+:root:root:root .DomainInRegistryContainer .LeftSegment .RemoveInfo {
+  padding-top: 10px;
+  font-size: 11px;
+}
+
 
 :root:root:root .DomainInRegistryContainer .RightSegment {
   width: 48%;
@@ -99,10 +109,66 @@
   font-size: 10px;
   min-height: 210px;
   position: relative;
+  border: 2px solid #F4F7FA;
+  box-shadow: unset;
+  border-radius: 3px;
+  font-family: 'Open Sans', sans-serif;
 }
 
-:root:root:root .DomainInRegistryContainer .WithdrawButtonContainer,
-:root:root:root .DomainInRegistryContainer .TopOffButtonContainer {
+.TopOffRow {
+  display: inline-block;
+  width: 100%;
+}
+
+:root:root:root .CurrentDepositLabel, 
+:root:root:root .StakedDifferenceLabel {
+  text-align: left;
+  padding-bottom: 5px;
+  padding-top: 5px;
+  float: left;
+}
+
+:root:root:root .CurrentDeposit {
+  background-color: #F4F7FA;
+  text-align: right;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  border-radius: 3px;
+  float: right;
+  width: 35%;
+  padding-right: 5px;
+}
+
+:root:root:root .StakedDifferenceNegative {
+  background-color: #CE3434;
+  color: #FFF;
+}
+:root:root:root .StakedDifferencePositive {
+  background-color: #10C903;
+  color: #FFF;
+}
+:root:root:root .StakedDifferenceZero {
+  background-color: #F4F7FA;
+  color: #000;
+}
+
+.StakedDifferenceNegative,
+.StakedDifferencePositive,
+.StakedDifferenceZero {
+  text-align: right;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  border-radius: 3px;
+  float: right;
+  width: 35%;
+  padding-right: 5px;
+}
+
+.RequiredADT {
+  font-family: 'Open Sans', sans-serif;
+}
+
+:root:root:root .DomainInRegistryContainer .RemoveButtonContainer {
   position: absolute;
   bottom: 10px;
   margin: 0 auto;
@@ -110,6 +176,21 @@
   right: 0;
 }
 
+:root:root:root .DomainInRegistryContainer .TopOffButtonContainer,
+:root:root:root .DomainInRegistryContainer .WithdrawButtonContainer {
+  position: absolute;
+  bottom: 10px;
+}
+
+:root:root:root .DomainInRegistryContainer .TopOffButtonContainer {
+  left: 7%;
+}
+
+:root:root:root .DomainInRegistryContainer .WithdrawButtonContainer {
+  right: 7%;
+}
+
+:root:root:root .DomainInRegistryContainer .RemoveButton,
 :root:root:root .DomainInRegistryContainer .WithdrawButton {
 	border: 1px solid #CE3434;
 	border-radius: 3px;
@@ -120,18 +201,53 @@
   line-height: 9px;
   text-align: center;
   text-transform: uppercase;
+  box-shadow: unset;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
 :root:root:root .DomainInRegistryContainer .TopOffButton {
-  border: 1px solid #3434CE;
+  border: 1px solid #10C903;
   border-radius: 3px;
-  color: #3434CE !important;
+  color: #10C903 !important;
   font-family: "Open Sans", sans-serif;
   font-size: 9.5px;
   font-weight: bold;
   line-height: 9px;
   text-align: center;
   text-transform: uppercase;
+  box-shadow: unset;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+.TopOffLabel {
+  font-weight: bold;
+  padding-top: 20px;
+  padding-bottom: 10px;
+  padding-left: 20px;
+  text-align: left;
+}
+
+.TopOffInputContainer {
+  text-align: left;
+  padding-left: 20px;
+}
+
+
+:root:root:root .DomainInRegistryContainer .RemoveButton:hover,
+:root:root:root .DomainInRegistryContainer .WithdrawButton:hover {
+  background-color: #CE3434 !important;
+  color: #FFF !important;
+}
+
+:root:root:root .DomainInRegistryContainer .TopOffButton:hover {
+  background-color: #10C903 !important;
+  color: #FFF !important;
+}
+
+:root:root:root .DomainInRegistryContainer .TopOffInput {
+  width: 80%;
 }
 
 :root:root:root .DomainInRegistryContainer .TopOffInput input{
@@ -140,31 +256,40 @@
   border-left: none;
   border-bottom: 1px solid;
   border-radius: 0;
-  width: 50px;
   padding: 0;
 }
 
 :root:root:root .DomainInRegistryContainer .TopOffInput input::-webkit-input-placeholder {
-text-align: center;
+  text-align: right;
+  color: #000;
+  font-family: 'Open Sans', sans-serif;
 }
 :root:root:root .DomainInRegistryContainer .TopOffInput input:-moz-placeholder { /* Firefox 18- */
-text-align: center;
+  text-align: right;
+  color: #000;
+  font-family: 'Open Sans', sans-serif;
 }
 :root:root:root .DomainInRegistryContainer .TopOffInput input::-moz-placeholder {  /* Firefox 19+ */
-text-align: center;
+  text-align: right;
+  color: #000;
+  font-family: 'Open Sans', sans-serif;
 }
 :root:root:root .DomainInRegistryContainer .TopOffInput input:-ms-input-placeholder {
-text-align: center;
+  text-align: right;
+  color: #000;
+  font-family: 'Open Sans', sans-serif;
 }
 
+.DomainChallengeContainer { 
+  margin: 0 auto;
+  width: 94%;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
 
-:root:root:root .DomainInRegistryContainer .InRegistryWarning {
-  text-transform: uppercase;
-  color: #CE3434 !important;
-  font-family: "Open Sans", sans-serif;
-  font-size: 8px;
-  font-weight: bold;
-  line-height: 11px;
-  text-align: center;
-  padding-bottom: 1em;
+.DomainInRegistryContainer .ui.divider {
+    border: 1px solid #F4F7FA !important;
+    width: 94% !important;
+    margin-top: 5px;
+    margin-bottom: 20px;
 }

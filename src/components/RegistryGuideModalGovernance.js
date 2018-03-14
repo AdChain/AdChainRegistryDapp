@@ -105,7 +105,7 @@ class RegistryGuideModalGovernance extends Component {
       },
       {
         title: 'Governance - Fifth Step',
-        text: '',
+        text: 'The CLAIM REWARDS box houses all voting rewards after the completion of a parameter proposal. If you voted for a proposal and your side won, your ADT reward can be claimed here.',
         selector: '.RegistryGuideClaimRewards',
         position: 'right',
         type: 'click',

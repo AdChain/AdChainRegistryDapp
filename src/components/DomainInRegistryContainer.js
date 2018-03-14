@@ -66,6 +66,9 @@ class DomainInRegistryContainer extends Component {
       currentDeposit
     } = this.state
 
+    const stakedDifference = minDeposit - currentDeposit
+    const stakedDifferenceClass = stakedDifference > 0 ? 'StakedDifferencePositive' : stakedDifference < 0 ? 'StakedDifferenceNegative' : 'StakedDifferenceZero'
+
     // const hasVotes = (votesFor || votesAgainst)
 
     return (
@@ -75,9 +78,9 @@ class DomainInRegistryContainer extends Component {
             <div className='row HeaderRow'>
               <div className='ui large header'>
               Stage: In Registry
-              <Tooltip
-                info='The first phase of the voting process is the commit phase where the ADT holder stakes a hidden amount of votes to SUPPORT or OPPOSE the domain application. The second phase is the reveal phase where the ADT holder reveals the staked amount of votes to either the SUPPORT or OPPOSE side.'
-              />
+                <Tooltip
+                  info='The first phase of the voting process is the commit phase where the ADT holder stakes a hidden amount of votes to SUPPORT or OPPOSE the domain application. The second phase is the reveal phase where the ADT holder reveals the staked amount of votes to either the SUPPORT or OPPOSE side.'
+                />
               </div>
               <Button
                 basic
@@ -94,39 +97,50 @@ class DomainInRegistryContainer extends Component {
             { canWithdraw
               ? <div>
                 <Segment className='LeftSegment' floated='left'>
-                  <p>
-                  Because you applied <strong>{domain}</strong> into the adChain Registry,
-                  you have the ability to remove it. Clicking “WITHDRAW LISTING”
-                  below will remove <strong>{domain}</strong> from the adChain Registry and refund you of:
-                </p>
-                  <p>
-                    <strong>{currentDeposit ? commafy(currentDeposit) : '-'} ADT</strong>
+                  <p>Remove listing for</p>
+                  <span className='RequiredADT'>
+                    <strong>{minDeposit ? commafy(minDeposit) : '-'} ADT</strong>
+                  </span>
+                  <p className='RemoveInfo'>
+                  Withdrawing your listing completely removes it from the adchain Registry and reimburses you the ADT amount above.
                   </p>
-                  <div className='WithdrawButtonContainer'>
+                  <div className='RemoveButtonContainer'>
                     <Button
-                      className='WithdrawButton'
+                      className='RemoveButton'
                       basic
-                      onClick={this.withdrawListing}>Withdraw Listing</Button>
+                      onClick={this.withdrawListing}>Remove Listing</Button>
                   </div>
                 </Segment>
                 <Segment className='RightSegment' floated='right'>
-                  <p>
-                  ADT used to apply {domain}: <strong>{minDeposit ? commafy(minDeposit) : '-'} ADT</strong>
-                  </p>
-                  <p>
-                  Current minDeposit: <strong>{minDeposit ? commafy(minDeposit) : '-'} ADT</strong>
-                  </p>
-                  <div className='InRegistryWarning'>
-                  You are subject to having your domain touched & removed
-                </div>
-                  <div>
-                  Enter ADT amount to top off:<Input type='number' placeholder='ADT' id='TopOff' className='TopOffInput' />
+                  <div className='TopOffRow'>
+                    <div className='CurrentDepositLabel'>
+                  Current minDeposit:
+                    </div>
+                    <div className='CurrentDeposit'><strong>{currentDeposit ? commafy(currentDeposit) : '-'} ADT</strong></div>
+                  </div>
+                  <div className='TopOffRow'>
+                    <div className='StakedDifferenceLabel'>
+                    Staked Difference:
+                    </div>
+                    <div className={stakedDifferenceClass}><strong>{stakedDifference ? commafy(stakedDifference) : '-'} ADT</strong></div>
+                  </div>
+                  <div className='TopOffLabel'>
+                  Enter ADT Amount
+                  </div>
+                  <div className='TopOffInputContainer'>
+                    <Input type='number' placeholder='ADT' id='TopOff' className='TopOffInput' />
                   </div>
                   <div className='TopOffButtonContainer'>
                     <Button
                       className='TopOffButton'
                       basic
-                      onClick={this.topOff}>Top Off</Button>
+                      onClick={this.topOff}>Deposit ADT</Button>
+                  </div>
+                  <div className='WithdrawButtonContainer'>
+                    <Button
+                      className='WithdrawButton'
+                      basic
+                      onClick={this.topOff}>Withdraw ADT</Button>
                   </div>
                 </Segment>
               </div>
