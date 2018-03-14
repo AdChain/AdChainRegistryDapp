@@ -111,9 +111,10 @@ class RegistryService {
       throw new Error('Application already exists')
     }
 
-    let allowed = await token.allowance(this.account, this.address).toString(10)
+    let allowed = await (await token.allowance(this.account, this.address)).toString(10)
 
     if (allowed < bigDeposit) {
+      console.log('hit')
       try {
         await token.approve(this.address, bigDeposit)
       } catch (error) {

@@ -20,11 +20,11 @@ class RescueTokens extends Component {
   }
 
   async rescueTokens () {
-  //   let domains = await (await window.fetch(`http://adchain-registry-api-staging.metax.io/registry/domains?account=${this.props.account}`)).json()
-  //   domains.map(async x => {
+    let domains = await (await window.fetch(`http://adchain-registry-api-staging.metax.io/registry/domains?account=${this.props.account}`)).json()
+    domains.map(async x => {
 
-  //   })
-    console.log('hit ')
+    })
+    console.log('hit')
   }
 }
 

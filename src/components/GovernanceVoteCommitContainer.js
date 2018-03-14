@@ -4,7 +4,6 @@ import toastr from 'toastr'
 import moment from 'moment'
 import { Popup, Input, Button, Segment } from 'semantic-ui-react'
 import randomInt from 'random-int'
-
 import saveFile from '../utils/saveFile'
 import Countdown from './CountdownText'
 import ParameterizerService from '../services/parameterizer'

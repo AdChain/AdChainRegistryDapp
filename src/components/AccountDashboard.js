@@ -30,7 +30,7 @@ class AccountDashboard extends Component {
 
     this.state = {
       history: props.history,
-      account: null,
+      account: registry.getAccount() || '0x0',
       tableFilters: [],
       query: {},
       appliedDomains: [],
@@ -40,13 +40,13 @@ class AccountDashboard extends Component {
       inProgress: false
     }
 
-    const account = registry.getAccount()
+    // const account =
 
-    if (account) {
-      this.state.account = account
-    }
+    // if (account) {
+    //   this.state.account = account
+    // }
 
-    this.state.tableFilters = [{id: 'account', value: account || '0x0'}]
+    this.state.tableFilters = [{id: 'account', value: this.state.account || '0x0'}]
     this.onQueryChange = this.onQueryChange.bind(this)
     this.updateTableFilters = this.updateTableFilters.bind(this)
     this.fetchAppliedDomains = this.fetchAppliedDomains.bind(this)
