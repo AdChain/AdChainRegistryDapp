@@ -67,7 +67,7 @@ class DomainInRegistryContainer extends Component {
     } = this.state
 
     const stakedDifference = minDeposit - currentDeposit
-    const stakedDifferenceClass = stakedDifference > 0 ? 'StakedDifferencePositive' : stakedDifference < 0 ? 'StakedDifferenceNegative' : 'StakedDifferenceZero'
+    const stakedDifferenceClass = stakedDifference > 0 ? 'StakedDifferenceNegative' : stakedDifference < 0 ? 'StakedDifferencePositive' : 'StakedDifferenceZero'
 
     // const hasVotes = (votesFor || votesAgainst)
 
@@ -99,7 +99,7 @@ class DomainInRegistryContainer extends Component {
                 <Segment className='LeftSegment' floated='left'>
                   <p>Remove listing for</p>
                   <span className='RequiredADT'>
-                    <strong>{minDeposit ? commafy(minDeposit) : '-'} ADT</strong>
+                    <strong>{currentDeposit ? commafy(currentDeposit) : '-'} ADT</strong>
                   </span>
                   <p className='RemoveInfo'>
                   Withdrawing your listing completely removes it from the adchain Registry and reimburses you the ADT amount above.
@@ -116,7 +116,7 @@ class DomainInRegistryContainer extends Component {
                     <div className='CurrentDepositLabel'>
                   Current minDeposit:
                     </div>
-                    <div className='CurrentDeposit'><strong>{currentDeposit ? commafy(currentDeposit) : '-'} ADT</strong></div>
+                    <div className='CurrentDeposit'><strong>{minDeposit ? commafy(minDeposit) : '-'} ADT</strong></div>
                   </div>
                   <div className='TopOffRow'>
                     <div className='StakedDifferenceLabel'>

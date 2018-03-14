@@ -771,6 +771,9 @@ class RegistryService {
     }
   }
 
+  async withdraw (domain, amount = 0) {
+  }
+
   getNetwork () {
     return detectNetwork(this.provider)
   }
