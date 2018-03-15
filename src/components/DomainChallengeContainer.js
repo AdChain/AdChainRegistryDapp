@@ -8,6 +8,7 @@ import Tooltip from './Tooltip'
 
 import Countdown from './CountdownText'
 import registry from '../services/registry'
+import parametizer from '../services/parameterizer'
 import DomainChallengeInProgressContainer from './DomainChallengeInProgressContainer'
 
 import './DomainChallengeContainer.css'
@@ -22,17 +23,20 @@ class DomainChallengeContainer extends Component {
       minDeposit: null,
       currentDeposit: null,
       inProgress: false,
-      source: props.source
+      source: props.source,
+      dispensationPct: null
     }
 
     this.updateStatus = this.updateStatus.bind(this)
     this.updateStageMap = props.updateStageMap
+    this.getDispensationPct = this.getDispensationPct.bind(this)
   }
 
   componentDidMount () {
     this._isMounted = true
     this.getMinDeposit()
     this.getListing()
+    this.getDispensationPct()
   }
 
   componentWillUnmount () {
@@ -44,7 +48,8 @@ class DomainChallengeContainer extends Component {
       applicationExpiry,
       minDeposit,
       inProgress,
-      source
+      source,
+      dispensationPct
     } = this.state
 
     const stageEndMoment = applicationExpiry ? moment.unix(applicationExpiry) : null
@@ -100,7 +105,7 @@ class DomainChallengeContainer extends Component {
                 }
               </div>
               <div className='PayoutPercentageContainer'>
-                <p>Your Percentage Payout if Successful: </p><span className='PayoutPercentage'><strong>50%</strong></span>
+                <p>Your Percentage Payout if Successful: </p><span className='PayoutPercentage'><strong>{dispensationPct}%</strong></span>
               </div>
             </div>
             <Button basic className='ChallengeButton' onClick={this.onChallenge.bind(this)}>Challenge</Button>
@@ -206,6 +211,20 @@ class DomainChallengeContainer extends Component {
     setTimeout(() => {
       window.location.reload()
     }, 15000)
+  }
+
+  async getDispensationPct () {
+    try {
+      parametizer.get('dispensationPct')
+        .then((response) => {
+          let result = response.toNumber()
+          this.setState({
+            dispensationPct: result
+          })
+        })
+    } catch (error) {
+      console.error(error)
+    }
   }
 }
 
