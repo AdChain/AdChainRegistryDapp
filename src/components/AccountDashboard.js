@@ -30,7 +30,7 @@ class AccountDashboard extends Component {
 
     this.state = {
       history: props.history,
-      account: registry.getAccount() || '0x0',
+      account: '',
       tableFilters: [],
       query: {},
       appliedDomains: [],
@@ -40,13 +40,6 @@ class AccountDashboard extends Component {
       inProgress: false
     }
 
-    // const account =
-
-    // if (account) {
-    //   this.state.account = account
-    // }
-
-    this.state.tableFilters = [{id: 'account', value: this.state.account || '0x0'}]
     this.onQueryChange = this.onQueryChange.bind(this)
     this.updateTableFilters = this.updateTableFilters.bind(this)
     this.fetchAppliedDomains = this.fetchAppliedDomains.bind(this)
@@ -54,6 +47,13 @@ class AccountDashboard extends Component {
     this.fetchCommitsToReveal = this.fetchCommitsToReveal.bind(this)
     this.fetchRewards = this.fetchRewards.bind(this)
     this.fetchDomainStage = this.fetchDomainStage.bind(this)
+  }
+
+  componentWillMount () {
+    this.setState({
+      account: registry.getAccount() || '0x0',
+      tableFilters: [{id: 'account', value: this.state.account || '0x0'}]
+    })
   }
 
   async componentDidMount () {
