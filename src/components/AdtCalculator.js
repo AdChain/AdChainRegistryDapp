@@ -75,7 +75,7 @@ class AdtCalculator extends Component {
         <div className='ui grid'>
           <div className='row'>
             <div className='column eight wide'>
-              ETH/USD: <strong>{ethUsd ? toCurrency(ethUsd) : '-'}</strong>&nbsp;
+              ETH/USD: <strong>{ethUsd ? toCurrency(ethUsd.toFixed(2)) : '-'}</strong>&nbsp;
               <Tooltip
                 info='Price in USD for 1 ETH'
               />
@@ -110,7 +110,7 @@ class AdtCalculator extends Component {
           </div>
           <div className='row'>
             <div className='column eight wide'>
-              ADT/USD: <strong>{adtUsd ? toCurrency(adtUsd) : '-'}</strong>&nbsp;
+              ADT/USD: <strong>{adtUsd ? toCurrency(adtUsd.toFixed(4)) : '-'}</strong>&nbsp;
               <Tooltip
                 info='Price in ADT for 1 USD'
               />
