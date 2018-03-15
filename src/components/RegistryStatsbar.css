@@ -16,6 +16,8 @@
  margin-top: 1.6em;
  display: block;
  align-items: center;
+ font-family: "Open Sans", sans-serif;
+
 }
 
 :root:root .RegistryStatsbar .statistic {
@@ -40,6 +42,8 @@
 :root:root .RegistryStatsbar .statistic .label,
 :root:root .RegistryStatsbar .statistic .value {
   font-weight: normal;
+  font-family: "Open Sans", sans-serif;
+
 
 }
 
