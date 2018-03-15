@@ -229,7 +229,7 @@
   text-align: left;
 }
 
-.TopOffInputContainer {
+.ADTInputContainer {
   text-align: left;
   padding-left: 20px;
 }
@@ -246,11 +246,11 @@
   color: #FFF !important;
 }
 
-:root:root:root .DomainInRegistryContainer .TopOffInput {
+:root:root:root .DomainInRegistryContainer .ADTInput {
   width: 80%;
 }
 
-:root:root:root .DomainInRegistryContainer .TopOffInput input{
+:root:root:root .DomainInRegistryContainer .ADTInput input{
   border-top: none;
   border-right: none;
   border-left: none;
@@ -259,22 +259,22 @@
   padding: 0;
 }
 
-:root:root:root .DomainInRegistryContainer .TopOffInput input::-webkit-input-placeholder {
+:root:root:root .DomainInRegistryContainer .ADTInput input::-webkit-input-placeholder {
   text-align: right;
   color: #000;
   font-family: 'Open Sans', sans-serif;
 }
-:root:root:root .DomainInRegistryContainer .TopOffInput input:-moz-placeholder { /* Firefox 18- */
+:root:root:root .DomainInRegistryContainer .ADTInput input:-moz-placeholder { /* Firefox 18- */
   text-align: right;
   color: #000;
   font-family: 'Open Sans', sans-serif;
 }
-:root:root:root .DomainInRegistryContainer .TopOffInput input::-moz-placeholder {  /* Firefox 19+ */
+:root:root:root .DomainInRegistryContainer .ADTInput input::-moz-placeholder {  /* Firefox 19+ */
   text-align: right;
   color: #000;
   font-family: 'Open Sans', sans-serif;
 }
-:root:root:root .DomainInRegistryContainer .TopOffInput input:-ms-input-placeholder {
+:root:root:root .DomainInRegistryContainer .ADTInput input:-ms-input-placeholder {
   text-align: right;
   color: #000;
   font-family: 'Open Sans', sans-serif;

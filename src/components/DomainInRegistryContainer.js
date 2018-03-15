@@ -38,6 +38,7 @@ class DomainInRegistryContainer extends Component {
     this.topOff = this.topOff.bind(this)
     this.updateStatus = this.updateStatus.bind(this)
     this.updateStageMap = props.updateStageMap
+    this.withdrawADT = this.withdrawADT.bind(this)
   }
 
   componentDidMount () {
@@ -66,8 +67,8 @@ class DomainInRegistryContainer extends Component {
       currentDeposit
     } = this.state
 
-    const stakedDifference = minDeposit - currentDeposit
-    const stakedDifferenceClass = stakedDifference > 0 ? 'StakedDifferenceNegative' : stakedDifference < 0 ? 'StakedDifferencePositive' : 'StakedDifferenceZero'
+    const stakedDifference = currentDeposit - minDeposit
+    const stakedDifferenceClass = stakedDifference > 0 ? 'StakedDifferencePositive' : stakedDifference < 0 ? 'StakedDifferenceNegative' : 'StakedDifferenceZero'
 
     // const hasVotes = (votesFor || votesAgainst)
 
@@ -99,7 +100,7 @@ class DomainInRegistryContainer extends Component {
                 <Segment className='LeftSegment' floated='left'>
                   <p>Remove listing for</p>
                   <span className='RequiredADT'>
-                    <strong>{currentDeposit ? commafy(currentDeposit) : '-'} ADT</strong>
+                    <strong>{currentDeposit ? commafy(currentDeposit) : '0'} ADT</strong>
                   </span>
                   <p className='RemoveInfo'>
                   Withdrawing your listing completely removes it from the adchain Registry and reimburses you the ADT amount above.
@@ -116,19 +117,19 @@ class DomainInRegistryContainer extends Component {
                     <div className='CurrentDepositLabel'>
                   Current minDeposit:
                     </div>
-                    <div className='CurrentDeposit'><strong>{minDeposit ? commafy(minDeposit) : '-'} ADT</strong></div>
+                    <div className='CurrentDeposit'><strong>{minDeposit ? commafy(minDeposit) : '0'} ADT</strong></div>
                   </div>
                   <div className='TopOffRow'>
                     <div className='StakedDifferenceLabel'>
                     Staked Difference:
                     </div>
-                    <div className={stakedDifferenceClass}><strong>{stakedDifference ? commafy(stakedDifference) : '-'} ADT</strong></div>
+                    <div className={stakedDifferenceClass}><strong>{stakedDifference ? commafy(stakedDifference) : '0'} ADT</strong></div>
                   </div>
                   <div className='TopOffLabel'>
                   Enter ADT Amount
                   </div>
-                  <div className='TopOffInputContainer'>
-                    <Input type='number' placeholder='ADT' id='TopOff' className='TopOffInput' />
+                  <div className='ADTInputContainer'>
+                    <Input type='number' placeholder='ADT' id='ADTAmount' className='ADTInput' />
                   </div>
                   <div className='TopOffButtonContainer'>
                     <Button
@@ -140,7 +141,7 @@ class DomainInRegistryContainer extends Component {
                     <Button
                       className='WithdrawButton'
                       basic
-                      onClick={this.topOff}>Withdraw ADT</Button>
+                      onClick={this.withdrawADT}>Withdraw ADT</Button>
                   </div>
                 </Segment>
               </div>
@@ -300,7 +301,7 @@ class DomainInRegistryContainer extends Component {
 
   async topOff () {
     const {domain, currentDeposit} = this.state
-    const amount = document.getElementById('TopOff').value
+    const amount = document.getElementById('ADTAmount').value
 
     // Possibly include other verification checks
 
@@ -317,12 +318,45 @@ class DomainInRegistryContainer extends Component {
           currentDeposit: parseInt(amount, 10) + parseInt(currentDeposit, 10),
           inTopOffProgress: false
         })
-        document.getElementById('TopOff').value = null
+        document.getElementById('ADTAmount').value = null
       }
     } catch (error) {
       toastr.error('There was an error with your request')
       this.setState({
         inTopOffProgress: false
+      })
+    }
+  }
+
+  async withdrawADT () {
+    const {domain, currentDeposit, minDeposit} = this.state
+    const amount = document.getElementById('ADTAmount').value
+
+    if (parseInt(currentDeposit, 10) - parseInt(amount, 10) < minDeposit) {
+      toastr.error('You can only withdraw an amount of tokens that is less than or equal to the staked difference.')
+      return
+    }
+
+    if (this._isMounted) {
+      this.setState({
+        inWithdrawProgress: true
+      })
+    }
+
+    try {
+      await registry.withdraw(domain, amount)
+      if (this._isMounted) {
+        this.setState({
+          currentDeposit: parseInt(currentDeposit, 10) - parseInt(amount, 10),
+          inWithdrawProgress: false
+        })
+        document.getElementById('ADTAmount').value = null
+      }
+    } catch (error) {
+      toastr.error('There was an error withdrawing your ADT')
+      console.error(error)
+      this.setState({
+        inWithdrawProgress: false
       })
     }
   }

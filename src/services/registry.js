@@ -773,6 +773,30 @@ class RegistryService {
   }
 
   async withdraw (domain, amount = 0) {
+    if (!domain) {
+      throw new Error('Domain is required')
+    }
+
+    domain = domain.toLowerCase()
+
+    const bigWithdrawAmount = big(amount).mul(tenToTheNinth).toString(10)
+    const hash = `0x${soliditySHA3(['bytes32'], [domain.toLowerCase().trim()]).toString('hex')}`
+
+    // let allowed = await (await token.allowance(this.account, this.address)).toString(10)
+
+    // if (allowed < bigWithdrawAmount) {
+    //   try {
+    //     await token.approve(this.address, bigWithdrawAmount)
+    //   } catch (error) {
+    //     throw error
+    //   }
+    // }
+
+    try {
+      await this.registry.withdraw(hash, bigWithdrawAmount)
+    } catch (error) {
+      throw error
+    }
   }
 
   getNetwork () {
