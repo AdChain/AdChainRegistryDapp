@@ -293,7 +293,7 @@ select::-ms-expand {
 }
 .VotingTokensAmount{
   padding:10px 20px;
-  background:#f4f4f4;
+  background:#f4f7fa;
   border-radius:5px;
   margin:10px 0; 
   display:inline-block;

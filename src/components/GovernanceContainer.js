@@ -41,7 +41,7 @@ class GovernanceContainer extends Component {
     /*
      * ---------------------- PubSub Pattern -----------------------
      * Used to subscribe and publish events on non-related components.
-     * Very useful for updating state on another component that is not in the same
+     * Useful for updating state on another component that is not in the same
      * heirarchy or does not have access to the same props/state.
      * Metax's convention for usage is to include the name of the component and the function that
      * is going to be invoked as the first parameter in the subscribe event, and the
@@ -151,7 +151,7 @@ class GovernanceContainer extends Component {
     switch (name) {
       case 'minDeposit':
       case 'pMinDeposit':
-        value = commafy(value / 1000000000)
+        value = commafy(value / 1000000000).toFixed(0)
         break
       case 'applyStageLen':
       case 'pApplyStageLen':
@@ -159,7 +159,7 @@ class GovernanceContainer extends Component {
       case 'pCommitStageLen':
       case 'revealStageLen':
       case 'pRevealStageLen':
-        value = (value / 60)
+        value = (value / 60).toFixed(0)
         break
       default:
         break

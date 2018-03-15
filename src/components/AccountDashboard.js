@@ -5,7 +5,7 @@ import toastr from 'toastr'
 import store from '../store'
 import registry from '../services/registry'
 import AccountStatsbar from './AccountStatsbar'
-import RescueTokens from './RescueTokens'
+import ExpiredVotingADT from './ExpiredVotingADT'
 import RequestTokenApprovalContainer from './RequestTokenApprovalContainer.js'
 import RequestVotingRightsContainer from './RequestVotingRightsContainer.js'
 import WithdrawVotingRightsContainer from './WithdrawVotingRightsContainer.js'
@@ -102,13 +102,13 @@ class AccountDashboard extends Component {
             <div className='column five wide NoPaddingRight'>
               <RequestTokenApprovalContainer account={account} />
             </div>
-            <div className='column eleven wide'>
+            <div className='column eleven wide TokensUsedForVoting'>
               <div className='BoxFrame'>
                 <span className='ui grid BoxFrameLabel'>Tokens Used For Voting <Tooltip info={'Rescue Tokens'} /></span>
                 <div className='ui grid'>
                   <div className='row f-13'>
                     <RequestVotingRightsContainer account={account} />
-                    <RescueTokens account={account} />
+                    <ExpiredVotingADT account={account} />
                     <WithdrawVotingRightsContainer account={account} />
                   </div>
                 </div>
