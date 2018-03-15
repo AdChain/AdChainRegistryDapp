@@ -13,3 +13,6 @@
 :root:root .RequestVotingRightsContainer .VotingRightsText {
   padding-bottom: 1em;
 }
+.RequestVotingRightsContainerInput {
+  max-width:90px !important;
+}

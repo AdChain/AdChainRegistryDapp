@@ -51,20 +51,24 @@ class RequestTokenApprovalContainer extends Component {
           <div className='column sixteen wide'>
             <span className='ui grid BoxFrameLabel'>PRE-APPROVE ADT TRANSFER <Tooltip info={'Pre-approve adToken transfer to the adChain Registry will minimize the number of transactions when applying. This can can save gas fees if applying frequently. Pre-approving does not withdraw adToken from your adToken account, only until time of application.'} /></span>
           </div>
-          <div className='column sixteen wide ApprovedAdt'>
-            <div className='ApprovedAdtText'><small>Current Approved ADT: <strong>{allowedTokens !== null ? commafy(allowedTokens) + ' ADT' : '-'}</strong></small></div>
+          <div className='column sixteen wide ApprovedAdt t-center' style={{paddingTop: '5px'}}>
+            <div>Current Approved ADT <Tooltip class='InfoIconHigh' info={'Pre-approve adToken transfer to the adChain Registry will minimize the number of transactions when applying. This can can save gas fees if applying frequently. Pre-approving does not withdraw adToken from your adToken account, only until time of application.'} /></div>
+            <span className='VotingTokensAmount'>
+              {allowedTokens !== null ? commafy(allowedTokens) + ' ADT' : '-'}
+            </span>
+            <br />
             <div className='ui input action mini'>
               <input
                 type='text'
                 placeholder='100'
                 id='RequestTokenApprovalContainerInput'
                 onKeyUp={this.onTokenAmountKeyUp}
-              />
+                />
               <button
                 onClick={this.onRequest}
                 className='ui button blue tiny'>
-                PRE-APPROVE ADT
-              </button>
+                  PRE-APPROVE ADT
+                </button>
             </div>
           </div>
         </div>

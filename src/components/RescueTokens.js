@@ -6,15 +6,14 @@ import Tooltip from './Tooltip'
 class RescueTokens extends Component {
   render () {
     return (
-      <div className='BoxFrame RescueTokens mt-25'>
-        <span className='BoxFrameLabel ui grid'>RescueTokens <Tooltip info='Get tokens back' /></span>
-        <div className='ui grid'>
-          <div className='row'>
-            <div className='column sixteen'>
-              <button className='ui mini button red' onClick={() => { this.rescueTokens() }}>RESCUE</button>
-            </div>
-          </div>
+
+      <div className='column five wide t-center'>
+        <div>
+          Expired Voting ADT <Tooltip class='InfoIconHigh' info={'These tokens are expired'} />
         </div>
+        <span className='VotingTokensAmount'>0 ADT</span>
+        <br />
+        <button className='ui tiny button green' onClick={() => { this.rescueTokens() }}>RESCUE</button>
       </div>
     )
   }

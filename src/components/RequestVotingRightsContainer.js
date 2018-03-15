@@ -6,7 +6,6 @@ import Tooltip from './Tooltip'
 import registry from '../services/registry'
 import store from '../store'
 
-import RequestVotingRightsInProgressContainer from './RequestVotingRightsInProgressContainer'
 import './RequestVotingRightsContainer.css'
 
 class RequestVotingRightsContainer extends Component {
@@ -16,8 +15,7 @@ class RequestVotingRightsContainer extends Component {
     this.state = {
       account: props.account,
       availableVotes: null,
-      requestVotes: null,
-      inProgress: false
+      requestVotes: null
     }
 
     this.onRequest = this.onRequest.bind(this)
@@ -40,34 +38,32 @@ class RequestVotingRightsContainer extends Component {
 
   render () {
     const {
-      inProgress,
       availableVotes
     } = this.state
 
     return (
-      <div className='RequestVotingRightsContainer BoxFrame'>
-        <div className='ui grid stackable center aligned'>
-          <div className='column sixteen wide'>
-            <span className='ui grid BoxFrameLabel'>REQUEST VOTING RIGHTS <Tooltip info='Pre-requesting voting rights will minimizes the number of transactions when performing commit votes. This can save gas fees if voting frequently. 1 ADT = 1 Vote. Pre-requesting voting rights will withdraw AdToken from your account to the adChain registry PLCR contract. You may convert the votes to adToken and withdraw at any time.' /></span>
-          </div>
-          <div className='column sixteen wide VotingRights'>
-            <div className='VotingRightsText'><small>Total Current Voting Rights: <strong>{availableVotes !== null ? commafy(availableVotes) + ' Rights' : '-'}</strong></small></div>
-            <div className='ui input action mini'>
-              <input
-                type='text'
-                placeholder='100'
-                id='RequestVotingRightsContainerInput'
-                onKeyUp={this.onVotesKeyUp}
-              />
-              <button
-                onClick={this.onRequest}
-                className='ui button blue tiny'>
-                DEPOSIT VOTING RIGHTS
-              </button>
-            </div>
-          </div>
+
+      <div className='column five wide VotingRights t-center'>
+        <div className='VotingRightsText'>
+              Total Current Voting Rights <Tooltip class='InfoIconHigh' info='Pre-requesting voting rights will minimizes the number of transactions when performing commit votes. This can save gas fees if voting frequently. 1 ADT = 1 Vote. Pre-requesting voting rights will withdraw AdToken from your account to the adChain registry PLCR contract. You may convert the votes to adToken and withdraw at any time.' />
+          <span className='VotingTokensAmount'>
+            {availableVotes !== null ? commafy(availableVotes) + ' ADT' : '-'}
+          </span>
         </div>
-        {inProgress ? <RequestVotingRightsInProgressContainer /> : null}
+        <div className='ui input action mini'>
+          <input
+            type='text'
+            placeholder='100'
+            style={{maxWidth: '90px'}}
+            id='RequestVotingRightsContainerInput'
+            onKeyUp={this.onVotesKeyUp}
+              />
+          <button
+            onClick={this.onRequest}
+            className='ui button blue tiny'>
+                APPROVE
+              </button>
+        </div>
       </div>
     )
   }
@@ -92,12 +88,6 @@ class RequestVotingRightsContainer extends Component {
       return false
     }
 
-    if (this._isMounted) {
-      this.setState({
-        inProgress: true
-      })
-    }
-
     try {
       await registry.requestVotingRights(requestVotes)
 
@@ -111,12 +101,6 @@ class RequestVotingRightsContainer extends Component {
       toastr.success('Success')
     } catch (error) {
       toastr.error('There was an error with your request')
-    }
-
-    if (this._isMounted) {
-      this.setState({
-        inProgress: false
-      })
     }
   }
 

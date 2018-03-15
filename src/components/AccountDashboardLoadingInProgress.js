@@ -15,11 +15,7 @@ class AccountDashboardLoadingInProgress extends Component {
           <div>
             <Loader indeterminate active inline='centered' />
           </div>
-          <div>
-            <strong>
-              Loading
-            </strong>
-          </div>
+          <div />
         </div>
       </div>
     )

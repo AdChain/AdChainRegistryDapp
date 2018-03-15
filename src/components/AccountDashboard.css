@@ -1,5 +1,6 @@
 .AccountDashboard {
   width: 100%;
+  font-family: "Open Sans", sans-serif !important;
 }
 
 .UserAppliedDomainsContainer {
@@ -65,4 +66,7 @@
   height: 3em;
   border-bottom: 1px solid #F4F7FA;
   font-size: 12px;
+}
+.AccountDashboard .ui.input.action.mini{
+  max-height: 26px !important;
 }

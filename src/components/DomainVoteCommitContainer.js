@@ -47,7 +47,6 @@ class DomainVoteCommitContainer extends Component {
     this.onVoteOptionChange = this.onVoteOptionChange.bind(this)
     this.onFormSubmit = this.onFormSubmit.bind(this)
     this.onDownload = this.onDownload.bind(this)
-    this.onReminderDownload = this.onReminderDownload.bind(this)
     this.enableDownloadCheck = this.enableDownloadCheck.bind(this)
   }
 

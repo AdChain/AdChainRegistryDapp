@@ -14,6 +14,7 @@ import UserChallengedDomains from './UserChallengedDomains.js'
 import UserCommitsToReveal from './UserCommitsToReveal.js'
 import UserRewardsToClaim from './UserRewardsToClaim.js'
 import AccountDashboardLoadingInProgress from './AccountDashboardLoadingInProgress'
+import Tooltip from './Tooltip'
 
 import Eth from 'ethjs'
 import _ from 'lodash'
@@ -97,15 +98,21 @@ class AccountDashboard extends Component {
           <div className='column sixteen wide NoPaddingBottom'>
             <AccountStatsbar account={account} />
           </div>
-          <div className='row NoPaddingBottom'>
+          <div className='row NoPaddingBottom f-13'>
             <div className='column five wide NoPaddingRight'>
               <RequestTokenApprovalContainer account={account} />
             </div>
-            <div className='column five wide NoPaddingRight'>
-              <RequestVotingRightsContainer account={account} />
-            </div>
-            <div className='column six wide'>
-              <WithdrawVotingRightsContainer account={account} />
+            <div className='column eleven wide'>
+              <div className='BoxFrame'>
+                <span className='ui grid BoxFrameLabel'>Tokens Used For Voting <Tooltip info={'Rescue Tokens'} /></span>
+                <div className='ui grid'>
+                  <div className='row f-13'>
+                    <RequestVotingRightsContainer account={account} />
+                    <RescueTokens account={account} />
+                    <WithdrawVotingRightsContainer account={account} />
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
           { inProgress
@@ -122,9 +129,6 @@ class AccountDashboard extends Component {
               </div>
               <div className='column UserRewardsToClaimContainer wide'>
                 <UserRewardsToClaim rewards={rewards} history={history} />
-              </div>
-              <div className='column six wide'>
-                <RescueTokens account={account} />
               </div>
             </div>
           }
