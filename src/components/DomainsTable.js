@@ -130,7 +130,7 @@ class DomainsTable extends Component {
               src={`https://www.google.com/s2/favicons?domain=${domain}`}
               width={16}
               alt=''
-          />&nbsp;
+            />&nbsp;
             {domain}
           </span>
         )
@@ -236,13 +236,13 @@ class DomainsTable extends Component {
               {label}
             </span>
           </a>
-          : <span className={color}
-            onClick={(event) => {
-              event.preventDefault()
-              history.push(`/domains/${domain}`)
-            }} key={Math.random()}>
-            {label}
-          </span>
+            : <span className={color}
+              onClick={(event) => {
+                event.preventDefault()
+                history.push(`/domains/${domain}`)
+              }} key={Math.random()}>
+              {label}
+            </span>
         ])
       },
       minWidth: 130
@@ -279,7 +279,7 @@ class DomainsTable extends Component {
       },
       minWidth: 150
     }
-  /*
+      /*
   {
       Header: 'Staked',
       accessor: 'deposit',

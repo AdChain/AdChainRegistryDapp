@@ -1,14 +1,14 @@
-.DomainNotInRegistryContainer {
+.DomainRejectedContainer {
   position: relative;
   height: 100%;
 }
 
 
-.DomainNotInRegistryContainer .header {
+.DomainRejectedContainer .header {
   display: inline-block;
 }
 
-:root:root:root .DomainNotInRegistryContainer .refresh {
+:root:root:root .DomainRejectedContainer .refresh {
   float: right;
   border: 1px solid #3434CE;
   border-radius: 3px;
@@ -21,19 +21,19 @@
   box-shadow: unset;
 }
 
-.DomainNotInRegistryContainer .HeaderColumn {
+.DomainRejectedContainer .HeaderColumn {
   padding-bottom: 0px !important;
 }
 
-.DomainNotInRegistryContainer .HeaderRow {
+.DomainRejectedContainer .HeaderRow {
   padding-top: 10px;
 }
 
-.DomainNotInRegistryContainer .DomainNotInRegistryBody {
+.DomainRejectedContainer .DomainRejectedBody {
   height: 100%;
 }
 
-.NotInRegistryMessage {
+.RejectedMessage {
   padding-left: 20px;
   padding-right: 20px;
 }

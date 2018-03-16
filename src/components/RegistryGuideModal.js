@@ -123,7 +123,8 @@ class RegistryGuideModal extends Component {
     this.setState(guideToDisplay)
   }
 
-  show () {
+  async show () {
+    await this.updateRoute('./')
     this.setState({ open: true })
   }
 }

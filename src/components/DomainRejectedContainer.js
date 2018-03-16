@@ -2,11 +2,11 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Button } from 'semantic-ui-react'
 import Tooltip from './Tooltip'
-import './DomainNotInRegistryContainer.css'
+import './DomainRejectedContainer.css'
 import registry from '../services/registry'
 import toastr from 'toastr'
 
-class DomainNotInRegistryContainer extends Component {
+class DomainRejectedContainer extends Component {
   constructor (props) {
     super()
 
@@ -21,12 +21,12 @@ class DomainNotInRegistryContainer extends Component {
     } = this.state
 
     return (
-      <div className='DomainNotInRegistryContainer'>
-        <div className='ui grid stackable DomainNotInRegistryBody'>
+      <div className='DomainRejectedContainer'>
+        <div className='ui grid stackable DomainRejectedBody'>
           <div className='column sixteen wide HeaderColumn'>
             <div className='row HeaderRow'>
               <div className='ui large header'>
-              Stage: None
+                Stage: Rejected
                 <Tooltip
                   info='The first phase of the voting process is the commit phase where the ADT holder stakes a hidden amount of votes to SUPPORT or OPPOSE the domain application. The second phase is the reveal phase where the ADT holder reveals the staked amount of votes to either the SUPPORT or OPPOSE side.'
                 />
@@ -42,7 +42,7 @@ class DomainNotInRegistryContainer extends Component {
             <div className='ui divider' />
           </div>
           <div className='column sixteen wide center aligned'>
-            <p className='NotInRegistryMessage'>
+            <p className='RejectedMessage'>
               You can apply <strong>{domain}</strong> into the
               adChain Registry within the application modal
               on the left navigation column.
@@ -67,8 +67,8 @@ class DomainNotInRegistryContainer extends Component {
   }
 }
 
-DomainNotInRegistryContainer.propTypes = {
+DomainRejectedContainer.propTypes = {
   domain: PropTypes.string
 }
 
-export default DomainNotInRegistryContainer
+export default DomainRejectedContainer

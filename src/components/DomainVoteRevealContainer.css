@@ -79,6 +79,7 @@
   border-radius: 3px;
   border: 1px solid #3434CE;
   text-transform: uppercase;
+  box-shadow: unset;
 }
 
 :root:root:root .DomainVoteRevealContainer .UploadCommitButtonContainer {
@@ -124,6 +125,7 @@
   text-align: center;
   text-transform: uppercase;
   color: #FFFFFF !important;
+  box-shadow: unset;
 }
 
 :root:root:root .DomainVoteRevealContainer .SubmitVoteButtonContainer {

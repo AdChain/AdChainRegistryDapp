@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import toastr from 'toastr'
 import registry from '../services/registry'
+import moment from 'moment'
 
 import './DomainProfileStageMap.css'
 import Tooltip from './Tooltip'
@@ -10,6 +11,8 @@ import MapRejected from './assets/map_rejected.svg'
 import MapInApplication from './assets/map_in_application.svg'
 import MapInRegistryChallenge from './assets/map_in_registry_challenge.svg'
 import MapInRegistryNoChallenge from './assets/map_in_registry_nochallenge.svg'
+import MapInApplicationPending from './assets/map_in_application_pending.svg'
+import MapRevealPending from './assets/map_reveal_pending.svg'
 
 class DomainProfileStageMap extends Component {
   constructor (props) {
@@ -17,14 +20,12 @@ class DomainProfileStageMap extends Component {
 
     const {
       domain,
-      action,
-      stage
+      action
     } = props
 
     this.state = {
       domain,
-      action,
-      stage
+      action
     }
     this.getData()
   }
@@ -59,10 +60,14 @@ class DomainProfileStageMap extends Component {
       stageMapSrc = MapInRegistryNoChallenge
     } else if (action === 'apply') {
       stageMapSrc = MapInApplication
+    } else if (action === 'application_pending') {
+      stageMapSrc = MapInApplicationPending
     } else if (action === 'commit') {
       stageMapSrc = MapVoting
     } else if (action === 'reveal') {
       stageMapSrc = MapReveal
+    } else if (action === 'reveal_pending') {
+      stageMapSrc = MapRevealPending
     } else if (action === 'rejected') {
       stageMapSrc = MapRejected
     }
@@ -82,7 +87,6 @@ class DomainProfileStageMap extends Component {
   async getData () {
     try {
       const {domain} = this.state
-
       const listing = await registry.getListing(domain)
 
       const {
@@ -91,25 +95,36 @@ class DomainProfileStageMap extends Component {
         challengeId
       } = listing
 
-      const challengeOpen = (challengeId === 0 && !isWhitelisted && applicationExpiry)
+      const challengeOpen = (challengeId === 0 && !isWhitelisted && !!applicationExpiry)
+      const revealPending = (challengeId !== 0 && !isWhitelisted && !!applicationExpiry)
       const commitOpen = await registry.commitStageActive(domain)
       const revealOpen = await registry.revealStageActive(domain)
+      const isInRegistry = (isWhitelisted && !commitOpen && !revealOpen)
+      const now = moment().unix()
+      const applicationExpirySeconds = applicationExpiry ? applicationExpiry._i : 0
+      const challengeTimeEnded = (now > applicationExpirySeconds)
 
       let action = null
 
-      if (challengeOpen) {
-        action = 'apply'
-      } else if (isWhitelisted) {
+      if (isInRegistry) {
         if (challengeId === 0) {
           action = 'in_registry_nochallenge'
         } else {
           action = 'in_registry_challenge'
         }
+      } else if (challengeOpen) {
+        if (challengeTimeEnded) {
+          action = 'application_pending'
+        } else {
+          action = 'apply'
+        }
       } else if (commitOpen) {
         action = 'commit'
       } else if (revealOpen) {
         action = 'reveal'
-      } else if (challengeId !== 0 && !isWhitelisted) {
+      } else if (revealPending) {
+        action = 'reveal_pending'
+      } else if (!isInRegistry) {
         action = 'rejected'
       } else {
         action = 'apply'
