@@ -722,6 +722,15 @@ class RegistryService {
     return token.approve(this.address, bigTokens)
   }
 
+  async rescueTokens (pollId) {
+    try {
+      let res = await plcr.rescueTokens(pollId)
+      return res
+    } catch (error) {
+      console.log('Rescue tokens error: ', error)
+    }
+  }
+
   async getTokenAllowance () {
     const allowed = await token.allowance(this.account, this.address)
     const bigTokens = big(allowed).div(tenToTheNinth)

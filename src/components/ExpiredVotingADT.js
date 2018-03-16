@@ -7,13 +7,23 @@ class ExpiredVotingADT extends Component {
   constructor () {
     super()
     this.state = {
-      expiredTokens: 0
+      totalExpiredTokens: 0,
+      expiredDomainData: [],
+      selectedPoll: null
     }
   }
 
   async componentDidMount () {
+    await this.init()
+  }
+
+  async init () {
+    let { expiredDomainData, totalExpiredTokens, selectedPoll } = await this.getExpiredDomainData()
+    console.log(expiredDomainData)
     this.setState({
-      expiredTokens: await this.getExpiredTokens()
+      expiredDomainData,
+      totalExpiredTokens,
+      selectedPoll
     })
   }
 
@@ -24,14 +34,14 @@ class ExpiredVotingADT extends Component {
         <div>
           Expired Voting ADT <Tooltip class='InfoIconHigh' info={'These tokens are expired'} />
         </div>
-        <span className='VotingTokensAmount'>{this.state.expiredTokens} ADT</span>
+        <span className='VotingTokensAmount' style={{marginRight: '4px'}}>{this.state.expiredDomainData.length}</span><span className='VotingTokensAmount'>{this.state.totalExpiredTokens} ADT</span>
         <br />
-        <button className='ui tiny button green' onClick={() => { this.rescueTokens() }}>UNLOCK</button>
+        <button className='ui tiny button green' onClick={() => { this.rescueTokens(this.state.selectedPoll) }}>UNLOCK</button>
       </div>
     )
   }
 
-  async getExpiredTokens () {
+  async getExpiredDomainData () {
     let committed = await this.getCommitted()
     const revealed = await this.getRevealed()
 
@@ -46,9 +56,14 @@ class ExpiredVotingADT extends Component {
       })
     })
 
-    let revealEndedDomains = await this.filterByStage(committed)
-    let expiredTokens = this.getSum(revealEndedDomains)
-    return expiredTokens
+    let expiredDomainData = await this.filterByStage(committed)
+    let totalExpiredTokens = this.getSum(expiredDomainData)
+
+    return {
+      totalExpiredTokens,
+      expiredDomainData,
+      selectedPoll: expiredDomainData[0].challengeId
+    }
   }
 
   async getCommitted () {
@@ -63,18 +78,19 @@ class ExpiredVotingADT extends Component {
 
   async filterByStage (unrevealed) {
     // Map over unrevealed to determine the stage
-    let domainData = await Promise.all(unrevealed.map(async (x) => {
+    // Returns domains in expired state
+    const expiredDomains = await Promise.all(unrevealed.map(async (x) => {
       try {
-        let listing = await registry.getListing(x.domain)
-        let inCommit = await registry.commitStageActive(x.domain)
-        let inReveal = await registry.revealStageActive(x.domain)
+        const listing = await registry.getListing(x.domain)
+        const inCommit = await registry.commitStageActive(x.domain)
+        const inReveal = await registry.revealStageActive(x.domain)
         if (inCommit || inReveal) return
         return listing
       } catch (error) {
         console.log(error)
       }
     }))
-    return domainData
+    return expiredDomains
   }
 
   getSum (domains) {
@@ -86,8 +102,15 @@ class ExpiredVotingADT extends Component {
     return (sum / 1000000000).toFixed(0)
   }
 
-  async rescueTokens () {
-    console.log('hit')
+  async rescueTokens (pollId) {
+    console.log('rescueTokens: ', pollId)
+    try {
+      let res = await registry.rescueTokens(pollId)
+      this.init()
+      return res
+    } catch (error) {
+      console.log('error: ', error)
+    }
   }
 }
 
