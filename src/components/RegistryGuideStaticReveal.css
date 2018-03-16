@@ -7,7 +7,6 @@
 }
 
 :root:root:root .RegistryGuideStaticReveal .refresh {
-  display: inline-block;
   float: right;
   border: 1px solid #3434CE;
   border-radius: 3px;
@@ -17,6 +16,7 @@
   font-weight: bold;
   line-height: 11px;
   text-transform: uppercase;
+  box-shadow: unset;
 }
 
 .RegistryGuideStaticReveal .HeaderColumn {

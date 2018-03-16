@@ -1,14 +1,14 @@
-.DomainNotInRegistryContainer {
+.DomainPendingDontainer {
   position: relative;
   height: 100%;
 }
 
 
-.DomainNotInRegistryContainer .header {
+.DomainPendingContainer .header {
   display: inline-block;
 }
 
-:root:root:root .DomainNotInRegistryContainer .refresh {
+:root:root:root .DomainPendingContainer .refresh {
   float: right;
   border: 1px solid #3434CE;
   border-radius: 3px;
@@ -21,19 +21,19 @@
   box-shadow: unset;
 }
 
-.DomainNotInRegistryContainer .HeaderColumn {
+.DomainPendingContainer .HeaderColumn {
   padding-bottom: 0px !important;
 }
 
-.DomainNotInRegistryContainer .HeaderRow {
+.DomainPendingContainer .HeaderRow {
   padding-top: 10px;
 }
 
-.DomainNotInRegistryContainer .DomainNotInRegistryBody {
+.DomainPendingContainer .DomainPendingBody {
   height: 100%;
 }
 
-.NotInRegistryMessage {
+.PendingMessage {
   padding-left: 20px;
   padding-right: 20px;
 }
