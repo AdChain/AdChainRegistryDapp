@@ -8,7 +8,7 @@ import toastr from 'toastr'
 import 'react-table/react-table.css'
 import './DomainsTable.css'
 
-// import store from '../store'
+import store from '../store'
 import registry from '../services/registry'
 
 // import StatProgressBar from './StatProgressBar'
@@ -59,9 +59,9 @@ class DomainsTable extends Component {
 
     // infinite calls if enabled,
     // need to debug
-    // store.subscribe(x => {
-    // this.getData()
-    // })
+    store.subscribe(x => {
+      this.getData()
+    })
   }
 
   componentWillUnmount () {
@@ -430,82 +430,85 @@ class DomainsTable extends Component {
   }
 
   async getData (filters) {
-    const {
-      pageSize
-    } = this.state
-
-    let domains = []
-    const queryFilters = []
-    const stageFilter = (filters).reduce((acc, x) => {
-      if (x.id === 'stage') {
-        return x
-      }
-
-      return acc
-    }, null)
-
-    // TODO: optimize filtering
-    if (stageFilter) {
-      const regex = stageFilter.value
-
-      // if does have a filter
-      if (regex.toString() !== '/(?:)/gi') {
-        domains = []
-
-        if (regex.test('voting_commit')) {
-          regex.lastIndex = 0
-          queryFilters.push('incommit')
-        }
-        if (regex.test('voting_reveal')) {
-          regex.lastIndex = 0
-          queryFilters.push('inreveal')
-        }
-        if (regex.test('in_application')) {
-          regex.lastIndex = 0
-          queryFilters.push('inapplication')
-        }
-        if (regex.test('in_registry')) {
-          regex.lastIndex = 0
-          queryFilters.push('inregistry')
-        }
-      }
-    }
-
-    // TODO: optimize filtering
-    const accountFilter = (filters || []).reduce((acc, x) => {
-      if (x.id === 'account') {
-        return x
-      }
-
-      return acc
-    }, null)
-
-    let query = `filter=${queryFilters.join(',')}`
-
-    if (accountFilter) {
-      const account = accountFilter.value || ''
-
-      query += `&account=${account}&include=applied,challenged,committed,revealed,registry`
-    }
-
     try {
-      domains = await (await window.fetch(`https://adchain-registry-api-staging.metax.io/registry/domains?${query}`)).json()
-      if (!Array.isArray(domains)) {
-        domains = []
+      const {
+        pageSize
+      } = this.state
+
+      let domains = []
+      const queryFilters = []
+      const stageFilter = (filters).reduce((acc, x) => {
+        if (x.id === 'stage') {
+          return x
+        }
+        return acc
+      }, null)
+
+      // TODO: optimize filtering
+      if (stageFilter) {
+        const regex = stageFilter.value
+
+        // if does have a filter
+        if (regex.toString() !== '/(?:)/gi') {
+          domains = []
+
+          if (regex.test('voting_commit')) {
+            regex.lastIndex = 0
+            queryFilters.push('incommit')
+          }
+          if (regex.test('voting_reveal')) {
+            regex.lastIndex = 0
+            queryFilters.push('inreveal')
+          }
+          if (regex.test('in_application')) {
+            regex.lastIndex = 0
+            queryFilters.push('inapplication')
+          }
+          if (regex.test('in_registry')) {
+            regex.lastIndex = 0
+            queryFilters.push('inregistry')
+          }
+        }
       }
+
+      // TODO: optimize filtering
+      const accountFilter = (filters || []).reduce((acc, x) => {
+        if (x.id === 'account') {
+          return x
+        }
+
+        return acc
+      }, null)
+
+      let query = `filter=${queryFilters.join(',')}`
+
+      if (accountFilter) {
+        const account = accountFilter.value || ''
+
+        query += `&account=${account}&include=applied,challenged,committed,revealed,registry`
+      }
+
+      try {
+        domains = await (await window.fetch(`https://adchain-registry-api-staging.metax.io/registry/domains?${query}`)).json()
+        if (!Array.isArray(domains)) {
+          domains = []
+        }
+      } catch (error) {
+        console.log(error)
+      }
+
+      if (this._isMounted) {
+        this.setState({
+          allDomains: domains,
+          pages: Math.ceil(domains.length / pageSize, 10)
+        })
+      }
+
+      // if (!this.state.data.length) {
+      this.onTableFetchData({page: 0, pageSize})
     } catch (error) {
       console.log(error)
     }
-
-    if (this._isMounted) {
-      this.setState({
-        allDomains: domains,
-        pages: Math.ceil(domains.length / pageSize, 10)
-      })
-    }
-
-    // if (!this.state.data.length) {
-    this.onTableFetchData({page: 0, pageSize})
     // }
   }
 

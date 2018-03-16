@@ -115,14 +115,21 @@ input:focus{
   z-index: 1000;
   position: relative;
 }
-.InfoIcon:hover,.InfoIconLow:hover{
+.InfoIcon:hover,
+.InfoIconLow:hover,
+.InfoIconHigh:hover{
   cursor:pointer;
 }
 .Tooltip{
   font-family: "Open Sans", sans-serif;
   font-size: 12px !important;
 }
-
+.InfoIconHigh{
+  height:14px !important;
+  margin-top: -1px;
+  z-index: 1000;
+  position: relative;
+}
 .RootLoader{
   position:relative;
 }
@@ -167,6 +174,7 @@ input:focus{
 .t-center{text-align:center;}
 .t-right{text-align: right;}
 /*utility font size*/
+.f-13{font-size:13px;}
 .f-14{font-size:14px;}
 .f-16{font-size:16px;}
 .f-18{font-size:18px;}
@@ -280,7 +288,16 @@ select::-ms-expand {
     text-decoration: none;
     cursor: pointer;
 }
-
+:root:root .ui.button{
+  margin-right:0 !important;
+}
+.VotingTokensAmount{
+  padding:10px 20px;
+  background:#f4f7fa;
+  border-radius:5px;
+  margin:10px 0; 
+  display:inline-block;
+}
 
 @media only screen and (max-width: 767px) {
   :root:root:root:root .MainContainerWrap {

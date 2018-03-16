@@ -6,7 +6,6 @@ import Tooltip from './Tooltip'
 import store from '../store'
 import registry from '../services/registry'
 
-import WithdrawVotingRightsInProgressContainer from './WithdrawVotingRightsInProgressContainer'
 import './WithdrawVotingRightsContainer.css'
 
 class WithdrawVotingRightsContainer extends Component {
@@ -16,8 +15,7 @@ class WithdrawVotingRightsContainer extends Component {
     this.state = {
       account: props.account,
       availableTokens: null,
-      lockedTokens: null,
-      inProgress: false
+      lockedTokens: null
     }
 
     this.onWithdraw = this.onWithdraw.bind(this)
@@ -38,29 +36,25 @@ class WithdrawVotingRightsContainer extends Component {
 
   render () {
     const {
-      availableTokens,
-      // lockedTokens,
-      inProgress
+      availableTokens
     } = this.state
 
     return (
-      <div className='WithdrawVotingRightsContainer BoxFrame'>
-        <div className='ui grid stackable center aligned'>
-          <div className='column sixteen wide'>
-            <span className='ui grid BoxFrameLabel'>WITHDRAW VOTING RIGHTS <Tooltip info='Withdraw adToken held by the adChain Registry PLCR contract. AdToken is locked up during voting and unlocked after the reveal stage. When it is unlocked you may withdraw the adToken to your account at any time.' /></span>
-          </div>
-          <div className='column sixteen wide UnlockedAdt'>
-            <div className='UnlockedAdtText'><small>Available Unlocked Voting Rights: <strong>{availableTokens !== null ? commafy(availableTokens) + ' Rights' : '-'}</strong></small></div>
-            <div>
-              <button
-                onClick={this.onWithdraw}
-                className='ui button blue tiny'>
-                WITHDRAW VOTING RIGHTS
+
+      <div className='column five wide t-center'>
+            Unlocked Voting ADT <Tooltip class='InfoIconHigh' info='Withdraw adToken held by the adChain Registry PLCR contract. AdToken is locked up during voting and unlocked after the reveal stage. When it is unlocked you may withdraw the adToken to your account at any time.' />
+        <div className='column sixteen wide UnlockedAdt'>
+          <span className='VotingTokensAmount'>
+            {availableTokens !== null ? commafy(availableTokens) + ' ADT' : '-'}
+          </span>
+          <div>
+            <button
+              onClick={this.onWithdraw}
+              className='ui button green tiny'>
+                WITHDRAW
             </button>
-            </div>
           </div>
         </div>
-        {inProgress ? <WithdrawVotingRightsInProgressContainer /> : null}
       </div>
     )
   }
@@ -95,11 +89,11 @@ class WithdrawVotingRightsContainer extends Component {
   async withdrawTokens () {
     const {availableTokens} = this.state
 
-    if (this._isMounted) {
-      this.setState({
-        inProgress: true
-      })
-    }
+    // if (this._isMounted) {
+    //   this.setState({
+    //     inProgress: true
+    //   })
+    // }
 
     try {
       console.log('available tokens: ', availableTokens)
@@ -110,11 +104,11 @@ class WithdrawVotingRightsContainer extends Component {
       toastr.error('There was an error with your request')
     }
 
-    if (this._isMounted) {
-      this.setState({
-        inProgress: false
-      })
-    }
+    // if (this._isMounted) {
+    //   this.setState({
+    //     inProgress: false
+    //   })
+    // }
   }
 }
 

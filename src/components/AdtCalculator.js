@@ -74,13 +74,13 @@ class AdtCalculator extends Component {
         <span className='ui grid BoxFrameLabel'>ADTOKEN CALCULATOR <Tooltip info={'The adToken Calculator gives the user real-time conversion prices between USD, ETH, and ADT. The data is provided by coinmarketcap.com'} /></span>
         <div className='ui grid'>
           <div className='row'>
-            <div className='column seven wide'>
-              ETH/USD: <strong>{ethUsd ? toCurrency(ethUsd) : '-'}</strong>
+            <div className='column eight wide'>
+              ETH/USD: <strong>{ethUsd ? toCurrency(ethUsd.toFixed(2)) : '-'}</strong>&nbsp;
               <Tooltip
                 info='Price in USD for 1 ETH'
               />
             </div>
-            <div className='column nine wide'>
+            <div className='column eight wide'>
               <div className='ui right labeled mini input'>
                 <input
                   type='text'
@@ -98,24 +98,24 @@ class AdtCalculator extends Component {
             </div>
           </div>
           <div className='row'>
-            <div className='column seven wide'>
-              ADT/ETH: <strong>{adtUsd ? formatValue(adtEth) : '-'}Ξ</strong>
+            <div className='column eight wide'>
+              ADT/ETH: <strong>{adtUsd ? formatValue(adtEth) : '-'}Ξ</strong>&nbsp;
               <Tooltip
                 info='Price in ETH for 1 ADT'
               />
             </div>
-            <div className='column nine wide'>
+            <div className='column eight wide'>
               {selectedOption === 'eth' || selectedOption === 'adt' ? <span>Amount in USD: <strong>{toCurrency(conversionUsd)}</strong></span> : <span>Amount in ETH: <strong>{formatValue(conversionEth)}Ξ</strong></span>}
             </div>
           </div>
           <div className='row'>
-            <div className='column seven wide'>
-              ADT/USD: <strong>{adtUsd ? toCurrency(adtUsd) : '-'}</strong>
+            <div className='column eight wide'>
+              ADT/USD: <strong>{adtUsd ? toCurrency(adtUsd.toFixed(4)) : '-'}</strong>&nbsp;
               <Tooltip
                 info='Price in ADT for 1 USD'
               />
             </div>
-            <div className='column nine wide'>
+            <div className='column eight wide'>
               {selectedOption === 'usd' || selectedOption === 'eth' ? <span>Amount in ADT: <strong>{formatValue(conversionAdt)}</strong></span> : <span>Amount in ETH: <strong>{formatValue(conversionEth)}</strong></span>}
             </div>
           </div>

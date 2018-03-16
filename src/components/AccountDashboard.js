@@ -5,7 +5,7 @@ import toastr from 'toastr'
 import store from '../store'
 import registry from '../services/registry'
 import AccountStatsbar from './AccountStatsbar'
-import RescueTokens from './RescueTokens'
+import ExpiredVotingADT from './ExpiredVotingADT'
 import RequestTokenApprovalContainer from './RequestTokenApprovalContainer.js'
 import RequestVotingRightsContainer from './RequestVotingRightsContainer.js'
 import WithdrawVotingRightsContainer from './WithdrawVotingRightsContainer.js'
@@ -14,6 +14,7 @@ import UserChallengedDomains from './UserChallengedDomains.js'
 import UserCommitsToReveal from './UserCommitsToReveal.js'
 import UserRewardsToClaim from './UserRewardsToClaim.js'
 import AccountDashboardLoadingInProgress from './AccountDashboardLoadingInProgress'
+import Tooltip from './Tooltip'
 
 import Eth from 'ethjs'
 import _ from 'lodash'
@@ -30,7 +31,7 @@ class AccountDashboard extends Component {
 
     this.state = {
       history: props.history,
-      account: registry.getAccount() || '0x0',
+      account: '',
       tableFilters: [],
       query: {},
       appliedDomains: [],
@@ -40,13 +41,6 @@ class AccountDashboard extends Component {
       inProgress: false
     }
 
-    // const account =
-
-    // if (account) {
-    //   this.state.account = account
-    // }
-
-    this.state.tableFilters = [{id: 'account', value: this.state.account || '0x0'}]
     this.onQueryChange = this.onQueryChange.bind(this)
     this.updateTableFilters = this.updateTableFilters.bind(this)
     this.fetchAppliedDomains = this.fetchAppliedDomains.bind(this)
@@ -54,6 +48,13 @@ class AccountDashboard extends Component {
     this.fetchCommitsToReveal = this.fetchCommitsToReveal.bind(this)
     this.fetchRewards = this.fetchRewards.bind(this)
     this.fetchDomainStage = this.fetchDomainStage.bind(this)
+  }
+
+  componentWillMount () {
+    this.setState({
+      account: registry.getAccount() || '0x0',
+      tableFilters: [{id: 'account', value: this.state.account || '0x0'}]
+    })
   }
 
   async componentDidMount () {
@@ -97,15 +98,21 @@ class AccountDashboard extends Component {
           <div className='column sixteen wide NoPaddingBottom'>
             <AccountStatsbar account={account} />
           </div>
-          <div className='row NoPaddingBottom'>
+          <div className='row NoPaddingBottom f-13'>
             <div className='column five wide NoPaddingRight'>
               <RequestTokenApprovalContainer account={account} />
             </div>
-            <div className='column five wide NoPaddingRight'>
-              <RequestVotingRightsContainer account={account} />
-            </div>
-            <div className='column six wide'>
-              <WithdrawVotingRightsContainer account={account} />
+            <div className='column eleven wide TokensUsedForVoting'>
+              <div className='BoxFrame'>
+                <span className='ui grid BoxFrameLabel'>Tokens Used For Voting <Tooltip info={'Rescue Tokens'} /></span>
+                <div className='ui grid'>
+                  <div className='row f-13'>
+                    <RequestVotingRightsContainer account={account} />
+                    <ExpiredVotingADT account={account} />
+                    <WithdrawVotingRightsContainer account={account} />
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
           { inProgress
@@ -122,9 +129,6 @@ class AccountDashboard extends Component {
               </div>
               <div className='column UserRewardsToClaimContainer wide'>
                 <UserRewardsToClaim rewards={rewards} history={history} />
-              </div>
-              <div className='column six wide'>
-                <RescueTokens account={account} />
               </div>
             </div>
           }
