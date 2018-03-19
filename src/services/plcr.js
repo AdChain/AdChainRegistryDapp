@@ -303,6 +303,16 @@ class PlcrService {
     })
   }
 
+  async rescueTokens (pollId) {
+    console.log('Poll Id: ', pollId)
+    try {
+      let res = await this.plcr.rescueTokens(pollId)
+      return res
+    } catch (error) {
+      console.log('Rescue tokens error: ', error)
+    }
+  }
+
   async getTransactionReceipt (tx) {
     return new Promise(async (resolve, reject) => {
       try {

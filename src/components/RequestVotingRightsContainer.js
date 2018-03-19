@@ -43,7 +43,7 @@ class RequestVotingRightsContainer extends Component {
 
     return (
 
-      <div className='column five wide VotingRights t-center'>
+      <div className='column six wide VotingRights t-center'>
         <div className='VotingRightsText'>
           Total Current Voting Rights <Tooltip class='InfoIconHigh' info='Pre-requesting voting rights will minimizes the number of transactions when performing commit votes. This can save gas fees if voting frequently. 1 ADT = 1 Vote. Pre-requesting voting rights will withdraw AdToken from your account to the adChain registry PLCR contract. You may convert the votes to adToken and withdraw at any time.' />
           <br />
@@ -62,8 +62,8 @@ class RequestVotingRightsContainer extends Component {
           <button
             onClick={this.onRequest}
             className='ui button blue tiny'>
-                APPROVE
-              </button>
+            APPROVE
+          </button>
         </div>
       </div>
     )
@@ -101,6 +101,7 @@ class RequestVotingRightsContainer extends Component {
 
       toastr.success('Success')
     } catch (error) {
+      console.log('Error rewuesting voting rights: ', error)
       toastr.error('There was an error with your request')
     }
   }

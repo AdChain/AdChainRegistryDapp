@@ -61,7 +61,7 @@ class DomainsTable extends Component {
     // infinite calls if enabled,
     // need to debug
     store.subscribe(x => {
-      this.getData()
+      this.getData(this.props.filters)
     })
   }
 
@@ -374,7 +374,7 @@ class DomainsTable extends Component {
         const challengeOpen = (challengeId === 0 && !isWhitelisted && applicationExpiry)
         const commitOpen = await registry.commitStageActive(domain)
         const revealOpen = await registry.revealStageActive(domain)
-        const isInRegistry = (isWhitelisted && !commitOpen && !revealOpen)
+        const isInRegistry = (isWhitelisted && !commitOpen && !revealOpen && challengeId === 0)
 
         if (isInRegistry) {
           item.stage = 'in_registry'
