@@ -7,6 +7,7 @@ import moment from 'moment'
 import toastr from 'toastr'
 import 'react-table/react-table.css'
 import './DomainsTable.css'
+import PubSub from 'pubsub-js'
 
 import store from '../store'
 import registry from '../services/registry'
@@ -182,6 +183,10 @@ class DomainsTable extends Component {
             event.preventDefault()
             if (label === 'REFRESH STATUS') {
               this.updateStatus(domain)
+            }
+            if (label === 'APPLY') {
+              PubSub.publish('SideBarApplicationContainer.populateApplicationForm', domain)
+              return
             }
             history.push(`/domains/${domain}`)
           }}>{label} &nbsp;{label === 'REFRESH STATUS' ? <i className='icon refresh' /> : '' }</a>
