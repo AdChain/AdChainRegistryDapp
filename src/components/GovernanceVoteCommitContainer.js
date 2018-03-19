@@ -2,7 +2,8 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import toastr from 'toastr'
 import moment from 'moment'
-import { Popup, Input, Button, Segment } from 'semantic-ui-react'
+import { Input, Button, Segment } from 'semantic-ui-react'
+import Tooltip from './Tooltip'
 import randomInt from 'random-int'
 import saveFile from '../utils/saveFile'
 import Countdown from './CountdownText'
@@ -40,7 +41,6 @@ class GovernanceVoteCommitContainer extends Component {
     this.onVoteOptionChange = this.onVoteOptionChange.bind(this)
     this.onFormSubmit = this.onFormSubmit.bind(this)
     this.onDownload = this.onDownload.bind(this)
-    this.onReminderDownload = this.onReminderDownload.bind(this)
     this.enableDownloadCheck = this.enableDownloadCheck.bind(this)
   }
 
@@ -90,9 +90,8 @@ class GovernanceVoteCommitContainer extends Component {
             <div className='row HeaderRow'>
               <div className='ui large header'>
               Stage: Voting
-              <Popup
-                trigger={<i className='icon info circle' />}
-                content='The first phase of the voting process is the commit phase where the ADT holder stakes a hidden amount of votes to SUPPORT or OPPOSE the parameter application. The second phase is the reveal phase where the ADT holder reveals the staked amount of votes to either the SUPPORT or OPPOSE side.'
+              <Tooltip
+                info='The first phase of the voting process is the commit phase where the ADT holder stakes a hidden amount of votes to SUPPORT or OPPOSE the parameter application. The second phase is the reveal phase where the ADT holder reveals the staked amount of votes to either the SUPPORT or OPPOSE side.'
               />
               </div>
             </div>
@@ -220,6 +219,11 @@ class GovernanceVoteCommitContainer extends Component {
         votes: event.target.value | 0 // coerce to int
       })
     }
+  }
+
+  onFormSubmit (event) {
+    event.preventDefault()
+    this.commit()
   }
 
   onVoteOptionChange (event, { value }) {

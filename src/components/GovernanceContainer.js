@@ -151,7 +151,7 @@ class GovernanceContainer extends Component {
     switch (name) {
       case 'minDeposit':
       case 'pMinDeposit':
-        value = commafy(value / 1000000000).toFixed(0)
+        value = commafy(value / 1000000000)
         break
       case 'applyStageLen':
       case 'pApplyStageLen':
@@ -159,7 +159,7 @@ class GovernanceContainer extends Component {
       case 'pCommitStageLen':
       case 'revealStageLen':
       case 'pRevealStageLen':
-        value = (value / 60).toFixed(0)
+        value = commafy(value / 60)
         break
       default:
         break
