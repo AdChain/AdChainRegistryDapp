@@ -177,3 +177,6 @@
 :root:root .DomainsTable span.info {
   color: #4183c4;
 }
+:root:root .DomainsTable .ReactTable .DomainFavicon {
+  padding-left: 8px;
+}

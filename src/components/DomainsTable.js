@@ -121,7 +121,7 @@ class DomainsTable extends Component {
         const domain = props.value
         return (
           <span
-            className='Domain'
+            className='Domain DomainFavicon'
             title='View profile'
             onClick={(event) => {
               event.preventDefault()
