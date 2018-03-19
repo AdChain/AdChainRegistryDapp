@@ -18,3 +18,7 @@
 .ParameterRow:last-of-type{
 	border-bottom:none;
 }
+
+.ParameterRow span.ui.button{
+	right: 13px;
+}

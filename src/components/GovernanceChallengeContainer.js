@@ -2,9 +2,9 @@ import React, { Component } from 'react'
 import commafy from 'commafy'
 import toastr from 'toastr'
 import moment from 'moment'
-import { Popup, Button, Segment } from 'semantic-ui-react'
+import { Button, Segment } from 'semantic-ui-react'
 // import { soliditySHA3 } from 'ethereumjs-abi'
-
+import Tooltip from './Tooltip'
 import Countdown from './CountdownText'
 import ParameterizerService from '../services/parameterizer'
 import DomainChallengeInProgressContainer from './DomainChallengeInProgressContainer'
@@ -59,9 +59,8 @@ class GovernanceChallengeContainer extends Component {
               <div className='row HeaderRow'>
                 <div className='ui large header'>
                   Stage: In Application
-                  <Popup
-                    trigger={<i className='icon info circle' />}
-                    content='The first phase of the voting process is the commit phase where the ADT holder stakes a hidden amount of votes to SUPPORT or OPPOSE the domain application. The second phase is the reveal phase where the ADT holder reveals the staked amount of votes to either the SUPPORT or OPPOSE side.'
+                  <Tooltip
+                    info='The first phase of the voting process is the commit phase where the ADT holder stakes a hidden amount of votes to SUPPORT or OPPOSE the domain application. The second phase is the reveal phase where the ADT holder reveals the staked amount of votes to either the SUPPORT or OPPOSE side.'
                     />
                 </div>
               </div>
@@ -141,7 +140,6 @@ class GovernanceChallengeContainer extends Component {
         })
       }
       try {
-        console.log(this.props)
         await ParameterizerService.challengeReparameterization(this.props.governanceParameterProposals.pMinDeposit.value, propId)
         toastr.success('Successfully challenged parameter')
 
@@ -150,6 +148,7 @@ class GovernanceChallengeContainer extends Component {
             inProgress: false
           })
         }
+
         // TODO: better way of resetting state
         setTimeout(() => {
           window.location.reload()

@@ -71,7 +71,7 @@ class CreateProposal extends Component {
             <div className='column sixteen wide'>
               <div className='header'>Select Parameter</div>
               <div className='selectdiv '>
-                <select className='BlueDropdown' name='proposal' type='text' defaultValue={this.state.proposalParam} onChange={this.setParamMetricAndName}>
+                <select className={(this.props.coreParameterData[this.state.proposalParam] ? 'f-blue bold' : 'f-red bold') + ' BlueDropdown'} name='proposal' type='text' defaultValue={this.state.proposalParam} onChange={this.setParamMetricAndName}>
                   { this.generateList() }
                 </select>
               </div>
@@ -115,8 +115,9 @@ class CreateProposal extends Component {
   }
 
   async submitProposal () {
-    let result
+    if (this.state.proposalValue < 1) return
 
+    let result
     this.setState({
       inProgress: true
     })
@@ -126,21 +127,20 @@ class CreateProposal extends Component {
       this.setState({
         inProgress: null
       })
+
+      setTimeout(() => {
+        PubSub.publish('GovernanceContainer.getProposalsAndPropIds')
+        this.setState({
+          inProgress: false
+        })
+      }, 18000)
     } catch (error) {
       console.log(error)
       toastr.error('There was an error creating proposal')
-
       this.setState({
         inProgress: false
       })
     }
-    this.setState({
-      inProgress: false
-    })
-
-    setTimeout(() => {
-      PubSub.publish('GovernanceContainer.getProposalsAndPropIds')
-    }, 18000)
 
     return result
   }

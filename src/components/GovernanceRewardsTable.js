@@ -2,8 +2,11 @@ import React, { Component } from 'react'
 import _ from 'lodash'
 import toastr from 'toastr'
 import './GovernanceAndCoreParameters.css'
+import { parameterData } from '../models/parameters'
 import ParameterizerService from '../services/parameterizer'
 import Tooltip from './Tooltip'
+
+const allParameterData = Object.assign({}, parameterData.coreParameterData, parameterData.governanceParameterData)
 
 class GovernanceRewardsTable extends Component {
   constructor (props) {
@@ -45,7 +48,7 @@ class GovernanceRewardsTable extends Component {
       color = this.props.coreParameterData[name] ? 'f-blue bold' : 'f-red bold'
       result.push(
         <div key={name + i} className='ParameterRow'>
-          <span key={name + i} className={color}>{name}</span>
+          <span key={name + i} className={color}>{allParameterData[name].name}</span>
           {
             !this.state.claimProgress
               ? <span key={i} className='ui button green' onClick={() => { this.claimReward(rewards[i]) }} style={{padding: '0.571429em 1.2em'}}>CLAIM</span>
