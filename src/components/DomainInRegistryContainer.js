@@ -131,17 +131,19 @@ class DomainInRegistryContainer extends Component {
                   <div className='ADTInputContainer'>
                     <Input type='number' placeholder='ADT' id='ADTAmount' className='ADTInput' />
                   </div>
-                  <div className='TopOffButtonContainer'>
-                    <Button
-                      className='TopOffButton'
-                      basic
-                      onClick={this.topOff}>Deposit ADT</Button>
-                  </div>
-                  <div className='WithdrawButtonContainer'>
-                    <Button
-                      className='WithdrawButton'
-                      basic
-                      onClick={this.withdrawADT}>Withdraw ADT</Button>
+                  <div className='DepositWithdrawButtonRow'>
+                    <div className='TopOffButtonContainer'>
+                      <Button
+                        className='TopOffButton'
+                        basic
+                        onClick={this.topOff}>Deposit ADT</Button>
+                    </div>
+                    <div className='WithdrawButtonContainer'>
+                      <Button
+                        className='WithdrawButton'
+                        basic
+                        onClick={this.withdrawADT}>Withdraw ADT</Button>
+                    </div>
                   </div>
                 </Segment>
               </div>

@@ -6,6 +6,7 @@ import isValidDomain from 'is-valid-domain'
 import registry from '../services/registry'
 import PublisherApplicationFormInProgress from './PublisherApplicationFormInProgress'
 import commafy from 'commafy'
+import PubSub from 'pubsub-js'
 
 class SideBarApplicationContainer extends Component {
   constructor (props) {
@@ -14,16 +15,19 @@ class SideBarApplicationContainer extends Component {
       active: false,
       domainDeposit: null,
       inProgress: false,
-      minDeposit: '-'
+      minDeposit: '-',
+      domain: ''
     }
 
     this.addClass = this.addClass.bind(this)
     this.removeClass = this.removeClass.bind(this)
     this.onFormSubmit = this.onFormSubmit.bind(this)
+    this.handleChange = this.handleChange.bind(this)
   }
 
-  componentWillMount () {
-    this.getMinDeposit()
+  async componentWillMount () {
+    await this.getMinDeposit()
+    this.subEvent = PubSub.subscribe('SideBarApplicationContainer.populateApplicationForm', this.populateApplicationForm.bind(this))
   }
 
   componentDidMount () {
@@ -32,6 +36,7 @@ class SideBarApplicationContainer extends Component {
 
   componentWillUnmount () {
     this._isMounted = false
+    PubSub.unsubscribe(this.subEvent)
   }
 
   addClass () {
@@ -48,12 +53,18 @@ class SideBarApplicationContainer extends Component {
     }
   }
 
+  handleChange (event) {
+    this.setState({
+      domain: event.target.value
+    })
+  }
+
   async onFormSubmit (event) {
     event.preventDefault()
 
     const {target} = event
+    const {domain} = this.state
 
-    const domain = target.domain.value
     const stake = parseInt(target.stake.value.replace(/[^\d]/, ''), 10)
     const minDeposit = (this.state.minDeposit | 0) // coerce
 
@@ -93,6 +104,14 @@ class SideBarApplicationContainer extends Component {
     }
   }
 
+  populateApplicationForm (topic, domain) {
+    this.applicationFormInput.focus()
+    this.setState({
+      active: true,
+      domain: domain
+    })
+  }
+
   render () {
     const {
       inProgress,
@@ -104,13 +123,18 @@ class SideBarApplicationContainer extends Component {
         <Form
           className={active ? 'ActiveForm' : 'JoyrideForm'}
           onBlur={this.removeClass}
-          onSubmit={this.onFormSubmit}>
+          onSubmit={this.onFormSubmit}
+          id='ApplicationForm'>
           <Form.Field>
             <label className='ApplicationLabel DomainUrlLabel'>Domain URL</label>
             <input
               onFocus={this.addClass}
               className='ApplicationInput'
+              id='ApplicationDomain'
               name='domain'
+              ref={(input) => { this.applicationFormInput = input }}
+              value={this.state.domain}
+              onChange={this.handleChange}
               placeholder='domain.com' />
           </Form.Field>
           <Form.Field>
@@ -120,7 +144,7 @@ class SideBarApplicationContainer extends Component {
               className='ApplicationInput'
               name='stake'
               placeholder={commafy(this.state.minDeposit)}
-              />
+            />
           </Form.Field>
           <Button basic className='ApplicationButton' type='submit'>Apply Domain</Button>
         </Form>

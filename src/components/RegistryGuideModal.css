@@ -27,6 +27,7 @@
   width: 60%;
   font-weight: bold;
   font-size: 12px;
+  box-shadow: unset;
 }
 
 :root:root .GuideButtons:hover {
