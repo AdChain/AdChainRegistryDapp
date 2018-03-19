@@ -1,3 +1,5 @@
+// These arrays contain the different steps for each walkthrough in the Registry Guide
+
 export const ApplicationSteps = [
   {
     title: 'Application - First Step',

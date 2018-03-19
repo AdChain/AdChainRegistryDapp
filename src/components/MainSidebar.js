@@ -109,7 +109,7 @@ class MainSidebar extends Component {
         <div className='SidebarListContainer overflow-x'>
           <div className='SidebarList overflow-y overflow-x'>
             <div className='ListTitle ui header'>
-              <RegistryGuideModal updateRoute={this.updateRoute} startJoyride={this.props.startJoyride} handleJoyrideCallback={this.props.handleJoyrideCallback} resumeJoyride={this.props.resumeJoyride} domainJourney={this.props.domainJourney} toggleOverlay={this.props.toggleOverlay} walkthroughFinished={this.props.walkthroughFinished} />
+              <RegistryGuideModal updateRoute={this.updateRoute} handleJoyrideCallback={this.props.handleJoyrideCallback} resumeJoyride={this.props.resumeJoyride} domainJourney={this.props.domainJourney} toggleOverlay={this.props.toggleOverlay} walkthroughFinished={this.props.walkthroughFinished} />
             </div>
             <Menu.Item name='domain'>
               <Link to='/domains' className='NavLink' activeClassName='active'><img src={wwwLogo} alt='www' />Domains</Link>

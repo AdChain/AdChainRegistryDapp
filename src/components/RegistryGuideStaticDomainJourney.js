@@ -6,6 +6,7 @@ import MapRegistryNoChallenge from './assets/map_in_registry_nochallenge.svg'
 import MapReveal from './assets/map_reveal.svg'
 import MapRejected from './assets/map_rejected.svg'
 import { DomainJourneySteps } from './WalkthroughSteps'
+import PubSub from 'pubsub-js'
 
 class RegistryGuideStaticDomainJourney extends Component {
   constructor (props) {
@@ -14,7 +15,6 @@ class RegistryGuideStaticDomainJourney extends Component {
       domainJourney: 'application'
     }
 
-    this.startJoyride = props.startJoyride
     this.resumeJoyride = props.resumeJoyride
     this.toggleOverlay = props.toggleOverlay
   }
@@ -24,7 +24,7 @@ class RegistryGuideStaticDomainJourney extends Component {
   }
 
   componentDidMount () {
-    this.startJoyride(DomainJourneySteps)
+    PubSub.publish('RegistryGuideModal.startRegistryWalkthrough', DomainJourneySteps)
   }
 
   componentWillReceiveProps (nextProps) {

@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Modal, Button } from 'semantic-ui-react'
 import './RegistryGuideModalChallengeDomain.css'
 import { ChallengeSteps } from './WalkthroughSteps'
+import PubSub from 'pubsub-js'
 
 class RegistryGuideModalChallengeDomain extends Component {
   constructor (props) {
@@ -9,7 +10,6 @@ class RegistryGuideModalChallengeDomain extends Component {
     this.state = {
       section: props.section
     }
-    this.onContinue = this.onContinue.bind(this)
   }
 
   render () {
@@ -34,7 +34,7 @@ class RegistryGuideModalChallengeDomain extends Component {
           </div>
           <div className='GuideButtonsContainer'>
             <Button basic className='ReturnButton' onClick={() => this.props.returnToMenu(section)} content='Return to Guide' />
-            <Button basic className='ContinueButton' content='Continue' onClick={() => this.onContinue(ChallengeSteps)} />
+            <Button basic className='ContinueButton' content='Continue' onClick={() => PubSub.publish('RegistryGuideModal.startRegistryWalkthrough', ChallengeSteps)} />
           </div>
           <div className='GuideText'>
           Can’t find what you’re looking for? Click <a href='https://adchain.zendesk.com/hc/en-us' target='_blank' rel='noopener noreferrer'>here</a> to visit the help center.
@@ -42,10 +42,6 @@ class RegistryGuideModalChallengeDomain extends Component {
         </Modal.Content>
       </div>
     )
-  }
-  onContinue (steps) {
-    this.props.close()
-    this.props.startJoyride(steps)
   }
 }
 
