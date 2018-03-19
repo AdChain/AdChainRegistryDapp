@@ -104,7 +104,7 @@ class AccountDashboard extends Component {
             </div>
             <div className='column eleven wide TokensUsedForVoting'>
               <div className='BoxFrame'>
-                <span className='ui grid BoxFrameLabel'>Tokens Used For Voting <Tooltip info={'Rescue Tokens'} /></span>
+                <span className='ui grid BoxFrameLabel'>Tokens Used For Voting <Tooltip info={'The features below allow you to minimize your transactions when voting.'} /></span>
                 <div className='ui grid'>
                   <div className='row f-13'>
                     <RequestVotingRightsContainer account={account} />
