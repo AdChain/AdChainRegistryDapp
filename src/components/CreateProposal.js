@@ -134,6 +134,9 @@ class CreateProposal extends Component {
         inProgress: false
       })
     }
+    this.setState({
+      inProgress: false
+    })
 
     setTimeout(() => {
       PubSub.publish('GovernanceContainer.getProposalsAndPropIds')

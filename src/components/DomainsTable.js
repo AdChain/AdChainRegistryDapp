@@ -374,7 +374,7 @@ class DomainsTable extends Component {
         const challengeOpen = (challengeId === 0 && !isWhitelisted && applicationExpiry)
         const commitOpen = await registry.commitStageActive(domain)
         const revealOpen = await registry.revealStageActive(domain)
-        const isInRegistry = (isWhitelisted && !commitOpen && !revealOpen && challengeId === 0)
+        const isInRegistry = (isWhitelisted && !commitOpen && !revealOpen)
 
         if (isInRegistry) {
           item.stage = 'in_registry'
@@ -385,9 +385,7 @@ class DomainsTable extends Component {
           item.stageEnds = moment.unix(applicationExpiry).format('YYYY-MM-DD HH:mm:ss')
         } else if (commitOpen) {
           item.stage = 'voting_commit'
-          let {
-            commitEndDate
-          } = await registry.getChallengePoll(domain)
+          let {commitEndDate} = await registry.getChallengePoll(domain)
           item.stageEndsTimestamp = commitEndDate
           item.stageEnds = moment.unix(commitEndDate).format('YYYY-MM-DD HH:mm:ss')
         } else if (revealOpen) {

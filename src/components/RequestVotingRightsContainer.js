@@ -45,7 +45,7 @@ class RequestVotingRightsContainer extends Component {
 
       <div className='column six wide VotingRights t-center'>
         <div className='VotingRightsText'>
-          Total Current Voting Rights <Tooltip class='InfoIconHigh' info='Pre-requesting voting rights will minimizes the number of transactions when performing commit votes. This can save gas fees if voting frequently. 1 ADT = 1 Vote. Pre-requesting voting rights will withdraw AdToken from your account to the adChain registry PLCR contract. You may convert the votes to adToken and withdraw at any time.' />
+          Total Current Voting Rights <Tooltip class='InfoIconHigh' info='The number below is the total amount of ADT you can commit a vote with by only signing 1 transaction. You can add more votes in the input field.' />
           <br />
           <span className='VotingTokensAmount'>
             {availableVotes !== null ? commafy(availableVotes) + ' ADT' : '-'}

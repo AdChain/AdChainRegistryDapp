@@ -19,7 +19,7 @@ class ExpiredVotingADT extends Component {
 
   async init () {
     let { expiredDomainData, totalExpiredTokens, selectedPoll } = await this.getExpiredDomainData()
-    console.log(expiredDomainData)
+    // console.log(expiredDomainData)
     this.setState({
       expiredDomainData,
       totalExpiredTokens,
@@ -32,7 +32,7 @@ class ExpiredVotingADT extends Component {
 
       <div className='column five wide t-center'>
         <div>
-          Expired Voting ADT <Tooltip class='InfoIconHigh' info={'These tokens are expired'} />
+          Expired Voting ADT <Tooltip class='InfoIconHigh' info={'Expired votes are tokens that were committed, but not revealed. Therefore, you need to unlock them in order to withdraw them. The number on the left is the number of transactions you\'ll need to sign in order to withdraw the ADT amount on the right.'} />
         </div>
         <span className='VotingTokensAmount' style={{marginRight: '4px'}}>{this.state.expiredDomainData.length}</span><span className='VotingTokensAmount'>{this.state.totalExpiredTokens} ADT</span>
         <br />
@@ -43,7 +43,7 @@ class ExpiredVotingADT extends Component {
 
   async getExpiredDomainData () {
     let committed = await this.getCommitted()
-    const revealed = await this.getRevealed()
+    let revealed = await this.getRevealed()
 
     // Determine which have not been revealed.
     committed.map((com, i) => {
