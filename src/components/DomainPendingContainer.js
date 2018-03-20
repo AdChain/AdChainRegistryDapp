@@ -5,19 +5,23 @@ import Tooltip from './Tooltip'
 import './DomainPendingContainer.css'
 import registry from '../services/registry'
 import toastr from 'toastr'
+import RefreshInProgressContainer from './RefreshInProgressContainer'
+import PubSub from 'pubsub-js'
 
 class DomainPendingContainer extends Component {
   constructor (props) {
     super()
 
     this.state = {
-      domain: props.domain
+      domain: props.domain,
+      inProgress: false
     }
   }
 
   render () {
     const {
-      domain
+      domain,
+      inProgress
     } = this.state
 
     return (
@@ -47,20 +51,27 @@ class DomainPendingContainer extends Component {
             </p>
           </div>
         </div>
+        {inProgress ? <RefreshInProgressContainer /> : null}
       </div>
     )
   }
 
   async updateStatus (domain) {
+    this.setState({
+      inProgress: true
+    })
     try {
       await registry.updateStatus(domain)
+      await PubSub.publish('DomainProfileStageMap.updateStageMap')
+      this.setState({
+        inProgress: false
+      })
     } catch (error) {
-      try {
-        console.log(error)
-        toastr.error('There was an error updating domain')
-      } catch (err) {
-        console.log(err)
-      }
+      console.error(error)
+      this.setState({
+        inProgress: false
+      })
+      toastr.error('There was an error updating domain')
     }
   }
 }

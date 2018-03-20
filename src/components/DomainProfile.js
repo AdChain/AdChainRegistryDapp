@@ -33,8 +33,6 @@ class DomainProfile extends Component {
 
     // scroll to top
     window.scrollTo(0, -1)
-
-    this.updateStageMap = this.updateStageMap.bind(this)
   }
 
   componentDidMount () {
@@ -88,7 +86,6 @@ class DomainProfile extends Component {
               <DomainProfileActionContainer
                 domain={domain}
                 action={action}
-                updateStageMap={this.updateStageMap}
               />
             </div>
           </div>
@@ -120,14 +117,6 @@ class DomainProfile extends Component {
       }
     } catch (error) {
 
-    }
-  }
-
-  async updateStageMap (status) {
-    if (this._isMounted) {
-      this.setState({
-        stage: status
-      })
     }
   }
 }

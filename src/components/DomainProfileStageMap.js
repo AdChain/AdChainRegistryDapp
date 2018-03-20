@@ -13,6 +13,7 @@ import MapInRegistryChallenge from './assets/map_in_registry_challenge.svg'
 import MapInRegistryNoChallenge from './assets/map_in_registry_nochallenge.svg'
 import MapInApplicationPending from './assets/map_in_application_pending.svg'
 import MapRevealPending from './assets/map_reveal_pending.svg'
+import PubSub from 'pubsub-js'
 
 class DomainProfileStageMap extends Component {
   constructor (props) {
@@ -27,7 +28,10 @@ class DomainProfileStageMap extends Component {
       domain,
       action
     }
-    this.getData()
+    this.updateStageMap()
+  }
+  componentWillMount () {
+    this.subEvent = PubSub.subscribe('DomainProfileStageMap.updateStageMap', this.updateStageMap.bind(this))
   }
 
   componentDidMount () {
@@ -36,15 +40,7 @@ class DomainProfileStageMap extends Component {
 
   componentWillUnmount () {
     this._isMounted = false
-  }
-
-  componentWillReceiveProps (nextProps) {
-    if (nextProps.stage !== this.props.stage) {
-      // this.setState({
-      //   action: nextProps.stage
-      // })
-      this.getData()
-    }
+    PubSub.unsubscribe(this.subEvent)
   }
 
   render () {
@@ -84,7 +80,7 @@ class DomainProfileStageMap extends Component {
     )
   }
 
-  async getData () {
+  async updateStageMap () {
     try {
       const {domain} = this.state
       const listing = await registry.getListing(domain)

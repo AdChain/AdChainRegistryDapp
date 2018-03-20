@@ -263,13 +263,6 @@
   font-family: 'Open Sans', sans-serif;
 }
 
-.DomainChallengeContainer { 
-  margin: 0 auto;
-  width: 94%;
-  margin-top: 10px;
-  margin-bottom: 10px;
-}
-
 .DomainInRegistryContainer .ui.divider {
     border: 1px solid #F4F7FA !important;
     width: 94% !important;
