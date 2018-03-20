@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import { Modal, Button } from 'semantic-ui-react'
 import './RegistryGuideModalGovernance.css'
+import { GovernanceSteps } from './WalkthroughSteps'
+import PubSub from 'pubsub-js'
 
 class RegistryGuideModalGovernance extends Component {
   constructor (props) {
@@ -8,123 +10,10 @@ class RegistryGuideModalGovernance extends Component {
     this.state = {
       section: props.section
     }
-
-    this.onContinue = this.onContinue.bind(this)
   }
 
   render () {
     const { section } = this.state
-
-    const walkthroughSteps = [
-      {
-        title: 'Governance - First Step',
-        text: 'The CORE PARAMETERS govern the adChain Registry. These values are what dictate interaction with the adChain Registry.',
-        selector: '.RegistryGuideCoreParameters',
-        position: 'right',
-        type: 'click',
-        isFixed: true,
-        name: 'governance-first-step',
-        parent: 'GovernanceContainer',
-        style: {
-          backgroundColor: '#3434CE',
-          textAlign: 'left',
-          width: '29rem',
-          main: {
-            padding: '20px'
-          },
-          footer: {
-            display: 'block'
-          },
-          close: {
-            color: '#FFF'
-          }
-        }
-      },
-      {
-        title: 'Governance - Second Step',
-        text: 'The GOVERNANCE PARAMETERS dictate the values for the Governance Module. These values govern the process in proposing a new Governance Module value.',
-        selector: '.RegistryGuideGovernanceParameters',
-        position: 'right',
-        type: 'click',
-        isFixed: true,
-        name: 'governance-second-step',
-        parent: 'GovernanceContainer',
-        style: {
-          backgroundColor: '#3434CE',
-          textAlign: 'left',
-          width: '29rem',
-          main: {
-            padding: '20px'
-          },
-          footer: {
-            display: 'block'
-          }
-        }
-      },
-      {
-        title: 'Governance - Third Step',
-        text: 'The CREATE PROPOSALS box allows you to propose new values for both Core Parameters and Governance Parameters. If not challenged, the newly proposed parameter values are enacted.',
-        selector: '.RegistryGuideCreateProposal',
-        position: 'bottom',
-        type: 'click',
-        isFixed: true,
-        name: 'governance-third-step',
-        parent: 'GovernanceContainer',
-        style: {
-          backgroundColor: '#3434CE',
-          textAlign: 'left',
-          width: '29rem',
-          main: {
-            padding: '20px'
-          },
-          footer: {
-            display: 'block'
-          }
-        }
-      },
-      {
-        title: 'Governance - Fourth Step',
-        text: 'The OPEN PROPOSALS box demonstrates all of the proposed parameter values for both CORE PARAMETERS and GOVERNANCE PARAMETERS. If an open proposal goes through the gApplyStageLength without being challenged, it is immediately implemented as a new parameter value.',
-        selector: '.RegistryGuideOpenProposals',
-        position: 'left',
-        type: 'click',
-        isFixed: true,
-        name: 'governance-fourth-step',
-        parent: 'GovernanceContainer',
-        style: {
-          backgroundColor: '#3434CE',
-          textAlign: 'left',
-          width: '29rem',
-          main: {
-            padding: '20px'
-          },
-          footer: {
-            display: 'block'
-          }
-        }
-      },
-      {
-        title: 'Governance - Fifth Step',
-        text: 'The CLAIM REWARDS box houses all voting rewards after the completion of a parameter proposal. If you voted for a proposal and your side won, your ADT reward can be claimed here.',
-        selector: '.RegistryGuideClaimRewards',
-        position: 'right',
-        type: 'click',
-        isFixed: true,
-        name: 'governance-fifth-step',
-        parent: 'GovernanceContainer',
-        style: {
-          backgroundColor: '#3434CE',
-          textAlign: 'left',
-          width: '29rem',
-          main: {
-            padding: '20px'
-          },
-          footer: {
-            display: 'block'
-          }
-        }
-      }
-    ]
 
     return (
       <div>
@@ -149,7 +38,7 @@ class RegistryGuideModalGovernance extends Component {
           </div>
           <div className='GuideButtonsContainer'>
             <Button basic className='ReturnButton' onClick={() => this.props.returnToMenu(section)} content='Return to Guide' />
-            <Button basic className='ContinueButton' content='Continue' onClick={() => this.onContinue(walkthroughSteps)} />
+            <Button basic className='ContinueButton' content='Continue' onClick={() => PubSub.publish('RegistryGuideModal.startRegistryWalkthrough', GovernanceSteps)} />
           </div>
           <div className='GuideText'>
           Can’t find what you’re looking for? Click <a href='https://adchain.zendesk.com/hc/en-us' target='_blank' rel='noopener noreferrer'>here</a> to visit the help center.
@@ -157,10 +46,6 @@ class RegistryGuideModalGovernance extends Component {
         </Modal.Content>
       </div>
     )
-  }
-  onContinue (steps) {
-    this.props.close()
-    this.props.startJoyride(steps)
   }
 }
 

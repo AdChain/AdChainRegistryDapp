@@ -13,6 +13,7 @@ import MainSidebar from './components/MainSidebar'
 import MainContainer from './components/MainContainer'
 import Joyride from 'react-joyride'
 import 'react-joyride/lib/react-joyride-compiled.css'
+import PubSub from 'pubsub-js'
 
 import './App.css'
 
@@ -33,6 +34,11 @@ class App extends Component {
     this.toggleOverlay = this.toggleOverlay.bind(this)
     this.confirmWalkthrough = this.confirmWalkthrough.bind(this)
   }
+
+  componentWillMount () {
+    this.subEvent = PubSub.subscribe('App.startJoyride', this.startJoyride)
+  }
+
   render () {
     const { shouldRun, walkthroughSteps, staticContainer, domainJourney, shouldShowOverlay, walkthroughFinished } = this.state
 
@@ -204,14 +210,14 @@ class App extends Component {
     }
   }
 
-  startJoyride (steps) {
+  startJoyride (topic, steps) {
     this.setState({ 
       shouldRun: true,
       walkthroughSteps: this.state.walkthroughSteps.concat(steps),
       walkthroughFinished: false
     })
   }
-  
+
   resumeJoyride () {
     this.setState({
       shouldRun: true

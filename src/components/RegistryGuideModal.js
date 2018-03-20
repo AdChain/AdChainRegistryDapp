@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { Modal, Button } from 'semantic-ui-react'
 import RegistryGuideModalAdchainRegistry from './RegistryGuideModalAdchainRegistry'
-import RegistryGuideModalApplyDomain from './RegistryGuideModalApplyDomain'
 import RegistryGuideModalChallengeDomain from './RegistryGuideModalChallengeDomain'
 import RegistryGuideModalCommitVote from './RegistryGuideModalCommitVote'
 import RegistryGuideModalRevealVote from './RegistryGuideModalRevealVote'
@@ -9,6 +8,8 @@ import RegistryGuideModalDomainJourney from './RegistryGuideModalDomainJourney'
 import RegistryGuideModalGovernance from './RegistryGuideModalGovernance'
 import { withRouter } from 'react-router-dom'
 import './RegistryGuideModal.css'
+import { ApplicationSteps } from './WalkthroughSteps'
+import PubSub from 'pubsub-js'
 
 class RegistryGuideModal extends Component {
   constructor (props) {
@@ -18,7 +19,6 @@ class RegistryGuideModal extends Component {
       size: 'small',
       menu: true,
       one: false,
-      two: false,
       three: false,
       four: false,
       five: false,
@@ -33,6 +33,11 @@ class RegistryGuideModal extends Component {
     this.close = this.close.bind(this)
     this.show = this.show.bind(this)
     this.updateRoute = props.updateRoute
+    this.startRegistryWalkthrough = this.startRegistryWalkthrough.bind(this)
+  }
+
+  componentWillMount () {
+    this.subEvent = PubSub.subscribe('RegistryGuideModal.startRegistryWalkthrough', this.startRegistryWalkthrough)
   }
 
   componentWillReceiveProps (nextProps) {
@@ -42,7 +47,7 @@ class RegistryGuideModal extends Component {
   }
 
   render () {
-    const { open, size, menu, one, two, three, four, five, six, seven } = this.state
+    const { open, size, menu, one, three, four, five, six, seven } = this.state
 
     return (
       <Modal size={size} open={open} trigger={<Button inverted className='HelpButton' onClick={this.show} color='orange' content='How Does This Thing Work?' />} closeIcon className='RegistryGuideModal' onClose={this.close}>
@@ -57,7 +62,7 @@ class RegistryGuideModal extends Component {
                 <Button basic className='GuideButtons' onClick={() => this.setGuideContent('one')} content='What is the adChain Registry?' />
               </div>
               <div className='GuideButtonsContainer'>
-                <Button basic className='GuideButtons' onClick={() => this.setGuideContent('two')} content='How do I apply a domain into the adChain Registry?' />
+                <Button basic className='GuideButtons' onClick={() => this.startRegistryWalkthrough('RegistryGuideModal.startRegistryWalkthrough', ApplicationSteps)} content='How do I apply a domain into the adChain Registry?' />
               </div>
               <div className='GuideButtonsContainer'>
                 <Button basic className='GuideButtons' onClick={() => this.setGuideContent('three')} content='How do I challenge a domain?' />
@@ -79,14 +84,13 @@ class RegistryGuideModal extends Component {
               </div>
             </Modal.Content>
           </div>
-          : one ? <RegistryGuideModalAdchainRegistry returnToMenu={this.returnToMenu} close={this.close} section={'one'} />
-            : two ? <RegistryGuideModalApplyDomain returnToMenu={this.returnToMenu} section={'two'} close={this.close} startJoyride={this.props.startJoyride} />
-              : three ? <RegistryGuideModalChallengeDomain returnToMenu={this.returnToMenu} section={'three'} close={this.close} startJoyride={this.props.startJoyride} />
-                : four ? <RegistryGuideModalCommitVote returnToMenu={this.returnToMenu} section={'four'} close={this.close} startJoyride={this.props.startJoyride} />
-                  : five ? <RegistryGuideModalRevealVote returnToMenu={this.returnToMenu} section={'five'} close={this.close} startJoyride={this.props.startJoyride} />
-                    : six ? <RegistryGuideModalDomainJourney returnToMenu={this.returnToMenu} startJoyride={this.props.startJoyride} resumeJoyride={this.props.resumeJoyride} domainJourney={this.props.domainJourney} toggleOverlay={this.props.toggleOverlay} />
-                      : seven ? <RegistryGuideModalGovernance returnToMenu={this.returnToMenu} section={'seven'} close={this.close} startJoyride={this.props.startJoyride} />
-                        : null
+          : one ? <RegistryGuideModalAdchainRegistry returnToMenu={this.returnToMenu} section={'one'} />
+            : three ? <RegistryGuideModalChallengeDomain returnToMenu={this.returnToMenu} section={'three'} />
+              : four ? <RegistryGuideModalCommitVote returnToMenu={this.returnToMenu} section={'four'} />
+                : five ? <RegistryGuideModalRevealVote returnToMenu={this.returnToMenu} section={'five'} />
+                  : six ? <RegistryGuideModalDomainJourney returnToMenu={this.returnToMenu} resumeJoyride={this.props.resumeJoyride} domainJourney={this.props.domainJourney} toggleOverlay={this.props.toggleOverlay} />
+                    : seven ? <RegistryGuideModalGovernance returnToMenu={this.returnToMenu} section={'seven'} />
+                      : null
         }
       </Modal>
     )
@@ -124,8 +128,17 @@ class RegistryGuideModal extends Component {
   }
 
   async show () {
-    await this.updateRoute('./')
+    if (window.location.pathname !== '/domains') {
+      await this.updateRoute('./')
+    }
     this.setState({ open: true })
+  }
+
+  startRegistryWalkthrough (topic, steps) {
+    if (steps[0].name !== 'domainsjourney-first-step') {
+      this.close()
+    }
+    PubSub.publish('App.startJoyride', steps)
   }
 }
 

@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import { Modal, Button } from 'semantic-ui-react'
 import './RegistryGuideModalChallengeDomain.css'
+import { ChallengeSteps } from './WalkthroughSteps'
+import PubSub from 'pubsub-js'
 
 class RegistryGuideModalChallengeDomain extends Component {
   constructor (props) {
@@ -8,134 +10,10 @@ class RegistryGuideModalChallengeDomain extends Component {
     this.state = {
       section: props.section
     }
-    this.onContinue = this.onContinue.bind(this)
   }
 
   render () {
     const { section } = this.state
-
-    const walkthroughSteps = [
-      {
-        title: 'Challenge - First Step',
-        text: 'You can use the DOMAIN FILTERS box to filter the displayed domains.',
-        selector: '.DomainsFilterPanel',
-        position: 'right',
-        type: 'click',
-        isFixed: true,
-        name: 'challenge-first-step',
-        parent: 'DomainsContainer',
-        style: {
-          backgroundColor: '#3434CE',
-          textAlign: 'left',
-          width: '29rem',
-          main: {
-            padding: '20px'
-          },
-          footer: {
-            display: 'block'
-          },
-          close: {
-            color: '#FFF'
-          }
-        }
-      },
-      {
-        title: 'Challenge - Second Step',
-        text: 'The filtered domains are all In Application and have until the Stage Ends period to be challenged before they enter the adChain Registry.',
-        selector: '.DomainsTable',
-        position: 'left',
-        type: 'click',
-        isFixed: true,
-        name: 'challenge-second-step',
-        parent: 'DomainsContainer',
-        style: {
-          backgroundColor: '#3434CE',
-          textAlign: 'left',
-          width: '29rem',
-          main: {
-            padding: '20px'
-          },
-          footer: {
-            display: 'block'
-          },
-          close: {
-            color: '#FFF'
-          }
-        }
-      },
-      {
-        title: 'Challenge - Third Step',
-        text: 'Click on the "CHALLENGE" button to challenge the domain application. This will automatically move the domain\'s application into Voting Commit.',
-        selector: '.RegistryGuideStaticChallenge',
-        position: 'left',
-        type: 'click',
-        isFixed: true,
-        name: 'challenge-third-step',
-        parent: 'DomainsContainer',
-        style: {
-          backgroundColor: '#3434CE',
-          textAlign: 'left',
-          width: '29rem',
-          main: {
-            padding: '20px'
-          },
-          footer: {
-            display: 'block'
-          },
-          close: {
-            color: '#FFF'
-          }
-        }
-      },
-      {
-        title: 'Challenge - Fourth Step',
-        text: 'Not only can you challenge domains In Application, but you can also challenge domains that are already in the adChain Registry.',
-        selector: '.RegistryGuideStaticInRegistry',
-        position: 'left',
-        type: 'click',
-        isFixed: true,
-        name: 'challenge-fourth-step',
-        parent: 'DomainsContainer',
-        style: {
-          backgroundColor: '#3434CE',
-          textAlign: 'left',
-          width: '29rem',
-          main: {
-            padding: '20px'
-          },
-          footer: {
-            display: 'block'
-          },
-          close: {
-            color: '#FFF'
-          }
-        }
-      },
-      {
-        title: 'Challenge - Fifth Step',
-        text: 'Simply click on "CHALLENGE" and initiate the voting stage. Domains In Registry that are challenged continue to be in the registry until the voting stage ends and the majority of ADT holders vote to remove the domain.',
-        selector: '.RegistryGuideStaticInRegistry .ChallengeButton',
-        position: 'left',
-        type: 'click',
-        isFixed: true,
-        name: 'challenge-fifth-step',
-        parent: 'DomainsContainer',
-        style: {
-          backgroundColor: '#3434CE',
-          textAlign: 'left',
-          width: '29rem',
-          main: {
-            padding: '20px'
-          },
-          footer: {
-            display: 'block'
-          },
-          close: {
-            color: '#FFF'
-          }
-        }
-      }
-    ]
 
     return (
       <div>
@@ -156,7 +34,7 @@ class RegistryGuideModalChallengeDomain extends Component {
           </div>
           <div className='GuideButtonsContainer'>
             <Button basic className='ReturnButton' onClick={() => this.props.returnToMenu(section)} content='Return to Guide' />
-            <Button basic className='ContinueButton' content='Continue' onClick={() => this.onContinue(walkthroughSteps)} />
+            <Button basic className='ContinueButton' content='Continue' onClick={() => PubSub.publish('RegistryGuideModal.startRegistryWalkthrough', ChallengeSteps)} />
           </div>
           <div className='GuideText'>
           Can’t find what you’re looking for? Click <a href='https://adchain.zendesk.com/hc/en-us' target='_blank' rel='noopener noreferrer'>here</a> to visit the help center.
@@ -164,10 +42,6 @@ class RegistryGuideModalChallengeDomain extends Component {
         </Modal.Content>
       </div>
     )
-  }
-  onContinue (steps) {
-    this.props.close()
-    this.props.startJoyride(steps)
   }
 }
 
