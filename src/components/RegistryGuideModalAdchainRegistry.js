@@ -23,6 +23,7 @@ class RegistryGuideModalAdchainRegistry extends Component {
             <br />
             <div>
               To learn more, please visit the <a href='https://medium.com/@AdChain/the-adchain-registry-eli5-b7f0a19a532d' target='_blank' rel='noopener noreferrer'>adChain Registry ELI5 post</a>.
+            </div>
           </div>
           <div className='GuideButtonsContainer'>
             <Button basic className='ReturnButton' onClick={() => this.props.returnToMenu(section)} content='Return to Guide' />
