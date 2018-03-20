@@ -129,7 +129,7 @@ class DomainInRegistryContainer extends Component {
                   Enter ADT Amount
                   </div>
                   <div className='ADTInputContainer'>
-                    <Input type='number' placeholder='ADT' id='ADTAmount' className='ADTInput' />
+                    <Input type='number' placeholder='ADT' id='ADTAmount' className='ADTInput' min='0' />
                   </div>
                   <div className='DepositWithdrawButtonRow'>
                     <div className='TopOffButtonContainer'>
@@ -306,6 +306,10 @@ class DomainInRegistryContainer extends Component {
     const amount = document.getElementById('ADTAmount').value
 
     // Possibly include other verification checks
+    if (parseInt(amount, 10) < 0) {
+      toastr.error('You must enter a positive amount.')
+      return
+    }
 
     if (this._isMounted) {
       this.setState({
@@ -336,6 +340,10 @@ class DomainInRegistryContainer extends Component {
 
     if (parseInt(currentDeposit, 10) - parseInt(amount, 10) < minDeposit) {
       toastr.error('You can only withdraw an amount of tokens that is less than or equal to the staked difference.')
+      return
+    }
+    if (parseInt(amount, 10) < 0) {
+      toastr.error('You must enter a positive amount.')
       return
     }
 

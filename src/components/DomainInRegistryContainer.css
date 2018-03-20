@@ -83,7 +83,8 @@
 :root:root:root .DomainInRegistryContainer .LeftSegment {
   width: 48%;
   margin-right: 0 !important;
-  display: inline-block;
+  display: flex;
+  flex-direction: column;
   font-size: 12px;
   line-height: 17px;
   min-height: 210px;
@@ -103,7 +104,8 @@
 :root:root:root .DomainInRegistryContainer .RightSegment {
   width: 48%;
   margin-top: 0;
-  display: inline-block;
+  display: flex;
+  flex-direction: column;
   margin-left: 0 !important;
   margin-right: 0 !important;
   font-size: 10px;
@@ -118,6 +120,7 @@
 .TopOffRow {
   display: inline-block;
   width: 100%;
+  padding-bottom: 5px;
 }
 
 :root:root:root .CurrentDepositLabel, 
@@ -164,30 +167,10 @@
   padding-right: 5px;
 }
 
-.RequiredADT {
-  font-family: 'Open Sans', sans-serif;
-}
-
 :root:root:root .DomainInRegistryContainer .RemoveButtonContainer {
-  position: absolute;
-  bottom: 10px;
+  display: flex;
   margin: 0 auto;
-  left: 0;
-  right: 0;
-}
-
-:root:root:root .DomainInRegistryContainer .TopOffButtonContainer,
-:root:root:root .DomainInRegistryContainer .WithdrawButtonContainer {
-  position: absolute;
-  bottom: 10px;
-}
-
-:root:root:root .DomainInRegistryContainer .TopOffButtonContainer {
-  left: 7%;
-}
-
-:root:root:root .DomainInRegistryContainer .WithdrawButtonContainer {
-  right: 7%;
+  margin-top: auto;
 }
 
 :root:root:root .DomainInRegistryContainer .RemoveButton,
@@ -292,4 +275,12 @@
     width: 94% !important;
     margin-top: 5px;
     margin-bottom: 20px;
+}
+
+.DepositWithdrawButtonRow {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  margin-top: auto;
 }
