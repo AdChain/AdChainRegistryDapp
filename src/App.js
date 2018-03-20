@@ -217,7 +217,7 @@ class App extends Component {
       walkthroughFinished: false
     })
   }
-  
+
   resumeJoyride () {
     this.setState({
       shouldRun: true
