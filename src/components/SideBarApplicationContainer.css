@@ -91,3 +91,9 @@
   background: transparent;
   border-radius: 0;
 }
+
+@media(max-width:768px){
+  .ApplicationContainer{
+    display: none
+  }
+}

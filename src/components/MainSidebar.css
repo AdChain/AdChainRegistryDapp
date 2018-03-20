@@ -236,6 +236,42 @@
   margin-bottom: 10px;
 }
 
+.MobileMenu:hover{
+  cursor: pointer;
+}
+.MobileMenu span:first-of-type{
+  margin-top: 2px;
+}
+
+.MobileMenu span{
+  border: 1px solid white;
+  border-bottom: 1px solid white;
+  border-radius: 3px;
+  margin-bottom: 2px;
+  margin-top: 7px;
+  display: block;
+  width: 28px;
+}
+/*.MobileMenu:hover span{
+  border: 1px solid ;
+}
+*/
+.MobileMenu {
+  border:1px solid white;
+  padding:5px;
+  border-radius:5px;
+  margin-top:2px;
+  display: inline-block;
+  position: absolute;
+  right: 16px;
+  top:14px;
+}
+@media(min-width:768px){
+  .MobileMenu{
+    display: none
+  }
+}
+
 :root:root .MainSidebar .Copyright p {
   font-size: 0.6em;
   color: #686972;
@@ -326,3 +362,4 @@
     display: none;
   }
 }
+
