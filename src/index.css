@@ -112,7 +112,7 @@ input:focus{
 .InfoIcon{
   height:14px !important;
   margin-top: 2px;
-  z-index: 1000;
+  z-index: 101;
   position: relative;
 }
 .InfoIcon:hover,
@@ -127,7 +127,7 @@ input:focus{
 .InfoIconHigh{
   height:14px !important;
   margin-top: -1px;
-  z-index: 1000;
+  z-index: 101;
   position: relative;
 }
 .RootLoader{

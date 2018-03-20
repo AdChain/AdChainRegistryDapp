@@ -6,7 +6,10 @@ import isValidDomain from 'is-valid-domain'
 import registry from '../services/registry'
 import PublisherApplicationFormInProgress from './PublisherApplicationFormInProgress'
 import commafy from 'commafy'
+import isMobile from 'is-mobile'
 import PubSub from 'pubsub-js'
+
+const windowWidth = window.innerWidth
 
 class SideBarApplicationContainer extends Component {
   constructor (props) {
@@ -113,6 +116,8 @@ class SideBarApplicationContainer extends Component {
   }
 
   render () {
+    if (windowWidth < 768 || isMobile()) return null
+
     const {
       inProgress,
       active

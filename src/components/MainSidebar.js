@@ -22,40 +22,14 @@ class MainSidebar extends Component {
       activeIndex: 0,
       accordionArrow: false,
       helpClicked: false,
-      socialClicked: false
+      socialClicked: false,
+      showMenu: true
     }
     this._Link = props.Link
     this._history = props.history
     this.handleClick = this.handleClick.bind(this)
     this.updateRoute = this.updateRoute.bind(this)
-  }
-
-  handleClick (e, titleProps) {
-    const { id } = titleProps
-    const { activeIndex, helpClicked, socialClicked } = this.state
-    const newIndex = activeIndex === id ? -1 : id
-    if (id === 1) {
-      this.setState({
-        activeIndex: newIndex,
-        accordionArrow: 'help',
-        helpClicked: !helpClicked,
-        socialClicked: false
-      })
-    } else {
-      this.setState({
-        activeIndex: newIndex,
-        accordionArrow: 'social',
-        socialClicked: !socialClicked,
-        helpClicked: false
-      })
-    }
-  }
-
-  async updateRoute (route) {
-    if (route !== window.location.pathname) {
-      this._history.push(`${route}`)
-    }
-    await this.props.confirmWalkthrough()
+    this.collapse = this.toggleMenu.bind(this)
   }
 
   render () {
@@ -105,8 +79,13 @@ class MainSidebar extends Component {
           <a href='/'>
             <img src={adchainLogo} alt='adChain' />
           </a>
+          <span className='MobileMenu' onClick={() => { this.toggleMenu() }}>
+            <span />
+            <span />
+            <span />
+          </span>
         </div>
-        <div className='SidebarListContainer overflow-x'>
+        <div className={this.state.showMenu ? 'SidebarListContainer overflow-x' : 'hide'}>
           <div className='SidebarList overflow-y overflow-x'>
             <div className='ListTitle ui header'>
               <RegistryGuideModal updateRoute={this.updateRoute} handleJoyrideCallback={this.props.handleJoyrideCallback} resumeJoyride={this.props.resumeJoyride} domainJourney={this.props.domainJourney} toggleOverlay={this.props.toggleOverlay} walkthroughFinished={this.props.walkthroughFinished} />
@@ -166,12 +145,47 @@ class MainSidebar extends Component {
       </Accordion>
     )
   }
-}
 
-MainSidebar.propTypes = {
-/*
-  Link: PropTypes.func
-*/
+  handleClick (e, titleProps) {
+    const { id } = titleProps
+    const { activeIndex, helpClicked, socialClicked } = this.state
+    const newIndex = activeIndex === id ? -1 : id
+    if (id === 1) {
+      this.setState({
+        activeIndex: newIndex,
+        accordionArrow: 'help',
+        helpClicked: !helpClicked,
+        socialClicked: false
+      })
+    } else {
+      this.setState({
+        activeIndex: newIndex,
+        accordionArrow: 'social',
+        socialClicked: !socialClicked,
+        helpClicked: false
+      })
+    }
+  }
+
+  toggleMenu () {
+    this.setState({
+      showMenu: !this.state.showMenu
+    })
+  }
+
+  async updateRoute (route) {
+    if (route !== window.location.pathname) {
+      this._history.push(`${route}`)
+    }
+    await this.props.confirmWalkthrough()
+  }
+
+  collapse () {
+    this.setState({
+      collapse: true,
+      mobile: true
+    })
+  }
 }
 
 export default withRouter(MainSidebar)
