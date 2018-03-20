@@ -108,3 +108,8 @@
     width: 100%;
   }
 }
+@media (max-width: 767px) {
+  .MainTopbar{
+    display:none;
+  }
+}
