@@ -115,22 +115,23 @@ class AccountDashboard extends Component {
               </div>
             </div>
           </div>
-          { inProgress
-            ? <AccountDashboardLoadingInProgress />
-            : <div className='row DomainsRow'>
-              <div className='column wide UserAppliedDomainsContainer'>
-                <UserAppliedDomains appliedDomains={appliedDomains} history={history} />
+          {
+            inProgress
+              ? <AccountDashboardLoadingInProgress />
+              : <div className='row DomainsRow'>
+                <div className='column wide UserAppliedDomainsContainer'>
+                  <UserAppliedDomains appliedDomains={appliedDomains} history={history} />
+                </div>
+                <div className='column wide UserChallengedDomainsContainer NoPaddingRight'>
+                  <UserChallengedDomains challengedDomains={challengedDomains} history={history} />
+                </div>
+                <div className='column UserCommitsToRevealContainer wide NoPaddingRight'>
+                  <UserCommitsToReveal commitsToReveal={commitsToReveal} history={history} />
+                </div>
+                <div className='column UserRewardsToClaimContainer wide'>
+                  <UserRewardsToClaim rewards={rewards} history={history} />
+                </div>
               </div>
-              <div className='column wide UserChallengedDomainsContainer NoPaddingRight'>
-                <UserChallengedDomains challengedDomains={challengedDomains} history={history} />
-              </div>
-              <div className='column UserCommitsToRevealContainer wide NoPaddingRight'>
-                <UserCommitsToReveal commitsToReveal={commitsToReveal} history={history} />
-              </div>
-              <div className='column UserRewardsToClaimContainer wide'>
-                <UserRewardsToClaim rewards={rewards} history={history} />
-              </div>
-            </div>
           }
         </div>
       </div>

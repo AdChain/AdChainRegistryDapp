@@ -32,7 +32,7 @@ class UserCommitsToReveal extends Component {
 
   render () {
     const { commitsToReveal } = this.state
-    const data = commitsToReveal ? commitsToReveal.map((domain, idx) =>
+    const data = commitsToReveal.length !== 0 ? commitsToReveal.map((domain, idx) =>
       <tr key={idx} className='DashboardRow'>
         <td className='DashboardFirstCell' onClick={(event) => { event.preventDefault(); this.state.history.push(`/domains/${domain.domain}`) }}>{domain.domain}</td>
         <td><Button basic className='RevealButton DashboardSecondCell' onClick={() => this.goToReveal(domain.domain)}>Reveal</Button>
@@ -43,15 +43,18 @@ class UserCommitsToReveal extends Component {
         <span className='BoxFrameLabel ui grid'>YOUR COMMITS TO REVEAL <Tooltip info={'The domains below you have commited votes to. They are listed below to remind you to reveal your votes. The domains below are still in REVEAL STAGE.'} /></span>
         <div className='ui grid'>
           <div className='column sixteen wide'>
-            <table>
-              <tbody>
-                <tr>
-                  <th className='DashboardTitle'>Domain</th>
-                  <th className='DashboardTitle'>Action</th>
-                </tr>
-                {data}
-              </tbody>
-            </table>
+            {data
+              ? <table>
+                <tbody>
+                  <tr>
+                    <th className='DashboardTitle'>Domain</th>
+                    <th className='DashboardTitle'>Action</th>
+                  </tr>
+                  {data}
+                </tbody>
+              </table>
+              : <div className='NoDataMessage'>The domains listed here are domains for which you have committed votes to. They are listed here to remind you to reveal your votes. The domains listed here are still in their Voting Reveal phase.</div>
+            }
           </div>
         </div>
       </div>

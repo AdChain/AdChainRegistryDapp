@@ -29,7 +29,7 @@ class UserChallengedDomains extends Component {
 
   render () {
     const { challengedDomains } = this.state
-    const data = challengedDomains ? challengedDomains.map((domain, idx) =>
+    const data = challengedDomains.length !== 0 ? challengedDomains.map((domain, idx) =>
       <tr key={idx} className='DashboardRow'>
         <td className='DashboardFirstCell' onClick={(event) => { event.preventDefault(); this.history.push(`/domains/${domain.domain}`) }}>{domain.domain}</td>
         <td className='DashboardSecondCell'>{domain.stage}</td>
@@ -40,15 +40,17 @@ class UserChallengedDomains extends Component {
         <span className='BoxFrameLabel ui grid'>DOMAINS YOU CHALLENGE <Tooltip info={"The domains that are in Application that you challenged are recorded here. The domain's status is shown to its right."} /></span>
         <div className='ui grid'>
           <div className='column sixteen wide'>
-            <table>
-              <tbody>
-                <tr>
-                  <th className='DashboardTitle'>Domain</th>
-                  <th className='DashboardTitle'>Stage</th>
-                </tr>
-                {data}
-              </tbody>
-            </table>
+            {data
+              ? <table>
+                <tbody>
+                  <tr>
+                    <th className='DashboardTitle'>Domain</th>
+                    <th className='DashboardTitle'>Stage</th>
+                  </tr>
+                  {data}
+                </tbody>
+              </table>
+              : <div className='NoDataMessage'>The domains In Application that you challenged are recorded here. The domain's status is shown to its right.</div>}
           </div>
         </div>
       </div>

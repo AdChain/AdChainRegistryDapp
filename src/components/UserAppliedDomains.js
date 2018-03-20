@@ -29,27 +29,30 @@ class UserAppliedDomains extends Component {
 
   render () {
     const { appliedDomains } = this.state
-    const data = appliedDomains
-            ? appliedDomains.map((domain, idx) =>
-              <tr key={idx} className='DashboardRow'>
-                <td className='DashboardFirstCell' onClick={(event) => { event.preventDefault(); this.history.push(`/domains/${domain.domain}`) }}>{domain.domain}</td>
-                <td className='DashboardSecondCell'>{domain.stage}</td>
-              </tr>) : null
+    const data = appliedDomains.length !== 0
+      ? appliedDomains.map((domain, idx) =>
+        <tr key={idx} className='DashboardRow'>
+          <td className='DashboardFirstCell' onClick={(event) => { event.preventDefault(); this.history.push(`/domains/${domain.domain}`) }}>{domain.domain}</td>
+          <td className='DashboardSecondCell'>{domain.stage}</td>
+        </tr>) : null
 
     return (
       <div className='BoxFrame DashboardColumn'>
         <span className='BoxFrameLabel ui grid'>DOMAINS YOU APPLIED <Tooltip info={"The domains below are recorded as domains applied by your wallet address. The domain's status is shown to its right."} /></span>
         <div className='ui grid DomainList'>
           <div className='column sixteen wide'>
-            <table>
-              <tbody>
-                <tr>
-                  <th className='DashboardTitle'>Domain</th>
-                  <th className='DashboardTitle'>Stage</th>
-                </tr>
-                {data}
-              </tbody>
-            </table>
+            {data
+              ? <table>
+                <tbody>
+                  <tr>
+                    <th className='DashboardTitle'>Domain</th>
+                    <th className='DashboardTitle'>Stage</th>
+                  </tr>
+                  {data}
+                </tbody>
+              </table>
+              : <div className='NoDataMessage'>The domains here are recorded as domains applied by your wallet address. The domain's status is shown to its right.</div>
+            }
           </div>
         </div>
       </div>

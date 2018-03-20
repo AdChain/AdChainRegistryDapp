@@ -62,7 +62,7 @@ class ExpiredVotingADT extends Component {
     return {
       totalExpiredTokens,
       expiredDomainData,
-      selectedPoll: expiredDomainData[0].challengeId
+      selectedPoll: expiredDomainData[0] ? expiredDomainData[0].challengeId : null
     }
   }
 

@@ -36,7 +36,7 @@ class UserRewardsToClaim extends Component {
 
   render () {
     const { rewards, claimProgress } = this.state
-    const data = rewards ? rewards.map((domain, idx) =>
+    const data = rewards.length !== 0 ? rewards.map((domain, idx) =>
       <tr key={idx} className='DashboardRow'>
         <td className='DashboardFirstCell' onClick={(event) => { event.preventDefault(); this.history.push(`/domains/${domain.domain}`) }}>{domain.domain}</td>
         <td id={domain.domain} className='RewardValueCell'>{domain.reward ? domain.reward + ' ADT' : ' - '}</td>
@@ -48,16 +48,19 @@ class UserRewardsToClaim extends Component {
         <span className='BoxFrameLabel ui grid'>CLAIM REWARDS <Tooltip info={'The found below are accompanied by the ADT reward you have yet to claim. Domains with rewards are shown here when you have successfully challenged a domain in APPLICATION or correctly voted a domain in VOTING.'} /></span>
         <div className='ui grid'>
           <div className='column sixteen wide'>
-            <table className='DashboardTable'>
-              <tbody>
-                <tr>
-                  <th className='DashboardTitle'>Domain</th>
-                  <th className='DashboardTitle'>Value</th>
-                  <th className='DashboardTitle'>Action</th>
-                </tr>
-                {data}
-              </tbody>
-            </table>
+            {data
+              ? <table className='DashboardTable'>
+                <tbody>
+                  <tr>
+                    <th className='DashboardTitle'>Domain</th>
+                    <th className='DashboardTitle'>Value</th>
+                    <th className='DashboardTitle'>Action</th>
+                  </tr>
+                  {data}
+                </tbody>
+              </table>
+              : <div className='NoDataMessage'>The domains found here are accompanied with the ADT reward you have yet to claim. Domains with rewards are shown here when you have successfully challenged a domain In Application, or correctly voted on a domain In Voting.</div>
+            }
           </div>
         </div>
         {claimProgress ? <UserRewardClaimInProgress /> : null}

@@ -101,7 +101,7 @@ input:focus{
     font-weight: 600;
     min-height: 13px;
     font-family: Open Sans,sans-serif;
-    margin-right:3px;
+    /* margin-right:3px; */
 }
 /*.BoxFrame .BoxFrameLabel::after{
     content: url(./components/assets/info_gray.svg);
