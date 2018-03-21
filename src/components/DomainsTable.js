@@ -224,9 +224,6 @@ class DomainsTable extends Component {
         } else if (value === 'voting_reveal') {
           label = 'Vote - Reveal'
           color = ''
-        } else if (value === 'in_registry_new_challenge') {
-          label = 'In Registry'
-          color = ''
         }
 
         return ([
@@ -383,9 +380,12 @@ class DomainsTable extends Component {
         const isInRegistry = (isWhitelisted && !commitOpen && !revealOpen)
 
         if (isInRegistry) {
-          let challenge = await registry.getChallenge(challengeId)
-          if (!challenge.resolved) {
-            item.stage = 'in_registry_new_challenge'
+          if (challengeId) {
+            let challenge = await registry.getChallenge(challengeId)
+            if (!challenge.resolved) {
+              item.stage = 'in_registry_new_challenge'
+              item.deposit = listing.currentDeposit
+            }
           } else {
             item.stage = 'in_registry'
             item.deposit = listing.currentDeposit
@@ -419,6 +419,7 @@ class DomainsTable extends Component {
         }
         return item
       } catch (error) {
+        console.log(error)
         if (item.domain) {
           return {
             domain: item.domain || '',
