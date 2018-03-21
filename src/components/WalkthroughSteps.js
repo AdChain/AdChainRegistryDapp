@@ -198,7 +198,7 @@ export const ChallengeSteps = [
   },
   {
     title: 'Challenge - Third Step',
-    text: 'Click on the "CHALLENGE" button to challenge the domain application. This will automatically move the domain\'s application into Voting Commit.',
+    text: 'Clicking on the "CHALLENGE" button challenges the domain\'s application by staking the minDeposit amount from your wallet. This will move the domain\'s application into the Voting Commit stage.',
     selector: '.RegistryGuideStaticChallenge',
     position: 'left',
     type: 'click',
