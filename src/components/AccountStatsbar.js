@@ -58,7 +58,7 @@ class AccountStatsbar extends Component {
               />
             </div>
             <div className='column four wide Category'>
-              Total adToken Claimed: <strong>{totalTokensClaimed === null ? '-' : totalTokensClaimed / Math.pow(10, 9)}</strong>
+              Total adToken Claimed: <strong>{totalTokensClaimed === null ? '-' : (totalTokensClaimed / Math.pow(10, 9)).toFixed(0)}</strong>
               <Tooltip
                 info='Total number of adToken this account has claimed for winning challenges'
               />

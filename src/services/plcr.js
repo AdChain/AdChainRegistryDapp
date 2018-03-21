@@ -304,7 +304,6 @@ class PlcrService {
   }
 
   async rescueTokens (pollId) {
-    console.log('Poll Id: ', pollId)
     try {
       let res = await this.plcr.rescueTokens(pollId)
       return res
