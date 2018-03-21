@@ -23,6 +23,14 @@
   text-transform: uppercase !important;
   border: none;
 }
+
+.ui.sidebar.menu .item a:focus,
+.ui.sidebar.menu .item a:hover,
+.ui.sidebar.menu .item a:active,
+.ui.sidebar.menu .item a:visited {
+  text-decoration: none !important;
+}
+
 .ui.sidebar.menu .item a {
   padding-left: 10px;
   font-size: 16px;
@@ -40,10 +48,11 @@
   opacity: .5;
 }
 
-.ui.sidebar.menu .item .NavLink.active {
+.ui.sidebar.menu .item .NavLink.active,
+.ui.sidebar.menu .item .NavLink.active img {
   opacity: 1;
+  font-weight: 600;
 }
-
 
 .ui.accordion.menu .item .title {
   display: inline;
@@ -53,8 +62,10 @@
 }
 
 
-.ui.accordion.menu .item .title.active {
+.ui.accordion.menu .item .title.active,
+.ui.accordion.menu .item .title.active img {
   opacity: 1;
+  font-weight: 600;
 }
 
 .ui.accordion.menu .item .title>.dropdown.icon {
@@ -196,7 +207,7 @@
 }
 
 :root:root .MainSidebar .list .item a:hover {
-  text-decoration: underline;
+  text-decoration: none;
 }
 
 :root:root .MainSidebar .list .item a.active,

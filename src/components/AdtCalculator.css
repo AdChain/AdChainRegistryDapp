@@ -36,9 +36,14 @@
   font-size: 0.7em;
   color: #999;
 }
-.AdtCalculator .seven .InfoIcon{
+.AdtCalculator .seven .InfoIcon {
   margin-top:-2px;
   padding-left: 3px;
+}
+
+:root:root .AdtCalculator .AdtCalcDropdown {
+  background-color: #3434CE;
+  color: #FFF;
 }
 
 :root:root:root .AdtCalculator .Source:hover {

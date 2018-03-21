@@ -89,7 +89,7 @@ class AdtCalculator extends Component {
                   onInput={this.onInput.bind(this)}
                 />
                 <Dropdown
-                  className='label blue'
+                  className='label AdtCalcDropdown'
                   value={selectedOption}
                   options={options}
                   onChange={this.onDropdownChange.bind(this)}

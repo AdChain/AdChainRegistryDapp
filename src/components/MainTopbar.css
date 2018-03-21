@@ -26,6 +26,10 @@
   background: none;
 }
 
+:root:root .MainTopbar .menu span strong {
+  font-weight: 800;
+}
+
 :root:root .MainTopbar .menu.top {
   min-height: 70px;
 }
