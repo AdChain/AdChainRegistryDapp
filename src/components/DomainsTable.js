@@ -167,6 +167,9 @@ class DomainsTable extends Component {
         } else if (stage === 'apply') {
           label = 'APPLY'
           color = 'blue'
+        } else if (stage === 'in_registry_new_challenge') {
+          label = 'REFRESH STATUS'
+          color = 'greyblack'
         } else if (stage === 'wrong network') {
           label = ''
           color = ''
@@ -183,6 +186,7 @@ class DomainsTable extends Component {
             event.preventDefault()
             if (label === 'REFRESH STATUS') {
               this.updateStatus(domain)
+              return
             }
             if (label === 'APPLY') {
               PubSub.publish('SideBarApplicationContainer.populateApplicationForm', domain)
@@ -209,7 +213,7 @@ class DomainsTable extends Component {
         } else if (expired) {
           label = ' '
           color = 'info'
-        } else if (value === 'in_registry') {
+        } else if (value === 'in_registry' || stage === 'in_registry_new_challenge') {
           label = <span><i className='icon check circle' style={{color: 'green'}} />In Registry</span>
           color = 'success'
         } else if (value === 'in_application') {
@@ -377,8 +381,21 @@ class DomainsTable extends Component {
         const isInRegistry = (isWhitelisted && !commitOpen && !revealOpen)
 
         if (isInRegistry) {
-          item.stage = 'in_registry'
-          item.deposit = listing.currentDeposit
+          if (challengeId) {
+            // This is to determine the following state:
+            // Applied --> In Registry --> Challenged --> Vote/Reveal End --> UPDATE STATUS
+            const challenge = await registry.getChallenge(challengeId)
+            if (challenge.resolved !== true) {
+              item.stage = 'in_registry_new_challenge'
+              item.deposit = listing.currentDeposit
+            } else {
+              item.stage = 'in_registry'
+              item.deposit = listing.currentDeposit
+            }
+          } else {
+            item.stage = 'in_registry'
+            item.deposit = listing.currentDeposit
+          }
         } else if (challengeOpen) {
           item.stage = 'in_application'
           item.stageEndsTimestamp = applicationExpiry
@@ -408,6 +425,7 @@ class DomainsTable extends Component {
         }
         return item
       } catch (error) {
+        console.log(error)
         if (item.domain) {
           return {
             domain: item.domain || '',
