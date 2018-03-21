@@ -186,6 +186,7 @@ class DomainsTable extends Component {
             event.preventDefault()
             if (label === 'REFRESH STATUS') {
               this.updateStatus(domain)
+              return
             }
             if (label === 'APPLY') {
               PubSub.publish('SideBarApplicationContainer.populateApplicationForm', domain)
@@ -381,9 +382,14 @@ class DomainsTable extends Component {
 
         if (isInRegistry) {
           if (challengeId) {
-            let challenge = await registry.getChallenge(challengeId)
-            if (!challenge.resolved) {
+            // This is to determine the following state:
+            // Applied --> In Registry --> Challenged --> Vote/Reveal End --> UPDATE STATUS
+            const challenge = await registry.getChallenge(challengeId)
+            if (challenge.resolved !== true) {
               item.stage = 'in_registry_new_challenge'
+              item.deposit = listing.currentDeposit
+            } else {
+              item.stage = 'in_registry'
               item.deposit = listing.currentDeposit
             }
           } else {
