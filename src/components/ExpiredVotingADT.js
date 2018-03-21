@@ -19,17 +19,21 @@ class ExpiredVotingADT extends Component {
   }
 
   async init () {
-    let {
-      expiredDomainData,
-      totalExpiredTokens,
-      selectedPoll
-    } = await this.getExpiredDomainData()
+    try {
+      let {
+        expiredDomainData,
+        totalExpiredTokens,
+        selectedPoll
+      } = await this.getExpiredDomainData()
 
-    this.setState({
-      expiredDomainData,
-      totalExpiredTokens,
-      selectedPoll
-    })
+      this.setState({
+        expiredDomainData,
+        totalExpiredTokens,
+        selectedPoll
+      })
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   render () {

@@ -28,12 +28,18 @@ class UserChallengedDomains extends Component {
   }
 
   render () {
-    const { challengedDomains } = this.state
-    const data = challengedDomains.length !== 0 ? challengedDomains.map((domain, idx) =>
-      <tr key={idx} className='DashboardRow'>
-        <td className='DashboardFirstCell' onClick={(event) => { event.preventDefault(); this.history.push(`/domains/${domain.domain}`) }}>{domain.domain}</td>
-        <td className='DashboardSecondCell'>{domain.stage}</td>
-      </tr>) : null
+    let data
+    try {
+      const { challengedDomains } = this.state
+      data = challengedDomains.length !== 0 ? challengedDomains.map((domain, idx) =>
+        <tr key={idx} className='DashboardRow'>
+          <td className='DashboardFirstCell' onClick={(event) => { event.preventDefault(); this.history.push(`/domains/${domain.domain}`) }}>{domain.domain}</td>
+          <td className='DashboardSecondCell'>{domain.stage}</td>
+        </tr>) : null
+    } catch (error) {
+      console.log(error)
+      data = []
+    }
 
     return (
       <div className='BoxFrame DashboardColumn'>
