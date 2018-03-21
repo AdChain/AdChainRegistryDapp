@@ -167,6 +167,9 @@ class DomainsTable extends Component {
         } else if (stage === 'apply') {
           label = 'APPLY'
           color = 'blue'
+        } else if (stage === 'in_registry_new_challenge') {
+          label = 'REFRESH STATUS'
+          color = 'greyblack'
         } else if (stage === 'wrong network') {
           label = ''
           color = ''
@@ -209,7 +212,7 @@ class DomainsTable extends Component {
         } else if (expired) {
           label = ' '
           color = 'info'
-        } else if (value === 'in_registry') {
+        } else if (value === 'in_registry' || stage === 'in_registry_new_challenge') {
           label = <span><i className='icon check circle' style={{color: 'green'}} />In Registry</span>
           color = 'success'
         } else if (value === 'in_application') {
@@ -220,6 +223,9 @@ class DomainsTable extends Component {
           color = ''
         } else if (value === 'voting_reveal') {
           label = 'Vote - Reveal'
+          color = ''
+        } else if (value === 'in_registry_new_challenge') {
+          label = 'In Registry'
           color = ''
         }
 
@@ -377,8 +383,13 @@ class DomainsTable extends Component {
         const isInRegistry = (isWhitelisted && !commitOpen && !revealOpen)
 
         if (isInRegistry) {
-          item.stage = 'in_registry'
-          item.deposit = listing.currentDeposit
+          let challenge = await registry.getChallenge(challengeId)
+          if (!challenge.resolved) {
+            item.stage = 'in_registry_new_challenge'
+          } else {
+            item.stage = 'in_registry'
+            item.deposit = listing.currentDeposit
+          }
         } else if (challengeOpen) {
           item.stage = 'in_application'
           item.stageEndsTimestamp = applicationExpiry
