@@ -38,6 +38,7 @@ class RegistryGuideModal extends Component {
 
   componentWillMount () {
     this.subEvent = PubSub.subscribe('RegistryGuideModal.startRegistryWalkthrough', this.startRegistryWalkthrough)
+    this.viewGuide = PubSub.subscribe('RegistryGuideModal.show', this.show)
   }
 
   componentWillReceiveProps (nextProps) {

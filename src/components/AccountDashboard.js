@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import toastr from 'toastr'
+import moment from 'moment'
 
 import store from '../store'
 import registry from '../services/registry'
@@ -32,8 +33,6 @@ class AccountDashboard extends Component {
     this.state = {
       history: props.history,
       account: '',
-      tableFilters: [],
-      query: {},
       appliedDomains: [],
       challengedDomains: [],
       commitsToReveal: [],
@@ -41,8 +40,6 @@ class AccountDashboard extends Component {
       inProgress: false
     }
 
-    this.onQueryChange = this.onQueryChange.bind(this)
-    this.updateTableFilters = this.updateTableFilters.bind(this)
     this.fetchAppliedDomains = this.fetchAppliedDomains.bind(this)
     this.fetchChallengedDomains = this.fetchChallengedDomains.bind(this)
     this.fetchCommitsToReveal = this.fetchCommitsToReveal.bind(this)
@@ -52,8 +49,7 @@ class AccountDashboard extends Component {
 
   componentWillMount () {
     this.setState({
-      account: registry.getAccount() || '0x0',
-      tableFilters: [{id: 'account', value: this.state.account || '0x0'}]
+      account: registry.getAccount() || '0x0'
     })
   }
 
@@ -66,18 +62,16 @@ class AccountDashboard extends Component {
     await this.fetchCommitsToReveal()
     await this.fetchRewards()
 
+    this.setState({
+      inProgress: false
+    })
     store.subscribe(() => {
       if (!this.state.account) {
         const account = registry.getAccount()
         this.setState({
           account
         })
-
-        this.updateTableFilters()
       }
-    })
-    this.setState({
-      inProgress: false
     })
   }
 
@@ -115,80 +109,27 @@ class AccountDashboard extends Component {
               </div>
             </div>
           </div>
-          { inProgress
-            ? <AccountDashboardLoadingInProgress />
-            : <div className='row DomainsRow'>
-              <div className='column wide UserAppliedDomainsContainer'>
-                <UserAppliedDomains appliedDomains={appliedDomains} history={history} />
+          {
+            inProgress
+              ? <AccountDashboardLoadingInProgress />
+              : <div className='row DomainsRow'>
+                <div className='column wide UserAppliedDomainsContainer'>
+                  <UserAppliedDomains appliedDomains={appliedDomains} history={history} />
+                </div>
+                <div className='column wide UserChallengedDomainsContainer NoPaddingRight'>
+                  <UserChallengedDomains challengedDomains={challengedDomains} history={history} />
+                </div>
+                <div className='column UserCommitsToRevealContainer wide NoPaddingRight'>
+                  <UserCommitsToReveal commitsToReveal={commitsToReveal} history={history} />
+                </div>
+                <div className='column UserRewardsToClaimContainer wide'>
+                  <UserRewardsToClaim rewards={rewards} history={history} />
+                </div>
               </div>
-              <div className='column wide UserChallengedDomainsContainer NoPaddingRight'>
-                <UserChallengedDomains challengedDomains={challengedDomains} history={history} />
-              </div>
-              <div className='column UserCommitsToRevealContainer wide NoPaddingRight'>
-                <UserCommitsToReveal commitsToReveal={commitsToReveal} history={history} />
-              </div>
-              <div className='column UserRewardsToClaimContainer wide'>
-                <UserRewardsToClaim rewards={rewards} history={history} />
-              </div>
-            </div>
           }
         </div>
       </div>
     )
-  }
-
-  // React-table filter
-  updateTableFilters () {
-    let {query, account} = this.state
-
-    const stageFilter = {
-      id: 'stage',
-      value: undefined
-    }
-
-    const domainFilter = {
-      id: 'domain',
-      value: undefined
-    }
-
-    let filter = []
-
-    // TODO: better way
-    for (let k in query) {
-      if (query[k]) {
-        if (k === 'inRegistry') {
-          filter.push('in_registry')
-        } else if (k === 'inApplication') {
-          filter.push('in_application')
-        } else if (k === 'inVoting') {
-          filter.push('voting_commit')
-          filter.push('voting_reveal')
-        } else if (k === 'inVotingCommit') {
-          filter.push('voting_commit')
-        } else if (k === 'inVotingReveal') {
-          filter.push('voting_reveal')
-        } else if (k === 'rejected') {
-          filter.push('rejected')
-        } else if (k === 'domain') {
-          domainFilter.value = query[k]
-        }
-      }
-    }
-
-    filter = new RegExp(filter.join('|'), 'gi')
-    stageFilter.value = filter
-
-    // 0x0 is for showing no rows if no account found (other empty account means show all)
-    const accountFilter = {id: 'account', value: account || '0x0'}
-
-    this.setState({tableFilters: [domainFilter, stageFilter, accountFilter]})
-  }
-
-  onQueryChange (query) {
-    this.setState({query})
-
-    console.log(query)
-    this.updateTableFilters()
   }
 
   async fetchDomainStage (domain) {
@@ -196,8 +137,7 @@ class AccountDashboard extends Component {
     try {
       listing = await registry.getListing(domain)
     } catch (error) {
-      console.log('Error fetching domains')
-      return false
+      console.log('Error fetching domain stage')
     }
     let stage = ''
 
@@ -207,24 +147,33 @@ class AccountDashboard extends Component {
       challengeId
     } = listing
 
-    const applicationExists = !!applicationExpiry
-    const challengeOpen = (challengeId === 0 && !isWhitelisted && applicationExpiry)
+    const challengeOpen = (challengeId === 0 && !isWhitelisted && !!applicationExpiry)
+    const revealPending = (challengeId !== 0 && !isWhitelisted && !!applicationExpiry)
     const commitOpen = await registry.commitStageActive(domain)
     const revealOpen = await registry.revealStageActive(domain)
     const isInRegistry = (isWhitelisted && !commitOpen && !revealOpen)
+    const now = moment().unix()
+    const applicationExpirySeconds = applicationExpiry ? applicationExpiry._i : 0
+    const challengeTimeEnded = (now > applicationExpirySeconds)
 
     if (isInRegistry) {
       stage = 'In Registry'
     } else if (challengeOpen) {
-      stage = 'In Application'
+      if (challengeTimeEnded) {
+        stage = 'Application Pending'
+      } else {
+        stage = 'View Application'
+      }
     } else if (commitOpen) {
-      stage = 'Voting - Commit'
+      stage = 'Voting'
     } else if (revealOpen) {
-      stage = 'Voting - Reveal'
-    } else if (applicationExists) {
-      stage = 'View'
+      stage = 'Reveal'
+    } else if (revealPending) {
+      stage = 'Reveal Pending'
+    } else if (!isInRegistry) {
+      stage = 'Rejected'
     } else {
-      stage = 'Apply'
+      stage = 'View Application'
     }
 
     return stage
@@ -239,15 +188,30 @@ class AccountDashboard extends Component {
 
     const response = await window.fetch(`${url}/registry/domains?account=${account}&include=applied`)
     const data = await response.json()
+    let appliedDomains = []
 
     for (let i = 0; i < data.length; i++) {
+      let domainExists = false
       if (data[i]) {
-        data[i].stage = await this.fetchDomainStage(data[i].domain)
+        for (let j = 0; j < appliedDomains.length; j++) {
+          if (data[i].domain === appliedDomains[j].domain) {
+            domainExists = true
+            break
+          }
+        }
+        if (!domainExists) {
+          try {
+            data[i].stage = await this.fetchDomainStage(data[i].domain)
+            appliedDomains.push(data[i])
+          } catch (error) {
+            console.log('Error fetching stage')
+          }
+        }
       }
     }
 
     this.setState({
-      appliedDomains: data
+      appliedDomains: appliedDomains
     })
   }
 

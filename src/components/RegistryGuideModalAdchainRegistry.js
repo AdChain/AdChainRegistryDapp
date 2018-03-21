@@ -18,23 +18,11 @@ class RegistryGuideModalAdchainRegistry extends Component {
         <Modal.Content>
           <div className='GuideDesc'>
             <div>
-              The adChain Registry utilizes a non-native protocol token called <u>adToken</u> to curate a premium list of domain names and serves as the world's first decentralized whitelist for digital advertising. It will also provide a foundational layer for a wealth of other DApps.
+              The adChain Registry is a community-curated registry of ad-supported websites. Curation is executed via a network specific cryptocurrency called adToken (ADT). Community members are rationally incentivized to include or reject websites from the registry based on the merits of ad performance and inventory quality.
             </div>
             <br />
             <div>
-              The goal of adChain is to be inclusive and to onboard the entire digital advertising ecosystem. At first, we see three types of adChain Registry Participants:
-            </div>
-            <br />
-            <div className='GuideDescList'>
-            1. Applicants: Domain Owners
-              <br />
-            2. Challengers: Safety Vendors
-              <br />
-            3. Voters: The General adToken Community
-            </div>
-            <br />
-            <div>
-              Our target users, once on the Ethereum Mainnet, will be premium publishers who wish to join the adChain Registry and advertisers who wish to work with them. As adChain grows, it will expand to include the industry's technology providers, safety vendors, exchanges, and service providers.
+              To learn more, please visit the <a href='https://medium.com/@AdChain/the-adchain-registry-eli5-b7f0a19a532d' target='_blank' rel='noopener noreferrer'>adChain Registry ELI5 post</a>.
             </div>
           </div>
           <div className='GuideButtonsContainer'>

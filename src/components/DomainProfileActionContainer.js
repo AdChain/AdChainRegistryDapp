@@ -31,8 +31,6 @@ class DomainProfileActionContainer extends Component {
     }
 
     this.getData()
-    this.updateStatus = this.updateStatus.bind(this)
-    this.updateStageMap = props.updateStageMap
   }
 
   componentDidMount () {
@@ -56,13 +54,13 @@ class DomainProfileActionContainer extends Component {
     let component = null
 
     if (action === 'challenge') {
-      component = <DomainChallengeContainer updateStageMap={this.updateStageMap} domain={domain} />
+      component = <DomainChallengeContainer domain={domain} />
     } else if (action === 'commit') {
       component = <DomainVoteCommitContainer domain={domain} />
     } else if (action === 'reveal') {
       component = <DomainVoteRevealContainer domain={domain} />
     } else if (action === 'in_registry') {
-      component = <DomainInRegistryContainer updateStageMap={this.updateStageMap} domain={domain} />
+      component = <DomainInRegistryContainer domain={domain} />
     } else if (action === 'refresh') {
       component = <DomainPendingContainer domain={domain} />
     } else if (action === 'rejected') {
@@ -78,21 +76,6 @@ class DomainProfileActionContainer extends Component {
         </div>
       </div>
     )
-  }
-
-  async updateStatus (event) {
-    event.preventDefault()
-
-    const {domain} = this.state
-
-    try {
-      await registry.updateStatus(domain)
-      this.updateStageMap('updated')
-    } catch (error) {
-      toastr.error('There was an error with your request')
-    }
-
-    this.getData()
   }
 
   async getData () {

@@ -12,6 +12,7 @@ import WithdrawInProgressContainer from './WithdrawInProgressContainer'
 import TopOffInProgressContainer from './TopOffInProgressContainer'
 import DomainChallengeContainer from './DomainChallengeContainer'
 import Eth from 'ethjs'
+import PubSub from 'pubsub-js'
 
 const big = (number) => new Eth.BN(number.toString(10))
 const tenToTheNinth = big(10).pow(big(9))
@@ -37,7 +38,6 @@ class DomainInRegistryContainer extends Component {
     this.withdrawListing = this.withdrawListing.bind(this)
     this.topOff = this.topOff.bind(this)
     this.updateStatus = this.updateStatus.bind(this)
-    this.updateStageMap = props.updateStageMap
     this.withdrawADT = this.withdrawADT.bind(this)
   }
 
@@ -129,7 +129,7 @@ class DomainInRegistryContainer extends Component {
                   Enter ADT Amount
                   </div>
                   <div className='ADTInputContainer'>
-                    <Input type='number' placeholder='ADT' id='ADTAmount' className='ADTInput' />
+                    <Input type='number' placeholder='ADT' id='ADTAmount' className='ADTInput' min='0' />
                   </div>
                   <div className='DepositWithdrawButtonRow'>
                     <div className='TopOffButtonContainer'>
@@ -251,6 +251,7 @@ class DomainInRegistryContainer extends Component {
     const {domain} = this.state
     try {
       await registry.updateStatus(domain)
+      await PubSub.publish('DomainProfileStageMap.updateStageMap')
     } catch (error) {
       toastr.error('There was an error updating status')
       console.error(error)
@@ -306,6 +307,10 @@ class DomainInRegistryContainer extends Component {
     const amount = document.getElementById('ADTAmount').value
 
     // Possibly include other verification checks
+    if (parseInt(amount, 10) < 0) {
+      toastr.error('You must enter a positive amount.')
+      return
+    }
 
     if (this._isMounted) {
       this.setState({
@@ -336,6 +341,10 @@ class DomainInRegistryContainer extends Component {
 
     if (parseInt(currentDeposit, 10) - parseInt(amount, 10) < minDeposit) {
       toastr.error('You can only withdraw an amount of tokens that is less than or equal to the staked difference.')
+      return
+    }
+    if (parseInt(amount, 10) < 0) {
+      toastr.error('You must enter a positive amount.')
       return
     }
 

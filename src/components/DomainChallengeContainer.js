@@ -10,6 +10,7 @@ import Countdown from './CountdownText'
 import registry from '../services/registry'
 import parametizer from '../services/parameterizer'
 import DomainChallengeInProgressContainer from './DomainChallengeInProgressContainer'
+import PubSub from 'pubsub-js'
 
 import './DomainChallengeContainer.css'
 
@@ -28,7 +29,6 @@ class DomainChallengeContainer extends Component {
     }
 
     this.updateStatus = this.updateStatus.bind(this)
-    this.updateStageMap = props.updateStageMap
     this.getDispensationPct = this.getDispensationPct.bind(this)
   }
 
@@ -151,7 +151,7 @@ class DomainChallengeContainer extends Component {
     const {domain} = this.state
     try {
       await registry.updateStatus(domain)
-      this.updateStageMap('updated')
+      await PubSub.publish('DomainProfileStageMap.updateStageMap')
     } catch (error) {
       toastr.error('There was an error updating domain status')
       console.error(error)

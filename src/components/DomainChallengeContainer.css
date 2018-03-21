@@ -1,5 +1,12 @@
 .DomainChallengeContainer {
   position: relative;
+  width: 100%;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  display: flex;
+  flex-flow: column wrap;
+  margin-left: 14px;
+  margin-right: 14px;
 }
 
 .DomainChallengeContainer .header {
@@ -110,14 +117,18 @@
   background-color: #F4F7FA;
   border-radius: 3px;
   margin: 0 auto;
-  padding-left: 50px;
-  padding-right: 50px;
+  padding-left: 20%;
+  padding-right: 20%;
   padding-top: 5px;
   padding-bottom: 5px;
+  font-family: 'Open Sans', sans-serif;
 }
 
 .PayoutPercentageContainer {
-  display: -webkit-inline-box;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  align-items: baseline;
   padding-top: 15px;
 }
 

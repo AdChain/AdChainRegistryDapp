@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { Modal, Button } from 'semantic-ui-react'
-import './RegistryGuideModalCommitVote.css'
 import { CommitSteps } from './WalkthroughSteps'
 import PubSub from 'pubsub-js'
 

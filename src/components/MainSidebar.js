@@ -14,6 +14,7 @@ import parametersLogo from './assets/PARAMETERS.svg'
 import socialLogo from './assets/SOCIALS (OPEN).svg'
 import RegistryGuideModal from './RegistryGuideModal'
 import { withRouter } from 'react-router-dom'
+import PubSub from 'pubsub-js'
 
 class MainSidebar extends Component {
   constructor (props) {
@@ -39,16 +40,13 @@ class MainSidebar extends Component {
     const HelpOptions = (
       <ul style={{listStyle: 'none'}}>
         <li>
-          <Link to='/guides' activeClassName='active'>View Guides</Link>
+          <Link to='/domains' onClick={() => PubSub.publish('RegistryGuideModal.show')} activeClassName='active'>View Guides</Link>
         </li>
         <li>
-          <Link to='/tooltips' activeClassName='active'>Show All Tooltips</Link>
+          <Link to='https://adchain.zendesk.com/hc/en-us/categories/115000415353-adChain-Registry-DApp' target='_blank' rel='noopener noreferrer' activeClassName='active'>Help Center</Link>
         </li>
         <li>
-          <Link to='/help' activeClassName='active'>Help Center</Link>
-        </li>
-        <li>
-          <Link to='/request' activeClassName='active'>Submit a Feature Request</Link>
+          <Link to='https://adchain.zendesk.com/hc/en-us/requests/new' target='_blank' rel='noopener noreferrer' activeClassName='active'>Submit a Feature Request</Link>
         </li>
       </ul>
     )
