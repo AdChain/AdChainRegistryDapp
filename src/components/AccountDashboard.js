@@ -211,7 +211,7 @@ class AccountDashboard extends Component {
     }
 
     this.setState({
-      appliedDomains: appliedDomains
+      appliedDomains
     })
   }
 

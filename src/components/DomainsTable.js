@@ -444,7 +444,7 @@ class DomainsTable extends Component {
           isWhitelisted,
           challengeId
         } = listing
-
+        console.log(listing)
         const applicationExists = !!applicationExpiry
         const challengeOpen = (challengeId === 0 && !isWhitelisted && applicationExpiry)
         const commitOpen = await registry.commitStageActive(domain)
