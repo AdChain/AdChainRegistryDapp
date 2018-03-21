@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import Tooltip from './Tooltip'
 import registry from '../services/registry'
 // import toastr from 'toastr'
-import _ from "lodash"
+import _ from 'lodash'
 
 class ExpiredVotingADT extends Component {
   constructor () {
@@ -19,14 +19,13 @@ class ExpiredVotingADT extends Component {
   }
 
   async init () {
-
-    let { 
-      expiredDomainData, 
-      totalExpiredTokens, 
-      selectedPoll 
+    let {
+      expiredDomainData,
+      totalExpiredTokens,
+      selectedPoll
     } = await this.getExpiredDomainData()
 
-    this.setState({ 
+    this.setState({
       expiredDomainData,
       totalExpiredTokens,
       selectedPoll
@@ -40,7 +39,7 @@ class ExpiredVotingADT extends Component {
         <div>
           Expired Voting ADT <Tooltip class='InfoIconHigh' info={'Expired votes are tokens that were committed, but not revealed. Therefore, you need to unlock them in order to withdraw them. The number on the left is the number of transactions you\'ll need to sign in order to withdraw the ADT amount on the right.'} />
         </div>
-        <span className='VotingTokensAmount' style={{marginRight: '4px', color:'#CE4034'}}>{this.state.expiredDomainData.length}</span><span className='VotingTokensAmount'>{this.state.totalExpiredTokens} ADT</span>
+        <span className='VotingTokensAmount' style={{marginRight: '4px', color: '#CE4034'}}>{this.state.expiredDomainData.length}</span><span className='VotingTokensAmount'>{this.state.totalExpiredTokens} ADT</span>
         <br />
         <button className='ui tiny button green' onClick={() => { this.rescueTokens(this.state.selectedPoll) }}>UNLOCK</button>
       </div>
@@ -91,7 +90,7 @@ class ExpiredVotingADT extends Component {
         const listing = await registry.getListing(x.domain)
         const inCommit = await registry.commitStageActive(x.domain)
         const inReveal = await registry.revealStageActive(x.domain)
-        if (inCommit || inReveal || listing.challengeId === 0) return null 
+        if (inCommit || inReveal || listing.challengeId === 0) return null
         return listing
       } catch (error) {
         console.log(error)
@@ -101,7 +100,7 @@ class ExpiredVotingADT extends Component {
   }
 
   getSum (domains) {
-    if(domains.length > 0){
+    if (domains.length > 0) {
       let sum = 0
       domains.map(x => {
         sum += Number(x.currentDeposit)
@@ -124,8 +123,6 @@ class ExpiredVotingADT extends Component {
 }
 
 export default ExpiredVotingADT
-
-
 
 // import React, {Component} from 'react'
 // import Tooltip from './Tooltip'
@@ -170,8 +167,6 @@ export default ExpiredVotingADT
 //     )
 //   }
 
-
-
 //   getSum (domains) {
 //     let sum = 0
 //     domains.map(x => {
@@ -211,4 +206,3 @@ export default ExpiredVotingADT
 // }
 
 // export default ExpiredVotingADT
-
