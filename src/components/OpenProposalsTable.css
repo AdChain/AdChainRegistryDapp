@@ -7,7 +7,7 @@
 }
 .OpenProposalsTable .table-row{
 	font-family: "Open Sans", sans-serif;
-	border-bottom: 1px solid #e9e9e9;
+	border-bottom: 1px solid #f5f5f5;
 }
 .OpenProposalsTable .table-row:last-of-type{
 	border-bottom: none;
