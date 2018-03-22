@@ -60,7 +60,6 @@ class DomainsTable extends Component {
 
   componentDidMount () {
     this._isMounted = true
-
     // infinite calls if enabled,
     // need to debug
     store.subscribe(x => {
@@ -107,8 +106,9 @@ class DomainsTable extends Component {
             showPageJump
             resizable
             className='ui table'
-            manual
-            onFetchData={this.onTableFetchData}
+            multiSort={false}
+            // manual
+            // onFetchData={this.onTableFetchData}
           />
           <div className='Legend'>
             <span><i className='icon check circle' style={{color: 'green'}} /> = &nbsp;  In Registry</span> &nbsp;&nbsp;&nbsp;&nbsp;
@@ -411,22 +411,22 @@ class DomainsTable extends Component {
     return columns
   }
 
-  async onTableFetchData (state, instance) {
+  async onTableFetchData () {
     if (this._isMounted) {
       this.setState({
         isLoading: true
       })
     }
 
-    const {
-      page,
-      pageSize
-    } = state
+    // const {
+    //   page,
+    //   pageSize
+    // } = state
 
     const filtered = this.state.filters
 
-    const start = page * pageSize
-    const end = start + pageSize
+    // const start = page * pageSize
+    // const end = start + pageSize
 
     const allDomains = this.state.allDomains
     let domains = allDomains
@@ -436,8 +436,8 @@ class DomainsTable extends Component {
       })
     }
 
-    const pages = Math.ceil(domains.length / pageSize, 10)
-    domains = domains.slice(start, end)
+    // const pages = Math.ceil(domains.length / pageSize, 10)
+    // domains = domains.slice(start, end)
     const data = await Promise.all(domains.map(async domainData => {
       let domain = domainData.domain
 
@@ -547,8 +547,8 @@ class DomainsTable extends Component {
     if (this._isMounted) {
       this.setState({
         data,
-        isLoading: false,
-        pages
+        isLoading: false
+        // pages
       })
     }
   }
@@ -629,7 +629,7 @@ class DomainsTable extends Component {
       }
 
       // if (!this.state.data.length) {
-      this.onTableFetchData({page: 0, pageSize})
+      this.onTableFetchData()
     } catch (error) {
       console.log(error)
     }
