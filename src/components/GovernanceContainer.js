@@ -31,28 +31,32 @@ class GovernanceContainer extends Component {
   }
 
   async componentWillMount () {
-    await ParameterizerService.init()
-    await this.getParameterValues('governanceParameterData')
-    await this.getParameterValues('coreParameterData')
-    await this.getAccount()
-    await this.fetchRewards()
-    this.getProposalsAndPropIds()
+    try {
+      await ParameterizerService.init()
+      await this.getParameterValues('governanceParameterData')
+      await this.getParameterValues('coreParameterData')
+      await this.getAccount()
+      await this.fetchRewards()
+      this.getProposalsAndPropIds()
 
-    /*
-     * ---------------------- PubSub Pattern -----------------------
-     * Used to subscribe and publish events on non-related components.
-     * Useful for updating state on another component that is not in the same
-     * heirarchy or does not have access to the same props/state.
-     * Metax's convention for usage is to include the name of the component and the function that
-     * is going to be invoked as the first parameter in the subscribe event, and the
-     * second parameter is the name of the function that will be invoked and binded by 'this'.
-     * In the publishing component you will publish the event by calling PubSub.publish('GovernanceContainer.getProposalsAndPropIds','extradata')
-     * You can unsubscribe to an action by calling PubSub.unsubscribe(this.subEvent).
-     *
-    */
+      /*
+       * ---------------------- PubSub Pattern -----------------------
+       * Used to subscribe and publish events on non-related components.
+       * Useful for updating state on another component that is not in the same
+       * heirarchy or does not have access to the same props/state.
+       * Metax's convention for usage is to include the name of the component and the function that
+       * is going to be invoked as the first parameter in the subscribe event, and the
+       * second parameter is the name of the function that will be invoked and binded by 'this'.
+       * In the publishing component you will publish the event by calling PubSub.publish('GovernanceContainer.getProposalsAndPropIds','extradata')
+       * You can unsubscribe to an action by calling PubSub.unsubscribe(this.subEvent).
+       *
+      */
 
-    // PubSub subscription set here
-    this.subEvent = PubSub.subscribe('GovernanceContainer.getProposalsAndPropIds', this.getProposalsAndPropIds.bind(this))
+      // PubSub subscription set here
+      this.subEvent = PubSub.subscribe('GovernanceContainer.getProposalsAndPropIds', this.getProposalsAndPropIds.bind(this))
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   componentWillUnmount () {
@@ -64,7 +68,7 @@ class GovernanceContainer extends Component {
     let props = this.state
     if (!this.state.rewards) return false
     return (
-      <div className='ui stackable  grid padded'>
+      <div className='ui stackable grid padded'>
         <div className='column four wide'>
           <GovernanceAndCoreParameters {...props} />
         </div>
@@ -96,6 +100,7 @@ class GovernanceContainer extends Component {
       }
     })
   }
+
   getAccount () {
     if (!this.state.account) {
       const account = registry.getAccount()

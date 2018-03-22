@@ -2,7 +2,8 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import toastr from 'toastr'
 import moment from 'moment'
-import { Popup, Input, Segment, Button, Dropdown } from 'semantic-ui-react'
+import { Input, Segment, Button, Dropdown } from 'semantic-ui-react'
+import Tooltip from './Tooltip'
 
 import Countdown from './CountdownText'
 import registry from '../services/registry'
@@ -81,9 +82,8 @@ class DomainVoteRevealContainer extends Component {
             <div className='row HeaderRow'>
               <div className='ui large header'>
               Stage: Reveal
-              <Popup
-                trigger={<i className='icon info circle' />}
-                content='The first phase of the voting process is the commit phase where the ADT holder stakes a hidden amount of votes to SUPPORT or OPPOSE the domain application. The second phase is the reveal phase where the ADT holder reveals the staked amount of votes to either the SUPPORT or OPPOSE side.'
+              <Tooltip
+                info='The first phase of the voting process is the commit phase where the ADT holder stakes a hidden amount of votes to SUPPORT or OPPOSE the domain application. The second phase is the reveal phase where the ADT holder reveals the staked amount of votes to either the SUPPORT or OPPOSE side.'
               />
               </div>
             </div>

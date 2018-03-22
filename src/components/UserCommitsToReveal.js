@@ -31,12 +31,18 @@ class UserCommitsToReveal extends Component {
   }
 
   render () {
-    const { commitsToReveal } = this.state
-    const data = commitsToReveal.length !== 0 ? commitsToReveal.map((domain, idx) =>
-      <tr key={idx} className='DashboardRow'>
-        <td className='DashboardFirstCell' onClick={(event) => { event.preventDefault(); this.state.history.push(`/domains/${domain.domain}`) }}>{domain.domain}</td>
-        <td><Button basic className='RevealButton DashboardSecondCell' onClick={() => this.goToReveal(domain.domain)}>Reveal</Button>
-        </td></tr>) : null
+    let data
+    try {
+      const { commitsToReveal } = this.state
+      data = commitsToReveal.length !== 0 ? commitsToReveal.map((domain, idx) =>
+        <tr key={idx} className='DashboardRow'>
+          <td className='DashboardFirstCell' onClick={(event) => { event.preventDefault(); this.state.history.push(`/domains/${domain.domain}`) }}>{domain.domain}</td>
+          <td><Button basic className='RevealButton DashboardSecondCell' onClick={() => this.goToReveal(domain.domain)}>Reveal</Button>
+          </td></tr>) : null
+    } catch (error) {
+      console.log(error)
+      data = []
+    }
 
     return (
       <div className='BoxFrame DashboardColumn'>
