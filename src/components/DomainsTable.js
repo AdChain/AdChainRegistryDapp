@@ -229,7 +229,7 @@ class DomainsTable extends Component {
         const seconds = `${pad(dur.seconds(), 2, 0)}`
 
         if (value) {
-          if (isExpired(row)) {
+          if (diff <= 0) {
             return <span className='error StageEndsCountdownContainer'
               onClick={(event) => {
                 event.preventDefault()
