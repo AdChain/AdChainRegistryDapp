@@ -19,6 +19,7 @@ const getDomainState = async (domain) => {
     siteName: domain,
     stageEnds: null,
     actionLabel: null,
+    stageMapSrc: null,
     stageEndsTimestamp: null
   }
 
@@ -39,7 +40,9 @@ const getDomainState = async (domain) => {
         // This is logic to determine the following state:
         // Applied --> In Registry --> Challenged --> Vote/Reveal End --> UPDATE STATUS
         // Checks to see if challenge is resolved by challenge ID
+
         const challenge = await registry.getChallenge(challengeId)
+
         if (commitOpen) {
           let {commitEndDate} = await registry.getChallengePoll(domain)
           item.stage = 'in_registry_in_commit'
@@ -49,12 +52,8 @@ const getDomainState = async (domain) => {
           item.actionLabel = 'VOTE'
           item.label = <span><i className='icon check circle' style={{color: 'green'}} />Voting - Commit</span>
         } else if (revealOpen) {
+          let { revealEndDate, votesFor, votesAgainst } = await registry.getChallengePoll(domain)
           item.stage = 'in_registry_in_reveal'
-          let {
-            revealEndDate,
-            votesFor,
-            votesAgainst
-          } = await registry.getChallengePoll(domain)
           item.stageEndsTimestamp = revealEndDate
           item.stageEnds = moment.unix(revealEndDate).format('YYYY-MM-DD HH:mm:ss')
           item.stats = { votesFor, votesAgainst }
@@ -75,7 +74,6 @@ const getDomainState = async (domain) => {
       } else {
         item.deposit = listing.currentDeposit
         item.stage = 'in_registry'
-            // item.actionLabel = 'View'
         item.label = <span><i className='icon check circle' style={{color: 'green'}} />In Registry</span>
       }
 
@@ -87,7 +85,7 @@ const getDomainState = async (domain) => {
         item.color = 'greyblack'
       } else {
         item.label = 'In Application'
-        item.color = ''
+        item.color = 'red'
         item.stage = 'in_application'
         item.actionLabel = 'CHALLENGE'
       }
@@ -102,26 +100,19 @@ const getDomainState = async (domain) => {
       item.stageEndsTimestamp = commitEndDate
       item.stageEnds = moment.unix(commitEndDate).format('YYYY-MM-DD HH:mm:ss')
       item.label = 'Vote - Commit'
-      item.color = ''
-      item.actionLabel = 'COMMIT'
+      item.color = 'blue'
+      item.actionLabel = 'VOTE'
 
 // -----------------------------------------
 // -----------------------------------------
     } else if (revealOpen) {
+      let { revealEndDate, votesFor, votesAgainst } = await registry.getChallengePoll(domain)
       item.stage = 'voting_reveal'
-      let {
-            revealEndDate,
-            votesFor,
-            votesAgainst
-          } = await registry.getChallengePoll(domain)
       item.stageEndsTimestamp = revealEndDate
       item.stageEnds = moment.unix(revealEndDate).format('YYYY-MM-DD HH:mm:ss')
-      item.stats = {
-        votesFor,
-        votesAgainst
-      }
+      item.stats = { votesFor, votesAgainst }
       item.label = 'Vote - Reveal'
-      item.color = ''
+      item.color = 'green'
       item.actionLabel = 'REVEAL'
 
 // -----------------------------------------
