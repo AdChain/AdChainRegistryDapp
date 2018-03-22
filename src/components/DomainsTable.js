@@ -9,6 +9,7 @@ import 'react-table/react-table.css'
 import './DomainsTable.css'
 import PubSub from 'pubsub-js'
 import pad from 'left-pad'
+import RefreshInProgressContainer from './RefreshInProgressContainer'
 
 import store from '../store'
 import registry from '../services/registry'
@@ -48,7 +49,8 @@ class DomainsTable extends Component {
       allDomains: [],
       pages: -1, // we don't know how many pages yet
       pageSize: 10,
-      isLoading: false
+      isLoading: false,
+      inProgress: false
     }
     history = props.history
 
@@ -84,7 +86,8 @@ class DomainsTable extends Component {
       data,
       pages,
       pageSize,
-      isLoading
+      isLoading,
+      inProgress
     } = this.state
 
     return (
@@ -107,6 +110,7 @@ class DomainsTable extends Component {
             manual
             onFetchData={this.onTableFetchData}
           />
+          {inProgress ? <RefreshInProgressContainer /> : null}
         </div>
       </div>
     )
@@ -605,9 +609,18 @@ class DomainsTable extends Component {
   }
 
   async updateStatus (domain) {
+    this.setState({
+      inProgress: true
+    })
     try {
       await registry.updateStatus(domain)
+      this.setState({
+        inProgress: false
+      })
     } catch (error) {
+      this.setState({
+        inProgress: false
+      })
       try {
         toastr.error('Update Error')
       } catch (err) {

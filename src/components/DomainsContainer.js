@@ -17,6 +17,7 @@ import RegistryGuideStaticInRegistry from './RegistryGuideStaticInRegistry'
 import RegistryGuideStaticVoting from './RegistryGuideStaticVoting'
 import RegistryGuideStaticReveal from './RegistryGuideStaticReveal'
 import RegistryGuideStaticDashboard from './RegistryGuideStaticDashboard'
+import DomainEmailNotifications from './DomainEmailNotifications'
 
 import './DomainsContainer.css'
 
@@ -98,6 +99,7 @@ class DomainsContainer extends Component {
                       onFiltersChange={this.onQueryChange}
                     />
                 }
+                <DomainEmailNotifications />
               </div>
               {
                 (staticContainer === 'challenge')
