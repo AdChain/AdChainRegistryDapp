@@ -211,6 +211,8 @@ select:hover{
 select::-ms-expand {
   display: none;
 }
+.icon.check.circle{color:green;}
+.icon.x.circle{color:red;}
 
 .transparent-button:hover{
   color:transparent;
