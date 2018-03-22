@@ -28,6 +28,7 @@ class DomainProfileStageMap extends Component {
       domain,
       action
     }
+
     this.updateStageMap()
   }
   componentWillMount () {
