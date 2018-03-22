@@ -28,7 +28,10 @@
 .DomainsTable .ui.table .rt-table::-webkit-scrollbar-thumb:hover {
   background-color: #aaa;
 }
-
+.DomainsTable .Legend{
+  width: 100%;
+  text-align: right;
+}
 :root:root .DomainsTable .ReactTable .rt-thead.-header {
   background: none;
   box-shadow: none;

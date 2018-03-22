@@ -106,6 +106,10 @@ class DomainsTable extends Component {
             manual
             onFetchData={this.onTableFetchData}
           />
+          <div className='Legend'>
+            <span><i className='icon check circle' style={{color: 'green'}} /> = &nbsp;  In Registry</span> &nbsp;&nbsp;&nbsp;&nbsp;
+            <span><i className='icon x circle' style={{color: 'red'}} /> = &nbsp;  Rejected</span>
+          </div>
         </div>
       </div>
     )
@@ -158,16 +162,16 @@ class DomainsTable extends Component {
         } else if (stage === 'in_application') {
           label = 'CHALLENGE'
           color = 'red'
-        } else if (stage === 'voting_commit') {
+        } else if (stage === 'voting_commit' || stage === 'in_registry_in_commit') {
           label = 'VOTE'
           color = 'blue'
-        } else if (stage === 'voting_reveal') {
+        } else if (stage === 'voting_reveal' || stage === 'in_registry_in_reveal') {
           label = 'REVEAL'
           color = 'green'
         } else if (stage === 'apply') {
           label = 'APPLY'
           color = 'blue'
-        } else if (stage === 'in_registry_new_challenge') {
+        } else if (stage === 'in_registry_update_status') {
           label = 'REFRESH STATUS'
           color = 'greyblack'
         } else if (stage === 'wrong network') {
@@ -213,8 +217,14 @@ class DomainsTable extends Component {
         } else if (expired) {
           label = ' '
           color = 'info'
-        } else if (value === 'in_registry' || stage === 'in_registry_new_challenge') {
+        } else if (value === 'in_registry' || value === 'in_registry_update_status') {
           label = <span><i className='icon check circle' style={{color: 'green'}} />In Registry</span>
+          color = 'success'
+        } else if (value === 'in_registry_in_commit') {
+          label = <span><i className='icon check circle' style={{color: 'green'}} />Voting - Commit</span>
+          color = 'success'
+        } else if (value === 'in_registry_in_reveal') {
+          label = <span><i className='icon check circle' style={{color: 'green'}} />Voting - Reveal</span>
           color = 'success'
         } else if (value === 'in_application') {
           label = 'In Application'
@@ -379,14 +389,32 @@ class DomainsTable extends Component {
         const revealOpen = await registry.revealStageActive(domain)
         const isInRegistry = (isWhitelisted && !commitOpen && !revealOpen)
 
-        if (isInRegistry) {
+        if (isInRegistry || (commitOpen && isWhitelisted) || (revealOpen && isWhitelisted)) {
           if (challengeId) {
             // This is to determine the following state:
             // Applied --> In Registry --> Challenged --> Vote/Reveal End --> UPDATE STATUS
             // Checks to see if challenge is resolved by challenge ID
             const challenge = await registry.getChallenge(challengeId)
-            if (challenge.resolved !== true) {
-              item.stage = 'in_registry_new_challenge'
+            if (commitOpen) {
+              item.stage = 'in_registry_in_commit'
+              let {commitEndDate} = await registry.getChallengePoll(domain)
+              item.stageEndsTimestamp = commitEndDate
+              item.stageEnds = moment.unix(commitEndDate).format('YYYY-MM-DD HH:mm:ss')
+            } else if (revealOpen) {
+              item.stage = 'in_registry_in_reveal'
+              let {
+                revealEndDate,
+                votesFor,
+                votesAgainst
+              } = await registry.getChallengePoll(domain)
+              item.stageEndsTimestamp = revealEndDate
+              item.stageEnds = moment.unix(revealEndDate).format('YYYY-MM-DD HH:mm:ss')
+              item.stats = {
+                votesFor,
+                votesAgainst
+              }
+            } else if (challenge.resolved !== true) {
+              item.stage = 'in_registry_update_status'
               item.deposit = listing.currentDeposit
             } else {
               item.stage = 'in_registry'
