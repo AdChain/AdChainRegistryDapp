@@ -89,7 +89,6 @@ class DomainsTable extends Component {
       isLoading,
       inProgress
     } = this.state
-    console.log(data)
 
     return (
       <div className='DomainsTable BoxFrame'>

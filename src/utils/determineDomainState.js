@@ -31,11 +31,14 @@ const getDomainState = async (domain) => {
     const revealOpen = await registry.revealStageActive(domain)
     const isInRegistry = (isWhitelisted)
 
+// -----------------------------------------
+// -----------------------------------------
+
     if (isInRegistry || (commitOpen && isWhitelisted) || (revealOpen && isWhitelisted)) {
       if (challengeId) {
-            // This is to determine the following state:
-            // Applied --> In Registry --> Challenged --> Vote/Reveal End --> UPDATE STATUS
-            // Checks to see if challenge is resolved by challenge ID
+        // This is logic to determine the following state:
+        // Applied --> In Registry --> Challenged --> Vote/Reveal End --> UPDATE STATUS
+        // Checks to see if challenge is resolved by challenge ID
         const challenge = await registry.getChallenge(challengeId)
         if (commitOpen) {
           let {commitEndDate} = await registry.getChallengePoll(domain)
@@ -75,6 +78,9 @@ const getDomainState = async (domain) => {
             // item.actionLabel = 'View'
         item.label = <span><i className='icon check circle' style={{color: 'green'}} />In Registry</span>
       }
+
+// -----------------------------------------
+// -----------------------------------------
     } else if (challengeOpen) {
       if (isExpired(applicationExpiry)) {
         item.actionLabel = 'REFRESH STATUS'
@@ -87,6 +93,9 @@ const getDomainState = async (domain) => {
       }
       item.stageEndsTimestamp = applicationExpiry
       item.stageEnds = moment.unix(applicationExpiry).format('YYYY-MM-DD HH:mm:ss')
+
+// -----------------------------------------
+// -----------------------------------------
     } else if (commitOpen) {
       item.stage = 'voting_commit'
       let {commitEndDate} = await registry.getChallengePoll(domain)
@@ -95,13 +104,16 @@ const getDomainState = async (domain) => {
       item.label = 'Vote - Commit'
       item.color = ''
       item.actionLabel = 'COMMIT'
+
+// -----------------------------------------
+// -----------------------------------------
     } else if (revealOpen) {
       item.stage = 'voting_reveal'
       let {
-              revealEndDate,
-              votesFor,
-              votesAgainst
-            } = await registry.getChallengePoll(domain)
+            revealEndDate,
+            votesFor,
+            votesAgainst
+          } = await registry.getChallengePoll(domain)
       item.stageEndsTimestamp = revealEndDate
       item.stageEnds = moment.unix(revealEndDate).format('YYYY-MM-DD HH:mm:ss')
       item.stats = {
@@ -111,14 +123,21 @@ const getDomainState = async (domain) => {
       item.label = 'Vote - Reveal'
       item.color = ''
       item.actionLabel = 'REVEAL'
+
+// -----------------------------------------
+// -----------------------------------------
     } else if (applicationExists) {
       item.stage = 'view'
+
+// -----------------------------------------
+// -----------------------------------------
     } else {
       item.stage = 'apply'
       item.actionLabel = 'APPLY'
       item.color = 'blue'
       item.label = <span><i className='icon x circle' />Rejected</span>
     }
+
     return item
   } catch (error) {
     console.log(error)
