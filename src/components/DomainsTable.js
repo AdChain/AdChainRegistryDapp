@@ -9,6 +9,9 @@ import 'react-table/react-table.css'
 import './DomainsTable.css'
 
 import PubSub from 'pubsub-js'
+import pad from 'left-pad'
+import RefreshInProgressContainer from './RefreshInProgressContainer'
+
 import store from '../store'
 import registry from '../services/registry'
 import getDomainState from '../utils/determineDomainState'
@@ -46,7 +49,8 @@ class DomainsTable extends Component {
       allDomains: [],
       pages: -1, // we don't know how many pages yet
       pageSize: 10,
-      isLoading: false
+      isLoading: false,
+      inProgress: false
     }
     history = props.history
 
@@ -82,7 +86,8 @@ class DomainsTable extends Component {
       data,
       pages,
       pageSize,
-      isLoading
+      isLoading,
+      inProgress
     } = this.state
     console.log(data)
 
@@ -111,6 +116,7 @@ class DomainsTable extends Component {
             &nbsp;&nbsp;&nbsp;&nbsp;
             <span><i className='icon x circle' /> = &nbsp;  Rejected</span>
           </div>
+          {inProgress ? <RefreshInProgressContainer /> : null}
         </div>
       </div>
     )
@@ -206,21 +212,96 @@ class DomainsTable extends Component {
       },
       minWidth: 130
     }, {
-      Header: 'Stage Ends',
-      accessor: 'stageEnds',
+      Header: 'Time Remaining',
+      accessor: 'stageEndsTimestamp',
       className: 'Number',
       headerClassName: 'Number',
       Cell: (props) => {
         const {value, row} = props
         const {domain} = row
 
+        const endDate = moment.unix(value)
+        const now = moment()
+        const diff = endDate.diff(now, 'seconds')
+        const dur = moment.duration(diff, 'seconds')
+        const days = `${pad(dur.days(), 2, 0)}`
+        const hours = `${pad(dur.hours(), 2, 0)}`
+        const minutes = `${pad(dur.minutes(), 2, 0)}`
+        const seconds = `${pad(dur.seconds(), 2, 0)}`
+
         if (value) {
           if (isExpired(row)) {
-            return <span className='error'
+            return <span className='error StageEndsCountdownContainer'
               onClick={(event) => {
                 event.preventDefault()
                 history.push(`/domains/${domain}`)
-              }}>{value}</span>
+              }}>
+              <span className='ClockIcon'>
+                <svg width={13} height={13} viewBox='0 0 13 13'>
+                  <path
+                    d='M6.5 11.76c.8 0 1.535-.2 2.205-.6.66-.39 1.185-.92 1.575-1.59.39-.67.585-1.405.585-2.205S10.67 5.83 10.28 5.16a4.403 4.403 0 0 0-1.575-1.575A4.305 4.305 0 0 0 6.5 3c-.8 0-1.535.195-2.205.585-.66.39-1.185.915-1.575 1.575a4.305 4.305 0 0 0-.585 2.205c0 .8.195 1.535.585 2.205.39.67.915 1.2 1.575 1.59.67.4 1.405.6 2.205.6zm0-10.02c1.03 0 1.98.255 2.85.765.85.49 1.52 1.16 2.01 2.01.51.87.765 1.82.765 2.85s-.255 1.98-.765 2.85c-.49.85-1.16 1.52-2.01 2.01-.87.51-1.82.765-2.85.765s-1.98-.255-2.85-.765a5.386 5.386 0 0 1-2.01-2.01 5.535 5.535 0 0 1-.765-2.85c0-1.03.255-1.98.765-2.85.49-.85 1.16-1.52 2.01-2.01.87-.51 1.82-.765 2.85-.765zm.33 2.52v3.315L9.32 9.06l-.51.765L5.885 8.01V4.26h.945zM3.95 1.395l-2.895 2.37L.26 2.82 3.125.45l.825.945zm8.79 1.425l-.795.945-2.895-2.46.825-.945 2.865 2.46z'
+                    fill='#6D777B'
+                    fillRule='evenodd'
+                    opacity={0.75}
+                  />
+                </svg>
+              </span>
+              <span className='StageEndsTime'>
+                00
+                <span className='StageEndsLabel'>D</span>
+              </span>
+              <span className='StageEndsTimeSeparator' />
+              <span className='StageEndsTime'>
+                00
+                <span className='StageEndsLabel'>H</span>
+              </span>
+              <span className='StageEndsTimeSeparator'>:</span>
+              <span className='StageEndsTime'>
+                00
+                <span className='StageEndsLabel'>M</span>
+              </span>
+              <span className='StageEndsTimeSeparator'>:</span>
+              <span className='StageEndsTime'>
+                00
+                <span className='StageEndsLabel'>S</span>
+              </span>
+            </span>
+          } else {
+            return <span className='StageEndsCountdownContainer'
+              onClick={(event) => {
+                event.preventDefault()
+                history.push(`/domains/${domain}`)
+              }}>
+              <span className='ClockIcon'>
+                <svg width={13} height={13} viewBox='0 0 13 13'>
+                  <path
+                    d='M6.5 11.76c.8 0 1.535-.2 2.205-.6.66-.39 1.185-.92 1.575-1.59.39-.67.585-1.405.585-2.205S10.67 5.83 10.28 5.16a4.403 4.403 0 0 0-1.575-1.575A4.305 4.305 0 0 0 6.5 3c-.8 0-1.535.195-2.205.585-.66.39-1.185.915-1.575 1.575a4.305 4.305 0 0 0-.585 2.205c0 .8.195 1.535.585 2.205.39.67.915 1.2 1.575 1.59.67.4 1.405.6 2.205.6zm0-10.02c1.03 0 1.98.255 2.85.765.85.49 1.52 1.16 2.01 2.01.51.87.765 1.82.765 2.85s-.255 1.98-.765 2.85c-.49.85-1.16 1.52-2.01 2.01-.87.51-1.82.765-2.85.765s-1.98-.255-2.85-.765a5.386 5.386 0 0 1-2.01-2.01 5.535 5.535 0 0 1-.765-2.85c0-1.03.255-1.98.765-2.85.49-.85 1.16-1.52 2.01-2.01.87-.51 1.82-.765 2.85-.765zm.33 2.52v3.315L9.32 9.06l-.51.765L5.885 8.01V4.26h.945zM3.95 1.395l-2.895 2.37L.26 2.82 3.125.45l.825.945zm8.79 1.425l-.795.945-2.895-2.46.825-.945 2.865 2.46z'
+                    fill='#6D777B'
+                    fillRule='evenodd'
+                    opacity={0.75}
+                  />
+                </svg>
+              </span>
+              <span className='StageEndsTime'>
+                {days}
+                <span className='StageEndsLabel'>D</span>
+              </span>
+              <span className='StageEndsTimeSeparator' />
+              <span className='StageEndsTime'>
+                {hours}
+                <span className='StageEndsLabel'>H</span>
+              </span>
+              <span className='StageEndsTimeSeparator'>:</span>
+              <span className='StageEndsTime'>
+                {minutes}
+                <span className='StageEndsLabel'>M</span>
+              </span>
+              <span className='StageEndsTimeSeparator'>:</span>
+              <span className='StageEndsTime'>
+                {seconds}
+                <span className='StageEndsLabel'>S</span>
+              </span>
+            </span>
           }
         }
 
@@ -230,11 +311,6 @@ class DomainsTable extends Component {
             history.push(`/domains/${domain}`)
           }}>{commafy(value)}</span>
         }
-
-        return <span onClick={(event) => {
-          event.preventDefault()
-          history.push(`/domains/${domain}`)
-        }}>{value}</span>
       },
       minWidth: 150
     }]
@@ -371,9 +447,18 @@ class DomainsTable extends Component {
   }
 
   async updateStatus (domain) {
+    this.setState({
+      inProgress: true
+    })
     try {
       await registry.updateStatus(domain)
+      this.setState({
+        inProgress: false
+      })
     } catch (error) {
+      this.setState({
+        inProgress: false
+      })
       try {
         toastr.error('Update Error')
       } catch (err) {
