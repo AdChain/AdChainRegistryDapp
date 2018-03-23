@@ -89,11 +89,13 @@ class GovernanceContainer extends Component {
       try {
         ParameterizerService.get(name)
           .then((response) => {
-            result = this.state[parameterType]
-            result[name].value = response.toNumber()
-            this.setState({
-              [parameterType]: result
-            })
+            if (response) {
+              result = this.state[parameterType]
+              result[name].value = response.toNumber()
+              this.setState({
+                [parameterType]: result
+              })
+            }
           })
       } catch (error) {
         console.log('error: ', error)

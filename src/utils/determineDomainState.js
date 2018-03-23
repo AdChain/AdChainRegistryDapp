@@ -34,9 +34,9 @@ const getDomainState = async (domain) => {
     const isInRegistry = (isWhitelisted)
     item.challenged = challengeId > 0
 
-// -----------------------------------------
-// -----------------------------------------
-
+// -----------------------------------------------------------
+// -------------------In Registry States----------------------
+// -----------------------------------------------------------
     if (isInRegistry || (commitOpen && isWhitelisted) || (revealOpen && isWhitelisted)) {
       if (challengeId) {
         // This is logic to determine the following state:
@@ -65,7 +65,7 @@ const getDomainState = async (domain) => {
         } else if (challenge.resolved !== true) {
           item.stage = 'in_registry_update_status'
           item.deposit = listing.currentDeposit
-          item.label = <span><i className='icon check circle' />In Registry - Pending</span>
+          item.label = <span><i className='icon check circle' /> <strong>|&nbsp;</strong> Pending</span>
           item.color = 'greyblack'
           item.actionLabel = 'REFRESH STATUS'
         } else {
@@ -84,14 +84,15 @@ const getDomainState = async (domain) => {
         item.label = <span><i className='icon check circle' />In Registry</span>
       }
 
-// -----------------------------------------
-// -----------------------------------------
+// --------------------------------------------------------------
+// ----------------In Application States-------------------------
+// --------------------------------------------------------------
     } else if (challengeOpen) {
       if (isExpired(applicationExpiry)) {
         item.actionLabel = 'REFRESH STATUS'
         item.color = 'greyblack'
         item.stageMapSrc = 'MapInApplicationPending'
-        item.label = 'App - Pending'
+        item.label = 'Application (Pending)'
       } else {
         item.label = 'In Application'
         item.color = 'red'
@@ -144,11 +145,14 @@ const getDomainState = async (domain) => {
       item.stage = 'apply'
       item.actionLabel = 'APPLY'
       item.color = 'blue'
-      item.label = <span><i className='icon x circle' />Rejected</span>
+      item.label = 'Application (Pending)'
       item.stageMapSrc = 'MapRejected'
     }
 
     return item
+// --------------------------------------------------------------
+// -------------Catch All Wrong Network--------------------------
+// --------------------------------------------------------------
   } catch (error) {
     console.log(error)
     if (item.domain) {
