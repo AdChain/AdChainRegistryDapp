@@ -52,26 +52,26 @@ const getDomainState = async (domain) => {
           item.stageEnds = moment.unix(commitEndDate).format('YYYY-MM-DD HH:mm:ss')
           item.color = 'blue'
           item.actionLabel = 'VOTE'
-          item.label = <span><i className='icon check circle' style={{color: 'green'}} />Voting - Commit</span>
+          item.label = <span><i className='icon check circle' /> <strong>|&nbsp;</strong> Voting - Commit</span>
         } else if (revealOpen) {
           let { revealEndDate, votesFor, votesAgainst } = await registry.getChallengePoll(domain)
           item.stage = 'in_registry_in_reveal'
           item.stageEndsTimestamp = revealEndDate
           item.stageEnds = moment.unix(revealEndDate).format('YYYY-MM-DD HH:mm:ss')
           item.stats = { votesFor, votesAgainst }
-          item.label = <span><i className='icon check circle' style={{color: 'green'}} />Voting - Reveal</span>
+          item.label = <span><i className='icon check circle' /> <strong>|&nbsp;</strong> Voting - Reveal</span>
           item.color = 'green'
           item.actionLabel = 'REVEAL'
         } else if (challenge.resolved !== true) {
           item.stage = 'in_registry_update_status'
           item.deposit = listing.currentDeposit
-          item.label = <span><i className='icon check circle' style={{color: 'green'}} />In Registry</span>
+          item.label = <span><i className='icon check circle' />In Registry - Pending</span>
           item.color = 'greyblack'
           item.actionLabel = 'REFRESH STATUS'
         } else {
           item.stage = 'in_registry'
           item.deposit = listing.currentDeposit
-          item.label = <span><i className='icon check circle' style={{color: 'green'}} />In Registry</span>
+          item.label = <span><i className='icon check circle' />In Registry</span>
         }
       } else {
         if (item.challenged) {
@@ -81,7 +81,7 @@ const getDomainState = async (domain) => {
         }
         item.deposit = listing.currentDeposit
         item.stage = 'in_registry'
-        item.label = <span><i className='icon check circle' style={{color: 'green'}} />In Registry</span>
+        item.label = <span><i className='icon check circle' />In Registry</span>
       }
 
 // -----------------------------------------
@@ -91,6 +91,7 @@ const getDomainState = async (domain) => {
         item.actionLabel = 'REFRESH STATUS'
         item.color = 'greyblack'
         item.stageMapSrc = 'MapInApplicationPending'
+        item.label = 'Application - Pending'
       } else {
         item.label = 'In Application'
         item.color = 'red'
@@ -120,6 +121,7 @@ const getDomainState = async (domain) => {
         item.actionLabel = 'REFRESH STATUS'
         item.color = 'greyblack'
         item.stageMapSrc = 'MapRevealPending'
+        item.label = 'Reveal - Pending'
       } else {
         item.stageMapSrc = 'MapReveal'
         let { revealEndDate, votesFor, votesAgainst } = await registry.getChallengePoll(domain)
