@@ -91,7 +91,7 @@ const getDomainState = async (domain) => {
         item.actionLabel = 'REFRESH STATUS'
         item.color = 'greyblack'
         item.stageMapSrc = 'MapInApplicationPending'
-        item.label = 'Application - Pending'
+        item.label = 'App - Pending'
       } else {
         item.label = 'In Application'
         item.color = 'red'
