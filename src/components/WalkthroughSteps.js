@@ -174,7 +174,7 @@ export const ChallengeSteps = [
   },
   {
     title: 'Challenge - Second Step',
-    text: 'The filtered domains are all In Application and have until the Stage Ends period to be challenged before they enter the adChain Registry.',
+    text: 'Click on the domain you want to Challenge to open the Domain-Level View.',
     selector: '.DomainsTable',
     position: 'left',
     type: 'click',
