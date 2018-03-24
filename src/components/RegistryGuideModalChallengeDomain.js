@@ -25,7 +25,7 @@ class RegistryGuideModalChallengeDomain extends Component {
             </div>
             <br />
             <div>
-            Challenges help maintain quality in the adChain Registry.
+            Challenges help maintain quality in the adChain Registry. You should Challenge a domain if you want to see it removed from the adChain Registry.
             </div>
             <br />
             <div>
