@@ -150,7 +150,7 @@ export const ApplicationSteps = [
 export const ChallengeSteps = [
   {
     title: 'Challenge - First Step',
-    text: 'You can use the DOMAIN FILTERS box to filter the displayed domains.',
+    text: 'You can use the DOMAIN FILTERS box to search for individual domains you want to Challenge. Domains are only eligible to be Challenged during the "In Application" or "In Registry" stages.',
     selector: '.DomainsFilterPanel',
     position: 'right',
     type: 'click',
