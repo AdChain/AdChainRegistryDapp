@@ -666,7 +666,7 @@ export const DomainJourneySteps = [
 export const GovernanceSteps = [
   {
     title: 'Governance - First Step',
-    text: 'The CORE PARAMETERS govern the adChain Registry. These values are what dictate interaction with the adChain Registry.',
+    text: 'The CORE PARAMETERS set all key values for the adChain Registry.',
     selector: '.RegistryGuideCoreParameters',
     position: 'right',
     type: 'click',
