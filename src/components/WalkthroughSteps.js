@@ -690,7 +690,7 @@ export const GovernanceSteps = [
   },
   {
     title: 'Governance - Second Step',
-    text: 'The GOVERNANCE PARAMETERS dictate the values for the Governance Module. These values govern the process in proposing a new Governance Module value.',
+    text: 'GOVERNANCE PARAMETERS set the values for all PROPOSALS in the Governance Module.',
     selector: '.RegistryGuideGovernanceParameters',
     position: 'right',
     type: 'click',
