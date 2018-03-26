@@ -183,26 +183,3 @@
 :root:root .DomainsTable .ReactTable .DomainFavicon {
   padding-left: 8px;
 }
-
-.StageEndsCountdownContainer .StageEndsTime {
-  margin-left: 2px;
-  font-size: 14px;
-  color: #FFF;
-  font-weight: 600 !important;
-}
-
-.StageEndsCountdownContainer .StageEndsLabel {
-  margin-left: 2px;
-  font-size: 12px;
-  opacity: .50;
-}
-
-.StageEndsCountdownContainer .StageEndsTimeSeparator {
-  margin: 0 4px;
-  color: #B3B3B3;
-  font-weight: 400;
-}
-
-.StageEndsCountdownContainer .ClockIcon {
-  margin-right: 10px;
-}
