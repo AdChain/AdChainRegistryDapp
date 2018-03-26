@@ -85,7 +85,7 @@ class RegistryGuideModal extends Component {
               </div>
             </Modal.Content>
           </div>
-          : one ? <RegistryGuideModalAdchainRegistry returnToMenu={this.returnToMenu} section={'one'} />
+          : one ? <RegistryGuideModalAdchainRegistry returnToMenu={this.returnToMenu} section={'one'} close={this.close} />
             : three ? <RegistryGuideModalChallengeDomain returnToMenu={this.returnToMenu} section={'three'} />
               : four ? <RegistryGuideModalCommitVote returnToMenu={this.returnToMenu} section={'four'} />
                 : five ? <RegistryGuideModalRevealVote returnToMenu={this.returnToMenu} section={'five'} />
