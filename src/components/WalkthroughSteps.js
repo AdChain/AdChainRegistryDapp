@@ -150,7 +150,7 @@ export const ApplicationSteps = [
 export const ChallengeSteps = [
   {
     title: 'Challenge - First Step',
-    text: 'You can use the DOMAIN FILTERS box to filter the displayed domains.',
+    text: 'You can use the DOMAIN FILTERS box to search for individual domains you want to Challenge. Domains are only eligible to be Challenged during the "In Application" or "In Registry" stages.',
     selector: '.DomainsFilterPanel',
     position: 'right',
     type: 'click',
@@ -174,7 +174,7 @@ export const ChallengeSteps = [
   },
   {
     title: 'Challenge - Second Step',
-    text: 'The filtered domains are all In Application and have until the Stage Ends period to be challenged before they enter the adChain Registry.',
+    text: 'Click on the domain you want to Challenge to open the Domain-Level View.',
     selector: '.DomainsTable',
     position: 'left',
     type: 'click',
@@ -666,7 +666,7 @@ export const DomainJourneySteps = [
 export const GovernanceSteps = [
   {
     title: 'Governance - First Step',
-    text: 'The CORE PARAMETERS govern the adChain Registry. These values are what dictate interaction with the adChain Registry.',
+    text: 'The CORE PARAMETERS set all key values for the adChain Registry.',
     selector: '.RegistryGuideCoreParameters',
     position: 'right',
     type: 'click',
@@ -690,7 +690,7 @@ export const GovernanceSteps = [
   },
   {
     title: 'Governance - Second Step',
-    text: 'The GOVERNANCE PARAMETERS dictate the values for the Governance Module. These values govern the process in proposing a new Governance Module value.',
+    text: 'GOVERNANCE PARAMETERS set the values for all PROPOSALS in the Governance Module.',
     selector: '.RegistryGuideGovernanceParameters',
     position: 'right',
     type: 'click',

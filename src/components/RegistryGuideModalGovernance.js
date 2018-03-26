@@ -21,7 +21,7 @@ class RegistryGuideModalGovernance extends Component {
         <Modal.Content>
           <div className='GuideDesc'>
             <div>
-            The <b>Governance Module</b> empowers adToken holders to modify parameter values. Modifications to parameters affect the Registry as a whole and therefore affect all adToken holders. In light of this, we expect adToken holders to be diligent with respect to governance. There are two distinct categories of Parameters: <b>Core Parameters</b> and <b>Parameterizer Parameters</b>.
+            The <b>Governance Module</b> empowers adToken holders to modify parameter values. Modifications to parameters affect the Registry as a whole and therefore affect all adToken holders. In light of this, we expect adToken holders to be diligent with respect to governance. There are two distinct categories of Parameters: <b>Core Parameters</b> and <b>Governance Parameters</b>.
             </div>
             <br />
             <div>

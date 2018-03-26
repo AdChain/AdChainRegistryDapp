@@ -238,8 +238,12 @@
   border-right: none;
   border-left: none;
   border-bottom: 1px solid;
+  border-bottom-color: rgb(189, 189, 189);
   border-radius: 0;
-  padding: 0;
+  padding-top: none;
+  padding-right: none;
+  padding-left: 4px;
+  padding-bottom: 4px;
 }
 
 :root:root:root .DomainInRegistryContainer .ADTInput input::-webkit-input-placeholder {

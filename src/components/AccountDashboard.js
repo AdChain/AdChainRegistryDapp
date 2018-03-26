@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import toastr from 'toastr'
-import moment from 'moment'
 
 import store from '../store'
 import registry from '../services/registry'
@@ -16,6 +15,7 @@ import UserCommitsToReveal from './UserCommitsToReveal.js'
 import UserRewardsToClaim from './UserRewardsToClaim.js'
 import AccountDashboardLoadingInProgress from './AccountDashboardLoadingInProgress'
 import Tooltip from './Tooltip'
+import getDomainState from '../utils/determineDomainState'
 
 import Eth from 'ethjs'
 import _ from 'lodash'
@@ -133,50 +133,8 @@ class AccountDashboard extends Component {
   }
 
   async fetchDomainStage (domain) {
-    let listing
-    try {
-      listing = await registry.getListing(domain)
-    } catch (error) {
-      console.log('Error fetching domain stage')
-    }
-    let stage = ''
-
-    const {
-      applicationExpiry,
-      isWhitelisted,
-      challengeId
-    } = listing
-
-    const challengeOpen = (challengeId === 0 && !isWhitelisted && !!applicationExpiry)
-    const revealPending = (challengeId !== 0 && !isWhitelisted && !!applicationExpiry)
-    const commitOpen = await registry.commitStageActive(domain)
-    const revealOpen = await registry.revealStageActive(domain)
-    const isInRegistry = (isWhitelisted && !commitOpen && !revealOpen)
-    const now = moment().unix()
-    const applicationExpirySeconds = applicationExpiry ? applicationExpiry._i : 0
-    const challengeTimeEnded = (now > applicationExpirySeconds)
-
-    if (isInRegistry) {
-      stage = 'In Registry'
-    } else if (challengeOpen) {
-      if (challengeTimeEnded) {
-        stage = 'Application Pending'
-      } else {
-        stage = 'View Application'
-      }
-    } else if (commitOpen) {
-      stage = 'Voting'
-    } else if (revealOpen) {
-      stage = 'Reveal'
-    } else if (revealPending) {
-      stage = 'Reveal Pending'
-    } else if (!isInRegistry) {
-      stage = 'Rejected'
-    } else {
-      stage = 'View Application'
-    }
-
-    return stage
+    let domainState = await getDomainState(domain)
+    return domainState.label
   }
 
   async fetchAppliedDomains () {

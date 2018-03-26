@@ -125,7 +125,6 @@ class DomainsFilterPanel extends Component {
   }
 
   onFilterChange (event) {
-    console.log('on filter change')
     const target = event.target
     const {name, checked} = target
 

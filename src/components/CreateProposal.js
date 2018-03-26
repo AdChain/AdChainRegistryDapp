@@ -151,12 +151,14 @@ class CreateProposal extends Component {
     try {
       ParameterizerService.get(name)
         .then((response) => {
-          result = response.toNumber()
-          this.setState({
-            inProgress: false,
-            currentMinDeposit: commafy(result / 1000000000),
-            rawCurrentMinDeposit: result / 10
-          })
+          if (response) {
+            result = response.toNumber()
+            this.setState({
+              inProgress: false,
+              currentMinDeposit: commafy(result / 1000000000),
+              rawCurrentMinDeposit: result / 10
+            })
+          }
         })
     } catch (error) {
       console.log('error: ', error)

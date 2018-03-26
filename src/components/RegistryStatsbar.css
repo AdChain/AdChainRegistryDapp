@@ -28,7 +28,7 @@
   padding: 0.3em;
 }
 
-:root:root .RegistryStatsbar .statistic:not(:last-child):after {
+/*:root:root .RegistryStatsbar .statistic:not(:last-child):after {
   content: '';
   display: block;
   position: absolute;
@@ -37,7 +37,7 @@
   height: 100%;
   width: 1px;
   border-right: 1px solid #dddddda3;
-}
+}*/
 
 :root:root .RegistryStatsbar .statistic .label,
 :root:root .RegistryStatsbar .statistic .value {
