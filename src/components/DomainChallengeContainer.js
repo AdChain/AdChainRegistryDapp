@@ -11,8 +11,12 @@ import registry from '../services/registry'
 import parametizer from '../services/parameterizer'
 import DomainChallengeInProgressContainer from './DomainChallengeInProgressContainer'
 import PubSub from 'pubsub-js'
+import Eth from 'ethjs'
 
 import './DomainChallengeContainer.css'
+
+const big = (number) => new Eth.BN(number.toString(10))
+const tenToTheNinth = big(10).pow(big(9))
 
 class DomainChallengeContainer extends Component {
   constructor (props) {
@@ -32,15 +36,23 @@ class DomainChallengeContainer extends Component {
     this.getDispensationPct = this.getDispensationPct.bind(this)
   }
 
-  componentDidMount () {
+  async componentDidMount () {
     this._isMounted = true
-    this.getMinDeposit()
-    this.getListing()
-    this.getDispensationPct()
+    await this.getMinDeposit()
+    await this.getListing()
+    await this.getDispensationPct()
   }
 
   componentWillUnmount () {
     this._isMounted = false
+  }
+
+  componentWillReceiveProps (nextProps) {
+    if (nextProps.currentDeposit !== this.props.currentDeposit) {
+      this.setState({
+        currentDeposit: nextProps.currentDeposit
+      })
+    }
   }
 
   render () {
@@ -49,11 +61,13 @@ class DomainChallengeContainer extends Component {
       minDeposit,
       inProgress,
       source,
-      dispensationPct
+      dispensationPct,
+      currentDeposit
     } = this.state
 
     const stageEndMoment = applicationExpiry ? moment.unix(applicationExpiry) : null
     const stageEnd = stageEndMoment ? stageEndMoment.format('YYYY-MM-DD HH:mm:ss') : '-'
+    const stakedDifference = currentDeposit - minDeposit
 
     return (
       <div className='DomainChallengeContainer'>
@@ -104,9 +118,15 @@ class DomainChallengeContainer extends Component {
                     : <div className='NumberCircle'>1</div>
                 }
               </div>
-              <div className='PayoutPercentageContainer'>
-                <p>Your Percentage Payout if Successful: </p><span className='PayoutPercentage'><strong>{dispensationPct}%</strong></span>
-              </div>
+              {
+                (stakedDifference < 0)
+                  ? <div className='TouchRemoveMessage'>
+                    <p>Challenging this domain will remove it from the registry since the listing has less ADT staked than required.</p>
+                  </div>
+                  : <div className='PayoutPercentageContainer'>
+                    <p>Your Percentage Payout if Successful: </p><span className='PayoutPercentage'><strong>{dispensationPct}%</strong></span>
+                  </div>
+              }
             </div>
             <Button basic className='ChallengeButton' onClick={this.onChallenge.bind(this)}>Challenge</Button>
           </div>
@@ -136,7 +156,7 @@ class DomainChallengeContainer extends Component {
     if (this._isMounted) {
       this.setState({
         applicationExpiry,
-        currentDeposit
+        currentDeposit: big(currentDeposit).div(tenToTheNinth)
       })
     }
   }

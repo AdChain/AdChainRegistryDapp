@@ -139,6 +139,11 @@
   margin-left: 5px;
 }
 
+.TouchRemoveMessage {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
 /*
   Proposal Modal Style Overrides
 */

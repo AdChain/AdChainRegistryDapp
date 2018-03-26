@@ -89,6 +89,9 @@ class SideBarApplicationContainer extends Component {
 
     try {
       await registry.apply(domain, stake)
+      this.setState({
+        inProgress: false
+      })
     } catch (error) {
       console.log(error)
       toastr.error('There was an error with your request')
@@ -98,12 +101,6 @@ class SideBarApplicationContainer extends Component {
         })
       }
       return false
-    }
-
-    if (this._isMounted) {
-      this.setState({
-        inProgress: false
-      })
     }
   }
 
