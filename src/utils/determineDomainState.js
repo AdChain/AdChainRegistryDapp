@@ -53,6 +53,7 @@ const getDomainState = async (domain) => {
           item.color = 'blue'
           item.actionLabel = 'VOTE'
           item.label = <span><i className='icon check circle' /> <strong>|&nbsp;</strong> Voting - Commit</span>
+          item.stageMapSrc = 'MapInRegistryCommit'
         } else if (revealOpen) {
           let { revealEndDate, votesFor, votesAgainst } = await registry.getChallengePoll(domain)
           item.stage = 'in_registry_in_reveal'
@@ -62,22 +63,25 @@ const getDomainState = async (domain) => {
           item.label = <span><i className='icon check circle' /> <strong>|&nbsp;</strong> Voting - Reveal</span>
           item.color = 'green'
           item.actionLabel = 'REVEAL'
+          item.stageMapSrc = 'MapInRegistryReveal'
         } else if (challenge.resolved !== true) {
           item.stage = 'in_registry_update_status'
           item.deposit = listing.currentDeposit
           item.label = <span><i className='icon check circle' /> <strong>|&nbsp;</strong> Pending</span>
           item.color = 'greyblack'
           item.actionLabel = 'REFRESH STATUS'
+          item.stageMapSrc = 'MapInRegistryRevealPending'
         } else {
           item.stage = 'in_registry'
           item.deposit = listing.currentDeposit
           item.label = <span><i className='icon check circle' />In Registry</span>
+          item.stageMapSrc = 'MapInRegistryNoChallengeId'
         }
       } else {
         if (item.challenged) {
-          item.stageMapSrc = 'MapInRegistryChallenge'
+          item.stageMapSrc = 'MapInRegistryChallengeId'
         } else {
-          item.stageMapSrc = 'MapInRegistryNoChallenge'
+          item.stageMapSrc = 'MapInRegistryNoChallengeId'
         }
         item.deposit = listing.currentDeposit
         item.stage = 'in_registry'
@@ -93,6 +97,7 @@ const getDomainState = async (domain) => {
         item.color = 'greyblack'
         item.stageMapSrc = 'MapInApplicationPending'
         item.label = 'Application (Pending)'
+        item.stage = 'in_application_pending'
       } else {
         item.label = 'In Application'
         item.color = 'red'
@@ -118,26 +123,24 @@ const getDomainState = async (domain) => {
 // -----------------------------------------
 // -----------------------------------------
     } else if (revealOpen) {
-      if (isExpired(item.stageEndsTimestamp)) {
-        item.actionLabel = 'REFRESH STATUS'
-        item.color = 'greyblack'
-        item.stageMapSrc = 'MapRevealPending'
-        item.label = 'Reveal - Pending'
-      } else {
-        item.stageMapSrc = 'MapReveal'
-        let { revealEndDate, votesFor, votesAgainst } = await registry.getChallengePoll(domain)
-        item.stage = 'voting_reveal'
-        item.stageEndsTimestamp = revealEndDate
-        item.stageEnds = moment.unix(revealEndDate).format('YYYY-MM-DD HH:mm:ss')
-        item.stats = { votesFor, votesAgainst }
-        item.label = 'Vote - Reveal'
-        item.color = 'green'
-        item.actionLabel = 'REVEAL'
-      }
+      item.stageMapSrc = 'MapReveal'
+      let { revealEndDate, votesFor, votesAgainst } = await registry.getChallengePoll(domain)
+      item.stage = 'voting_reveal'
+      item.stageEndsTimestamp = revealEndDate
+      item.stageEnds = moment.unix(revealEndDate).format('YYYY-MM-DD HH:mm:ss')
+      item.stats = { votesFor, votesAgainst }
+      item.label = 'Vote - Reveal'
+      item.color = 'green'
+      item.actionLabel = 'REVEAL'
+
 // -----------------------------------------
 // -----------------------------------------
     } else if (applicationExists) {
-      item.stage = 'view'
+      item.actionLabel = 'REFRESH STATUS'
+      item.color = 'greyblack'
+      item.stageMapSrc = 'MapRevealPending'
+      item.label = 'Reveal - Pending'
+      item.stage = 'reveal_pending'
 
 // -----------------------------------------
 // -----------------------------------------
@@ -145,11 +148,12 @@ const getDomainState = async (domain) => {
       item.stage = 'apply'
       item.actionLabel = 'APPLY'
       item.color = 'blue'
-      item.label = 'Application (Pending)'
+      item.label = <span><i className='icon x circle' /> Rejected</span>
       item.stageMapSrc = 'MapRejected'
     }
 
     return item
+
 // --------------------------------------------------------------
 // -------------Catch All Wrong Network--------------------------
 // --------------------------------------------------------------
