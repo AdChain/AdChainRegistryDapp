@@ -11,6 +11,7 @@ import parameterizer from './parameterizer'
 import saltHashVote from '../utils/saltHashVote'
 import { getRegistry } from '../config'
 import { getProvider, getWebsocketProvider } from './provider'
+// import { runInThisContext } from 'vm'
 
 // TODO: check number param
 const big = (number) => new Eth.BN(number.toString(10))
@@ -806,6 +807,17 @@ class RegistryService {
       throw error
     }
   }
+
+  // async watchApplicationEvent (domain) {
+  //   const applicationEvent = this.registry._Application({}, {fromBlock: 0, toBlock: 'latest'})
+  //   await applicationEvent.watch((error, result) => {
+  //     if(error) {
+  //       console.error(error)
+  //     } else if (result.args.data === domain) {
+  //       console.log('result.args.data', result.args.data)
+  //     }
+  //   })
+  // }
 
   getNetwork () {
     return detectNetwork(this.provider)

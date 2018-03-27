@@ -25,7 +25,7 @@ class RegistryGuideModalRevealVote extends Component {
             </div>
             <br />
             <div>
-            Votes revealed during this stage will be tallied up and counted to determine whether the domain Applicant or Challenger has won the vote, and therefore wether or not the domain is admitted to the adChain Registry.
+            Votes revealed during this stage will be tallied up and counted to determine whether the domain Applicant or Challenger has won the vote, and therefore whether or not the domain is admitted to the adChain Registry.
             </div>
             <br />
             <div>

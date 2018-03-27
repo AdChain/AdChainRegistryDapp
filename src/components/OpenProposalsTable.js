@@ -6,6 +6,7 @@ import ParamterizerService from '../services/parameterizer'
 import GovernanceChallengeContainer from './GovernanceChallengeContainer'
 import GovernanceVoteCommitContainer from './GovernanceVoteCommitContainer'
 import GovernanceVoteRevealContainer from './GovernanceVoteRevealContainer'
+import CountdownSnapshot from './CountdownSnapshot'
 import './OpenProposalsTable.css'
 
 class OpenProposalsTable extends Component {
@@ -41,7 +42,7 @@ class OpenProposalsTable extends Component {
             <tr>
               <th>Parameters</th>
               <th>Proposed Value</th>
-              <th>Proposal Ends</th>
+              <th>Time Remaining</th>
               <th>Action</th>
             </tr>
           </thead>
@@ -82,7 +83,7 @@ class OpenProposalsTable extends Component {
             <tr className='table-row' key={i}>
               <td className={proposal.color}>{proposal.name}</td>
               <td>{`${proposal.proposedValue + ' ' + proposal.metric}`}</td>
-              <td>{moment.unix(moment.tz(proposal.appExpiry, moment.tz.guess())).format('YYYY-MM-DD HH:mm:ss')}</td>
+              <td><CountdownSnapshot endDate={proposal.appExpiry} /></td>
               {item}
             </tr>
           )

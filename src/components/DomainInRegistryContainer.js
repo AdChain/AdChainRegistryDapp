@@ -31,7 +31,8 @@ class DomainInRegistryContainer extends Component {
       inTopOffProgress: false,
       minDeposit: null,
       canWithdraw: false,
-      currentDeposit: null
+      currentDeposit: null,
+      stakedDifferenceUpdated: false
     }
 
     this.onChallenge = this.onChallenge.bind(this)
@@ -68,6 +69,7 @@ class DomainInRegistryContainer extends Component {
     } = this.state
 
     const stakedDifference = currentDeposit - minDeposit
+    const formattedStakedDifference = stakedDifference ? stakedDifference > 0 ? '+' + commafy(stakedDifference) : commafy(stakedDifference) : 0
     const stakedDifferenceClass = stakedDifference > 0 ? 'StakedDifferencePositive' : stakedDifference < 0 ? 'StakedDifferenceNegative' : 'StakedDifferenceZero'
 
     // const hasVotes = (votesFor || votesAgainst)
@@ -93,7 +95,7 @@ class DomainInRegistryContainer extends Component {
             </div>
           </div>
           <div className='ui divider' />
-          <DomainChallengeContainer domain={domain} source='InRegistry' />
+          <DomainChallengeContainer domain={domain} source='InRegistry' currentDeposit={currentDeposit} />
           <div className='column sixteen wide center aligned'>
             { canWithdraw
               ? <div>
@@ -123,7 +125,7 @@ class DomainInRegistryContainer extends Component {
                     <div className='StakedDifferenceLabel'>
                     Staked Difference:
                     </div>
-                    <div className={stakedDifferenceClass}><strong>{stakedDifference ? commafy(stakedDifference) : '0'} ADT</strong></div>
+                    <div className={stakedDifferenceClass}><strong>{stakedDifference ? formattedStakedDifference : '0'} ADT</strong></div>
                   </div>
                   <div className='TopOffLabel'>
                   Enter ADT Amount
@@ -318,12 +320,15 @@ class DomainInRegistryContainer extends Component {
       })
     }
 
+    const stakedDeposit = parseInt(amount, 10) + parseInt(currentDeposit, 10)
+
     try {
       await registry.deposit(domain, amount)
       if (this._isMounted) {
         this.setState({
-          currentDeposit: parseInt(amount, 10) + parseInt(currentDeposit, 10),
-          inTopOffProgress: false
+          currentDeposit: stakedDeposit,
+          inTopOffProgress: false,
+          stakedDifferenceUpdated: true
         })
         document.getElementById('ADTAmount').value = null
       }
