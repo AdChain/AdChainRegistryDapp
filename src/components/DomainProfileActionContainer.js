@@ -88,6 +88,7 @@ class DomainProfileActionContainer extends Component {
         })
       }
     } catch (error) {
+      console.log('error: ', error)
       toastr.error('There was an error with your request')
     }
   }

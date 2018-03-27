@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg width="300px" height="400px" viewBox="0 0 231 354" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     <!-- Generator: Sketch 48.2 (47327) - http://www.bohemiancoding.com/sketch -->
-    <title>Map – APPLICATION (PENDING)</title>
+    <title>map_in_application_pending</title>
     <desc>Created with Sketch.</desc>
     <defs></defs>
-    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="Map-–-APPLICATION-(PENDING)">
+    <g id="Stage-Maps" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="map_in_application_pending">
             <path d="M58.5,35.5 L58.5,115.5" id="Line" stroke="#F4F7FA" stroke-linecap="square"></path>
             <path d="M58.4760206,36.3303996 L138.318868,116.102629 L58.4760206,36.3303996 Z" id="Line" stroke="#F4F7FA" stroke-linecap="square"></path>
             <path d="M98.4922097,220.120034 L98.5421436,332.984937" id="Line" stroke="#F4F7FA" stroke-linecap="square" transform="translate(98.517177, 276.552485) rotate(-45.000000) translate(-98.517177, -276.552485) "></path>
             <path d="M58.5,135.5 L58.5,215.5" id="Line" stroke="#F4F7FA" stroke-linecap="square"></path>
             <path d="M58.5,235.5 L58.5,315.5" id="Line" stroke="#F4F7FA" stroke-linecap="square"></path>
             <rect id="Rectangle-11" fill="#3434CE" x="18" y="16" width="81" height="20" rx="3"></rect>
-            <text id="In-Application" font-family="Open Sans, sans-serif" font-size="9" font-weight="500" fill="#424242">
+            <rect id="Rectangle-11" stroke="#3434CE" x="16.5" y="14.5" width="84" height="23" rx="3"></rect>
+            <text id="In-Application" font-family="Open Sans, sans-serif" font-size="9" font-weight="500" fill="#FCFCFF">
                 <tspan x="29.0424805" y="30">In Application</tspan>
             </text>
             <rect id="Rectangle-11-Copy" fill="#F4F7FA" x="18" y="116" width="81" height="20" rx="3"></rect>

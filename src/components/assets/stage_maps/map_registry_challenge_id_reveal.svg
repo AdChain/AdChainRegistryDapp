@@ -1,11 +1,12 @@
+
 <?xml version="1.0" encoding="UTF-8"?>
 <svg width="300px" height="400px" viewBox="0 0 231 354" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     <!-- Generator: Sketch 48.2 (47327) - http://www.bohemiancoding.com/sketch -->
-    <title>Map – REGISTRY (Challenge ID) | REVEAL</title>
+    <title>map_registry_challenge_id_reveal</title>
     <desc>Created with Sketch.</desc>
     <defs></defs>
-    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="Map-–-REGISTRY-(Challenge-ID)-|-REVEAL">
+    <g id="Stage-Maps" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="map_registry_challenge_id_reveal">
             <path d="M58.5,35.5 L58.5,115.5" id="Line" stroke="#F4F7FA" stroke-linecap="square"></path>
             <path d="M58.4760206,36.3303996 L138.318868,116.102629 L58.4760206,36.3303996 Z" id="Line" stroke="#F4F7FA" stroke-linecap="square"></path>
             <path d="M58.5,235.5 L58.5,315.5" id="Line" stroke="#F4F7FA" stroke-linecap="square"></path>
@@ -14,7 +15,7 @@
                 <tspan x="25.3137207" y="30">IN APPLICATION</tspan>
             </text>
             <rect id="Rectangle-11-Copy" fill="#3434CE" x="18" y="116" width="81" height="20" rx="3"></rect>
-            <text id="VOTING" font-family="Open Sans, sans-serif" font-size="9" font-weight="500" fill="#424242">
+            <text id="VOTING" font-family="Open Sans, sans-serif" font-size="9" font-weight="500" fill="#FCFCFF">
                 <tspan x="42.125" y="130">VOTING</tspan>
             </text>
             <path d="M98.4922097,220.120034 L98.5421436,332.984937" id="Line" stroke="#F4F7FA" stroke-linecap="square" transform="translate(98.517177, 276.552485) rotate(-45.000000) translate(-98.517177, -276.552485) "></path>
@@ -43,13 +44,14 @@
                 </text>
             </g>
             <rect id="Rectangle-11-Copy-2" fill="#3434CE" x="18" y="216" width="81" height="20" rx="3"></rect>
-            <text id="REVEAL" font-family="Open Sans, sans-serif" font-size="9" font-weight="500" fill="#424242">
+            <rect id="Rectangle-11-Copy-6" stroke="#3434CE" x="16.5" y="214.5" width="84" height="23" rx="3"></rect>
+            <text id="REVEAL" font-family="Open Sans, sans-serif" font-size="9" font-weight="500" fill="#FCFCFF">
                 <tspan x="42.3874512" y="230">REVEAL</tspan>
             </text>
-            <g id="Group-2" transform="translate(54.000000, 134.000000)">
-                <circle id="Oval-2" fill="#424242" cx="4.5" cy="2.5" r="2.5"></circle>
-                <path d="M4.5,1.5 L4.5,81.5" id="Line" stroke="#424242" stroke-linecap="square"></path>
-                <polygon id="Path-4" stroke="#424242" fill="#424242" stroke-linecap="round" stroke-linejoin="round" points="8.03197432 78.9734321 4.47481702 82.5305894 0.937388349 78.9931607"></polygon>
+            <g id="Group-2" transform="translate(55.000000, 134.000000)" stroke="#424242">
+                <path d="M3.5,2.5 L3.5,82.5" id="Line" stroke-linecap="square"></path>
+                <circle id="Oval-2" fill="#FCFCFF" cx="3.5" cy="2.5" r="2.5"></circle>
+                <polygon id="Path-4" fill="#FCFCFF" stroke-linecap="round" stroke-linejoin="round" points="7 79 3.4902672 83 0 79.0221847"></polygon>
             </g>
         </g>
     </g>
