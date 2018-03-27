@@ -1,10 +1,9 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import toastr from 'toastr'
-import moment from 'moment'
 
 import store from '../store'
-import registry from '../services/registry'
+import determineDomainState from '../utils/determineDomainState'
 
 import DomainNotInRegistryContainer from './DomainNotInRegistryContainer'
 import DomainInRegistryContainer from './DomainInRegistryContainer'
@@ -21,13 +20,12 @@ class DomainProfileActionContainer extends Component {
     super()
 
     const {
-      domain,
-      action
+      domain
     } = props
 
     this.state = {
       domain,
-      action
+      stage: null
     }
 
     this.getData()
@@ -48,22 +46,22 @@ class DomainProfileActionContainer extends Component {
   render () {
     const {
       domain,
-      action
+      stage
     } = this.state
 
     let component = null
 
-    if (action === 'challenge') {
+    if (stage === 'in_application') {
       component = <DomainChallengeContainer domain={domain} />
-    } else if (action === 'commit') {
+    } else if (stage === 'voting_commit' || stage === 'in_registry_in_commit') {
       component = <DomainVoteCommitContainer domain={domain} />
-    } else if (action === 'reveal') {
+    } else if (stage === 'voting_reveal' || stage === 'in_registry_in_reveal') {
       component = <DomainVoteRevealContainer domain={domain} />
-    } else if (action === 'in_registry') {
+    } else if (stage === 'in_registry') {
       component = <DomainInRegistryContainer domain={domain} />
-    } else if (action === 'refresh') {
+    } else if (stage === 'in_registry_update_status' || stage === 'in_application_pending' || stage === 'reveal_pending') {
       component = <DomainPendingContainer domain={domain} />
-    } else if (action === 'rejected') {
+    } else if (stage === 'apply') {
       component = <DomainRejectedContainer domain={domain} />
     } else {
       component = <DomainNotInRegistryContainer domain={domain} />
@@ -79,50 +77,14 @@ class DomainProfileActionContainer extends Component {
   }
 
   async getData () {
+    let {domain} = this.state
+
     try {
-      const {domain} = this.state
-      const listing = await registry.getListing(domain)
-
-      const {
-        applicationExpiry,
-        isWhitelisted,
-        challengeId
-      } = listing
-
-      const challengeOpen = (challengeId === 0 && !isWhitelisted && !!applicationExpiry)
-      const revealPending = (challengeId !== 0 && !isWhitelisted && !!applicationExpiry)
-      const commitOpen = await registry.commitStageActive(domain)
-      const revealOpen = await registry.revealStageActive(domain)
-      const isInRegistry = (isWhitelisted && !commitOpen && !revealOpen)
-      const now = moment().unix()
-      const applicationExpirySeconds = applicationExpiry ? applicationExpiry._i : 0
-      const challengeTimeEnded = (now > applicationExpirySeconds)
-
-      let action = null
-
-      if (isInRegistry) {
-        action = 'in_registry'
-      } else if (challengeOpen) {
-        if (challengeTimeEnded) {
-          action = 'refresh'
-        } else {
-          action = 'challenge'
-        }
-      } else if (commitOpen) {
-        action = 'commit'
-      } else if (revealOpen) {
-        action = 'reveal'
-      } else if (revealPending) {
-        action = 'refresh'
-      } else if (!isInRegistry) {
-        action = 'rejected'
-      } else {
-        action = 'apply'
-      }
+      const domainData = await determineDomainState(domain)
 
       if (this._isMounted) {
         this.setState({
-          action
+          stage: domainData.stage
         })
       }
     } catch (error) {
@@ -132,8 +94,7 @@ class DomainProfileActionContainer extends Component {
 }
 
 DomainProfileActionContainer.propTypes = {
-  domain: PropTypes.string,
-  action: PropTypes.string
+  domain: PropTypes.string
 }
 
 export default DomainProfileActionContainer

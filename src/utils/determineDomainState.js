@@ -97,6 +97,7 @@ const getDomainState = async (domain) => {
         item.color = 'greyblack'
         item.stageMapSrc = 'MapInApplicationPending'
         item.label = 'Application (Pending)'
+        item.stage = 'in_application_pending'
       } else {
         item.label = 'In Application'
         item.color = 'red'
@@ -139,6 +140,7 @@ const getDomainState = async (domain) => {
       item.color = 'greyblack'
       item.stageMapSrc = 'MapRevealPending'
       item.label = 'Reveal - Pending'
+      item.stage = 'reveal_pending'
 
 // -----------------------------------------
 // -----------------------------------------
