@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
-import MapVoting from './assets/map_voting.svg'
-import MapApplication from './assets/map_in_application.svg'
-import MapRegistryChallenge from './assets/map_in_registry_challenge.svg'
-import MapRegistryNoChallenge from './assets/map_in_registry_nochallenge.svg'
-import MapReveal from './assets/map_reveal.svg'
-import MapRejected from './assets/map_rejected.svg'
+import MapVoting from './assets/stage_maps/map_commit.svg'
+import MapApplication from './assets/stage_maps/map_application.svg'
+import MapRegistryChallenge from './assets/stage_maps/map_in_registry_challenge_id.svg'
+import MapRegistryNoChallenge from './assets/stage_maps/map_in_registry_no_id.svg'
+import MapReveal from './assets/stage_maps/map_reveal.svg'
+import MapRejected from './assets/stage_maps/map_rejected.svg'
 import { DomainJourneySteps } from './WalkthroughSteps'
+
 import PubSub from 'pubsub-js'
 
 class RegistryGuideStaticDomainJourney extends Component {

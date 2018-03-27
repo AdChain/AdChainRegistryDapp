@@ -4,25 +4,33 @@ import toastr from 'toastr'
 import './DomainProfileStageMap.css'
 import Tooltip from './Tooltip'
 import getDomainState from '../utils/determineDomainState'
-import MapVoting from './assets/map_voting.svg'
-import MapReveal from './assets/map_reveal.svg'
-import MapRejected from './assets/map_rejected.svg'
-import MapInApplication from './assets/map_in_application.svg'
-import MapInRegistryChallenge from './assets/map_in_registry_challenge.svg'
-import MapInRegistryNoChallenge from './assets/map_in_registry_nochallenge.svg'
-import MapInApplicationPending from './assets/map_in_application_pending.svg'
-import MapRevealPending from './assets/map_reveal_pending.svg'
+
+import MapInApplication from './assets/stage_maps/map_application.svg'
+import MapInApplicationPending from './assets/stage_maps/map_in_application_pending.svg'
+import MapInRegistryNoChallengeId from './assets/stage_maps/map_in_registry_no_id.svg'
+import MapCommit from './assets/stage_maps/map_commit.svg'
+import MapReveal from './assets/stage_maps/map_reveal.svg'
+import MapRevealPending from './assets/stage_maps/map_reveal_pending.svg'
+import MapRejected from './assets/stage_maps/map_rejected.svg'
+import MapInRegistryChallengeId from './assets/stage_maps/map_in_registry_challenge_id.svg'
+import MapInRegistyCommit from './assets/stage_maps/map_in_registry_challenge_id_commit.svg'
+import MapInRegistryReveal from './assets/stage_maps/map_in_registry_no_id_reveal.svg'
+import MapInRegistryRevealPending from './assets/stage_maps/map_in_registry_no_id_reveal_pending.svg'
+
 import PubSub from 'pubsub-js'
 
 const stageMaps = {
-  MapVoting,
-  MapReveal,
-  MapRejected,
-  MapInApplication,
-  MapInRegistryChallenge,
-  MapInRegistryNoChallenge,
+  MapInRegistyCommit,
+  MapInRegistryReveal,
+  MapInRegistryRevealPending,
+  MapInRegistryNoChallengeId,
+  MapInRegistryChallengeId,
   MapInApplicationPending,
-  MapRevealPending
+  MapInApplication,
+  MapCommit,
+  MapReveal,
+  MapRevealPending,
+  MapRejected
 }
 
 class DomainProfileStageMap extends Component {
@@ -40,6 +48,7 @@ class DomainProfileStageMap extends Component {
 
     this.updateStageMap()
   }
+
   componentWillMount () {
     this.subEvent = PubSub.subscribe('DomainProfileStageMap.updateStageMap', this.updateStageMap.bind(this))
   }
@@ -68,7 +77,7 @@ class DomainProfileStageMap extends Component {
 
   async updateStageMap () {
     try {
-      const {domain} = this.state
+      const { domain } = this.state
       const domainData = await getDomainState(domain)
       this.setState({
         stageMapSrc: stageMaps[domainData.stageMapSrc]
