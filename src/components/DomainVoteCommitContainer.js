@@ -92,9 +92,9 @@ class DomainVoteCommitContainer extends Component {
             <div className='row HeaderRow'>
               <div className='ui large header'>
               Stage: Voting
-              <Tooltip
-                info='The first phase of the voting process is the commit phase where the ADT holder stakes a hidden amount of votes to SUPPORT or OPPOSE the domain application. The second phase is the reveal phase where the ADT holder reveals the staked amount of votes to either the SUPPORT or OPPOSE side.'
-              />
+                <Tooltip
+                  info='The first phase of the voting process is the commit phase where the ADT holder stakes a hidden amount of votes to SUPPORT or OPPOSE the domain application. The second phase is the reveal phase where the ADT holder reveals the staked amount of votes to either the SUPPORT or OPPOSE side.'
+                />
               </div>
             </div>
           </div>
@@ -103,13 +103,13 @@ class DomainVoteCommitContainer extends Component {
               You've <strong>challenged</strong> this domain.
             </div>
           </div>
-          : null}
+            : null}
           {didCommit ? <div className='column sixteen wide center aligned'>
             <div className='ui message warning'>
               You've <strong>committed</strong> for this domain.
             </div>
           </div>
-          : null}
+            : null}
           <div className='ui divider' />
           <div className='column sixteen wide center aligned'>
             <div className='VotingDeadline'>
@@ -127,20 +127,10 @@ class DomainVoteCommitContainer extends Component {
           <div className='ui divider' />
           <div className='column sixteen wide center aligned'>
             <form className='ui form center aligned'>
-              {
-
-              // <div className='ui field'>
-              //   <p>Challenge ID: <label className='ui label'>{challengeId}</label></p>
-              // </div>
-            }
               <Segment.Group horizontal>
                 <Segment className='SegmentOne'>
                   <div className='NumberCircle'>1</div>
                   <label>Enter the Number of votes to commit:</label>
-                  {
-              // </Segment>
-              // <Segment className='SegmentTwo'>
-            }
                 </Segment>
                 <Segment className='SegmentThree'>
                   <div className='ui input small'>
@@ -166,7 +156,7 @@ class DomainVoteCommitContainer extends Component {
                     onClick={this.onVoteOptionChange}
                   >
                   Support
-                </Button>
+                  </Button>
                 </Segment>
                 <Segment className='SegmentThree'>
                   <Button
@@ -175,7 +165,7 @@ class DomainVoteCommitContainer extends Component {
                     name='voteOption'
                     value='0'
                     onClick={this.onVoteOptionChange}
-                    >
+                  >
                     Oppose
                   </Button>
                 </Segment>
@@ -192,7 +182,7 @@ class DomainVoteCommitContainer extends Component {
                 </Segment>
                 <Segment className='RightSegment' floated='right'>
                   If you misplace your commit, you can enter the information below to reveal your vote:
-                  <div>
+                  <div className='ChallengeID'>
                     Challenge ID: <strong>{challengeId}</strong>
                   </div>
                   <div>
@@ -203,75 +193,6 @@ class DomainVoteCommitContainer extends Component {
               <div className='SubmitVoteButtonContainer'>
                 <Button className='SubmitVoteButton centered' basic onClick={this.onFormSubmit}>Submit Vote</Button>
               </div>
-              {
-              // <div className='ui two fields VoteOptions'>
-              //   <div className='ui field'>
-              //     <Radio
-              //       label='SUPPORT'
-              //       name='voteOption'
-              //       value='1'
-              //       checked={this.state.voteOption === 1}
-              //       onChange={this.onVoteOptionChange}
-              //     />
-              //   </div>
-              //   <div className='ui field'>
-              //     <Radio
-              //       label='OPPOSE'
-              //       name='voteOption'
-              //       value='0'
-              //       checked={this.state.voteOption === 0}
-              //       onChange={this.onVoteOptionChange}
-              //     />
-              //   </div>
-              // </div>
-
-              // <div className='ui field'>
-              //   <label>Secret Phrase<br /><small>PLEASE SAVE THIS. This random phrase (known as a "salt") will be required to reveal your vote and claim rewards.</small></label>
-              //   <div className='ui message tiny default SaltField'>
-              //     {salt}
-              //   </div>
-              // </div>
-
-              // <div className='ui field'>
-              //   <label><small>Download commit info required for reveal stage</small></label>
-              //   <button
-              //     onClick={this.onDownload}
-              //     title='Download commit info'
-              //     className={`ui button ${enableDownload ? '' : 'disabled'} right labeled icon ${commitDownloaded ? 'default' : 'blue'}`}>
-              //     Download Commit
-              //     <i className='icon download' />
-              //   </button>
-              // </div>
-            }
-              {
-                // {
-              //   commitDownloaded
-              // ? <div className='ui field'>
-              //   <label><small>Download a calendar reminder for revealing vote</small></label>
-              //   <button
-              //     onClick={this.onReminderDownload}
-              //     title='Download commit info'
-              //     className={`ui mini button right labeled icon ${revealReminderDownloaded ? 'default' : 'blue'}`}>
-              //     Reveal Reminder
-              //     <i className='icon download' />
-              //   </button>
-              // </div>
-              // : null
-            // }
-              // <div className='ui field'>
-              //   {(voteOption === null || !votes || !commitDownloaded)
-              //     ? <button
-              //       className='ui button disabled'>
-              //       {voteOption === null ? 'Select Vote Option' : (!votes ? 'Enter votes' : 'Vote')}
-              //     </button>
-              //   : <button
-              //     type='submit'
-              //     className={`ui button ${voteOption ? 'blue' : 'purple'} right labeled icon`}>
-              //       VOTE TO {voteOption ? 'SUPPORT' : 'OPPOSE'} <i className={`icon thumbs ${voteOption ? 'up' : 'down'}`} />
-              //   </button>
-              //   }
-              // </div>
-            }
             </form>
           </div>
         </div>

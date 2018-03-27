@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import { Popup, Input, Segment, Button } from 'semantic-ui-react'
+import { Input, Segment, Button } from 'semantic-ui-react'
+import Tooltip from './Tooltip'
 
 import './RegistryGuideStaticReveal.css'
 
@@ -12,9 +13,8 @@ class RegistryGuideStaticReveal extends Component {
             <div className='row HeaderRow'>
               <div className='ui large header'>
                 Stage: Reveal
-                <Popup
-                  trigger={<i className='icon info circle' />}
-                  content='The first phase of the voting process is the commit phase where the ADT holder stakes a hidden amount of votes to SUPPORT or OPPOSE the domain application. The second phase is the reveal phase where the ADT holder reveals the staked amount of votes to either the SUPPORT or OPPOSE side.'
+                <Tooltip
+                  info='The first phase of the voting process is the commit phase where the ADT holder stakes a hidden amount of votes to SUPPORT or OPPOSE the domain application. The second phase is the reveal phase where the ADT holder reveals the staked amount of votes to either the SUPPORT or OPPOSE side.'
                 />
               </div>
             </div>
@@ -56,20 +56,22 @@ class RegistryGuideStaticReveal extends Component {
                 <div className='StatProgressBar'>
                   <div className='StatBarContainer'>
                     {
-                    [<div
-                      key={Math.random()}
-                      style={{ 'width': '40%' }}
-                      title='40%'
-                      className='StatBarFillContainer'>
-                        40%
-                      </div>,
+                    [
+                      <div
+                        key={Math.random()}
+                        style={{ 'width': '40%' }}
+                        title='40%'
+                        className='StatBarFillContainer'>
+                          40%
+                        </div>,
                       <div
                         key={Math.random()}
                         style={{ 'width': '60%' }}
                         title='60%'
                         className='StatBarFillContainer'>
-                        60%
-                      </div>]
+                          60%
+                        </div>
+                    ]
                     }
                   </div>
                   <div className='StatBarLegend'>
@@ -96,9 +98,6 @@ class RegistryGuideStaticReveal extends Component {
           </div>
           <div className='column sixteen wide center aligned'>
             <Segment className='LeftSegment' floated='left'>
-              <div className='NumberCircleContainer'>
-                <div className='NumberCircle'>1</div>
-              </div>
               Upload your JSON commit file to reveal your vote:
               <div className='UploadCommitButtonContainer'>
                 <Button className='UploadCommitButton' basic>Upload Commit &nbsp;<i className='icon long arrow up' /></Button>

@@ -4,6 +4,7 @@
 
 .RegistryGuideStaticReveal .header {
   display: inline-block;
+  font-size: 17px !important;
 }
 
 :root:root:root .RegistryGuideStaticReveal .refresh {
@@ -79,11 +80,11 @@
   border-radius: 3px;
   border: 1px solid #3434CE;
   text-transform: uppercase;
+  box-shadow: unset;
 }
 
 :root:root:root .RegistryGuideStaticReveal .UploadCommitButtonContainer {
   padding-top: 3em;
-  padding-left: 1em;
 }
 
 :root:root:root .RegistryGuideStaticReveal .UploadCommitButton .icon{
@@ -102,7 +103,7 @@
   border-left: none;
   border-radius: 0;
   border-bottom: 1px solid;
-  width: 9em !important
+  width: 5em !important
 }
 
 :root:root:root .RegistryGuideStaticReveal .VoteRevealDropdown {
@@ -112,7 +113,7 @@
 :root:root:root .RegistryGuideStaticReveal .VoteRevealLabel {
   display: flex;
   align-items: flex-end;
-  justify-content: center;
+  justify-content: space-between;
 }
 
 :root:root:root .RegistryGuideStaticReveal .SubmitVoteButton {
@@ -124,6 +125,7 @@
   text-align: center;
   text-transform: uppercase;
   color: #FFFFFF !important;
+  box-shadow: unset;
 }
 
 :root:root:root .RegistryGuideStaticReveal .SubmitVoteButtonContainer {

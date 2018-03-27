@@ -4,6 +4,7 @@
 
 .RegistryGuideStaticChallenge .header {
   display: inline-block;
+  font-size: 17px !important;
 }
 
 :root:root:root .RegistryGuideStaticChallenge .refresh {
@@ -44,44 +45,6 @@
   height: 21px;
 }
 
-:root:root:root .RegistryGuideStaticChallenge .SegmentOne {
-  padding-left: 4em;
-  padding-right: 4em;
-  /* padding-top: 3em; */
-}
-
-:root:root:root .RegistryGuideStaticChallenge .SegmentOne p,
-:root:root:root .RegistryGuideStaticChallenge .SegmentTwo p,
-:root:root:root .RegistryGuideStaticChallenge .SegmentThree p {
-	color: #424242;
-	font-family: "Open Sans", sans-serif;
-	font-size: 11px;
-	line-height: 14px;
-}
-
-:root:root:root .RegistryGuideStaticChallenge .SegmentTwo {
-  border-top: none !important;
-}
-
-:root:root:root .RegistryGuideStaticChallenge .SegmentTwo p {
-  padding-left: 6em;
-  padding-right: 3em;
-  text-align: left;
-}
-
-:root:root:root .RegistryGuideStaticChallenge .SegmentFour {
-  border-top: none !important;
-  padding-left: 4em;
-  padding-right: 4em;
-  /* padding-bottom: 3em; */
-}
-
-:root:root:root .RegistryGuideStaticChallenge .SegmentThree {
-  border-top: none !important;
-  padding-left: 4em;
-  padding-right: 4em;
-}
-
 :root:root:root .ChallengeButton {
 	color: #CE3434 !important;
 	font-family: "Open Sans", sans-serif;
@@ -97,28 +60,6 @@
 :root:root:root .ChallengeButton:hover {
   background-color: #CE3434 !important;
   color: #FFF !important;
-}
-
-/*
-  Proposal Modal Style Overrides
-*/
-:root:root:root .ProposalChallengeContainer .SegmentOne p, 
-:root:root:root .ProposalChallengeContainer .SegmentTwo p, 
-:root:root:root .ProposalChallengeContainer .SegmentThree p {
-    color: #424242;
-    font-family: "Open Sans", sans-serif;
-    font-size: 12px;
-    line-height: 1.6;
-}
-:root:root:root .ProposalChallengeContainer p,
-:root:root:root .ProposalChallengeContainer .ui.large.header{
-  font-family: "Open Sans", sans-serif !important;
-  color:rgb(66, 66, 66);
-}
-:root:root:root .ProposalChallengeContainer .SegmentTwo p {
-    padding-left: 4em;
-    padding-right: 3em;
-    text-align: left;
 }
 
 .CountdownText .CountdownUnit {

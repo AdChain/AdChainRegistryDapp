@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import { Popup, Input, Button, Segment } from 'semantic-ui-react'
+import { Input, Button, Segment } from 'semantic-ui-react'
+import Tooltip from './Tooltip'
 
 import './RegistryGuideStaticVoting.css'
 
@@ -12,9 +13,8 @@ class RegistryGuideStaticVoting extends Component {
             <div className='row HeaderRow'>
               <div className='ui large header'>
                 Stage: Voting
-                <Popup
-                  trigger={<i className='icon info circle' />}
-                  content='The first phase of the voting process is the commit phase where the ADT holder stakes a hidden amount of votes to SUPPORT or OPPOSE the domain application. The second phase is the reveal phase where the ADT holder reveals the staked amount of votes to either the SUPPORT or OPPOSE side.'
+                <Tooltip
+                  info='The first phase of the voting process is the commit phase where the ADT holder stakes a hidden amount of votes to SUPPORT or OPPOSE the domain application. The second phase is the reveal phase where the ADT holder reveals the staked amount of votes to either the SUPPORT or OPPOSE side.'
                 />
               </div>
             </div>
@@ -101,7 +101,7 @@ class RegistryGuideStaticVoting extends Component {
                 </Segment>
                 <Segment className='RightSegment' floated='right'>
                   If you misplace your commit, you can enter the information below to reveal your vote:
-                  <div>
+                  <div className='ChallengeID'>
                     Challenge ID: <strong>38</strong>
                   </div>
                   <div>

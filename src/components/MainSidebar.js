@@ -40,7 +40,7 @@ class MainSidebar extends Component {
     const HelpOptions = (
       <ul style={{listStyle: 'none'}}>
         <li>
-          <Link to='#' onClick={() => PubSub.publish('WelcomeModal.open')} activeClassName='active'>Welcome</Link>
+          <Link to='/' onClick={() => PubSub.publish('WelcomeModal.open')} activeClassName='active'>Welcome</Link>
         </li>
         <li>
           <Link to='/domains' onClick={() => PubSub.publish('RegistryGuideModal.show')} activeClassName='active'>View Guides</Link>

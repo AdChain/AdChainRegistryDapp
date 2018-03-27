@@ -5,6 +5,7 @@
 
 .RegistryGuideStaticVoting .header {
   display: inline-block;
+  font-size: 17px !important;
 }
 
 :root:root:root .RegistryGuideStaticVoting .refresh {
@@ -114,6 +115,7 @@
   font-weight: bold;
   text-align: center;
   text-transform: uppercase;
+  box-shadow: unset;
 }
 
 :root:root:root .RegistryGuideStaticVoting .OpposeButton {
@@ -125,6 +127,7 @@
   font-weight: bold;
   text-align: center;
   text-transform: uppercase;
+  box-shadow: unset;
 }
 
 :root:root:root .RegistryGuideStaticVoting .SupportButton.clicked {
@@ -218,4 +221,8 @@
   text-align: center;
   background-color: #FFF;
   padding-top: 5px
+}
+
+.ChallengeID {
+  padding-top: 15px;
 }

@@ -13,14 +13,14 @@ import MapReveal from './assets/stage_maps/map_reveal.svg'
 import MapRevealPending from './assets/stage_maps/map_reveal_pending.svg'
 import MapRejected from './assets/stage_maps/map_rejected.svg'
 import MapInRegistryChallengeId from './assets/stage_maps/map_in_registry_challenge_id.svg'
-import MapInRegistyCommit from './assets/stage_maps/map_in_registry_challenge_id_commit.svg'
+import MapInRegistryCommit from './assets/stage_maps/map_in_registry_challenge_id_commit.svg'
 import MapInRegistryReveal from './assets/stage_maps/map_in_registry_no_id_reveal.svg'
 import MapInRegistryRevealPending from './assets/stage_maps/map_in_registry_no_id_reveal_pending.svg'
 
 import PubSub from 'pubsub-js'
 
 const stageMaps = {
-  MapInRegistyCommit,
+  MapInRegistryCommit,
   MapInRegistryReveal,
   MapInRegistryRevealPending,
   MapInRegistryNoChallengeId,

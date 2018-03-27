@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import { Popup, Button, Segment } from 'semantic-ui-react'
+import { Button } from 'semantic-ui-react'
+import Tooltip from './Tooltip'
 
 import './RegistryGuideStaticChallenge.css'
 
@@ -12,9 +13,8 @@ class RegistryGuideStaticChallenge extends Component {
             <div className='row HeaderRow'>
               <div className='ui large header'>
                 Stage: In Application
-                <Popup
-                  trigger={<i className='icon info circle' />}
-                  content='The first phase of the voting process is the commit phase where the ADT holder stakes a hidden amount of votes to SUPPORT or OPPOSE the domain application. The second phase is the reveal phase where the ADT holder reveals the staked amount of votes to either the SUPPORT or OPPOSE side.'
+                <Tooltip
+                  info='The first phase of the voting process is the commit phase where the ADT holder stakes a hidden amount of votes to SUPPORT or OPPOSE the domain application. The second phase is the reveal phase where the ADT holder reveals the staked amount of votes to either the SUPPORT or OPPOSE side.'
                 />
               </div>
               <Button basic className='right refresh'>
@@ -49,33 +49,20 @@ class RegistryGuideStaticChallenge extends Component {
               </div>
             </div>
           </div>
-          <div className='column sixteen wide center aligned'>
-            <Segment.Group>
-              <Segment className='SegmentOne'>
-                <p>
-                  You should challenge <strong>domain.com&#8217;s </strong>application
-                  if you don&#8217;t believe it should be in the adChain Registry.
-                  Clicking the &#8220;CHALLENGE&#8221; button below will
-                  initiate <strong>domain.com&#8217;s </strong> Voting stage.
-                </p>
-              </Segment>
-              <Segment className='SegmentTwo'>
+          <div className='column sixteen wide center aligned ChallengeInfoContainer'>
+            <div>
+              <div>
+                <p>ADT Required to Challenge</p>
+                <span className='RequiredADT'>
+                  <strong>150 ADT</strong>
+                </span>
                 <div className='NumberCircle'>1</div>
-                <p>
-                  ADT required to challenge: <strong>100 ADT</strong>
-                  <br />
-                  Your percentage payout if your challenge is successful: <strong>50%</strong>
-                </p>
-              </Segment>
-              <Segment className='SegmentThree'>
-                <p>
-                  If your challenge is successful once the Reveal stage ends, you will have your ADT reimbursed and be awarded the payout.
-                </p>
-              </Segment>
-              <Segment className='SegmentFour'>
-                <Button basic className='ChallengeButton'>Challenge</Button>
-              </Segment>
-            </Segment.Group>
+              </div>
+              <div className='PayoutPercentageContainer'>
+                <p>Your Percentage Payout if Successful: </p><span className='PayoutPercentage'><strong>50%</strong></span>
+              </div>
+            </div>
+            <Button basic className='ChallengeButton'>Challenge</Button>
           </div>
         </div>
       </div>
