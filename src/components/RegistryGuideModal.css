@@ -149,13 +149,29 @@
 :root:root .joyride-tooltip__button--primary {
   background-color: #3434CE !important;
   color: #FFF !important;
+  font-size: 14px;
+  border-radius: .28571429rem;
+  border: 1px solid #FFF;
   text-transform: uppercase;
+}
+
+:root:root .joyride-tooltip__button--primary:hover {
+  background-color: #FFF !important;
+  color: #3434CE !important;
+  font-weight: 600;
+  box-shadow: 2px 2px 4px #2625A4;
 }
 
 :root:root .joyride-tooltip__button--secondary {
   background-color: #3434CE !important;
   color: #FFF !important;
   text-transform: uppercase;
+  opacity: .5;
+  font-size: 14px;
+}
+:root:root .joyride-tooltip__button--secondary:hover {
+  text-decoration: underline;
+  opacity: 1;
 }
 
 :root:root .joyride-tooltip {
@@ -169,6 +185,25 @@
 }
 
 :root:root .joyride-tooltip__header {
+  font-weight: 600;
+  font-size: 20px;
   color: #FFF !important;
   border-style: none !important;
+}
+
+:root:root .joyride-tooltip__main {
+  font-size: 14px;
+  font-weight: 600;
+  color: #FFF;
+  padding: 20px;
+}
+
+:root:root .joyride-tooltip__main span {
+  position: absolute;
+  top: 50px;
+  left: 5%;
+  text-transform: uppercase;
+  font-weight: 600;
+  font-size: 12px;
+  opacity: .5;
 }

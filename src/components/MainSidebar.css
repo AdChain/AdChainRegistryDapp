@@ -2,9 +2,9 @@
 @import url('https://fonts.googleapis.com/css?family=Titillium+Web:400,700');
 
 :root:root:root .HelpButton {
-  color: #CE4034 !important;
-  /* border-color: #CE4034 !important; */
-  border: 1px solid #CE4034;
+  color: #FFF !important;
+  background-color: #CE4034 !important;
+  /* border: 1px solid #CE4034; */
   box-shadow: none !important;
   text-transform: uppercase;
   font-size: 10px;

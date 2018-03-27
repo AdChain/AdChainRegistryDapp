@@ -16,6 +16,11 @@
   }
 }
 
+.DomainEmailNotifications .DomainEmailNotificationsContainer .BoxFrameLabel {
+  display: inline-block;
+}
+
+
 .DomainEmailNotifications .DomainEmailNotificationsContainer label {
   padding-left: 6px;
   padding-top: 10px;

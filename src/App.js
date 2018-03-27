@@ -111,7 +111,7 @@ class App extends Component {
     } else if (result.step.name === 'challenge-third-step' && result.type === 'step:after') {
       if (result.action === 'next') {
         this.setState({
-          staticContainer: 'registry',
+          staticContainer: 'voting',
           shouldRun: false
         })
       } else if (result.action === 'back') {
@@ -124,10 +124,6 @@ class App extends Component {
       this.setState({
         staticContainer: 'challenge',
         shouldRun: false
-      })
-    } else if (result.step.name === 'challenge-fifth-step' && result.action === 'back' && result.type === 'step:after') {
-      this.setState({
-        staticContainer: 'registry'
       })
     } else if (result.step.name === 'vote-second-step' && result.action === 'next' && result.type === 'step:after') {
       this.setState({
