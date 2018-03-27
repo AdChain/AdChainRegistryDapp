@@ -126,7 +126,10 @@ class DomainsContainer extends Component {
                         </div>
               }
             </div>
-            {window.localStorage.returningUser === 'false' ? <WelcomeModal /> : null}
+            {
+              // window.localStorage.returningUser === 'false' ? <WelcomeModal /> : null
+            }
+            <WelcomeModal />
           </div>
         </div>
       </div>

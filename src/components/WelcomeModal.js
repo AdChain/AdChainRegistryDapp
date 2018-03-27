@@ -5,6 +5,7 @@ import 'antd/lib/button/style/css'
 import 'antd/lib/steps/style/css'
 import { Modal, Checkbox } from 'semantic-ui-react'
 import './WelcomeModal.css'
+import PubSub from 'pubsub-js'
 
 const Step = Steps.Step
 
@@ -35,8 +36,11 @@ class WelcomeModal extends Component {
       current: 0,
       open: true,
       size: 'small',
-      returningUser: false
+      returningUser: false,
+      displaySettingChanged: false
     }
+
+    this.open = this.open.bind(this)
   }
   next () {
     const current = this.state.current + 1
@@ -47,24 +51,51 @@ class WelcomeModal extends Component {
     this.setState({ current })
   }
   close () {
-    this.setState({ open: false })
+    if (this.state.displaySettingChanged) {
+      window.localStorage.setItem('returningUser', 'true')
+    }
 
     if (this.state.returningUser) {
-      window.localStorage.setItem('returningUser', 'true')
+      window.localStorage.setItem('returningUser', this.state.returningUser ? 'true' : 'false')
     } else {
       window.localStorage.setItem('returningUser', 'false')
     }
+    this.setState({ open: false })
   }
+
   setReturningUser () {
-    this.setState(prevState => ({
-      returningUser: !prevState.returningUser
-    }))
+    this.setState({
+      returningUser: true
+    })
+  }
+
+  open () {
+    const displayBox = window.localStorage.getItem('returningUser')
+    let displaySettingChanged = false
+    let returningUser = false
+
+    if (displayBox === 'true') {
+      window.localStorage.setItem('returningUser', 'false')
+      displaySettingChanged = true
+      returningUser = true
+    }
+    this.setState({
+      open: true,
+      displaySettingChanged: displaySettingChanged,
+      returningUser: returningUser
+    })
+  }
+
+  componentWillMount () {
+    this.subEvent = PubSub.subscribe('WelcomeModal.open', this.open)
   }
 
   render () {
     const { current, open, size } = this.state
+    const returningUser = window.localStorage.getItem('returningUser')
+
     return (
-      open
+      !returningUser || returningUser === 'false'
         ? <Modal size={size} open={open} onClose={() => this.close()} closeIcon>
           <Modal.Header className='WelcomeHeader'><span className='WelcomeHeaderUnderline'>WELCOME TO THE ADCHAIN REGISTRY</span></Modal.Header>
           <Modal.Content>
