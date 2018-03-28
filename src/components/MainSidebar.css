@@ -149,7 +149,7 @@
   flex-direction: column;
   height: 100%;
   border-radius: 0 10px 0 0;
-  background: linear-gradient(180deg, #20206B 0%, #0E0E39 100%);
+  background: linear-gradient(180deg, #0E0E39 0%, #20206B 100%);
   box-shadow: 0 2px 4px 0 rgba(0,0,0,0.5);
 }
 
