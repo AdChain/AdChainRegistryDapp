@@ -67,7 +67,7 @@ class RequestTokenApprovalContainer extends Component {
               <button
                 onClick={this.onRequest}
                 className='ui button blue tiny'>
-                  PRE-APPROVE ADT
+                  APPROVE
                 </button>
             </div>
           </div>
