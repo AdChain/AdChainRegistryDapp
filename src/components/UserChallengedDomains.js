@@ -43,7 +43,7 @@ class UserChallengedDomains extends Component {
 
     return (
       <div className='BoxFrame DashboardColumn'>
-        <span className='BoxFrameLabel ui grid'>DOMAINS YOU CHALLENGE <Tooltip info={"The domains that are in Application that you challenged are recorded here. The domain's status is shown to its right."} /></span>
+        <span className='BoxFrameLabel ui grid'>DOMAINS CHALLENGED<Tooltip info={"The domains that are in Application that you challenged are recorded here. The domain's status is shown to its right."} /></span>
         <div className='ui grid'>
           <div className='column sixteen wide'>
             {data
