@@ -45,7 +45,7 @@ class UserRewardsToClaim extends Component {
 
     return (
       <div className='BoxFrame DashboardColumn'>
-        <span className='BoxFrameLabel ui grid'>CLAIM REWARDS <Tooltip info={'The found below are accompanied by the ADT reward you have yet to claim. Domains with rewards are shown here when you have successfully challenged a domain in APPLICATION or correctly voted a domain in VOTING.'} /></span>
+        <span className='BoxFrameLabel ui grid'>VOTER REWARDS<Tooltip info={'The found below are accompanied by the ADT reward you have yet to claim. Domains with rewards are shown here when you have successfully challenged a domain in APPLICATION or correctly voted a domain in VOTING.'} /></span>
         <div className='ui grid'>
           <div className='column sixteen wide'>
             {data
