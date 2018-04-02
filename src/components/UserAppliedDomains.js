@@ -38,7 +38,7 @@ class UserAppliedDomains extends Component {
 
     return (
       <div className='BoxFrame DashboardColumn'>
-        <span className='BoxFrameLabel ui grid'>DOMAINS YOU APPLIED <Tooltip info={"The domains below are recorded as domains applied by your wallet address. The domain's status is shown to its right."} /></span>
+        <span className='BoxFrameLabel ui grid'>DOMAINS APPLIED<Tooltip info={"The domains below are recorded as domains applied by your wallet address. The domain's status is shown to its right."} /></span>
         <div className='ui grid DomainList'>
           <div className='column sixteen wide'>
             {data
