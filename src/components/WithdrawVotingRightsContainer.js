@@ -42,7 +42,7 @@ class WithdrawVotingRightsContainer extends Component {
     return (
 
       <div className='column five wide t-center'>
-            Unlocked Voting ADT <Tooltip class='InfoIconHigh' info='These are tokens once used in voting. Since the voting is over, they are able to be withdrawn from the adChain Registry and returned to your wallet.' />
+            Unlocked Voting ADT <Tooltip class='InfoIconHigh' info='These are voting tokens that you have previously revealed and that are now eligible to be withdrawn back to your wallet.' />
         <div className='column sixteen wide UnlockedAdt'>
           <span className='VotingTokensAmount'>
             {availableTokens !== null ? commafy(availableTokens) + ' ADT' : '-'}
