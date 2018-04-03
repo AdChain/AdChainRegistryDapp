@@ -21,7 +21,7 @@ class RegistryGuideModalRevealVote extends Component {
         <Modal.Content>
           <div className='GuideDesc'>
             <div>
-            Once the Voting Commit stage ends, the Voting Reveal stage begins. The Voting Reveal stage is when you will reveal your vote to the public. Only previously committed votes can revealed.
+            Once the Voting Commit stage ends, the Voting Reveal stage begins. The Voting Reveal stage is when you will reveal your vote to the public. Only previously committed votes can be revealed.
             </div>
             <br />
             <div>
