@@ -53,18 +53,29 @@ class AccountDashboard extends Component {
     })
   }
 
+  componentWillUnmount () {
+    this._isMounted = false
+  }
+
   async componentDidMount () {
-    this.setState({
-      inProgress: true
-    })
+    this._isMounted = true
+
+    if (this._isMounted) {
+      this.setState({
+        inProgress: true
+      })
+    }
     await this.fetchAppliedDomains()
     await this.fetchChallengedDomains()
     await this.fetchCommitsToReveal()
     await this.fetchRewards()
 
-    this.setState({
-      inProgress: false
-    })
+    if (this._isMounted) {
+      this.setState({
+        inProgress: false
+      })
+    }
+
     store.subscribe(() => {
       if (!this.state.account) {
         const account = registry.getAccount()
@@ -98,7 +109,7 @@ class AccountDashboard extends Component {
             </div>
             <div className='column eleven wide TokensUsedForVoting'>
               <div className='BoxFrame'>
-                <span className='ui grid BoxFrameLabel'>Tokens Used For Voting <Tooltip info={'The features below allow you to minimize your transactions when voting.'} /></span>
+                <span className='ui grid BoxFrameLabel'>PRE-APPROVE TOKENS FOR VOTING<Tooltip info={'Pre-Approve Voting Rights to reduce the number of MetaMask transactions.'} /></span>
                 <div className='ui grid'>
                   <div className='row f-13'>
                     <RequestVotingRightsContainer account={account} />
@@ -167,10 +178,11 @@ class AccountDashboard extends Component {
         }
       }
     }
-
-    this.setState({
-      appliedDomains
-    })
+    if (this._isMounted) {
+      this.setState({
+        appliedDomains
+      })
+    }
   }
 
   async fetchChallengedDomains () {
@@ -188,10 +200,11 @@ class AccountDashboard extends Component {
         data[i].stage = await this.fetchDomainStage(data[i].domain)
       }
     }
-
-    this.setState({
-      challengedDomains: data
-    })
+    if (this._isMounted) {
+      this.setState({
+        challengedDomains: data
+      })
+    }
   }
 
   async fetchCommitsToReveal () {

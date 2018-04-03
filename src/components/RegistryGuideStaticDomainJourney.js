@@ -12,6 +12,7 @@ import PubSub from 'pubsub-js'
 class RegistryGuideStaticDomainJourney extends Component {
   constructor (props) {
     super(props)
+
     this.state = {
       domainJourney: 'application'
     }
