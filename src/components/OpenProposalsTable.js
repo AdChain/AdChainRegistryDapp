@@ -27,8 +27,12 @@ class OpenProposalsTable extends Component {
   }
 
   async componentWillReceiveProps () {
-    if (!this.props || !this.props.hasOwnProperty('currentProposals')) return false
-    await this.createTable()
+    if (!this.props || !this.props.hasOwnProperty('currentProposals')) {
+      return false
+    }
+    if (this.props.currentProposals.length > 0) {
+      await this.createTable()
+    }
   }
 
   render () {
@@ -36,20 +40,49 @@ class OpenProposalsTable extends Component {
     return (
       <div className='BoxFrame mt-25 RegistryGuideOpenProposals'>
         <span className='BoxFrameLabel ui grid'>OPEN PROPOSALS <Tooltip info={'These are open proposals for new parameter values.'} /></span>
-
-        <table className='OpenProposalsTable mt-25'>
-          <thead>
-            <tr>
-              <th>Parameters</th>
-              <th>Proposed Value</th>
-              <th>Time Remaining</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody className={this.state.loading ? 'ui loader small inline active' : ''}>
-            { this.state.table || [] }
-          </tbody>
-        </table>
+        {
+          this.props.currentProposalsLoading
+          ? <table className='OpenProposalsTable mt-25'>
+            <thead>
+              <tr>
+                <th>Parameters</th>
+                <th>Proposed Value</th>
+                <th>Time Remaining</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody className={'ui loader small inline active'} />
+          </table>
+            : this.state.table
+            ? <table className='OpenProposalsTable mt-25'>
+              <thead>
+                <tr>
+                  <th>Parameters</th>
+                  <th>Proposed Value</th>
+                  <th>Time Remaining</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              {
+                    this.state.table
+                  }
+            </table>
+            : <div>
+              <table className='OpenProposalsTable mt-25'>
+                <thead>
+                  <tr>
+                    <th>Parameters</th>
+                    <th>Proposed Value</th>
+                    <th>Time Remaining</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+              </table>
+              <div className='NoDataMessage' style={{paddingTop: '9em', minHeight: '300px'}}>
+                  Proposed parameter values will be displayed here. You will have the opportunity to challenge, vote, and reveal from this table.
+              </div>
+            </div>
+          }
         <Modal size={'small'} open={open} onClose={this.close}>
           <div>
             {
@@ -77,19 +110,21 @@ class OpenProposalsTable extends Component {
   createTable () {
     let table = []
     try {
-      return this.props.currentProposals.map((proposal, i) => {
-        return this.determineAction(proposal).then(async item => {
-          table.push(
-            <tr className='table-row' key={i}>
-              <td className={proposal.color}>{proposal.name}</td>
-              <td>{`${proposal.proposedValue + ' ' + proposal.metric}`}</td>
-              <td><CountdownSnapshot endDate={proposal.appExpiry} /></td>
-              {item}
-            </tr>
-          )
-          this.setState({table})
+      if (this.props.currentProposals.length > 0) {
+        return this.props.currentProposals.map((proposal, i) => {
+          return this.determineAction(proposal).then(async item => {
+            table.push(
+              <tr className='table-row' key={i}>
+                <td className={proposal.color}>{proposal.name}</td>
+                <td>{`${proposal.proposedValue + ' ' + proposal.metric}`}</td>
+                <td><CountdownSnapshot endDate={proposal.appExpiry} /></td>
+                {item}
+              </tr>
+            )
+            this.setState({table})
+          })
         })
-      })
+      }
     } catch (error) {
       console.log('Error creating table')
     }

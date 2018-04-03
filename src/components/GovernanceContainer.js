@@ -24,6 +24,7 @@ class GovernanceContainer extends Component {
       governanceParameterData: Object.assign({}, parameterData.governanceParameterData),
       coreParameterProposals: Object.assign({}, parameterData.coreParameterData),
       governanceParameterProposals: Object.assign({}, parameterData.governanceParameterData),
+      currentProposalsLoading: true,
       currentProposals: [],
       rewards: [],
       account: ''
@@ -129,7 +130,8 @@ class GovernanceContainer extends Component {
             }
           }
           this.setState({
-            currentProposals: proposals
+            currentProposals: proposals,
+            currentProposalsLoading: false
           })
         })
     } catch (error) {

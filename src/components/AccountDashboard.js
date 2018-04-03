@@ -53,18 +53,29 @@ class AccountDashboard extends Component {
     })
   }
 
+  componentWillUnmount () {
+    this._isMounted = false
+  }
+
   async componentDidMount () {
-    this.setState({
-      inProgress: true
-    })
+    this._isMounted = true
+
+    if (this._isMounted) {
+      this.setState({
+        inProgress: true
+      })
+    }
     await this.fetchAppliedDomains()
     await this.fetchChallengedDomains()
     await this.fetchCommitsToReveal()
     await this.fetchRewards()
 
-    this.setState({
-      inProgress: false
-    })
+    if (this._isMounted) {
+      this.setState({
+        inProgress: false
+      })
+    }
+
     store.subscribe(() => {
       if (!this.state.account) {
         const account = registry.getAccount()
@@ -167,10 +178,11 @@ class AccountDashboard extends Component {
         }
       }
     }
-
-    this.setState({
-      appliedDomains
-    })
+    if (this._isMounted) {
+      this.setState({
+        appliedDomains
+      })
+    }
   }
 
   async fetchChallengedDomains () {
@@ -188,10 +200,11 @@ class AccountDashboard extends Component {
         data[i].stage = await this.fetchDomainStage(data[i].domain)
       }
     }
-
-    this.setState({
-      challengedDomains: data
-    })
+    if (this._isMounted) {
+      this.setState({
+        challengedDomains: data
+      })
+    }
   }
 
   async fetchCommitsToReveal () {
