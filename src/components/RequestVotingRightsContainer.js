@@ -45,7 +45,7 @@ class RequestVotingRightsContainer extends Component {
 
       <div className='column six wide VotingRights t-center'>
         <div className='VotingRightsText'>
-          Total Current Voting Rights <Tooltip class='InfoIconHigh' info='The number below is the total amount of ADT you can commit a vote with by only signing 1 transaction. You can add more votes in the input field.' />
+          Current Voting Rights <Tooltip class='InfoIconHigh' info='The amount of adToken you have pre-approved for voting.' />
           <br />
           <span className='VotingTokensAmount'>
             {availableVotes !== null ? commafy(availableVotes) + ' ADT' : '-'}
