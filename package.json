@@ -5,6 +5,7 @@
   "dependencies": {
     "adblock-detect": "^1.0.5",
     "antd": "^3.2.2",
+    "axios": "^0.18.0",
     "blockies": "0.0.2",
     "commafy": "0.0.5",
     "delay": "^2.0.0",
