@@ -30,10 +30,8 @@
 :root:root .RedditButton {
   border: 1px solid #FF5700;
   box-shadow: unset;
-  padding: 0px;
+  padding: 2px 15px;
   margin-left: 5px;
-  padding-left: 15px;
-  padding-right: 15px;
 }
 
 :root:root .RedditButton:hover {
@@ -62,7 +60,7 @@
 }
 
 :root:root .ViewButton:hover {
-  box-shadow: unset;
+  box-shadow: unset !important;
   background-color: #3434CE !important;
   color: #FFF !important;
 }
@@ -96,6 +94,7 @@
 :root:root .ui.secondary.pointing.menu {
   display: flex;
   justify-content: space-evenly;
+  flex-wrap: wrap;
 }
 
 :root:root .DomainProfileInfo .ui.secondary.pointing.menu .item {

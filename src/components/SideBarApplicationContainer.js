@@ -9,6 +9,7 @@ import calculateGas from '../utils/calculateGas'
 import commafy from 'commafy'
 import isMobile from 'is-mobile'
 import PubSub from 'pubsub-js'
+import RedditConfirmationModal from './RedditConfirmationModal'
 
 const windowWidth = window.innerWidth
 
@@ -83,9 +84,9 @@ class SideBarApplicationContainer extends Component {
     }
 
     if (this._isMounted) {
-      this.setState({
-        inProgress: true
-      })
+      // this.setState({
+      //   inProgress: true
+      // })
     }
 
     try {
@@ -105,6 +106,17 @@ class SideBarApplicationContainer extends Component {
       } catch (error) {
         console.log('error reporting gas')
       }
+
+      let data = {
+        domain: domain,
+        stake: stake,
+        action: 'apply'
+      }
+      PubSub.publish('RedditConfirmationModal.show', data)
+      // await registry.apply(domain, stake)
+      // this.setState({
+      //   inProgress: false
+      // })
     } catch (error) {
       console.log(error)
       toastr.error('There was an error applying domain')
@@ -176,6 +188,7 @@ class SideBarApplicationContainer extends Component {
           <Button basic className='ApplicationButton' type='submit'>Apply Domain</Button>
         </Form>
         {inProgress ? <PublisherApplicationFormInProgress /> : null}
+        <RedditConfirmationModal />
       </div>
     )
   }

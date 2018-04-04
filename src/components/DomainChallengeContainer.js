@@ -200,11 +200,11 @@ class DomainChallengeContainer extends Component {
   }
 
   async challenge () {
-    const {domain} = this.state
+    const {domain, minDeposit} = this.state
 
     let inApplication = null
     // const hash = `0x${soliditySHA3(['bytes32'], [domain.toLowerCase().trim()]).toString('hex')}`
-    let data = ''
+    // let data = ''
 
     try {
       inApplication = await registry.applicationExists(domain)
@@ -213,22 +213,29 @@ class DomainChallengeContainer extends Component {
     }
 
     if (inApplication) {
-      if (this._isMounted) {
-        this.setState({
-          inProgress: true
-        })
-      }
+      // if (this._isMounted) {
+      //   this.setState({
+      //     inProgress: true
+      //   })
+      // }
 
       try {
-        await registry.challenge(domain, data)
-
-        toastr.success('Successfully challenged domain')
-
-        if (this._isMounted) {
-          this.setState({
-            inProgress: false
-          })
+        let data = {
+          domain: domain,
+          minDeposit: minDeposit,
+          action: 'challenge'
         }
+        PubSub.publish('RedditConfirmationModal.show', data)
+
+        // await registry.challenge(domain, data)
+
+        // toastr.success('Successfully challenged domain')
+
+        // if (this._isMounted) {
+        //   this.setState({
+        //     inProgress: false
+        //   })
+        // }
 
         try {
           calculateGas({
@@ -243,9 +250,9 @@ class DomainChallengeContainer extends Component {
         }
 
         // TODO: better way of resetting state
-        setTimeout(() => {
-          window.location.reload()
-        }, 2e3)
+        // setTimeout(() => {
+        //   window.location.reload()
+        // }, 2e3)
       } catch (error) {
         toastr.error('Error')
         if (this._isMounted) {

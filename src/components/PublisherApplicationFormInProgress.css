@@ -1,5 +1,5 @@
 .PublisherApplicationFormInProgress {
-  background: rgba(255,255,255,0.9);
+  background: rgba(255,255,255,1);
   position: absolute;
   top: 0;
   left: 0;
@@ -14,3 +14,6 @@
 .PublisherApplicationFormInProgress .Content {
 }
 
+:root:root:root .PublisherApplicationFormInProgress .ui.loader:after {
+  border-color: #000 transparent transparent !important;
+}
