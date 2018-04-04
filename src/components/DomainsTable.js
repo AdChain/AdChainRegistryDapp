@@ -11,6 +11,7 @@ import './DomainsTable.css'
 import PubSub from 'pubsub-js'
 import RefreshInProgressContainer from './RefreshInProgressContainer'
 import CountdownSnapshot from './CountdownSnapshot'
+import calculateGas from '../utils/calculateGas'
 
 import store from '../store'
 import registry from '../services/registry'
@@ -373,6 +374,17 @@ class DomainsTable extends Component {
       this.setState({
         inProgress: false
       })
+      try {
+        calculateGas({
+          domain: domain,
+          contract_event: true,
+          event: 'update status',
+          contract: 'registry',
+          event_success: true
+        })
+      } catch (error) {
+        console.log('error reporting gas')
+      }
     } catch (error) {
       this.setState({
         inProgress: false
@@ -381,6 +393,17 @@ class DomainsTable extends Component {
         toastr.error('Update Error')
       } catch (err) {
         console.log(err)
+      }
+      try {
+        calculateGas({
+          domain: domain,
+          contract_event: true,
+          event: 'update status',
+          contract: 'registry',
+          event_success: false
+        })
+      } catch (error) {
+        console.log('error reporting gas')
       }
     }
     const {filters} = this.props

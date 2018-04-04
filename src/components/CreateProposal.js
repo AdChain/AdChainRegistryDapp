@@ -6,7 +6,7 @@ import commafy from 'commafy'
 import toastr from 'toastr'
 import PubSub from 'pubsub-js'
 import Tooltip from './Tooltip'
-
+import calculateGas from '../utils/calculateGas'
 import './CreateProposal.css'
 
 class CreateProposal extends Component {
@@ -134,12 +134,40 @@ class CreateProposal extends Component {
           inProgress: false
         })
       }, 18000)
+
+      try {
+        calculateGas({
+          value_staked: this.state.currentMinDeposit,
+          parameter: this.state.proposalParam,
+          proposal_value: this.state.proposalValue,
+          contract_event: true,
+          event: 'proposeReparameterization',
+          contract: 'paramterizer',
+          event_success: true
+        })
+      } catch (error) {
+        console.log('error reporting gas')
+      }
     } catch (error) {
       console.log(error)
       toastr.error('There was an error creating proposal')
       this.setState({
         inProgress: false
       })
+
+      try {
+        calculateGas({
+          value_staked: this.state.currentMinDeposit,
+          parameter: this.state.proposalParam,
+          proposal_value: this.state.proposalValue,
+          contract_event: true,
+          event: 'proposeReparameterization',
+          contract: 'paramterizer',
+          event_success: false
+        })
+      } catch (error) {
+        console.log('error reporting gas')
+      }
     }
 
     return result

@@ -5,6 +5,7 @@ import toastr from 'toastr'
 import moment from 'moment'
 import { Button } from 'semantic-ui-react'
 import Tooltip from './Tooltip'
+import calculateGas from '../utils/calculateGas'
 
 import Countdown from './CountdownText'
 import registry from '../services/registry'
@@ -172,9 +173,29 @@ class DomainChallengeContainer extends Component {
     try {
       await registry.updateStatus(domain)
       await PubSub.publish('DomainProfileStageMap.updateStageMap')
+      try {
+        calculateGas({
+          domain: domain,
+          contract_event: 'update status',
+          contract: 'registry',
+          event_success: false
+        })
+      } catch (error) {
+        console.log('error reporting gas')
+      }
     } catch (error) {
       toastr.error('There was an error updating domain status')
       console.error(error)
+      try {
+        calculateGas({
+          domain: domain,
+          contract_event: 'update status',
+          contract: 'registry',
+          event_success: false
+        })
+      } catch (error) {
+        console.log('error reporting gas')
+      }
     }
   }
 
@@ -209,6 +230,18 @@ class DomainChallengeContainer extends Component {
           })
         }
 
+        try {
+          calculateGas({
+            domain: domain,
+            contract_event: true,
+            event: 'challenge',
+            contract: 'registry',
+            event_success: true
+          })
+        } catch (error) {
+          console.log('error reporting gas')
+        }
+
         // TODO: better way of resetting state
         setTimeout(() => {
           window.location.reload()
@@ -219,6 +252,17 @@ class DomainChallengeContainer extends Component {
           this.setState({
             inProgress: false
           })
+        }
+        try {
+          calculateGas({
+            domain: domain,
+            contract_event: true,
+            event: 'challenge',
+            contract: 'registry',
+            event_success: false
+          })
+        } catch (error) {
+          console.log('error reporting gas')
         }
       }
     } else {

@@ -5,6 +5,7 @@ import moment from 'moment'
 import { Input, Button, Segment } from 'semantic-ui-react'
 import Tooltip from './Tooltip'
 import randomInt from 'random-int'
+import calculateGas from '../utils/calculateGas'
 
 import saveFile from '../utils/saveFile'
 import Countdown from './CountdownText'
@@ -273,6 +274,17 @@ class DomainVoteCommitContainer extends Component {
     this.setState({
       commitDownloaded: true
     })
+    try {
+      calculateGas({
+        domain: domain,
+        contract_event: false,
+        event: 'download json',
+        contract: 'none',
+        event_success: true
+      })
+    } catch (error) {
+      console.log('error reporting gas')
+    }
   }
 
   onFormSubmit (event) {
@@ -380,7 +392,19 @@ class DomainVoteCommitContainer extends Component {
 
       if (committed) {
         toastr.success('Successfully committed')
-
+        try {
+          calculateGas({
+            domain: domain,
+            contract_event: true,
+            event: 'commit',
+            contract: 'registry',
+            vote_option: voteOption,
+            stake: votes,
+            event_success: true
+          })
+        } catch (error) {
+          console.log('error reporting gas')
+        }
         // TODO: better way of resetting state
         setTimeout(() => {
           window.location.reload()
@@ -394,6 +418,19 @@ class DomainVoteCommitContainer extends Component {
         this.setState({
           inProgress: false
         })
+      }
+      try {
+        calculateGas({
+          domain: domain,
+          contract_event: true,
+          event: 'commit',
+          contract: 'registry',
+          vote_option: voteOption,
+          stake: votes,
+          event_success: false
+        })
+      } catch (error) {
+        console.log('error reporting gas')
       }
     }
   }

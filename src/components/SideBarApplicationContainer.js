@@ -5,6 +5,7 @@ import toastr from 'toastr'
 import isValidDomain from 'is-valid-domain'
 import registry from '../services/registry'
 import PublisherApplicationFormInProgress from './PublisherApplicationFormInProgress'
+import calculateGas from '../utils/calculateGas'
 import commafy from 'commafy'
 import isMobile from 'is-mobile'
 import PubSub from 'pubsub-js'
@@ -92,13 +93,37 @@ class SideBarApplicationContainer extends Component {
       this.setState({
         inProgress: false
       })
+      try {
+        calculateGas({
+          value_staked: stake,
+          domain: domain,
+          contract_event: true,
+          event: 'apply',
+          contract: 'registry',
+          event_success: true
+        })
+      } catch (error) {
+        console.log('error reporting gas')
+      }
     } catch (error) {
       console.log(error)
-      toastr.error('There was an error with your request')
+      toastr.error('There was an error applying domain')
       if (this._isMounted) {
         this.setState({
           inProgress: false
         })
+      }
+      try {
+        calculateGas({
+          value_staked: stake,
+          domain: domain,
+          contract_event: true,
+          event: 'apply',
+          contract: 'registry',
+          event_success: false
+        })
+      } catch (error) {
+        console.log('error reporting gas')
       }
       return false
     }

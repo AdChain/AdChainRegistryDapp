@@ -4,6 +4,7 @@ import toastr from 'toastr'
 import { Button, Input, Segment } from 'semantic-ui-react'
 import commafy from 'commafy'
 import Tooltip from './Tooltip'
+import calculateGas from '../utils/calculateGas'
 
 import registry from '../services/registry'
 import './DomainInRegistryContainer.css'
@@ -254,9 +255,31 @@ class DomainInRegistryContainer extends Component {
     try {
       await registry.updateStatus(domain)
       await PubSub.publish('DomainProfileStageMap.updateStageMap')
+      try {
+        calculateGas({
+          domain: domain,
+          contract_event: true,
+          event: 'update status',
+          contract: 'registry',
+          event_success: true
+        })
+      } catch (error) {
+        console.log('error reporting gas')
+      }
     } catch (error) {
       toastr.error('There was an error updating status')
       console.error(error)
+      try {
+        calculateGas({
+          domain: domain,
+          contract_event: true,
+          event: 'update status',
+          contract: 'registry',
+          event_success: false
+        })
+      } catch (error) {
+        console.log('error reporting gas')
+      }
     }
   }
 
@@ -294,12 +317,34 @@ class DomainInRegistryContainer extends Component {
           inWithdrawProgress: false
         })
       }
+      try {
+        calculateGas({
+          domain: domain,
+          contract_event: true,
+          event: 'exit',
+          contract: 'registry',
+          event_success: true
+        })
+      } catch (error) {
+        console.log('error reporting gas')
+      }
     } catch (error) {
       toastr.error('There was an error with your request')
       if (this._isMounted) {
         this.setState({
           inWithdrawProgress: false
         })
+      }
+      try {
+        calculateGas({
+          domain: domain,
+          contract_event: true,
+          event: 'exit',
+          contract: 'registry',
+          event_success: false
+        })
+      } catch (error) {
+        console.log('error reporting gas')
       }
     }
   }
@@ -332,11 +377,33 @@ class DomainInRegistryContainer extends Component {
         })
         document.getElementById('ADTAmount').value = null
       }
+      try {
+        calculateGas({
+          domain: domain,
+          contract_event: true,
+          event: 'top off',
+          contract: 'registry',
+          event_success: true
+        })
+      } catch (error) {
+        console.log('error reporting gas')
+      }
     } catch (error) {
       toastr.error('There was an error with your request')
       this.setState({
         inTopOffProgress: false
       })
+      try {
+        calculateGas({
+          domain: domain,
+          contract_event: true,
+          event: 'top off',
+          contract: 'registry',
+          event_success: false
+        })
+      } catch (error) {
+        console.log('error reporting gas')
+      }
     }
   }
 
@@ -368,12 +435,34 @@ class DomainInRegistryContainer extends Component {
         })
         document.getElementById('ADTAmount').value = null
       }
+      try {
+        calculateGas({
+          domain: domain,
+          contract_event: true,
+          event: 'withdraw',
+          contract: 'registry',
+          event_success: true
+        })
+      } catch (error) {
+        console.log('error reporting gas')
+      }
     } catch (error) {
       toastr.error('There was an error withdrawing your ADT')
       console.error(error)
       this.setState({
         inWithdrawProgress: false
       })
+      try {
+        calculateGas({
+          domain: domain,
+          contract_event: true,
+          event: 'withdraw',
+          contract: 'registry',
+          event_success: false
+        })
+      } catch (error) {
+        console.log('error reporting gas')
+      }
     }
   }
 
@@ -405,7 +494,17 @@ class DomainInRegistryContainer extends Component {
             inChallengeProgress: false
           })
         }
-
+        try {
+          calculateGas({
+            domain: domain,
+            contract_event: true,
+            event: 'challenge',
+            contract: 'registry',
+            event_success: true
+          })
+        } catch (error) {
+          console.log('error reporting gas')
+        }
         // TODO: better way of resetting state
         setTimeout(() => {
           window.location.reload()
@@ -416,6 +515,17 @@ class DomainInRegistryContainer extends Component {
           this.setState({
             inChallengeProgress: false
           })
+        }
+        try {
+          calculateGas({
+            domain: domain,
+            contract_event: true,
+            event: 'challenge',
+            contract: 'registry',
+            event_success: false
+          })
+        } catch (error) {
+          console.log('error reporting gas')
         }
       }
     } else {
