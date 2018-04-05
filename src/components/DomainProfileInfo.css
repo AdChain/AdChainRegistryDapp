@@ -162,3 +162,11 @@
 :root:root .RedditInputContainer input:focus {
   border-color: #3434CE;
 }
+
+:root:root .DomainProfileInfo .active.loader {
+    position: absolute;
+    top: 95%;
+    right: 0;
+    background-color: white;
+    padding-left: 100%;
+}

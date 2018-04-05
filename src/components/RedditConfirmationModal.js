@@ -96,13 +96,13 @@ class RedditConfirmationModal extends Component {
     })
     try {
       if (action === 'apply') {
-        await createPostApplication(domain, reason)
         await registry.apply(domain, stake)
+        await createPostApplication(domain, reason)
         toastr.success('Successfully applied domain')
       } else {
         let data = ''
-        await createPostChallenge(domain, reason)
         await registry.challenge(domain, data)
+        await createPostChallenge(domain, reason)
         toastr.success('Successfully challenged domain')
       }
       this.setState({

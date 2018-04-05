@@ -8,7 +8,6 @@ import {
 } from 'react-router-dom'
 
 import CSSTransitionGroup from 'react-addons-css-transition-group'
-import InDevelopmentAlert from "./components/InDevelopmentAlert"
 import MainSidebar from './components/MainSidebar'
 import MainContainer from './components/MainContainer'
 import Joyride from 'react-joyride'
@@ -17,27 +16,6 @@ import PubSub from 'pubsub-js'
 
 import './App.css'
 
-<<<<<<< HEAD
-function App () {
-  return (
-    <Router>
-      <Route render={({ location }) => (
-        <div className='App'>
-          <InDevelopmentAlert/>
-          <div className='ui grid stackable'>
-            <div
-              className='MainSidebarWrap column four wide'>
-              <MainSidebar Link={Link} />
-            </div>
-            <div className='MainContainerWrap column twelve wide'>
-              <MainContainer
-                Route={Route}
-                CSSTransitionGroup={CSSTransitionGroup}
-                Switch={Switch}
-                Redirect={Redirect}
-                location={location} 
-                Link={Link}/>
-=======
 class App extends Component {
   constructor (props) {
     super(props)
@@ -100,7 +78,6 @@ class App extends Component {
                   resumeJoyride={this.resumeJoyride}
                 />
               </div>
->>>>>>> 7bddfa2c90d09879fcee23267831125261a7cf95
             </div>
           </div>
         )} />

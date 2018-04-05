@@ -83,17 +83,7 @@ class SideBarApplicationContainer extends Component {
       return false
     }
 
-    if (this._isMounted) {
-      // this.setState({
-      //   inProgress: true
-      // })
-    }
-
     try {
-      await registry.apply(domain, stake)
-      this.setState({
-        inProgress: false
-      })
       try {
         calculateGas({
           value_staked: stake,
@@ -112,20 +102,11 @@ class SideBarApplicationContainer extends Component {
         stake: stake,
         action: 'apply'
       }
-
+      // The domain will be applied inside this function
       PubSub.publish('RedditConfirmationModal.show', data)
-      // await registry.apply(domain, stake)
-      // this.setState({
-      //   inProgress: false
-      // })
     } catch (error) {
       console.log(error)
       toastr.error('There was an error applying domain')
-      if (this._isMounted) {
-        this.setState({
-          inProgress: false
-        })
-      }
       try {
         calculateGas({
           value_staked: stake,

@@ -8,6 +8,10 @@ import _ from 'lodash'
 import RedditReasonModal from './RedditReasonModal'
 import toastr from 'toastr'
 import moment from 'moment'
+import getDomainState from '../utils/determineDomainState'
+
+const activeLoader = 'ui active centered indeterminate inline small loader'
+const inactiveLoader = 'ui centered indeterminate inline small loader'
 
 class DomainProfileInfo extends Component {
   constructor (props) {
@@ -24,7 +28,9 @@ class DomainProfileInfo extends Component {
       appliedObj: {},
       challengedObj: {},
       comment: '',
-      redditId: ''
+      redditId: '',
+      redditTabIndex: 0,
+      inProgress: inactiveLoader
     }
     this.handleInputChange = this.handleInputChange.bind(this)
     this.onCommentSubmit = this.onCommentSubmit.bind(this)
@@ -33,11 +39,42 @@ class DomainProfileInfo extends Component {
   }
 
   async componentDidMount () {
-    await this.fetchRedditData()
+    this._isMounted = true
+
+    if (this._isMounted) {
+      await this.fetchRedditData()
+
+      // interval for fetching currently breaks rate limit
+      // this.interval = setInterval(() => {
+      //   this.fetchRedditData()
+      // }, 5e3)
+
+      const domainState = await getDomainState(this.state.domain)
+
+      switch (domainState.stage) {
+        case 'in_registry_in_commit':
+        case 'in_registry_in_reveal':
+        case 'in_registry_update_status':
+        case 'voting_commit':
+        case 'voting_reveal':
+        case 'reveal_pending':
+        case 'apply':
+          this.setState({ redditTabIndex: 1 })
+          break
+        default:
+          break
+      }
+    }
+  }
+
+  componentWillUnmount () {
+    this._isMounted = false
+    // window.clearInterval(this.interval)
   }
 
   render () {
-    const { appliedObj, challengedObj, domain } = this.state
+    const { appliedObj, challengedObj, domain, redditTabIndex, inProgress } = this.state
+
     const appliedData = appliedObj.id && appliedObj.comments.length > 0
       ? appliedObj.comments.map((comment, idx) =>
         <div className='RedditPosts' key={idx}>
@@ -92,7 +129,8 @@ class DomainProfileInfo extends Component {
     )
 
     const panes = [
-      { menuItem: 'APPLICATION',
+      {
+        menuItem: 'APPLICATION',
         render: () =>
           <Tab.Pane className='RedditTab' attached={false}>
             <div className='RedditActionButtons'>
@@ -122,6 +160,7 @@ class DomainProfileInfo extends Component {
                   value={this.state.comment}
                   onChange={this.handleInputChange}
                 />
+                <div className={inProgress} />
               </form>
             </div>
           </Tab.Pane>
@@ -136,7 +175,7 @@ class DomainProfileInfo extends Component {
             <Tab.Pane className='RedditTab' attached={false}>
               <div className='RedditActionButtons'>
                 <span className='RedditStageLabel'>
-                Challenge Reasoning:
+                  Challenge Reasoning:
                 </span>
                 <div className='RedditButtonsContainer'>
                   <RedditReasonModal domain={domain} data={challengedObj} view={'challenge'} />
@@ -161,6 +200,7 @@ class DomainProfileInfo extends Component {
                     value={this.state.comment}
                     onChange={this.handleInputChange}
                   />
+                  <div className={inProgress} />
                 </form>
               </div>
             </Tab.Pane>
@@ -173,7 +213,7 @@ class DomainProfileInfo extends Component {
         <span className='BoxFrameLabel ui grid'>REDDIT DISCUSSION<Tooltip info={'Simple site analytics, provided by Alexa'} /></span>
         <div className='ui grid stackable'>
           <div className='column sixteen wide'>
-            <Tab menu={{ secondary: true, pointing: true }} panes={panes} onTabChange={this.handleTabChange} />
+            <Tab menu={{ secondary: true, pointing: true }} panes={panes} onTabChange={this.handleTabChange} activeIndex={redditTabIndex} />
           </div>
         </div>
       </div>
@@ -181,43 +221,55 @@ class DomainProfileInfo extends Component {
   }
 
   handleInputChange (event) {
-    this.setState({
-      comment: event.target.value
-    })
+    if (this._isMounted) {
+      this.setState({
+        comment: event.target.value
+      })
+    }
   }
 
   handleTabChange (event, data) {
     const { appliedObj, challengedObj } = this.state
 
-    this.setState({
-      redditId: data.activeIndex === 0 ? appliedObj.id : challengedObj.id,
-      comment: ''
-    })
+    if (this._isMounted) {
+      this.setState({
+        redditId: data.activeIndex === 0 ? appliedObj.id : challengedObj.id,
+        comment: ''
+      })
+    }
   }
 
   async fetchRedditData () {
-    let redditData = await getPosts(this.state.domain)
-    this.setState({
-      appliedObj: _.isEmpty(redditData.data.applied) ? {} : redditData.data.applied,
-      challengedObj: _.isEmpty(redditData.data.challenged) ? {} : redditData.data.challenged,
-      redditId: _.isEmpty(redditData.data.applied) ? null : redditData.data.applied.id
-    })
+    try {
+      let redditData = await getPosts(this.state.domain)
+      this.setState({
+        appliedObj: _.isEmpty(redditData.data.applied) ? {} : redditData.data.applied,
+        challengedObj: _.isEmpty(redditData.data.challenged) ? {} : redditData.data.challenged,
+        redditId: _.isEmpty(redditData.data.applied) ? null : redditData.data.applied.id
+      })
+    } catch (error) {
+      console.error(error)
+      toastr.error('There was an error fetching the reddit data.')
+    }
   }
 
   async onCommentSubmit (event) {
     event.preventDefault()
-    const {redditId, comment} = this.state
+    const { redditId, comment } = this.state
 
     try {
+      this.setState({
+        inProgress: activeLoader
+      })
       await createComment(redditId, comment)
       this.setState({
+        inProgress: inactiveLoader,
         comment: ''
       })
-      setTimeout(() => this.fetchRedditData().then(toastr.success('We have successfully submitted your comment.')
-      ), 7e3)
     } catch (error) {
       this.setState({
-        comment: ''
+        comment: '',
+        inProgress: inactiveLoader
       })
       toastr.error('There was an error submitting your comment.')
       console.error(error)
