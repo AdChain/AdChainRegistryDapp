@@ -3,8 +3,8 @@ import commafy from 'commafy'
 import store from '../store'
 import registry from '../services/registry'
 import token from '../services/token'
-
 import Identicon from './Identicon'
+import moment from 'moment-timezone'
 
 import adtLogo from './assets/adtoken_logo.png'
 import ethLogo from './assets/ethereum_purple_logo.png'
@@ -59,24 +59,32 @@ class MainTopbar extends Component {
                   address={address}
                   size={6}
                   scale={6} />
-                <span>{address}</span>
+                <span>&nbsp;{address}</span>
               </div>
               : isLoading ? 'Loading...' : <div className='NoWalletMessage'>
-               Please download or unlock <a href='https://metamask.io/' target='_blank' rel='noopener noreferrer'>MetaMask</a> extension to load application and Ethereum wallet
+               Please download or unlock <a href='https://metamask.io/' target='_blank' rel='noopener noreferrer' style={{color: 'orange'}}>MetaMask</a> extension to load application and Ethereum wallet
             </div>}
           </div>
-          {address
-            ? <div className={'item ' + (invalidNetwork ? 'RedAlert' : '')}>
-              <div>
-                {invalidNetwork
-                  ? <strong>Please connect to Rinkeby Test Network</strong>
-                : <span>Network: <strong>Rinkeby Testnet</strong></span>}
-              </div>
-            </div>
-          : null}
+
           <div className='menu right'>
             {address
-              ? <div className={'item ' + (ethBalance === 0 || ethBalance === null ? 'RedAlert' : '')}>
+              ? <div className={'item ' + (invalidNetwork ? 'RedAlert' : '')}>
+                <div>
+                  {invalidNetwork
+                    ? <strong>Please connect to Rinkeby Ethereum Network</strong>
+                  : <span><strong>Network: </strong>Rinkeby Ethereum Network</span>}
+                </div>
+              </div>
+            : null}
+            <div className='item TimeZone'>
+              <div>
+                <span>
+                  <strong>Time Zone:</strong> &nbsp;&nbsp; {moment.tz(moment.tz.guess()).zoneAbbr()}
+                </span>
+              </div>
+            </div>
+            {address
+              ? <div className={'JoyrideTopBar item ' + (ethBalance === 0 || ethBalance === null ? 'RedAlert' : '')}>
                 <div className='EthLogo ui image'>
                   <img
                     src={ethLogo}
@@ -89,7 +97,7 @@ class MainTopbar extends Component {
               </div>
             : null}
             {address
-              ? <div className={'item ' + (adtBalance === 0 || adtBalance === null ? 'RedAlert' : '')}>
+              ? <div className={'JoyrideTopBar item ' + (adtBalance === 0 || adtBalance === null ? 'RedAlert' : '')}>
                 <div className='AdtLogo ui image'>
                   <img
                     src={adtLogo}
@@ -153,7 +161,6 @@ class MainTopbar extends Component {
 
   async updateNetwork () {
     const network = await registry.getNetwork()
-
     this.setState({
       invalidNetwork: (network.type !== 'rinkeby')
     })

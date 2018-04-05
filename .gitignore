@@ -26,3 +26,5 @@ yarn-error.log*
 # DO NOT COMMIT THESE!
 .ebextensions
 .elasticbeanstalk
+
+.vscode

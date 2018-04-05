@@ -1,3 +1,11 @@
 .WithdrawVotingRightsContainer {
   position: relative;
 }
+
+:root:root .WithdrawVotingRightsContainer .UnlockedAdt {
+  padding-top: 0;
+}
+
+:root:root .WithdrawVotingRightsContainer .UnlockedAdtText {
+  padding-bottom: 1em;
+}

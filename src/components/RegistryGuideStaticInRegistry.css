@@ -1,0 +1,107 @@
+.RegistryGuideStaticInRegistry {
+  position: relative;
+}
+
+.RegistryGuideStaticInRegistry .header {
+  display: inline-block;
+  font-size: 17px !important;
+}
+
+:root:root:root .RegistryGuideStaticInRegistry .refresh {
+  float: right;
+  border: 1px solid #3434CE;
+  border-radius: 3px;
+  color: #3434CE !important;
+  font-family: "Open Sans", sans-serif;
+  font-size: 9.5px;
+  font-weight: bold;
+  line-height: 11px;
+  text-transform: uppercase;
+  box-shadow: unset;
+}
+
+.RegistryGuideStaticInRegistry .HeaderColumn {
+  padding-bottom: 0px !important;
+}
+
+.RegistryGuideStaticInRegistry .HeaderRow {
+  padding-top: 10px;
+}
+
+:root:root:root .RegistryGuideStaticInRegistry .SegmentOne {
+  padding-left: 4em;
+  padding-right: 4em;
+  /* padding-top: 3em; */
+}
+
+:root:root:root .RegistryGuideStaticInRegistry .SegmentOne p,
+:root:root:root .RegistryGuideStaticInRegistry .SegmentTwo p,
+:root:root:root .RegistryGuideStaticInRegistry .SegmentThree p {
+	color: #424242;
+	font-family: "Open Sans", sans-serif;
+	font-size: 11px;
+	line-height: 14px;
+}
+
+:root:root:root .RegistryGuideStaticInRegistry .SegmentTwo {
+  border-top: none !important;
+}
+
+:root:root:root .RegistryGuideStaticInRegistry .SegmentTwo p {
+  padding-left: 6em;
+  padding-right: 3em;
+  text-align: left;
+}
+
+:root:root:root .RegistryGuideStaticInRegistry .SegmentFour {
+  border-top: none !important;
+  padding-left: 4em;
+  padding-right: 4em;
+  /* padding-bottom: 3em; */
+}
+
+:root:root:root .RegistryGuideStaticInRegistry .SegmentThree {
+  border-top: none !important;
+  padding-left: 4em;
+  padding-right: 4em;
+}
+
+:root:root:root .ChallengeButton {
+	color: #CE3434 !important;
+	font-family: "Open Sans", sans-serif;
+	font-size: 9.5px;
+	font-weight: bold;
+	text-align: center;
+  border: 1px solid #CE3434;
+  border-radius: 3px;
+  text-transform: uppercase;
+  box-shadow: unset;
+}
+
+:root:root:root .ChallengeButton:hover {
+  background-color: #CE3434 !important;
+  color: #FFF !important;
+}
+
+/*
+  Proposal Modal Style Overrides
+*/
+:root:root:root .ProposalChallengeContainer .SegmentOne p, 
+:root:root:root .ProposalChallengeContainer .SegmentTwo p, 
+:root:root:root .ProposalChallengeContainer .SegmentThree p {
+    color: #424242;
+    font-family: "Open Sans", sans-serif;
+    font-size: 12px;
+    line-height: 1.6;
+}
+:root:root:root .ProposalChallengeContainer p,
+:root:root:root .ProposalChallengeContainer .ui.large.header{
+  font-family: "Open Sans", sans-serif !important;
+  color:rgb(66, 66, 66);
+}
+:root:root:root .ProposalChallengeContainer .SegmentTwo p {
+    padding-left: 4em;
+    padding-right: 3em;
+    text-align: left;
+}
+

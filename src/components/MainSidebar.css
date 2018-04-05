@@ -1,15 +1,163 @@
+/* New Styles */
+@import url('https://fonts.googleapis.com/css?family=Titillium+Web:400,700');
+
+:root:root:root .HelpButton {
+  color: #FFF !important;
+  background-color: #CE4034 !important;
+  /* border: 1px solid #CE4034; */
+  box-shadow: none !important;
+  text-transform: uppercase;
+  font-size: 10px;
+}
+
+:root:root:root .HelpButton:hover,
+:root:root:root .HelpButton:active,
+:root:root:root .HelpButton:focus {
+  color: #FFF !important;
+  font-weight: bold !important;
+  background-color: #CE4034;
+}
+
+.ui.sidebar.menu .item {
+  font-family: 'Open Sans', sans-serif !important;
+  text-transform: uppercase !important;
+  border: none;
+}
+
+.ui.sidebar.menu .item a:focus,
+.ui.sidebar.menu .item a:hover,
+.ui.sidebar.menu .item a:active,
+.ui.sidebar.menu .item a:visited {
+  text-decoration: none !important;
+}
+
+.ui.sidebar.menu .item a {
+  padding-left: 10px;
+  font-size: 16px;
+}
+
+.ui.sidebar.menu .item img {
+  width: 13%;
+  vertical-align: middle;
+  position: relative;
+  right: 10px;
+}
+
+.ui.sidebar.menu .item .NavLink,
+.ui.sidebar.menu .item img {
+  opacity: .5;
+}
+
+.ui.sidebar.menu .item .NavLink.active,
+.ui.sidebar.menu .item .NavLink.active img {
+  opacity: 1;
+  font-weight: 600;
+}
+
+.ui.accordion.menu .item .title {
+  display: inline;
+  opacity: .5;
+  font-size: 16px;
+  padding-left: 10px;
+}
+
+
+.ui.accordion.menu .item .title.active,
+.ui.accordion.menu .item .title.active img {
+  opacity: 1;
+  font-weight: 600;
+}
+
+.ui.accordion.menu .item .title>.dropdown.icon {
+  color: #3434CE;
+  float: none !important;
+  opacity: unset;
+  margin: unset;
+}
+
+.ui.accordion.menu .item .AccordionArrow {
+  float: none !important;
+  color: #3434CE;
+}
+
+:root:root:root .ui.accordion.menu .item .AccordionArrowRotatedHelp,
+:root:root:root .ui.accordion.menu .item .AccordionArrowRotatedSocial  {
+  float: none !important;
+  color: #3434CE;
+  transform: rotate(-90deg);
+}
+
+.ui.sidebar.menu .item .content ul {
+  padding-left: 2em;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.ui.sidebar.menu .item .content ul li {
+  padding-bottom: 5px;
+}
+
+.ui.sidebar.menu .item .content ul li a {
+  color: #F4F7FA !important;
+  opacity: unset;
+  font-size: 10px;
+  line-height: 11px;
+}
+
+.SidebarFooter {
+  position: relative;
+  /* left: 50%; */
+  /* bottom: 0; */
+  /* transform: translate(-50%, -50%); */
+  width: 100%;
+  margin-top: 20px;
+}
+
+.PoweredBy {
+  text-align: center;
+  color: #F4F7FA;
+  font-family: "Open Sans", sans-serif;
+  font-size: 8px;
+  font-weight: 600;
+  line-height: 8px;
+}
+
+.SidebarFooterLogos {
+  width: 65px;
+  display: inline !important;
+  vertical-align: middle;
+}
+
+.ImageBorder {
+	box-sizing: border-box;
+	height: 23px;
+	width: 3px;
+	border: .5px solid #FFFFFF;
+  opacity: .4 !important;
+  margin-right: 10px;
+  margin-left: 10px;
+  line-height: 2em;
+  padding-top: 3px;
+  padding-bottom: 3px;
+}
+
+/* End New Style Changes */
+
 :root:root:root .MainSidebar {
-  background: #272B34;
+  /* background: #272B34; */
   display: flex;
   flex-direction: column;
   height: 100%;
+  border-radius: 0 10px 0 0;
+  background: linear-gradient(180deg, #0E0E39 0%, #20206B 100%);
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.5);
 }
 
 :root:root .MainSidebar .adChainLogo {
   width: 100%;
   padding: 0.6em;
   text-align: center;
-  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.50);
+  /* box-shadow: 0 2px 4px 0 rgba(0,0,0,0.50); */
 }
 
 :root:root .MainSidebar .adChainLogo img {
@@ -59,7 +207,7 @@
 }
 
 :root:root .MainSidebar .list .item a:hover {
-  text-decoration: underline;
+  text-decoration: none;
 }
 
 :root:root .MainSidebar .list .item a.active,
@@ -83,7 +231,7 @@
 }
 
 :root:root .MainSidebar .metaxLogo {
-  padding: 2em;
+  /* padding: 2em; */
   width: 100%;
   text-align: center;
 }
@@ -97,6 +245,42 @@
   width: 100%;
   text-align: center;
   margin-bottom: 10px;
+}
+
+.MobileMenu:hover{
+  cursor: pointer;
+}
+.MobileMenu span:first-of-type{
+  margin-top: 2px;
+}
+
+.MobileMenu span{
+  border: 1px solid white;
+  border-bottom: 1px solid white;
+  border-radius: 3px;
+  margin-bottom: 2px;
+  margin-top: 7px;
+  display: block;
+  width: 28px;
+}
+/*.MobileMenu:hover span{
+  border: 1px solid ;
+}
+*/
+.MobileMenu {
+  border:1px solid white;
+  padding:5px;
+  border-radius:5px;
+  margin-top:2px;
+  display: inline-block;
+  position: absolute;
+  right: 16px;
+  top:14px;
+}
+@media(min-width:768px){
+  .MobileMenu{
+    display: none
+  }
 }
 
 :root:root .MainSidebar .Copyright p {
@@ -189,3 +373,4 @@
     display: none;
   }
 }
+

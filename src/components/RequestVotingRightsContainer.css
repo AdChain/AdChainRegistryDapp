@@ -5,3 +5,14 @@
 :root:root .RequestVotingRightsContainer input {
   max-width: 70px;
 }
+
+:root:root .RequestVotingRightsContainer .VotingRights {
+  padding-top: 0;
+}
+
+:root:root .RequestVotingRightsContainer .VotingRightsText {
+  padding-bottom: 1em;
+}
+.RequestVotingRightsContainerInput {
+  max-width:90px !important;
+}

@@ -3,13 +3,21 @@ import PropTypes from 'prop-types'
 import commafy from 'commafy'
 import toastr from 'toastr'
 import moment from 'moment'
-import { Popup } from 'semantic-ui-react'
+import { Button } from 'semantic-ui-react'
+import Tooltip from './Tooltip'
+import calculateGas from '../utils/calculateGas'
 
 import Countdown from './CountdownText'
 import registry from '../services/registry'
+import parametizer from '../services/parameterizer'
 import DomainChallengeInProgressContainer from './DomainChallengeInProgressContainer'
+import PubSub from 'pubsub-js'
+import Eth from 'ethjs'
 
 import './DomainChallengeContainer.css'
+
+const big = (number) => new Eth.BN(number.toString(10))
+const tenToTheNinth = big(10).pow(big(9))
 
 class DomainChallengeContainer extends Component {
   constructor (props) {
@@ -20,75 +28,108 @@ class DomainChallengeContainer extends Component {
       applicationExpiry: null,
       minDeposit: null,
       currentDeposit: null,
-      inProgress: false
+      inProgress: false,
+      source: props.source,
+      dispensationPct: null
     }
+
+    this.updateStatus = this.updateStatus.bind(this)
+    this.getDispensationPct = this.getDispensationPct.bind(this)
   }
 
-  componentDidMount () {
+  async componentDidMount () {
     this._isMounted = true
-
-    this.getMinDeposit()
-    this.getListing()
+    await this.getMinDeposit()
+    await this.getListing()
+    await this.getDispensationPct()
   }
 
   componentWillUnmount () {
     this._isMounted = false
   }
 
+  componentWillReceiveProps (nextProps) {
+    if (nextProps.currentDeposit !== this.props.currentDeposit) {
+      this.setState({
+        currentDeposit: nextProps.currentDeposit
+      })
+    }
+  }
+
   render () {
     const {
-      domain,
       applicationExpiry,
       minDeposit,
-      inProgress
+      inProgress,
+      source,
+      dispensationPct,
+      currentDeposit
     } = this.state
 
     const stageEndMoment = applicationExpiry ? moment.unix(applicationExpiry) : null
     const stageEnd = stageEndMoment ? stageEndMoment.format('YYYY-MM-DD HH:mm:ss') : '-'
+    const stakedDifference = currentDeposit - minDeposit
 
     return (
       <div className='DomainChallengeContainer'>
         <div className='ui grid stackable'>
-          <div className='column sixteen wide'>
-            <div className='ui large header center aligned'>
-              IN APPLICATION
-              <Popup
-                trigger={<i className='icon info circle' />}
-                content='ADT holders are encouraged to challenge publisher applications where the token holders believe the Publisher to be fraudulent.'
-              />
-            </div>
-          </div>
-          <div className='ui divider' />
-          <div className='column sixteen wide center aligned'>
-            <div className='ui message info'>
-              <p>Challenge stage ends</p>
-              <p><strong>{stageEnd}</strong></p>
-              <p>Remaining time: <Countdown
-                endDate={stageEndMoment}
-                onExpire={this.onCountdownExpire.bind(this)} /></p>
-            </div>
-          </div>
-          <div className='ui divider' />
-          <div className='column sixteen wide center aligned'>
-            <form className='ui form'>
-              <div className='ui field'>
-                <label>Challenge {domain}</label>
+          {
+            (source === 'InRegistry') ? null
+              : <div className='column sixteen wide HeaderColumn'>
+                <div className='row HeaderRow'>
+                  <div className='ui large header'>
+                  Stage: In Application
+                    <Tooltip
+                      info='The first phase of the voting process is the commit phase where the ADT holder stakes a hidden amount of votes to SUPPORT or OPPOSE the domain application. The second phase is the reveal phase where the ADT holder reveals the staked amount of votes to either the SUPPORT or OPPOSE side.'
+                    />
+                  </div>
+                  <Button
+                    basic
+                    className='right refresh'
+                    onClick={this.updateStatus}
+                  >
+                  Refresh Status
+                  </Button>
+                </div>
+                <div className='ui divider' />
               </div>
-              <div className='ui field'>
-                <div className='ui message default'>
-                  <p>Minimum deposit required</p>
-                  <p><strong>{minDeposit ? commafy(minDeposit) : '-'} ADT</strong></p>
+          }
+
+          {
+            (source === 'InRegistry') ? null
+              : <div className='column sixteen wide center aligned'>
+                <div>
+                  <p>Challenge stage ends</p>
+                  <p><strong>{stageEnd}</strong></p>
+                  <div>Remaining time: <Countdown
+                    endDate={stageEndMoment}
+                    onExpire={this.onCountdownExpire.bind(this)} /></div>
                 </div>
               </div>
-              <div className='ui field'>
-                <button
-                  onClick={this.onChallenge.bind(this)}
-                  className='ui button purple right labeled icon'>
-                  CHALLENGE
-                  <i className='icon thumbs down' />
-                </button>
+          }
+          <div className='column sixteen wide center aligned ChallengeInfoContainer'>
+            <div>
+              <div>
+                <p>ADT Required to Challenge</p>
+                <span className='RequiredADT'>
+                  <strong>{minDeposit ? commafy(minDeposit) : '-'} ADT</strong>
+                </span>
+                {
+                  (source === 'InRegistry') ? null
+                    : <div className='NumberCircle'>1</div>
+                }
               </div>
-            </form>
+              {
+                (stakedDifference < 0)
+                  ? <div className='TouchRemoveMessage'>
+                    <p>Challenging this domain will remove it from the registry since the listing has less ADT staked than required.</p>
+                  </div>
+                  : <div className='PayoutPercentageContainer'>
+                    <p>Your Percentage Payout if Successful: </p><span className='PayoutPercentage'><strong>{dispensationPct}%</strong></span>
+                  </div>
+              }
+            </div>
+            <Button basic className='ChallengeButton' onClick={this.onChallenge.bind(this)}>Challenge</Button>
           </div>
         </div>
         {inProgress ? <DomainChallengeInProgressContainer /> : null}
@@ -116,7 +157,7 @@ class DomainChallengeContainer extends Component {
     if (this._isMounted) {
       this.setState({
         applicationExpiry,
-        currentDeposit
+        currentDeposit: big(currentDeposit).div(tenToTheNinth)
       })
     }
   }
@@ -127,45 +168,108 @@ class DomainChallengeContainer extends Component {
     this.challenge()
   }
 
-  async challenge () {
+  async updateStatus () {
     const {domain} = this.state
+    try {
+      await registry.updateStatus(domain)
+      await PubSub.publish('DomainProfileStageMap.updateStageMap')
+      try {
+        calculateGas({
+          domain: domain,
+          contract_event: 'update status',
+          contract: 'registry',
+          event_success: false
+        })
+      } catch (error) {
+        console.log('error reporting gas')
+      }
+    } catch (error) {
+      toastr.error('There was an error updating domain status')
+      console.error(error)
+      try {
+        calculateGas({
+          domain: domain,
+          contract_event: 'update status',
+          contract: 'registry',
+          event_success: false
+        })
+      } catch (error) {
+        console.log('error reporting gas')
+      }
+    }
+  }
+
+  async challenge () {
+    const {domain, minDeposit} = this.state
 
     let inApplication = null
+    // const hash = `0x${soliditySHA3(['bytes32'], [domain.toLowerCase().trim()]).toString('hex')}`
+    // let data = ''
 
     try {
       inApplication = await registry.applicationExists(domain)
     } catch (error) {
-      toastr.error(error)
+      toastr.error('Error')
     }
 
     if (inApplication) {
-      if (this._isMounted) {
-        this.setState({
-          inProgress: true
-        })
-      }
+      // if (this._isMounted) {
+      //   this.setState({
+      //     inProgress: true
+      //   })
+      // }
 
       try {
-        await registry.challenge(domain)
+        let data = {
+          domain: domain,
+          minDeposit: minDeposit,
+          action: 'challenge'
+        }
+        PubSub.publish('RedditConfirmationModal.show', data)
 
-        toastr.success('Successfully challenged domain')
+        // await registry.challenge(domain, data)
 
+        // toastr.success('Successfully challenged domain')
+
+        // if (this._isMounted) {
+        //   this.setState({
+        //     inProgress: false
+        //   })
+        // }
+
+        try {
+          calculateGas({
+            domain: domain,
+            contract_event: true,
+            event: 'challenge',
+            contract: 'registry',
+            event_success: true
+          })
+        } catch (error) {
+          console.log('error reporting gas')
+        }
+
+        // TODO: better way of resetting state
+        // setTimeout(() => {
+        //   window.location.reload()
+        // }, 2e3)
+      } catch (error) {
+        toastr.error('Error')
         if (this._isMounted) {
           this.setState({
             inProgress: false
           })
         }
-
-        // TODO: better way of resetting state
-        setTimeout(() => {
-          window.location.reload()
-        }, 2e3)
-      } catch (error) {
-        toastr.error(error.message)
-        if (this._isMounted) {
-          this.setState({
-            inProgress: false
+        try {
+          calculateGas({
+            domain: domain,
+            contract_event: true,
+            event: 'challenge',
+            contract: 'registry',
+            event_success: false
           })
+        } catch (error) {
+          console.log('error reporting gas')
         }
       }
     } else {
@@ -178,6 +282,20 @@ class DomainChallengeContainer extends Component {
     setTimeout(() => {
       window.location.reload()
     }, 15000)
+  }
+
+  async getDispensationPct () {
+    try {
+      parametizer.get('dispensationPct')
+        .then((response) => {
+          let result = response.toNumber()
+          this.setState({
+            dispensationPct: result
+          })
+        })
+    } catch (error) {
+      console.error(error)
+    }
   }
 }
 

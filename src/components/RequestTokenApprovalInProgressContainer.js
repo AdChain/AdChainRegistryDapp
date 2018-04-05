@@ -15,9 +15,8 @@ class RequestVotingRightsInProgressContainer extends Component {
           <div><strong>Request in progress. </strong>
             <Loader indeterminate active inline />
           </div>
-          <p>You will receive <strong>two</strong> MetaMask prompts:</p>
+          <p>You will receive <strong>one</strong> MetaMask prompt:</p>
           <p><strong>First prompt:</strong> Allow adChain Registry PLCR contract to transfer adToken deposit from your account.</p>
-          <p><strong>Second prompt:</strong> Request voting rights from the adChain Registry PLCR contract.</p>
         </div>
       </div>
     )

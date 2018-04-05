@@ -2,11 +2,12 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import toastr from 'toastr'
 import moment from 'moment'
-import { Radio, Popup } from 'semantic-ui-react'
+import { Input, Button, Segment } from 'semantic-ui-react'
+import Tooltip from './Tooltip'
 import randomInt from 'random-int'
+import calculateGas from '../utils/calculateGas'
 
 import saveFile from '../utils/saveFile'
-import generateReminder from '../utils/generateReminder'
 import Countdown from './CountdownText'
 import registry from '../services/registry'
 import DomainVoteCommitInProgressContainer from './DomainVoteCommitInProgressContainer'
@@ -33,7 +34,9 @@ class DomainVoteCommitContainer extends Component {
       voteOption: null,
       enableDownload: false,
       commitDownloaded: false,
-      revealReminderDownloaded: false
+      revealReminderDownloaded: false,
+      SupportState: 'SupportButton',
+      OpposeState: 'OpposeButton'
     }
 
     this.getListing()
@@ -45,7 +48,6 @@ class DomainVoteCommitContainer extends Component {
     this.onVoteOptionChange = this.onVoteOptionChange.bind(this)
     this.onFormSubmit = this.onFormSubmit.bind(this)
     this.onDownload = this.onDownload.bind(this)
-    this.onReminderDownload = this.onReminderDownload.bind(this)
     this.enableDownloadCheck = this.enableDownloadCheck.bind(this)
   }
 
@@ -65,33 +67,36 @@ class DomainVoteCommitContainer extends Component {
 
   render () {
     const {
-      domain,
+      // domain,
       commitEndDate,
       didChallenge,
       didCommit,
       inProgress,
       salt,
-      voteOption,
-      challengeId,
-      enableDownload,
-      commitDownloaded,
-      votes,
-      revealReminderDownloaded
+      SupportState,
+      OpposeState,
+      // voteOption,
+      challengeId
+      // enableDownload,
+      // commitDownloaded,
+      // votes
+      // revealReminderDownloaded
     } = this.state
 
     const stageEndMoment = commitEndDate ? moment.unix(commitEndDate) : null
-    const stageEnd = stageEndMoment ? stageEndMoment.format('YYYY-MM-DD HH:mm:ss') : '-'
+    const stageEnd = stageEndMoment ? stageEndMoment.format('MMMM Do YYYY HH:mm:ss') : '-'
 
     return (
       <div className='DomainVoteCommitContainer'>
         <div className='ui grid stackable'>
-          <div className='column sixteen wide'>
-            <div className='ui large header center aligned'>
-              VOTING – COMMIT
-              <Popup
-                trigger={<i className='icon info circle' />}
-                content='The first phase of the voting process is the commit phase where the ADT holder stakes a hidden amount of votes to SUPPORT or OPPOSE the domain application. The second phase is the reveal phase where the ADT holder reveals the staked amount of votes to either the SUPPORT or OPPOSE side.'
-              />
+          <div className='column sixteen wide HeaderColumn'>
+            <div className='row HeaderRow'>
+              <div className='ui large header'>
+              Stage: Voting
+                <Tooltip
+                  info='The first phase of the voting process is the commit phase where the ADT holder stakes a hidden amount of votes to SUPPORT or OPPOSE the domain application. The second phase is the reveal phase where the ADT holder reveals the staked amount of votes to either the SUPPORT or OPPOSE side.'
+                />
+              </div>
             </div>
           </div>
           {didChallenge ? <div className='column sixteen wide center aligned'>
@@ -99,109 +104,95 @@ class DomainVoteCommitContainer extends Component {
               You've <strong>challenged</strong> this domain.
             </div>
           </div>
-          : null}
+            : null}
           {didCommit ? <div className='column sixteen wide center aligned'>
             <div className='ui message warning'>
-              You've <strong>commited</strong> for this domain.
+              You've <strong>committed</strong> for this domain.
             </div>
           </div>
-          : null}
+            : null}
           <div className='ui divider' />
           <div className='column sixteen wide center aligned'>
-            <div className='ui message info'>
+            <div className='VotingDeadline'>
               <p>
-              Voting commit stage ends
+              Voting stage ends:
               </p>
               <p><strong>{stageEnd}</strong></p>
-              <p>Remaining time: <Countdown
-                endDate={stageEndMoment}
-                onExpire={this.onCountdownExpire.bind(this)} /></p>
+              <div>Remaining time:
+                <Countdown
+                  endDate={stageEndMoment}
+                  onExpire={this.onCountdownExpire.bind(this)} />
+              </div>
             </div>
           </div>
           <div className='ui divider' />
           <div className='column sixteen wide center aligned'>
-            <form
-              onSubmit={this.onFormSubmit}
-              className='ui form center aligned'>
-              <div className='ui field'>
-                <label>SUPPORT or OPPOSE {domain}</label>
-              </div>
-              <div className='ui field'>
-                <p>Challenge ID: <label className='ui label'>{challengeId}</label></p>
-              </div>
-              <div className='ui field'>
-                <label>Enter Votes to Commit</label>
-                <div className='ui input small'>
-                  <input
-                    type='text'
-                    placeholder='100'
-                    onKeyUp={this.onDepositKeyUp}
-                  />
-                </div>
-              </div>
-              <div className='ui field'>
-                <label>Vote Option</label>
-              </div>
-              <div className='ui two fields VoteOptions'>
-                <div className='ui field'>
-                  <Radio
-                    label='SUPPORT'
+            <form className='ui form center aligned'>
+              <Segment.Group horizontal>
+                <Segment className='SegmentOne'>
+                  <div className='NumberCircle'>1</div>
+                  <label>Enter the Number of votes to commit:</label>
+                </Segment>
+                <Segment className='SegmentThree'>
+                  <div className='ui input small'>
+                    <Input
+                      className='InputVoteCommit'
+                      placeholder='ADT'
+                      onKeyUp={this.onDepositKeyUp}
+                    />
+                  </div>
+                </Segment>
+              </Segment.Group>
+              <Segment.Group horizontal>
+                <Segment className='SegmentOne'>
+                  <div className='NumberCircle'>2</div>
+                  <label>Choose Your Vote Option:</label>
+                </Segment>
+                <Segment className='SegmentTwo'>
+                  <Button
+                    basic
+                    className={SupportState}
                     name='voteOption'
                     value='1'
-                    checked={this.state.voteOption === 1}
-                    onChange={this.onVoteOptionChange}
-                  />
-                </div>
-                <div className='ui field'>
-                  <Radio
-                    label='OPPOSE'
+                    onClick={this.onVoteOptionChange}
+                  >
+                  Support
+                  </Button>
+                </Segment>
+                <Segment className='SegmentThree'>
+                  <Button
+                    basic
+                    className={OpposeState}
                     name='voteOption'
                     value='0'
-                    checked={this.state.voteOption === 0}
-                    onChange={this.onVoteOptionChange}
-                  />
-                </div>
+                    onClick={this.onVoteOptionChange}
+                  >
+                    Oppose
+                  </Button>
+                </Segment>
+              </Segment.Group>
+              <div>
+                <Segment className='LeftSegment' floated='left'>
+                  <div>
+                    <div className='NumberCircle NumCircle3'>3</div>
+                  </div>
+                  Your commit is needed to reveal your vote in the Reveal stage:
+                  <div className='DownloadCommitButtonContainer'>
+                    <Button className='DownloadCommitButton' basic onClick={this.onDownload}>Download Commit &nbsp;<i className='icon long arrow down' /></Button>
+                  </div>
+                </Segment>
+                <Segment className='RightSegment' floated='right'>
+                  If you misplace your commit, you can enter the information below to reveal your vote:
+                  <div className='ChallengeID'>
+                    Challenge ID: <strong>{challengeId}</strong>
+                  </div>
+                  <div>
+                    Secret Phrase: <strong>{salt}</strong>
+                  </div>
+                </Segment>
               </div>
-              <div className='ui field'>
-                <label>Secret Phrase<br /><small>PLEASE SAVE THIS. This random phrase (known as a "salt") will be required to reveal your vote and claim rewards.</small></label>
-                <div className='ui message tiny default SaltField'>
-                  {salt}
-                </div>
-              </div>
-              <div className='ui field'>
-                <label><small>Download commit info required for reveal stage</small></label>
-                <button
-                  onClick={this.onDownload}
-                  title='Download commit info'
-                  className={`ui button ${enableDownload ? '' : 'disabled'} right labeled icon ${commitDownloaded ? 'default' : 'blue'}`}>
-                  Download Commit
-                  <i className='icon download' />
-                </button>
-              </div>
-              {commitDownloaded
-              ? <div className='ui field'>
-                <label><small>Download a calendar reminder for revealing vote</small></label>
-                <button
-                  onClick={this.onReminderDownload}
-                  title='Download commit info'
-                  className={`ui mini button right labeled icon ${revealReminderDownloaded ? 'default' : 'blue'}`}>
-                  Reveal Reminder
-                  <i className='icon download' />
-                </button>
-              </div>
-              : null}
-              <div className='ui field'>
-                {(voteOption === null || !votes || !commitDownloaded)
-                  ? <button
-                    className='ui button disabled'>
-                    {voteOption === null ? 'Select Vote Option' : (!votes ? 'Enter votes' : 'Vote')}
-                  </button>
-                : <button
-                  type='submit'
-                  className={`ui button ${voteOption ? 'blue' : 'purple'} right labeled icon`}>
-                    VOTE TO {voteOption ? 'SUPPORT' : 'OPPOSE'} <i className={`icon thumbs ${voteOption ? 'up' : 'down'}`} />
-                </button>
-                }
+              <div className='SubmitVoteButtonContainer'>
+                <Button className='SubmitVoteButton centered' basic onClick={this.onFormSubmit}>Submit Vote</Button>
               </div>
             </form>
           </div>
@@ -220,10 +211,23 @@ class DomainVoteCommitContainer extends Component {
   }
 
   onVoteOptionChange (event, { value }) {
+    event.preventDefault()
+
     if (this._isMounted) {
-      this.setState({
-        voteOption: parseInt(value, 10)
-      })
+      if (value === '1') {
+        this.setState({
+          voteOption: parseInt(value, 10),
+          SupportState: 'SupportButton clicked',
+          OpposeState: 'OpposeButton'
+
+        })
+      } else {
+        this.setState({
+          voteOption: parseInt(value, 10),
+          OpposeState: 'OpposeButton clicked',
+          SupportState: 'SupportButton'
+        })
+      }
     }
   }
 
@@ -262,6 +266,7 @@ class DomainVoteCommitContainer extends Component {
 
     const domainUnderscored = domain.replace('.', '_')
     const endDateString = moment.unix(commitEndDate).format('YYYY-MM-DD_HH-mm-ss')
+    json.commitEndDate = endDateString
 
     const filename = `${domainUnderscored}--challenge_id_${challengeId}--commit_end_${endDateString}--commit-vote.json`
     saveFile(json, filename)
@@ -269,36 +274,17 @@ class DomainVoteCommitContainer extends Component {
     this.setState({
       commitDownloaded: true
     })
-  }
-
-  async onReminderDownload (event) {
-    event.preventDefault()
-
-    const {
-      domain,
-      challengeId,
-      commitEndDate
-    } = this.state
-
-    const domainUnderscored = domain.replace('.', '_')
-    const revealDate = moment.unix(commitEndDate)
-    const revealDateString = revealDate.format('YYYY-MM-DD_HH-mm-ss')
-
-    const filename = `${domainUnderscored}--challenge_id_${challengeId}--reveal_start_${revealDateString}--reminder.ics`
-    const title = `Reveal Vote for ${domain}`
-    const url = `${window.location.protocol}//${window.location.host}/domains/${domain}`
-
-    const data = await generateReminder({
-      start: revealDate,
-      title,
-      url
-    })
-
-    saveFile(data, filename)
-
-    this.setState({
-      revealReminderDownloaded: true
-    })
+    try {
+      calculateGas({
+        domain: domain,
+        contract_event: false,
+        event: 'download json',
+        contract: 'none',
+        event_success: true
+      })
+    } catch (error) {
+      console.log('error reporting gas')
+    }
   }
 
   onFormSubmit (event) {
@@ -335,12 +321,12 @@ class DomainVoteCommitContainer extends Component {
 
       if (this._isMounted) {
         this.setState({
-          commitEndDate,
-          revealEndDate
+          commitEndDate: commitEndDate._i,
+          revealEndDate: revealEndDate._i
         })
       }
     } catch (error) {
-      toastr.error(error.message)
+      toastr.error('There was an error with your request')
     }
   }
 
@@ -356,7 +342,7 @@ class DomainVoteCommitContainer extends Component {
         })
       }
     } catch (error) {
-      toastr.error(error.message)
+      toastr.error('There was an error with your request')
     }
   }
 
@@ -372,7 +358,7 @@ class DomainVoteCommitContainer extends Component {
         })
       }
     } catch (error) {
-      toastr.error(error.message)
+      toastr.error('There was an error with your request')
     }
   }
 
@@ -396,7 +382,7 @@ class DomainVoteCommitContainer extends Component {
     }
 
     try {
-      const commited = await registry.commitVote({domain, votes, voteOption, salt})
+      const committed = await registry.commitVote({domain, votes, voteOption, salt})
 
       if (this._isMounted) {
         this.setState({
@@ -404,9 +390,21 @@ class DomainVoteCommitContainer extends Component {
         })
       }
 
-      if (commited) {
+      if (committed) {
         toastr.success('Successfully committed')
-
+        try {
+          calculateGas({
+            domain: domain,
+            contract_event: true,
+            event: 'commit',
+            contract: 'registry',
+            vote_option: voteOption,
+            stake: votes,
+            event_success: true
+          })
+        } catch (error) {
+          console.log('error reporting gas')
+        }
         // TODO: better way of resetting state
         setTimeout(() => {
           window.location.reload()
@@ -415,11 +413,24 @@ class DomainVoteCommitContainer extends Component {
         toastr.error('Commit did not go through')
       }
     } catch (error) {
-      toastr.error(error.message)
+      toastr.error('There was an error with your request')
       if (this._isMounted) {
         this.setState({
           inProgress: false
         })
+      }
+      try {
+        calculateGas({
+          domain: domain,
+          contract_event: true,
+          event: 'commit',
+          contract: 'registry',
+          vote_option: voteOption,
+          stake: votes,
+          event_success: false
+        })
+      } catch (error) {
+        console.log('error reporting gas')
       }
     }
   }

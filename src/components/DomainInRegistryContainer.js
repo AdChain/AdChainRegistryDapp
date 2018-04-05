@@ -1,14 +1,22 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import toastr from 'toastr'
-import { Popup } from 'semantic-ui-react'
+import { Button, Input, Segment } from 'semantic-ui-react'
 import commafy from 'commafy'
+import Tooltip from './Tooltip'
+import calculateGas from '../utils/calculateGas'
 
 import registry from '../services/registry'
 import './DomainInRegistryContainer.css'
-import DomainVoteTokenDistribution from './DomainVoteTokenDistribution'
 import DomainChallengeInProgressContainer from './DomainChallengeInProgressContainer'
-import ClaimRewardContainer from './ClaimRewardContainer'
+import WithdrawInProgressContainer from './WithdrawInProgressContainer'
+import TopOffInProgressContainer from './TopOffInProgressContainer'
+import DomainChallengeContainer from './DomainChallengeContainer'
+import Eth from 'ethjs'
+import PubSub from 'pubsub-js'
+
+const big = (number) => new Eth.BN(number.toString(10))
+const tenToTheNinth = big(10).pow(big(9))
 
 class DomainInRegistryContainer extends Component {
   constructor (props) {
@@ -20,10 +28,19 @@ class DomainInRegistryContainer extends Component {
       didReveal: false,
       didClaim: false,
       inChallengeProgress: false,
-      minDeposit: null
+      inWithdrawProgress: false,
+      inTopOffProgress: false,
+      minDeposit: null,
+      canWithdraw: false,
+      currentDeposit: null,
+      stakedDifferenceUpdated: false
     }
 
     this.onChallenge = this.onChallenge.bind(this)
+    this.withdrawListing = this.withdrawListing.bind(this)
+    this.topOff = this.topOff.bind(this)
+    this.updateStatus = this.updateStatus.bind(this)
+    this.withdrawADT = this.withdrawADT.bind(this)
   }
 
   componentDidMount () {
@@ -31,8 +48,10 @@ class DomainInRegistryContainer extends Component {
 
     this.getPoll()
     this.getReveal()
-    this.getClaims()
+    // this.getClaims()
     this.getMinDeposit()
+    this.getCurrentDeposit()
+    this.checkOwner()
   }
 
   componentWillUnmount () {
@@ -42,75 +61,102 @@ class DomainInRegistryContainer extends Component {
   render () {
     const {
       domain,
-      didReveal,
-      didClaim,
       inChallengeProgress,
-      votesFor,
-      votesAgainst,
-      minDeposit
+      inWithdrawProgress,
+      inTopOffProgress,
+      minDeposit,
+      canWithdraw,
+      currentDeposit
     } = this.state
 
-    const hasVotes = (votesFor || votesAgainst)
+    const stakedDifference = currentDeposit - minDeposit
+    const formattedStakedDifference = stakedDifference ? stakedDifference > 0 ? '+' + commafy(stakedDifference) : commafy(stakedDifference) : 0
+    const stakedDifferenceClass = stakedDifference > 0 ? 'StakedDifferencePositive' : stakedDifference < 0 ? 'StakedDifferenceNegative' : 'StakedDifferenceZero'
+
+    // const hasVotes = (votesFor || votesAgainst)
 
     return (
       <div className='DomainInRegistryContainer'>
         <div className='ui grid stackable'>
-          <div className='column sixteen wide'>
-            <div className='ui large header center aligned'>
-              In Registry
-              <Popup
-                trigger={<i className='icon info circle' />}
-                content='Domain was unchallenged or voted into adChain Registry.'
-              />
+          <div className='column sixteen wide HeaderColumn'>
+            <div className='row HeaderRow'>
+              <div className='ui large header'>
+              Stage: In Registry
+                <Tooltip
+                  info='The first phase of the voting process is the commit phase where the ADT holder stakes a hidden amount of votes to SUPPORT or OPPOSE the domain application. The second phase is the reveal phase where the ADT holder reveals the staked amount of votes to either the SUPPORT or OPPOSE side.'
+                />
+              </div>
+              <Button
+                basic
+                className='right refresh'
+                onClick={this.updateStatus}
+              >
+                Refresh Status
+              </Button>
             </div>
           </div>
+          <div className='ui divider' />
+          <DomainChallengeContainer domain={domain} source='InRegistry' currentDeposit={currentDeposit} />
           <div className='column sixteen wide center aligned'>
-            <p>{domain} is in adChain Registry.</p>
-          </div>
-          {didReveal ? <div className='column sixteen wide center aligned'>
-            <div className='ui message warning'>
-              You've <strong>revealed</strong> for this domain.
-            </div>
-          </div>
-          : null}
-          {didClaim ? <div className='column sixteen wide center aligned'>
-            <div className='ui message warning'>
-              You've <strong>claimed reward</strong> for this domain.
-            </div>
-          </div>
-          : null}
-          {hasVotes ? [
-            <div className='ui divider' key={Math.random()} />,
-            <DomainVoteTokenDistribution domain={domain} key={Math.random()} />
-          ] : null}
-          <div className='ui divider' />,
-          <div className='column sixteen wide center aligned DomainChallengeFormContainer'>
-            <form className='ui form'>
-              <div className='ui field'>
-                <label>Challenge {domain}</label>
+            { canWithdraw
+              ? <div>
+                <Segment className='LeftSegment' floated='left'>
+                  <p>Remove listing for</p>
+                  <span className='RequiredADT'>
+                    <strong>{currentDeposit ? commafy(currentDeposit) : '0'} ADT</strong>
+                  </span>
+                  <p className='RemoveInfo'>
+                  Withdrawing your listing completely removes it from the adchain Registry and reimburses you the ADT amount above.
+                  </p>
+                  <div className='RemoveButtonContainer'>
+                    <Button
+                      className='RemoveButton'
+                      basic
+                      onClick={this.withdrawListing}>Remove Listing</Button>
+                  </div>
+                </Segment>
+                <Segment className='RightSegment' floated='right'>
+                  <div className='TopOffRow'>
+                    <div className='CurrentDepositLabel'>
+                  Current minDeposit:
+                    </div>
+                    <div className='CurrentDeposit'><strong>{minDeposit ? commafy(minDeposit) : '0'} ADT</strong></div>
+                  </div>
+                  <div className='TopOffRow'>
+                    <div className='StakedDifferenceLabel'>
+                    Staked Difference:
+                    </div>
+                    <div className={stakedDifferenceClass}><strong>{stakedDifference ? formattedStakedDifference : '0'} ADT</strong></div>
+                  </div>
+                  <div className='TopOffLabel'>
+                  Enter ADT Amount
+                  </div>
+                  <div className='ADTInputContainer'>
+                    <Input type='number' placeholder='ADT' id='ADTAmount' className='ADTInput' min='0' />
+                  </div>
+                  <div className='DepositWithdrawButtonRow'>
+                    <div className='TopOffButtonContainer'>
+                      <Button
+                        className='TopOffButton'
+                        basic
+                        onClick={this.topOff}>Deposit ADT</Button>
+                    </div>
+                    <div className='WithdrawButtonContainer'>
+                      <Button
+                        className='WithdrawButton'
+                        basic
+                        onClick={this.withdrawADT}>Withdraw ADT</Button>
+                    </div>
+                  </div>
+                </Segment>
               </div>
-              <div className='ui field'>
-                <div className='ui message default'>
-                  <p>Minimum deposit required</p>
-                  <p><strong>{minDeposit ? commafy(minDeposit) : '-'} ADT</strong></p>
-                </div>
-              </div>
-              <div className='ui field'>
-                <button
-                  onClick={this.onChallenge}
-                  className='ui button purple right labeled icon'>
-                  CHALLENGE
-                  <i className='icon thumbs down' />
-                </button>
-              </div>
-            </form>
-          </div>
-          <div className='ui divider' />,
-          <div className='column sixteen wide center aligned'>
-            <ClaimRewardContainer domain={domain} />
+              : null
+            }
           </div>
         </div>
         {inChallengeProgress ? <DomainChallengeInProgressContainer /> : null}
+        {inWithdrawProgress ? <WithdrawInProgressContainer /> : null}
+        {inTopOffProgress ? <TopOffInProgressContainer /> : null}
       </div>
     )
   }
@@ -139,7 +185,7 @@ class DomainInRegistryContainer extends Component {
         })
       }
     } catch (error) {
-      toastr.error(error.message)
+      toastr.error('There was an error with your request')
     }
   }
 
@@ -179,7 +225,7 @@ class DomainInRegistryContainer extends Component {
         })
       }
     } catch (error) {
-      toastr.error(error.message)
+      toastr.error('There was an error with your request')
     }
   }
 
@@ -187,6 +233,237 @@ class DomainInRegistryContainer extends Component {
     event.preventDefault()
 
     this.challenge()
+  }
+
+  async checkOwner () {
+    const {domain, account} = this.state
+
+    try {
+      const listing = await registry.getListing(domain)
+      if (listing.ownerAddress === account) {
+        this.setState({
+          canWithdraw: true
+        })
+      }
+    } catch (error) {
+      toastr.error('There was an error with your request')
+    }
+  }
+
+  async updateStatus () {
+    const {domain} = this.state
+    try {
+      await registry.updateStatus(domain)
+      await PubSub.publish('DomainProfileStageMap.updateStageMap')
+      try {
+        calculateGas({
+          domain: domain,
+          contract_event: true,
+          event: 'update status',
+          contract: 'registry',
+          event_success: true
+        })
+      } catch (error) {
+        console.log('error reporting gas')
+      }
+    } catch (error) {
+      toastr.error('There was an error updating status')
+      console.error(error)
+      try {
+        calculateGas({
+          domain: domain,
+          contract_event: true,
+          event: 'update status',
+          contract: 'registry',
+          event_success: false
+        })
+      } catch (error) {
+        console.log('error reporting gas')
+      }
+    }
+  }
+
+  async getCurrentDeposit () {
+    const {domain} = this.state
+    try {
+      const listing = await registry.getListing(domain)
+      if (listing.currentDeposit) {
+        this.setState({
+          currentDeposit: big(listing.currentDeposit).div(tenToTheNinth)
+        })
+      }
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  async withdrawListing () {
+    const {domain} = this.state
+
+    if (this._isMounted) {
+      this.setState({
+        inWithdrawProgress: true
+      })
+    }
+
+    try {
+      await registry.exit(domain)
+      this.setState({
+        canWithdraw: false
+      })
+      toastr.success('Successfully withdrew listing')
+      if (this._isMounted) {
+        this.setState({
+          inWithdrawProgress: false
+        })
+      }
+      try {
+        calculateGas({
+          domain: domain,
+          contract_event: true,
+          event: 'exit',
+          contract: 'registry',
+          event_success: true
+        })
+      } catch (error) {
+        console.log('error reporting gas')
+      }
+    } catch (error) {
+      toastr.error('There was an error with your request')
+      if (this._isMounted) {
+        this.setState({
+          inWithdrawProgress: false
+        })
+      }
+      try {
+        calculateGas({
+          domain: domain,
+          contract_event: true,
+          event: 'exit',
+          contract: 'registry',
+          event_success: false
+        })
+      } catch (error) {
+        console.log('error reporting gas')
+      }
+    }
+  }
+
+  async topOff () {
+    const {domain, currentDeposit} = this.state
+    const amount = document.getElementById('ADTAmount').value
+
+    // Possibly include other verification checks
+    if (parseInt(amount, 10) < 0) {
+      toastr.error('You must enter a positive amount.')
+      return
+    }
+
+    if (this._isMounted) {
+      this.setState({
+        inTopOffProgress: true
+      })
+    }
+
+    const stakedDeposit = parseInt(amount, 10) + parseInt(currentDeposit, 10)
+
+    try {
+      await registry.deposit(domain, amount)
+      if (this._isMounted) {
+        this.setState({
+          currentDeposit: stakedDeposit,
+          inTopOffProgress: false,
+          stakedDifferenceUpdated: true
+        })
+        document.getElementById('ADTAmount').value = null
+      }
+      try {
+        calculateGas({
+          domain: domain,
+          contract_event: true,
+          event: 'top off',
+          contract: 'registry',
+          event_success: true
+        })
+      } catch (error) {
+        console.log('error reporting gas')
+      }
+    } catch (error) {
+      toastr.error('There was an error with your request')
+      this.setState({
+        inTopOffProgress: false
+      })
+      try {
+        calculateGas({
+          domain: domain,
+          contract_event: true,
+          event: 'top off',
+          contract: 'registry',
+          event_success: false
+        })
+      } catch (error) {
+        console.log('error reporting gas')
+      }
+    }
+  }
+
+  async withdrawADT () {
+    const {domain, currentDeposit, minDeposit} = this.state
+    const amount = document.getElementById('ADTAmount').value
+
+    if (parseInt(currentDeposit, 10) - parseInt(amount, 10) < minDeposit) {
+      toastr.error('You can only withdraw an amount of tokens that is less than or equal to the staked difference.')
+      return
+    }
+    if (parseInt(amount, 10) < 0) {
+      toastr.error('You must enter a positive amount.')
+      return
+    }
+
+    if (this._isMounted) {
+      this.setState({
+        inWithdrawProgress: true
+      })
+    }
+
+    try {
+      await registry.withdraw(domain, amount)
+      if (this._isMounted) {
+        this.setState({
+          currentDeposit: parseInt(currentDeposit, 10) - parseInt(amount, 10),
+          inWithdrawProgress: false
+        })
+        document.getElementById('ADTAmount').value = null
+      }
+      try {
+        calculateGas({
+          domain: domain,
+          contract_event: true,
+          event: 'withdraw',
+          contract: 'registry',
+          event_success: true
+        })
+      } catch (error) {
+        console.log('error reporting gas')
+      }
+    } catch (error) {
+      toastr.error('There was an error withdrawing your ADT')
+      console.error(error)
+      this.setState({
+        inWithdrawProgress: false
+      })
+      try {
+        calculateGas({
+          domain: domain,
+          contract_event: true,
+          event: 'withdraw',
+          contract: 'registry',
+          event_success: false
+        })
+      } catch (error) {
+        console.log('error reporting gas')
+      }
+    }
   }
 
   async challenge () {
@@ -197,7 +474,7 @@ class DomainInRegistryContainer extends Component {
     try {
       inApplication = await registry.applicationExists(domain)
     } catch (error) {
-      toastr.error(error.message)
+      toastr.error('There was an error with your request')
     }
 
     if (inApplication) {
@@ -217,17 +494,38 @@ class DomainInRegistryContainer extends Component {
             inChallengeProgress: false
           })
         }
-
+        try {
+          calculateGas({
+            domain: domain,
+            contract_event: true,
+            event: 'challenge',
+            contract: 'registry',
+            event_success: true
+          })
+        } catch (error) {
+          console.log('error reporting gas')
+        }
         // TODO: better way of resetting state
         setTimeout(() => {
           window.location.reload()
         }, 2e3)
       } catch (error) {
-        toastr.error(error.message)
+        toastr.error('There was an error with your request')
         if (this._isMounted) {
           this.setState({
             inChallengeProgress: false
           })
+        }
+        try {
+          calculateGas({
+            domain: domain,
+            contract_event: true,
+            event: 'challenge',
+            contract: 'registry',
+            event_success: false
+          })
+        } catch (error) {
+          console.log('error reporting gas')
         }
       }
     } else {

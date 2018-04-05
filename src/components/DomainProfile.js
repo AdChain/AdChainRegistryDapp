@@ -4,9 +4,11 @@ import qs from 'qs'
 
 import DomainProfileHeader from './DomainProfileHeader'
 import DomainStatsbar from './DomainStatsbar'
-import DomainScamReport from './DomainScamReport'
+// import DomainScamReport from './DomainScamReport'
 import DomainProfileInfo from './DomainProfileInfo'
 import DomainProfileActionContainer from './DomainProfileActionContainer'
+// import DomainProfileAdsTxtStatus from './DomainProfileAdsTxtStatus'
+import DomainProfileStageMap from './DomainProfileStageMap'
 
 import './DomainProfile.css'
 
@@ -25,7 +27,8 @@ class DomainProfile extends Component {
       siteName: '',
       siteDescription: '',
       country: null,
-      action
+      action,
+      stage: null
     }
 
     // scroll to top
@@ -34,7 +37,6 @@ class DomainProfile extends Component {
 
   componentDidMount () {
     this._isMounted = true
-
     this.fetchSiteMetadata()
   }
 
@@ -48,7 +50,8 @@ class DomainProfile extends Component {
       siteName,
       siteDescription,
       country,
-      action
+      action,
+      stage
     } = this.state
 
     return (
@@ -69,14 +72,17 @@ class DomainProfile extends Component {
           </div>
           <div className='row'>
             <div className='column five wide'>
-              <DomainScamReport domain={domain} />
+              <DomainProfileStageMap stage={stage} domain={domain} />
             </div>
-            <div className='column five wide'>
+            <div className='column four wide'>
               <DomainProfileInfo
                 domain={domain}
               />
+              {
+                // <DomainProfileAdsTxtStatus domain={domain} />
+              }
             </div>
-            <div className='column six wide'>
+            <div className='column seven wide'>
               <DomainProfileActionContainer
                 domain={domain}
                 action={action}
@@ -95,7 +101,7 @@ class DomainProfile extends Component {
       return false
     }
 
-    const response = await window.fetch(`https://adchain-registry-api.metax.io/domains/metadata?domain=${domain}`)
+    const response = await window.fetch(`https://adchain-registry-api-staging.metax.io/domains/metadata?domain=${domain}`)
 
     try {
       const {

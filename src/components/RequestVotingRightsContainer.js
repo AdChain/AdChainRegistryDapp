@@ -2,12 +2,10 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import toastr from 'toastr'
 import commafy from 'commafy'
-import { Popup } from 'semantic-ui-react'
-
+import Tooltip from './Tooltip'
 import registry from '../services/registry'
 import store from '../store'
 
-import RequestVotingRightsInProgressContainer from './RequestVotingRightsInProgressContainer'
 import './RequestVotingRightsContainer.css'
 
 class RequestVotingRightsContainer extends Component {
@@ -17,8 +15,7 @@ class RequestVotingRightsContainer extends Component {
     this.state = {
       account: props.account,
       availableVotes: null,
-      requestVotes: null,
-      inProgress: false
+      requestVotes: null
     }
 
     this.onRequest = this.onRequest.bind(this)
@@ -41,40 +38,33 @@ class RequestVotingRightsContainer extends Component {
 
   render () {
     const {
-      inProgress,
       availableVotes
     } = this.state
 
     return (
-      <div className='RequestVotingRightsContainer BoxFrame'>
-        <div className='ui grid stackable center aligned'>
-          <div className='column sixteen wide'>
-            <p>Request Voting Rights
-              <Popup
-                trigger={<i className='icon info circle' />}
-                content='Pre-requesting voting rights will minimizes the number of transactions when performing commit votes. This can save gas fees if voting frequently. 1 ADT = 1 Vote. Pre-requesting voting rights will withdraw AdToken from your account to the adChain registry PLCR contract. You may convert the votes to adToken and withdraw at any time.'
-              />
-            </p>
 
-            <div><small>Total current voting rights: <strong>{availableVotes !== null ? commafy(availableVotes) : '-'}</strong></small></div>
-
-            <div><small>Enter amount of ADT to convert to votes</small></div>
-            <div className='ui input action mini'>
-              <input
-                type='text'
-                placeholder='100'
-                id='RequestVotingRightsContainerInput'
-                onKeyUp={this.onVotesKeyUp}
-              />
-              <button
-                onClick={this.onRequest}
-                className='ui button blue tiny'>
-                Request Voting Rights
-              </button>
-            </div>
-          </div>
+      <div className='column six wide VotingRights t-center'>
+        <div className='VotingRightsText'>
+          Current Voting Rights <Tooltip class='InfoIconHigh' info='The amount of adToken you have pre-approved for voting.' />
+          <br />
+          <span className='VotingTokensAmount'>
+            {availableVotes !== null ? commafy(availableVotes) + ' ADT' : '-'}
+          </span>
         </div>
-        {inProgress ? <RequestVotingRightsInProgressContainer /> : null}
+        <div className='ui input action mini'>
+          <input
+            type='text'
+            placeholder='100'
+            style={{maxWidth: '90px'}}
+            id='RequestVotingRightsContainerInput'
+            onKeyUp={this.onVotesKeyUp}
+              />
+          <button
+            onClick={this.onRequest}
+            className='ui button blue tiny'>
+            APPROVE
+          </button>
+        </div>
       </div>
     )
   }
@@ -99,12 +89,6 @@ class RequestVotingRightsContainer extends Component {
       return false
     }
 
-    if (this._isMounted) {
-      this.setState({
-        inProgress: true
-      })
-    }
-
     try {
       await registry.requestVotingRights(requestVotes)
 
@@ -117,13 +101,8 @@ class RequestVotingRightsContainer extends Component {
 
       toastr.success('Success')
     } catch (error) {
-      toastr.error(error.message)
-    }
-
-    if (this._isMounted) {
-      this.setState({
-        inProgress: false
-      })
+      console.log('Error rewuesting voting rights: ', error)
+      toastr.error('There was an error with your request')
     }
   }
 
@@ -136,12 +115,13 @@ class RequestVotingRightsContainer extends Component {
 
     try {
       const availableVotes = (await registry.getTotalVotingRights()).toNumber()
-
-      this.setState({
-        availableVotes
-      })
+      if (this._isMounted) {
+        this.setState({
+          availableVotes
+        })
+      }
     } catch (error) {
-      toastr.error(error.message)
+      toastr.error('There was an error with your request')
     }
   }
 }

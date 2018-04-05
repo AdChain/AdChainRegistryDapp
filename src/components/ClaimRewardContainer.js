@@ -120,7 +120,7 @@ class ClaimRewardContainer extends Component {
         })
       }
     } catch (error) {
-      toastr.error(error.message)
+      toastr.error('There was an error with your request')
     }
   }
 
@@ -206,7 +206,7 @@ class ClaimRewardContainer extends Component {
         window.location.reload()
       }, 1e3)
     } catch (error) {
-      toastr.error(error.message)
+      toastr.error('There was an error with your request')
     }
 
     if (this._isMounted) {

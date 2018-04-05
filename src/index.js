@@ -47,7 +47,11 @@ async function init () {
             console.log('Ad blocker is detected');
             return
         } else {
+<<<<<<< HEAD
           console.log('Ad blocker is not detected');
+=======
+          // console.log('Ad blocker is not detected');
+>>>>>>> 7bddfa2c90d09879fcee23267831125261a7cf95
           try {
             await Promise.all([
               registry.init(),
@@ -79,4 +83,3 @@ document.addEventListener('DOMContentLoaded', () => {
         }
   }, false
 )
-

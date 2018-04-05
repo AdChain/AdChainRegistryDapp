@@ -10,8 +10,19 @@ import RegistryStatsbar from './RegistryStatsbar'
 import AdtCalculator from './AdtCalculator'
 import DomainsTable from './DomainsTable'
 import DomainsFilterPanel from './DomainsFilterPanel'
+<<<<<<< HEAD
 import { NavLink as Link } from 'react-router-dom'
 import RightCaret from './assets/right_caret.png'
+=======
+// import Trollbox from './Trollbox'
+import WelcomeModal from './WelcomeModal'
+import RegistryGuideStaticChallenge from './RegistryGuideStaticChallenge'
+import RegistryGuideStaticInRegistry from './RegistryGuideStaticInRegistry'
+import RegistryGuideStaticVoting from './RegistryGuideStaticVoting'
+import RegistryGuideStaticReveal from './RegistryGuideStaticReveal'
+import RegistryGuideStaticDashboard from './RegistryGuideStaticDashboard'
+import DomainEmailNotifications from './DomainEmailNotifications'
+>>>>>>> 7bddfa2c90d09879fcee23267831125261a7cf95
 
 import './DomainsContainer.css'
 
@@ -24,7 +35,8 @@ class DomainsContainer extends Component {
     this.state = {
       query: normalizeQueryObj(query),
       history: props.history,
-      tableFilters: []
+      tableFilters: [],
+      staticContainer: null
     }
     this.onQueryChange = this.onQueryChange.bind(this)
     this.updateTableFilters = this.updateTableFilters.bind(this)
@@ -38,35 +50,52 @@ class DomainsContainer extends Component {
     window.scrollTo(0, -1)
   }
 
-  componentWillReceiveProps (props) {
-    const query = qs.parse(props.location.search.substr(1))
+  componentDidMount () {
+    let returningUser = window.localStorage.getItem('returningUser')
 
+    if (!returningUser || returningUser === 'false') {
+      window.localStorage.setItem('returningUser', 'false')
+    }
+  }
+
+  componentWillReceiveProps (nextProps) {
+    // if (nextProps.location.key === this.props.location.key) {
+    const query = qs.parse(nextProps.location.search.substr(1))
     this.setState({
-      query: normalizeQueryObj(query)
+      query: normalizeQueryObj(query),
+      staticContainer: nextProps.staticContainer
     })
-
     this.updateTableFilters(query)
+    // }
+  }
+
+  componentDidUpdate (prevProps, prevState) {
+    if (this.props.staticContainer !== prevProps.staticContainer) {
+      prevProps.resumeJoyride()
+    }
   }
 
   render () {
     const {
       query,
       history,
-      tableFilters
+      tableFilters,
+      staticContainer
     } = this.state
 
     return (
       <div className='DomainsContainer'>
         <div className='ui grid stackable padded'>
-          <div className='column nine wide NoPaddingBottom NoPaddingRight'>
+          <div className='column ten wide NoPaddingBottom NoPaddingRight'>
             <RegistryStatsbar />
           </div>
-          <div className='column seven wide NoPaddingBottom'>
+          <div className='column six wide NoPaddingBottom'>
             <AdtCalculator />
           </div>
           <div className='column sixteen wide'>
             <div className='ui grid stackable'>
               <div className='column four wide NoPaddingRight'>
+<<<<<<< HEAD
                 <DomainsFilterPanel
                   filters={query}
                   onFiltersChange={this.onQueryChange}
@@ -85,8 +114,47 @@ class DomainsContainer extends Component {
                   history={history}
                   filters={tableFilters}
                 />
+=======
+                {
+                  (staticContainer === 'dashboard')
+                    ? <RegistryGuideStaticDashboard />
+                    : <DomainsFilterPanel
+                      filters={query}
+                      onFiltersChange={this.onQueryChange}
+                    />
+                }
+                <DomainEmailNotifications />
+>>>>>>> 7bddfa2c90d09879fcee23267831125261a7cf95
               </div>
+              {
+                (staticContainer === 'challenge')
+                  ? <div className='column six wide'>
+                    <RegistryGuideStaticChallenge />
+                  </div>
+                  : (staticContainer === 'registry')
+                    ? <div className='column six wide'>
+                      <RegistryGuideStaticInRegistry />
+                    </div>
+                    : (staticContainer === 'voting')
+                      ? <div className='column six wide'>
+                        <RegistryGuideStaticVoting />
+                      </div>
+                      : (staticContainer === 'reveal')
+                        ? <div className='column six wide'>
+                          <RegistryGuideStaticReveal />
+                        </div>
+                        : <div className='column twelve wide'>
+                          <DomainsTable
+                            history={history}
+                            filters={tableFilters}
+                          />
+                        </div>
+              }
             </div>
+            {
+              // window.localStorage.returningUser === 'false' ? <WelcomeModal /> : null
+            }
+            <WelcomeModal />
           </div>
         </div>
       </div>
@@ -116,7 +184,6 @@ class DomainsContainer extends Component {
     }
 
     let filter = []
-
     // TODO: better way
     for (let k in query) {
       if (query[k]) {
@@ -141,7 +208,6 @@ class DomainsContainer extends Component {
 
     filter = new RegExp(filter.join('|'), 'gi')
     stageFilter.value = filter
-
     this.setState({tableFilters: [domainFilter, stageFilter]})
   }
 }

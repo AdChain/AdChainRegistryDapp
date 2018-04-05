@@ -3,13 +3,15 @@ import PropTypes from 'prop-types'
 import toastr from 'toastr'
 
 import store from '../store'
-import registry from '../services/registry'
+import determineDomainState from '../utils/determineDomainState'
 
 import DomainNotInRegistryContainer from './DomainNotInRegistryContainer'
 import DomainInRegistryContainer from './DomainInRegistryContainer'
 import DomainChallengeContainer from './DomainChallengeContainer'
 import DomainVoteCommitContainer from './DomainVoteCommitContainer'
 import DomainVoteRevealContainer from './DomainVoteRevealContainer'
+import DomainPendingContainer from './DomainPendingContainer'
+import DomainRejectedContainer from './DomainRejectedContainer'
 
 import './DomainProfileActionContainer.css'
 
@@ -18,22 +20,19 @@ class DomainProfileActionContainer extends Component {
     super()
 
     const {
-      domain,
-      action
+      domain
     } = props
 
     this.state = {
       domain,
-      action
+      stage: null
     }
 
     this.getData()
-    this.updateStatus = this.updateStatus.bind(this)
   }
 
   componentDidMount () {
     this._isMounted = true
-
     // TODO unsubscribe on dismount
     store.subscribe(x => {
       setTimeout(() => this.getData(), 1e3)
@@ -47,39 +46,29 @@ class DomainProfileActionContainer extends Component {
   render () {
     const {
       domain,
-      action
+      stage
     } = this.state
 
     let component = null
 
-    if (action === 'challenge') {
+    if (stage === 'in_application') {
       component = <DomainChallengeContainer domain={domain} />
-    } else if (action === 'commit') {
+    } else if (stage === 'voting_commit' || stage === 'in_registry_in_commit') {
       component = <DomainVoteCommitContainer domain={domain} />
-    } else if (action === 'reveal') {
+    } else if (stage === 'voting_reveal' || stage === 'in_registry_in_reveal') {
       component = <DomainVoteRevealContainer domain={domain} />
-    } else if (action === 'in_registry') {
+    } else if (stage === 'in_registry') {
       component = <DomainInRegistryContainer domain={domain} />
+    } else if (stage === 'in_registry_update_status' || stage === 'in_application_pending' || stage === 'reveal_pending') {
+      component = <DomainPendingContainer domain={domain} />
+    } else if (stage === 'apply') {
+      component = <DomainRejectedContainer domain={domain} />
     } else {
       component = <DomainNotInRegistryContainer domain={domain} />
     }
 
     return (
-      <div>
-        <div className='DomainProfileActionContainer BoxFrame'>
-          <div className='ui grid stackable'>
-            <div className='column sixteen wid center aligned'>
-              <a
-                className='ui button mini blue icon labeled right'
-                href='#!'
-                title='Refresh status'
-                onClick={this.updateStatus}>
-                <i className='icon refresh' />
-                  Refresh status
-              </a>
-            </div>
-          </div>
-        </div>
+      <div className='OuterDomainProfileActionContainer'>
         <div className='DomainProfileActionContainer BoxFrame'>
           {component}
         </div>
@@ -87,64 +76,26 @@ class DomainProfileActionContainer extends Component {
     )
   }
 
-  async updateStatus (event) {
-    event.preventDefault()
-
-    const {domain} = this.state
-
-    try {
-      await registry.updateStatus(domain)
-    } catch (error) {
-      toastr.error(error.message)
-    }
-
-    this.getData()
-  }
-
   async getData () {
+    let {domain} = this.state
+
     try {
-      const {domain} = this.state
-
-      const listing = await registry.getListing(domain)
-
-      const {
-        applicationExpiry,
-        isWhitelisted,
-        challengeId
-      } = listing
-
-      const challengeOpen = (challengeId === 0 && !isWhitelisted && applicationExpiry)
-      const commitOpen = await registry.commitStageActive(domain)
-      const revealOpen = await registry.revealStageActive(domain)
-
-      let action = null
-
-      if (commitOpen) {
-        action = 'commit'
-      } else if (revealOpen) {
-        action = 'reveal'
-      } else if (challengeOpen) {
-        action = 'challenge'
-      } else if (isWhitelisted) {
-        action = 'in_registry'
-      } else {
-        action = 'apply'
-      }
+      const domainData = await determineDomainState(domain)
 
       if (this._isMounted) {
         this.setState({
-          action
+          stage: domainData.stage
         })
       }
     } catch (error) {
-      toastr.error(error.message)
+      console.log('error: ', error)
+      toastr.error('There was an error with your request')
     }
   }
 }
 
 DomainProfileActionContainer.propTypes = {
-  domain: PropTypes.string,
-  action: PropTypes.string
+  domain: PropTypes.string
 }
 
 export default DomainProfileActionContainer

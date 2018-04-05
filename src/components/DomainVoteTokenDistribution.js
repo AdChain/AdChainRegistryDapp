@@ -45,7 +45,7 @@ class DomainVoteTokenDistribution extends Component {
         })
       }
     } catch (error) {
-      toastr.error(error)
+      toastr.error('There was an error getting poll')
     }
   }
 
@@ -77,11 +77,11 @@ class DomainVoteTokenDistribution extends Component {
           <div className='Breakdown'>
             <div className='BreakdownItem'>
               <div className='BreakdownItemBox' />
-              <span className='BreakdownItemLabel'>{commafy(votesFor)} Votes</span>
+              <span className='BreakdownItemLabel'>= {commafy(votesFor)} Votes</span>
             </div>
             <div className='BreakdownItem'>
               <div className='BreakdownItemBox' />
-              <span className='BreakdownItemLabel'>{commafy(votesAgainst)} Votes</span>
+              <span className='BreakdownItemLabel'>= {commafy(votesAgainst)} Votes</span>
             </div>
           </div>
         </div>

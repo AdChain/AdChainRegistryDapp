@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="300px" height="400px" viewBox="0 0 231 354" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 48.2 (47327) - http://www.bohemiancoding.com/sketch -->
+    <title>map_in_application_pending</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Stage-Maps" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="map_in_application_pending">
+            <path d="M58.5,35.5 L58.5,115.5" id="Line" stroke="#F4F7FA" stroke-linecap="square"></path>
+            <path d="M58.4760206,36.3303996 L138.318868,116.102629 L58.4760206,36.3303996 Z" id="Line" stroke="#F4F7FA" stroke-linecap="square"></path>
+            <path d="M98.4922097,220.120034 L98.5421436,332.984937" id="Line" stroke="#F4F7FA" stroke-linecap="square" transform="translate(98.517177, 276.552485) rotate(-45.000000) translate(-98.517177, -276.552485) "></path>
+            <path d="M58.5,135.5 L58.5,215.5" id="Line" stroke="#F4F7FA" stroke-linecap="square"></path>
+            <path d="M58.5,235.5 L58.5,315.5" id="Line" stroke="#F4F7FA" stroke-linecap="square"></path>
+            <rect id="Rectangle-11" fill="#3434CE" x="18" y="16" width="81" height="20" rx="3"></rect>
+            <rect id="Rectangle-11" stroke="#3434CE" x="16.5" y="14.5" width="84" height="23" rx="3"></rect>
+            <text id="In-Application" font-family="Open Sans, sans-serif" font-size="9" font-weight="500" fill="#FCFCFF">
+                <tspan x="29.0424805" y="30">In Application</tspan>
+            </text>
+            <rect id="Rectangle-11-Copy" fill="#F4F7FA" x="18" y="116" width="81" height="20" rx="3"></rect>
+            <text id="Voting" font-family="Open Sans, sans-serif" font-size="9" font-weight="normal" fill="#424242">
+                <tspan x="45.239502" y="130">Voting</tspan>
+            </text>
+            <rect id="Rectangle-11-Copy-2" fill="#F4F7FA" x="18" y="216" width="81" height="20" rx="3"></rect>
+            <text id="Reveal" font-family="Open Sans, sans-serif" font-size="9" font-weight="normal" fill="#424242">
+                <tspan x="45.3637695" y="230">Reveal</tspan>
+            </text>
+            <rect id="Rectangle-11-Copy-3" fill="#F4F7FA" x="18" y="316" width="81" height="20" rx="3"></rect>
+            <text id="Rejected" font-family="Open Sans, sans-serif" font-size="9" font-weight="normal" fill="#424242">
+                <tspan x="40.5175781" y="330">Rejected</tspan>
+            </text>
+            <rect id="Rectangle-11-Copy-5" fill="#F4F7FA" x="138" y="316" width="81" height="20" rx="3"></rect>
+            <path d="M152.023241,115.936457 L163.459628,335.060019" id="Line" stroke="#F4F7FA" stroke-linecap="square" transform="translate(157.741435, 225.498238) rotate(-210.000000) translate(-157.741435, -225.498238) "></path>
+            <text id="In-Registry" font-family="Open Sans, sans-serif" font-size="9" font-weight="normal" fill="#424242">
+                <tspan x="157.064697" y="330">In Registry</tspan>
+            </text>
+            <rect id="Rectangle-11-Copy-4" fill="#F4F7FA" x="138" y="116" width="81" height="20" rx="3"></rect>
+            <text id="In-Registry" font-family="Open Sans, sans-serif" font-size="9" font-weight="normal" fill="#424242">
+                <tspan x="157.064697" y="130">In Registry</tspan>
+            </text>
+            <path d="M100,26 L121.505813,26" id="Line" stroke="#424242" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="2,2"></path>
+            <text id="Click-REFRESH-STATUS" font-family="Open Sans, sans-serif" font-size="7" font-weight="normal" line-spacing="10" letter-spacing="0.100000001" fill="#CE4034">
+                <tspan x="123.17041" y="27">Click </tspan>
+                <tspan x="140.552637" y="27" font-family="Open Sans, sans-serif" font-weight="500">REFRESH STATUS</tspan>
+            </text>
+            <path d="M118.5,108.486844 L118.5,146.5" id="Line" stroke="#F4F7FA" stroke-linecap="square" transform="translate(119.000000, 127.000000) rotate(-270.000000) translate(-119.000000, -127.000000) "></path>
+        </g>
+    </g>
+</svg>

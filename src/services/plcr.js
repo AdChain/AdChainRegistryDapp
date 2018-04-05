@@ -105,7 +105,7 @@ class PlcrService {
       }
 
       try {
-        const result = await this.plcr.commitStageActive(pollId)
+        const result = await this.plcr.commitPeriodActive(pollId)
         resolve(result)
         return false
       } catch (error) {
@@ -123,7 +123,7 @@ class PlcrService {
       }
 
       try {
-        const result = await this.plcr.revealStageActive(pollId)
+        const result = await this.plcr.revealPeriodActive(pollId)
         resolve(result)
         return false
       } catch (error) {
@@ -155,6 +155,7 @@ class PlcrService {
       try {
         active = await this.commitStageActive(pollId)
       } catch (error) {
+        console.error(error)
         reject(error)
         return false
       }
@@ -165,7 +166,6 @@ class PlcrService {
       }
 
       const voteTokenBalance = (await this.plcr.voteTokenBalance(this.getAccount())).toString(10)
-
       const requiredVotes = (tokens - voteTokenBalance)
 
       if (requiredVotes > 0) {
@@ -185,8 +185,7 @@ class PlcrService {
       }
 
       try {
-        const prevPollId =
-          await this.plcr.getInsertPointForNumTokens.call(this.getAccount(), tokens)
+        const prevPollId = await this.plcr.getInsertPointForNumTokens.call(this.getAccount(), tokens)
         const result = await this.plcr.commitVote(pollId, hash, tokens, prevPollId)
 
         store.dispatch({
@@ -302,6 +301,15 @@ class PlcrService {
         reject(error)
       }
     })
+  }
+
+  async rescueTokens (pollId) {
+    try {
+      let res = await this.plcr.rescueTokens(pollId)
+      return res
+    } catch (error) {
+      console.log('Rescue tokens error: ', error)
+    }
   }
 
   async getTransactionReceipt (tx) {

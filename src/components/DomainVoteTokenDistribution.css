@@ -2,6 +2,14 @@
   padding-bottom: 1rem;
 }
 
+:root:root:root .DomainVoteTokenDistribution .ProgressContainer p {
+  color: #424242;
+  font-family: "Open Sans", sans-serif;
+  font-size: 10px;
+  line-height: 20px;
+  text-align: center;
+}
+
 .DomainVoteTokenDistribution .BarContainer {
   max-width: 300px;
   margin: 0 auto;
@@ -35,22 +43,24 @@
 
 .DomainVoteTokenDistribution .BreakdownItemBox {
   display: inline-block;
-  width: 12px;
-  height: 12px;
-  background: #4585c7;
+  width: 10px;
+  height: 10px;
+  background: #10C903;
   margin-right: 0.5em;
 }
 
 .DomainVoteTokenDistribution .BreakdownItem:nth-child(2) .BreakdownItemBox {
-  background: #633e80;
+  background: #CE3434;
 }
 
 .DomainVoteTokenDistribution .BreakdownItemLabel {
-  color: #4585c7;
-  font-size: 0.8em;
+  color: #10C903;
+  font-size: 10px;
   font-weight: bold;
+  font-family: 'Open Sans', sans-serif;
+  line-height: 8px;
 }
 
 .DomainVoteTokenDistribution .BreakdownItem:nth-child(2) .BreakdownItemLabel {
-  color: #633e80;
+  color: #CE3434;
 }

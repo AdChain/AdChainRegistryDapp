@@ -2,12 +2,10 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import commafy from 'commafy'
 import toastr from 'toastr'
-import { Popup } from 'semantic-ui-react'
-
+import Tooltip from './Tooltip'
 import store from '../store'
 import registry from '../services/registry'
 
-import WithdrawVotingRightsInProgressContainer from './WithdrawVotingRightsInProgressContainer'
 import './WithdrawVotingRightsContainer.css'
 
 class WithdrawVotingRightsContainer extends Component {
@@ -17,8 +15,7 @@ class WithdrawVotingRightsContainer extends Component {
     this.state = {
       account: props.account,
       availableTokens: null,
-      lockedTokens: null,
-      inProgress: false
+      lockedTokens: null
     }
 
     this.onWithdraw = this.onWithdraw.bind(this)
@@ -39,32 +36,25 @@ class WithdrawVotingRightsContainer extends Component {
 
   render () {
     const {
-      availableTokens,
-      lockedTokens,
-      inProgress
+      availableTokens
     } = this.state
 
     return (
-      <div className='WithdrawVotingRightsContainer BoxFrame'>
-        <div className='ui grid stackable center aligned'>
-          <div className='column sixteen wide'>
-            <p>Withdraw Voting Rights
-              <Popup
-                trigger={<i className='icon info circle' />}
-                content='Withdraw adToken held by the adChain Registry PLCR contract. AdToken is locked up during voting and unlocked after the reveal stage. When it is unlocked you may withdraw the adToken to your account at any time.'
-              />
-            </p>
-            <div><small>Available unlocked ADT: <strong>{availableTokens !== null ? commafy(availableTokens) : '-'}</strong> (Locked ADT: {lockedTokens !== null ? commafy(lockedTokens) : '-'})</small></div>
-            <div>
-              <button
-                onClick={this.onWithdraw}
-                className='ui button blue tiny'>
-                Withdraw ADT
+
+      <div className='column five wide t-center'>
+            Unlocked Voting ADT <Tooltip class='InfoIconHigh' info='These are voting tokens that you have previously revealed and that are now eligible to be withdrawn back to your wallet.' />
+        <div className='column sixteen wide UnlockedAdt'>
+          <span className='VotingTokensAmount'>
+            {availableTokens !== null ? commafy(availableTokens) + ' ADT' : '-'}
+          </span>
+          <div>
+            <button
+              onClick={this.onWithdraw}
+              className='ui button green tiny'>
+                WITHDRAW
             </button>
-            </div>
           </div>
         </div>
-        {inProgress ? <WithdrawVotingRightsInProgressContainer /> : null}
       </div>
     )
   }
@@ -79,13 +69,14 @@ class WithdrawVotingRightsContainer extends Component {
     try {
       const availableTokens = await registry.getAvailableTokensToWithdraw()
       const lockedTokens = (await registry.getLockedTokens()).toNumber()
-
-      this.setState({
-        availableTokens,
-        lockedTokens
-      })
+      if (this._isMounted) {
+        this.setState({
+          availableTokens,
+          lockedTokens
+        })
+      }
     } catch (error) {
-      toastr.error(error.message)
+      toastr.error('There was an error with your request')
     }
   }
 
@@ -98,24 +89,26 @@ class WithdrawVotingRightsContainer extends Component {
   async withdrawTokens () {
     const {availableTokens} = this.state
 
-    if (this._isMounted) {
-      this.setState({
-        inProgress: true
-      })
-    }
+    // if (this._isMounted) {
+    //   this.setState({
+    //     inProgress: true
+    //   })
+    // }
 
     try {
+      console.log('available tokens: ', availableTokens)
       await registry.withdrawVotingRights(availableTokens)
+
       toastr.success('Success')
     } catch (error) {
-      toastr.error(error.message)
+      toastr.error('There was an error with your request')
     }
 
-    if (this._isMounted) {
-      this.setState({
-        inProgress: false
-      })
-    }
+    // if (this._isMounted) {
+    //   this.setState({
+    //     inProgress: false
+    //   })
+    // }
   }
 }
 

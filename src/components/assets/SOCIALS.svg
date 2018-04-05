@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="20px" height="20px" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 48.2 (47327) - http://www.bohemiancoding.com/sketch -->
+    <title>SOCIALS</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="SOCIALS">
+            <circle id="Oval" fill="#F1F5F8" cx="4.5" cy="10.5" r="2.5"></circle>
+            <circle id="Oval" fill="#F1F5F8" cx="15.5" cy="4.5" r="2.5"></circle>
+            <circle id="Oval-Copy" fill="#F1F5F8" cx="15.5" cy="15.5" r="2.5"></circle>
+            <path d="M4.5,10.5 L15.5,4.5" id="Line" stroke="#F1F5F8" stroke-linecap="square"></path>
+            <path d="M4.5,10.5 L15.5,15.5" id="Line-2" stroke="#F1F5F8" stroke-linecap="square"></path>
+        </g>
+    </g>
+</svg>

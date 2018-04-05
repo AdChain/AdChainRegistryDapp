@@ -15,8 +15,11 @@ class RequestTokenApprovalInProgressContainer extends Component {
           <div><strong>Request in progress. </strong>
             <Loader indeterminate active inline />
           </div>
-          <p>You will receive <strong>one</strong> MetaMask prompt:</p>
+          <p>You will receive <strong>two</strong> MetaMask prompts:</p>
           <p><strong>First prompt:</strong> Allow adChain Registry contract to transfer adToken deposit from your account.</p>
+          {
+            // need to add second prompt
+          }
         </div>
       </div>
     )

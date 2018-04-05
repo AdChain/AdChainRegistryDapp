@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-// import PropTypes from 'prop-types'
-
+import PropTypes from 'prop-types'
+import Tooltip from './Tooltip'
 import './DomainsFilterPanel.css'
 
 class DomainsFilterPanel extends Component {
@@ -30,8 +30,11 @@ class DomainsFilterPanel extends Component {
       <div className='DomainsFilterPanel BoxFrame'>
         <div className='ui grid stackable'>
           <div className='SearchContainer column sixteen wide'>
+            <span className='BoxFrameLabel ui grid'>DOMAIN FILTERS <Tooltip info={'The fields in this box filter the user view in the DOMAINS table.'} /></span>
+            <label className='f-os'>Search Domain</label>
             <div className='ui left icon input'>
-              <i className='search icon' />
+              <i className='search icon' /> &nbsp;
+              <br />
               <input
                 name='domain'
                 id='DomainsFiltersPanelDomainSearch'
@@ -41,66 +44,70 @@ class DomainsFilterPanel extends Component {
                 placeholder='Search Domain' />
             </div>
           </div>
-          <div className='column sixteen wide'>
-            <div className='ListTitle'>
-            Status
+          <div className='ListTitle'>
+            Stage
             </div>
-            <ul className='ui list'>
-              <li className='item'>
-                <div className='ui input'>
-                  <input
-                    type='checkbox'
-                    id='DomainsFilterPanel_InRegistry'
-                    name='inRegistry'
-                    checked={!!filters.inRegistry}
-                    onChange={this.onFilterChange}
+          <div className='ui grid'>
+
+            <div className='sixteen wide column'>
+              <ul className='ui list'>
+                <li className='item'>
+                  <div className='ui input'>
+                    <input
+                      type='checkbox'
+                      id='DomainsFilterPanel_InRegistry'
+                      name='inRegistry'
+                      checked={!!filters.inRegistry}
+                      onChange={this.onFilterChange}
                   />
-                </div>
-                <label htmlFor='DomainsFilterPanel_InRegistry'>In Registry</label>
-              </li>
-              <li className='item'>
-                <div className='ui input'>
-                  <input
-                    type='checkbox'
-                    id='DomainsFilterPanel_InApplication'
-                    name='inApplication'
-                    checked={!!filters.inApplication}
-                    onChange={this.onFilterChange}
+                  </div>
+                  <label htmlFor='DomainsFilterPanel_InRegistry'>In Registry</label>
+                </li>
+                <li className='item'>
+                  <div className='ui input'>
+                    <input
+                      type='checkbox'
+                      id='DomainsFilterPanel_InApplication'
+                      name='inApplication'
+                      checked={!!filters.inApplication}
+                      onChange={this.onFilterChange}
                   />
-                </div>
-                <label htmlFor='DomainsFilterPanel_InApplication'>In Application</label>
-              </li>
-              <li className='item'>
-                <div className='ui input'>
-                  <input
-                    type='checkbox'
-                    id='DomainsFilterPanel_InVotingCommit'
-                    name='inVotingCommit'
-                    checked={!!filters.inVotingCommit}
-                    onChange={this.onFilterChange}
+                  </div>
+                  <label htmlFor='DomainsFilterPanel_InApplication'>In Application</label>
+                </li>
+              </ul>
+
+              <ul className='ui list'>
+                <li className='item'>
+                  <div className='ui input'>
+                    <input
+                      type='checkbox'
+                      id='DomainsFilterPanel_InVotingCommit'
+                      name='inVotingCommit'
+                      checked={!!filters.inVotingCommit}
+                      onChange={this.onFilterChange}
                   />
-                </div>
-                <label htmlFor='DomainsFilterPanel_InVotingCommit'>In Voting Commit</label>
-              </li>
-              <li className='item'>
-                <div className='ui input'>
-                  <input
-                    type='checkbox'
-                    id='DomainsFilterPanel_InVotingReveal'
-                    name='inVotingReveal'
-                    checked={!!filters.inVotingReveal}
-                    onChange={this.onFilterChange}
+                  </div>
+                  <label htmlFor='DomainsFilterPanel_InVotingCommit'>In Commit</label>
+                </li>
+                <li className='item'>
+                  <div className='ui input'>
+                    <input
+                      type='checkbox'
+                      id='DomainsFilterPanel_InVotingReveal'
+                      name='inVotingReveal'
+                      checked={!!filters.inVotingReveal}
+                      onChange={this.onFilterChange}
                   />
-                </div>
-                <label htmlFor='DomainsFilterPanel_InVotingReveal'>In Voting Reveal</label>
-              </li>
-            </ul>
-          </div>
-          <div className='column sixteen wide'>
-            <div className='Reset'>
-              <a href onClick={this.resetFilters}>Reset</a>
+                  </div>
+                  <label htmlFor='DomainsFilterPanel_InVotingReveal'>In Reveal</label>
+                </li>
+              </ul>
             </div>
           </div>
+        </div>
+        <div className='Reset'>
+          <a href onClick={this.resetFilters}>Reset</a>
         </div>
       </div>
     )
@@ -151,11 +158,9 @@ class DomainsFilterPanel extends Component {
   }
 }
 
-/*
 DomainsFilterPanel.propTypes = {
   filters: PropTypes.object,
   onFiltersChange: PropTypes.func
 }
-*/
 
 export default DomainsFilterPanel

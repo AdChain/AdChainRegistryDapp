@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import toastr from 'toastr'
 import commafy from 'commafy'
-import { Popup } from 'semantic-ui-react'
+import Tooltip from './Tooltip'
 
 import store from '../store'
 import registry from '../services/registry'
@@ -49,25 +49,26 @@ class RequestTokenApprovalContainer extends Component {
       <div className='RequestTokenApprovalContainer BoxFrame'>
         <div className='ui grid stackable center aligned'>
           <div className='column sixteen wide'>
-            <p>Pre-approve ADT Transfer
-              <Popup
-                trigger={<i className='icon info circle' />}
-                content='Pre-approve adToken transfer to the adChain Registry will minimize the number of transactions when applying. This can can save gas fees if applying frequently. Pre-approving does not withdraw adToken from your adToken account, only until time of application.'
-              />
-            </p>
-            <div><small>Current approved ADT: <strong>{allowedTokens !== null ? commafy(allowedTokens) : '-'}</strong></small></div>
+            <span className='ui grid BoxFrameLabel'>PRE-APPROVE ADT TRANSFER <Tooltip info={'Pre-approve adToken transfer to the adChain Registry will minimize the number of transactions when applying. This can can save gas fees if applying frequently. Pre-approving does not withdraw adToken from your adToken account, only until time of application.'} /></span>
+          </div>
+          <div className='column sixteen wide ApprovedAdt t-center' style={{paddingTop: '5px'}}>
+            <div>Current Approved ADT <Tooltip class='InfoIconHigh' info={'Pre-approve adToken transfer to the adChain Registry will minimize the number of transactions when applying. This can can save gas fees if applying frequently. Pre-approving does not withdraw adToken from your adToken account, only until time of application.'} /></div>
+            <span className='VotingTokensAmount'>
+              {allowedTokens !== null ? commafy(allowedTokens) + ' ADT' : '-'}
+            </span>
+            <br />
             <div className='ui input action mini'>
               <input
                 type='text'
                 placeholder='100'
                 id='RequestTokenApprovalContainerInput'
                 onKeyUp={this.onTokenAmountKeyUp}
-              />
+                />
               <button
                 onClick={this.onRequest}
                 className='ui button blue tiny'>
-                Pre-approve ADT
-              </button>
+                  APPROVE
+                </button>
             </div>
           </div>
         </div>
@@ -134,7 +135,7 @@ class RequestTokenApprovalContainer extends Component {
 
       toastr.success('Success')
     } catch (error) {
-      toastr.error(error.message)
+      toastr.error('There was an error with your request')
     }
 
     if (this._isMounted) {

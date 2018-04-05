@@ -1,9 +1,9 @@
 import Eth from 'ethjs'
-import sha3 from 'solidity-sha3'
 import { promisify as pify } from 'bluebird'
 import keyMirror from 'key-mirror'
 import detectNetwork from 'web3-detect-network'
-
+import moment from 'moment-timezone'
+import { soliditySHA3 } from 'ethereumjs-abi'
 import store from '../store'
 import token from './token'
 import plcr from './plcr'
@@ -11,6 +11,7 @@ import parameterizer from './parameterizer'
 import saltHashVote from '../utils/saltHashVote'
 import { getRegistry } from '../config'
 import { getProvider, getWebsocketProvider } from './provider'
+// import { runInThisContext } from 'vm'
 
 // TODO: check number param
 const big = (number) => new Eth.BN(number.toString(10))
@@ -38,20 +39,24 @@ class RegistryService {
      * init function (rather than constructor),
      * so that injected web3 has time to load.
     */
-    this.provider = getProvider()
-    this.eth = new Eth(getProvider())
-    const accounts = await this.eth.accounts()
-    this.account = accounts[0]
+    try {
+      this.provider = getProvider()
+      this.eth = new Eth(getProvider())
+      const accounts = await this.eth.accounts()
+      this.account = accounts[0]
+      this.registry = await getRegistry(this.account)
+      this.address = this.registry.address
+      plcr.init()
 
-    this.registry = await getRegistry(this.account)
-    this.address = this.registry.address
+      this.setUpEvents()
+      this.setAccount()
 
-    this.setUpEvents()
-    this.setAccount()
-
-    store.dispatch({
-      type: 'REGISTRY_CONTRACT_INIT'
-    })
+      store.dispatch({
+        type: 'REGISTRY_CONTRACT_INIT'
+      })
+    } catch (error) {
+      console.log('Error initializing Registry Service')
+    }
   }
 
   async setUpEvents () {
@@ -88,20 +93,58 @@ class RegistryService {
     return this.account
   }
 
-  async apply (domain, deposit = 0) {
+  // When applying a domain, the `data` parameter must be set to the domain's name
+  // The 'domain' parameter will be also be the domain name but it will be hashed in this function before it hits the contract
+  async apply (domain, deposit = 0, data = '') {
     if (!domain) {
       throw new Error('Domain is required')
     }
 
     domain = domain.toLowerCase()
-
-    const bigDeposit = big(deposit).mul(tenToTheNinth).toString(10)
+    data = domain
 
     const exists = await this.applicationExists(domain)
+
+    const bigDeposit = big(deposit).mul(tenToTheNinth).toString(10)
+    const hash = `0x${soliditySHA3(['bytes32'], [domain.toLowerCase().trim()]).toString('hex')}`
 
     if (exists) {
       throw new Error('Application already exists')
     }
+
+    let allowed = await (await token.allowance(this.account, this.address)).toString(10)
+
+    if (allowed < bigDeposit) {
+      try {
+        await token.approve(this.address, bigDeposit)
+      } catch (error) {
+        throw error
+      }
+    }
+
+    try {
+      await this.registry.apply(hash, bigDeposit, data)
+    } catch (error) {
+      throw error
+    }
+
+    store.dispatch({
+      type: 'REGISTRY_DOMAIN_APPLY',
+      domain
+    })
+  }
+
+  async deposit (domain, amount = 0) {
+    if (!domain) {
+      throw new Error('Domain is required')
+    }
+    if (!amount) {
+      throw new Error('You did not specify an amount')
+    }
+
+    domain = domain.toLowerCase()
+    const domainHash = `0x${soliditySHA3(['bytes32'], [domain]).toString('hex')}`
+    const bigDeposit = big(amount).mul(tenToTheNinth).toString(10)
 
     const allowed = await token.allowance(this.account, this.address).toString('10')
 
@@ -114,30 +157,25 @@ class RegistryService {
     }
 
     try {
-      await this.registry.apply(domain, bigDeposit)
+      await this.registry.deposit(domainHash, bigDeposit)
     } catch (error) {
       throw error
     }
-
-    store.dispatch({
-      type: 'REGISTRY_DOMAIN_APPLY',
-      domain
-    })
   }
 
-  async challenge (domain) {
+  async challenge (domain, data) {
     if (!domain) {
       throw new Error('Domain is required')
     }
 
     domain = domain.toLowerCase()
+    const domainHash = `0x${soliditySHA3(['bytes32'], [domain.toLowerCase().trim()]).toString('hex')}`
 
     try {
       const minDeposit = await this.getMinDeposit()
       const minDepositAdt = minDeposit.mul(tenToTheNinth)
-
       await token.approve(this.address, minDepositAdt)
-      await this.registry.challenge(domain)
+      await this.registry.challenge(domainHash, data)
     } catch (error) {
       throw error
     }
@@ -176,9 +214,10 @@ class RegistryService {
     }
 
     domain = domain.toLowerCase()
+    const hash = `0x${soliditySHA3(['bytes32'], [domain.toLowerCase().trim()]).toString('hex')}`
 
     try {
-      return this.registry.appWasMade(domain)
+      return this.registry.appWasMade(hash)
     } catch (error) {
       throw error
     }
@@ -192,17 +231,16 @@ class RegistryService {
     try {
       domain = domain.toLowerCase()
 
-      const hash = sha3(domain)
+      // const hash = sha3(domain)
+      const hash = `0x${soliditySHA3(['bytes32'], [domain.toLowerCase().trim()]).toString('hex')}`
       const result = await this.registry.listings.call(hash)
-
       const map = {
-        applicationExpiry: result[0].toNumber(),
+        applicationExpiry: result[0].toNumber() <= 0 ? null : moment.tz(result[0].toNumber(), moment.tz.guess()),
         isWhitelisted: result[1],
         ownerAddress: result[2],
         currentDeposit: result[3].toNumber(),
         challengeId: result[4].toNumber()
       }
-
       return map
     } catch (error) {
       throw error
@@ -275,9 +313,10 @@ class RegistryService {
     }
 
     domain = domain.toLowerCase()
+    const domainHash = `0x${soliditySHA3(['bytes32'], [domain]).toString('hex')}`
 
     try {
-      const result = await this.registry.updateStatus(domain)
+      const result = await this.registry.updateStatus(domainHash)
 
       store.dispatch({
         type: 'REGISTRY_DOMAIN_UPDATE_STATUS',
@@ -312,8 +351,12 @@ class RegistryService {
   }
 
   async getMinDeposit () {
-    const min = await this.getParameter('minDeposit')
-    return min.div(tenToTheNinth)
+    try {
+      const min = await this.getParameter('minDeposit')
+      return min.div(tenToTheNinth)
+    } catch (error) {
+      console.log('error getting min deposit')
+    }
   }
 
   async getCurrentBlockNumber () {
@@ -351,6 +394,8 @@ class RegistryService {
     }
 
     domain = domain.toLowerCase()
+    // const hash = `0x${soliditySHA3(['bytes32'], [domain]).toString('hex')}`
+
     let pollId = null
 
     try {
@@ -376,6 +421,8 @@ class RegistryService {
     }
 
     domain = domain.toLowerCase()
+    // const hash = `0x${soliditySHA3(['bytes32'], [domain]).toString('hex')}`
+
     let pollId = null
 
     try {
@@ -408,6 +455,7 @@ class RegistryService {
 
     try {
       challengeId = await this.getChallengeId(domain)
+      console.log('challengeid', challengeId)
     } catch (error) {
       throw error
     }
@@ -415,7 +463,10 @@ class RegistryService {
     try {
       const hash = saltHashVote(voteOption, salt)
 
+      console.log('hash vote:', hash)
+
       await plcr.commit({pollId: challengeId, hash, tokens: bigVotes})
+      console.log('hee')
       return this.didCommitForPoll(challengeId)
     } catch (error) {
       throw error
@@ -449,7 +500,20 @@ class RegistryService {
 
     try {
       const challengeId = await this.getChallengeId(domain)
-      return plcr.getPoll(challengeId)
+      const {
+        commitEndDate,
+        revealEndDate,
+        votesAgainst,
+        votesFor
+      } = await plcr.getPoll(challengeId)
+      let result = {
+        // formatting to client's local timezone
+        commitEndDate: moment.tz(commitEndDate, moment.tz.guess()),
+        revealEndDate: moment.tz(revealEndDate, moment.tz.guess()),
+        votesAgainst,
+        votesFor
+      }
+      return result
     } catch (error) {
       throw error
     }
@@ -593,7 +657,7 @@ class RegistryService {
           return false
         }
 
-        await this.registry.claimReward(challengeId, salt)
+        await this.registry.claimVoterReward(challengeId, salt)
 
         store.dispatch({
           type: 'REGISTRY_CLAIM_REWARD'
@@ -658,6 +722,15 @@ class RegistryService {
     return token.approve(this.address, bigTokens)
   }
 
+  async rescueTokens (pollId) {
+    try {
+      let res = await plcr.rescueTokens(pollId)
+      return res
+    } catch (error) {
+      console.log('Rescue tokens error: ', error)
+    }
+  }
+
   async getTokenAllowance () {
     const allowed = await token.allowance(this.account, this.address)
     const bigTokens = big(allowed).div(tenToTheNinth)
@@ -696,6 +769,55 @@ class RegistryService {
     const result = await pify(window.web3.eth.getBalance)(this.account)
     return result.div(tenToTheEighteenth)
   }
+
+  async exit (domain) {
+    domain = domain.toLowerCase()
+    const domainHash = `0x${soliditySHA3(['bytes32'], [domain]).toString('hex')}`
+
+    try {
+      await this.registry.exit(domainHash)
+    } catch (error) {
+      throw error
+    }
+  }
+
+  async withdraw (domain, amount = 0) {
+    if (!domain) {
+      throw new Error('Domain is required')
+    }
+
+    domain = domain.toLowerCase()
+
+    const bigWithdrawAmount = big(amount).mul(tenToTheNinth).toString(10)
+    const hash = `0x${soliditySHA3(['bytes32'], [domain.toLowerCase().trim()]).toString('hex')}`
+
+    // let allowed = await (await token.allowance(this.account, this.address)).toString(10)
+
+    // if (allowed < bigWithdrawAmount) {
+    //   try {
+    //     await token.approve(this.address, bigWithdrawAmount)
+    //   } catch (error) {
+    //     throw error
+    //   }
+    // }
+
+    try {
+      await this.registry.withdraw(hash, bigWithdrawAmount)
+    } catch (error) {
+      throw error
+    }
+  }
+
+  // async watchApplicationEvent (domain) {
+  //   const applicationEvent = this.registry._Application({}, {fromBlock: 0, toBlock: 'latest'})
+  //   await applicationEvent.watch((error, result) => {
+  //     if(error) {
+  //       console.error(error)
+  //     } else if (result.args.data === domain) {
+  //       console.log('result.args.data', result.args.data)
+  //     }
+  //   })
+  // }
 
   getNetwork () {
     return detectNetwork(this.provider)

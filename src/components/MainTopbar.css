@@ -1,17 +1,36 @@
 .MainTopbar {
   width: 100%;
-  background: #3a445a;
-  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.50);
+  background: white;
+  box-shadow:0 2px 4px 0 rgba(225, 225, 225, 0.27);
+  color:black;
 }
-
+.MainTopbar .item{
+  color:black !important;
+  color: #424242;
+  font-family: Open Sans,sans-serif;
+  font-size: 14px;
+  font-weight: 100;
+}
+.MainTopbar .item span{
+  color: #424242;
+  font-family: Open Sans,sans-serif;
+  font-size: 16px;
+  font-weight: 300;
+}
+.TimeZoneDropdown{
+  border:1px solid #3534ce;
+}
 :root:root .MainTopbar .menu {
   border: none;
   border-radius: 0;
   background: none;
 }
 
+:root:root .MainTopbar .menu span strong {
+  font-weight: 800;
+}
+
 :root:root .MainTopbar .menu.top {
-  overflow-x: auto;
   min-height: 70px;
 }
 
@@ -43,6 +62,7 @@
 }
 
 .MainTopbar .NoWalletMessage {
+  color:white;
 }
 
 .MainTopbar .NoWalletMessage a {
@@ -57,7 +77,8 @@
   background:#961919;
 }
 :root:root:root .MainTopbar .RedAlert {
-  background:#961919;
+  background: #961919;
+  color: white !important;
 }
 
 .MainTopbar .AdtLogo {
@@ -84,9 +105,15 @@
   }
 
   .MainTopbar .AddressContainer span {
+    color:#424242;
     display: inline-block;
     overflow-x: auto;
     white-space: nowrap;
     width: 100%;
+  }
+}
+@media (max-width: 767px) {
+  .MainTopbar{
+    display:none;
   }
 }

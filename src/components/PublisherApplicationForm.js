@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import toastr from 'toastr'
 import isValidDomain from 'is-valid-domain'
-import isValidEmail from 'is-valid-email'
 import commafy from 'commafy'
 import qs from 'qs'
 
@@ -187,21 +186,11 @@ class PublisherApplicationForm extends Component {
     const {target} = event
 
     const domain = target.domain.value
-    const siteName = target.siteName.value
-    const country = target.country.value
-    const firstName = target.firstName.value
-    const lastName = target.lastName.value
-    const email = target.email.value
     const stake = parseInt(target.stake.value.replace(/[^\d]/, ''), 10)
     const minDeposit = (this.state.minDeposit | 0) // coerce
 
     if (!isValidDomain(domain)) {
       toastr.error('Invalid domain')
-      return false
-    }
-
-    if (email && !isValidEmail(email)) {
-      toastr.error('Invalid email')
       return false
     }
 
@@ -219,7 +208,7 @@ class PublisherApplicationForm extends Component {
     try {
       await registry.apply(domain, stake)
     } catch (error) {
-      toastr.error(error.message)
+      toastr.error('There was an error with your request')
       if (this._isMounted) {
         this.setState({
           inProgress: false
@@ -228,15 +217,15 @@ class PublisherApplicationForm extends Component {
       return false
     }
 
-    await this.save({
-      domain,
-      siteName,
-      country,
-      firstName,
-      lastName,
-      email,
-      stake
-    })
+    // await this.save({
+    //   domain,
+    //   siteName,
+    //   country,
+    //   firstName,
+    //   lastName,
+    //   email,
+    //   stake
+    // })
 
     if (this._isMounted) {
       this.setState({
@@ -248,7 +237,7 @@ class PublisherApplicationForm extends Component {
   }
 
   async save (data) {
-    const url = 'https://adchain-registry-api.metax.io/applications'
+    const url = 'https://adchain-registry-api-staging.metax.io/applications'
 
     const payload = {
       domain: data.domain,
@@ -262,7 +251,7 @@ class PublisherApplicationForm extends Component {
     try {
       await postJson(url, payload)
     } catch (error) {
-      toastr.error(error.message)
+      toastr.error('There was an error with your request')
       console.error(error)
     }
   }
