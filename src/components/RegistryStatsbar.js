@@ -55,7 +55,7 @@ class RegistryStatsbar extends Component {
                 Registry Status
               </div>
             </div>
-          : null}
+            : null}
           <span className='ui grid BoxFrameLabel'>GLOBAL REGISTRY USAGE <Tooltip info={'This section outlines the global usage of the adChain Registry. "Total ADT staked" is a sum of all ADT staked in the adChain Registry smart contract for domains to be in the registry.'} /></span>
 
           <div className='column sixteen wide' style={{overflow: 'scroll'}}>
@@ -123,37 +123,27 @@ class RegistryStatsbar extends Component {
   }
 
   async fetchStats () {
-<<<<<<< HEAD
-    try {
-      let totalStaked = await (await window.fetch(`https://adchain-registry-api.metax.io/registry/domains/stake/count`)).json()
-      const totalInApplication = await (await window.fetch(`https://adchain-registry-api.metax.io/registry/domains/application/count`)).json()
-      const totalInCommit = await (await window.fetch(`https://adchain-registry-api.metax.io/registry/domains/incommit/count`)).json()
-      const totalInReveal = await (await window.fetch(`https://adchain-registry-api.metax.io/registry/domains/inreveal/count`)).json()
-      const totalInRegistry = await (await window.fetch(`https://adchain-registry-api.metax.io/registry/domains/registry/count`)).json()
-=======
     let totalStaked = await (await window.fetch(`https://adchain-registry-api-staging.metax.io/registry/domains/stake/count`)).json()
     const totalInApplication = await (await window.fetch(`https://adchain-registry-api-staging.metax.io/registry/domains/application/count`)).json()
     const totalInCommit = await (await window.fetch(`https://adchain-registry-api-staging.metax.io/registry/domains/incommit/count`)).json()
     const totalInReveal = await (await window.fetch(`https://adchain-registry-api-staging.metax.io/registry/domains/inreveal/count`)).json()
     const totalInRegistry = await (await window.fetch(`https://adchain-registry-api-staging.metax.io/registry/domains/registry/count`)).json()
->>>>>>> 7bddfa2c90d09879fcee23267831125261a7cf95
 
-      if (totalStaked) {
-        totalStaked = totalStaked / Math.pow(10, token.decimals)
-      }
-
-      if (this._isMounted) {
-        this.setState({
-          totalStaked,
-          totalInApplication,
-          totalInCommit,
-          totalInReveal,
-          totalInRegistry
-        })
-      }
-    } catch (error) {
-      console.log(error)
+    if (totalStaked) {
+      totalStaked = totalStaked / Math.pow(10, token.decimals)
     }
+
+    if (this._isMounted) {
+      this.setState({
+        totalStaked,
+        totalInApplication,
+        totalInCommit,
+        totalInReveal,
+        totalInRegistry
+      })
+    }
+  } catch (error) {
+    console.log(error)
   }
 }
 

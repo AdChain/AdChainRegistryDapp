@@ -6,42 +6,6 @@ import DomainsContainer from './DomainsContainer'
 import DomainProfile from './DomainProfile'
 import AccountDashboard from './AccountDashboard'
 import RocketChat from './RocketChat'
-<<<<<<< HEAD
-import './MainContainer.css'
-
-function MainContainer (props) {
-  const Route = props.Route
-  const Switch = props.Switch
-  const Redirect = props.Redirect
-  const CSSTransitionGroup = props.CSSTransitionGroup
-  const location = props.location
-  const key = location.pathname
-
-  return (
-    <div className='ui grid'>
-      <MainTopbar />
-
-      <CSSTransitionGroup
-        transitionName='MainContainerFade'
-        transitionEnterTimeout={500}
-        transitionLeaveTimeout={500}>
-
-        <Route location={location} key={key} >
-          <Switch>
-            <Redirect path='/' to='/domains' exact />
-            <Route path='/apply' exact component={ApplicationContainer} />
-            <Route path='/domains' exact component={DomainsContainer} />
-            <Route path='/domains/:domain' exact component={DomainProfile} />
-            <Route path='/account' exact component={AccountDashboard} />
-            <Route path='/chat' exact component={RocketChat} />
-            <Route path='/' exact component={DomainsContainer} />
-          </Switch>
-        </Route>
-      </CSSTransitionGroup>
-
-    </div>
-  )
-=======
 import GovernanceContainer from './GovernanceContainer'
 import './MainContainer.css'
 
@@ -80,7 +44,6 @@ class MainContainer extends Component {
       </div>
     )
   }
->>>>>>> 7bddfa2c90d09879fcee23267831125261a7cf95
 }
 
 MainContainer.propTypes = {

@@ -1,5 +1,5 @@
 import axios from 'axios'
-const url = 'http://utility.adchain.com/'
+const url = 'https://utility.adchain.com/'
 
 export async function getPosts (domain) {
   let res

@@ -10,10 +10,6 @@ import RegistryStatsbar from './RegistryStatsbar'
 import AdtCalculator from './AdtCalculator'
 import DomainsTable from './DomainsTable'
 import DomainsFilterPanel from './DomainsFilterPanel'
-<<<<<<< HEAD
-import { NavLink as Link } from 'react-router-dom'
-import RightCaret from './assets/right_caret.png'
-=======
 // import Trollbox from './Trollbox'
 import WelcomeModal from './WelcomeModal'
 import RegistryGuideStaticChallenge from './RegistryGuideStaticChallenge'
@@ -22,7 +18,6 @@ import RegistryGuideStaticVoting from './RegistryGuideStaticVoting'
 import RegistryGuideStaticReveal from './RegistryGuideStaticReveal'
 import RegistryGuideStaticDashboard from './RegistryGuideStaticDashboard'
 import DomainEmailNotifications from './DomainEmailNotifications'
->>>>>>> 7bddfa2c90d09879fcee23267831125261a7cf95
 
 import './DomainsContainer.css'
 
@@ -95,26 +90,6 @@ class DomainsContainer extends Component {
           <div className='column sixteen wide'>
             <div className='ui grid stackable'>
               <div className='column four wide NoPaddingRight'>
-<<<<<<< HEAD
-                <DomainsFilterPanel
-                  filters={query}
-                  onFiltersChange={this.onQueryChange}
-                />
-                <Link to='/chat'>
-                  <div className='GlobalTrollbox BoxFrame'>
-                    <div className='Header'>
-                      <strong style={{color: '#606060'}}>adChain Registry Chat</strong>
-                      <img src={RightCaret} style={{right: '26px', position: 'absolute'}} height='20' alt='arrow' />
-                    </div>
-                  </div>
-                </Link>
-              </div>
-              <div className='column twelve wide'>
-                <DomainsTable
-                  history={history}
-                  filters={tableFilters}
-                />
-=======
                 {
                   (staticContainer === 'dashboard')
                     ? <RegistryGuideStaticDashboard />
@@ -124,7 +99,6 @@ class DomainsContainer extends Component {
                     />
                 }
                 <DomainEmailNotifications />
->>>>>>> 7bddfa2c90d09879fcee23267831125261a7cf95
               </div>
               {
                 (staticContainer === 'challenge')

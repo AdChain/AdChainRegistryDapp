@@ -1,10 +1,7 @@
 import React, { Component } from 'react'
 // import PropTypes from 'prop-types'
-<<<<<<< HEAD
-=======
 import { Menu, Accordion } from 'semantic-ui-react'
 import SideBarApplicationContainer from './SideBarApplicationContainer'
->>>>>>> 7bddfa2c90d09879fcee23267831125261a7cf95
 import './MainSidebar.css'
 
 import adchainLogo from './assets/white_text_adchain_logo.svg'
@@ -92,80 +89,7 @@ class MainSidebar extends Component {
         <div className={this.state.showMenu ? 'SidebarListContainer overflow-x' : 'hide'}>
           <div className='SidebarList overflow-y overflow-x'>
             <div className='ListTitle ui header'>
-<<<<<<< HEAD
-              adChain Registry
-            </div>
-            <ul className='ui list'>
-              <li className='item ApplyLink'>
-                <Link to='/apply'>Apply now</Link>
-              </li>
-              <li className='item'>
-                <Link to='/domains' activeClassName='active'>Domains</Link>
-              </li>
-              <li className='item SubListContainer'>
-                <ul className='ui list'>
-                  <li className='item'>
-                    <Link to='/domains?inRegistry=true'>In Registry</Link>
-                  </li>
-                  <li className='item'>
-                    <Link to='/domains?inApplication=true'>In Application</Link>
-                  </li>
-                  <li className='item'>
-                    <Link to='/domains?inVotingCommit=true'>In Voting Commit</Link>
-                  </li>
-                  <li className='item'>
-                    <Link to='/domains?inVotingReveal=true'>In Voting Reveal</Link>
-                  </li>
-                </ul>
-              </li>
-            </ul>
-            <div className='ListTitle ui header'>
-              adChain Account
-            </div>
-            <ul className='ui list'>
-              <li className='item'>
-                <Link to='/account'>Account Dashboard</Link>
-              </li>
-            </ul>
-            <div className='ListTitle ui header'>
-              Support
-            </div>
-            <ul className='ui list'>
-              <li className='item'>
-                <Link to='/chat'>Chat</Link>
-              </li>
-              <li className='item'>
-                <a
-                  href='https://adchain.zendesk.com/hc/en-us'
-                  target='_blank'
-                  rel='noopener noreferrer'>
-                  Help Desk
-                </a>
-              </li>
-              <li className='item'>
-                <a
-                  href='https://adchain.zendesk.com/hc/en-us/requests/new'
-                  target='_blank'
-                  rel='noopener noreferrer'>
-                  Submit Request / Bug
-                </a>
-              </li>
-              <li className='item'>
-                <a href='https://faucet.rinkeby.io/'
-                  target='_blank'
-                  rel='noopener noreferrer'>ETH Faucet</a>
-              </li>
-              <li className='item'>
-                <a href='https://faucet.adtoken.com'
-                  target='_blank'
-                  rel='noopener noreferrer'>ADT Faucet</a>
-              </li>
-            </ul>
-            <div className='ListTitle ui header'>
-              Education
-=======
               <RegistryGuideModal updateRoute={this.updateRoute} handleJoyrideCallback={this.props.handleJoyrideCallback} resumeJoyride={this.props.resumeJoyride} domainJourney={this.props.domainJourney} toggleOverlay={this.props.toggleOverlay} walkthroughFinished={this.props.walkthroughFinished} />
->>>>>>> 7bddfa2c90d09879fcee23267831125261a7cf95
             </div>
             <Menu.Item name='domain'>
               <Link to='/domains' className='NavLink' activeClassName='active'><img src={wwwLogo} alt='www' />Domains</Link>

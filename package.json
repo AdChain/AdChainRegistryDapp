@@ -4,11 +4,8 @@
   "private": true,
   "dependencies": {
     "adblock-detect": "^1.0.5",
-<<<<<<< HEAD
-=======
     "antd": "^3.2.2",
     "axios": "^0.18.0",
->>>>>>> 7bddfa2c90d09879fcee23267831125261a7cf95
     "blockies": "0.0.2",
     "commafy": "0.0.5",
     "delay": "^2.0.0",
