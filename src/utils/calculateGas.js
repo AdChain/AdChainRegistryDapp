@@ -1,8 +1,9 @@
 import axios from 'axios'
 
 import { utiltyApiURL } from '../models/urls'
-// import registry from '../services/registry'
-// import parameterizer from '../services/parameterizer'
+
+// import registry from "../services/registry"
+// import parameterizer from "../services/parameterizer"
 
 let data = {
   'action': 'click',
@@ -11,6 +12,7 @@ let data = {
   'contract': 'reg',
   'contract_event': true,
   'parameter': 'none',
+  'proposal_value': 0,
   'domain': 'i.com',
   'eth_balance': 0,
   'event_success': false,
@@ -25,9 +27,7 @@ let data = {
 
 const calculateGas = async () => {
   try {
-    console.log(data)
-    let res = await axios.post(`${utiltyApiURL}/calculate/gas`, data)
-    console.log('calc gas: ', res)
+    await axios.post(`${utiltyApiURL}/calculate/gas`, data)
   } catch (error) {
     console.log('err: ', error)
   }

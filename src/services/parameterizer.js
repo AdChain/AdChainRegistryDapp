@@ -76,7 +76,7 @@ class ParameterizerService {
 
   async getProposalsAndPropIds () {
     let proposals = await (await window.fetch(`https://adchain-registry-api-staging.metax.io/parameterization/proposals`)).json()
-
+    // console.log("proposals:  ", proposals)
     let propIds = proposals.map(proposal => {
       return proposal.prop_id
     })

@@ -112,6 +112,7 @@ class SideBarApplicationContainer extends Component {
         stake: stake,
         action: 'apply'
       }
+
       PubSub.publish('RedditConfirmationModal.show', data)
       // await registry.apply(domain, stake)
       // this.setState({

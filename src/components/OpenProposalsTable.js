@@ -63,9 +63,7 @@ class OpenProposalsTable extends Component {
                   <th>Action</th>
                 </tr>
               </thead>
-              {
-                    this.state.table
-                  }
+              { this.state.table }
             </table>
             : <div>
               <table className='OpenProposalsTable mt-25'>
