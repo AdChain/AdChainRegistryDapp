@@ -8,17 +8,23 @@ import registry from '../services/registry'
 import priceStats from '../services/priceStats'
 
 const calculateGas = async (x) => {
-  const network = await registry.getNetwork()
-  const adtBalance = await token.getBalance()
-  const ethBalance = await registry.getEthBalance()
-  const minDeposit = await registry.getMinDeposit()
-  const web3 = !!window.web3
+  const web3 = window.web3
+  const account = registry.getAccount()
+
+  if (web3 && account) {
+    console.log('hit')
+    var network = await registry.getNetwork()
+    var adtBalance = await token.getBalance()
+    var ethBalance = await registry.getEthBalance()
+    var minDeposit = await registry.getMinDeposit()
+  }
+
   const {ethUsd, adtUsd} = await priceStats()
 
   let data = {
     'action': x.action || 'null',
-    'address': registry.getAccount() || 'null',
-    'web3': web3,
+    'address': account || 'null',
+    'web3': !!web3,
     'adt_balance': (adtBalance | 0) || 0,
     'contract': x.contract || 'null',
     'contract_event': x.contract_event,
@@ -34,7 +40,7 @@ const calculateGas = async (x) => {
     'value_staked': x.value_staked || 0,
     'eth_price': ethUsd || 0,
     'adt_price': adtUsd || 0,
-    network: network.type
+    'network': network ? network.type : 'null'
   }
 
   try {
