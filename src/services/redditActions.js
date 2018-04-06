@@ -1,5 +1,6 @@
 import axios from 'axios'
 // const url = 'https://utility.adchain.com/'
+// second server = https://utility2.adchain.com/
 const url = 'https://utility-staging.adchain.com/' // staging
 
 export async function getPosts (domain) {

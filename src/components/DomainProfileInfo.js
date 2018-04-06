@@ -42,20 +42,21 @@ class DomainProfileInfo extends Component {
     this._isMounted = true
 
     if (this._isMounted) {
-      let cachedRedditData = window.localStorage.getItem('redditData')
+      let cachedRedditData = window.localStorage.getItem(`${this.state.domain}RedditData`)
       cachedRedditData = JSON.parse(cachedRedditData)
 
-      this.setState({
-        appliedObj: _.isEmpty(cachedRedditData.applied) ? {} : cachedRedditData.applied,
-        challengedObj: _.isEmpty(cachedRedditData.challenged) ? {} : cachedRedditData.challenged,
-        redditId: _.isEmpty(cachedRedditData.applied) ? null : cachedRedditData.applied.id
-      })
+      if (!_.isEmpty(cachedRedditData)) {
+        this.setState({
+          appliedObj: _.isEmpty(cachedRedditData.applied) ? {} : cachedRedditData.applied,
+          challengedObj: _.isEmpty(cachedRedditData.challenged) ? {} : cachedRedditData.challenged,
+          redditId: _.isEmpty(cachedRedditData.applied) ? null : cachedRedditData.applied.id
+        })
 
-      console.log('time now: ', moment().diff(cachedRedditData.timeAdded, 'minutes'))
+        console.log('time now: ', moment().diff(cachedRedditData.timeAdded, 'minutes'))
 
-      if (moment().diff(cachedRedditData.timeAdded, 'minutes') >= 5) {
-        console.log('inside')
-        await this.fetchRedditData()
+        if (moment().diff(cachedRedditData.timeAdded, 'minutes') >= 5) {
+          await this.fetchRedditData()
+        }
       }
 
       const domainState = await getDomainState(this.state.domain)
@@ -261,7 +262,7 @@ class DomainProfileInfo extends Component {
         redditId: _.isEmpty(redditData.data.applied) ? null : redditData.data.applied.id
       })
       redditData.data.timeAdded = moment()
-      window.localStorage.setItem('redditData', JSON.stringify(redditData.data))
+      window.localStorage.setItem(`${this.state.domain}RedditData`, JSON.stringify(redditData.data))
     } catch (error) {
       console.error(error)
       toastr.error('There was an error fetching the reddit data.')
