@@ -1,6 +1,6 @@
 import Eth from 'ethjs'
 import { getProvider } from './provider'
-import { promisify as pify } from 'bluebird'
+// import { promisify as pify } from 'bluebird'
 
 import { getPLCR } from '../config'
 import token from './token'
@@ -312,18 +312,18 @@ class PlcrService {
     }
   }
 
-  async getTransactionReceipt (tx) {
-    return new Promise(async (resolve, reject) => {
-      try {
-        const result = await pify(window.web3.eth.getTransactionReceipt)(tx)
-        resolve(result)
-        return false
-      } catch (error) {
-        reject(error)
-        return false
-      }
-    })
-  }
+  // async getTransactionReceipt (tx) {
+  //   return new Promise(async (resolve, reject) => {
+  //     try {
+  //       const result = await pify(window.web3.eth.getTransactionReceipt)(tx)
+  //       resolve(result)
+  //       return false
+  //     } catch (error) {
+  //       reject(error)
+  //       return false
+  //     }
+  //   })
+  // }
 
   async withdrawVotingRights (tokens) {
     await this.plcr.withdrawVotingRights(tokens)
