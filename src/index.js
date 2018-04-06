@@ -12,6 +12,7 @@ import token from './services/token'
 import DocumentLoadingComponent from './components/DocumentLoadingComponent.js'
 import isMobile from 'is-mobile'
 import store from 'store'
+import calculateGas from "./utils/calculateGas"
 
 import './index.css'
 const adblockDetect = require('adblock-detect')
@@ -51,6 +52,14 @@ async function init () {
             parameterizer.init(),
             token.init()
           ])
+          try {
+            calculateGas({
+              event: 'page load',
+              contract_event: false
+            })
+          } catch (error) {
+            console.log('error reporting gas')
+          }
         } catch (error) {
           console.error(error)
         }

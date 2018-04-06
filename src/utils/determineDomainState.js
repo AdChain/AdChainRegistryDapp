@@ -9,6 +9,7 @@ function isExpired (end) {
 }
 
 const getDomainState = async (domain) => {
+  if (!domain) return {}
   const item = {
     domain,
     color: '',

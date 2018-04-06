@@ -1,5 +1,4 @@
 import Eth from 'ethjs'
-import { promisify as pify } from 'bluebird'
 import keyMirror from 'key-mirror'
 import detectNetwork from 'web3-detect-network'
 import moment from 'moment-timezone'
@@ -359,26 +358,26 @@ class RegistryService {
     }
   }
 
-  async getCurrentBlockNumber () {
-    return new Promise(async (resolve, reject) => {
-      const result = await pify(window.web3.eth.getBlockNumber)()
+  // async getCurrentBlockNumber () {
+  //   return new Promise(async (resolve, reject) => {
+  //     const result = await pify(window.web3.eth.getBlockNumber)()
 
-      resolve(result)
-    })
-  }
+  //     resolve(result)
+  //   })
+  // }
 
-  async getCurrentBlockTimestamp () {
-    return new Promise(async (resolve, reject) => {
-      try {
-        const result = await pify(window.web3.eth.getBlock)('latest')
+  // async getCurrentBlockTimestamp () {
+  //   return new Promise(async (resolve, reject) => {
+  //     try {
+  //       const result = await pify(window.web3.eth.getBlock)('latest')
 
-        resolve(result.timestamp)
-      } catch (error) {
-        reject(error)
-        return false
-      }
-    })
-  }
+  //       resolve(result.timestamp)
+  //     } catch (error) {
+  //       reject(error)
+  //       return false
+  //     }
+  //   })
+  // }
 
   async getPlcrAddress () {
     try {
@@ -737,36 +736,40 @@ class RegistryService {
     return bigTokens
   }
 
-  async getTransaction (tx) {
-    return new Promise(async (resolve, reject) => {
-      try {
-        const result = await pify(window.web3.eth.getTransaction)(tx)
-        resolve(result)
-      } catch (error) {
-        reject(error)
-        return false
-      }
-    })
-  }
+  // async getTransaction (tx) {
+  //   return new Promise(async (resolve, reject) => {
+  //     try {
+  //       const result = await pify(window.web3.eth.getTransaction)(tx)
+  //       resolve(result)
+  //     } catch (error) {
+  //       reject(error)
+  //       return false
+  //     }
+  //   })
+  // }
 
-  async getTransactionReceipt (tx) {
-    return new Promise(async (resolve, reject) => {
-      try {
-        const result = await pify(window.web3.eth.getTransactionReceipt)(tx)
-        resolve(result)
-      } catch (error) {
-        reject(error)
-        return false
-      }
-    })
-  }
+  // async getTransactionReceipt (tx) {
+  //   return new Promise(async (resolve, reject) => {
+  //     try {
+  //       const result = await pify(window.web3.eth.getTransactionReceipt)(tx)
+  //       resolve(result)
+  //     } catch (error) {
+  //       reject(error)
+  //       return false
+  //     }
+  //   })
+  // }
 
   async getEthBalance () {
     if (!window.web3) {
       return 0
     }
-
-    const result = await pify(window.web3.eth.getBalance)(this.account)
+    const result = await new Promise((resolve, reject) => {
+      window.web3.eth.getBalance(this.account, function (err, res) {
+        if (res) resolve(res)
+        else reject(err)
+      })
+    })
     return result.div(tenToTheEighteenth)
   }
 
