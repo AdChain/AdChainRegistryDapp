@@ -12,7 +12,7 @@ import commafy from 'commafy'
 import PubSub from 'pubsub-js'
 import Eth from 'ethjs'
 
-const url = 'http://adchain-registry-api-staging.metax.io/'
+const url = 'https://adchain-registry-api-staging.metax.io/'
 const big = (number) => new Eth.BN(number.toString(10))
 const tenToTheNinth = big(10).pow(big(9))
 
@@ -129,6 +129,7 @@ class GovernanceContainer extends Component {
               proposals.push(this.formatProposal(response[0][i], response[1][i]))
             }
           }
+          // console.log("proposals:", proposals)
           this.setState({
             currentProposals: proposals,
             currentProposalsLoading: false
@@ -157,39 +158,46 @@ class GovernanceContainer extends Component {
   }
 
   formatValue (name, value) {
-    switch (name) {
-      case 'minDeposit':
-      case 'pMinDeposit':
-        value = commafy(value / 1000000000)
-        break
-      case 'applyStageLen':
-      case 'pApplyStageLen':
-      case 'commitStageLen':
-      case 'pCommitStageLen':
-      case 'revealStageLen':
-      case 'pRevealStageLen':
-        value = commafy(value / 60)
-        break
-      default:
-        break
+    try {
+      switch (name) {
+        case 'minDeposit':
+        case 'pMinDeposit':
+          value = commafy(value / 1000000000)
+          break
+        case 'applyStageLen':
+        case 'pApplyStageLen':
+        case 'commitStageLen':
+        case 'pCommitStageLen':
+        case 'revealStageLen':
+        case 'pRevealStageLen':
+          value = commafy(value / 60)
+          break
+        default:
+          break
+      }
+      return value
+    } catch (error) {
+      console.log('error: ', error)
     }
-    return value
   }
 
   async fetchRewards () {
     let data = await (await window.fetch(`${url}/parameterization/rewards?account=${this.state.account}`)).json()
     // data = _.filter(data, (rewards) => rewards.status === 'unclaimed')
-    for (let i = 0; i < data.length; i++) {
-      let alreadyClaimed = await ParameterizerService.didClaim(data[i].challenge_id)
-      if (!alreadyClaimed) {
-        let reward = await ParameterizerService.calculateVoterReward(data[i].sender, data[i].challenge_id, data[i].salt)
-        data[i].reward = big(reward).div(tenToTheNinth).words[0]
-      }
-    }
 
-    this.setState({
-      rewards: data
-    })
+    if (data instanceof Array) {
+      for (let i = 0; i < data.length; i++) {
+        let alreadyClaimed = await ParameterizerService.didClaim(data[i].challenge_id)
+        if (!alreadyClaimed) {
+          let reward = await ParameterizerService.calculateVoterReward(data[i].sender, data[i].challenge_id, data[i].salt)
+          data[i].reward = big(reward).div(tenToTheNinth).words[0]
+        }
+      }
+
+      this.setState({
+        rewards: data
+      })
+    }
   }
 }
 
