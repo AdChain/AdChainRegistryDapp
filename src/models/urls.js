@@ -1,4 +1,6 @@
 
-export let utiltyApiURL = 'http://utility-staging.adchain.com/'
+export const utiltyApiURL = 'https://utility-staging.adchain.com/'
 
-export let registryApiURL = 'https://adchain-registry-api-staging.metax.io/v1/'
+export const registryApiURL = 'https://adchain-registry-api-staging.metax.io/v1/'
+
+export const contractsURL = 'https://s3-us-west-2.amazonaws.com/tcr-contracts-rinkeby/'

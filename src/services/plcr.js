@@ -185,7 +185,7 @@ class PlcrService {
       }
 
       try {
-        const prevPollId = await this.plcr.getInsertPointForNumTokens.call(this.getAccount(), tokens)
+        const prevPollId = await this.plcr.getInsertPointForNumTokens.call(this.getAccount(), tokens, pollId)
         const result = await this.plcr.commitVote(pollId, hash, tokens, prevPollId)
 
         store.dispatch({

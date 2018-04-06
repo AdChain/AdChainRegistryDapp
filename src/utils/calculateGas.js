@@ -41,7 +41,7 @@ const calculateGas = async (x) => {
     let res = await axios.post(`${utiltyApiURL}/calculate/gas`, data)
     return res
   } catch (error) {
-    console.log('err: ', error)
+    console.log('catch: calculating gas')
   }
 }
 
