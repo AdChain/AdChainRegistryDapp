@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Modal, Button } from 'semantic-ui-react'
 import { withRouter } from 'react-router-dom'
 import './RedditReasonModal.css'
+import _ from 'lodash'
 
 class RedditReasonModal extends Component {
   constructor (props) {
@@ -32,12 +33,13 @@ class RedditReasonModal extends Component {
               Reasoning
             </div>
             <div className='RedditReason'>
-              {this.props.data.selftext}
+              {!_.isEmpty(this.props.data) ? this.props.data.selftext.split('\n')[2].replace('Reason: ', '')
+                : 'No reason has been submitted.'}
             </div>
             <div className='ButtonsContainer'>
               <Button basic className='CancelButton' onClick={this.close}>Cancel</Button>
               <Button basic className='ViewButton'>
-                <a href={this.props.data.url} target='_blank' rel='noopener noreferrer'>View On Reddit
+                <a href={!_.isEmpty(this.props.data) ? this.props.data.url : 'https://reddit.com/r/adchainregistry'} target='_blank' rel='noopener noreferrer'>View On Reddit
                   <svg className='redditSvg' width='16px' height='16px' viewBox='0 0 16 14'>
                     <defs />
                     <g id='Reddit-Feature' stroke='none' strokeWidth='1' fill='none' fillRule='evenodd'>

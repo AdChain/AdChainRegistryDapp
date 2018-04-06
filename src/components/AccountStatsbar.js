@@ -76,21 +76,25 @@ class AccountStatsbar extends Component {
       return false
     }
 
-    const response = await window.fetch(`https://adchain-registry-api-staging.metax.io/stats/account?account=${account}`)
-    const {
-      totalTimesChallenged,
-      totalTimesCommitted,
-      totalTimesRevealed,
-      totalTokensClaimed
-    } = await response.json()
-
-    if (this._isMounted) {
-      this.setState({
+    try {
+      const response = await window.fetch(`https://adchain-registry-api-staging.metax.io/stats/account?account=${account}`)
+      const {
         totalTimesChallenged,
         totalTimesCommitted,
         totalTimesRevealed,
         totalTokensClaimed
-      })
+      } = await response.json()
+
+      if (this._isMounted) {
+        this.setState({
+          totalTimesChallenged,
+          totalTimesCommitted,
+          totalTimesRevealed,
+          totalTokensClaimed
+        })
+      }
+    } catch (error) {
+      console.log(error)
     }
   }
 }

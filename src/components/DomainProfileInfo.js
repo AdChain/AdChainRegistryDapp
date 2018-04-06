@@ -32,6 +32,7 @@ class DomainProfileInfo extends Component {
       redditTabIndex: 0,
       inProgress: inactiveLoader
     }
+
     this.handleInputChange = this.handleInputChange.bind(this)
     this.onCommentSubmit = this.onCommentSubmit.bind(this)
     this.handleTabChange = this.handleTabChange.bind(this)
@@ -42,12 +43,21 @@ class DomainProfileInfo extends Component {
     this._isMounted = true
 
     if (this._isMounted) {
-      await this.fetchRedditData()
+      let cachedRedditData = window.localStorage.getItem(`${this.state.domain}RedditData`)
+      cachedRedditData = JSON.parse(cachedRedditData)
 
-      // interval for fetching currently breaks rate limit
-      // this.interval = setInterval(() => {
-      //   this.fetchRedditData()
-      // }, 5e3)
+      if (!_.isEmpty(cachedRedditData)) {
+        this.setState({
+          appliedObj: _.isEmpty(cachedRedditData.applied) ? {} : cachedRedditData.applied,
+          challengedObj: _.isEmpty(cachedRedditData.challenged) ? {} : cachedRedditData.challenged,
+          redditId: _.isEmpty(cachedRedditData.applied) ? null : cachedRedditData.applied.id
+        })
+        if (moment().diff(cachedRedditData.timeAdded, 'minutes') >= 5) {
+          await this.fetchRedditData()
+        }
+      } else {
+        await this.fetchRedditData()
+      }
 
       const domainState = await getDomainState(this.state.domain)
 
@@ -59,7 +69,9 @@ class DomainProfileInfo extends Component {
         case 'voting_reveal':
         case 'reveal_pending':
         case 'apply':
-          this.setState({ redditTabIndex: 1 })
+          if (!_.isEmpty(this.state.challengedObj)) {
+            this.setState({redditTabIndex: 1})
+          }
           break
         default:
           break
@@ -69,13 +81,12 @@ class DomainProfileInfo extends Component {
 
   componentWillUnmount () {
     this._isMounted = false
-    // window.clearInterval(this.interval)
   }
 
   render () {
     const { appliedObj, challengedObj, domain, redditTabIndex, inProgress } = this.state
 
-    const appliedData = appliedObj.id && appliedObj.comments.length > 0
+    const appliedData = !_.isEmpty(appliedObj) && appliedObj.id && appliedObj.comments.length > 0
       ? appliedObj.comments.map((comment, idx) =>
         <div className='RedditPosts' key={idx}>
           <div className='PostInfo'>
@@ -92,9 +103,9 @@ class DomainProfileInfo extends Component {
           <div className='PostContent'>
             {comment[idx].body}
           </div>
-        </div>) : null
+        </div>) : 'There is currently no discussion for this domain. Feel free to be the first to start the discussion!'
 
-    const challengedData = challengedObj.id && challengedObj.comments.length > 0
+    const challengedData = !_.isEmpty(challengedObj) && challengedObj.id && challengedObj.comments.length > 0
       ? challengedObj.comments.map((comment, idx) =>
 
         <div className='RedditPosts' key={idx}>
@@ -112,7 +123,7 @@ class DomainProfileInfo extends Component {
           <div className='PostContent'>
             {comment[idx].body}
           </div>
-        </div>) : null
+        </div>) : 'There is currently no discussion for this domain. Feel free to be the first to start the discussion!'
 
     const redditIconSvg = (
       <svg className='redditSvg' width='20px' height='20px' viewBox='0 0 16 14'>
@@ -139,7 +150,7 @@ class DomainProfileInfo extends Component {
               </span>
               <div className='RedditButtonsContainer'>
                 <RedditReasonModal domain={domain} data={appliedObj} view={'application'} />
-                <a href={appliedObj.url} target='_blank' rel='noopener noreferrer'>
+                <a href={!_.isEmpty(appliedObj) ? appliedObj.url : 'https://reddit.com/r/adchainregistry'} target='_blank' rel='noopener noreferrer'>
                   <Button basic className='RedditButton'>
                     {redditIconSvg}
                   </Button>
@@ -154,7 +165,7 @@ class DomainProfileInfo extends Component {
                 onSubmit={this.onCommentSubmit}>
                 <Input
                   type='text'
-                  id={appliedObj.id}
+                  id={!_.isEmpty(appliedObj) ? appliedObj.id : ''}
                   name='appliedComment'
                   placeholder='Message (press enter to submit)'
                   value={this.state.comment}
@@ -167,7 +178,7 @@ class DomainProfileInfo extends Component {
       }
     ]
 
-    if (challengedObj.id) {
+    if (!_.isEmpty(challengedObj)) {
       panes.push(
         {
           menuItem: 'CHALLENGE',
@@ -179,7 +190,7 @@ class DomainProfileInfo extends Component {
                 </span>
                 <div className='RedditButtonsContainer'>
                   <RedditReasonModal domain={domain} data={challengedObj} view={'challenge'} />
-                  <a href={challengedObj.url} target='_blank' rel='noopener noreferrer'>
+                  <a href={!_.isEmpty(challengedObj) ? challengedObj.url : 'https://reddit.com/r/adchainregistry'} target='_blank' rel='noopener noreferrer'>
                     <Button basic className='RedditButton'>
                       {redditIconSvg}
                     </Button>
@@ -194,7 +205,7 @@ class DomainProfileInfo extends Component {
                   onSubmit={this.onCommentSubmit}>
                   <Input
                     type='text'
-                    id={challengedObj.id}
+                    id={!_.isEmpty(challengedObj) ? challengedObj.id : ''}
                     name='challengedComment'
                     placeholder='Message (press enter to submit)'
                     value={this.state.comment}
@@ -234,7 +245,8 @@ class DomainProfileInfo extends Component {
     if (this._isMounted) {
       this.setState({
         redditId: data.activeIndex === 0 ? appliedObj.id : challengedObj.id,
-        comment: ''
+        comment: '',
+        redditTabIndex: data.activeIndex
       })
     }
   }
@@ -247,6 +259,8 @@ class DomainProfileInfo extends Component {
         challengedObj: _.isEmpty(redditData.data.challenged) ? {} : redditData.data.challenged,
         redditId: _.isEmpty(redditData.data.applied) ? null : redditData.data.applied.id
       })
+      redditData.data.timeAdded = moment()
+      window.localStorage.setItem(`${this.state.domain}RedditData`, JSON.stringify(redditData.data))
     } catch (error) {
       console.error(error)
       toastr.error('There was an error fetching the reddit data.')
@@ -262,10 +276,11 @@ class DomainProfileInfo extends Component {
         inProgress: activeLoader
       })
       await createComment(redditId, comment)
-      this.setState({
-        inProgress: inactiveLoader,
-        comment: ''
-      })
+      setTimeout(() => this.fetchRedditData()
+        .then(this.setState({
+          inProgress: inactiveLoader,
+          comment: ''
+        })), 4e3)
     } catch (error) {
       this.setState({
         comment: '',
