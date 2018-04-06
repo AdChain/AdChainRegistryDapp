@@ -1,5 +1,6 @@
 import axios from 'axios'
-const url = 'https://utility.adchain.com/'
+// const url = 'https://utility.adchain.com/'
+const url = 'https://utility-staging.adchain.com/' // staging
 
 export async function getPosts (domain) {
   let res
@@ -7,6 +8,7 @@ export async function getPosts (domain) {
     res = await axios.post(`${url}get/post`, {
       domain: domain
     })
+    console.log('result: ', res)
     return res
   } catch (error) {
     console.error(error)
