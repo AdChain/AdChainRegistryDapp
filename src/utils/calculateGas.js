@@ -12,7 +12,6 @@ const calculateGas = async (x) => {
   const account = registry.getAccount()
 
   if (web3 && account) {
-    console.log('hit')
     var network = await registry.getNetwork()
     var adtBalance = await token.getBalance()
     var ethBalance = await registry.getEthBalance()
