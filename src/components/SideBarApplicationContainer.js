@@ -106,7 +106,7 @@ class SideBarApplicationContainer extends Component {
       PubSub.publish('RedditConfirmationModal.show', data)
     } catch (error) {
       console.log(error)
-      toastr.error('There was an error applying domain')
+      toastr.error('There was an error applying this domain')
       try {
         calculateGas({
           value_staked: stake,
