@@ -9,7 +9,6 @@ export async function getPosts (domain) {
     res = await axios.post(`${url}get/post`, {
       domain: domain
     })
-    console.log('result: ', res)
     return res
   } catch (error) {
     console.error(error)

@@ -42,18 +42,6 @@ class OpenProposalsTable extends Component {
         <span className='BoxFrameLabel ui grid'>OPEN PROPOSALS <Tooltip info={'These are open proposals for new parameter values.'} /></span>
         {
           this.props.currentProposalsLoading
-          ? <table className='OpenProposalsTable mt-25'>
-            <thead>
-              <tr>
-                <th>Parameters</th>
-                <th>Proposed Value</th>
-                <th>Time Remaining</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody className={'ui loader small inline active'} />
-          </table>
-            : this.state.table
             ? <table className='OpenProposalsTable mt-25'>
               <thead>
                 <tr>
@@ -63,10 +51,10 @@ class OpenProposalsTable extends Component {
                   <th>Action</th>
                 </tr>
               </thead>
-              { this.state.table }
+              <tbody className={'ui loader small inline active'} />
             </table>
-            : <div>
-              <table className='OpenProposalsTable mt-25'>
+            : this.state.table
+              ? <table className='OpenProposalsTable mt-25'>
                 <thead>
                   <tr>
                     <th>Parameters</th>
@@ -75,12 +63,26 @@ class OpenProposalsTable extends Component {
                     <th>Action</th>
                   </tr>
                 </thead>
+                <tbody>
+                  { this.state.table }
+                </tbody>
               </table>
-              <div className='NoDataMessage' style={{paddingTop: '9em', minHeight: '300px'}}>
+              : <div>
+                <table className='OpenProposalsTable mt-25'>
+                  <thead>
+                    <tr>
+                      <th>Parameters</th>
+                      <th>Proposed Value</th>
+                      <th>Time Remaining</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                </table>
+                <div className='NoDataMessage' style={{paddingTop: '9em', minHeight: '300px'}}>
                   Proposed parameter values will be displayed here. You will have the opportunity to challenge, vote, and reveal from this table.
+                </div>
               </div>
-            </div>
-          }
+        }
         <Modal size={'small'} open={open} onClose={this.close}>
           <div>
             {

@@ -32,6 +32,7 @@ class DomainProfileInfo extends Component {
       redditTabIndex: 0,
       inProgress: inactiveLoader
     }
+
     this.handleInputChange = this.handleInputChange.bind(this)
     this.onCommentSubmit = this.onCommentSubmit.bind(this)
     this.handleTabChange = this.handleTabChange.bind(this)
@@ -51,12 +52,11 @@ class DomainProfileInfo extends Component {
           challengedObj: _.isEmpty(cachedRedditData.challenged) ? {} : cachedRedditData.challenged,
           redditId: _.isEmpty(cachedRedditData.applied) ? null : cachedRedditData.applied.id
         })
-
-        console.log('time now: ', moment().diff(cachedRedditData.timeAdded, 'minutes'))
-
         if (moment().diff(cachedRedditData.timeAdded, 'minutes') >= 5) {
           await this.fetchRedditData()
         }
+      } else {
+        await this.fetchRedditData()
       }
 
       const domainState = await getDomainState(this.state.domain)
@@ -81,12 +81,10 @@ class DomainProfileInfo extends Component {
 
   componentWillUnmount () {
     this._isMounted = false
-    // window.clearInterval(this.interval)
-    console.log('unmounted')
   }
 
   render () {
-    const { appliedObj, challengedObj, domain, redditTabIndex, inProgress, stage } = this.state
+    const { appliedObj, challengedObj, domain, redditTabIndex, inProgress } = this.state
 
     const appliedData = !_.isEmpty(appliedObj) && appliedObj.id && appliedObj.comments.length > 0
       ? appliedObj.comments.map((comment, idx) =>
@@ -105,7 +103,7 @@ class DomainProfileInfo extends Component {
           <div className='PostContent'>
             {comment[idx].body}
           </div>
-        </div>) : null
+        </div>) : 'There is currently no discussion for this domain. Feel free to be the first to start the discussion!'
 
     const challengedData = !_.isEmpty(challengedObj) && challengedObj.id && challengedObj.comments.length > 0
       ? challengedObj.comments.map((comment, idx) =>
@@ -125,7 +123,7 @@ class DomainProfileInfo extends Component {
           <div className='PostContent'>
             {comment[idx].body}
           </div>
-        </div>) : null
+        </div>) : 'There is currently no discussion for this domain. Feel free to be the first to start the discussion!'
 
     const redditIconSvg = (
       <svg className='redditSvg' width='20px' height='20px' viewBox='0 0 16 14'>
@@ -180,7 +178,7 @@ class DomainProfileInfo extends Component {
       }
     ]
 
-    if (!_.isEmpty(challengedObj) && stage) {
+    if (!_.isEmpty(challengedObj)) {
       panes.push(
         {
           menuItem: 'CHALLENGE',
