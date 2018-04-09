@@ -73,6 +73,11 @@ class SideBarApplicationContainer extends Component {
     const stake = parseInt(target.stake.value.replace(/[^\d]/, ''), 10)
     const minDeposit = (this.state.minDeposit | 0) // coerce
 
+    if (domain.startsWith('www.') || domain.startsWith('http') || domain.startsWith('ww.')) {
+      toastr.error('Please enter a domain with the following format: domain.com')
+      return
+    }
+
     if (!isValidDomain(domain)) {
       toastr.error('Invalid domain')
       return false

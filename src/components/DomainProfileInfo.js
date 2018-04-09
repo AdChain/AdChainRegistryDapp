@@ -28,7 +28,8 @@ class DomainProfileInfo extends Component {
       appliedObj: {},
       challengedObj: {},
       comment: '',
-      redditId: '',
+      redditIdApplied: '',
+      redditItChallenged: '',
       redditTabIndex: 0,
       inProgress: inactiveLoader
     }
@@ -43,21 +44,23 @@ class DomainProfileInfo extends Component {
     this._isMounted = true
 
     if (this._isMounted) {
-      let cachedRedditData = window.localStorage.getItem(`${this.state.domain}RedditData`)
-      cachedRedditData = JSON.parse(cachedRedditData)
+      // let cachedRedditData = window.localStorage.getItem(`${this.state.domain}RedditData`)
+      // cachedRedditData = JSON.parse(cachedRedditData)
 
-      if (!_.isEmpty(cachedRedditData)) {
-        this.setState({
-          appliedObj: _.isEmpty(cachedRedditData.applied) ? {} : cachedRedditData.applied,
-          challengedObj: _.isEmpty(cachedRedditData.challenged) ? {} : cachedRedditData.challenged,
-          redditId: _.isEmpty(cachedRedditData.applied) ? null : cachedRedditData.applied.id
-        })
-        if (moment().diff(cachedRedditData.timeAdded, 'minutes') >= 5) {
-          await this.fetchRedditData()
-        }
-      } else {
-        await this.fetchRedditData()
-      }
+      // if (!_.isEmpty(cachedRedditData)) {
+      //   this.setState({
+      //     appliedObj: _.isEmpty(cachedRedditData.applied) ? {} : cachedRedditData.applied,
+      //     challengedObj: _.isEmpty(cachedRedditData.challenged) ? {} : cachedRedditData.challenged,
+      //     redditId: _.isEmpty(cachedRedditData.applied) ? null : cachedRedditData.applied.id
+      //   })
+      //   if (moment().diff(cachedRedditData.timeAdded, 'minutes') >= 5) {
+      //     await this.fetchRedditData()
+      //   }
+      // } else {
+      //   await this.fetchRedditData()
+      // }
+
+      await this.fetchRedditData()
 
       const domainState = await getDomainState(this.state.domain)
 
@@ -240,11 +243,11 @@ class DomainProfileInfo extends Component {
   }
 
   handleTabChange (event, data) {
-    const { appliedObj, challengedObj } = this.state
+    // const { appliedObj, challengedObj } = this.state
 
     if (this._isMounted) {
       this.setState({
-        redditId: data.activeIndex === 0 ? appliedObj.id : challengedObj.id,
+        // redditId: data.activeIndex === 0 ? appliedObj.id : challengedObj.id,
         comment: '',
         redditTabIndex: data.activeIndex
       })
@@ -254,13 +257,16 @@ class DomainProfileInfo extends Component {
   async fetchRedditData () {
     try {
       let redditData = await getPosts(this.state.domain)
+
       this.setState({
         appliedObj: _.isEmpty(redditData.data.applied) ? {} : redditData.data.applied,
         challengedObj: _.isEmpty(redditData.data.challenged) ? {} : redditData.data.challenged,
-        redditId: _.isEmpty(redditData.data.applied) ? null : redditData.data.applied.id
+        redditIdApplied: _.isEmpty(redditData.data.applied) ? null : redditData.data.applied.id,
+        redditItChallenged: _.isEmpty(redditData.data.challenged) ? null : redditData.data.challenged.id
+
       })
       redditData.data.timeAdded = moment()
-      window.localStorage.setItem(`${this.state.domain}RedditData`, JSON.stringify(redditData.data))
+      // window.localStorage.setItem(`${this.state.domain}RedditData`, JSON.stringify(redditData.data))
     } catch (error) {
       console.error(error)
       toastr.error('There was an error fetching the reddit data.')
@@ -269,12 +275,15 @@ class DomainProfileInfo extends Component {
 
   async onCommentSubmit (event) {
     event.preventDefault()
-    const { redditId, comment } = this.state
+    const { comment, redditTabIndex } = this.state
+
+    const redditId = redditTabIndex === 0 ? this.state.redditIdApplied : this.state.redditItChallenged
 
     try {
       this.setState({
         inProgress: activeLoader
       })
+
       await createComment(redditId, comment)
       setTimeout(() => this.fetchRedditData()
         .then(this.setState({

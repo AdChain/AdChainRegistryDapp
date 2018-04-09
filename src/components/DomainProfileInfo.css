@@ -166,8 +166,9 @@
 
 :root:root .DomainProfileInfo .active.loader {
     position: absolute;
-    top: 95%;
+    top: 94%;
     right: 0;
     background-color: white;
     padding-left: 100%;
+    padding-top: 20px;
 }

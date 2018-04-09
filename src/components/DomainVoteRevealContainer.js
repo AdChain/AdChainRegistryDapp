@@ -304,28 +304,30 @@ class DomainVoteRevealContainer extends Component {
         didCommit: didCommit
       })
     } catch (error) {
+      console.error('Get Commit Error: ', error)
       toastr.error('There was an error getting commit')
     }
   }
 
   async getReveal () {
-    const {domain, account} = this.state
+    const {account} = this.state
 
     if (!account) {
       return false
     }
 
-    try {
-      const didReveal = await registry.didReveal(domain)
+    // try {
+    //   const didReveal = await registry.didReveal(domain)
 
-      if (this._isMounted) {
-        this.setState({
-          didReveal: didReveal
-        })
-      }
-    } catch (error) {
-      toastr.error('There was an error getting reveal')
-    }
+    //   if (this._isMounted) {
+    //     this.setState({
+    //       didReveal: didReveal
+    //     })
+    //   }
+    // } catch (error) {
+    //   console.error('Get Reveal Error: ', error)
+    //   toastr.error('There was an error getting reveal')
+    // }
   }
 
   async getPoll () {
@@ -348,6 +350,7 @@ class DomainVoteRevealContainer extends Component {
         })
       }
     } catch (error) {
+      console.error('Get Poll Error: ', error)
       toastr.error('There was an error getting poll')
     }
   }
@@ -368,6 +371,7 @@ class DomainVoteRevealContainer extends Component {
         })
       }
     } catch (error) {
+      console.error('Get Challenge Error: ', error)
       toastr.error('There was an error getting challenge')
     }
   }
@@ -414,6 +418,7 @@ class DomainVoteRevealContainer extends Component {
         toastr.error('Reveal did not go through')
       }
     } catch (error) {
+      console.error('Reveal Error: ', error)
       toastr.error('There was an error with your request')
 
       if (this._isMounted) {
