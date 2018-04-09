@@ -76,12 +76,12 @@ class ExpiredVotingADT extends Component {
   }
 
   async getCommitted () {
-    let committed = await (await window.fetch(`http://adchain-registry-api-staging.metax.io/registry/domains?account=${this.props.account}&include=committed`)).json()
+    let committed = await (await window.fetch(`https://adchain-registry-api-staging.metax.io/registry/domains?account=${this.props.account}&include=committed`)).json()
     return committed
   }
 
   async getRevealed () {
-    let revealed = await (await window.fetch(`http://adchain-registry-api-staging.metax.io/registry/domains?account=${this.props.account}&include=revealed`)).json()
+    let revealed = await (await window.fetch(`https://adchain-registry-api-staging.metax.io/registry/domains?account=${this.props.account}&include=revealed`)).json()
     return revealed
   }
 
