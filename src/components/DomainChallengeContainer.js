@@ -222,7 +222,7 @@ class DomainChallengeContainer extends Component {
       try {
         let data = {
           domain: domain,
-          minDeposit: minDeposit,
+          stake: minDeposit,
           action: 'challenge'
         }
         PubSub.publish('RedditConfirmationModal.show', data)
