@@ -25,7 +25,7 @@ class DomainInRegistryContainer extends Component {
     this.state = {
       domain: props.domain,
       account: registry.getAccount(),
-      didReveal: false,
+      // didReveal: false,
       didClaim: false,
       inChallengeProgress: false,
       inWithdrawProgress: false,
@@ -47,7 +47,7 @@ class DomainInRegistryContainer extends Component {
     this._isMounted = true
 
     this.getPoll()
-    this.getReveal()
+    // this.getReveal()
     // this.getClaims()
     this.getMinDeposit()
     this.getCurrentDeposit()
@@ -169,25 +169,26 @@ class DomainInRegistryContainer extends Component {
     }
   }
 
-  async getReveal () {
-    const {domain, account} = this.state
+  // async getReveal () {
+  //   const {domain, account} = this.state
 
-    if (!account) {
-      return false
-    }
+  //   if (!account) {
+  //     return false
+  //   }
 
-    try {
-      const didReveal = await registry.didReveal(domain)
+  //   try {
+  //     const didReveal = await registry.didReveal(domain)
 
-      if (this._isMounted) {
-        this.setState({
-          didReveal: didReveal
-        })
-      }
-    } catch (error) {
-      toastr.error('There was an error with your request')
-    }
-  }
+  //     if (this._isMounted) {
+  //       this.setState({
+  //         didReveal: didReveal
+  //       })
+  //     }
+  //   } catch (error) {
+  //     console.error('Domain In Registry Container Get Reveal Error: ', error)
+  //     toastr.error('There was an error with your request')
+  //   }
+  // }
 
   async getPoll () {
     const {domain} = this.state
@@ -225,6 +226,7 @@ class DomainInRegistryContainer extends Component {
         })
       }
     } catch (error) {
+      console.error('Domain In Registry Container Get Claims Error: ', error)
       toastr.error('There was an error with your request')
     }
   }
@@ -246,6 +248,7 @@ class DomainInRegistryContainer extends Component {
         })
       }
     } catch (error) {
+      console.error('Domain In Registry Container Check Owner Error: ', error)
       toastr.error('There was an error with your request')
     }
   }
@@ -329,6 +332,7 @@ class DomainInRegistryContainer extends Component {
         console.log('error reporting gas')
       }
     } catch (error) {
+      console.error('Domain In Registry Container Withdraw Listing Error: ', error)
       toastr.error('There was an error with your request')
       if (this._isMounted) {
         this.setState({

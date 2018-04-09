@@ -46,7 +46,7 @@ class UserCommitsToReveal extends Component {
 
     return (
       <div className='BoxFrame DashboardColumn'>
-        <span className='BoxFrameLabel ui grid'>COMMITTED VOTES<Tooltip info={'The domains below you have commited votes to. They are listed below to remind you to reveal your votes. The domains below are still in REVEAL STAGE.'} /></span>
+        <span className='BoxFrameLabel ui grid'>DOMAINS TO REVEAL FOR<Tooltip info={'The domains listed here are domains for which you have committed votes to. They are listed here to remind you to reveal your votes. The domains listed here are still in their Voting Reveal phase.'} /></span>
         <div className='ui grid'>
           <div className='column sixteen wide'>
             {data
