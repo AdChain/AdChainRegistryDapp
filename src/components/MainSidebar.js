@@ -139,7 +139,7 @@ class MainSidebar extends Component {
             </a>
           </div>
           <div className='Copyright'>
-            <p>© Copyright 2017 MetaXchain, Inc.
+            <p>© Copyright 2018 MetaXchain, Inc.
             All rights reserved.</p>
           </div>
         </div>

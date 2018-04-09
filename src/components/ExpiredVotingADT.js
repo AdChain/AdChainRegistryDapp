@@ -85,16 +85,17 @@ class ExpiredVotingADT extends Component {
     return revealed
   }
 
-  async filterByStage (unrevealed) {
+  async filterByStage (possibleUnrevealed) {
     // Map over unrevealed to determine the stage
     // Returns domains in expired state
-
-    const expiredDomains = await Promise.all(unrevealed.map(async x => {
+    console.log('possibleUnrevealed: ', possibleUnrevealed)
+    const expiredDomains = await Promise.all(possibleUnrevealed.map(async x => {
       try {
         const listing = await registry.getListing(x.domain)
         const inCommit = await registry.commitStageActive(x.domain)
         const inReveal = await registry.revealStageActive(x.domain)
         if (inCommit || inReveal || listing.challengeId === 0) return null
+        console.log('return listing: ', listing)
         return listing
       } catch (error) {
         console.log(error)
@@ -117,6 +118,7 @@ class ExpiredVotingADT extends Component {
 
   async rescueTokens (pollId) {
     try {
+      console.log('pollID: ', pollId)
       let res = await registry.rescueTokens(pollId)
       this.init()
       return res

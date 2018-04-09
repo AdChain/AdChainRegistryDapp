@@ -166,6 +166,7 @@ input:focus{
 .m-25{margin:25px 0;}
 .f-os{font-family: Open Sans, sans-serif}
 /*utility padding styles*/
+.pd-10{padding: 10px;}
 .pd-15{padding:15px;}
 .pd-20{padding:20px !important;}
 .pd-25{padding:25px;}
