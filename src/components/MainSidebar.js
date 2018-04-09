@@ -4,7 +4,7 @@ import { Menu, Accordion } from 'semantic-ui-react'
 import SideBarApplicationContainer from './SideBarApplicationContainer'
 import './MainSidebar.css'
 
-import adchainLogo from './assets/white_text_adchain_logo.svg'
+import adchainPublisherLogo from './assets/adchain_publisher_logo.svg'
 import metaxLogo from './assets/white_text_metax_logo.svg'
 import adtokenLogo from './assets/adtoken_logo_white.png'
 import wwwLogo from './assets/WWW.svg'
@@ -78,7 +78,7 @@ class MainSidebar extends Component {
       <Accordion as={Menu} vertical inverted className='MainSidebar sidebar visible overflow-y borderless'>
         <div className='adChainLogo ui image'>
           <a href='/'>
-            <img src={adchainLogo} alt='adChain' />
+            <object className='adchainPublisherLogo' type='image/svg+xml' data={adchainPublisherLogo} aria-label='adchainPublisherLogo' />
           </a>
           <span className='MobileMenu' onClick={() => { this.toggleMenu() }}>
             <span />
