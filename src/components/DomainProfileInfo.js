@@ -123,7 +123,7 @@ class DomainProfileInfo extends Component {
           <div className='PostContent'>
             {comment[idx].body}
           </div>
-        </div>) : 'There is currently no discussion for this domain. Feel free to be the first to start the discussion!'
+        </div>) : <div className={'t-center pd-10 f-os'}>There is currently no discussion for this domain. Feel free to be the first to start the discussion!</div>
 
     const redditIconSvg = (
       <svg className='redditSvg' width='20px' height='20px' viewBox='0 0 16 14'>
@@ -223,7 +223,7 @@ class DomainProfileInfo extends Component {
       <div className='DomainProfileInfo BoxFrame'>
         <span className='BoxFrameLabel ui grid'>REDDIT DISCUSSION<Tooltip info={'Simple site analytics, provided by Alexa'} /></span>
         <div className='ui grid stackable'>
-          <div className='column sixteen wide'>
+          <div className='column sixteen wide' style={{padding: '13px 4px'}}>
             <Tab menu={{ secondary: true, pointing: true }} panes={panes} onTabChange={this.handleTabChange} activeIndex={redditTabIndex} />
           </div>
         </div>

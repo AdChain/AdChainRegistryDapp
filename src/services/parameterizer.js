@@ -100,13 +100,14 @@ class ParameterizerService {
       const bigDeposit = big(deposit).mul(tenToTheNinth).toString(10)
       const allowed = await token.allowance(this.account, this.address).toString('10')
 
-      if (allowed >= bigDeposit) {
+      if (allowed < bigDeposit) {
         try {
           await token.approve(this.address, bigDeposit)
         } catch (error) {
           throw error
         }
       }
+
       result = await this.parameterizer.proposeReparameterization(name, value)
     } catch (error) {
       console.log(error)
@@ -120,13 +121,14 @@ class ParameterizerService {
       const bigDeposit = big(deposit).mul(tenToTheNinth).toString(10)
       const allowed = await token.allowance(this.account, this.address).toString('10')
 
-      if (allowed >= bigDeposit) {
+      if (allowed < bigDeposit) {
         try {
           await token.approve(this.address, bigDeposit)
         } catch (error) {
           throw error
         }
       }
+
       result = await this.parameterizer.challengeReparameterization(propId)
       window.location.reload()
     } catch (error) {
