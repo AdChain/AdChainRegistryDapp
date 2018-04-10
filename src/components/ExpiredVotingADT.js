@@ -93,7 +93,10 @@ class ExpiredVotingADT extends Component {
         const listing = await registry.getListing(x.domain)
         const inCommit = await registry.commitStageActive(x.domain)
         const inReveal = await registry.revealStageActive(x.domain)
-        if (inCommit || inReveal || listing.challengeId === 0) return null
+        const didReveal = await registry.didRevealForPoll(listing.challengeId)
+
+        if (inCommit || inReveal || listing.challengeId === 0 || didReveal) return null
+        console.log('listing: ', x.domain, listing)
         return listing
       } catch (error) {
         console.log(error)
