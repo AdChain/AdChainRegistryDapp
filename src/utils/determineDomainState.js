@@ -119,7 +119,7 @@ const getDomainState = async (domain) => {
       item.label = 'Vote - Commit'
       item.color = 'blue'
       item.actionLabel = 'VOTE'
-      item.stageMapSrc = 'MapVoting'
+      item.stageMapSrc = 'MapCommit'
 
 // -----------------------------------------
 // -----------------------------------------
@@ -152,6 +152,7 @@ const getDomainState = async (domain) => {
       item.label = <span><i className='icon x circle' /> Rejected</span>
       item.stageMapSrc = 'MapRejected'
     }
+
     return item
 
 // --------------------------------------------------------------
