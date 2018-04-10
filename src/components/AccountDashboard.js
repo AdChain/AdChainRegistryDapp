@@ -18,7 +18,6 @@ import Tooltip from './Tooltip'
 import getDomainState from '../utils/determineDomainState'
 
 import Eth from 'ethjs'
-import _ from 'lodash'
 
 import './AccountDashboard.css'
 
@@ -214,13 +213,14 @@ class AccountDashboard extends Component {
       return false
     }
     try {
-      const response = await window.fetch(`${url}/registry/domains?include=committed&account=${account}`)
+      const response = await window.fetch(`${url}/account/rewards?account=${account}&status=revealing`)
       const data = await response.json()
 
       this.setState({
         commitsToReveal: data
       })
     } catch (error) {
+      console.error(error)
       toastr.error('Error getting dashboard data')
       this.setState({
         commitsToReveal: []
@@ -235,10 +235,9 @@ class AccountDashboard extends Component {
       return false
     }
     try {
-      const response = await window.fetch(`${url}/account/rewards?account=${account}`)
+      const response = await window.fetch(`${url}/account/rewards?account=${account}&status=unclaimed`)
       let data = await response.json()
 
-      data = _.filter(data, (domain) => domain.status === 'unclaimed')
       for (let i = 0; i < data.length; i++) {
         let reward = await registry.calculateVoterReward(data[i].sender, data[i].challenge_id, data[i].salt)
         data[i].reward = big(reward).div(tenToTheNinth).words[0]

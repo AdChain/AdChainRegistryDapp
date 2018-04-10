@@ -85,7 +85,6 @@ class App extends Component {
     )
   }
   handleJoyrideCallback (result) {
-    // console.log('result: ', result)
     if (result.type === 'overlay:click' || result.type === 'finished') {
       this.joyride.reset()
       this.setState({

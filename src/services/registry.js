@@ -456,7 +456,6 @@ class RegistryService {
 
     try {
       challengeId = await this.getChallengeId(domain)
-      console.log('challengeid', challengeId)
     } catch (error) {
       throw error
     }
@@ -467,7 +466,6 @@ class RegistryService {
       console.log('hash vote:', hash)
 
       await plcr.commit({pollId: challengeId, hash, tokens: bigVotes})
-      console.log('hee')
       return this.didCommitForPoll(challengeId)
     } catch (error) {
       throw error
@@ -481,13 +479,15 @@ class RegistryService {
     try {
       challengeId = await this.getChallengeId(domain)
     } catch (error) {
+      console.error('get challenge id: ', error)
       throw error
     }
 
     try {
       await plcr.reveal({pollId: challengeId, voteOption, salt})
-      return this.didRevealForPoll(challengeId)
+      return await this.didRevealForPoll(challengeId)
     } catch (error) {
+      console.error('plcr reveal: ', error)
       throw error
     }
   }
