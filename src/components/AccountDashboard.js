@@ -18,7 +18,6 @@ import Tooltip from './Tooltip'
 import getDomainState from '../utils/determineDomainState'
 
 import Eth from 'ethjs'
-import _ from 'lodash'
 
 import './AccountDashboard.css'
 
@@ -144,8 +143,12 @@ class AccountDashboard extends Component {
   }
 
   async fetchDomainStage (domain) {
-    let domainState = await getDomainState(domain)
-    return domainState.label
+    try {
+      let domainState = await getDomainState(domain)
+      return domainState.label
+    } catch (error) {
+      console.error(error)
+    }
   }
 
   async fetchAppliedDomains () {
@@ -155,32 +158,40 @@ class AccountDashboard extends Component {
       return false
     }
 
-    const response = await window.fetch(`${url}/registry/domains?account=${account}&include=applied`)
-    const data = await response.json()
-    let appliedDomains = []
+    try {
+      const response = await window.fetch(`${url}/registry/domains?account=${account}&include=applied`)
+      const data = await response.json()
+      let appliedDomains = []
 
-    for (let i = 0; i < data.length; i++) {
-      let domainExists = false
-      if (data[i]) {
-        for (let j = 0; j < appliedDomains.length; j++) {
-          if (data[i].domain === appliedDomains[j].domain) {
-            domainExists = true
-            break
+      for (let i = 0; i < data.length; i++) {
+        let domainExists = false
+        if (data[i]) {
+          for (let j = 0; j < appliedDomains.length; j++) {
+            if (data[i].domain === appliedDomains[j].domain) {
+              domainExists = true
+              break
+            }
           }
-        }
-        if (!domainExists) {
-          try {
-            data[i].stage = await this.fetchDomainStage(data[i].domain)
-            appliedDomains.push(data[i])
-          } catch (error) {
-            console.log('Error fetching stage')
+          if (!domainExists) {
+            try {
+              data[i].stage = await this.fetchDomainStage(data[i].domain)
+              appliedDomains.push(data[i])
+            } catch (error) {
+              console.log('Error fetching stage')
+            }
           }
         }
       }
-    }
-    if (this._isMounted) {
+      if (this._isMounted) {
+        this.setState({
+          appliedDomains
+        })
+      }
+    } catch (error) {
+      console.error(error)
+      toastr.error('Error getting data for applied domains')
       this.setState({
-        appliedDomains
+        appliedDomains: []
       })
     }
   }
@@ -192,17 +203,31 @@ class AccountDashboard extends Component {
       return false
     }
 
-    const response = await window.fetch(`${url}/registry/domains?account=${account}&include=challenged`)
-    const data = await response.json()
+    try {
+      const response = await window.fetch(`${url}/registry/domains?account=${account}&include=challenged`)
+      const data = await response.json()
 
-    for (let i = 0; i < data.length; i++) {
-      if (data[i]) {
-        data[i].stage = await this.fetchDomainStage(data[i].domain)
+      for (let i = 0; i < data.length; i++) {
+        if (data[i]) {
+          data[i].stage = await this.fetchDomainStage(data[i].domain)
+        }
       }
-    }
-    if (this._isMounted) {
+      if (this._isMounted) {
+        if (!data.error) {
+          this.setState({
+            challengedDomains: data
+          })
+        } else {
+          this.setState({
+            challengedDomains: []
+          })
+        }
+      }
+    } catch (error) {
+      console.error(error)
+      toastr.error('Error getting data for challenged domains')
       this.setState({
-        challengedDomains: data
+        challengedDomains: []
       })
     }
   }
@@ -214,14 +239,21 @@ class AccountDashboard extends Component {
       return false
     }
     try {
-      const response = await window.fetch(`${url}/registry/domains?include=committed&account=${account}`)
+      const response = await window.fetch(`${url}/account/rewards?account=${account}&status=revealing`)
       const data = await response.json()
 
-      this.setState({
-        commitsToReveal: data
-      })
+      if (!data.error) {
+        this.setState({
+          commitsToReveal: data
+        })
+      } else {
+        this.setState({
+          commitsToReveal: []
+        })
+      }
     } catch (error) {
-      toastr.error('Error getting dashboard data')
+      console.error(error)
+      toastr.error('Error getting data for domains to reveal')
       this.setState({
         commitsToReveal: []
       })
@@ -235,19 +267,28 @@ class AccountDashboard extends Component {
       return false
     }
     try {
-      const response = await window.fetch(`${url}/account/rewards?account=${account}`)
+      const response = await window.fetch(`${url}/account/rewards?account=${account}&status=unclaimed`)
       let data = await response.json()
 
-      data = _.filter(data, (domain) => domain.status === 'unclaimed')
       for (let i = 0; i < data.length; i++) {
         let reward = await registry.calculateVoterReward(data[i].sender, data[i].challenge_id, data[i].salt)
         data[i].reward = big(reward).div(tenToTheNinth).words[0]
       }
-      this.setState({
-        rewards: data
-      })
+      if (!data.error) {
+        this.setState({
+          rewards: data
+        })
+      } else {
+        this.setState({
+          rewards: []
+        })
+      }
     } catch (error) {
-      console.log('Error fetching rewards')
+      console.error(error)
+      toastr.error('Error getting data for rewards to claim')
+      this.setState({
+        rewards: []
+      })
     }
   }
 }

@@ -34,6 +34,7 @@ class UserCommitsToReveal extends Component {
     let data
     try {
       const { commitsToReveal } = this.state
+
       data = commitsToReveal.length !== 0 ? commitsToReveal.map((domain, idx) =>
         <tr key={idx} className='DashboardRow'>
           <td className='DashboardFirstCell' onClick={(event) => { event.preventDefault(); this.state.history.push(`/domains/${domain.domain}`) }}>{domain.domain}</td>

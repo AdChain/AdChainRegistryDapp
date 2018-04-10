@@ -43,11 +43,13 @@ class DomainVoteRevealContainer extends Component {
   async componentDidMount () {
     this._isMounted = true
 
-    await this.getListing()
-    await this.getPoll()
-    await this.getChallenge()
-    await this.getCommit()
-    await this.getReveal()
+    Promise.all([
+      this.getListing(),
+      this.getPoll(),
+      this.getChallenge(),
+      this.getCommit(),
+      this.getReveal()
+    ])
   }
 
   componentWillUnmount () {
@@ -342,7 +344,7 @@ class DomainVoteRevealContainer extends Component {
           window.location.reload()
         }, 2e3)
       } else {
-        toastr.error('Reveal did not go through')
+        toastr.error('There was an error with the reveal process.')
       }
     } catch (error) {
       console.error('Reveal Error: ', error)

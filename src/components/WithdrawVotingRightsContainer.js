@@ -76,7 +76,8 @@ class WithdrawVotingRightsContainer extends Component {
         })
       }
     } catch (error) {
-      toastr.error('There was an error with your request')
+      console.error('Get Available Tokens to Withdraw Error: ', error)
+      toastr.error('There was an error fetching the number of available tokens to withdraw. Please make sure you are signed in to MetaMask.')
     }
   }
 
@@ -101,6 +102,7 @@ class WithdrawVotingRightsContainer extends Component {
 
       toastr.success('Success')
     } catch (error) {
+      console.error('Withdraw Tokens Error: ', error)
       toastr.error('There was an error with your request')
     }
 
