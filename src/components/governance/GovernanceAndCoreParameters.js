@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import _ from 'lodash'
 import './GovernanceAndCoreParameters.css'
 import commafy from 'commafy'
-import Tooltip from './Tooltip'
+import Tooltip from '../Tooltip'
 
 class GovernanceAndCoreParameters extends Component {
   render () {

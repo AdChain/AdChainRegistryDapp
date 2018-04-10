@@ -1,12 +1,12 @@
 import Eth from 'ethjs'
 import React, { Component } from 'react'
 import _ from 'lodash'
-import ParameterizerService from '../services/parameterizer'
+import ParameterizerService from '../../services/parameterizer'
 import commafy from 'commafy'
 import toastr from 'toastr'
 import PubSub from 'pubsub-js'
-import Tooltip from './Tooltip'
-import calculateGas from '../utils/calculateGas'
+import Tooltip from '../Tooltip'
+import calculateGas from '../../utils/calculateGas'
 import './CreateProposal.css'
 
 class CreateProposal extends Component {

@@ -1,13 +1,13 @@
 import React, { Component } from 'react'
-import Tooltip from './Tooltip'
-import './UserAppliedDomains.css'
+import './UserChallengedDomains.css'
+import Tooltip from '../Tooltip'
 
-class UserAppliedDomains extends Component {
+class UserChallengedDomains extends Component {
   constructor (props) {
     super()
 
     this.state = {
-      appliedDomains: props.appliedDomains
+      challengedDomains: props.challengedDomains
     }
     this.history = props.history
   }
@@ -16,9 +16,9 @@ class UserAppliedDomains extends Component {
     this._isMounted = true
   }
   componentWillReceiveProps (nextProps) {
-    if (nextProps.appliedDomains !== this.props.appliedDomains) {
+    if (nextProps.challengedDomains !== this.props.challengedDomains) {
       this.setState({
-        appliedDomains: nextProps.appliedDomains
+        challengedDomains: nextProps.challengedDomains
       })
     }
   }
@@ -28,18 +28,23 @@ class UserAppliedDomains extends Component {
   }
 
   render () {
-    const { appliedDomains } = this.state
-    const data = appliedDomains.length !== 0
-      ? appliedDomains.map((domain, idx) =>
+    let data
+    try {
+      const { challengedDomains } = this.state
+      data = challengedDomains.length !== 0 ? challengedDomains.map((domain, idx) =>
         <tr key={idx} className='DashboardRow'>
           <td className='DashboardFirstCell' onClick={(event) => { event.preventDefault(); this.history.push(`/domains/${domain.domain}`) }}>{domain.domain}</td>
           <td className='DashboardSecondCell'>{domain.stage}</td>
         </tr>) : null
+    } catch (error) {
+      console.log(error)
+      data = []
+    }
 
     return (
       <div className='BoxFrame DashboardColumn'>
-        <span className='BoxFrameLabel ui grid'>DOMAINS APPLIED<Tooltip info={"The domains below are recorded as domains applied by your wallet address. The domain's status is shown to its right."} /></span>
-        <div className='ui grid DomainList'>
+        <span className='BoxFrameLabel ui grid'>DOMAINS CHALLENGED<Tooltip info={"The domains that are in Application that you challenged are recorded here. The domain's status is shown to its right."} /></span>
+        <div className='ui grid'>
           <div className='column sixteen wide'>
             {data
               ? <table>
@@ -51,8 +56,7 @@ class UserAppliedDomains extends Component {
                   {data}
                 </tbody>
               </table>
-              : <div className='NoDataMessage'>The domains here are recorded as domains applied by your wallet address. The domain's status is shown to its right.</div>
-            }
+              : <div className='NoDataMessage'>The domains In Application that you challenged are recorded here. The domain's status is shown to its right.</div>}
           </div>
         </div>
       </div>
@@ -60,4 +64,4 @@ class UserAppliedDomains extends Component {
   }
 }
 
-export default UserAppliedDomains
+export default UserChallengedDomains

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Button } from 'semantic-ui-react'
-import Tooltip from './Tooltip'
+import Tooltip from '../Tooltip'
 
 import './RegistryGuideStaticChallenge.css'
 

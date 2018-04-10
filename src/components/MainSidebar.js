@@ -12,7 +12,7 @@ import dashboardLogo from './assets/DASHBOARD.svg'
 import helpLogo from './assets/HELP.svg'
 import parametersLogo from './assets/PARAMETERS.svg'
 import socialLogo from './assets/SOCIALS (OPEN).svg'
-import RegistryGuideModal from './RegistryGuideModal'
+import RegistryGuideModal from './registry_guide/RegistryGuideModal'
 import { withRouter } from 'react-router-dom'
 import PubSub from 'pubsub-js'
 

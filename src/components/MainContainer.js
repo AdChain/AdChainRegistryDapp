@@ -4,9 +4,9 @@ import MainTopbar from './MainTopbar'
 import ApplicationContainer from './ApplicationContainer'
 import DomainsContainer from './DomainsContainer'
 import DomainProfile from './DomainProfile'
-import AccountDashboard from './AccountDashboard'
+import AccountDashboard from './dashboard/AccountDashboard'
 import RocketChat from './RocketChat'
-import GovernanceContainer from './GovernanceContainer'
+import GovernanceContainer from './governance/GovernanceContainer'
 import './MainContainer.css'
 
 class MainContainer extends Component {

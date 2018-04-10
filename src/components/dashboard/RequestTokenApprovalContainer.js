@@ -2,10 +2,10 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import toastr from 'toastr'
 import commafy from 'commafy'
-import Tooltip from './Tooltip'
+import Tooltip from '../Tooltip'
 
-import store from '../store'
-import registry from '../services/registry'
+import store from '../../store'
+import registry from '../../services/registry'
 
 import RequestTokenApprovalInProgressContainer from './RequestTokenApprovalInProgressContainer'
 import './RequestTokenApprovalContainer.css'

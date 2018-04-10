@@ -4,9 +4,9 @@ import GovernanceAndCoreParameters from './GovernanceAndCoreParameters'
 import GovernanceRewardsTable from './GovernanceRewardsTable'
 import CreateProposal from './CreateProposal'
 import OpenProposalsTable from './OpenProposalsTable'
-import ParameterizerService from '../services/parameterizer'
-import registry from '../services/registry'
-import { parameterData } from '../models/parameters'
+import ParameterizerService from '../../services/parameterizer'
+import registry from '../../services/registry'
+import { parameterData } from '../../models/parameters'
 import moment from 'moment-timezone'
 import commafy from 'commafy'
 import PubSub from 'pubsub-js'
@@ -45,10 +45,13 @@ class GovernanceContainer extends Component {
        * Used to subscribe and publish events on non-related components.
        * Useful for updating state on another component that is not in the same
        * heirarchy or does not have access to the same props/state.
+       *
        * Metax's convention for usage is to include the name of the component and the function that
        * is going to be invoked as the first parameter in the subscribe event, and the
        * second parameter is the name of the function that will be invoked and binded by 'this'.
-       * In the publishing component you will publish the event by calling PubSub.publish('GovernanceContainer.getProposalsAndPropIds','extradata')
+       *
+       * In the publishing component you will publish the event by calling `PubSub.publish('GovernanceContainer.getProposalsAndPropIds','extradata')`
+       * In subscribing the event you will call `PubSub.subscribe('GovernanceContainer.getProposalsAndPropIds', this.getProposalsAndPropIds.bind(this))`
        * You can unsubscribe to an action by calling PubSub.unsubscribe(this.subEvent).
        *
       */

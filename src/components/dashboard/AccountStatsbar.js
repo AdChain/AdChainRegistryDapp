@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import commafy from 'commafy'
-import Tooltip from './Tooltip'
+import Tooltip from '../Tooltip'
 import './AccountStatsbar.css'
 
 class AccountStatsbar extends Component {

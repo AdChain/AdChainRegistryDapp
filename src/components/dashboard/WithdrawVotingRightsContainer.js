@@ -2,9 +2,9 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import commafy from 'commafy'
 import toastr from 'toastr'
-import Tooltip from './Tooltip'
-import store from '../store'
-import registry from '../services/registry'
+import Tooltip from '../Tooltip'
+import store from '../../store'
+import registry from '../../services/registry'
 
 import './WithdrawVotingRightsContainer.css'
 

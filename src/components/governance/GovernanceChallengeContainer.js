@@ -4,12 +4,12 @@ import toastr from 'toastr'
 import moment from 'moment'
 import { Button, Segment } from 'semantic-ui-react'
 // import { soliditySHA3 } from 'ethereumjs-abi'
-import Tooltip from './Tooltip'
-import Countdown from './CountdownText'
-import ParameterizerService from '../services/parameterizer'
-import DomainChallengeInProgressContainer from './DomainChallengeInProgressContainer'
+import Tooltip from '../Tooltip'
+import Countdown from '../CountdownText'
+import ParameterizerService from '../../services/parameterizer'
+import DomainChallengeInProgressContainer from '../DomainChallengeInProgressContainer'
 
-import './DomainChallengeContainer.css'
+import '../DomainChallengeContainer.css'
 
 class GovernanceChallengeContainer extends Component {
   constructor (props) {

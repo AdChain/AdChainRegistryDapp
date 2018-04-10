@@ -3,14 +3,14 @@ import PropTypes from 'prop-types'
 import toastr from 'toastr'
 import moment from 'moment'
 import { Input, Button, Segment } from 'semantic-ui-react'
-import Tooltip from './Tooltip'
+import Tooltip from '../Tooltip'
 import randomInt from 'random-int'
-import saveFile from '../utils/saveFile'
-import Countdown from './CountdownText'
-import ParameterizerService from '../services/parameterizer'
-import DomainVoteCommitInProgressContainer from './DomainVoteCommitInProgressContainer'
+import saveFile from '../../utils/saveFile'
+import Countdown from '../CountdownText'
+import ParameterizerService from '../../services/parameterizer'
+import DomainVoteCommitInProgressContainer from '../DomainVoteCommitInProgressContainer'
 
-import './DomainVoteCommitContainer.css'
+import '../DomainVoteCommitContainer.css'
 
 class GovernanceVoteCommitContainer extends Component {
   constructor (props) {

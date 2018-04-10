@@ -5,7 +5,7 @@ import qs from 'qs'
 import DomainProfileHeader from './DomainProfileHeader'
 import DomainStatsbar from './DomainStatsbar'
 // import DomainScamReport from './DomainScamReport'
-import DomainProfileInfo from './DomainProfileInfo'
+import DomainRedditBox from './reddit/DomainRedditBox'
 import DomainProfileActionContainer from './DomainProfileActionContainer'
 // import DomainProfileAdsTxtStatus from './DomainProfileAdsTxtStatus'
 import DomainProfileStageMap from './DomainProfileStageMap'
@@ -75,7 +75,7 @@ class DomainProfile extends Component {
               <DomainProfileStageMap stage={stage} domain={domain} />
             </div>
             <div className='column four wide'>
-              <DomainProfileInfo
+              <DomainRedditBox
                 domain={domain}
               />
               {

@@ -1,12 +1,14 @@
 import React, { Component } from 'react'
 import { Modal, Button, TextArea } from 'semantic-ui-react'
 import { withRouter } from 'react-router-dom'
-import './RedditConfirmationModal.css'
-import { createPostApplication, createPostChallenge } from '../services/redditActions'
-import registry from '../services/registry'
-import PublisherApplicationFormInProgress from './PublisherApplicationFormInProgress'
 import PubSub from 'pubsub-js'
 import toastr from 'toastr'
+
+import { createPostApplication, createPostChallenge } from '../../services/redditActions'
+import registry from '../../services/registry'
+import PublisherApplicationFormInProgress from '../PublisherApplicationFormInProgress'
+
+import './RedditConfirmationModal.css'
 
 class RedditConfirmationModal extends Component {
   constructor (props) {

@@ -2,9 +2,9 @@ import React, { Component } from 'react'
 import _ from 'lodash'
 import toastr from 'toastr'
 import './GovernanceAndCoreParameters.css'
-import { parameterData } from '../models/parameters'
-import ParameterizerService from '../services/parameterizer'
-import Tooltip from './Tooltip'
+import { parameterData } from '../../models/parameters'
+import ParameterizerService from '../../services/parameterizer'
+import Tooltip from '../Tooltip'
 
 const allParameterData = Object.assign({}, parameterData.coreParameterData, parameterData.governanceParameterData)
 

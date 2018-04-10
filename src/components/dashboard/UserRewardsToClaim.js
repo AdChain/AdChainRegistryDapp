@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import { Button } from 'semantic-ui-react'
-import registry from '../services/registry'
+import registry from '../../services/registry'
 import UserRewardClaimInProgress from './UserRewardClaimInProgress'
 import toastr from 'toastr'
-import Tooltip from './Tooltip'
+import Tooltip from '../Tooltip'
 
 import './UserRewardsToClaim.css'
 

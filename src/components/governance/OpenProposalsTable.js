@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
 import { Modal } from 'semantic-ui-react'
 import moment from 'moment-timezone'
-import Tooltip from './Tooltip'
-import ParamterizerService from '../services/parameterizer'
+import Tooltip from '../Tooltip'
+import ParamterizerService from '../../services/parameterizer'
 import GovernanceChallengeContainer from './GovernanceChallengeContainer'
 import GovernanceVoteCommitContainer from './GovernanceVoteCommitContainer'
 import GovernanceVoteRevealContainer from './GovernanceVoteRevealContainer'
-import CountdownSnapshot from './CountdownSnapshot'
+import CountdownSnapshot from '../CountdownSnapshot'
 import './OpenProposalsTable.css'
 
 class OpenProposalsTable extends Component {

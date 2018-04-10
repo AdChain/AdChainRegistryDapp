@@ -3,15 +3,15 @@ import PropTypes from 'prop-types'
 import toastr from 'toastr'
 import moment from 'moment'
 import { Input, Segment, Button, Dropdown } from 'semantic-ui-react'
-import Tooltip from './Tooltip'
+import Tooltip from '../Tooltip'
 
-import Countdown from './CountdownText'
-import ParameterizerService from '../services/parameterizer'
-import registry from '../services/registry'
-import DomainVoteRevealInProgressContainer from './DomainVoteRevealInProgressContainer'
+import Countdown from '../CountdownText'
+import ParameterizerService from '../../services/parameterizer'
+import registry from '../../services/registry'
+import DomainVoteRevealInProgressContainer from '../DomainVoteRevealInProgressContainer'
 // import DomainVoteTokenDistribution from './DomainVoteTokenDistribution'
 
-import './DomainVoteRevealContainer.css'
+import '../DomainVoteRevealContainer.css'
 
 class GovernanceVoteRevealContainer extends Component {
   constructor (props) {
