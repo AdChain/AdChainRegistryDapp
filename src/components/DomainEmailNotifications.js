@@ -69,7 +69,6 @@ class DomainEmailNotifications extends Component {
           subscribed: true
         })
       }
-      console.log('GOVERNX: ', res)
     } catch (error) {
       console.log(error)
     }

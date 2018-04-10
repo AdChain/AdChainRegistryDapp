@@ -123,17 +123,28 @@ class CreateProposal extends Component {
     })
 
     try {
-      result = await ParameterizerService.proposeReparameterization(this.state.rawCurrentMinDeposit, this.state.proposalParam, this.formatProposedValue(this.state.proposalParam, this.state.proposalValue))
-      this.setState({
-        inProgress: null
-      })
+      // hit paramerterizer contract for creating a new proposal
+      let proposalValue = this.formatProposedValue(this.state.proposalParam, this.state.proposalValue)
+      result = await ParameterizerService.proposeReparameterization(this.state.rawCurrentMinDeposit, this.state.proposalParam, proposalValue)
 
-      setTimeout(() => {
-        PubSub.publish('GovernanceContainer.getProposalsAndPropIds')
+      if (!result) {
+        // remove loading over box
         this.setState({
           inProgress: false
         })
-      }, 18000)
+      } else {
+        // show success loader
+        this.setState({
+          inProgress: null
+        })
+
+        setTimeout(() => {
+          PubSub.publish('GovernanceContainer.getProposalsAndPropIds')
+          this.setState({
+            inProgress: false
+          })
+        }, 18000)
+      }
 
       try {
         calculateGas({
@@ -142,7 +153,7 @@ class CreateProposal extends Component {
           proposal_value: this.state.proposalValue,
           contract_event: true,
           event: 'proposeReparameterization',
-          contract: 'paramterizer',
+          contract: 'parameterizer',
           event_success: true
         })
       } catch (error) {
@@ -162,7 +173,7 @@ class CreateProposal extends Component {
           proposal_value: this.state.proposalValue,
           contract_event: true,
           event: 'proposeReparameterization',
-          contract: 'paramterizer',
+          contract: 'parameterizer',
           event_success: false
         })
       } catch (error) {

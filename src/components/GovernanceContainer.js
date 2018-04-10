@@ -142,13 +142,13 @@ class GovernanceContainer extends Component {
 
   formatProposal (proposal, propId) {
     return {
+      propId,
       appExpiry: moment.tz(proposal[0].c[0], moment.tz.guess())._i,
       challengeId: proposal[1].c[0],
       deposit: proposal[2].c[0],
       contractName: proposal[3],
       owner: proposal[4],
       processBy: proposal[5].c[0],
-      propId,
       proposedValue: this.formatValue(proposal[3], proposal[6].c[0]),
       currentValue: parameterData.coreParameterData[proposal[3]] ? parameterData.coreParameterData[proposal[3]].value : parameterData.governanceParameterData[proposal[3]].value,
       name: parameterData.coreParameterData[proposal[3]] ? parameterData.coreParameterData[proposal[3]].name : parameterData.governanceParameterData[proposal[3]].name,

@@ -75,9 +75,6 @@ class DomainsFilterPanel extends Component {
                   </div>
                   <label htmlFor='DomainsFilterPanel_InApplication'>In Application</label>
                 </li>
-              </ul>
-
-              <ul className='ui list'>
                 <li className='item'>
                   <div className='ui input'>
                     <input
@@ -101,6 +98,30 @@ class DomainsFilterPanel extends Component {
                   />
                   </div>
                   <label htmlFor='DomainsFilterPanel_InVotingReveal'>In Reveal</label>
+                </li>
+                <li className='item'>
+                  <div className='ui input'>
+                    <input
+                      type='checkbox'
+                      id='DomainsFilterPanel_Rejected'
+                      name='rejected'
+                      checked={!!filters.rejected}
+                      onChange={this.onFilterChange}
+                  />
+                  </div>
+                  <label htmlFor='DomainsFilterPanel_Rejected'>Rejected</label>
+                </li>
+                <li className='item'>
+                  <div className='ui input'>
+                    <input
+                      type='checkbox'
+                      id='DomainsFilterPanel_Withdrawn'
+                      name='withdrawn'
+                      checked={!!filters.withdrawn}
+                      onChange={this.onFilterChange}
+                  />
+                  </div>
+                  <label htmlFor='DomainsFilterPanel_Withdrawn'>Withdrawn</label>
                 </li>
               </ul>
             </div>
@@ -144,7 +165,9 @@ class DomainsFilterPanel extends Component {
       inRegistry: false,
       inApplication: false,
       inVotingCommit: false,
-      inVotingReveal: false
+      inVotingReveal: false,
+      rejected: false,
+      withdrawn: false
     }
 
     this.setState({filters})

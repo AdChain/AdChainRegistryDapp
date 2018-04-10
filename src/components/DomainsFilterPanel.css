@@ -29,6 +29,7 @@
 
 .DomainsFilterPanel  label {
   color:#7a7b83;
+  font-family: Open sans, sans-serif;
 }
 .DomainsFilterPanel .ui.input{
     display: inline-block;

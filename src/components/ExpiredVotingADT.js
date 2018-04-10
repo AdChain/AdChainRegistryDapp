@@ -53,7 +53,6 @@ class ExpiredVotingADT extends Component {
   async getExpiredDomainData () {
     let committed = await this.getCommitted()
     let revealed = await this.getRevealed()
-
     // Determine which have not been revealed.
     committed.map((com, i) => {
       return revealed.map((rev, j) => {
@@ -71,7 +70,7 @@ class ExpiredVotingADT extends Component {
     return {
       totalExpiredTokens,
       expiredDomainData,
-      selectedPoll: expiredDomainData[0] ? expiredDomainData[0].challengeId : null
+      selectedPoll: expiredDomainData[0] ? expiredDomainData[0].pollID : null
     }
   }
 
@@ -88,16 +87,21 @@ class ExpiredVotingADT extends Component {
   async filterByStage (possibleUnrevealed) {
     // Map over unrevealed to determine the stage
     // Returns domains in expired state
+    console.log(possibleUnrevealed)
     const expiredDomains = await Promise.all(possibleUnrevealed.map(async x => {
       try {
-        const listing = await registry.getListing(x.domain)
         const inCommit = await registry.commitStageActive(x.domain)
         const inReveal = await registry.revealStageActive(x.domain)
-        const didReveal = await registry.didRevealForPoll(listing.challengeId)
+        const didReveal = await registry.didRevealForPoll(x.pollID)
+        console.log('listing: ', inCommit, inReveal, didReveal)
 
-        if (inCommit || inReveal || listing.challengeId === 0 || didReveal) return null
+        if (inCommit || inReveal || didReveal) return null
 
-        return listing
+        const listing = await registry.getListing(x.domain)
+
+        if (listing.challengeId === 0) return null
+
+        return { domain: x.domain, pollID: x.pollID }
       } catch (error) {
         console.log(error)
       }
@@ -119,7 +123,7 @@ class ExpiredVotingADT extends Component {
 
   async rescueTokens (pollId) {
     try {
-      // console.log('pollID: ', pollId)
+      console.log('pollID: ', pollId)
       let res = await registry.rescueTokens(pollId)
       this.init()
       return res
