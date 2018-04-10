@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import toastr from 'toastr'
 
-import store from '../store'
-import determineDomainState from '../utils/determineDomainState'
+import store from '../../store'
+import determineDomainState from '../../utils/determineDomainState'
 
 import DomainNotInRegistryContainer from './DomainNotInRegistryContainer'
 import DomainInRegistryContainer from './DomainInRegistryContainer'

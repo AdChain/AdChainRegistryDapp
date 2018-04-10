@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import ReactTable from 'react-table'
-import Tooltip from './Tooltip'
+import Tooltip from '../Tooltip'
 import commafy from 'commafy'
 import moment from 'moment'
 import toastr from 'toastr'
@@ -9,13 +9,13 @@ import 'react-table/react-table.css'
 import './DomainsTable.css'
 
 import PubSub from 'pubsub-js'
-import RefreshInProgressContainer from './RefreshInProgressContainer'
-import CountdownSnapshot from './CountdownSnapshot'
-import calculateGas from '../utils/calculateGas'
+import RefreshInProgressContainer from '../RefreshInProgressContainer'
+import CountdownSnapshot from '../CountdownSnapshot'
+import calculateGas from '../../utils/calculateGas'
 
-import store from '../store'
-import registry from '../services/registry'
-import getDomainState from '../utils/determineDomainState'
+import store from '../../store'
+import registry from '../../services/registry'
+import getDomainState from '../../utils/determineDomainState'
 
 // import StatProgressBar from './StatProgressBar'
 

@@ -8,10 +8,10 @@ import Tooltip from '../Tooltip'
 import Countdown from '../CountdownText'
 import ParameterizerService from '../../services/parameterizer'
 import registry from '../../services/registry'
-import DomainVoteRevealInProgressContainer from '../DomainVoteRevealInProgressContainer'
+import DomainVoteRevealInProgressContainer from '../single_domain/DomainVoteRevealInProgressContainer'
 // import DomainVoteTokenDistribution from './DomainVoteTokenDistribution'
 
-import '../DomainVoteRevealContainer.css'
+import '../single_domain/DomainVoteRevealContainer.css'
 
 class GovernanceVoteRevealContainer extends Component {
   constructor (props) {

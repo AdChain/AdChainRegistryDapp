@@ -3,10 +3,10 @@ import PropTypes from 'prop-types'
 import toastr from 'toastr'
 import moment from 'moment'
 import { Input, Segment, Button, Dropdown } from 'semantic-ui-react'
-import Tooltip from './Tooltip'
+import Tooltip from '../Tooltip'
 
-import Countdown from './CountdownText'
-import registry from '../services/registry'
+import Countdown from '../CountdownText'
+import registry from '../../services/registry'
 import DomainVoteRevealInProgressContainer from './DomainVoteRevealInProgressContainer'
 import DomainVoteTokenDistribution from './DomainVoteTokenDistribution'
 

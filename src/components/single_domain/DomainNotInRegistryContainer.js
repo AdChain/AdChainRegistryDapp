@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Button } from 'semantic-ui-react'
-import Tooltip from './Tooltip'
+import Tooltip from '../Tooltip'
 import './DomainNotInRegistryContainer.css'
-import registry from '../services/registry'
+import registry from '../../services/registry'
 import toastr from 'toastr'
 
 class DomainNotInRegistryContainer extends Component {

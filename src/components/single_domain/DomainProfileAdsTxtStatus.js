@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 
 import './DomainProfileAdsTxtStatus.css'
-import GreenCheck from './assets/green_check.svg'
-import RedX from './assets/red_x.svg'
+import GreenCheck from '../assets/green_check.svg'
+import RedX from '../assets/red_x.svg'
 
 class DomainProfileAdsTxtStatus extends Component {
   constructor (props) {

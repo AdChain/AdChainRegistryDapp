@@ -3,8 +3,8 @@ import PropTypes from 'prop-types'
 import commafy from 'commafy'
 import toastr from 'toastr'
 
-import registry from '../services/registry'
-import StatProgressBar from './StatProgressBar'
+import registry from '../../services/registry'
+import StatProgressBar from '../StatProgressBar'
 
 import './DomainVoteTokenDistribution.css'
 

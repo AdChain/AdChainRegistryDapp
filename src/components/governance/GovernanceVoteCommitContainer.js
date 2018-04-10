@@ -8,9 +8,9 @@ import randomInt from 'random-int'
 import saveFile from '../../utils/saveFile'
 import Countdown from '../CountdownText'
 import ParameterizerService from '../../services/parameterizer'
-import DomainVoteCommitInProgressContainer from '../DomainVoteCommitInProgressContainer'
+import DomainVoteCommitInProgressContainer from '../single_domain/DomainVoteCommitInProgressContainer'
 
-import '../DomainVoteCommitContainer.css'
+import '../single_domain/DomainVoteCommitContainer.css'
 
 class GovernanceVoteCommitContainer extends Component {
   constructor (props) {

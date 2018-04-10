@@ -7,9 +7,9 @@ import { Button, Segment } from 'semantic-ui-react'
 import Tooltip from '../Tooltip'
 import Countdown from '../CountdownText'
 import ParameterizerService from '../../services/parameterizer'
-import DomainChallengeInProgressContainer from '../DomainChallengeInProgressContainer'
+import DomainChallengeInProgressContainer from '../single_domain/DomainChallengeInProgressContainer'
 
-import '../DomainChallengeContainer.css'
+import '../single_domain/DomainChallengeContainer.css'
 
 class GovernanceChallengeContainer extends Component {
   constructor (props) {

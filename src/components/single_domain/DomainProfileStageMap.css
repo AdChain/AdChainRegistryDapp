@@ -18,7 +18,7 @@
 }
 
 .DomainProfileStageMap .Header::after {
-  content: url(./assets/info_gray.svg);
+  content: url(../assets/info_gray.svg);
   transform: scale(1.2) translateY(1.2px);
   padding-left: 7px;
   cursor: pointer;
