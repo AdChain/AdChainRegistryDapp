@@ -173,13 +173,10 @@ input:focus{
 
 /*utility text center*/
 .t-center{text-align:center;}
-<<<<<<< HEAD
 /*utility to hide and show*/
 .show{display:block !important;}
 .hide{display: none !important}
-=======
 .t-right{text-align: right;}
->>>>>>> 7bddfa2c90d09879fcee23267831125261a7cf95
 /*utility font size*/
 .f-13{font-size:13px;}
 .f-14{font-size:14px;}
