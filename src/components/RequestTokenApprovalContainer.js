@@ -135,6 +135,7 @@ class RequestTokenApprovalContainer extends Component {
 
       toastr.success('Success')
     } catch (error) {
+      console.error('Request Token Approval Error: ', error)
       toastr.error('There was an error with your request')
     }
 

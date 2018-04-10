@@ -121,7 +121,8 @@ class RequestVotingRightsContainer extends Component {
         })
       }
     } catch (error) {
-      toastr.error('There was an error with your request')
+      console.error('Get Available Votes Error: ', error)
+      toastr.error('There was an error fetching your available votes. Please make sure you are signed in to MetaMask.')
     }
   }
 }
