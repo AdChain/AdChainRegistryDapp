@@ -196,6 +196,7 @@ class RegistryService {
     try {
       challengeId = await this.getChallengeId(domain)
     } catch (error) {
+      console.error('getchallengeid error: ', error)
       throw error
     }
 
@@ -203,6 +204,7 @@ class RegistryService {
       const challenge = await this.getChallenge(challengeId)
       return (challenge.challenger === this.account)
     } catch (error) {
+      console.error('getchallenge error: ', error)
       throw error
     }
   }

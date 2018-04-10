@@ -38,16 +38,16 @@ class DomainVoteRevealContainer extends Component {
     this.onFileInput = this.onFileInput.bind(this)
     this.uploadClick = this.uploadClick.bind(this)
     this.onSaltChange = this.onSaltChange.bind(this)
-
-    this.getListing()
-    this.getPoll()
-    this.getChallenge()
-    this.getCommit()
-    this.getReveal()
   }
 
-  componentDidMount () {
+  async componentDidMount () {
     this._isMounted = true
+
+    await this.getListing()
+    await this.getPoll()
+    await this.getChallenge()
+    await this.getCommit()
+    await this.getReveal()
   }
 
   componentWillUnmount () {
@@ -178,79 +178,6 @@ class DomainVoteRevealContainer extends Component {
               Reveal Vote
             </Button>
           </div>
-
-          {
-          // <div className='column sixteen wide center aligned'>
-          //   <form
-          //     onSubmit={this.onFormSubmit}
-          //     className='ui form'>
-          //     <div className='ui field'>
-          //       <p>Challenge ID: <label className='ui label'>{challengeId}</label></p>
-          //     </div>
-          //     <div className='ui field'>
-          //       <label>Upload Commit File to reveal vote</label>
-          //       <input
-          //         type='file'
-          //         name='file'
-          //         onChange={this.onFileInput}
-          //         className='ui file' />
-          //     </div>
-          //     <div className='ui field'>
-          //         or
-          //     </div>
-          //     <div className='ui field'>
-          //       <label>Secret Phrase (salt)</label>
-          //       <div className='ui input small'>
-          //         <input
-          //           type='text'
-          //           placeholder='phrase'
-          //           id='DomainVoteRevealContainerSaltInput'
-          //           defaultValue={salt}
-          //           onKeyUp={event => this.setState({salt: parseInt(event.target.value, 10)})}
-          //         />
-          //       </div>
-          //     </div>
-          //     <div className='ui field'>
-          //       <label>Vote Option<br /><small>must be what you committed</small></label>
-          //     </div>
-          //     <div className='ui two fields VoteOptions'>
-          //       <div className='ui field'>
-          //         <Radio
-          //           label='SUPPORT'
-          //           name='voteOption'
-          //           value='1'
-          //           checked={this.state.voteOption === 1}
-          //           onChange={this.onVoteOptionChange}
-          //         />
-          //       </div>
-          //       <div className='ui field'>
-          //         <Radio
-          //           label='OPPOSE'
-          //           name='voteOption'
-          //           value='0'
-          //           checked={this.state.voteOption === 0}
-          //           onChange={this.onVoteOptionChange}
-          //         />
-          //       </div>
-          //     </div>
-          //     <div className='ui field'>
-          //       {voteOption === null
-          //         ? <button
-          //           className='ui button disabled'>
-          //             Select Vote Option
-          //         </button>
-          //       : <button
-          //         type='submit'
-          //         className={`ui button ${voteOption ? 'blue' : 'purple'} right labeled icon`}>
-          //         REVEAL {voteOption ? 'SUPPORT' : 'OPPOSE'} VOTE
-          //         <i className={`icon thumbs ${voteOption ? 'up' : 'down'}`} />
-          //       </button>
-          //       }
-          //     </div>
-          //   </form>
-          // </div>
-          }
-
         </div>
         {inProgress ? <DomainVoteRevealInProgressContainer /> : null}
       </div>
@@ -310,24 +237,24 @@ class DomainVoteRevealContainer extends Component {
   }
 
   async getReveal () {
-    const {account} = this.state
+    const {account, domain} = this.state
 
     if (!account) {
       return false
     }
 
-    // try {
-    //   const didReveal = await registry.didReveal(domain)
+    try {
+      const didReveal = await registry.didReveal(domain)
 
-    //   if (this._isMounted) {
-    //     this.setState({
-    //       didReveal: didReveal
-    //     })
-    //   }
-    // } catch (error) {
-    //   console.error('Get Reveal Error: ', error)
-    //   toastr.error('There was an error getting reveal')
-    // }
+      if (this._isMounted) {
+        this.setState({
+          didReveal: didReveal
+        })
+      }
+    } catch (error) {
+      console.error('Get Reveal Error: ', error)
+      toastr.error('There was an error getting reveal')
+    }
   }
 
   async getPoll () {

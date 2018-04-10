@@ -67,10 +67,10 @@ class SideBarApplicationContainer extends Component {
   async onFormSubmit (event) {
     event.preventDefault()
 
-    const {target} = event
+    // const {target} = event
     const {domain} = this.state
 
-    const stake = parseInt(target.stake.value.replace(/[^\d]/, ''), 10)
+    // const stake = parseInt(target.stake.value.replace(/[^\d]/, ''), 10)
     const minDeposit = (this.state.minDeposit | 0) // coerce
 
     if (domain.startsWith('www.') || domain.startsWith('http') || domain.startsWith('ww.')) {
@@ -83,15 +83,15 @@ class SideBarApplicationContainer extends Component {
       return false
     }
 
-    if (!(stake && stake >= minDeposit)) {
-      toastr.error('Deposit must be equal or greater than the minimum required')
-      return false
-    }
+    // if (!(stake && stake >= minDeposit)) {
+    //   toastr.error('Deposit must be equal or greater than the minimum required')
+    //   return false
+    // }
 
     try {
       try {
         calculateGas({
-          value_staked: stake,
+          value_staked: minDeposit,
           domain: domain,
           contract_event: true,
           event: 'apply',
@@ -104,7 +104,7 @@ class SideBarApplicationContainer extends Component {
 
       let data = {
         domain: domain,
-        stake: stake,
+        stake: minDeposit,
         action: 'apply'
       }
       // The domain will be applied inside this function
@@ -114,7 +114,7 @@ class SideBarApplicationContainer extends Component {
       toastr.error('There was an error applying this domain')
       try {
         calculateGas({
-          value_staked: stake,
+          value_staked: minDeposit,
           domain: domain,
           contract_event: true,
           event: 'apply',
@@ -164,13 +164,8 @@ class SideBarApplicationContainer extends Component {
               placeholder='domain.com' />
           </Form.Field>
           <Form.Field>
-            <label className='ApplicationLabel'>ADT to Stake (min. {commafy(this.state.minDeposit)})</label>
-            <input
-              onFocus={this.addClass}
-              className='ApplicationInput'
-              name='stake'
-              placeholder={commafy(this.state.minDeposit)}
-            />
+            <label className='ApplicationLabel'>{commafy(this.state.minDeposit)} ADT will be staked</label>
+            <p className='ADTStakedMessage'>The ADT staked will remain with the domain applied until it is either rejected or withdrawn</p>
           </Form.Field>
           <Button basic className='ApplicationButton' type='submit'>Apply Domain</Button>
         </Form>

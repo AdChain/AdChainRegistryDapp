@@ -214,8 +214,9 @@ class AccountDashboard extends Component {
       return false
     }
     try {
-      const response = await window.fetch(`${url}/registry/domains?account=${account}&filter=inreveal`)
+      const response = await window.fetch(`${url}/registry/domains?include=committed&account=${account}`)
       const data = await response.json()
+
       this.setState({
         commitsToReveal: data
       })

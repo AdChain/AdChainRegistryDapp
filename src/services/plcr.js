@@ -287,20 +287,14 @@ class PlcrService {
   }
 
   async hasBeenRevealed (voter, pollId) {
-    return new Promise(async (resolve, reject) => {
-      if (!pollId) {
-        resolve(false)
-        return false
-      }
+    try {
+      const response = await window.fetch(`https://adchain-registry-api-staging.metax.io/plcr/has_revealed?account=${voter}&poll_id=${pollId}`)
+      const data = await response.json()
 
-      try {
-        const didReveal = await this.plcr.hasBeenRevealed(voter, pollId)
-
-        resolve(didReveal)
-      } catch (error) {
-        reject(error)
-      }
-    })
+      return data
+    } catch (error) {
+      console.error('plcr has been revealed: error', error)
+    }
   }
 
   async rescueTokens (pollId) {

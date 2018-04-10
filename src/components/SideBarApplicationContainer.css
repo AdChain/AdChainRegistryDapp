@@ -92,6 +92,12 @@
   border-radius: 0;
 }
 
+.ADTStakedMessage {
+  color: #FFF !important;
+  opacity: .6;
+  font-size: 10px;
+}
+
 @media(max-width:768px){
   .ApplicationContainer{
     display: none
