@@ -1,15 +1,16 @@
 import React, { Component } from 'react'
 import { Button, Form } from 'semantic-ui-react'
-import './SideBarApplicationContainer.css'
 import toastr from 'toastr'
 import isValidDomain from 'is-valid-domain'
-import registry from '../services/registry'
+import registry from '../../services/registry'
 import PublisherApplicationFormInProgress from './PublisherApplicationFormInProgress'
-import calculateGas from '../utils/calculateGas'
+import calculateGas from '../../utils/calculateGas'
 import commafy from 'commafy'
 import isMobile from 'is-mobile'
 import PubSub from 'pubsub-js'
-import RedditConfirmationModal from './reddit/RedditConfirmationModal'
+import RedditConfirmationModal from '../reddit/RedditConfirmationModal'
+
+import './SideBarApplicationContainer.css'
 
 const windowWidth = window.innerWidth
 

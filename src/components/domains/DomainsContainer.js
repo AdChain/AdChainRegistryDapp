@@ -6,7 +6,7 @@ import updateQuery from 'update-query'
 
 import normalizeQueryObj from '../../utils/normalizeQueryObj'
 
-import RegistryStatsbar from '../RegistryStatsbar'
+import RegistryStatsbar from './RegistryStatsbar'
 import AdtCalculator from '../AdtCalculator'
 import DomainsTable from './DomainsTable'
 import DomainsFilterPanel from './DomainsFilterPanel'

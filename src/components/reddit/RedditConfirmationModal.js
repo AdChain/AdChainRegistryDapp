@@ -6,7 +6,7 @@ import toastr from 'toastr'
 
 import { createPostApplication, createPostChallenge } from '../../services/redditActions'
 import registry from '../../services/registry'
-import PublisherApplicationFormInProgress from '../PublisherApplicationFormInProgress'
+import PublisherApplicationFormInProgress from '../sidebar/PublisherApplicationFormInProgress'
 
 import './RedditConfirmationModal.css'
 

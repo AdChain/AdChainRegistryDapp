@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import commafy from 'commafy'
-import Tooltip from './Tooltip'
-import store from '../store'
-import token from '../services/token'
+import Tooltip from '../Tooltip'
+import store from '../../store'
+import token from '../../services/token'
 import './RegistryStatsbar.css'
 
 class RegistryStatsbar extends Component {

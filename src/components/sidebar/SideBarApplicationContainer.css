@@ -41,7 +41,7 @@
 }
 
 :root:root:root .ApplicationContainer .DomainUrlLabel::after {
-  content: url(./assets/info_blue.svg);
+  content: url(../assets/info_blue.svg);
   -webkit-transform: scale(1.2) translateY(1.2px);
   -ms-transform: scale(1.2) translateY(1.2px);
   transform: scale(1.2) translateY(1.2px);
@@ -50,7 +50,7 @@
 }
 
 :root:root:root .ApplicationContainer .ActiveForm .DomainUrlLabel::after {
-  content: url(./assets/info_white.svg);
+  content: url(../assets/info_white.svg);
   -webkit-transform: scale(1.2) translateY(1.2px);
   -ms-transform: scale(1.2) translateY(1.2px);
   transform: scale(1.2) translateY(1.2px);
