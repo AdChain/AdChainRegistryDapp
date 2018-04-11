@@ -1,13 +1,13 @@
 import React, { Component } from 'react'
 import commafy from 'commafy'
-import store from '../store'
-import registry from '../services/registry'
-import token from '../services/token'
-import Identicon from './Identicon'
+import store from '../../store'
+import registry from '../../services/registry'
+import token from '../../services/token'
+import Identicon from '../Identicon'
 import moment from 'moment-timezone'
 
-import adtLogo from './assets/adtoken_logo.png'
-import ethLogo from './assets/ethereum_purple_logo.png'
+import adtLogo from '../assets/adtoken_logo.png'
+import ethLogo from '../assets/ethereum_purple_logo.png'
 
 import './MainTopbar.css'
 

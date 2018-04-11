@@ -1,20 +1,21 @@
 import React, { Component } from 'react'
-// import PropTypes from 'prop-types'
 import { Menu, Accordion } from 'semantic-ui-react'
-import SideBarApplicationContainer from './SideBarApplicationContainer'
-import './MainSidebar.css'
-
-import adchainPublisherLogo from './assets/adchain_publisher_logo.svg'
-import metaxLogo from './assets/white_text_metax_logo.svg'
-import adtokenLogo from './assets/adtoken_logo_white.png'
-import wwwLogo from './assets/WWW.svg'
-import dashboardLogo from './assets/DASHBOARD.svg'
-import helpLogo from './assets/HELP.svg'
-import parametersLogo from './assets/PARAMETERS.svg'
-import socialLogo from './assets/SOCIALS (OPEN).svg'
-import RegistryGuideModal from './registry_guide/RegistryGuideModal'
 import { withRouter } from 'react-router-dom'
 import PubSub from 'pubsub-js'
+
+import SideBarApplicationContainer from './SideBarApplicationContainer'
+import adchainPublisherLogo from '../assets/adchain_publisher_logo.svg'
+import metaxLogo from '../assets/white_text_metax_logo.svg'
+import adtokenLogo from '../assets/adtoken_logo_white.png'
+import wwwLogo from '../assets/WWW.svg'
+import dashboardLogo from '../assets/DASHBOARD.svg'
+import helpLogo from '../assets/HELP.svg'
+import parametersLogo from '../assets/PARAMETERS.svg'
+import socialLogo from '../assets/SOCIALS (OPEN).svg'
+import RegistryGuideModal from '../registry_guide/RegistryGuideModal'
+
+import './MainSidebar.css'
+
 
 class MainSidebar extends Component {
   constructor (props) {

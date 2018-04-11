@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import MainTopbar from './MainTopbar'
-import ApplicationContainer from './ApplicationContainer'
+import MainTopbar from './topbar/MainTopbar'
 import DomainsContainer from './domains/DomainsContainer'
 import DomainProfile from './single_domain/DomainProfile'
 import AccountDashboard from './dashboard/AccountDashboard'
@@ -30,7 +29,6 @@ class MainContainer extends Component {
           <Route location={location} key={key} >
             <Switch>
               <Redirect path='/' to='/domains' exact />
-              <Route path='/apply' exact component={ApplicationContainer} />
               <Route path='/domains' exact render={props => <DomainsContainer {... props} staticContainer={this.props.staticContainer} joyride={this.props.joyride} resumeJoyride={this.props.resumeJoyride} />} />
               <Route path='/domains/:domain' exact component={DomainProfile} />
               <Route path='/account' exact component={AccountDashboard} />

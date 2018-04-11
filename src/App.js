@@ -8,7 +8,7 @@ import {
 } from 'react-router-dom'
 
 import CSSTransitionGroup from 'react-addons-css-transition-group'
-import MainSidebar from './components/MainSidebar'
+import MainSidebar from './components/sidebar/MainSidebar'
 import MainContainer from './components/MainContainer'
 import Joyride from 'react-joyride'
 import 'react-joyride/lib/react-joyride-compiled.css'

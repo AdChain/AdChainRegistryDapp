@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom'
 
 import registerServiceWorker from './registerServiceWorker'
 import App from './App'
-import AdBlockAlert from './AdBlockAlert'
+import AdBlockAlert from './components/adblock/AdBlockAlert'
 
 import registry from './services/registry'
 import plcr from './services/plcr'
