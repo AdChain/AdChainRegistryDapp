@@ -5,7 +5,6 @@ import Tooltip from '../Tooltip'
 import './DomainPendingContainer.css'
 import registry from '../../services/registry'
 import toastr from 'toastr'
-import RefreshInProgressContainer from '../RefreshInProgressContainer'
 import PubSub from 'pubsub-js'
 
 class DomainPendingContainer extends Component {
@@ -13,15 +12,13 @@ class DomainPendingContainer extends Component {
     super()
 
     this.state = {
-      domain: props.domain,
-      inProgress: false
+      domain: props.domain
     }
   }
 
   render () {
     const {
       domain,
-      inProgress
     } = this.state
 
     return (
@@ -51,7 +48,6 @@ class DomainPendingContainer extends Component {
             </p>
           </div>
         </div>
-        {inProgress ? <RefreshInProgressContainer /> : null}
       </div>
     )
   }

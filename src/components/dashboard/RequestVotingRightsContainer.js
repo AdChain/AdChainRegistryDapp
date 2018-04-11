@@ -5,6 +5,7 @@ import commafy from 'commafy'
 import Tooltip from '../Tooltip'
 import registry from '../../services/registry'
 import store from '../../store'
+import PubSub from 'pubsub-js'
 
 import './RequestVotingRightsContainer.css'
 
@@ -88,6 +89,7 @@ class RequestVotingRightsContainer extends Component {
       toastr.error('Please enter amount of adToken')
       return false
     }
+    PubSub.publish('TransactionProgressModal.open', 'conversion_to_voting_ADT')
 
     try {
       await registry.requestVotingRights(requestVotes)
@@ -98,8 +100,6 @@ class RequestVotingRightsContainer extends Component {
       if (input) {
         input.value = ''
       }
-
-      toastr.success('Success')
     } catch (error) {
       console.log('Error requesting voting rights: ', error)
       toastr.error('There was an error with your request')

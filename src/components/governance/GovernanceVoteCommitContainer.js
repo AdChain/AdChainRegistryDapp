@@ -8,7 +8,7 @@ import randomInt from 'random-int'
 import saveFile from '../../utils/saveFile'
 import Countdown from '../CountdownText'
 import ParameterizerService from '../../services/parameterizer'
-import DomainVoteCommitInProgressContainer from '../single_domain/DomainVoteCommitInProgressContainer'
+import PubSub from 'pubsub-js'
 
 import '../single_domain/DomainVoteCommitContainer.css'
 
@@ -27,7 +27,6 @@ class GovernanceVoteCommitContainer extends Component {
       revealEndDate: null,
       didChallenge: null,
       didCommit: null,
-      inProgress: false,
       salt,
       voteOption: null,
       enableDownload: false,
@@ -68,7 +67,6 @@ class GovernanceVoteCommitContainer extends Component {
       commitEndDate,
       didChallenge,
       didCommit,
-      inProgress,
       salt,
       SupportState,
       OpposeState
@@ -208,7 +206,6 @@ class GovernanceVoteCommitContainer extends Component {
             </form>
           </div>
         </div>
-        { inProgress ? <DomainVoteCommitInProgressContainer /> : null }
       </div>
     )
   }
@@ -344,39 +341,23 @@ class GovernanceVoteCommitContainer extends Component {
       return false
     }
 
-    if (this._isMounted) {
-      this.setState({
-        inProgress: true
-      })
-    }
-
     try {
+      PubSub.publish('TransactionProgressModal.open', 'vote_commit_for_parameter_proposal')
       const committed = await ParameterizerService.commitVote({challengeId, propId, votes, voteOption, salt})
-
-      if (this._isMounted) {
-        this.setState({
-          inProgress: false
-        })
-      }
 
       if (committed) {
         toastr.success('Successfully committed')
 
         // TODO: better way of resetting state
-        setTimeout(() => {
-          window.location.reload()
-        }, 1e3)
+        // setTimeout(() => {
+        //   window.location.reload()
+        // }, 1e3)
       } else {
         toastr.error('Commit did not go through')
       }
     } catch (error) {
       console.log('error: ', error)
       toastr.error('There was an error with your request')
-      if (this._isMounted) {
-        this.setState({
-          inProgress: false
-        })
-      }
     }
   }
 

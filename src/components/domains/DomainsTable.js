@@ -9,7 +9,6 @@ import 'react-table/react-table.css'
 import './DomainsTable.css'
 
 import PubSub from 'pubsub-js'
-import RefreshInProgressContainer from '../RefreshInProgressContainer'
 import CountdownSnapshot from '../CountdownSnapshot'
 import calculateGas from '../../utils/calculateGas'
 
@@ -50,8 +49,7 @@ class DomainsTable extends Component {
       allDomains: [],
       pages: -1, // we don't know how many pages yet
       pageSize: 10,
-      isLoading: false,
-      inProgress: false
+      isLoading: false
     }
     history = props.history
 
@@ -86,8 +84,7 @@ class DomainsTable extends Component {
       data,
       pages,
       pageSize,
-      isLoading,
-      inProgress
+      isLoading
     } = this.state
 
     return (
@@ -116,7 +113,6 @@ class DomainsTable extends Component {
             &nbsp;&nbsp;&nbsp;&nbsp;
             <span><i className='icon x circle' /> = &nbsp;  Rejected</span>
           </div>
-          {inProgress ? <RefreshInProgressContainer /> : null}
         </div>
       </div>
     )

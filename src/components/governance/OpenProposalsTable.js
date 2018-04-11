@@ -7,6 +7,7 @@ import GovernanceChallengeContainer from './GovernanceChallengeContainer'
 import GovernanceVoteCommitContainer from './GovernanceVoteCommitContainer'
 import GovernanceVoteRevealContainer from './GovernanceVoteRevealContainer'
 import CountdownSnapshot from '../CountdownSnapshot'
+import PubSub from 'pubsub-js'
 import './OpenProposalsTable.css'
 
 class OpenProposalsTable extends Component {
@@ -162,7 +163,10 @@ class OpenProposalsTable extends Component {
       action.class = 'ui mini button greyblack refresh'
       action.label = 'REFRESH STATUS'
       proposal.stage = 'InApplication'
-      action.event = () => { ParamterizerService.processProposal(propId) }
+      action.event = () => { 
+        PubSub.publish('TransactionProgressModal.open', 'proposal_refresh')
+        ParamterizerService.processProposal(propId) 
+      }
     } else {
       action.class = 'ui mini button hide'
       action.label = ' '

@@ -5,6 +5,7 @@ import './GovernanceAndCoreParameters.css'
 import { parameterData } from '../../models/parameters'
 import ParameterizerService from '../../services/parameterizer'
 import Tooltip from '../Tooltip'
+import PubSub from 'pubsub-js'
 
 const allParameterData = Object.assign({}, parameterData.coreParameterData, parameterData.governanceParameterData)
 
@@ -70,16 +71,15 @@ class GovernanceRewardsTable extends Component {
   }
 
   async claimReward ({challenge_id, salt}) {
-    this.setState({
-      claimProgress: true
-    })
 
     try {
+      PubSub.publish('TransactionProgressModal.open', 'claim_governance_reward')
       await ParameterizerService.claimReward(challenge_id, salt)
       this.setState({
         claimProgress: 'SUCCESS'
       })
     } catch (error) {
+      console.error('Governance Reward Claim Error: ', error)
       toastr.error('There was an error claiming your reward')
       this.setState({
         claimProgress: false

@@ -7,7 +7,6 @@ import Tooltip from '../Tooltip'
 
 import Countdown from '../CountdownText'
 import registry from '../../services/registry'
-import DomainVoteRevealInProgressContainer from './DomainVoteRevealInProgressContainer'
 import DomainVoteTokenDistribution from './DomainVoteTokenDistribution'
 import PubSub from 'pubsub-js'
 
@@ -25,7 +24,6 @@ class DomainVoteRevealContainer extends Component {
       votesAgainst: 0,
       commitEndDate: null,
       revealEndDate: null,
-      inProgress: false,
       didChallenge: false,
       didCommit: false,
       didReveal: false,
@@ -61,7 +59,6 @@ class DomainVoteRevealContainer extends Component {
     const {
       domain,
       revealEndDate,
-      inProgress,
       didChallenge,
       didCommit,
       didReveal
@@ -182,7 +179,6 @@ class DomainVoteRevealContainer extends Component {
             </Button>
           </div>
         </div>
-        {inProgress ? <DomainVoteRevealInProgressContainer /> : null}
       </div>
     )
   }

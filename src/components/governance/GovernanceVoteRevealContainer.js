@@ -8,7 +8,7 @@ import Tooltip from '../Tooltip'
 import Countdown from '../CountdownText'
 import ParameterizerService from '../../services/parameterizer'
 import registry from '../../services/registry'
-import DomainVoteRevealInProgressContainer from '../single_domain/DomainVoteRevealInProgressContainer'
+import PubSub from 'pubsub-js'
 // import DomainVoteTokenDistribution from './DomainVoteTokenDistribution'
 
 import '../single_domain/DomainVoteRevealContainer.css'
@@ -25,7 +25,7 @@ class GovernanceVoteRevealContainer extends Component {
       votesAgainst: 0,
       commitEndDate: null,
       revealEndDate: null,
-      inProgress: false,
+      // inProgress: false,
       didChallenge: false,
       didCommit: false,
       didReveal: false,
@@ -59,7 +59,7 @@ class GovernanceVoteRevealContainer extends Component {
   render () {
     const {
       revealEndDate,
-      inProgress,
+      // inProgress,
       didChallenge,
       didCommit,
       didReveal
@@ -180,7 +180,6 @@ class GovernanceVoteRevealContainer extends Component {
             </Button>
           </div>
         </div>
-        {inProgress ? <DomainVoteRevealInProgressContainer /> : null}
       </div>
     )
   }
@@ -281,36 +280,28 @@ class GovernanceVoteRevealContainer extends Component {
       return false
     }
 
-    if (this._isMounted) {
-      this.setState({
-        inProgress: true
-      })
-    }
+    // if (this._isMounted) {
+    //   this.setState({
+    //     inProgress: true
+    //   })
+    // }
 
     try {
+      PubSub.publish('TransactionProgressModal.open', 'vote_reveal_for_parameter_proposal')
       const revealed = await ParameterizerService.revealVote({challengeId, propId, voteOption, salt})
-      this.setState({
-        inProgress: false
-      })
 
       if (revealed) {
-        toastr.success('Successfully revealed')
+        // toastr.success('Successfully revealed')
 
         // TODO: better way of resetting state
-        setTimeout(() => {
-          window.location.reload()
-        }, 2e3)
+        // setTimeout(() => {
+        //   window.location.reload()
+        // }, 2e3)
       } else {
         toastr.error('Reveal did not go through')
       }
     } catch (error) {
       toastr.error('There was an error with your request')
-
-      if (this._isMounted) {
-        this.setState({
-          inProgress: false
-        })
-      }
     }
   }
 

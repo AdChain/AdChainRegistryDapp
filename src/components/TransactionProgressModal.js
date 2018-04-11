@@ -22,6 +22,7 @@ class TransactionProgressModal extends Component {
 
     this.open = this.open.bind(this)
     this.next = this.next.bind(this)
+    this.close = this.close.bind(this)
   }
 
   next (topic, src) {
@@ -40,10 +41,17 @@ class TransactionProgressModal extends Component {
     }
   }
   close () {
-    this.setState({ open: false })
+    this.setState({
+      open: false,
+      src: '',
+      stepClass: null,
+      current: 0
+    })
   }
 
   open (topic, src) {
+    console.log('src', src)
+
     this.setState({
       open: true,
       src: src,
@@ -56,6 +64,7 @@ class TransactionProgressModal extends Component {
   componentWillMount () {
     this.openEvent = PubSub.subscribe('TransactionProgressModal.open', this.open)
     this.nextEvent = PubSub.subscribe('TransactionProgressModal.next', this.next)
+    this.closeEvent = PubSub.subscribe('TransactionProgressModal.close', this.close)
   }
 
   render () {
@@ -170,6 +179,242 @@ class TransactionProgressModal extends Component {
     </ol>
   </div>
         }
+      ],
+      ADT_approval:
+      [
+        {
+          content:
+  <div className='transaction-content'>
+    <p><b>You will receive 1 MetaMask prompt:</b></p>
+    <ol className='transaction-content-list'>
+      <li className={this.state.stepClass}>Allows the adChain Registry contract to transfer ADT deposit from your account</li>
+    </ol>
+  </div>
+        }
+      ],
+      conversion_to_voting_ADT:
+      [
+        {
+          content:
+  <div className='transaction-content'>
+    <p><b>You will receive 2 MetaMask prompts:</b></p>
+    <ol className='transaction-content-list'>
+      <li className='activeStep'>Allows the registry's PLCR contract to transfer ADT from your wallet</li>
+      <li className='nextStep'>Request voting rights from the registry's PLCR contract</li>
+    </ol>
+  </div>
+        },
+        {
+          content:
+  <div className='transaction-content'>
+    <p><b>You will receive 2 MetaMask prompts:</b></p>
+    <ol className='transaction-content-list'>
+      <li className='finishedStep'>Allows the registry's PLCR contract to transfer ADT from your wallet</li>
+      <li className={this.state.stepClass}>Request voting rights from the registry's PLCR contract</li>
+    </ol>
+  </div>
+        }
+      ],
+      withdraw_voting_ADT:
+      [
+        {
+          content:
+  <div className='transaction-content'>
+    <p><b>You will receive 1 MetaMask prompt:</b></p>
+    <ol className='transaction-content-list'>
+      <li className={this.state.stepClass}>Withdraws Voting ADT from the registry's PLCR contract and returns them to your wallet</li>
+    </ol>
+  </div>
+        }
+      ],
+      claim_reward:
+      [
+        {
+          content:
+  <div className='transaction-content'>
+    <p><b>You will receive 1 MetaMask prompt:</b></p>
+    <ol className='transaction-content-list'>
+      <li className={this.state.stepClass}>Claims ADT reward from the registry contract and adds them to your wallet</li>
+    </ol>
+  </div>
+        }
+      ],
+      unlock_expired_ADT:
+      [
+        {
+          content:
+  <div className='transaction-content'>
+    <p><b>You will receive 1 MetaMask prompt:</b></p>
+    <ol className='transaction-content-list'>
+      <li className={this.state.stepClass}>Unlocks expired ADT from the registry's PLCR contract</li>
+    </ol>
+  </div>
+        }
+      ],
+      withdraw_listing:
+      [
+        {
+          content:
+  <div className='transaction-content'>
+    <p><b>You will receive 1 MetaMask prompt:</b></p>
+    <ol className='transaction-content-list'>
+      <li className={this.state.stepClass}>Removes listing from the registry contract and returns your deposit</li>
+    </ol>
+  </div>
+        }
+      ],
+      deposit_ADT:
+      [
+        {
+          content:
+  <div className='transaction-content'>
+    <p><b>You will receive 2 MetaMask prompts:</b></p>
+    <ol className='transaction-content-list'>
+      <li className='activeStep'>Allows the registry's PLCR contract to transfer ADT from your wallet</li>
+      <li className='nextStep'>Deposit ADT to the registry's PLCR contract</li>
+    </ol>
+  </div>
+        },
+        {
+          content:
+  <div className='transaction-content'>
+    <p><b>You will receive 2 MetaMask prompts:</b></p>
+    <ol className='transaction-content-list'>
+      <li className='finishedStep'>Allows the registry's PLCR contract to transfer ADT from your wallet</li>
+      <li className={this.state.stepClass}>Deposit ADT to the registry's PLCR contract</li>
+    </ol>
+  </div>
+        }
+      ],
+      withdraw_ADT:
+      [
+        {
+          content:
+  <div className='transaction-content'>
+    <p><b>You will receive 1 MetaMask prompt:</b></p>
+    <ol className='transaction-content-list'>
+      <li className={this.state.stepClass}>Withdraws specified ADT amount from your listing's deposit in the registry contract</li>
+    </ol>
+  </div>
+        }
+      ],
+      vote_commit_for_parameter_proposal:
+      [
+        {
+          content:
+  <div className='transaction-content'>
+    <p><b>You will receive 3 MetaMask prompts:</b></p>
+    <ol className='transaction-content-list'>
+      <li className='activeStep'>Allows the registry's PLCR contract to transfer ADT from your wallet</li>
+      <li className='nextStep'>Request voting rights from the registry's PLCR contract</li>
+      <li className='nextStep'>Submits vote to the registry's PLCR contract</li>
+    </ol>
+  </div>
+        },
+        {
+          content:
+  <div className='transaction-content'>
+    <p><b>You will receive 3 MetaMask prompts:</b></p>
+    <ol className='transaction-content-list'>
+      <li className='finishedStep'>Allows the registry's PLCR contract to transfer ADT from your wallet</li>
+      <li className='activeStep'>Request voting rights from the registry's PLCR contract</li>
+      <li className='nextStep'>Submits vote to the registry's PLCR contract</li>
+    </ol>
+  </div>
+        },
+        {
+          content:
+  <div className='transaction-content'>
+    <p><b>You will receive 3 MetaMask prompts:</b></p>
+    <ol className='transaction-content-list'>
+      <li className='finishedStep'>Allows the registry's PLCR contract to transfer ADT from your wallet</li>
+      <li className='finishedStep'>Request voting rights from the registry's PLCR contract</li>
+      <li className={this.state.stepClass}>Submits vote to the registry's PLCR contract</li>
+    </ol>
+  </div>
+        }
+      ],
+      vote_reveal_for_parameter_proposal:
+      [
+        {
+          content:
+  <div className='transaction-content'>
+    <p><b>You will receive 1 MetaMask prompt:</b></p>
+    <ol className='transaction-content-list'>
+      <li className={this.state.stepClass}>Submits Reveal to the registry's PLCR contract</li>
+    </ol>
+  </div>
+        }
+      ],
+      parameter_proposal_application:
+      [
+        {
+          content:
+  <div className='transaction-content'>
+    <p><b>You will receive 2 MetaMask prompts:</b></p>
+    <ol className='transaction-content-list'>
+      <li className='activeStep'>Allow adChain Registry contract to transfer adToken deposit from your account (if not done so already)</li>
+      <li className='nextStep'>Submit proposal application to the Governance contract</li>
+    </ol>
+  </div>
+        },
+        {
+          content:
+  <div className='transaction-content'>
+    <p><b>You will receive 2 MetaMask prompts:</b></p>
+    <ol className='transaction-content-list'>
+      <li className='finishedStep'>Allow adChain Registry contract to transfer adToken deposit from your account (if not done so already)</li>
+      <li className={this.state.stepClass}>Submits the parameter proposal application to the Governance contract</li>
+    </ol>
+  </div>
+        }
+      ],
+      parameter_proposal_challenge:
+      [
+        {
+          content:
+  <div className='transaction-content'>
+    <p><b>You will receive 2 MetaMask prompts:</b></p>
+    <ol className='transaction-content-list'>
+      <li className='activeStep'>Allows the Governance contract to transfer ADT deposit from your account</li>
+      <li className='nextStep'>Submits the parameter proposal challenge to the Governance contract</li>
+    </ol>
+  </div>
+        },
+        {
+          content:
+  <div className='transaction-content'>
+    <p><b>You will receive 2 MetaMask prompts:</b></p>
+    <ol className='transaction-content-list'>
+      <li className='finishedStep'>Allows the Governance contract to transfer ADT deposit from your account</li>
+      <li className={this.state.stepClass}>Submits the parameter proposal challenge to the Governance contract</li>
+    </ol>
+  </div>
+        }
+      ],
+      claim_governance_reward:
+      [
+        {
+          content:
+  <div className='transaction-content'>
+    <p><b>You will receive 1 MetaMask prompt:</b></p>
+    <ol className='transaction-content-list'>
+      <li className={this.state.stepClass}>Claims ADT reward from the Governance contract and adds them to your wallet</li>
+    </ol>
+  </div>
+        }
+      ],
+      proposal_refresh:
+      [
+        {
+          content:
+  <div className='transaction-content'>
+    <p><b>You will receive 1 MetaMask prompt:</b></p>
+    <ol className='transaction-content-list'>
+      <li className={this.state.stepClass}>Updating the status of the proposal in the Governance contract</li>
+    </ol>
+  </div>
+        }
       ]
     }
 
@@ -191,8 +436,8 @@ class TransactionProgressModal extends Component {
         <Modal.Header className='TransactionProgressHeader'>
           {
             transactionComplete
-              ? <span>{src} Successful!</span>
-              : <span>{src} in Progress</span>
+              ? <span>{src.replace(/_/g, ' ')} Successful!</span>
+              : <span>{src.replace(/_/g, ' ')} in Progress</span>
           }
         </Modal.Header>
         <Modal.Content>

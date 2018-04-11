@@ -13,7 +13,7 @@ class CreateProposal extends Component {
   constructor () {
     super()
     this.state = {
-      inProgress: false,
+      // inProgress: false,
       // defaults
       paramMetric: 'ADT',
       proposalParam: 'minDeposit',
@@ -33,38 +33,40 @@ class CreateProposal extends Component {
   render () {
     return (
       <div className='CreateProposal'>
-        <div className={this.state.inProgress === true ? 'show InProgressProposal' : 'hide'}>
-          <div className='Content'>
-            <div>
-              <strong>Submission in progress. </strong>
-              <div className='ui active indeterminate inline small loader' />
-            </div>
-            <br />
-            <p>
-              You will receive a maximum of <strong><u>two</u></strong> MetaMask prompts:
-            </p>
-            <p>
-              <strong><u>First prompt</u>:</strong><br />
-              Allow adChain Registry contract to transfer adToken deposit from your account (if not done so already).
-            </p>
-            <p>
-              <strong><u>Second prompt</u>:</strong><br />
-              Submit proposal application to the Governance contract.
-            </p>
-          </div>
-        </div>
-        <div className={this.state.inProgress === null ? 'show InProgressProposal' : 'hide'}>
-          <div className='Content' style={{paddingTop: '62px'}}>
-            <div className='t-center'>
-              <strong>Transaction Successful </strong><br />
-              <i className='icon check circle' style={{color: 'green'}} />
-            </div>
-            <br />
-            <p className='t-center'>
-              It may take up to <u>20 seconds</u> for your proposal to appear in the <strong> Open Proposals Table</strong>
-            </p>
-          </div>
-        </div>
+      {
+        // <div className={this.state.inProgress === true ? 'show InProgressProposal' : 'hide'}>
+        //   <div className='Content'>
+        //     <div>
+        //       <strong>Submission in progress. </strong>
+        //       <div className='ui active indeterminate inline small loader' />
+        //     </div>
+        //     <br />
+        //     <p>
+        //       You will receive a maximum of <strong><u>two</u></strong> MetaMask prompts:
+        //     </p>
+        //     <p>
+        //       <strong><u>First prompt</u>:</strong><br />
+        //       Allow adChain Registry contract to transfer adToken deposit from your account (if not done so already).
+        //     </p>
+        //     <p>
+        //       <strong><u>Second prompt</u>:</strong><br />
+        //       Submit proposal application to the Governance contract.
+        //     </p>
+        //   </div>
+        // </div>
+        // <div className={this.state.inProgress === null ? 'show InProgressProposal' : 'hide'}>
+        //   <div className='Content' style={{paddingTop: '62px'}}>
+        //     <div className='t-center'>
+        //       <strong>Transaction Successful </strong><br />
+        //       <i className='icon check circle' style={{color: 'green'}} />
+        //     </div>
+        //     <br />
+        //     <p className='t-center'>
+        //       It may take up to <u>20 seconds</u> for your proposal to appear in the <strong> Open Proposals Table</strong>
+        //     </p>
+        //   </div>
+        // </div>
+      }
         <div className='BoxFrame mt-25 RegistryGuideCreateProposal'>
           <span className='BoxFrameLabel ui grid'>CREATE PROPOSAL <Tooltip info={'This is where you create new proposals to change a parameter. You can change Registry and Parameterizer parameters here.'} /></span>
           <div className='ui grid'>
@@ -118,33 +120,33 @@ class CreateProposal extends Component {
     if (this.state.proposalValue < 1) return
 
     let result
-    this.setState({
-      inProgress: true
-    })
+    // this.setState({
+    //   inProgress: true
+    // })
 
     try {
-      // hit paramerterizer contract for creating a new proposal
+      PubSub.publish('TransactionProgressModal.open', 'parameter_proposal_application')
+      // hit parameterizer contract for creating a new proposal
       let proposalValue = this.formatProposedValue(this.state.proposalParam, this.state.proposalValue)
       result = await ParameterizerService.proposeReparameterization(this.state.rawCurrentMinDeposit, this.state.proposalParam, proposalValue)
 
-      if (!result) {
-        // remove loading over box
-        this.setState({
-          inProgress: false
-        })
-      } else {
-        // show success loader
-        this.setState({
-          inProgress: null
-        })
-
-        setTimeout(() => {
-          PubSub.publish('GovernanceContainer.getProposalsAndPropIds')
-          this.setState({
-            inProgress: false
-          })
-        }, 18000)
-      }
+      // if (!result) {
+      //   // remove loading over box
+      //   // this.setState({
+      //   //   inProgress: false
+      //   // })
+      // } else {
+      //   // show success loader
+      //   this.setState({
+      //     inProgress: null
+      //   })
+      // }
+          setTimeout(() => {
+            PubSub.publish('GovernanceContainer.getProposalsAndPropIds')
+            // this.setState({
+            //   inProgress: false
+            // })
+          }, 18000)
 
       try {
         calculateGas({
@@ -162,9 +164,9 @@ class CreateProposal extends Component {
     } catch (error) {
       console.log(error)
       toastr.error('There was an error creating proposal')
-      this.setState({
-        inProgress: false
-      })
+      // this.setState({
+      //   inProgress: false
+      // })
 
       try {
         calculateGas({
@@ -193,7 +195,7 @@ class CreateProposal extends Component {
           if (response) {
             result = response.toNumber()
             this.setState({
-              inProgress: false,
+              // inProgress: false,
               currentMinDeposit: commafy(result / 1000000000),
               rawCurrentMinDeposit: result / 10
             })

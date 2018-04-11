@@ -155,13 +155,17 @@ class RegistryService {
     if (allowed >= bigDeposit) {
       try {
         await token.approve(this.address, bigDeposit)
+        PubSub.publish('TransactionProgressModal.next', 'deposit_ADT')
       } catch (error) {
         throw error
       }
+    } else {
+      PubSub.publish('TransactionProgressModal.next', 'deposit_ADT')
     }
 
     try {
       await this.registry.deposit(domainHash, bigDeposit)
+      PubSub.publish('TransactionProgressModal.next', 'deposit_ADT')
     } catch (error) {
       throw error
     }
@@ -336,6 +340,7 @@ class RegistryService {
 
       return result
     } catch (error) {
+      PubSub.publish('TransactionProgressModal.close')
       throw error
     }
   }
@@ -475,7 +480,7 @@ class RegistryService {
 
       console.log('hash vote:', hash)
 
-      await plcr.commit({pollId: challengeId, hash, tokens: bigVotes})
+      await plcr.commit({pollId: challengeId, hash, tokens: bigVotes}, 'vote')
       return this.didCommitForPoll(challengeId)
     } catch (error) {
       throw error
@@ -494,7 +499,7 @@ class RegistryService {
     }
 
     try {
-      await plcr.reveal({pollId: challengeId, voteOption, salt})
+      await plcr.reveal({pollId: challengeId, voteOption, salt}, 'reveal')
       return await this.didRevealForPoll(challengeId)
     } catch (error) {
       console.error('plcr reveal: ', error)
@@ -669,6 +674,7 @@ class RegistryService {
         }
 
         await this.registry.claimReward(challengeId, salt)
+        PubSub.publish('TransactionProgressModal.next', 'claim_reward')
 
         store.dispatch({
           type: 'REGISTRY_CLAIM_REWARD'
@@ -698,7 +704,10 @@ class RegistryService {
     const tokens = big(votes).mul(tenToTheNinth).toString(10)
 
     await token.approve(plcr.address, tokens)
+    PubSub.publish('TransactionProgressModal.next', 'conversion_to_voting_ADT')
+
     await plcr.requestVotingRights(tokens)
+    PubSub.publish('TransactionProgressModal.next', 'conversion_to_voting_ADT')
   }
 
   async getTotalVotingRights () {
@@ -724,6 +733,7 @@ class RegistryService {
     tokens = big(tokens).mul(tenToTheNinth).toString(10)
 
     await plcr.withdrawVotingRights(tokens)
+    PubSub.publish('TransactionProgressModal.next', 'withdraw_voting_ADT')
 
     return true
   }
@@ -736,6 +746,7 @@ class RegistryService {
   async rescueTokens (pollId) {
     try {
       let res = await plcr.rescueTokens(pollId)
+      PubSub.publish('TransactionProgressModal.next', 'unlock_expired_ADT')
       return res
     } catch (error) {
       console.log('Rescue tokens error: ', error)
@@ -791,6 +802,7 @@ class RegistryService {
 
     try {
       await this.registry.exit(domainHash)
+      PubSub.publish('TransactionProgressModal.next', 'withdraw_listing')
     } catch (error) {
       throw error
     }
@@ -818,6 +830,7 @@ class RegistryService {
 
     try {
       await this.registry.withdraw(hash, bigWithdrawAmount)
+      PubSub.publish('TransactionProgressModal.next', 'withdraw_ADT')
     } catch (error) {
       throw error
     }

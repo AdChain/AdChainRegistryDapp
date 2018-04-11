@@ -10,7 +10,6 @@ import calculateGas from '../../utils/calculateGas'
 import saveFile from '../../utils/saveFile'
 import Countdown from '../CountdownText'
 import registry from '../../services/registry'
-import DomainVoteCommitInProgressContainer from './DomainVoteCommitInProgressContainer'
 import PubSub from 'pubsub-js'
 
 import './DomainVoteCommitContainer.css'
@@ -30,7 +29,6 @@ class DomainVoteCommitContainer extends Component {
       revealEndDate: null,
       didChallenge: null,
       didCommit: null,
-      inProgress: false,
       salt,
       voteOption: null,
       enableDownload: false,
@@ -72,7 +70,6 @@ class DomainVoteCommitContainer extends Component {
       commitEndDate,
       didChallenge,
       didCommit,
-      inProgress,
       salt,
       SupportState,
       OpposeState,
@@ -198,7 +195,6 @@ class DomainVoteCommitContainer extends Component {
             </form>
           </div>
         </div>
-        {inProgress ? <DomainVoteCommitInProgressContainer /> : null}
       </div>
     )
   }
@@ -376,24 +372,12 @@ class DomainVoteCommitContainer extends Component {
       return false
     }
 
-    // if (this._isMounted) {
-    //   this.setState({
-    //     inProgress: true
-    //   })
-    // }
-
     try {
       PubSub.publish('TransactionProgressModal.open', 'vote')
       const committed = await registry.commitVote({domain, votes, voteOption, salt})
 
-      // if (this._isMounted) {
-      //   this.setState({
-      //     inProgress: false
-      //   })
-      // }
-
       if (committed) {
-        toastr.success('Successfully committed')
+        // toastr.success('Successfully committed')
         try {
           calculateGas({
             domain: domain,
@@ -408,19 +392,14 @@ class DomainVoteCommitContainer extends Component {
           console.log('error reporting gas')
         }
         // TODO: better way of resetting state
-        setTimeout(() => {
-          window.location.reload()
-        }, 1e3)
+        // setTimeout(() => {
+        //   window.location.reload()
+        // }, 1e3)
       } else {
         toastr.error('Commit did not go through')
       }
     } catch (error) {
       toastr.error('There was an error with your request')
-      if (this._isMounted) {
-        this.setState({
-          inProgress: false
-        })
-      }
       try {
         calculateGas({
           domain: domain,

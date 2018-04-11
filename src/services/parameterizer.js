@@ -6,6 +6,7 @@ import token from './token'
 import plcr from './plcr'
 import moment from 'moment-timezone'
 import saltHashVote from '../utils/saltHashVote'
+import PubSub from 'pubsub-js'
 
 const big = (number) => new Eth.BN(number.toString(10))
 const tenToTheNinth = big(10).pow(big(9))
@@ -102,12 +103,16 @@ class ParameterizerService {
       if (allowed < bigDeposit) {
         try {
           await token.approve(this.address, bigDeposit)
+          PubSub.publish('TransactionProgressModal.next', 'parameter_proposal_application')
         } catch (error) {
           throw error
         }
+      } else {
+        PubSub.publish('TransactionProgressModal.next', 'parameter_proposal_application')
       }
 
       result = await this.parameterizer.proposeReparameterization(name, value)
+      PubSub.publish('TransactionProgressModal.next', 'parameter_proposal_application')
     } catch (error) {
       console.log(error)
     }
@@ -123,13 +128,17 @@ class ParameterizerService {
       if (allowed < bigDeposit) {
         try {
           await token.approve(this.address, bigDeposit)
+          PubSub.publish('TransactionProgressModal.next', 'parameter_proposal_challenge')
         } catch (error) {
           throw error
         }
+      } else {
+        PubSub.publish('TransactionProgressModal.next', 'parameter_proposal_challenge')
       }
 
       result = await this.parameterizer.challengeReparameterization(propId)
-      window.location.reload()
+      PubSub.publish('TransactionProgressModal.next', 'parameter_proposal_challenge')
+      // window.location.reload()
     } catch (error) {
       console.log(error)
     }
@@ -155,7 +164,8 @@ class ParameterizerService {
     try {
       // const propId = await this.getPropId(name)
       result = await this.parameterizer.processProposal(propId)
-      window.location.reload()
+      PubSub.publish('TransactionProgressModal.next', 'proposal_refresh')
+      // window.location.reload()
     } catch (error) {
       console.log('error prop exists')
     }
@@ -252,7 +262,7 @@ class ParameterizerService {
     try {
       const hash = saltHashVote(voteOption, salt)
 
-      await plcr.commit({pollId: challengeId, hash, tokens: bigVotes})
+      await plcr.commit({pollId: challengeId, hash, tokens: bigVotes}, 'vote_commit_for_parameter_proposal')
       return this.didCommitForPoll(challengeId)
     } catch (error) {
       throw error
@@ -261,7 +271,7 @@ class ParameterizerService {
 
   async revealVote ({challengeId, propId, voteOption, salt}) {
     try {
-      await plcr.reveal({pollId: challengeId, voteOption, salt})
+      await plcr.reveal({pollId: challengeId, voteOption, salt}, 'vote_reveal_for_parameter_proposal')
       return this.didRevealForPoll(challengeId)
     } catch (error) {
       throw error
@@ -409,6 +419,7 @@ class ParameterizerService {
         }
 
         await this.parameterizer.claimVoterReward(challengeId, salt)
+        PubSub.publish('TransactionProgressModal.next', 'claim_governance_reward')
 
         resolve()
       } catch (error) {

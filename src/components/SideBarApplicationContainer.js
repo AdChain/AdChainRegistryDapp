@@ -4,7 +4,6 @@ import './SideBarApplicationContainer.css'
 import toastr from 'toastr'
 import isValidDomain from 'is-valid-domain'
 import registry from '../services/registry'
-import PublisherApplicationFormInProgress from './PublisherApplicationFormInProgress'
 import calculateGas from '../utils/calculateGas'
 import commafy from 'commafy'
 import isMobile from 'is-mobile'
@@ -19,7 +18,6 @@ class SideBarApplicationContainer extends Component {
     this.state = {
       active: false,
       domainDeposit: null,
-      inProgress: false,
       minDeposit: '-',
       domain: ''
     }
@@ -132,7 +130,6 @@ class SideBarApplicationContainer extends Component {
     if (windowWidth < 768 || isMobile()) return null
 
     const {
-      inProgress,
       active
     } = this.state
 
@@ -161,7 +158,6 @@ class SideBarApplicationContainer extends Component {
           </Form.Field>
           <Button basic className='ApplicationButton' type='submit'>Apply Domain</Button>
         </Form>
-        {inProgress ? <PublisherApplicationFormInProgress /> : null}
         <RedditConfirmationModal />
       </div>
     )

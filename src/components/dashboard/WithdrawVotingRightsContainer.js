@@ -5,6 +5,7 @@ import toastr from 'toastr'
 import Tooltip from '../Tooltip'
 import store from '../../store'
 import registry from '../../services/registry'
+import PubSub from 'pubsub-js'
 
 import './WithdrawVotingRightsContainer.css'
 
@@ -89,12 +90,7 @@ class WithdrawVotingRightsContainer extends Component {
 
   async withdrawTokens () {
     const {availableTokens} = this.state
-
-    // if (this._isMounted) {
-    //   this.setState({
-    //     inProgress: true
-    //   })
-    // }
+    PubSub.publish('TransactionProgressModal.open', 'withdraw_voting_ADT')
 
     try {
       console.log('available tokens: ', availableTokens)
@@ -105,12 +101,6 @@ class WithdrawVotingRightsContainer extends Component {
       console.error('Withdraw Tokens Error: ', error)
       toastr.error('There was an error with your request')
     }
-
-    // if (this._isMounted) {
-    //   this.setState({
-    //     inProgress: false
-    //   })
-    // }
   }
 }
 

@@ -134,7 +134,7 @@ class PlcrService {
     })
   }
 
-  async commit ({pollId, hash, tokens}) {
+  async commit ({pollId, hash, tokens}, transactionSrc) { // added transactionSrc param to differentiate between governance and domain voting
     return new Promise(async (resolve, reject) => {
       if (!pollId) {
         reject(new Error('Poll ID is required'))
@@ -172,6 +172,7 @@ class PlcrService {
       if (requiredVotes > 0) {
         try {
           await token.approve(this.address, requiredVotes)
+          PubSub.publish('TransactionProgressModal.next', transactionSrc)
         } catch (error) {
           reject(error)
           return false
@@ -179,18 +180,19 @@ class PlcrService {
 
         try {
           await this.plcr.requestVotingRights(requiredVotes)
-          PubSub.publish('TransactionProgressModal.next', 'vote')
+          PubSub.publish('TransactionProgressModal.next', transactionSrc)
         } catch (error) {
           reject(error)
           return false
         }
+      } else {
+        PubSub.publish('TransactionProgressModal.next', transactionSrc)
       }
 
       try {
         const prevPollId = await this.plcr.getInsertPointForNumTokens.call(this.getAccount(), tokens, pollId)
-        PubSub.publish('TransactionProgressModal.next', 'vote')
         const result = await this.plcr.commitVote(pollId, hash, tokens, prevPollId)
-        PubSub.publish('TransactionProgressModal.next', 'vote')
+        PubSub.publish('TransactionProgressModal.next', transactionSrc)
 
         store.dispatch({
           type: 'PLCR_VOTE_COMMIT',
@@ -206,11 +208,11 @@ class PlcrService {
     })
   }
 
-  async reveal ({pollId, voteOption, salt}) {
+  async reveal ({pollId, voteOption, salt}, transactionSrc) {
     return new Promise(async (resolve, reject) => {
       try {
         await this.plcr.revealVote(pollId, voteOption, salt)
-        PubSub.publish('TransactionProgressModal.next', 'reveal')
+        PubSub.publish('TransactionProgressModal.next', transactionSrc)
 
         store.dispatch({
           type: 'PLCR_VOTE_REVEAL',

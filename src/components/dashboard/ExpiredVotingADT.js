@@ -3,6 +3,7 @@ import Tooltip from '../Tooltip'
 import registry from '../../services/registry'
 // import toastr from 'toastr'
 import _ from 'lodash'
+import PubSub from 'pubsub-js'
 
 class ExpiredVotingADT extends Component {
   constructor () {
@@ -121,6 +122,7 @@ class ExpiredVotingADT extends Component {
   }
 
   async rescueTokens (pollId) {
+    PubSub.publish('TransactionProgressModal.open', 'unlock_expired_ADT')
     try {
       let res = await registry.rescueTokens(pollId)
       this.init()
