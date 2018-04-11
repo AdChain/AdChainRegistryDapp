@@ -100,19 +100,30 @@ class ParameterizerService {
       const bigDeposit = big(deposit).mul(tenToTheNinth).toString(10)
       const allowed = await (await token.allowance(this.account, this.address)).toString('10')
 
+      let transactionInfo = {}
       if (allowed < bigDeposit) {
+        // open not approved adt modal
         try {
+          transactionInfo = {
+            src: 'not_approved_proposal_application',
+            title: 'Parameter Proposal Application'
+          }
           await token.approve(this.address, bigDeposit)
-          PubSub.publish('TransactionProgressModal.next', 'parameter_proposal_application')
+          PubSub.publish('TransactionProgressModal.next', transactionInfo)
         } catch (error) {
           throw error
         }
       } else {
-        PubSub.publish('TransactionProgressModal.next', 'parameter_proposal_application')
+        // open approved adt modal
+        transactionInfo = {
+          src: 'approved_proposal_application',
+          title: 'Parameter Proposal Application'
+        }
+        PubSub.publish('TransactionProgressModal.next', transactionInfo)
       }
 
       result = await this.parameterizer.proposeReparameterization(name, value)
-      PubSub.publish('TransactionProgressModal.next', 'parameter_proposal_application')
+      PubSub.publish('TransactionProgressModal.next', transactionInfo)
     } catch (error) {
       console.log(error)
     }
@@ -125,19 +136,30 @@ class ParameterizerService {
       const bigDeposit = big(deposit).mul(tenToTheNinth).toString(10)
       const allowed = await (await token.allowance(this.account, this.address)).toString('10')
 
+      let transactionInfo = {}
       if (allowed < bigDeposit) {
+        // open not approved adt modal
         try {
+          transactionInfo = {
+            src: 'not_approved_proposal_challenge',
+            title: 'Parameter Proposal Challenge'
+          }
           await token.approve(this.address, bigDeposit)
-          PubSub.publish('TransactionProgressModal.next', 'parameter_proposal_challenge')
+          PubSub.publish('TransactionProgressModal.next', transactionInfo)
         } catch (error) {
           throw error
         }
       } else {
-        PubSub.publish('TransactionProgressModal.next', 'parameter_proposal_challenge')
+        // open approved adt modal
+        transactionInfo = {
+          src: 'approved_proposal_challenge',
+          title: 'Parameter Proposal Challenge'
+        }
+        PubSub.publish('TransactionProgressModal.next', transactionInfo)
       }
 
       result = await this.parameterizer.challengeReparameterization(propId)
-      PubSub.publish('TransactionProgressModal.next', 'parameter_proposal_challenge')
+      PubSub.publish('TransactionProgressModal.next', transactionInfo)
       // window.location.reload()
     } catch (error) {
       console.log(error)
@@ -163,8 +185,12 @@ class ParameterizerService {
     if (!propId) { console.log('name'); return }
     try {
       // const propId = await this.getPropId(name)
+      let transactionInfo = {
+        src: 'proposal_refresh',
+        title: 'Refresh'
+      }
       result = await this.parameterizer.processProposal(propId)
-      PubSub.publish('TransactionProgressModal.next', 'proposal_refresh')
+      PubSub.publish('TransactionProgressModal.next', transactionInfo)
       // window.location.reload()
     } catch (error) {
       console.log('error prop exists')
@@ -261,8 +287,12 @@ class ParameterizerService {
 
     try {
       const hash = saltHashVote(voteOption, salt)
+      let transactionInfo = {
+        src: 'vote_commit_for_parameter_proposal',
+        title: 'Vote for Parameter Proposal'
+      }
 
-      await plcr.commit({pollId: challengeId, hash, tokens: bigVotes}, 'vote_commit_for_parameter_proposal')
+      await plcr.commit({pollId: challengeId, hash, tokens: bigVotes}, transactionInfo)
       return this.didCommitForPoll(challengeId)
     } catch (error) {
       throw error
@@ -271,7 +301,11 @@ class ParameterizerService {
 
   async revealVote ({challengeId, propId, voteOption, salt}) {
     try {
-      await plcr.reveal({pollId: challengeId, voteOption, salt}, 'vote_reveal_for_parameter_proposal')
+      let transactionInfo = {
+        src: 'vote_reveal_for_parameter_proposal',
+        title: 'Reveal for Parameter Proposal'
+      }
+      await plcr.reveal({pollId: challengeId, voteOption, salt}, transactionInfo)
       return this.didRevealForPoll(challengeId)
     } catch (error) {
       throw error
@@ -418,8 +452,13 @@ class ParameterizerService {
           return false
         }
 
+        let transactionInfo = {
+          src: 'claim_governance_reward',
+          title: 'Claim Governance Reward'
+        }
+
         await this.parameterizer.claimVoterReward(challengeId, salt)
-        PubSub.publish('TransactionProgressModal.next', 'claim_governance_reward')
+        PubSub.publish('TransactionProgressModal.next', transactionInfo)
 
         resolve()
       } catch (error) {

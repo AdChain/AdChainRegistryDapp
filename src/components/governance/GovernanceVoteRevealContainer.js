@@ -280,14 +280,12 @@ class GovernanceVoteRevealContainer extends Component {
       return false
     }
 
-    // if (this._isMounted) {
-    //   this.setState({
-    //     inProgress: true
-    //   })
-    // }
-
     try {
-      PubSub.publish('TransactionProgressModal.open', 'vote_reveal_for_parameter_proposal')
+      let transactionInfo = {
+        src: 'vote_reveal_for_parameter_proposal',
+        title: 'Reveal for Parameter Proposal'
+      }
+      PubSub.publish('TransactionProgressModal.open', transactionInfo)
       const revealed = await ParameterizerService.revealVote({challengeId, propId, voteOption, salt})
 
       if (revealed) {

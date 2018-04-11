@@ -114,20 +114,32 @@ class RegistryService {
 
     let allowed = await (await token.allowance(this.account, this.address)).toString(10)
 
+    let transactionInfo = {}
     if (allowed < bigDeposit) {
+      // open not approved adt modal
+      transactionInfo = {
+        src: 'not_approved_application',
+        title: 'application'
+      }
       try {
+        PubSub.publish('TransactionProgressModal.open', transactionInfo)
         await token.approve(this.address, bigDeposit)
-        PubSub.publish('TransactionProgressModal.next', 'application')
+        PubSub.publish('TransactionProgressModal.next', transactionInfo)
       } catch (error) {
         throw error
       }
     } else {
-      PubSub.publish('TransactionProgressModal.next', 'application')
+      // open approved adt modal
+      transactionInfo = {
+        src: 'approved_application',
+        title: 'application'
+      }
+      PubSub.publish('TransactionProgressModal.open', transactionInfo)
     }
 
     try {
       await this.registry.apply(hash, bigDeposit, data)
-      PubSub.publish('TransactionProgressModal.next', 'application')
+      PubSub.publish('TransactionProgressModal.next', transactionInfo)
     } catch (error) {
       throw error
     }
@@ -151,21 +163,24 @@ class RegistryService {
     const bigDeposit = big(amount).mul(tenToTheNinth).toString(10)
 
     const allowed = await token.allowance(this.account, this.address).toString('10')
-
+    let transactionInfo = {
+      src: 'deposit_ADT',
+      title: 'Deposit ADT'
+    }
     if (allowed >= bigDeposit) {
       try {
         await token.approve(this.address, bigDeposit)
-        PubSub.publish('TransactionProgressModal.next', 'deposit_ADT')
+        PubSub.publish('TransactionProgressModal.next', transactionInfo)
       } catch (error) {
         throw error
       }
     } else {
-      PubSub.publish('TransactionProgressModal.next', 'deposit_ADT')
+      PubSub.publish('TransactionProgressModal.next', transactionInfo)
     }
 
     try {
       await this.registry.deposit(domainHash, bigDeposit)
-      PubSub.publish('TransactionProgressModal.next', 'deposit_ADT')
+      PubSub.publish('TransactionProgressModal.next', transactionInfo)
     } catch (error) {
       throw error
     }
@@ -180,12 +195,19 @@ class RegistryService {
     const domainHash = `0x${soliditySHA3(['bytes32'], [domain.toLowerCase().trim()]).toString('hex')}`
 
     try {
+      let transactionInfo = {
+        src: 'challenge',
+        title: 'challenge'
+      }
+
+      PubSub.publish('TransactionProgressModal.open', transactionInfo)
+
       const minDeposit = await this.getMinDeposit()
       const minDepositAdt = minDeposit.mul(tenToTheNinth)
       await token.approve(this.address, minDepositAdt)
-      PubSub.publish('TransactionProgressModal.next', 'challenge')
+      PubSub.publish('TransactionProgressModal.next', transactionInfo)
       await this.registry.challenge(domainHash, data)
-      PubSub.publish('TransactionProgressModal.next', 'challenge')
+      PubSub.publish('TransactionProgressModal.next', transactionInfo)
     } catch (error) {
       throw error
     }
@@ -324,14 +346,18 @@ class RegistryService {
       throw new Error('Domain is required')
     }
     // opens refresh loading modal
-    PubSub.publish('TransactionProgressModal.open', 'refresh')
 
     domain = domain.toLowerCase()
     const domainHash = `0x${soliditySHA3(['bytes32'], [domain]).toString('hex')}`
 
     try {
+      let transactionInfo = {
+        src: 'refresh',
+        title: 'refresh'
+      }
+      PubSub.publish('TransactionProgressModal.open', transactionInfo)
       const result = await this.registry.updateStatus(domainHash)
-      PubSub.publish('TransactionProgressModal.next', 'refresh')
+      PubSub.publish('TransactionProgressModal.next', transactionInfo)
 
       store.dispatch({
         type: 'REGISTRY_DOMAIN_UPDATE_STATUS',
@@ -479,8 +505,12 @@ class RegistryService {
       const hash = saltHashVote(voteOption, salt)
 
       console.log('hash vote:', hash)
+      let transactionInfo = {
+        src: 'vote',
+        title: 'vote'
+      }
 
-      await plcr.commit({pollId: challengeId, hash, tokens: bigVotes}, 'vote')
+      await plcr.commit({pollId: challengeId, hash, tokens: bigVotes}, transactionInfo)
       return this.didCommitForPoll(challengeId)
     } catch (error) {
       throw error
@@ -499,7 +529,11 @@ class RegistryService {
     }
 
     try {
-      await plcr.reveal({pollId: challengeId, voteOption, salt}, 'reveal')
+      let transactionInfo = {
+        src: 'reveal',
+        title: 'reveal'
+      }
+      await plcr.reveal({pollId: challengeId, voteOption, salt}, transactionInfo)
       return await this.didRevealForPoll(challengeId)
     } catch (error) {
       console.error('plcr reveal: ', error)
@@ -667,14 +701,17 @@ class RegistryService {
       try {
         const voter = this.account
         const voterReward = (await this.calculateVoterReward(voter, challengeId, salt)).toNumber()
-
+        let transactionInfo = {
+          src: 'claim_reward',
+          title: 'Claim Reward'
+        }
         if (voterReward <= 0) {
           reject(new Error('Account has no reward for challenge ID'))
           return false
         }
 
         await this.registry.claimReward(challengeId, salt)
-        PubSub.publish('TransactionProgressModal.next', 'claim_reward')
+        PubSub.publish('TransactionProgressModal.next', transactionInfo)
 
         store.dispatch({
           type: 'REGISTRY_CLAIM_REWARD'
@@ -703,11 +740,19 @@ class RegistryService {
     // normal ADT to nano ADT
     const tokens = big(votes).mul(tenToTheNinth).toString(10)
 
-    await token.approve(plcr.address, tokens)
-    PubSub.publish('TransactionProgressModal.next', 'conversion_to_voting_ADT')
+    try {
+      let transactionInfo = {
+        src: 'conversion_to_voting_ADT',
+        title: 'Conversion to Voting ADT'
+      }
+      await token.approve(plcr.address, tokens)
+      PubSub.publish('TransactionProgressModal.next', transactionInfo)
 
-    await plcr.requestVotingRights(tokens)
-    PubSub.publish('TransactionProgressModal.next', 'conversion_to_voting_ADT')
+      await plcr.requestVotingRights(tokens)
+      PubSub.publish('TransactionProgressModal.next', transactionInfo)
+    } catch (error) {
+      console.error('request voting rights error: ', error)
+    }
   }
 
   async getTotalVotingRights () {
@@ -732,8 +777,16 @@ class RegistryService {
 
     tokens = big(tokens).mul(tenToTheNinth).toString(10)
 
-    await plcr.withdrawVotingRights(tokens)
-    PubSub.publish('TransactionProgressModal.next', 'withdraw_voting_ADT')
+    try {
+      let transactionInfo = {
+        src: 'withdraw_voting_ADT',
+        title: 'Withdraw Voting ADT'
+      }
+      await plcr.withdrawVotingRights(tokens)
+      PubSub.publish('TransactionProgressModal.next', transactionInfo)
+    } catch (error) {
+      console.error('withdraw voting rights error: ', error)
+    }
 
     return true
   }
@@ -746,7 +799,11 @@ class RegistryService {
   async rescueTokens (pollId) {
     try {
       let res = await plcr.rescueTokens(pollId)
-      PubSub.publish('TransactionProgressModal.next', 'unlock_expired_ADT')
+      let transactionInfo = {
+        src: 'unlock_expired_ADT',
+        title: 'Unlock Expired ADT'
+      }
+      PubSub.publish('TransactionProgressModal.next', transactionInfo)
       return res
     } catch (error) {
       console.log('Rescue tokens error: ', error)
@@ -801,8 +858,12 @@ class RegistryService {
     const domainHash = `0x${soliditySHA3(['bytes32'], [domain]).toString('hex')}`
 
     try {
+      let transactionInfo = {
+        src: 'withdraw_listing',
+        title: 'Withdraw Listing'
+      }
       await this.registry.exit(domainHash)
-      PubSub.publish('TransactionProgressModal.next', 'withdraw_listing')
+      PubSub.publish('TransactionProgressModal.next', transactionInfo)
     } catch (error) {
       throw error
     }
@@ -829,8 +890,12 @@ class RegistryService {
     // }
 
     try {
+      let transactionInfo = {
+        src: 'withdraw_ADT',
+        title: 'Withdraw ADT'
+      }
       await this.registry.withdraw(hash, bigWithdrawAmount)
-      PubSub.publish('TransactionProgressModal.next', 'withdraw_ADT')
+      PubSub.publish('TransactionProgressModal.next', transactionInfo)
     } catch (error) {
       throw error
     }

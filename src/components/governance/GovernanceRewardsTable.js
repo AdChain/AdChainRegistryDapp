@@ -73,7 +73,11 @@ class GovernanceRewardsTable extends Component {
   async claimReward ({challenge_id, salt}) {
 
     try {
-      PubSub.publish('TransactionProgressModal.open', 'claim_governance_reward')
+      let transactionInfo = {
+        src: 'claim_governance_reward',
+        title: 'Claim Governance Reward'
+      }
+      PubSub.publish('TransactionProgressModal.open', transactionInfo)
       await ParameterizerService.claimReward(challenge_id, salt)
       this.setState({
         claimProgress: 'SUCCESS'

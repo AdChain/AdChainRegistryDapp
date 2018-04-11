@@ -120,12 +120,13 @@ class CreateProposal extends Component {
     if (this.state.proposalValue < 1) return
 
     let result
-    // this.setState({
-    //   inProgress: true
-    // })
-
     try {
-      PubSub.publish('TransactionProgressModal.open', 'parameter_proposal_application')
+
+      let transactionInfo = {
+        src: 'parameter_proposal_application',
+        title: 'Parameter Proposal Application'
+      }
+      PubSub.publish('TransactionProgressModal.open', transactionInfo)
       // hit parameterizer contract for creating a new proposal
       let proposalValue = this.formatProposedValue(this.state.proposalParam, this.state.proposalValue)
       result = await ParameterizerService.proposeReparameterization(this.state.rawCurrentMinDeposit, this.state.proposalParam, proposalValue)
@@ -143,9 +144,6 @@ class CreateProposal extends Component {
       // }
           setTimeout(() => {
             PubSub.publish('GovernanceContainer.getProposalsAndPropIds')
-            // this.setState({
-            //   inProgress: false
-            // })
           }, 18000)
 
       try {
@@ -164,9 +162,6 @@ class CreateProposal extends Component {
     } catch (error) {
       console.log(error)
       toastr.error('There was an error creating proposal')
-      // this.setState({
-      //   inProgress: false
-      // })
 
       try {
         calculateGas({

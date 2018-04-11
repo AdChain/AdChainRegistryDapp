@@ -134,21 +134,14 @@ class GovernanceChallengeContainer extends Component {
     }
 
     if (propExists) {
-      // if (this._isMounted) {
-      //   this.setState({
-      //     inProgress: true
-      //   })
-      // }
       try {
-        PubSub.publish('TransactionProgressModal.open', 'parameter_proposal_challenge')
+        let transactionInfo = {
+          src: 'parameter_proposal_challenge',
+          title: 'Parameter Proposal Challenge'
+        }
+        PubSub.publish('TransactionProgressModal.open', transactionInfo)
         await ParameterizerService.challengeReparameterization(this.props.governanceParameterProposals.pMinDeposit.value, propId)
         toastr.success('Successfully challenged parameter')
-
-        // if (this._isMounted) {
-        //   this.setState({
-        //     inProgress: false
-        //   })
-        // }
 
         // TODO: better way of resetting state
         // setTimeout(() => {
@@ -156,11 +149,6 @@ class GovernanceChallengeContainer extends Component {
         // }, 2e3)
       } catch (error) {
         toastr.error('Error')
-        // if (this._isMounted) {
-        //   this.setState({
-        //     inProgress: false
-        //   })
-        // }
       }
     } else {
       toastr.error('Proposal not in application')

@@ -113,12 +113,15 @@ class RequestTokenApprovalContainer extends Component {
       toastr.error('Please enter amount of adToken')
       return false
     }
-
-    PubSub.publish('TransactionProgressModal.open', 'ADT_approval')
+    let transactionInfo = {
+      src: 'ADT_approval',
+      title: 'ADT Approval'
+    }
+    PubSub.publish('TransactionProgressModal.open', transactionInfo)
 
     try {
       await registry.approveTokens(tokenAmount)
-      PubSub.publish('TransactionProgressModal.next', 'ADT_approval')
+      PubSub.publish('TransactionProgressModal.next', transactionInfo)
 
       // TODO: better way to reset input
       const input = document.querySelector('#RequestTokenApprovalContainerInput')

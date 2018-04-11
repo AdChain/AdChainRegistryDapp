@@ -342,7 +342,11 @@ class GovernanceVoteCommitContainer extends Component {
     }
 
     try {
-      PubSub.publish('TransactionProgressModal.open', 'vote_commit_for_parameter_proposal')
+        let transactionInfo = {
+          src: 'vote_commit_for_parameter_proposal',
+          title: 'Vote for Parameter Proposal'
+        }
+      PubSub.publish('TransactionProgressModal.open', transactionInfo)
       const committed = await ParameterizerService.commitVote({challengeId, propId, votes, voteOption, salt})
 
       if (committed) {

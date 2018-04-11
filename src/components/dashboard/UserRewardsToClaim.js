@@ -67,9 +67,15 @@ class UserRewardsToClaim extends Component {
   }
 
   async claimReward (challengeId, salt, domain) {
-    PubSub.publish('TransactionProgressModal.open', 'claim_reward')
-
+    
     try {
+
+      let transactionInfo = {
+      src: 'claim_reward',
+      title: 'Claim Reward'
+    }
+
+      PubSub.publish('TransactionProgressModal.open', transactionInfo)
       await registry.claimReward(challengeId, salt)
 
       document.getElementById(domain).innerText = ' - '

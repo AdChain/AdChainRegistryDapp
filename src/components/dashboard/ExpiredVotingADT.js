@@ -122,7 +122,11 @@ class ExpiredVotingADT extends Component {
   }
 
   async rescueTokens (pollId) {
-    PubSub.publish('TransactionProgressModal.open', 'unlock_expired_ADT')
+    let transactionInfo = {
+      src: 'unlock_expired_ADT',
+      title: 'Unlock Expired ADT'
+    }
+    PubSub.publish('TransactionProgressModal.open', transactionInfo)
     try {
       let res = await registry.rescueTokens(pollId)
       this.init()

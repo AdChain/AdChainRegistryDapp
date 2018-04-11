@@ -373,7 +373,11 @@ class DomainVoteCommitContainer extends Component {
     }
 
     try {
-      PubSub.publish('TransactionProgressModal.open', 'vote')
+      let transactionInfo = {
+        src: 'vote',
+        title: 'Vote'
+      }
+      PubSub.publish('TransactionProgressModal.open', transactionInfo)
       const committed = await registry.commitVote({domain, votes, voteOption, salt})
 
       if (committed) {

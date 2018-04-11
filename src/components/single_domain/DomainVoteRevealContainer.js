@@ -322,7 +322,11 @@ class DomainVoteRevealContainer extends Component {
     }
 
     try {
-      PubSub.publish('TransactionProgressModal.open', 'reveal')
+      let transactionInfo = {
+        src: 'reveal',
+        title: 'reveal'
+      }
+      PubSub.publish('TransactionProgressModal.open', transactionInfo)
       const revealed = await registry.revealVote({domain, voteOption, salt})
 
       if (revealed) {

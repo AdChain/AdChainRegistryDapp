@@ -15,6 +15,7 @@ class TransactionProgressModal extends Component {
       open: false,
       size: 'small',
       src: '',
+      title: '',
       status: null,
       stepClass: null,
       transactionComplete: false
@@ -25,7 +26,8 @@ class TransactionProgressModal extends Component {
     this.close = this.close.bind(this)
   }
 
-  next (topic, src) {
+  next (topic, transactionInfo) {
+    let src = transactionInfo.src
     const current = this.state.current + 1
     if (this.steps[src][current]) {
       this.setState({
@@ -44,17 +46,18 @@ class TransactionProgressModal extends Component {
     this.setState({
       open: false,
       src: '',
+      title: '',
       stepClass: null,
       current: 0
     })
   }
 
-  open (topic, src) {
-    console.log('src', src)
-
+  open (topic, transactionInfo) {
+    console.log('info: ', transactionInfo)
     this.setState({
       open: true,
-      src: src,
+      src: transactionInfo.src,
+      title: transactionInfo.title,
       transactionComplete: false,
       status: null,
       stepClass: null
@@ -68,11 +71,23 @@ class TransactionProgressModal extends Component {
   }
 
   render () {
-    const { current, open, size, src, status, transactionComplete } = this.state
+    const { current, open, size, src, status, transactionComplete, title } = this.state
     const Step = Steps.Step
 
     this.steps = {
-      application:
+      approved_application:
+      [
+        {
+          content:
+  <div className='transaction-content'>
+    <p><b>You will receive 1 MetaMask prompt:</b></p>
+    <ol className='transaction-content-list'>
+      <li className={this.state.stepClass}>Submits the application to the adChain Registry contract</li>
+    </ol>
+  </div>
+        }
+      ],
+      not_approved_application:
       [
         {
           content:
@@ -436,8 +451,8 @@ class TransactionProgressModal extends Component {
         <Modal.Header className='TransactionProgressHeader'>
           {
             transactionComplete
-              ? <span>{src.replace(/_/g, ' ')} Successful!</span>
-              : <span>{src.replace(/_/g, ' ')} in Progress</span>
+              ? <span>{title} Successful!</span>
+              : <span>{title} in Progress</span>
           }
         </Modal.Header>
         <Modal.Content>

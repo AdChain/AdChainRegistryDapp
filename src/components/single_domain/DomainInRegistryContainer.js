@@ -283,9 +283,15 @@ class DomainInRegistryContainer extends Component {
 
   async withdrawListing () {
     const {domain} = this.state
-    PubSub.publish('TransactionProgressModal.open', 'withdraw_listing')
 
+    
     try {
+      let transactionInfo = {
+        src: 'withdraw_listing',
+        title: 'Withdraw Listing'
+      }
+
+      PubSub.publish('TransactionProgressModal.open', transactionInfo)
       await registry.exit(domain)
       this.setState({
         canWithdraw: false
@@ -330,9 +336,13 @@ class DomainInRegistryContainer extends Component {
 
     const stakedDeposit = parseInt(amount, 10) + parseInt(currentDeposit, 10)
 
-    PubSub.publish('TransactionProgressModal.open', 'deposit_ADT')
-
+    
     try {
+      let transactionInfo = {
+        src: 'deposit_ADT',
+        title: 'Deposit ADT'
+      }
+      PubSub.publish('TransactionProgressModal.open', transactionInfo)
       await registry.deposit(domain, amount)
       if (this._isMounted) {
         this.setState({
@@ -382,7 +392,11 @@ class DomainInRegistryContainer extends Component {
     }
     
     try {
-      PubSub.publish('TransactionProgressModal.open', 'withdraw_ADT')
+      let transactionInfo = {
+        src: 'withdraw_ADT',
+        title: 'Withdraw ADT'
+      }
+      PubSub.publish('TransactionProgressModal.open', transactionInfo)
       await registry.withdraw(domain, amount)
       if (this._isMounted) {
         this.setState({

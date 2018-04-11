@@ -93,12 +93,10 @@ class RedditConfirmationModal extends Component {
 
     try {
       if (action === 'apply') {
-        PubSub.publish('TransactionProgressModal.open', 'application')
         await registry.apply(domain, stake)
         await createPostApplication(domain, reason)
       } else {
         let data = ''
-        PubSub.publish('TransactionProgressModal.open', 'challenge')
         await registry.challenge(domain, data)
         await createPostChallenge(domain, reason)
       }

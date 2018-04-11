@@ -89,9 +89,15 @@ class RequestVotingRightsContainer extends Component {
       toastr.error('Please enter amount of adToken')
       return false
     }
-    PubSub.publish('TransactionProgressModal.open', 'conversion_to_voting_ADT')
 
+    
+    
     try {
+      let transactionInfo = {
+        src: 'conversion_to_voting_ADT',
+        title: 'Conversion to Voting ADT'
+      }
+      PubSub.publish('TransactionProgressModal.open', transactionInfo)
       await registry.requestVotingRights(requestVotes)
 
       // TODO: better way to reset input

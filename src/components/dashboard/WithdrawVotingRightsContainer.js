@@ -90,9 +90,13 @@ class WithdrawVotingRightsContainer extends Component {
 
   async withdrawTokens () {
     const {availableTokens} = this.state
-    PubSub.publish('TransactionProgressModal.open', 'withdraw_voting_ADT')
-
+    
     try {
+      let transactionInfo = {
+      src: 'withdraw_voting_ADT',
+      title: 'Withdraw Voting ADT'
+    }
+      PubSub.publish('TransactionProgressModal.open', transactionInfo)
       console.log('available tokens: ', availableTokens)
       await registry.withdrawVotingRights(availableTokens)
 

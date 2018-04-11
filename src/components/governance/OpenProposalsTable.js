@@ -164,7 +164,11 @@ class OpenProposalsTable extends Component {
       action.label = 'REFRESH STATUS'
       proposal.stage = 'InApplication'
       action.event = () => { 
-        PubSub.publish('TransactionProgressModal.open', 'proposal_refresh')
+        let transactionInfo = {
+          src: 'proposal_refresh',
+          title: 'Refresh'
+        }
+        PubSub.publish('TransactionProgressModal.open', transactionInfo)
         ParamterizerService.processProposal(propId) 
       }
     } else {
