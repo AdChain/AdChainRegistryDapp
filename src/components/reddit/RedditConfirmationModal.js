@@ -93,32 +93,28 @@ class RedditConfirmationModal extends Component {
 
   async submit () {
     const { domain, reason, stake, action } = this.state
-    this.setState({
-      inProgress: true
-    })
+
     try {
+      let transactionInfo
       if (action === 'apply') {
+        transactionInfo = 'application'
+        PubSub.publish('TransactionProgressModal.open', transactionInfo)
         await registry.apply(domain, stake)
         await createPostApplication(domain, reason)
-        toastr.success('Successfully applied domain')
       } else {
         let data = ''
+        transactionInfo = 'challenge'
+        PubSub.publish('TransactionProgressModal.open', transactionInfo)
         await registry.challenge(domain, data)
         await createPostChallenge(domain, reason)
         toastr.success('Successfully challenged domain')
       }
-      this.setState({
-        inProgress: false
-      })
-      setTimeout(() => {
-        window.location.reload()
-      }, 2e3)
+      // setTimeout(() => {
+      //   window.location.reload()
+      // }, 2e3)
       this.close()
     } catch (error) {
       console.error(error)
-      this.setState({
-        inProgress: false
-      })
       this.close()
       toastr.error('There was an error with your request')
     }

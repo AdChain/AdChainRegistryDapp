@@ -203,8 +203,6 @@ class DomainChallengeContainer extends Component {
     const {domain, minDeposit} = this.state
 
     let inApplication = null
-    // const hash = `0x${soliditySHA3(['bytes32'], [domain.toLowerCase().trim()]).toString('hex')}`
-    // let data = ''
 
     try {
       inApplication = await registry.applicationExists(domain)
@@ -213,12 +211,6 @@ class DomainChallengeContainer extends Component {
     }
 
     if (inApplication) {
-      // if (this._isMounted) {
-      //   this.setState({
-      //     inProgress: true
-      //   })
-      // }
-
       try {
         let data = {
           domain: domain,
@@ -226,17 +218,6 @@ class DomainChallengeContainer extends Component {
           action: 'challenge'
         }
         PubSub.publish('RedditConfirmationModal.show', data)
-
-        // await registry.challenge(domain, data)
-
-        // toastr.success('Successfully challenged domain')
-
-        // if (this._isMounted) {
-        //   this.setState({
-        //     inProgress: false
-        //   })
-        // }
-
         try {
           calculateGas({
             domain: domain,

@@ -24,7 +24,7 @@ class GovernanceAndCoreParameters extends Component {
           </div>
         </div>
         <div className='BoxFrame mt-25 RegistryGuideGovernanceParameters'>
-          <span className='BoxFrameLabel ui grid'>GOVERNANCE PARAMETERS <Tooltip info={'The Governance Parameters are those which govern the rules in changing parameters. The Governance parameters can also be changed by any user of the adChain Registry. '} /></span>
+          <span className='BoxFrameLabel ui grid'>GOVERNANCE PARAMETERS <Tooltip info={'The Governance Parameters set the values for all proposals. All adToken holders are allowed to submit proposals to change the values that govern the proposals parameters.'} /></span>
           <div className='ui grid'>
             <div className='column sixteen wide'>
               <div>

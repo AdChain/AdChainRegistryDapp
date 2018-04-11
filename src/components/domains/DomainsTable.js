@@ -366,14 +366,8 @@ class DomainsTable extends Component {
   }
 
   async updateStatus (domain) {
-    this.setState({
-      inProgress: true
-    })
     try {
       await registry.updateStatus(domain)
-      this.setState({
-        inProgress: false
-      })
       try {
         calculateGas({
           domain: domain,
@@ -386,9 +380,6 @@ class DomainsTable extends Component {
         console.log('error reporting gas')
       }
     } catch (error) {
-      this.setState({
-        inProgress: false
-      })
       try {
         toastr.error('Update Error')
       } catch (err) {

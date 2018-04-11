@@ -9,6 +9,7 @@ import Countdown from '../CountdownText'
 import registry from '../../services/registry'
 import DomainVoteRevealInProgressContainer from './DomainVoteRevealInProgressContainer'
 import DomainVoteTokenDistribution from './DomainVoteTokenDistribution'
+import PubSub from 'pubsub-js'
 
 import './DomainVoteRevealContainer.css'
 
@@ -324,37 +325,23 @@ class DomainVoteRevealContainer extends Component {
       return false
     }
 
-    if (this._isMounted) {
-      this.setState({
-        inProgress: true
-      })
-    }
-
     try {
+      PubSub.publish('TransactionProgressModal.open', 'reveal')
       const revealed = await registry.revealVote({domain, voteOption, salt})
-      this.setState({
-        inProgress: false
-      })
 
       if (revealed) {
         toastr.success('Successfully revealed')
 
         // TODO: better way of resetting state
-        setTimeout(() => {
-          window.location.reload()
-        }, 2e3)
+        // setTimeout(() => {
+        //   window.location.reload()
+        // }, 2e3)
       } else {
         toastr.error('There was an error with the reveal process.')
       }
     } catch (error) {
       console.error('Reveal Error: ', error)
       toastr.error('There was an error with your request')
-
-      if (this._isMounted) {
-        this.setState({
-          inProgress: false
-        })
-      }
     }
   }
 

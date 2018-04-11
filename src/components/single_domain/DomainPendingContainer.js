@@ -57,20 +57,11 @@ class DomainPendingContainer extends Component {
   }
 
   async updateStatus (domain) {
-    this.setState({
-      inProgress: true
-    })
     try {
       await registry.updateStatus(domain)
       await PubSub.publish('DomainProfileStageMap.updateStageMap')
-      this.setState({
-        inProgress: false
-      })
     } catch (error) {
       console.error(error)
-      this.setState({
-        inProgress: false
-      })
       toastr.error('There was an error updating domain')
     }
   }

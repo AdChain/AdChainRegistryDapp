@@ -10,6 +10,7 @@ import parameterizer from './parameterizer'
 import saltHashVote from '../utils/saltHashVote'
 import { getRegistry } from '../config'
 import { getProvider, getWebsocketProvider } from './provider'
+import PubSub from 'pubsub-js'
 // import { runInThisContext } from 'vm'
 
 // TODO: check number param
@@ -116,13 +117,17 @@ class RegistryService {
     if (allowed < bigDeposit) {
       try {
         await token.approve(this.address, bigDeposit)
+        PubSub.publish('TransactionProgressModal.next', 'application')
       } catch (error) {
         throw error
       }
+    } else {
+      PubSub.publish('TransactionProgressModal.next', 'application')
     }
 
     try {
       await this.registry.apply(hash, bigDeposit, data)
+      PubSub.publish('TransactionProgressModal.next', 'application')
     } catch (error) {
       throw error
     }
@@ -174,7 +179,9 @@ class RegistryService {
       const minDeposit = await this.getMinDeposit()
       const minDepositAdt = minDeposit.mul(tenToTheNinth)
       await token.approve(this.address, minDepositAdt)
+      PubSub.publish('TransactionProgressModal.next', 'challenge')
       await this.registry.challenge(domainHash, data)
+      PubSub.publish('TransactionProgressModal.next', 'challenge')
     } catch (error) {
       throw error
     }
@@ -312,12 +319,15 @@ class RegistryService {
     if (!domain) {
       throw new Error('Domain is required')
     }
+    // opens refresh loading modal
+    PubSub.publish('TransactionProgressModal.open', 'refresh')
 
     domain = domain.toLowerCase()
     const domainHash = `0x${soliditySHA3(['bytes32'], [domain]).toString('hex')}`
 
     try {
       const result = await this.registry.updateStatus(domainHash)
+      PubSub.publish('TransactionProgressModal.next', 'refresh')
 
       store.dispatch({
         type: 'REGISTRY_DOMAIN_UPDATE_STATUS',

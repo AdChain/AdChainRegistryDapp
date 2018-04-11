@@ -11,6 +11,7 @@ import saveFile from '../../utils/saveFile'
 import Countdown from '../CountdownText'
 import registry from '../../services/registry'
 import DomainVoteCommitInProgressContainer from './DomainVoteCommitInProgressContainer'
+import PubSub from 'pubsub-js'
 
 import './DomainVoteCommitContainer.css'
 
@@ -375,20 +376,21 @@ class DomainVoteCommitContainer extends Component {
       return false
     }
 
-    if (this._isMounted) {
-      this.setState({
-        inProgress: true
-      })
-    }
+    // if (this._isMounted) {
+    //   this.setState({
+    //     inProgress: true
+    //   })
+    // }
 
     try {
+      PubSub.publish('TransactionProgressModal.open', 'vote')
       const committed = await registry.commitVote({domain, votes, voteOption, salt})
 
-      if (this._isMounted) {
-        this.setState({
-          inProgress: false
-        })
-      }
+      // if (this._isMounted) {
+      //   this.setState({
+      //     inProgress: false
+      //   })
+      // }
 
       if (committed) {
         toastr.success('Successfully committed')
