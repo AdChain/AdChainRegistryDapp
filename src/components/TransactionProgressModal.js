@@ -192,13 +192,14 @@ class TransactionProgressModal extends Component {
           {
             transactionComplete
               ? <span>{src} Successful!</span>
-              : <span>{src} in Progress...</span>
+              : <span>{src} in Progress</span>
           }
         </Modal.Header>
         <Modal.Content>
           <div>
             <Steps current={current}>
               {
+                // possibly remove step icons once transaction complete
                 src
                   ? this.steps[src].map((item, idx) => <Step key={idx} status={status} />)
                   : null
@@ -212,6 +213,9 @@ class TransactionProgressModal extends Component {
               }
             </div>
             <div className='MetaMaskNote'>
+              {
+              // possibly remove this message once transaction complete
+              }
             * If a transaction is stuck, you can check your MetaMask status
             </div>
             <div className='steps-action'>
