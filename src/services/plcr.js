@@ -5,6 +5,7 @@ import { getProvider } from './provider'
 import { getPLCR } from '../config'
 import token from './token'
 import store from '../store'
+import PubSub from 'pubsub-js'
 
 /**
  * PollId = ChallengeId
@@ -178,6 +179,7 @@ class PlcrService {
 
         try {
           await this.plcr.requestVotingRights(requiredVotes)
+          PubSub.publish('TransactionProgressModal.next', 'vote')
         } catch (error) {
           reject(error)
           return false
@@ -186,7 +188,9 @@ class PlcrService {
 
       try {
         const prevPollId = await this.plcr.getInsertPointForNumTokens.call(this.getAccount(), tokens, pollId)
+        PubSub.publish('TransactionProgressModal.next', 'vote')
         const result = await this.plcr.commitVote(pollId, hash, tokens, prevPollId)
+        PubSub.publish('TransactionProgressModal.next', 'vote')
 
         store.dispatch({
           type: 'PLCR_VOTE_COMMIT',
@@ -206,6 +210,7 @@ class PlcrService {
     return new Promise(async (resolve, reject) => {
       try {
         await this.plcr.revealVote(pollId, voteOption, salt)
+        PubSub.publish('TransactionProgressModal.next', 'reveal')
 
         store.dispatch({
           type: 'PLCR_VOTE_REVEAL',

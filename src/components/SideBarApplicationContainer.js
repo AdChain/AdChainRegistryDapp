@@ -67,10 +67,7 @@ class SideBarApplicationContainer extends Component {
   async onFormSubmit (event) {
     event.preventDefault()
 
-    // const {target} = event
     const {domain} = this.state
-
-    // const stake = parseInt(target.stake.value.replace(/[^\d]/, ''), 10)
     const minDeposit = (this.state.minDeposit | 0) // coerce
 
     if (domain.startsWith('www.') || domain.startsWith('http') || domain.startsWith('ww.')) {
@@ -82,11 +79,6 @@ class SideBarApplicationContainer extends Component {
       toastr.error('Invalid domain')
       return false
     }
-
-    // if (!(stake && stake >= minDeposit)) {
-    //   toastr.error('Deposit must be equal or greater than the minimum required')
-    //   return false
-    // }
 
     try {
       try {

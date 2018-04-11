@@ -13,6 +13,7 @@ import MainContainer from './components/MainContainer'
 import Joyride from 'react-joyride'
 import 'react-joyride/lib/react-joyride-compiled.css'
 import PubSub from 'pubsub-js'
+import TransactionProgressModal from './components/TransactionProgressModal'
 
 import './App.css'
 
@@ -78,6 +79,7 @@ class App extends Component {
                   resumeJoyride={this.resumeJoyride}
                 />
               </div>
+              <TransactionProgressModal />
             </div>
           </div>
         )} />
