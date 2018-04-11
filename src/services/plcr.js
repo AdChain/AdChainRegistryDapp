@@ -304,6 +304,8 @@ class PlcrService {
 
   async rescueTokens (pollId) {
     try {
+      let dll = this.plcr
+      console.log('dll: ', dll)
       let res = await this.plcr.rescueTokens(pollId)
       return res
     } catch (error) {

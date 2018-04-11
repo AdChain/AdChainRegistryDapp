@@ -41,7 +41,7 @@ const getDomainState = async (domain) => {
     if (isInRegistry || (commitOpen && isWhitelisted) || (revealOpen && isWhitelisted)) {
       if (challengeId) {
         // This is logic to determine the following state:
-        // Applied --> In Registry --> Challenged --> Vote/Reveal End --> UPDATE STATUS
+        // Applied --> PLCR Stuff --> In Registry --> Challenged --> ....
         // Checks to see if challenge is resolved by challenge ID
 
         const challenge = await registry.getChallenge(challengeId)

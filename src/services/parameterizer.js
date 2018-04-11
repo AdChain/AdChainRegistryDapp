@@ -76,9 +76,8 @@ class ParameterizerService {
 
   async getProposalsAndPropIds () {
     let proposals = await (await window.fetch(`https://adchain-registry-api-staging.metax.io/parameterization/proposals`)).json()
-    let propIds = proposals.map(proposal => {
-      return proposal.prop_id
-    })
+
+    let propIds = proposals.map(proposal => proposal.prop_id)
 
     let item
     let result = []
@@ -98,7 +97,7 @@ class ParameterizerService {
     if (!name || !value) { console.log('name or value missing'); return }
     try {
       const bigDeposit = big(deposit).mul(tenToTheNinth).toString(10)
-      const allowed = await token.allowance(this.account, this.address).toString('10')
+      const allowed = await (await token.allowance(this.account, this.address)).toString('10')
 
       if (allowed < bigDeposit) {
         try {
@@ -119,7 +118,7 @@ class ParameterizerService {
     let result
     try {
       const bigDeposit = big(deposit).mul(tenToTheNinth).toString(10)
-      const allowed = await token.allowance(this.account, this.address).toString('10')
+      const allowed = await (await token.allowance(this.account, this.address)).toString('10')
 
       if (allowed < bigDeposit) {
         try {

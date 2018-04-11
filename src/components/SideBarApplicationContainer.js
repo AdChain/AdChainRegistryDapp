@@ -9,7 +9,7 @@ import calculateGas from '../utils/calculateGas'
 import commafy from 'commafy'
 import isMobile from 'is-mobile'
 import PubSub from 'pubsub-js'
-import RedditConfirmationModal from './RedditConfirmationModal'
+import RedditConfirmationModal from './reddit/RedditConfirmationModal'
 
 const windowWidth = window.innerWidth
 
