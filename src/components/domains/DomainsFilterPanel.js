@@ -54,6 +54,8 @@ class DomainsFilterPanel extends Component {
       totalInCommit,
       totalInReveal,
       totalInRegistry,
+      totalWithdrawn,
+      totalRejected
     } = this.state
 
     return (
@@ -78,7 +80,6 @@ class DomainsFilterPanel extends Component {
             Stage
             </div>
           <div className='ui grid'>
-
             <div className='sixteen wide column'>
               <ul className='ui list'>
                 <li className='item'>
@@ -145,6 +146,7 @@ class DomainsFilterPanel extends Component {
                   />
                   </div>
                   <label htmlFor='DomainsFilterPanel_Rejected'>Rejected</label> &nbsp;
+                  <span className="f-grey f-12 f-os">({totalRejected != null ? commafy(totalRejected) : '-'})</span>
                 </li>
                 <li className='item'>
                   <div className='ui input'>
@@ -157,6 +159,7 @@ class DomainsFilterPanel extends Component {
                   />
                   </div>
                   <label htmlFor='DomainsFilterPanel_Withdrawn'>Withdrawn</label> &nbsp;
+                  <span className="f-grey f-12 f-os">({totalWithdrawn != null ? commafy(totalWithdrawn) : '-'})</span>
                 </li>
               </ul>
             </div>
@@ -215,26 +218,33 @@ class DomainsFilterPanel extends Component {
   }
 
   async fetchStats () {
-    let totalStaked = await (await window.fetch(`https://adchain-registry-api-staging.metax.io/registry/domains/stake/count`)).json()
-    const totalInApplication = await (await window.fetch(`https://adchain-registry-api-staging.metax.io/registry/domains/application/count`)).json()
-    const totalInCommit = await (await window.fetch(`https://adchain-registry-api-staging.metax.io/registry/domains/incommit/count`)).json()
-    const totalInReveal = await (await window.fetch(`https://adchain-registry-api-staging.metax.io/registry/domains/inreveal/count`)).json()
-    const totalInRegistry = await (await window.fetch(`https://adchain-registry-api-staging.metax.io/registry/domains/registry/count`)).json()
-    // const totalWithdrawn = await (await window.fetch(`https://adchain-registry-api-staging.metax.io/registry/domains/withrawn/count`)).json()
-    // const totalRejected = await (await window.fetch(`https://adchain-registry-api-staging.metax.io/registry/domains/rejected/count`)).json()
+    try{
+      
+      let totalStaked = await (await window.fetch(`https://adchain-registry-api-staging.metax.io/registry/domains/stake/count`)).json()
+      const totalInApplication = await (await window.fetch(`https://adchain-registry-api-staging.metax.io/registry/domains/application/count`)).json()
+      const totalInCommit = await (await window.fetch(`https://adchain-registry-api-staging.metax.io/registry/domains/incommit/count`)).json()
+      const totalInReveal = await (await window.fetch(`https://adchain-registry-api-staging.metax.io/registry/domains/inreveal/count`)).json()
+      const totalInRegistry = await (await window.fetch(`https://adchain-registry-api-staging.metax.io/registry/domains/registry/count`)).json()
+      const totalWithdrawn = await (await window.fetch(`https://adchain-registry-api-staging.metax.io/registry/domains/withdrawn/count`)).json()
+      const totalRejected = await (await window.fetch(`https://adchain-registry-api-staging.metax.io/registry/domains/rejected/count`)).json()
+      
+      if (totalStaked) {
+        totalStaked = totalStaked / Math.pow(10, token.decimals)
+      }
 
-    if (totalStaked) {
-      totalStaked = totalStaked / Math.pow(10, token.decimals)
-    }
-
-    if (this._isMounted) {
-      this.setState({
-        totalStaked,
-        totalInApplication,
-        totalInCommit,
-        totalInReveal,
-        totalInRegistry
-      })
+      if (this._isMounted) {
+        this.setState({
+          totalStaked,
+          totalInApplication,
+          totalInCommit,
+          totalInReveal,
+          totalInRegistry,
+          totalWithdrawn,
+          totalRejected
+        })
+      }
+    }catch(error){
+      console.log(error)
     }
   }
 
