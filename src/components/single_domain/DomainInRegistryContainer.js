@@ -284,7 +284,6 @@ class DomainInRegistryContainer extends Component {
   async withdrawListing () {
     const {domain} = this.state
 
-    
     try {
       let transactionInfo = {
         src: 'withdraw_listing',
@@ -336,13 +335,7 @@ class DomainInRegistryContainer extends Component {
 
     const stakedDeposit = parseInt(amount, 10) + parseInt(currentDeposit, 10)
 
-    
     try {
-      let transactionInfo = {
-        src: 'deposit_ADT',
-        title: 'Deposit ADT'
-      }
-      PubSub.publish('TransactionProgressModal.open', transactionInfo)
       await registry.deposit(domain, amount)
       if (this._isMounted) {
         this.setState({
@@ -390,7 +383,7 @@ class DomainInRegistryContainer extends Component {
       toastr.error('You must enter a positive amount.')
       return
     }
-    
+
     try {
       let transactionInfo = {
         src: 'withdraw_ADT',

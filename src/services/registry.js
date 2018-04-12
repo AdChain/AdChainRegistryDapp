@@ -116,6 +116,7 @@ class RegistryService {
 
     let transactionInfo = {}
     if (allowed < bigDeposit) {
+      // if what you pre approved is less than the min deposit
       // open not approved adt modal
       transactionInfo = {
         src: 'not_approved_application',
@@ -161,21 +162,29 @@ class RegistryService {
     domain = domain.toLowerCase()
     const domainHash = `0x${soliditySHA3(['bytes32'], [domain]).toString('hex')}`
     const bigDeposit = big(amount).mul(tenToTheNinth).toString(10)
+    let allowed = await (await token.allowance(this.account, this.address)).toString(10)
 
-    const allowed = await token.allowance(this.account, this.address).toString('10')
-    let transactionInfo = {
-      src: 'deposit_ADT',
-      title: 'Deposit ADT'
-    }
-    if (allowed >= bigDeposit) {
+    let transactionInfo = {}
+    if (allowed <= bigDeposit) {
+      // if what you pre-approved is less than or equal to the amount you want to deposit
+      transactionInfo = {
+        src: 'not_approved_deposit_ADT',
+        title: 'Deposit ADT'
+      }
       try {
+        PubSub.publish('TransactionProgressModal.open', transactionInfo)
         await token.approve(this.address, bigDeposit)
         PubSub.publish('TransactionProgressModal.next', transactionInfo)
       } catch (error) {
         throw error
       }
     } else {
-      PubSub.publish('TransactionProgressModal.next', transactionInfo)
+      // what you pre-approved is greater than deposit amount
+      transactionInfo = {
+        src: 'approved_deposit_ADT',
+        title: 'Deposit ADT'
+      }
+      PubSub.publish('TransactionProgressModal.open', transactionInfo)
     }
 
     try {

@@ -302,7 +302,7 @@ class TransactionProgressModal extends Component {
   </div>
         }
       ],
-      deposit_ADT:
+      not_approved_deposit_ADT:
       [
         {
           content:
@@ -320,6 +320,18 @@ class TransactionProgressModal extends Component {
     <p><b>You will receive 2 MetaMask prompts:</b></p>
     <ol className='transaction-content-list'>
       <li className='finishedStep'>Allows the registry's PLCR contract to transfer ADT from your wallet</li>
+      <li className={this.state.stepClass}>Deposit ADT to the registry's PLCR contract</li>
+    </ol>
+  </div>
+        }
+      ],
+      approved_deposit_ADT:
+      [
+        {
+          content:
+  <div className='transaction-content'>
+    <p><b>You will receive 1 MetaMask prompt:</b></p>
+    <ol className='transaction-content-list'>
       <li className={this.state.stepClass}>Deposit ADT to the registry's PLCR contract</li>
     </ol>
   </div>
