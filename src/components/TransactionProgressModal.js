@@ -542,7 +542,7 @@ class TransactionProgressModal extends Component {
             transactionComplete
               ? src === 'error'
                 ? <Icon name='remove' size='huge' className='ErrorIcon' />
-                : <Icon name='check circle' size='huge' className='CheckCircle' />
+                : null
               : <Loader indeterminate active inline='centered' />
           }
         </div>
