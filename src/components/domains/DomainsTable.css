@@ -76,7 +76,12 @@
 :root:root .DomainsTable .ReactTable .rt-thead.-filters {
   display: none;
 }
-
+:root:root .DomainsTable .ReactTable .Domain{
+  display: inline-block;
+}
+:root:root .DomainsTable .ReactTable .Domain:hover{
+  cursor: pointer;
+}
 :root:root .DomainsTable .ReactTable .ui.button {
   font-size: 0.7em;
   text-transform: uppercase;
@@ -107,13 +112,17 @@
   color:#424242;
   font-weight: 600;
   font-family: Open Sans, sans-serif;
-  padding:4px 0;
-  height: 100%;
+/*  padding:4px 0;
+*/  height: 100%;
   /* width: 100%; */
   display: inline-block;
 }
 :root:root .DomainsTable .ReactTable .Domain, 
 :root:root .DomainsTable .ReactTable span:last-of-type
+{
+  display: block;
+}
+:root:root .DomainsTable .ReactTable .-center span:last-of-type
 {
   display: inline;
 }
@@ -123,7 +132,7 @@
 }
 :root:root .ReactTable .rt-tr {
     min-height: 37px;
-    padding: 4px 2px;
+    padding: 5px 2px;
 }
 :root:root .DomainsTable .ReactTable .rt-thead .rt-resizable-header:nth-child(2) .rt-resizable-header-content{
     padding-left: 22px;
@@ -174,12 +183,25 @@
   color: #b10000;
 }
 
-:root:root .ReactTable .rt-tr:hover{
+:root:root .ReactTable .rt-tr-group:hover,
+:root:root .ReactTable .rt-tr-group .rt-tr:hover{
   cursor:pointer !important;
+}
+
+:root:root .ReactTable .rt-td > span, :root:root .ReactTable .rt-td a span{
+  padding-top:4px;
 }
 :root:root .DomainsTable span.info {
   color: #4183c4;
 }
 :root:root .DomainsTable .ReactTable .DomainFavicon {
   padding-left: 8px;
+}
+
+/*.StageEndsCountdownContainer, .StageEndsTime, .StageEndsLabel,.StageEndsTimeSeparator{
+  padding:0 !important;
+}*/
+
+.StageEndsCountdownContainer span{
+  display: inline !important;
 }

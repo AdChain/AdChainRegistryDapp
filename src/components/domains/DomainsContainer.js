@@ -6,8 +6,8 @@ import updateQuery from 'update-query'
 
 import normalizeQueryObj from '../../utils/normalizeQueryObj'
 
-import RegistryStatsbar from './RegistryStatsbar'
-import AdtCalculator from '../AdtCalculator'
+// import RegistryStatsbar from './RegistryStatsbar'
+// import AdtCalculator from '../AdtCalculator'
 import DomainsTable from './DomainsTable'
 import DomainsFilterPanel from './DomainsFilterPanel'
 // import Trollbox from './Trollbox'
@@ -81,12 +81,13 @@ class DomainsContainer extends Component {
     return (
       <div className='DomainsContainer'>
         <div className='ui grid stackable padded'>
-          <div className='column ten wide NoPaddingBottom NoPaddingRight'>
+          {/*<div className='column ten wide NoPaddingBottom NoPaddingRight'>
             <RegistryStatsbar />
           </div>
           <div className='column six wide NoPaddingBottom'>
             <AdtCalculator />
-          </div>
+          </div>*/
+          }
           <div className='column sixteen wide'>
             <div className='ui grid stackable'>
               <div className='column four wide NoPaddingRight'>
@@ -174,6 +175,8 @@ class DomainsContainer extends Component {
           filter.push('voting_reveal')
         } else if (k === 'rejected') {
           filter.push('rejected')
+        } else if (k === 'withdrawn') {
+          filter.push('withdrawn')
         } else if (k === 'domain') {
           domainFilter.value = query[k]
         }

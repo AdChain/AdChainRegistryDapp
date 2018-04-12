@@ -178,6 +178,7 @@ input:focus{
 .hide{display: none !important}
 .t-right{text-align: right;}
 /*utility font size*/
+.f-12{font-size:12px;}
 .f-13{font-size:13px;}
 .f-14{font-size:14px;}
 .f-16{font-size:16px;}
@@ -191,6 +192,7 @@ input:focus{
   color:#3434CE;
   font-weight: 600
 }
+.f-grey{color:#bdbebd;}
 /*utility inline block*/
 .ib{display: inline-block !important;}
 /*utility hide*/
