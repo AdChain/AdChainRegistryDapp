@@ -18,7 +18,9 @@ class DomainsFilterPanel extends Component {
       totalInApplication: 0,
       totalInCommit: 0,
       totalInReveal: 0,
-      totalInRegistry: 0
+      totalInRegistry: 0,
+      totalWithdrawn: 0,
+      totalRejected: 0
     }
 
     this.onSearchInput = this.onSearchInput.bind(this)
@@ -48,12 +50,10 @@ class DomainsFilterPanel extends Component {
   render () {
     const {
       filters,
-      totalStaked,
       totalInApplication,
       totalInCommit,
       totalInReveal,
       totalInRegistry,
-      showHeader
     } = this.state
 
     return (
@@ -172,7 +172,6 @@ class DomainsFilterPanel extends Component {
   onSearchInput (event) {
     const target = event.target
     const {name} = target
-
     const {filters} = this.state
     filters[name] = target.value
     this.setState(filters)
@@ -183,7 +182,6 @@ class DomainsFilterPanel extends Component {
 
     const target = event.target
     const {name, checked} = target
-        console.log(name)
 
     const {filters} = this.state
     filters[name] = checked
@@ -222,6 +220,8 @@ class DomainsFilterPanel extends Component {
     const totalInCommit = await (await window.fetch(`https://adchain-registry-api-staging.metax.io/registry/domains/incommit/count`)).json()
     const totalInReveal = await (await window.fetch(`https://adchain-registry-api-staging.metax.io/registry/domains/inreveal/count`)).json()
     const totalInRegistry = await (await window.fetch(`https://adchain-registry-api-staging.metax.io/registry/domains/registry/count`)).json()
+    // const totalWithdrawn = await (await window.fetch(`https://adchain-registry-api-staging.metax.io/registry/domains/withrawn/count`)).json()
+    // const totalRejected = await (await window.fetch(`https://adchain-registry-api-staging.metax.io/registry/domains/rejected/count`)).json()
 
     if (totalStaked) {
       totalStaked = totalStaked / Math.pow(10, token.decimals)

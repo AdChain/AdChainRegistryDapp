@@ -321,6 +321,14 @@ class DomainsTable extends Component {
             regex.lastIndex = 0
             queryFilters.push('inregistry')
           }
+          if (regex.test('rejected')) {
+            regex.lastIndex = 0
+            queryFilters.push('rejected')
+          }
+          if (regex.test('withdrawn')) {
+            regex.lastIndex = 0
+            queryFilters.push('withdrawn')
+          }
         }
       }
 
@@ -338,7 +346,7 @@ class DomainsTable extends Component {
       if (accountFilter) {
         const account = accountFilter.value || ''
 
-        query += `&account=${account}&include=applied,challenged,committed,revealed,registry`
+        query += `&account=${account}&include=applied,challenged,committed,revealed,registry,rejected,withdrawn`
       }
 
       try {

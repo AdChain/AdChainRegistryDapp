@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios'
-import Tooltip from './Tooltip'
+import Tooltip from '../Tooltip'
 import { Button, Input } from 'semantic-ui-react'
 import './DomainEmailNotifications.css'
 

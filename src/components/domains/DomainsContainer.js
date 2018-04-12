@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import qs from 'qs'
 import updateQuery from 'update-query'
-// import { Popup } from 'semantic-ui-react'
 
 import normalizeQueryObj from '../../utils/normalizeQueryObj'
 
@@ -10,14 +9,13 @@ import normalizeQueryObj from '../../utils/normalizeQueryObj'
 // import AdtCalculator from '../AdtCalculator'
 import DomainsTable from './DomainsTable'
 import DomainsFilterPanel from './DomainsFilterPanel'
-// import Trollbox from './Trollbox'
 import WelcomeModal from '../WelcomeModal'
 import RegistryGuideStaticChallenge from '../registry_guide/RegistryGuideStaticChallenge'
 import RegistryGuideStaticInRegistry from '../registry_guide/RegistryGuideStaticInRegistry'
 import RegistryGuideStaticVoting from '../registry_guide/RegistryGuideStaticVoting'
 import RegistryGuideStaticReveal from '../registry_guide/RegistryGuideStaticReveal'
 import RegistryGuideStaticDashboard from '../registry_guide/RegistryGuideStaticDashboard'
-import DomainEmailNotifications from '../DomainEmailNotifications'
+import DomainEmailNotifications from './DomainEmailNotifications'
 
 import './DomainsContainer.css'
 
@@ -136,10 +134,10 @@ class DomainsContainer extends Component {
     )
   }
 
+  // This function get passed down as props to DomainFiltersPanel.js
   onQueryChange (query) {
     const url = window.location.href
     const newQuery = updateQuery(url, query)
-
     window.history.replaceState({}, window.location.pathname, newQuery)
 
     this.setState({query})
