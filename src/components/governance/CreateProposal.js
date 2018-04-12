@@ -33,7 +33,7 @@ class CreateProposal extends Component {
   render () {
     return (
       <div className='CreateProposal'>
-      {
+        {
         // <div className={this.state.inProgress === true ? 'show InProgressProposal' : 'hide'}>
         //   <div className='Content'>
         //     <div>
@@ -66,7 +66,7 @@ class CreateProposal extends Component {
         //     </p>
         //   </div>
         // </div>
-      }
+        }
         <div className='BoxFrame mt-25 RegistryGuideCreateProposal'>
           <span className='BoxFrameLabel ui grid'>CREATE PROPOSAL <Tooltip info={'This is where you create new proposals to change a parameter. You can change Registry and Parameterizer parameters here.'} /></span>
           <div className='ui grid'>
@@ -117,7 +117,10 @@ class CreateProposal extends Component {
   }
 
   async submitProposal () {
-    if (this.state.proposalValue < 1) return
+    if (this.state.proposalValue < 1) {
+      toastr.error('Please enter a valid proposal value')
+      return
+    }
 
     let result
     try {
@@ -136,9 +139,9 @@ class CreateProposal extends Component {
       //     inProgress: null
       //   })
       // }
-          setTimeout(() => {
-            PubSub.publish('GovernanceContainer.getProposalsAndPropIds')
-          }, 18000)
+      setTimeout(() => {
+        PubSub.publish('GovernanceContainer.getProposalsAndPropIds')
+      }, 18000)
 
       try {
         calculateGas({

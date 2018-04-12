@@ -86,7 +86,7 @@ class RequestVotingRightsContainer extends Component {
     const {requestVotes} = this.state
 
     if (!requestVotes) {
-      toastr.error('Please enter amount of adToken')
+      toastr.error('Please enter a valid amount of ADT')
       return false
     }
 

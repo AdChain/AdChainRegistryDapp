@@ -90,7 +90,10 @@ class WithdrawVotingRightsContainer extends Component {
 
   async withdrawTokens () {
     const {availableTokens} = this.state
-
+    if (commafy(availableTokens) === '0') {
+      toastr.error('You do not have any available ADT to withdraw')
+      return false
+    }
     try {
       let transactionInfo = {
         src: 'withdraw_voting_ADT',

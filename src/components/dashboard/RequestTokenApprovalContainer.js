@@ -110,7 +110,7 @@ class RequestTokenApprovalContainer extends Component {
     const {tokenAmount} = this.state
 
     if (!tokenAmount) {
-      toastr.error('Please enter amount of adToken')
+      toastr.error('Please enter a valid amount of ADT')
       return false
     }
     let transactionInfo = {

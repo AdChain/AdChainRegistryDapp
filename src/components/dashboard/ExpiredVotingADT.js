@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import Tooltip from '../Tooltip'
 import registry from '../../services/registry'
-// import toastr from 'toastr'
+import toastr from 'toastr'
 import _ from 'lodash'
 import PubSub from 'pubsub-js'
 
@@ -122,6 +122,10 @@ class ExpiredVotingADT extends Component {
   }
 
   async rescueTokens (pollId) {
+    if (isNaN(this.state.totalExpiredTokens) || this.state.totalExpiredTokens <= 0) {
+      toastr.error('There are no expired ADT to unlock')
+      return
+    }
     let transactionInfo = {
       src: 'unlock_expired_ADT',
       title: 'Unlock Expired ADT'

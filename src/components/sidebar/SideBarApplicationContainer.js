@@ -75,7 +75,7 @@ class SideBarApplicationContainer extends Component {
     }
 
     if (!isValidDomain(domain)) {
-      toastr.error('Invalid domain')
+      toastr.error('Please enter a valid domain')
       return false
     }
 
