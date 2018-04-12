@@ -121,12 +121,6 @@ class CreateProposal extends Component {
 
     let result
     try {
-
-      let transactionInfo = {
-        src: 'parameter_proposal_application',
-        title: 'Parameter Proposal Application'
-      }
-      PubSub.publish('TransactionProgressModal.open', transactionInfo)
       // hit parameterizer contract for creating a new proposal
       let proposalValue = this.formatProposedValue(this.state.proposalParam, this.state.proposalValue)
       result = await ParameterizerService.proposeReparameterization(this.state.rawCurrentMinDeposit, this.state.proposalParam, proposalValue)

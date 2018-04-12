@@ -10,7 +10,6 @@ import calculateGas from '../../utils/calculateGas'
 import saveFile from '../../utils/saveFile'
 import Countdown from '../CountdownText'
 import registry from '../../services/registry'
-import PubSub from 'pubsub-js'
 
 import './DomainVoteCommitContainer.css'
 
@@ -373,11 +372,6 @@ class DomainVoteCommitContainer extends Component {
     }
 
     try {
-      let transactionInfo = {
-        src: 'vote',
-        title: 'Vote'
-      }
-      PubSub.publish('TransactionProgressModal.open', transactionInfo)
       const committed = await registry.commitVote({domain, votes, voteOption, salt})
 
       if (committed) {

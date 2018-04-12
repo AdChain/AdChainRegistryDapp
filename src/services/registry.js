@@ -194,21 +194,39 @@ class RegistryService {
     domain = domain.toLowerCase()
     const domainHash = `0x${soliditySHA3(['bytes32'], [domain.toLowerCase().trim()]).toString('hex')}`
 
-    try {
-      let transactionInfo = {
-        src: 'challenge',
+    let allowed = await (await token.allowance(this.account, this.address)).toString(10)
+    const minDeposit = await this.getMinDeposit()
+    const minDepositAdt = minDeposit.mul(tenToTheNinth)
+
+    let transactionInfo = {}
+    if (allowed < minDeposit) {
+      // open not approved adt challenge modal
+      try {
+        transactionInfo = {
+          src: 'not_approved_challenge',
+          title: 'challenge'
+        }
+        PubSub.publish('TransactionProgressModal.open', transactionInfo)
+        await token.approve(this.address, minDepositAdt)
+        PubSub.publish('TransactionProgressModal.next', transactionInfo)
+      } catch (error) {
+        console.error(error)
+        throw error
+      }
+    } else {
+      // open approved adt challenge modal
+      transactionInfo = {
+        src: 'approved_challenge',
         title: 'challenge'
       }
-
       PubSub.publish('TransactionProgressModal.open', transactionInfo)
+    }
 
-      const minDeposit = await this.getMinDeposit()
-      const minDepositAdt = minDeposit.mul(tenToTheNinth)
-      await token.approve(this.address, minDepositAdt)
-      PubSub.publish('TransactionProgressModal.next', transactionInfo)
+    try {
       await this.registry.challenge(domainHash, data)
       PubSub.publish('TransactionProgressModal.next', transactionInfo)
     } catch (error) {
+      console.error(error)
       throw error
     }
 

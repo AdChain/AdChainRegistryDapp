@@ -105,9 +105,10 @@ class ParameterizerService {
         // open not approved adt modal
         try {
           transactionInfo = {
-            src: 'not_approved_proposal_application',
+            src: 'not_approved_parameter_proposal_application',
             title: 'Parameter Proposal Application'
           }
+          PubSub.publish('TransactionProgressModal.open', transactionInfo)
           await token.approve(this.address, bigDeposit)
           PubSub.publish('TransactionProgressModal.next', transactionInfo)
         } catch (error) {
@@ -116,14 +117,19 @@ class ParameterizerService {
       } else {
         // open approved adt modal
         transactionInfo = {
-          src: 'approved_proposal_application',
+          src: 'approved_parameter_proposal_application',
           title: 'Parameter Proposal Application'
         }
-        PubSub.publish('TransactionProgressModal.next', transactionInfo)
+        PubSub.publish('TransactionProgressModal.open', transactionInfo)
       }
 
-      result = await this.parameterizer.proposeReparameterization(name, value)
-      PubSub.publish('TransactionProgressModal.next', transactionInfo)
+      try {
+        result = await this.parameterizer.proposeReparameterization(name, value)
+        PubSub.publish('TransactionProgressModal.next', transactionInfo)
+      } catch (error) {
+        console.error(error)
+        throw error
+      }
     } catch (error) {
       console.log(error)
     }
@@ -141,9 +147,10 @@ class ParameterizerService {
         // open not approved adt modal
         try {
           transactionInfo = {
-            src: 'not_approved_proposal_challenge',
+            src: 'not_approved_parameter_proposal_challenge',
             title: 'Parameter Proposal Challenge'
           }
+          PubSub.publish('TransactionProgressModal.open', transactionInfo)
           await token.approve(this.address, bigDeposit)
           PubSub.publish('TransactionProgressModal.next', transactionInfo)
         } catch (error) {
@@ -152,15 +159,20 @@ class ParameterizerService {
       } else {
         // open approved adt modal
         transactionInfo = {
-          src: 'approved_proposal_challenge',
+          src: 'approved_parameter_proposal_challenge',
           title: 'Parameter Proposal Challenge'
         }
-        PubSub.publish('TransactionProgressModal.next', transactionInfo)
+        PubSub.publish('TransactionProgressModal.open', transactionInfo)
       }
 
-      result = await this.parameterizer.challengeReparameterization(propId)
-      PubSub.publish('TransactionProgressModal.next', transactionInfo)
-      // window.location.reload()
+      try {
+        result = await this.parameterizer.challengeReparameterization(propId)
+        PubSub.publish('TransactionProgressModal.next', transactionInfo)
+        // window.location.reload()
+      } catch (error) {
+        console.error(error)
+        throw error
+      }
     } catch (error) {
       console.log(error)
     }

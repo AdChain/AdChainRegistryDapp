@@ -110,7 +110,7 @@ class TransactionProgressModal extends Component {
   </div>
         }
       ],
-      challenge:
+      not_approved_challenge:
       [
         {
           content:
@@ -133,7 +133,19 @@ class TransactionProgressModal extends Component {
   </div>
         }
       ],
-      vote:
+      approved_challenge:
+      [
+        {
+          content:
+  <div className='transaction-content'>
+    <p><b>You will receive 1 MetaMask prompt:</b></p>
+    <ol className='transaction-content-list'>
+      <li className={this.state.stepClass}>Submits the challenge to the adChain Registry contract</li>
+    </ol>
+  </div>
+        }
+      ],
+      not_approved_vote:
       [
         {
           content:
@@ -165,6 +177,18 @@ class TransactionProgressModal extends Component {
       <li className='finishedStep'>Allows the registry's PLCR contract to transfer ADT from your wallet</li>
       <li className='finishedStep'>Request voting rights from the registry's PLCR contract</li>
       <li className={this.state.stepClass}>Submits vote to the registry's PLCR contract</li>
+    </ol>
+  </div>
+        }
+      ],
+      approved_vote:
+      [
+        {
+          content:
+  <div className='transaction-content'>
+    <p><b>You will receive 1 MetaMask prompt:</b></p>
+    <ol className='transaction-content-list'>
+      <li className={this.state.stepClass}>Submits the Vote Commit to the adChain Registry contract</li>
     </ol>
   </div>
         }
@@ -313,7 +337,7 @@ class TransactionProgressModal extends Component {
   </div>
         }
       ],
-      vote_commit_for_parameter_proposal:
+      not_approved_vote_commit_for_parameter_proposal:
       [
         {
           content:
@@ -349,6 +373,18 @@ class TransactionProgressModal extends Component {
   </div>
         }
       ],
+      approved_vote_commit_for_parameter_proposal:
+      [
+        {
+          content:
+  <div className='transaction-content'>
+    <p><b>You will receive 1 MetaMask prompt:</b></p>
+    <ol className='transaction-content-list'>
+      <li className={this.state.stepClass}>Submits the Vote Commit to the adChain Registry contract</li>
+    </ol>
+  </div>
+        }
+      ],
       vote_reveal_for_parameter_proposal:
       [
         {
@@ -361,7 +397,7 @@ class TransactionProgressModal extends Component {
   </div>
         }
       ],
-      parameter_proposal_application:
+      not_approved_parameter_proposal_application:
       [
         {
           content:
@@ -384,7 +420,19 @@ class TransactionProgressModal extends Component {
   </div>
         }
       ],
-      parameter_proposal_challenge:
+      approved_parameter_proposal_application:
+      [
+        {
+          content:
+  <div className='transaction-content'>
+    <p><b>You will receive 1 MetaMask prompt:</b></p>
+    <ol className='transaction-content-list'>
+      <li className={this.state.stepClass}>Submits the parameter proposal application to the Governance contract</li>
+    </ol>
+  </div>
+        }
+      ],
+      not_approved_parameter_proposal_challenge:
       [
         {
           content:
@@ -402,6 +450,18 @@ class TransactionProgressModal extends Component {
     <p><b>You will receive 2 MetaMask prompts:</b></p>
     <ol className='transaction-content-list'>
       <li className='finishedStep'>Allows the Governance contract to transfer ADT deposit from your account</li>
+      <li className={this.state.stepClass}>Submits the parameter proposal challenge to the Governance contract</li>
+    </ol>
+  </div>
+        }
+      ],
+      approved_parameter_proposal_challenge:
+      [
+        {
+          content:
+  <div className='transaction-content'>
+    <p><b>You will receive 1 MetaMask prompt:</b></p>
+    <ol className='transaction-content-list'>
       <li className={this.state.stepClass}>Submits the parameter proposal challenge to the Governance contract</li>
     </ol>
   </div>

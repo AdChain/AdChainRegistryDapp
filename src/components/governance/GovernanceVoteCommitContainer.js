@@ -8,7 +8,6 @@ import randomInt from 'random-int'
 import saveFile from '../../utils/saveFile'
 import Countdown from '../CountdownText'
 import ParameterizerService from '../../services/parameterizer'
-import PubSub from 'pubsub-js'
 
 import '../single_domain/DomainVoteCommitContainer.css'
 
@@ -342,11 +341,6 @@ class GovernanceVoteCommitContainer extends Component {
     }
 
     try {
-        let transactionInfo = {
-          src: 'vote_commit_for_parameter_proposal',
-          title: 'Vote for Parameter Proposal'
-        }
-      PubSub.publish('TransactionProgressModal.open', transactionInfo)
       const committed = await ParameterizerService.commitVote({challengeId, propId, votes, voteOption, salt})
 
       if (committed) {

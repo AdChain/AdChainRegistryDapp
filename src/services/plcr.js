@@ -168,11 +168,18 @@ class PlcrService {
 
       const voteTokenBalance = (await this.plcr.voteTokenBalance(this.getAccount())).toString(10)
       const requiredVotes = (tokens - voteTokenBalance)
+      let transactionInfo = {}
 
-      if (requiredVotes > 0) {
+      if (requiredVotes >= 0) {
+        // this means that you submitted more votes than your existing voting rights
+        transactionInfo = {
+          src: 'not_approved_' + transactionSrc.src,
+          title: transactionSrc.title
+        }
         try {
+          PubSub.publish('TransactionProgressModal.open', transactionInfo)
           await token.approve(this.address, requiredVotes)
-          PubSub.publish('TransactionProgressModal.next', transactionSrc)
+          PubSub.publish('TransactionProgressModal.next', transactionInfo)
         } catch (error) {
           reject(error)
           return false
@@ -180,19 +187,24 @@ class PlcrService {
 
         try {
           await this.plcr.requestVotingRights(requiredVotes)
-          PubSub.publish('TransactionProgressModal.next', transactionSrc)
+          PubSub.publish('TransactionProgressModal.next', transactionInfo)
         } catch (error) {
           reject(error)
           return false
         }
       } else {
-        PubSub.publish('TransactionProgressModal.next', transactionSrc)
+        // this means that you can use existing voting rights
+        transactionInfo = {
+          src: 'approved_' + transactionSrc.src,
+          title: transactionSrc.title
+        }
+        PubSub.publish('TransactionProgressModal.open', transactionInfo)
       }
 
       try {
         const prevPollId = await this.plcr.getInsertPointForNumTokens.call(this.getAccount(), tokens, pollId)
         const result = await this.plcr.commitVote(pollId, hash, tokens, prevPollId)
-        PubSub.publish('TransactionProgressModal.next', transactionSrc)
+        PubSub.publish('TransactionProgressModal.next', transactionInfo)
 
         store.dispatch({
           type: 'PLCR_VOTE_COMMIT',

@@ -8,7 +8,6 @@ import Tooltip from '../Tooltip'
 import Countdown from '../CountdownText'
 import ParameterizerService from '../../services/parameterizer'
 // import DomainChallengeInProgressContainer from '../single_domain/DomainChallengeInProgressContainer'
-import PubSub from 'pubsub-js'
 
 import '../single_domain/DomainChallengeContainer.css'
 
@@ -135,11 +134,6 @@ class GovernanceChallengeContainer extends Component {
 
     if (propExists) {
       try {
-        let transactionInfo = {
-          src: 'parameter_proposal_challenge',
-          title: 'Parameter Proposal Challenge'
-        }
-        PubSub.publish('TransactionProgressModal.open', transactionInfo)
         await ParameterizerService.challengeReparameterization(this.props.governanceParameterProposals.pMinDeposit.value, propId)
         toastr.success('Successfully challenged parameter')
 
