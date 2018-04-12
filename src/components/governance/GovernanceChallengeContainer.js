@@ -7,7 +7,7 @@ import { Button, Segment } from 'semantic-ui-react'
 import Tooltip from '../Tooltip'
 import Countdown from '../CountdownText'
 import ParameterizerService from '../../services/parameterizer'
-import DomainChallengeInProgressContainer from '../single_domain/DomainChallengeInProgressContainer'
+// import DomainChallengeInProgressContainer from '../single_domain/DomainChallengeInProgressContainer'
 
 import '../single_domain/DomainChallengeContainer.css'
 
@@ -20,7 +20,7 @@ class GovernanceChallengeContainer extends Component {
       applicationExpiry: null,
       minDeposit: null,
       currentDeposit: null,
-      inProgress: false,
+      // inProgress: false,
       source: props.source
     }
 
@@ -39,7 +39,7 @@ class GovernanceChallengeContainer extends Component {
     if (!this.props) return false
     const {
       appExpiry,
-      inProgress,
+      // inProgress,
       stage,
       name,
       color,
@@ -109,7 +109,6 @@ class GovernanceChallengeContainer extends Component {
             </Segment.Group>
           </div>
         </div>
-        {inProgress ? <DomainChallengeInProgressContainer /> : null}
       </div>
     )
   }
@@ -134,32 +133,16 @@ class GovernanceChallengeContainer extends Component {
     }
 
     if (propExists) {
-      if (this._isMounted) {
-        this.setState({
-          inProgress: true
-        })
-      }
       try {
         await ParameterizerService.challengeReparameterization(this.props.governanceParameterProposals.pMinDeposit.value, propId)
         toastr.success('Successfully challenged parameter')
 
-        if (this._isMounted) {
-          this.setState({
-            inProgress: false
-          })
-        }
-
         // TODO: better way of resetting state
-        setTimeout(() => {
-          window.location.reload()
-        }, 2e3)
+        // setTimeout(() => {
+        //   window.location.reload()
+        // }, 2e3)
       } catch (error) {
         toastr.error('Error')
-        if (this._isMounted) {
-          this.setState({
-            inProgress: false
-          })
-        }
       }
     } else {
       toastr.error('Proposal not in application')

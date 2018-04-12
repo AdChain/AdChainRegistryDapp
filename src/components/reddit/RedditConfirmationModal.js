@@ -6,7 +6,6 @@ import toastr from 'toastr'
 
 import { createPostApplication, createPostChallenge } from '../../services/redditActions'
 import registry from '../../services/registry'
-import PublisherApplicationFormInProgress from '../sidebar/PublisherApplicationFormInProgress'
 
 import './RedditConfirmationModal.css'
 
@@ -19,7 +18,6 @@ class RedditConfirmationModal extends Component {
       domain: '',
       stake: 0,
       reason: '',
-      inProgress: false,
       action: ''
     }
     this.close = this.close.bind(this)
@@ -33,7 +31,7 @@ class RedditConfirmationModal extends Component {
   }
 
   render () {
-    const { open, size, domain, stake, inProgress, action } = this.state
+    const { open, size, domain, stake, action } = this.state
 
     return (
       <Modal size={size} open={open} closeIcon className='RedditConfirmationModal' onClose={this.close}>
@@ -60,7 +58,6 @@ class RedditConfirmationModal extends Component {
               <Button basic className='CancelButton' onClick={this.close}>Cancel</Button>
               <Button basic className={action === 'apply' ? 'ApplyButton' : 'ChallengeButton'} onClick={this.submit}>{action}</Button>
             </div>
-            {inProgress ? <PublisherApplicationFormInProgress /> : null}
           </Modal.Content>
         </div>
       </Modal>
@@ -78,7 +75,8 @@ class RedditConfirmationModal extends Component {
       open: false,
       domain: '',
       stake: '',
-      action: ''
+      action: '',
+      reason: ''
     })
   }
 
@@ -87,7 +85,8 @@ class RedditConfirmationModal extends Component {
       open: true,
       domain: data.domain,
       stake: data.stake,
-      action: data.action
+      action: data.action,
+      reason: ''
     })
   }
 
@@ -95,19 +94,13 @@ class RedditConfirmationModal extends Component {
     const { domain, reason, stake, action } = this.state
 
     try {
-      let transactionInfo
       if (action === 'apply') {
-        transactionInfo = 'application'
-        PubSub.publish('TransactionProgressModal.open', transactionInfo)
         await registry.apply(domain, stake)
         await createPostApplication(domain, reason)
       } else {
         let data = ''
-        transactionInfo = 'challenge'
-        PubSub.publish('TransactionProgressModal.open', transactionInfo)
         await registry.challenge(domain, data)
         await createPostChallenge(domain, reason)
-        toastr.success('Successfully challenged domain')
       }
       // setTimeout(() => {
       //   window.location.reload()

@@ -4,12 +4,11 @@ import ReactTable from 'react-table'
 import Tooltip from '../Tooltip'
 import commafy from 'commafy'
 import moment from 'moment'
-import toastr from 'toastr'
+// import toastr from 'toastr'
 import 'react-table/react-table.css'
 import './DomainsTable.css'
 
 import PubSub from 'pubsub-js'
-import RefreshInProgressContainer from '../RefreshInProgressContainer'
 import CountdownSnapshot from '../CountdownSnapshot'
 import calculateGas from '../../utils/calculateGas'
 
@@ -86,8 +85,7 @@ class DomainsTable extends Component {
       data,
       pages,
       pageSize,
-      isLoading,
-      inProgress
+      isLoading
     } = this.state
 
     return (
@@ -116,7 +114,6 @@ class DomainsTable extends Component {
             &nbsp;&nbsp;&nbsp;&nbsp;
             <span><i className='icon x circle' /> = &nbsp;  Rejected</span>
           </div>
-          {inProgress ? <RefreshInProgressContainer /> : null}
         </div>
       </div>
     )
@@ -388,11 +385,7 @@ class DomainsTable extends Component {
         console.log('error reporting gas')
       }
     } catch (error) {
-      try {
-        toastr.error('Update Error')
-      } catch (err) {
-        console.log(err)
-      }
+      console.error(error)
       try {
         calculateGas({
           domain: domain,

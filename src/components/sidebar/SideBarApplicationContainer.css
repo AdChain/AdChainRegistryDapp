@@ -25,7 +25,8 @@
   font-weight: bold;
 }
 
-:root:root:root .ApplicationButton:hover {
+:root:root:root .ApplicationButton:hover,
+:root:root:root .ApplicationButton:focus {
   background-color: #10C903 !important;
   color: #FFF !important;
   border: none;

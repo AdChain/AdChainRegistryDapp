@@ -7,7 +7,6 @@ import Tooltip from '../Tooltip'
 
 import Countdown from '../CountdownText'
 import registry from '../../services/registry'
-import DomainVoteRevealInProgressContainer from './DomainVoteRevealInProgressContainer'
 import DomainVoteTokenDistribution from './DomainVoteTokenDistribution'
 import PubSub from 'pubsub-js'
 
@@ -25,7 +24,6 @@ class DomainVoteRevealContainer extends Component {
       votesAgainst: 0,
       commitEndDate: null,
       revealEndDate: null,
-      inProgress: false,
       didChallenge: false,
       didCommit: false,
       didReveal: false,
@@ -61,7 +59,6 @@ class DomainVoteRevealContainer extends Component {
     const {
       domain,
       revealEndDate,
-      inProgress,
       didChallenge,
       didCommit,
       didReveal
@@ -182,7 +179,6 @@ class DomainVoteRevealContainer extends Component {
             </Button>
           </div>
         </div>
-        {inProgress ? <DomainVoteRevealInProgressContainer /> : null}
       </div>
     )
   }
@@ -326,22 +322,22 @@ class DomainVoteRevealContainer extends Component {
     }
 
     try {
-      PubSub.publish('TransactionProgressModal.open', 'reveal')
       const revealed = await registry.revealVote({domain, voteOption, salt})
-
       if (revealed) {
-        toastr.success('Successfully revealed')
-
-        // TODO: better way of resetting state
-        // setTimeout(() => {
-        //   window.location.reload()
-        // }, 2e3)
+        // toastr.success('Successfully revealed')
+        this.setState({
+          didReveal: true
+        })
       } else {
-        toastr.error('There was an error with the reveal process.')
+        setTimeout(() => {
+          this.getReveal().then(
+            PubSub.publish('DomainVoteTokenDistribution.getPoll')
+          )
+        }, 3e3)
       }
     } catch (error) {
       console.error('Reveal Error: ', error)
-      toastr.error('There was an error with your request')
+      PubSub.publish('TransactionProgressModal.error')
     }
   }
 

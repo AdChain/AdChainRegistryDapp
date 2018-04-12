@@ -15,6 +15,7 @@ class TransactionProgressModal extends Component {
       open: false,
       size: 'small',
       src: '',
+      title: '',
       status: null,
       stepClass: null,
       transactionComplete: false
@@ -22,9 +23,12 @@ class TransactionProgressModal extends Component {
 
     this.open = this.open.bind(this)
     this.next = this.next.bind(this)
+    this.close = this.close.bind(this)
+    this.error = this.error.bind(this)
   }
 
-  next (topic, src) {
+  next (topic, transactionInfo) {
+    let src = transactionInfo.src
     const current = this.state.current + 1
     if (this.steps[src][current]) {
       this.setState({
@@ -40,13 +44,29 @@ class TransactionProgressModal extends Component {
     }
   }
   close () {
-    this.setState({ open: false })
+    this.setState({
+      open: false,
+      src: '',
+      title: '',
+      stepClass: null,
+      current: 0
+    })
   }
 
-  open (topic, src) {
+  error () {
+    this.setState({
+      src: 'error',
+      title: 'Transaction Failed!',
+      transactionComplete: true
+    })
+  }
+
+  open (topic, transactionInfo) {
+    console.log('info: ', transactionInfo)
     this.setState({
       open: true,
-      src: src,
+      src: transactionInfo.src,
+      title: transactionInfo.title,
       transactionComplete: false,
       status: null,
       stepClass: null
@@ -56,14 +76,28 @@ class TransactionProgressModal extends Component {
   componentWillMount () {
     this.openEvent = PubSub.subscribe('TransactionProgressModal.open', this.open)
     this.nextEvent = PubSub.subscribe('TransactionProgressModal.next', this.next)
+    this.closeEvent = PubSub.subscribe('TransactionProgressModal.close', this.close)
+    this.errorEvent = PubSub.subscribe('TransactionProgressModal.error', this.error)
   }
 
   render () {
-    const { current, open, size, src, status, transactionComplete } = this.state
+    const { current, open, size, src, status, transactionComplete, title } = this.state
     const Step = Steps.Step
 
     this.steps = {
-      application:
+      approved_application:
+      [
+        {
+          content:
+  <div className='transaction-content'>
+    <p><b>You will receive 1 MetaMask prompt:</b></p>
+    <ol className='transaction-content-list'>
+      <li className={this.state.stepClass}>Submits the application to the adChain Registry contract</li>
+    </ol>
+  </div>
+        }
+      ],
+      not_approved_application:
       [
         {
           content:
@@ -86,7 +120,7 @@ class TransactionProgressModal extends Component {
   </div>
         }
       ],
-      challenge:
+      not_approved_challenge:
       [
         {
           content:
@@ -109,7 +143,19 @@ class TransactionProgressModal extends Component {
   </div>
         }
       ],
-      vote:
+      approved_challenge:
+      [
+        {
+          content:
+  <div className='transaction-content'>
+    <p><b>You will receive 1 MetaMask prompt:</b></p>
+    <ol className='transaction-content-list'>
+      <li className={this.state.stepClass}>Submits the challenge to the adChain Registry contract</li>
+    </ol>
+  </div>
+        }
+      ],
+      not_approved_vote:
       [
         {
           content:
@@ -145,6 +191,18 @@ class TransactionProgressModal extends Component {
   </div>
         }
       ],
+      approved_vote:
+      [
+        {
+          content:
+  <div className='transaction-content'>
+    <p><b>You will receive 1 MetaMask prompt:</b></p>
+    <ol className='transaction-content-list'>
+      <li className={this.state.stepClass}>Submits the Vote Commit to the adChain Registry contract</li>
+    </ol>
+  </div>
+        }
+      ],
       refresh:
       [
         {
@@ -170,6 +228,304 @@ class TransactionProgressModal extends Component {
     </ol>
   </div>
         }
+      ],
+      ADT_approval:
+      [
+        {
+          content:
+  <div className='transaction-content'>
+    <p><b>You will receive 1 MetaMask prompt:</b></p>
+    <ol className='transaction-content-list'>
+      <li className={this.state.stepClass}>Allows the adChain Registry contract to transfer ADT deposit from your account</li>
+    </ol>
+  </div>
+        }
+      ],
+      conversion_to_voting_ADT:
+      [
+        {
+          content:
+  <div className='transaction-content'>
+    <p><b>You will receive 2 MetaMask prompts:</b></p>
+    <ol className='transaction-content-list'>
+      <li className='activeStep'>Allows the registry's PLCR contract to transfer ADT from your wallet</li>
+      <li className='nextStep'>Request voting rights from the registry's PLCR contract</li>
+    </ol>
+  </div>
+        },
+        {
+          content:
+  <div className='transaction-content'>
+    <p><b>You will receive 2 MetaMask prompts:</b></p>
+    <ol className='transaction-content-list'>
+      <li className='finishedStep'>Allows the registry's PLCR contract to transfer ADT from your wallet</li>
+      <li className={this.state.stepClass}>Request voting rights from the registry's PLCR contract</li>
+    </ol>
+  </div>
+        }
+      ],
+      withdraw_voting_ADT:
+      [
+        {
+          content:
+  <div className='transaction-content'>
+    <p><b>You will receive 1 MetaMask prompt:</b></p>
+    <ol className='transaction-content-list'>
+      <li className={this.state.stepClass}>Withdraws Voting ADT from the registry's PLCR contract and returns them to your wallet</li>
+    </ol>
+  </div>
+        }
+      ],
+      claim_reward:
+      [
+        {
+          content:
+  <div className='transaction-content'>
+    <p><b>You will receive 1 MetaMask prompt:</b></p>
+    <ol className='transaction-content-list'>
+      <li className={this.state.stepClass}>Claims ADT reward from the registry contract and adds them to your wallet</li>
+    </ol>
+  </div>
+        }
+      ],
+      unlock_expired_ADT:
+      [
+        {
+          content:
+  <div className='transaction-content'>
+    <p><b>You will receive 1 MetaMask prompt:</b></p>
+    <ol className='transaction-content-list'>
+      <li className={this.state.stepClass}>Unlocks expired ADT from the registry's PLCR contract</li>
+    </ol>
+  </div>
+        }
+      ],
+      withdraw_listing:
+      [
+        {
+          content:
+  <div className='transaction-content'>
+    <p><b>You will receive 1 MetaMask prompt:</b></p>
+    <ol className='transaction-content-list'>
+      <li className={this.state.stepClass}>Removes listing from the registry contract and returns your deposit</li>
+    </ol>
+  </div>
+        }
+      ],
+      not_approved_deposit_ADT:
+      [
+        {
+          content:
+  <div className='transaction-content'>
+    <p><b>You will receive 2 MetaMask prompts:</b></p>
+    <ol className='transaction-content-list'>
+      <li className='activeStep'>Allows the registry's PLCR contract to transfer ADT from your wallet</li>
+      <li className='nextStep'>Deposit ADT to the registry's PLCR contract</li>
+    </ol>
+  </div>
+        },
+        {
+          content:
+  <div className='transaction-content'>
+    <p><b>You will receive 2 MetaMask prompts:</b></p>
+    <ol className='transaction-content-list'>
+      <li className='finishedStep'>Allows the registry's PLCR contract to transfer ADT from your wallet</li>
+      <li className={this.state.stepClass}>Deposit ADT to the registry's PLCR contract</li>
+    </ol>
+  </div>
+        }
+      ],
+      approved_deposit_ADT:
+      [
+        {
+          content:
+  <div className='transaction-content'>
+    <p><b>You will receive 1 MetaMask prompt:</b></p>
+    <ol className='transaction-content-list'>
+      <li className={this.state.stepClass}>Deposit ADT to the registry's PLCR contract</li>
+    </ol>
+  </div>
+        }
+      ],
+      withdraw_ADT:
+      [
+        {
+          content:
+  <div className='transaction-content'>
+    <p><b>You will receive 1 MetaMask prompt:</b></p>
+    <ol className='transaction-content-list'>
+      <li className={this.state.stepClass}>Withdraws specified ADT amount from your listing's deposit in the registry contract</li>
+    </ol>
+  </div>
+        }
+      ],
+      not_approved_vote_commit_for_parameter_proposal:
+      [
+        {
+          content:
+  <div className='transaction-content'>
+    <p><b>You will receive 3 MetaMask prompts:</b></p>
+    <ol className='transaction-content-list'>
+      <li className='activeStep'>Allows the registry's PLCR contract to transfer ADT from your wallet</li>
+      <li className='nextStep'>Request voting rights from the registry's PLCR contract</li>
+      <li className='nextStep'>Submits vote to the registry's PLCR contract</li>
+    </ol>
+  </div>
+        },
+        {
+          content:
+  <div className='transaction-content'>
+    <p><b>You will receive 3 MetaMask prompts:</b></p>
+    <ol className='transaction-content-list'>
+      <li className='finishedStep'>Allows the registry's PLCR contract to transfer ADT from your wallet</li>
+      <li className='activeStep'>Request voting rights from the registry's PLCR contract</li>
+      <li className='nextStep'>Submits vote to the registry's PLCR contract</li>
+    </ol>
+  </div>
+        },
+        {
+          content:
+  <div className='transaction-content'>
+    <p><b>You will receive 3 MetaMask prompts:</b></p>
+    <ol className='transaction-content-list'>
+      <li className='finishedStep'>Allows the registry's PLCR contract to transfer ADT from your wallet</li>
+      <li className='finishedStep'>Request voting rights from the registry's PLCR contract</li>
+      <li className={this.state.stepClass}>Submits vote to the registry's PLCR contract</li>
+    </ol>
+  </div>
+        }
+      ],
+      approved_vote_commit_for_parameter_proposal:
+      [
+        {
+          content:
+  <div className='transaction-content'>
+    <p><b>You will receive 1 MetaMask prompt:</b></p>
+    <ol className='transaction-content-list'>
+      <li className={this.state.stepClass}>Submits the Vote Commit to the adChain Registry contract</li>
+    </ol>
+  </div>
+        }
+      ],
+      vote_reveal_for_parameter_proposal:
+      [
+        {
+          content:
+  <div className='transaction-content'>
+    <p><b>You will receive 1 MetaMask prompt:</b></p>
+    <ol className='transaction-content-list'>
+      <li className={this.state.stepClass}>Submits Reveal to the registry's PLCR contract</li>
+    </ol>
+  </div>
+        }
+      ],
+      not_approved_parameter_proposal_application:
+      [
+        {
+          content:
+  <div className='transaction-content'>
+    <p><b>You will receive 2 MetaMask prompts:</b></p>
+    <ol className='transaction-content-list'>
+      <li className='activeStep'>Allow adChain Registry contract to transfer adToken deposit from your account (if not done so already)</li>
+      <li className='nextStep'>Submit proposal application to the Governance contract</li>
+    </ol>
+  </div>
+        },
+        {
+          content:
+  <div className='transaction-content'>
+    <p><b>You will receive 2 MetaMask prompts:</b></p>
+    <ol className='transaction-content-list'>
+      <li className='finishedStep'>Allow adChain Registry contract to transfer adToken deposit from your account (if not done so already)</li>
+      <li className={this.state.stepClass}>Submits the parameter proposal application to the Governance contract</li>
+    </ol>
+  </div>
+        }
+      ],
+      approved_parameter_proposal_application:
+      [
+        {
+          content:
+  <div className='transaction-content'>
+    <p><b>You will receive 1 MetaMask prompt:</b></p>
+    <ol className='transaction-content-list'>
+      <li className={this.state.stepClass}>Submits the parameter proposal application to the Governance contract</li>
+    </ol>
+  </div>
+        }
+      ],
+      not_approved_parameter_proposal_challenge:
+      [
+        {
+          content:
+  <div className='transaction-content'>
+    <p><b>You will receive 2 MetaMask prompts:</b></p>
+    <ol className='transaction-content-list'>
+      <li className='activeStep'>Allows the Governance contract to transfer ADT deposit from your account</li>
+      <li className='nextStep'>Submits the parameter proposal challenge to the Governance contract</li>
+    </ol>
+  </div>
+        },
+        {
+          content:
+  <div className='transaction-content'>
+    <p><b>You will receive 2 MetaMask prompts:</b></p>
+    <ol className='transaction-content-list'>
+      <li className='finishedStep'>Allows the Governance contract to transfer ADT deposit from your account</li>
+      <li className={this.state.stepClass}>Submits the parameter proposal challenge to the Governance contract</li>
+    </ol>
+  </div>
+        }
+      ],
+      approved_parameter_proposal_challenge:
+      [
+        {
+          content:
+  <div className='transaction-content'>
+    <p><b>You will receive 1 MetaMask prompt:</b></p>
+    <ol className='transaction-content-list'>
+      <li className={this.state.stepClass}>Submits the parameter proposal challenge to the Governance contract</li>
+    </ol>
+  </div>
+        }
+      ],
+      claim_governance_reward:
+      [
+        {
+          content:
+  <div className='transaction-content'>
+    <p><b>You will receive 1 MetaMask prompt:</b></p>
+    <ol className='transaction-content-list'>
+      <li className={this.state.stepClass}>Claims ADT reward from the Governance contract and adds them to your wallet</li>
+    </ol>
+  </div>
+        }
+      ],
+      proposal_refresh:
+      [
+        {
+          content:
+  <div className='transaction-content'>
+    <p><b>You will receive 1 MetaMask prompt:</b></p>
+    <ol className='transaction-content-list'>
+      <li className={this.state.stepClass}>Updating the status of the proposal in the Governance contract</li>
+    </ol>
+  </div>
+        }
+      ],
+      error:
+      [
+        {
+          content:
+  <div className='transaction-content'>
+    <p><b>This is because either:</b></p>
+    <ol className='transaction-content-list'>
+      <li className='activeStep'>Someone has completed the transaction you are attempting</li>
+      <li className='activeStep'>You are attempting to fund an action you don't have enough token to complete</li>
+      <li className='activeStep'>You have failed to input data to complete the transaction</li>
+    </ol>
+  </div>
+        }
       ]
     }
 
@@ -184,15 +540,19 @@ class TransactionProgressModal extends Component {
         <div className='LoadingIconContainer'>
           {
             transactionComplete
-              ? <Icon name='check circle' size='huge' className='CheckCircle' />
+              ? src === 'error'
+                ? <Icon name='remove' size='huge' className='ErrorIcon' />
+                : <Icon name='check circle' size='huge' className='CheckCircle' />
               : <Loader indeterminate active inline='centered' />
           }
         </div>
         <Modal.Header className='TransactionProgressHeader'>
           {
             transactionComplete
-              ? <span>{src} Successful!</span>
-              : <span>{src} in Progress</span>
+              ? src === 'error'
+                ? <span>{title}</span>
+                : <span>{title} Successful!</span>
+              : <span>{title} in Progress</span>
           }
         </Modal.Header>
         <Modal.Content>
@@ -200,7 +560,7 @@ class TransactionProgressModal extends Component {
             <Steps current={current}>
               {
                 // possibly remove step icons once transaction complete
-                src
+                src && src !== 'error'
                   ? this.steps[src].map((item, idx) => <Step key={idx} status={status} />)
                   : null
               }

@@ -10,7 +10,6 @@ import calculateGas from '../../utils/calculateGas'
 import Countdown from '../CountdownText'
 import registry from '../../services/registry'
 import parametizer from '../../services/parameterizer'
-import DomainChallengeInProgressContainer from './DomainChallengeInProgressContainer'
 import PubSub from 'pubsub-js'
 import Eth from 'ethjs'
 
@@ -28,7 +27,6 @@ class DomainChallengeContainer extends Component {
       applicationExpiry: null,
       minDeposit: null,
       currentDeposit: null,
-      inProgress: false,
       source: props.source,
       dispensationPct: null
     }
@@ -60,7 +58,6 @@ class DomainChallengeContainer extends Component {
     const {
       applicationExpiry,
       minDeposit,
-      inProgress,
       source,
       dispensationPct,
       currentDeposit
@@ -132,7 +129,6 @@ class DomainChallengeContainer extends Component {
             <Button basic className='ChallengeButton' onClick={this.onChallenge.bind(this)}>Challenge</Button>
           </div>
         </div>
-        {inProgress ? <DomainChallengeInProgressContainer /> : null}
       </div>
     )
   }
@@ -184,7 +180,6 @@ class DomainChallengeContainer extends Component {
         console.log('error reporting gas')
       }
     } catch (error) {
-      toastr.error('There was an error updating domain status')
       console.error(error)
       try {
         calculateGas({
@@ -236,11 +231,6 @@ class DomainChallengeContainer extends Component {
         // }, 2e3)
       } catch (error) {
         toastr.error('Error')
-        if (this._isMounted) {
-          this.setState({
-            inProgress: false
-          })
-        }
         try {
           calculateGas({
             domain: domain,

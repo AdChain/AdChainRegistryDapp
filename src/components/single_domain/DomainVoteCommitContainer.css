@@ -108,7 +108,7 @@
 :root:root:root .DomainVoteCommitContainer .SupportButton {
   border: 1px solid #10C903;
   border-radius: 3px;
-  color: #424242;
+  color: #10C903 !important;
   font-family: "Open Sans", sans-serif;
   font-size: 9.5px;
   font-weight: bold;
@@ -120,7 +120,7 @@
 :root:root:root .DomainVoteCommitContainer .OpposeButton {
 	border: 1px solid #CE3434;
   border-radius: 3px;
-  color: #424242;
+  color: #CE3434 !important;
   font-family: "Open Sans", sans-serif;
   font-size: 9.5px;
   font-weight: bold;
@@ -200,4 +200,9 @@
 
 .ChallengeID { 
   padding-top: 15px;
+}
+
+.SubmitMessage {
+  padding-top: 5px;
+  font-size: 10px;
 }

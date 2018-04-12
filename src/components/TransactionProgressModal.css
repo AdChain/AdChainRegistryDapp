@@ -101,3 +101,7 @@
 .TransactionProgressModal .steps-content .transaction-content ul li.ListSpacer {
   text-align: center;
 }
+
+:root:root:root .ErrorIcon {
+  color: #CE3434;
+}

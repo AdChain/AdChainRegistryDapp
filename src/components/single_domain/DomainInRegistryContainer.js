@@ -8,9 +8,6 @@ import calculateGas from '../../utils/calculateGas'
 
 import registry from '../../services/registry'
 import './DomainInRegistryContainer.css'
-import DomainChallengeInProgressContainer from './DomainChallengeInProgressContainer'
-import WithdrawInProgressContainer from '../dashboard/WithdrawInProgressContainer'
-import TopOffInProgressContainer from './TopOffInProgressContainer'
 import DomainChallengeContainer from './DomainChallengeContainer'
 import Eth from 'ethjs'
 import PubSub from 'pubsub-js'
@@ -27,16 +24,12 @@ class DomainInRegistryContainer extends Component {
       account: registry.getAccount(),
       // didReveal: false,
       didClaim: false,
-      inChallengeProgress: false,
-      inWithdrawProgress: false,
-      inTopOffProgress: false,
       minDeposit: null,
       canWithdraw: false,
       currentDeposit: null,
       stakedDifferenceUpdated: false
     }
 
-    this.onChallenge = this.onChallenge.bind(this)
     this.withdrawListing = this.withdrawListing.bind(this)
     this.topOff = this.topOff.bind(this)
     this.updateStatus = this.updateStatus.bind(this)
@@ -61,9 +54,6 @@ class DomainInRegistryContainer extends Component {
   render () {
     const {
       domain,
-      inChallengeProgress,
-      inWithdrawProgress,
-      inTopOffProgress,
       minDeposit,
       canWithdraw,
       currentDeposit
@@ -154,9 +144,6 @@ class DomainInRegistryContainer extends Component {
             }
           </div>
         </div>
-        {inChallengeProgress ? <DomainChallengeInProgressContainer /> : null}
-        {inWithdrawProgress ? <WithdrawInProgressContainer /> : null}
-        {inTopOffProgress ? <TopOffInProgressContainer /> : null}
       </div>
     )
   }
@@ -231,12 +218,6 @@ class DomainInRegistryContainer extends Component {
     }
   }
 
-  onChallenge (event) {
-    event.preventDefault()
-
-    this.challenge()
-  }
-
   async checkOwner () {
     const {domain, account} = this.state
 
@@ -270,7 +251,6 @@ class DomainInRegistryContainer extends Component {
         console.log('error reporting gas')
       }
     } catch (error) {
-      toastr.error('There was an error updating status')
       console.error(error)
       try {
         calculateGas({
@@ -303,23 +283,17 @@ class DomainInRegistryContainer extends Component {
   async withdrawListing () {
     const {domain} = this.state
 
-    if (this._isMounted) {
-      this.setState({
-        inWithdrawProgress: true
-      })
-    }
-
     try {
+      let transactionInfo = {
+        src: 'withdraw_listing',
+        title: 'Withdraw Listing'
+      }
+
+      PubSub.publish('TransactionProgressModal.open', transactionInfo)
       await registry.exit(domain)
       this.setState({
         canWithdraw: false
       })
-      toastr.success('Successfully withdrew listing')
-      if (this._isMounted) {
-        this.setState({
-          inWithdrawProgress: false
-        })
-      }
       try {
         calculateGas({
           domain: domain,
@@ -333,12 +307,7 @@ class DomainInRegistryContainer extends Component {
       }
     } catch (error) {
       console.error('Domain In Registry Container Withdraw Listing Error: ', error)
-      toastr.error('There was an error with your request')
-      if (this._isMounted) {
-        this.setState({
-          inWithdrawProgress: false
-        })
-      }
+      PubSub.publish('TransactionProgressModal.error')
       try {
         calculateGas({
           domain: domain,
@@ -363,12 +332,6 @@ class DomainInRegistryContainer extends Component {
       return
     }
 
-    if (this._isMounted) {
-      this.setState({
-        inTopOffProgress: true
-      })
-    }
-
     const stakedDeposit = parseInt(amount, 10) + parseInt(currentDeposit, 10)
 
     try {
@@ -376,7 +339,6 @@ class DomainInRegistryContainer extends Component {
       if (this._isMounted) {
         this.setState({
           currentDeposit: stakedDeposit,
-          inTopOffProgress: false,
           stakedDifferenceUpdated: true
         })
         document.getElementById('ADTAmount').value = null
@@ -394,9 +356,6 @@ class DomainInRegistryContainer extends Component {
       }
     } catch (error) {
       toastr.error('There was an error with your request')
-      this.setState({
-        inTopOffProgress: false
-      })
       try {
         calculateGas({
           domain: domain,
@@ -424,18 +383,16 @@ class DomainInRegistryContainer extends Component {
       return
     }
 
-    if (this._isMounted) {
-      this.setState({
-        inWithdrawProgress: true
-      })
-    }
-
     try {
+      let transactionInfo = {
+        src: 'withdraw_ADT',
+        title: 'Withdraw ADT'
+      }
+      PubSub.publish('TransactionProgressModal.open', transactionInfo)
       await registry.withdraw(domain, amount)
       if (this._isMounted) {
         this.setState({
-          currentDeposit: parseInt(currentDeposit, 10) - parseInt(amount, 10),
-          inWithdrawProgress: false
+          currentDeposit: parseInt(currentDeposit, 10) - parseInt(amount, 10)
         })
         document.getElementById('ADTAmount').value = null
       }
@@ -451,11 +408,9 @@ class DomainInRegistryContainer extends Component {
         console.log('error reporting gas')
       }
     } catch (error) {
-      toastr.error('There was an error withdrawing your ADT')
       console.error(error)
-      this.setState({
-        inWithdrawProgress: false
-      })
+      PubSub.publish('TransactionProgressModal.error')
+
       try {
         calculateGas({
           domain: domain,
@@ -467,73 +422,6 @@ class DomainInRegistryContainer extends Component {
       } catch (error) {
         console.log('error reporting gas')
       }
-    }
-  }
-
-  async challenge () {
-    const {domain} = this.state
-
-    let inApplication = null
-
-    try {
-      inApplication = await registry.applicationExists(domain)
-    } catch (error) {
-      toastr.error('There was an error with your request')
-    }
-
-    if (inApplication) {
-      if (this._isMounted) {
-        this.setState({
-          inChallengeProgress: true
-        })
-      }
-
-      try {
-        await registry.challenge(domain)
-
-        toastr.success('Successfully challenged domain')
-
-        if (this._isMounted) {
-          this.setState({
-            inChallengeProgress: false
-          })
-        }
-        try {
-          calculateGas({
-            domain: domain,
-            contract_event: true,
-            event: 'challenge',
-            contract: 'registry',
-            event_success: true
-          })
-        } catch (error) {
-          console.log('error reporting gas')
-        }
-        // TODO: better way of resetting state
-        setTimeout(() => {
-          window.location.reload()
-        }, 2e3)
-      } catch (error) {
-        toastr.error('There was an error with your request')
-        if (this._isMounted) {
-          this.setState({
-            inChallengeProgress: false
-          })
-        }
-        try {
-          calculateGas({
-            domain: domain,
-            contract_event: true,
-            event: 'challenge',
-            contract: 'registry',
-            event_success: false
-          })
-        } catch (error) {
-          console.log('error reporting gas')
-        }
-      }
-    } else {
-      toastr.error('Domain not in application')
     }
   }
 }

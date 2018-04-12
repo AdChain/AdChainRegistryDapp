@@ -5,6 +5,7 @@ import toastr from 'toastr'
 import Tooltip from '../Tooltip'
 import store from '../../store'
 import registry from '../../services/registry'
+import PubSub from 'pubsub-js'
 
 import './WithdrawVotingRightsContainer.css'
 
@@ -89,28 +90,22 @@ class WithdrawVotingRightsContainer extends Component {
 
   async withdrawTokens () {
     const {availableTokens} = this.state
-
-    // if (this._isMounted) {
-    //   this.setState({
-    //     inProgress: true
-    //   })
-    // }
-
+    if (commafy(availableTokens) === '0') {
+      toastr.error('You do not have any available ADT to withdraw')
+      return false
+    }
     try {
+      let transactionInfo = {
+        src: 'withdraw_voting_ADT',
+        title: 'Withdraw Voting ADT'
+      }
+      PubSub.publish('TransactionProgressModal.open', transactionInfo)
       console.log('available tokens: ', availableTokens)
       await registry.withdrawVotingRights(availableTokens)
-
-      toastr.success('Success')
     } catch (error) {
       console.error('Withdraw Tokens Error: ', error)
-      toastr.error('There was an error with your request')
+      PubSub.publish('TransactionProgressModal.error')
     }
-
-    // if (this._isMounted) {
-    //   this.setState({
-    //     inProgress: false
-    //   })
-    // }
   }
 }
 

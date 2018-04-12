@@ -3,6 +3,8 @@ import { Loader } from 'semantic-ui-react'
 
 import './DomainClaimRewardInProgressContainer.css'
 
+// I think this component can be deleted
+
 class DomainClaimRewardInProgressContainer extends Component {
   constructor (props) {
     super()

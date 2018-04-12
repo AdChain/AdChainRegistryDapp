@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import { Button } from 'semantic-ui-react'
 import registry from '../../services/registry'
-import UserRewardClaimInProgress from './UserRewardClaimInProgress'
-import toastr from 'toastr'
+// import toastr from 'toastr'
 import Tooltip from '../Tooltip'
+import PubSub from 'pubsub-js'
 
 import './UserRewardsToClaim.css'
 
@@ -12,8 +12,7 @@ class UserRewardsToClaim extends Component {
     super()
 
     this.state = {
-      rewards: props.rewards,
-      claimProgress: null
+      rewards: props.rewards
     }
     this.history = props.history
     this.claimReward = this.claimReward.bind(this)
@@ -35,7 +34,7 @@ class UserRewardsToClaim extends Component {
   }
 
   render () {
-    const { rewards, claimProgress } = this.state
+    const { rewards } = this.state
     const data = rewards.length !== 0 ? rewards.map((domain, idx) =>
       <tr key={idx} className='DashboardRow'>
         <td className='DashboardFirstCell' onClick={(event) => { event.preventDefault(); this.history.push(`/domains/${domain.domain}`) }}>{domain.domain}</td>
@@ -63,36 +62,26 @@ class UserRewardsToClaim extends Component {
             }
           </div>
         </div>
-        {claimProgress ? <UserRewardClaimInProgress /> : null}
       </div>
     )
   }
 
   async claimReward (challengeId, salt, domain) {
-    if (this._isMounted) {
-      this.setState({
-        claimProgress: true
-      })
-    }
-
     try {
+      let transactionInfo = {
+        src: 'claim_reward',
+        title: 'Claim Reward'
+      }
+
+      PubSub.publish('TransactionProgressModal.open', transactionInfo)
       await registry.claimReward(challengeId, salt)
 
       document.getElementById(domain).innerText = ' - '
       document.getElementById(domain + 'Button').innerText = 'Claimed'
       document.getElementById(domain + 'Button').className += ' disabled'
-
-      if (this._isMounted) {
-        this.setState({
-          claimProgress: false
-        })
-      }
     } catch (error) {
       console.error(error)
-      toastr.error('There was an error claiming your reward')
-      this.setState({
-        claimProgress: false
-      })
+      PubSub.publish('TransactionProgressModal.error')
     }
   }
 }

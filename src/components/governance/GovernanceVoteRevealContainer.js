@@ -8,7 +8,7 @@ import Tooltip from '../Tooltip'
 import Countdown from '../CountdownText'
 import ParameterizerService from '../../services/parameterizer'
 import registry from '../../services/registry'
-import DomainVoteRevealInProgressContainer from '../single_domain/DomainVoteRevealInProgressContainer'
+import PubSub from 'pubsub-js'
 // import DomainVoteTokenDistribution from './DomainVoteTokenDistribution'
 
 import '../single_domain/DomainVoteRevealContainer.css'
@@ -25,7 +25,7 @@ class GovernanceVoteRevealContainer extends Component {
       votesAgainst: 0,
       commitEndDate: null,
       revealEndDate: null,
-      inProgress: false,
+      // inProgress: false,
       didChallenge: false,
       didCommit: false,
       didReveal: false,
@@ -59,7 +59,7 @@ class GovernanceVoteRevealContainer extends Component {
   render () {
     const {
       revealEndDate,
-      inProgress,
+      // inProgress,
       didChallenge,
       didCommit,
       didReveal
@@ -83,9 +83,9 @@ class GovernanceVoteRevealContainer extends Component {
             <div className='row HeaderRow'>
               <div className='ui large header'>
               Stage: Reveal
-              <Tooltip
-                info='The first phase of the voting process is the commit phase where the ADT holder stakes a hidden amount of votes to SUPPORT or OPPOSE the parameter application. The second phase is the reveal phase where the ADT holder reveals the staked amount of votes to either the SUPPORT or OPPOSE side.'
-              />
+                <Tooltip
+                  info='The first phase of the voting process is the commit phase where the ADT holder stakes a hidden amount of votes to SUPPORT or OPPOSE the parameter application. The second phase is the reveal phase where the ADT holder reveals the staked amount of votes to either the SUPPORT or OPPOSE side.'
+                />
               </div>
             </div>
           </div>
@@ -106,19 +106,19 @@ class GovernanceVoteRevealContainer extends Component {
               You've <strong>challenged</strong> this proposal.
             </div>
           </div>
-          : null}
+            : null}
           {didCommit ? <div className='column sixteen wide center aligned'>
             <div className='ui message warning'>
               You've <strong>committed</strong> vote for this proposal.
             </div>
           </div>
-          : null}
+            : null}
           {didReveal ? <div className='column sixteen wide center aligned'>
             <div className='ui message warning'>
               You've <strong>revealed</strong> for this proposal.
             </div>
           </div>
-          : null}
+            : null}
           {
           // <DomainVoteTokenDistribution {...this.props} />
           }
@@ -128,25 +128,25 @@ class GovernanceVoteRevealContainer extends Component {
                 <div className='NumberCircle'>1</div>
               </div>
                   Upload your JSON commit file to reveal your vote:
-                <div className='UploadCommitButtonContainer'>
-                  <Button className='UploadCommitButton' basic onClick={this.uploadClick}>Upload Commit &nbsp;<i className='icon long arrow up' /></Button>
-                  <input
-                    type='file'
-                    name='file'
-                    id='HiddenCommitFile'
-                    ref='HiddenFileUploader' style={{display: 'none'}}
-                    onChange={this.onFileInput}
-                    className='ui file' />
-                </div>
+              <div className='UploadCommitButtonContainer'>
+                <Button className='UploadCommitButton' basic onClick={this.uploadClick}>Upload Commit &nbsp;<i className='icon long arrow up' /></Button>
+                <input
+                  type='file'
+                  name='file'
+                  id='HiddenCommitFile'
+                  ref='HiddenFileUploader' style={{display: 'none'}}
+                  onChange={this.onFileInput}
+                  className='ui file' />
+              </div>
             </Segment>
             <Segment className='RightSegment' floated='right'>
                 If you misplaced your JSON commit file, you can enter the information below to reveal:
-                <div className='VoteRevealLabel'>
-                  <span className='VoteRevealLabelText'>
+              <div className='VoteRevealLabel'>
+                <span className='VoteRevealLabelText'>
                     Challenge ID:
-                  </span>
-                  <Input id='DomainVoteRevealChallengeIdInput' value={this.state.challengeId} className='VoteRevealInput' />
-                </div>
+                </span>
+                <Input id='DomainVoteRevealChallengeIdInput' value={this.state.challengeId} className='VoteRevealInput' />
+              </div>
               <div className='VoteRevealLabel'>
                 <span className='VoteRevealLabelText'>
                   Secret Phrase:
@@ -165,7 +165,7 @@ class GovernanceVoteRevealContainer extends Component {
                   id='DomainVoteRevealVoteOption'
                   className='VoteRevealDropdown'
                   value={this.state.voteOption}
-                    />
+                />
               </div>
             </Segment>
           </div>
@@ -175,12 +175,11 @@ class GovernanceVoteRevealContainer extends Component {
               basic
               type='submit'
               onClick={this.onFormSubmit}
-              >
+            >
               Reveal Vote
             </Button>
           </div>
         </div>
-        {inProgress ? <DomainVoteRevealInProgressContainer /> : null}
       </div>
     )
   }
@@ -281,36 +280,21 @@ class GovernanceVoteRevealContainer extends Component {
       return false
     }
 
-    if (this._isMounted) {
-      this.setState({
-        inProgress: true
-      })
-    }
-
     try {
       const revealed = await ParameterizerService.revealVote({challengeId, propId, voteOption, salt})
-      this.setState({
-        inProgress: false
-      })
-
+      console.log('revealed: ', revealed)
       if (revealed) {
-        toastr.success('Successfully revealed')
+        // toastr.success('Successfully revealed')
 
         // TODO: better way of resetting state
-        setTimeout(() => {
-          window.location.reload()
-        }, 2e3)
+        // setTimeout(() => {
+        //   window.location.reload()
+        // }, 2e3)
       } else {
-        toastr.error('Reveal did not go through')
+        // toastr.error('Reveal did not go through')
       }
     } catch (error) {
-      toastr.error('There was an error with your request')
-
-      if (this._isMounted) {
-        this.setState({
-          inProgress: false
-        })
-      }
+      PubSub.publish('TransactionProgressModal.error')
     }
   }
 
@@ -337,9 +321,9 @@ class GovernanceVoteRevealContainer extends Component {
         let saltInput = document.querySelector('#DomainVoteRevealSaltInput')
         let voteOptionDropdown = document.querySelector('#DomainVoteRevealVoteOption')
 
-      // create event
+        // create event
         // let event = new Event('input', { bubbles: true })
-      // set value
+        // set value
         saltInput.value = salt
         voteOptionDropdown.value = voteOption === 1 ? 'Support' : 'Oppose'
       // trigger event

@@ -3,11 +3,11 @@ import PropTypes from 'prop-types'
 import toastr from 'toastr'
 import commafy from 'commafy'
 import Tooltip from '../Tooltip'
+import PubSub from 'pubsub-js'
 
 import store from '../../store'
 import registry from '../../services/registry'
 
-import RequestTokenApprovalInProgressContainer from './RequestTokenApprovalInProgressContainer'
 import './RequestTokenApprovalContainer.css'
 
 class RequestTokenApprovalContainer extends Component {
@@ -17,8 +17,7 @@ class RequestTokenApprovalContainer extends Component {
     this.state = {
       account: props.account,
       tokenAmount: null,
-      allowedTokens: null,
-      inProgress: false
+      allowedTokens: null
     }
 
     this.onRequest = this.onRequest.bind(this)
@@ -41,7 +40,6 @@ class RequestTokenApprovalContainer extends Component {
 
   render () {
     const {
-      inProgress,
       allowedTokens
     } = this.state
 
@@ -72,7 +70,6 @@ class RequestTokenApprovalContainer extends Component {
             </div>
           </div>
         </div>
-        {inProgress ? <RequestTokenApprovalInProgressContainer /> : null}
       </div>
     )
   }
@@ -113,18 +110,18 @@ class RequestTokenApprovalContainer extends Component {
     const {tokenAmount} = this.state
 
     if (!tokenAmount) {
-      toastr.error('Please enter amount of adToken')
+      toastr.error('Please enter a valid amount of ADT')
       return false
     }
-
-    if (this._isMounted) {
-      this.setState({
-        inProgress: true
-      })
+    let transactionInfo = {
+      src: 'ADT_approval',
+      title: 'ADT Approval'
     }
-
+    
     try {
+      PubSub.publish('TransactionProgressModal.open', transactionInfo)
       await registry.approveTokens(tokenAmount)
+      PubSub.publish('TransactionProgressModal.next', transactionInfo)
 
       // TODO: better way to reset input
       const input = document.querySelector('#RequestTokenApprovalContainerInput')
@@ -132,17 +129,9 @@ class RequestTokenApprovalContainer extends Component {
       if (input) {
         input.value = ''
       }
-
-      toastr.success('Success')
     } catch (error) {
       console.error('Request Token Approval Error: ', error)
-      toastr.error('There was an error with your request')
-    }
-
-    if (this._isMounted) {
-      this.setState({
-        inProgress: false
-      })
+      PubSub.publish('TransactionProgressModal.error')
     }
   }
 }

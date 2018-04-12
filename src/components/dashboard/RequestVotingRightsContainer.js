@@ -5,6 +5,7 @@ import commafy from 'commafy'
 import Tooltip from '../Tooltip'
 import registry from '../../services/registry'
 import store from '../../store'
+import PubSub from 'pubsub-js'
 
 import './RequestVotingRightsContainer.css'
 
@@ -85,11 +86,16 @@ class RequestVotingRightsContainer extends Component {
     const {requestVotes} = this.state
 
     if (!requestVotes) {
-      toastr.error('Please enter amount of adToken')
+      toastr.error('Please enter a valid amount of ADT')
       return false
     }
 
     try {
+      let transactionInfo = {
+        src: 'conversion_to_voting_ADT',
+        title: 'Conversion to Voting ADT'
+      }
+      PubSub.publish('TransactionProgressModal.open', transactionInfo)
       await registry.requestVotingRights(requestVotes)
 
       // TODO: better way to reset input
@@ -98,11 +104,9 @@ class RequestVotingRightsContainer extends Component {
       if (input) {
         input.value = ''
       }
-
-      toastr.success('Success')
     } catch (error) {
       console.log('Error requesting voting rights: ', error)
-      toastr.error('There was an error with your request')
+      PubSub.publish('TransactionProgressModal.error')
     }
   }
 

@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import axios from 'axios'
 import Tooltip from '../Tooltip'
 import { Button, Input } from 'semantic-ui-react'
+import toastr from 'toastr'
 import './DomainEmailNotifications.css'
 
 class DomainEmailNotifications extends Component {
@@ -34,7 +35,7 @@ class DomainEmailNotifications extends Component {
                   placeholder='hello@metax.io'
                   value={this.state.email}
                   onChange={this.handleChange}
-                   />
+                />
               </div>
             </div>
             <div className={this.state.subscribed ? 'show f-os pd-10 t-center' : 'hide'}>
@@ -56,7 +57,10 @@ class DomainEmailNotifications extends Component {
   }
 
   async subscribeEmail () {
-    if (!this.state.email) return false
+    if (!this.state.email) {
+      toastr.error('The field you wish to interact with is empty')
+      return false
+    }
     try {
       let res = await axios.get('https://api.governx.org/notify', { params: {
         network: 'rinkeby',

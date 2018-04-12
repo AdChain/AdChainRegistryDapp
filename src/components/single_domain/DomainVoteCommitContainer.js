@@ -10,8 +10,6 @@ import calculateGas from '../../utils/calculateGas'
 import saveFile from '../../utils/saveFile'
 import Countdown from '../CountdownText'
 import registry from '../../services/registry'
-import DomainVoteCommitInProgressContainer from './DomainVoteCommitInProgressContainer'
-import PubSub from 'pubsub-js'
 
 import './DomainVoteCommitContainer.css'
 
@@ -30,7 +28,6 @@ class DomainVoteCommitContainer extends Component {
       revealEndDate: null,
       didChallenge: null,
       didCommit: null,
-      inProgress: false,
       salt,
       voteOption: null,
       enableDownload: false,
@@ -72,14 +69,13 @@ class DomainVoteCommitContainer extends Component {
       commitEndDate,
       didChallenge,
       didCommit,
-      inProgress,
       salt,
       SupportState,
       OpposeState,
       // voteOption,
-      challengeId
+      challengeId,
       // enableDownload,
-      // commitDownloaded,
+      commitDownloaded
       // votes
       // revealReminderDownloaded
     } = this.state
@@ -193,12 +189,20 @@ class DomainVoteCommitContainer extends Component {
                 </Segment>
               </div>
               <div className='SubmitVoteButtonContainer'>
-                <Button className='SubmitVoteButton centered' basic onClick={this.onFormSubmit}>Submit Vote</Button>
+                {
+                  commitDownloaded
+                    ? <Button className='SubmitVoteButton centered' basic onClick={this.onFormSubmit}>Submit Vote</Button>
+                    : <Button className='SubmitVoteButton centered' basic disabled>Submit Vote</Button>
+                }
               </div>
+              {
+                !commitDownloaded
+                  ? <div className='SubmitMessage'>Please download the commit file in order to submit your vote</div>
+                  : null
+              }
             </form>
           </div>
         </div>
-        {inProgress ? <DomainVoteCommitInProgressContainer /> : null}
       </div>
     )
   }
@@ -376,24 +380,12 @@ class DomainVoteCommitContainer extends Component {
       return false
     }
 
-    // if (this._isMounted) {
-    //   this.setState({
-    //     inProgress: true
-    //   })
-    // }
-
     try {
-      PubSub.publish('TransactionProgressModal.open', 'vote')
       const committed = await registry.commitVote({domain, votes, voteOption, salt})
-
-      // if (this._isMounted) {
-      //   this.setState({
-      //     inProgress: false
-      //   })
-      // }
-
+      console.log('committed: ', committed)
       if (committed) {
-        toastr.success('Successfully committed')
+        // toastr.success('Successfully committed')
+        await this.getCommit()
         try {
           calculateGas({
             domain: domain,
@@ -408,19 +400,15 @@ class DomainVoteCommitContainer extends Component {
           console.log('error reporting gas')
         }
         // TODO: better way of resetting state
-        setTimeout(() => {
-          window.location.reload()
-        }, 1e3)
+        // setTimeout(() => {
+        //   window.location.reload()
+        // }, 1e3)
       } else {
         toastr.error('Commit did not go through')
       }
     } catch (error) {
+      console.error('Commit Error: ', error)
       toastr.error('There was an error with your request')
-      if (this._isMounted) {
-        this.setState({
-          inProgress: false
-        })
-      }
       try {
         calculateGas({
           domain: domain,
