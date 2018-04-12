@@ -73,9 +73,9 @@ class DomainVoteCommitContainer extends Component {
       SupportState,
       OpposeState,
       // voteOption,
-      challengeId
+      challengeId,
       // enableDownload,
-      // commitDownloaded,
+      commitDownloaded
       // votes
       // revealReminderDownloaded
     } = this.state
@@ -189,8 +189,17 @@ class DomainVoteCommitContainer extends Component {
                 </Segment>
               </div>
               <div className='SubmitVoteButtonContainer'>
-                <Button className='SubmitVoteButton centered' basic onClick={this.onFormSubmit}>Submit Vote</Button>
+                {
+                  commitDownloaded
+                    ? <Button className='SubmitVoteButton centered' basic onClick={this.onFormSubmit}>Submit Vote</Button>
+                    : <Button className='SubmitVoteButton centered' basic disabled>Submit Vote</Button>
+                }
               </div>
+              {
+                !commitDownloaded
+                  ? <div className='SubmitMessage'>Please download the commit file in order to submit your vote</div>
+                  : null
+              }
             </form>
           </div>
         </div>
