@@ -75,7 +75,8 @@ class RedditConfirmationModal extends Component {
       open: false,
       domain: '',
       stake: '',
-      action: ''
+      action: '',
+      reason: ''
     })
   }
 
@@ -84,7 +85,8 @@ class RedditConfirmationModal extends Component {
       open: true,
       domain: data.domain,
       stake: data.stake,
-      action: data.action
+      action: data.action,
+      reason: ''
     })
   }
 

@@ -5,6 +5,7 @@ import toastr from 'toastr'
 
 import registry from '../../services/registry'
 import StatProgressBar from '../StatProgressBar'
+import PubSub from 'pubsub-js'
 
 import './DomainVoteTokenDistribution.css'
 
@@ -17,16 +18,18 @@ class DomainVoteTokenDistribution extends Component {
       votesFor: 0,
       votesAgainst: 0
     }
-
+    this.getPoll = this.getPoll.bind(this)
     this.getPoll()
   }
 
   componentDidMount () {
     this._isMounted = true
+    this.subEvent = PubSub.subscribe('DomainVoteTokenDistribution.getPoll', this.getPoll)
   }
 
   componentWillUnmount () {
     this._isMounted = false
+    PubSub.unsubscribe(this.subEvent)
   }
 
   async getPoll () {

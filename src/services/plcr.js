@@ -226,15 +226,21 @@ class PlcrService {
   async reveal ({pollId, voteOption, salt}, transactionSrc) {
     return new Promise(async (resolve, reject) => {
       try {
-        await this.plcr.revealVote(pollId, voteOption, salt)
-        PubSub.publish('TransactionProgressModal.next', transactionSrc)
+        let transactionInfo = {
+          src: transactionSrc.src,
+          title: transactionSrc.title
+        }
+        PubSub.publish('TransactionProgressModal.open', transactionInfo)
+        const result = await this.plcr.revealVote(pollId, voteOption, salt)
+        setTimeout(PubSub.publish('TransactionProgressModal.next', transactionInfo), 6e3)
 
         store.dispatch({
           type: 'PLCR_VOTE_REVEAL',
           pollId
         })
+        console.log(' plcr result: ', result)
 
-        resolve()
+        resolve(result)
       } catch (error) {
         PubSub.publish('TransactionProgressModal.error')
         reject(error)

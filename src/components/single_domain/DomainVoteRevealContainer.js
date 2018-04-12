@@ -322,22 +322,18 @@ class DomainVoteRevealContainer extends Component {
     }
 
     try {
-      let transactionInfo = {
-        src: 'reveal',
-        title: 'reveal'
-      }
-      PubSub.publish('TransactionProgressModal.open', transactionInfo)
       const revealed = await registry.revealVote({domain, voteOption, salt})
-
       if (revealed) {
-        toastr.success('Successfully revealed')
-
-        // TODO: better way of resetting state
-        // setTimeout(() => {
-        //   window.location.reload()
-        // }, 2e3)
+        // toastr.success('Successfully revealed')
+        this.setState({
+          didReveal: true
+        })
       } else {
-        toastr.error('There was an error with the reveal process.')
+        setTimeout(() => {
+          this.getReveal().then(
+            PubSub.publish('DomainVoteTokenDistribution.getPoll')
+          )
+        }, 3e3)
       }
     } catch (error) {
       console.error('Reveal Error: ', error)

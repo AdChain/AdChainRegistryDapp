@@ -567,9 +567,9 @@ class RegistryService {
         title: 'reveal'
       }
       await plcr.reveal({pollId: challengeId, voteOption, salt}, transactionInfo)
-      return await this.didRevealForPoll(challengeId)
+      return this.didRevealForPoll(challengeId)
     } catch (error) {
-      console.error('plcr reveal: ', error)
+      console.error('registry reveal: ', error)
       throw error
     }
   }

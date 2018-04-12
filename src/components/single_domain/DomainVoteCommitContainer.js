@@ -373,9 +373,10 @@ class DomainVoteCommitContainer extends Component {
 
     try {
       const committed = await registry.commitVote({domain, votes, voteOption, salt})
-
+      console.log('committed: ', committed)
       if (committed) {
         // toastr.success('Successfully committed')
+        await this.getCommit()
         try {
           calculateGas({
             domain: domain,
@@ -397,6 +398,7 @@ class DomainVoteCommitContainer extends Component {
         toastr.error('Commit did not go through')
       }
     } catch (error) {
+      console.error('Commit Error: ', error)
       toastr.error('There was an error with your request')
       try {
         calculateGas({
