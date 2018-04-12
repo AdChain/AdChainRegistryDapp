@@ -110,13 +110,7 @@ class MainTopbar extends Component {
               </div>
             : null}
             <div className='item'>
-              <a
-                title='Help'
-                href='https://adchain.zendesk.com/hc/en-us'
-                target='_blank'
-                rel='noopener noreferrer'>
-                <i className='icon help circle' /> Help
-              </a>
+
             </div>
           </div>
         </div>

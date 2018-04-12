@@ -48,8 +48,9 @@ class DomainsTable extends Component {
       filters,
       allDomains: [],
       pages: -1, // we don't know how many pages yet
-      pageSize: 10,
-      isLoading: false
+      pageSize: 11,
+      isLoading: false,
+      inProgress: false
     }
     history = props.history
 

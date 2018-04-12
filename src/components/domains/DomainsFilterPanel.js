@@ -1,6 +1,11 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import commafy from 'commafy'
 import Tooltip from '../Tooltip'
+import store from '../../store'
+import token from '../../services/token'
+
+
 import './DomainsFilterPanel.css'
 
 class DomainsFilterPanel extends Component {
@@ -8,13 +13,29 @@ class DomainsFilterPanel extends Component {
     super()
 
     this.state = {
-      filters: props.filters
+      filters: props.filters,
+      totalStaked: 0,
+      totalInApplication: 0,
+      totalInCommit: 0,
+      totalInReveal: 0,
+      totalInRegistry: 0
     }
 
     this.onSearchInput = this.onSearchInput.bind(this)
     this.onFilterChange = this.onFilterChange.bind(this)
     this.onFiltersChange = props.onFiltersChange.bind(this)
     this.resetFilters = this.resetFilters.bind(this)
+    
+    this.fetchStats()
+  }
+
+  componentDidMount () {
+    this._isMounted = true
+
+    this.fetchStats()
+    store.subscribe(x => {
+      this.fetchStats()
+    })
   }
 
   componentWillReceiveProps (props) {
@@ -23,8 +44,17 @@ class DomainsFilterPanel extends Component {
     })
   }
 
+
   render () {
-    const filters = this.state.filters
+    const {
+      filters,
+      totalStaked,
+      totalInApplication,
+      totalInCommit,
+      totalInReveal,
+      totalInRegistry,
+      showHeader
+    } = this.state
 
     return (
       <div className='DomainsFilterPanel BoxFrame'>
@@ -61,7 +91,8 @@ class DomainsFilterPanel extends Component {
                       onChange={this.onFilterChange}
                   />
                   </div>
-                  <label htmlFor='DomainsFilterPanel_InRegistry'>In Registry</label>
+                  <label htmlFor='DomainsFilterPanel_InRegistry'>In Registry</label> &nbsp;
+                  <span className="f-grey f-12 f-os">({totalInRegistry != null ? commafy(totalInRegistry) : '-'})</span>
                 </li>
                 <li className='item'>
                   <div className='ui input'>
@@ -73,7 +104,9 @@ class DomainsFilterPanel extends Component {
                       onChange={this.onFilterChange}
                   />
                   </div>
-                  <label htmlFor='DomainsFilterPanel_InApplication'>In Application</label>
+                  <label htmlFor='DomainsFilterPanel_InApplication'>In Application</label> &nbsp;
+                  <span className="f-grey f-12 f-os">({totalInApplication != null ? commafy(totalInApplication) : '-'})</span>
+
                 </li>
                 <li className='item'>
                   <div className='ui input'>
@@ -85,7 +118,8 @@ class DomainsFilterPanel extends Component {
                       onChange={this.onFilterChange}
                   />
                   </div>
-                  <label htmlFor='DomainsFilterPanel_InVotingCommit'>In Commit</label>
+                  <label htmlFor='DomainsFilterPanel_InVotingCommit'>In Commit</label> &nbsp;
+                  <span className="f-grey f-12 f-os">({totalInCommit != null ? commafy(totalInCommit) : '-'})</span>
                 </li>
                 <li className='item'>
                   <div className='ui input'>
@@ -97,7 +131,8 @@ class DomainsFilterPanel extends Component {
                       onChange={this.onFilterChange}
                   />
                   </div>
-                  <label htmlFor='DomainsFilterPanel_InVotingReveal'>In Reveal</label>
+                  <label htmlFor='DomainsFilterPanel_InVotingReveal'>In Reveal</label> &nbsp;
+                  <span className="f-grey f-12 f-os">({totalInReveal != null ? commafy(totalInReveal) : '-'})</span>
                 </li>
                 <li className='item'>
                   <div className='ui input'>
@@ -109,7 +144,7 @@ class DomainsFilterPanel extends Component {
                       onChange={this.onFilterChange}
                   />
                   </div>
-                  <label htmlFor='DomainsFilterPanel_Rejected'>Rejected</label>
+                  <label htmlFor='DomainsFilterPanel_Rejected'>Rejected</label> &nbsp;
                 </li>
                 <li className='item'>
                   <div className='ui input'>
@@ -121,7 +156,7 @@ class DomainsFilterPanel extends Component {
                       onChange={this.onFilterChange}
                   />
                   </div>
-                  <label htmlFor='DomainsFilterPanel_Withdrawn'>Withdrawn</label>
+                  <label htmlFor='DomainsFilterPanel_Withdrawn'>Withdrawn</label> &nbsp;
                 </li>
               </ul>
             </div>
@@ -140,14 +175,15 @@ class DomainsFilterPanel extends Component {
 
     const {filters} = this.state
     filters[name] = target.value
-
     this.setState(filters)
     this.onFiltersChange(filters)
   }
 
   onFilterChange (event) {
+
     const target = event.target
     const {name, checked} = target
+        console.log(name)
 
     const {filters} = this.state
     filters[name] = checked
@@ -179,6 +215,29 @@ class DomainsFilterPanel extends Component {
       field.value = ''
     }
   }
+
+  async fetchStats () {
+    let totalStaked = await (await window.fetch(`https://adchain-registry-api-staging.metax.io/registry/domains/stake/count`)).json()
+    const totalInApplication = await (await window.fetch(`https://adchain-registry-api-staging.metax.io/registry/domains/application/count`)).json()
+    const totalInCommit = await (await window.fetch(`https://adchain-registry-api-staging.metax.io/registry/domains/incommit/count`)).json()
+    const totalInReveal = await (await window.fetch(`https://adchain-registry-api-staging.metax.io/registry/domains/inreveal/count`)).json()
+    const totalInRegistry = await (await window.fetch(`https://adchain-registry-api-staging.metax.io/registry/domains/registry/count`)).json()
+
+    if (totalStaked) {
+      totalStaked = totalStaked / Math.pow(10, token.decimals)
+    }
+
+    if (this._isMounted) {
+      this.setState({
+        totalStaked,
+        totalInApplication,
+        totalInCommit,
+        totalInReveal,
+        totalInRegistry
+      })
+    }
+  }
+
 }
 
 DomainsFilterPanel.propTypes = {
