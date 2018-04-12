@@ -4,7 +4,7 @@ import { Button } from 'semantic-ui-react'
 import Tooltip from '../Tooltip'
 import './DomainPendingContainer.css'
 import registry from '../../services/registry'
-import toastr from 'toastr'
+// import toastr from 'toastr'
 import PubSub from 'pubsub-js'
 
 class DomainPendingContainer extends Component {
@@ -58,7 +58,6 @@ class DomainPendingContainer extends Component {
       await PubSub.publish('DomainProfileStageMap.updateStageMap')
     } catch (error) {
       console.error(error)
-      toastr.error('There was an error updating domain')
     }
   }
 }

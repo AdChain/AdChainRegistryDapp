@@ -296,10 +296,10 @@ class GovernanceVoteRevealContainer extends Component {
         //   window.location.reload()
         // }, 2e3)
       } else {
-        toastr.error('Reveal did not go through')
+        // toastr.error('Reveal did not go through')
       }
     } catch (error) {
-      toastr.error('There was an error with your request')
+      PubSub.publish('TransactionProgressModal.error')
     }
   }
 

@@ -90,20 +90,18 @@ class WithdrawVotingRightsContainer extends Component {
 
   async withdrawTokens () {
     const {availableTokens} = this.state
-    
+
     try {
       let transactionInfo = {
-      src: 'withdraw_voting_ADT',
-      title: 'Withdraw Voting ADT'
-    }
+        src: 'withdraw_voting_ADT',
+        title: 'Withdraw Voting ADT'
+      }
       PubSub.publish('TransactionProgressModal.open', transactionInfo)
       console.log('available tokens: ', availableTokens)
       await registry.withdrawVotingRights(availableTokens)
-
-      toastr.success('Success')
     } catch (error) {
       console.error('Withdraw Tokens Error: ', error)
-      toastr.error('There was an error with your request')
+      PubSub.publish('TransactionProgressModal.error')
     }
   }
 }

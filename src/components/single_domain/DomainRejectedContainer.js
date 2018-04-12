@@ -4,7 +4,7 @@ import { Button } from 'semantic-ui-react'
 import Tooltip from '../Tooltip'
 import './DomainRejectedContainer.css'
 import registry from '../../services/registry'
-import toastr from 'toastr'
+// import toastr from 'toastr'
 
 class DomainRejectedContainer extends Component {
   constructor (props) {
@@ -59,7 +59,6 @@ class DomainRejectedContainer extends Component {
     } catch (error) {
       try {
         console.log(error)
-        toastr.error('There was an error updating domain')
       } catch (err) {
         console.log(err)
       }

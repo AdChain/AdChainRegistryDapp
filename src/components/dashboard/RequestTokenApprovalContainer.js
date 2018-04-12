@@ -117,9 +117,9 @@ class RequestTokenApprovalContainer extends Component {
       src: 'ADT_approval',
       title: 'ADT Approval'
     }
-    PubSub.publish('TransactionProgressModal.open', transactionInfo)
-
+    
     try {
+      PubSub.publish('TransactionProgressModal.open', transactionInfo)
       await registry.approveTokens(tokenAmount)
       PubSub.publish('TransactionProgressModal.next', transactionInfo)
 
@@ -131,7 +131,7 @@ class RequestTokenApprovalContainer extends Component {
       }
     } catch (error) {
       console.error('Request Token Approval Error: ', error)
-      toastr.error('There was an error with your request')
+      PubSub.publish('TransactionProgressModal.error')
     }
   }
 }

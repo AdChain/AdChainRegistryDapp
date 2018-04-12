@@ -127,6 +127,7 @@ class RegistryService {
         await token.approve(this.address, bigDeposit)
         PubSub.publish('TransactionProgressModal.next', transactionInfo)
       } catch (error) {
+        PubSub.publish('TransactionProgressModal.error')
         throw error
       }
     } else {
@@ -142,6 +143,7 @@ class RegistryService {
       await this.registry.apply(hash, bigDeposit, data)
       PubSub.publish('TransactionProgressModal.next', transactionInfo)
     } catch (error) {
+      PubSub.publish('TransactionProgressModal.error')
       throw error
     }
 
@@ -176,6 +178,7 @@ class RegistryService {
         await token.approve(this.address, bigDeposit)
         PubSub.publish('TransactionProgressModal.next', transactionInfo)
       } catch (error) {
+        PubSub.publish('TransactionProgressModal.error')
         throw error
       }
     } else {
@@ -191,6 +194,7 @@ class RegistryService {
       await this.registry.deposit(domainHash, bigDeposit)
       PubSub.publish('TransactionProgressModal.next', transactionInfo)
     } catch (error) {
+      PubSub.publish('TransactionProgressModal.error')
       throw error
     }
   }
@@ -220,6 +224,7 @@ class RegistryService {
         PubSub.publish('TransactionProgressModal.next', transactionInfo)
       } catch (error) {
         console.error(error)
+        PubSub.publish('TransactionProgressModal.error')
         throw error
       }
     } else {
@@ -236,6 +241,7 @@ class RegistryService {
       PubSub.publish('TransactionProgressModal.next', transactionInfo)
     } catch (error) {
       console.error(error)
+      PubSub.publish('TransactionProgressModal.error')
       throw error
     }
 
@@ -393,7 +399,7 @@ class RegistryService {
 
       return result
     } catch (error) {
-      PubSub.publish('TransactionProgressModal.close')
+      PubSub.publish('TransactionProgressModal.error')
       throw error
     }
   }
@@ -746,6 +752,7 @@ class RegistryService {
 
         resolve()
       } catch (error) {
+        PubSub.publish('TransactionProgressModal.error')
         reject(error)
       }
     })
@@ -779,6 +786,7 @@ class RegistryService {
       PubSub.publish('TransactionProgressModal.next', transactionInfo)
     } catch (error) {
       console.error('request voting rights error: ', error)
+      PubSub.publish('TransactionProgressModal.error')
     }
   }
 
@@ -813,6 +821,7 @@ class RegistryService {
       PubSub.publish('TransactionProgressModal.next', transactionInfo)
     } catch (error) {
       console.error('withdraw voting rights error: ', error)
+      PubSub.publish('TransactionProgressModal.error')
     }
 
     return true
@@ -834,6 +843,7 @@ class RegistryService {
       return res
     } catch (error) {
       console.log('Rescue tokens error: ', error)
+      PubSub.publish('TransactionProgressModal.error')
     }
   }
 
@@ -892,6 +902,7 @@ class RegistryService {
       await this.registry.exit(domainHash)
       PubSub.publish('TransactionProgressModal.next', transactionInfo)
     } catch (error) {
+      PubSub.publish('TransactionProgressModal.error')
       throw error
     }
   }
@@ -924,6 +935,7 @@ class RegistryService {
       await this.registry.withdraw(hash, bigWithdrawAmount)
       PubSub.publish('TransactionProgressModal.next', transactionInfo)
     } catch (error) {
+      PubSub.publish('TransactionProgressModal.error')
       throw error
     }
   }

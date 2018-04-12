@@ -112,6 +112,7 @@ class ParameterizerService {
           await token.approve(this.address, bigDeposit)
           PubSub.publish('TransactionProgressModal.next', transactionInfo)
         } catch (error) {
+          PubSub.publish('TransactionProgressModal.error')
           throw error
         }
       } else {
@@ -127,7 +128,7 @@ class ParameterizerService {
         result = await this.parameterizer.proposeReparameterization(name, value)
         PubSub.publish('TransactionProgressModal.next', transactionInfo)
       } catch (error) {
-        console.error(error)
+        PubSub.publish('TransactionProgressModal.error')
         throw error
       }
     } catch (error) {
@@ -154,6 +155,7 @@ class ParameterizerService {
           await token.approve(this.address, bigDeposit)
           PubSub.publish('TransactionProgressModal.next', transactionInfo)
         } catch (error) {
+          PubSub.publish('TransactionProgressModal.error')
           throw error
         }
       } else {
@@ -170,7 +172,7 @@ class ParameterizerService {
         PubSub.publish('TransactionProgressModal.next', transactionInfo)
         // window.location.reload()
       } catch (error) {
-        console.error(error)
+        PubSub.publish('TransactionProgressModal.error')
         throw error
       }
     } catch (error) {
@@ -205,7 +207,8 @@ class ParameterizerService {
       PubSub.publish('TransactionProgressModal.next', transactionInfo)
       // window.location.reload()
     } catch (error) {
-      console.log('error prop exists')
+      console.error(error)
+      PubSub.publish('TransactionProgressModal.error')
     }
     return result
   }
@@ -474,6 +477,7 @@ class ParameterizerService {
 
         resolve()
       } catch (error) {
+        PubSub.publish('TransactionProgressModal.error')
         reject(error)
       }
     })

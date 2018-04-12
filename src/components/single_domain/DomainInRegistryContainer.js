@@ -251,7 +251,6 @@ class DomainInRegistryContainer extends Component {
         console.log('error reporting gas')
       }
     } catch (error) {
-      toastr.error('There was an error updating status')
       console.error(error)
       try {
         calculateGas({
@@ -308,7 +307,7 @@ class DomainInRegistryContainer extends Component {
       }
     } catch (error) {
       console.error('Domain In Registry Container Withdraw Listing Error: ', error)
-      toastr.error('There was an error with your request')
+      PubSub.publish('TransactionProgressModal.error')
       try {
         calculateGas({
           domain: domain,
@@ -409,8 +408,8 @@ class DomainInRegistryContainer extends Component {
         console.log('error reporting gas')
       }
     } catch (error) {
-      toastr.error('There was an error withdrawing your ADT')
       console.error(error)
+      PubSub.publish('TransactionProgressModal.error')
 
       try {
         calculateGas({

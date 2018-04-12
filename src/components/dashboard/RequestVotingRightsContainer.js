@@ -90,8 +90,6 @@ class RequestVotingRightsContainer extends Component {
       return false
     }
 
-    
-    
     try {
       let transactionInfo = {
         src: 'conversion_to_voting_ADT',
@@ -108,7 +106,7 @@ class RequestVotingRightsContainer extends Component {
       }
     } catch (error) {
       console.log('Error requesting voting rights: ', error)
-      toastr.error('There was an error with your request')
+      PubSub.publish('TransactionProgressModal.error')
     }
   }
 

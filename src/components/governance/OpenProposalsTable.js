@@ -163,13 +163,18 @@ class OpenProposalsTable extends Component {
       action.class = 'ui mini button greyblack refresh'
       action.label = 'REFRESH STATUS'
       proposal.stage = 'InApplication'
-      action.event = () => { 
-        let transactionInfo = {
-          src: 'proposal_refresh',
-          title: 'Refresh'
+      action.event = () => {
+        try {
+          let transactionInfo = {
+            src: 'proposal_refresh',
+            title: 'Refresh'
+          }
+          PubSub.publish('TransactionProgressModal.open', transactionInfo)
+          ParamterizerService.processProposal(propId)
+        } catch (error) {
+          console.error(error)
+          PubSub.publish('TransactionProgressModal.error')
         }
-        PubSub.publish('TransactionProgressModal.open', transactionInfo)
-        ParamterizerService.processProposal(propId) 
       }
     } else {
       action.class = 'ui mini button hide'

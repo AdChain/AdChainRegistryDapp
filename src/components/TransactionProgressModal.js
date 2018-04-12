@@ -24,6 +24,7 @@ class TransactionProgressModal extends Component {
     this.open = this.open.bind(this)
     this.next = this.next.bind(this)
     this.close = this.close.bind(this)
+    this.error = this.error.bind(this)
   }
 
   next (topic, transactionInfo) {
@@ -52,6 +53,14 @@ class TransactionProgressModal extends Component {
     })
   }
 
+  error () {
+    this.setState({
+      src: 'error',
+      title: 'Transaction Failed!',
+      transactionComplete: true
+    })
+  }
+
   open (topic, transactionInfo) {
     console.log('info: ', transactionInfo)
     this.setState({
@@ -68,6 +77,7 @@ class TransactionProgressModal extends Component {
     this.openEvent = PubSub.subscribe('TransactionProgressModal.open', this.open)
     this.nextEvent = PubSub.subscribe('TransactionProgressModal.next', this.next)
     this.closeEvent = PubSub.subscribe('TransactionProgressModal.close', this.close)
+    this.errorEvent = PubSub.subscribe('TransactionProgressModal.error', this.error)
   }
 
   render () {
@@ -502,6 +512,20 @@ class TransactionProgressModal extends Component {
     </ol>
   </div>
         }
+      ],
+      error:
+      [
+        {
+          content:
+  <div className='transaction-content'>
+    <p><b>This is because either:</b></p>
+    <ol className='transaction-content-list'>
+      <li className='activeStep'>Someone has completed the transaction you are attempting</li>
+      <li className='activeStep'>You are attempting to fund an action you don't have enough token to complete</li>
+      <li className='activeStep'>You have failed to input data to complete the transaction</li>
+    </ol>
+  </div>
+        }
       ]
     }
 
@@ -516,14 +540,18 @@ class TransactionProgressModal extends Component {
         <div className='LoadingIconContainer'>
           {
             transactionComplete
-              ? <Icon name='check circle' size='huge' className='CheckCircle' />
+              ? src === 'error'
+                ? <Icon name='remove' size='huge' className='ErrorIcon' />
+                : <Icon name='check circle' size='huge' className='CheckCircle' />
               : <Loader indeterminate active inline='centered' />
           }
         </div>
         <Modal.Header className='TransactionProgressHeader'>
           {
             transactionComplete
-              ? <span>{title} Successful!</span>
+              ? src === 'error'
+                ? <span>{title}</span>
+                : <span>{title} Successful!</span>
               : <span>{title} in Progress</span>
           }
         </Modal.Header>
@@ -532,7 +560,7 @@ class TransactionProgressModal extends Component {
             <Steps current={current}>
               {
                 // possibly remove step icons once transaction complete
-                src
+                src && src !== 'error'
                   ? this.steps[src].map((item, idx) => <Step key={idx} status={status} />)
                   : null
               }

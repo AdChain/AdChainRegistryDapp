@@ -4,7 +4,7 @@ import ReactTable from 'react-table'
 import Tooltip from '../Tooltip'
 import commafy from 'commafy'
 import moment from 'moment'
-import toastr from 'toastr'
+// import toastr from 'toastr'
 import 'react-table/react-table.css'
 import './DomainsTable.css'
 
@@ -377,11 +377,7 @@ class DomainsTable extends Component {
         console.log('error reporting gas')
       }
     } catch (error) {
-      try {
-        toastr.error('Update Error')
-      } catch (err) {
-        console.log(err)
-      }
+      console.error(error)
       try {
         calculateGas({
           domain: domain,

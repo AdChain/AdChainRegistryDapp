@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Button } from 'semantic-ui-react'
 import registry from '../../services/registry'
-import toastr from 'toastr'
+// import toastr from 'toastr'
 import Tooltip from '../Tooltip'
 import PubSub from 'pubsub-js'
 
@@ -67,13 +67,11 @@ class UserRewardsToClaim extends Component {
   }
 
   async claimReward (challengeId, salt, domain) {
-    
     try {
-
       let transactionInfo = {
-      src: 'claim_reward',
-      title: 'Claim Reward'
-    }
+        src: 'claim_reward',
+        title: 'Claim Reward'
+      }
 
       PubSub.publish('TransactionProgressModal.open', transactionInfo)
       await registry.claimReward(challengeId, salt)
@@ -83,7 +81,7 @@ class UserRewardsToClaim extends Component {
       document.getElementById(domain + 'Button').className += ' disabled'
     } catch (error) {
       console.error(error)
-      toastr.error('There was an error claiming your reward')
+      PubSub.publish('TransactionProgressModal.error')
     }
   }
 }

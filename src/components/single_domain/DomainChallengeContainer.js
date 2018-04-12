@@ -180,7 +180,6 @@ class DomainChallengeContainer extends Component {
         console.log('error reporting gas')
       }
     } catch (error) {
-      toastr.error('There was an error updating domain status')
       console.error(error)
       try {
         calculateGas({

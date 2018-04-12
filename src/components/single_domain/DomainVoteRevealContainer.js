@@ -341,7 +341,7 @@ class DomainVoteRevealContainer extends Component {
       }
     } catch (error) {
       console.error('Reveal Error: ', error)
-      toastr.error('There was an error with your request')
+      PubSub.publish('TransactionProgressModal.error')
     }
   }
 

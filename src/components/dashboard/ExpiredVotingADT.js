@@ -126,13 +126,14 @@ class ExpiredVotingADT extends Component {
       src: 'unlock_expired_ADT',
       title: 'Unlock Expired ADT'
     }
-    PubSub.publish('TransactionProgressModal.open', transactionInfo)
     try {
+      PubSub.publish('TransactionProgressModal.open', transactionInfo)
       let res = await registry.rescueTokens(pollId)
       this.init()
       return res
     } catch (error) {
       console.log('error: ', error)
+      PubSub.publish('TransactionProgressModal.error')
     }
   }
 }

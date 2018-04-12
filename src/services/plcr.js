@@ -181,6 +181,7 @@ class PlcrService {
           await token.approve(this.address, requiredVotes)
           PubSub.publish('TransactionProgressModal.next', transactionInfo)
         } catch (error) {
+          PubSub.publish('TransactionProgressModal.error')
           reject(error)
           return false
         }
@@ -189,6 +190,7 @@ class PlcrService {
           await this.plcr.requestVotingRights(requiredVotes)
           PubSub.publish('TransactionProgressModal.next', transactionInfo)
         } catch (error) {
+          PubSub.publish('TransactionProgressModal.error')
           reject(error)
           return false
         }
@@ -214,6 +216,7 @@ class PlcrService {
         resolve(result)
         return false
       } catch (error) {
+        PubSub.publish('TransactionProgressModal.error')
         reject(error)
         return false
       }
@@ -233,6 +236,7 @@ class PlcrService {
 
         resolve()
       } catch (error) {
+        PubSub.publish('TransactionProgressModal.error')
         reject(error)
         return false
       }
