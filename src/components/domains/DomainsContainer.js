@@ -134,7 +134,9 @@ class DomainsContainer extends Component {
     )
   }
 
-  // This function get passed down as props to DomainFiltersPanel.js
+  // If you want to create/remove a filter, code pertaining to the domain
+  // filters is located here, DomainsFilterPanel, and bottom of DomainsTable.
+  // This function get passed down as props to DomainFiltersPanel.js.
   onQueryChange (query) {
     const url = window.location.href
     const newQuery = updateQuery(url, query)
