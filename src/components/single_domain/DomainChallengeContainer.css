@@ -171,3 +171,13 @@
   font-size: 12px;
   line-height: 17px;
 }
+:root:root:root .ProposalChallengeContainer .HeaderColumn {
+  padding-top: 0px;
+}
+
+:root:root:root .ProposalChallengeContainer .HeaderRow span {
+  background-color: #F4F7FA;
+  border-radius: 3px;
+  padding: 10px 20px;
+  font-weight: 500;
+}
