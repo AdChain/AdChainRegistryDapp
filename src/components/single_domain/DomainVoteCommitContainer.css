@@ -26,7 +26,9 @@
 
 .DomainVoteCommitContainer .HeaderRow {
   padding-top: 10px;
-  font-family: "Open Sans", sans-serif !important
+  font-family: "Open Sans", sans-serif !important;
+  justify-content: space-between;
+  display: flex;
 }
 .DomainVoteCommitContainer .HeaderRow .ui.large.header,
 .DomainVoteCommitContainer p {
@@ -206,4 +208,11 @@
 .SubmitMessage {
   padding-top: 5px;
   font-size: 10px;
+}
+
+:root:root:root .GovernanceVoteCommitContainer .HeaderRow span {
+  background-color: #F4F7FA;
+  border-radius: 3px;
+  padding: 10px 20px;
+  font-weight: 600;
 }

@@ -834,16 +834,18 @@ class RegistryService {
 
   async rescueTokens (pollId) {
     try {
-      let res = await plcr.rescueTokens(pollId)
       let transactionInfo = {
         src: 'unlock_expired_ADT',
         title: 'Unlock Expired ADT'
       }
+      PubSub.publish('TransactionProgressModal.open', transactionInfo)
+      let res = await plcr.rescueTokens(pollId)
       PubSub.publish('TransactionProgressModal.next', transactionInfo)
       return res
     } catch (error) {
       console.log('Rescue tokens error: ', error)
       PubSub.publish('TransactionProgressModal.error')
+      throw error
     }
   }
 

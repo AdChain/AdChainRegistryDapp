@@ -334,6 +334,7 @@ class PlcrService {
       return res
     } catch (error) {
       console.log('Rescue tokens error: ', error)
+      throw error
     }
   }
 

@@ -25,6 +25,8 @@
 
 .DomainVoteRevealContainer .HeaderRow {
   padding-top: 10px;
+  display: flex;
+  justify-content: space-between;
 }
 
 :root:root:root .DomainVoteRevealContainer .LeftSegment {
@@ -209,5 +211,12 @@
   padding-right: 15px;
   padding-top: 5px;
   padding-bottom: 5px;
+  font-weight: 600;
+}
+
+:root:root:root .GovernanceVoteRevealContainer .HeaderRow span {
+  background-color: #F4F7FA;
+  border-radius: 3px;
+  padding: 10px 20px;
   font-weight: 600;
 }

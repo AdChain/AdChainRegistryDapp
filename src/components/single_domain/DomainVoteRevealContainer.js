@@ -200,7 +200,7 @@ class DomainVoteRevealContainer extends Component {
                 </div>
                 : <div className='RevealedDataContainer'>
                   <div className='RevealedVoteOption'>
-                  You voted to <span>{revealedVoteOption}</span> the parameter proposal with
+                  You voted to <span>{revealedVoteOption}</span> this domain with
                   </div>
                   <div className='RevealedAmount'>
                     {revealedAmount} ADT
