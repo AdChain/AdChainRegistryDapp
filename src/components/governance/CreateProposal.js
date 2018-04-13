@@ -124,9 +124,11 @@ class CreateProposal extends Component {
 
     let result
     try {
+      console.log('inside submit try')
       // hit parameterizer contract for creating a new proposal
       let proposalValue = this.formatProposedValue(this.state.proposalParam, this.state.proposalValue)
       result = await ParameterizerService.proposeReparameterization(this.state.rawCurrentMinDeposit, this.state.proposalParam, proposalValue)
+      console.log('after result try')
 
       // if (!result) {
       //   // remove loading over box
