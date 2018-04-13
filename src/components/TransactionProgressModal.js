@@ -62,7 +62,7 @@ class TransactionProgressModal extends Component {
   }
 
   open (topic, transactionInfo) {
-    console.log('info: ', transactionInfo)
+    // console.log('info: ', transactionInfo)
     this.setState({
       open: true,
       src: transactionInfo.src,

@@ -94,7 +94,6 @@ class ParameterizerService {
   }
 
   async proposeReparameterization (deposit, name, value) {
-    console.log('hit')
     let result
     if (!name || !value) { console.log('name or value missing'); return }
     try {

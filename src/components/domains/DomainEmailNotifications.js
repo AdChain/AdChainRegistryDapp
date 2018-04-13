@@ -64,7 +64,7 @@ class DomainEmailNotifications extends Component {
     try {
       let res = await axios.get('https://api.governx.org/notify', { params: {
         network: 'rinkeby',
-        organization: '0xb3844afab28f2e65a13e570c12ed4dc244cb7d4b',
+        organization: '0x5a7e9046edadc58bb94f8c18c68856ff83f7ec4d',
         email: this.state.email,
         url: 'https://metax.io'
       }})
