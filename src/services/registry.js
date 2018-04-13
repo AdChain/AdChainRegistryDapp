@@ -115,7 +115,7 @@ class RegistryService {
     let allowed = await (await token.allowance(this.account, this.address)).toString(10)
 
     let transactionInfo = {}
-    if (allowed < bigDeposit) {
+    if (Number(allowed) < Number(bigDeposit)) {
       // if what you pre approved is less than the min deposit
       // open not approved adt modal
       transactionInfo = {
@@ -212,7 +212,7 @@ class RegistryService {
     const minDepositAdt = minDeposit.mul(tenToTheNinth)
 
     let transactionInfo = {}
-    if (allowed < minDeposit) {
+    if (Number(allowed) < Number(minDeposit)) {
       // open not approved adt challenge modal
       try {
         transactionInfo = {
@@ -536,7 +536,6 @@ class RegistryService {
 
     try {
       const hash = saltHashVote(voteOption, salt)
-
       let transactionInfo = {
         src: 'vote',
         title: 'vote'

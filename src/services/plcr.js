@@ -167,12 +167,10 @@ class PlcrService {
       }
 
       const voteTokenBalance = (await this.plcr.voteTokenBalance(this.getAccount())).toString(10)
-      console.log('vote token balance: ', voteTokenBalance)
-      console.log('tokens: ', tokens)
       const requiredVotes = (tokens - voteTokenBalance)
       let transactionInfo = {}
 
-      if (requiredVotes >= 0) {
+      if (requiredVotes > 0) {
         // this means that you submitted more votes than your existing voting rights
         transactionInfo = {
           src: 'not_approved_' + transactionSrc.src,
@@ -187,7 +185,6 @@ class PlcrService {
           reject(error)
           return false
         }
-        console.log('required votes: ', requiredVotes)
         try {
           await this.plcr.requestVotingRights(requiredVotes)
           PubSub.publish('TransactionProgressModal.next', transactionInfo)
