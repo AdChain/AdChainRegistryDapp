@@ -379,6 +379,8 @@ class DomainVoteRevealContainer extends Component {
             newState.revealedAmount = big(eachDomain.num_tokens).div(tenToTheNinth).words[0]
           }
         })
+
+        //need to confirm that it re-renders 
         this.setState(newState)
         PubSub.publish('DomainVoteTokenDistribution.getPoll')     
       } else {
