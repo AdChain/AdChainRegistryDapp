@@ -52,13 +52,23 @@ class GovernanceRewardsTable extends Component {
           <div key={name + i} className='ParameterRow'>
             <span key={name + i} className={color}>{allParameterData[name].name}</span>
             {
-              !this.state.claimProgress
-                ? <span key={i} className='ui button green' onClick={() => { this.claimReward(rewards[i].challenge_id, rewards[i].salt) }} style={{padding: '0.571429em 1.2em'}}>CLAIM</span>
-                : this.state.claimProgress !== 'SUCCESS'
-                  ? <span key={i} className='ui green loader inline mini active' style={{padding: '.571429em 5em .571429em 0', float: 'right'}} />
-                  : <span key={i} style={{float: 'right', color: 'green'}}>
-                  Claimed <i className='icon check circle' style={{color: 'green', fontSize: '13px'}} />
+              !this.state.claimProgress && rewards[i].status === "unclaimed"
+                ? 
+                <span key={i} className='ui button green' onClick={() => { this.claimReward(rewards[i].challenge_id, rewards[i].salt) }} style={{padding: '0.571429em 1.2em'}}>CLAIM</span>
+                :
+                rewards[i].status === "claimed" 
+                ?
+                  <span key={i} style={{float: 'right', color: 'green'}}>
+                    Claimed <i className='icon check circle' style={{color: 'green', fontSize: '13px'}} />
                   </span>
+                  :
+                  this.state.claimProgress !== 'SUCCESS'
+                    ? 
+                    <span key={i} className='ui green loader inline mini active' style={{padding: '.571429em 5em .571429em 0', float: 'right'}} />
+                    : 
+                    <span key={i} style={{float: 'right', color: 'green'}}>
+                      Claimed <i className='icon check circle' style={{color: 'green', fontSize: '13px'}} />
+                    </span>
             }
           </div>
         )
