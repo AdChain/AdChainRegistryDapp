@@ -190,9 +190,11 @@ class AccountDashboard extends Component {
     } catch (error) {
       console.error(error)
       toastr.error('Error getting data for applied domains')
-      this.setState({
-        appliedDomains: []
-      })
+      if (this._isMounted) {
+        this.setState({
+          appliedDomains: []
+        })
+      }
     }
   }
 
@@ -226,9 +228,11 @@ class AccountDashboard extends Component {
     } catch (error) {
       console.error(error)
       toastr.error('Error getting data for challenged domains')
-      this.setState({
-        challengedDomains: []
-      })
+      if (this._isMounted) {
+        this.setState({
+          challengedDomains: []
+        })
+      }
     }
   }
 
@@ -241,22 +245,26 @@ class AccountDashboard extends Component {
     try {
       const response = await window.fetch(`${url}/account/rewards?account=${account}&status=revealing`)
       const data = await response.json()
+        if (this._isMounted) {
 
       if (!data.error) {
         this.setState({
           commitsToReveal: data
         })
-      } else {
-        this.setState({
-          commitsToReveal: []
-        })
+        } else {
+          this.setState({
+            commitsToReveal: []
+          })
+        }
       }
     } catch (error) {
       console.error(error)
       toastr.error('Error getting data for domains to reveal')
-      this.setState({
-        commitsToReveal: []
-      })
+      if (this._isMounted) {
+        this.setState({
+          commitsToReveal: []
+        })
+      }
     }
   }
 
@@ -274,21 +282,25 @@ class AccountDashboard extends Component {
         let reward = await registry.calculateVoterReward(data[i].sender, data[i].challenge_id, data[i].salt)
         data[i].reward = big(reward).div(tenToTheNinth).words[0]
       }
-      if (!data.error) {
-        this.setState({
-          rewards: data
-        })
-      } else {
-        this.setState({
-          rewards: []
-        })
+      if (this._isMounted) {
+        if (!data.error) {
+          this.setState({
+            rewards: data
+          })
+        } else {
+          this.setState({
+            rewards: []
+          })
+        }
       }
     } catch (error) {
       console.error(error)
       toastr.error('Error getting data for rewards to claim')
-      this.setState({
-        rewards: []
-      })
+      if (this._isMounted) {
+        this.setState({
+          rewards: []
+        })
+      }
     }
   }
 }

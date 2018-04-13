@@ -124,6 +124,8 @@ class ParameterizerService {
         PubSub.publish('TransactionProgressModal.open', transactionInfo)
       }
       try {
+        console.log(deposit, name, value, bigDeposit, allowed)
+
         result = await this.parameterizer.proposeReparameterization(name, value)
         PubSub.publish('TransactionProgressModal.next', transactionInfo)
       } catch (error) {
