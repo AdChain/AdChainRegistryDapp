@@ -41,9 +41,14 @@ class DomainsFilterPanel extends Component {
   }
 
   componentWillReceiveProps (props) {
-    this.setState({
-      filters: props.filters
-    })
+    if (this._isMounted) {
+      this.setState({
+        filters: props.filters
+      })
+    }
+  }
+  componentWillUnmount(){
+    this._isMounted = false
   }
 
 
@@ -177,8 +182,12 @@ class DomainsFilterPanel extends Component {
     const {name} = target
     const {filters} = this.state
     filters[name] = target.value
-    this.setState(filters)
+    
+    if (this._isMounted) {  
+      this.setState(filters)
+    }
     this.onFiltersChange(filters)
+  
   }
 
   onFilterChange (event) {
@@ -188,9 +197,9 @@ class DomainsFilterPanel extends Component {
 
     const {filters} = this.state
     filters[name] = checked
-
-    this.setState(filters)
-
+    if (this._isMounted) {
+      this.setState(filters)
+    }
     this.onFiltersChange(filters)
   }
 
@@ -206,8 +215,9 @@ class DomainsFilterPanel extends Component {
       rejected: false,
       withdrawn: false
     }
-
-    this.setState({filters})
+    if (this._isMounted) {
+      this.setState({filters})
+    }
     this.onFiltersChange(filters)
 
     // TODO: react way of reseting defaultValue to null

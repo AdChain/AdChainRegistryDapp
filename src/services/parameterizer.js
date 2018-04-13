@@ -99,7 +99,6 @@ class ParameterizerService {
     try {
       const bigDeposit = big(deposit).mul(tenToTheNinth).toString(10)
       const allowed = await (await token.allowance(this.account, this.address)).toString('10')
-
       let transactionInfo = {}
       if (allowed < bigDeposit) {
         // open not approved adt modal
@@ -125,6 +124,8 @@ class ParameterizerService {
       }
 
       try {
+        console.log(deposit, name, value, bigDeposit, allowed)
+
         result = await this.parameterizer.proposeReparameterization(name, value)
         PubSub.publish('TransactionProgressModal.next', transactionInfo)
       } catch (error) {

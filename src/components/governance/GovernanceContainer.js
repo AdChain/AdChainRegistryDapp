@@ -62,10 +62,13 @@ class GovernanceContainer extends Component {
       console.log(error)
     }
   }
-
+  componentDidMount () {
+    this._isMounted = true
+  }
   componentWillUnmount () {
     // Unsubscribe from event once unmounting
     PubSub.unsubscribe(this.subEvent)
+    this._isMounted = false
   }
 
   render () {
@@ -110,9 +113,11 @@ class GovernanceContainer extends Component {
   getAccount () {
     if (!this.state.account) {
       const account = registry.getAccount()
-      this.setState({
-        account
-      })
+      if (this._isMounted) {
+        this.setState({
+          account
+        })
+      }
     }
   }
 
@@ -133,10 +138,12 @@ class GovernanceContainer extends Component {
             }
           }
           // console.log("proposals:", proposals)
-          this.setState({
-            currentProposals: proposals,
-            currentProposalsLoading: false
-          })
+          if (this._isMounted) {
+            this.setState({
+              currentProposals: proposals,
+              currentProposalsLoading: false
+            })
+          }
         })
     } catch (error) {
       console.log('error: ', error)
@@ -196,10 +203,11 @@ class GovernanceContainer extends Component {
           data[i].reward = big(reward).div(tenToTheNinth).words[0]
         }
       }
-
-      this.setState({
-        rewards: data
-      })
+      if (this._isMounted) {
+        this.setState({
+          rewards: data
+        })
+      }
     }
   }
 }
