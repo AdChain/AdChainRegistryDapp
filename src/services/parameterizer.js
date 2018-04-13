@@ -472,7 +472,7 @@ class ParameterizerService {
           title: 'Claim Governance Reward'
         }
 
-        await this.parameterizer.claimVoterReward(challengeId, salt)
+        await this.parameterizer.claimReward(challengeId, salt)
         PubSub.publish('TransactionProgressModal.next', transactionInfo)
 
         resolve()

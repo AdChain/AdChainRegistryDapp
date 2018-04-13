@@ -53,7 +53,7 @@ class GovernanceRewardsTable extends Component {
             <span key={name + i} className={color}>{allParameterData[name].name}</span>
             {
               !this.state.claimProgress
-                ? <span key={i} className='ui button green' onClick={() => { this.claimReward(rewards[i]) }} style={{padding: '0.571429em 1.2em'}}>CLAIM</span>
+                ? <span key={i} className='ui button green' onClick={() => { this.claimReward(rewards[i].challenge_id, rewards[i].salt) }} style={{padding: '0.571429em 1.2em'}}>CLAIM</span>
                 : this.state.claimProgress !== 'SUCCESS'
                   ? <span key={i} className='ui green loader inline mini active' style={{padding: '.571429em 5em .571429em 0', float: 'right'}} />
                   : <span key={i} style={{float: 'right', color: 'green'}}>
@@ -70,7 +70,7 @@ class GovernanceRewardsTable extends Component {
     }
   }
 
-  async claimReward ({challenge_id, salt}) {
+  async claimReward (challenge_id, salt) {
     try {
       let transactionInfo = {
         src: 'claim_governance_reward',
