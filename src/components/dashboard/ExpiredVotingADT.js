@@ -2,7 +2,6 @@ import React, {Component} from 'react'
 import Tooltip from '../Tooltip'
 import registry from '../../services/registry'
 import toastr from 'toastr'
-import PubSub from 'pubsub-js'
 
 class ExpiredVotingADT extends Component {
   constructor () {

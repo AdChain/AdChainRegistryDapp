@@ -167,6 +167,8 @@ class PlcrService {
       }
 
       const voteTokenBalance = (await this.plcr.voteTokenBalance(this.getAccount())).toString(10)
+      console.log('vote token balance: ', voteTokenBalance)
+      console.log('tokens: ', tokens)
       const requiredVotes = (tokens - voteTokenBalance)
       let transactionInfo = {}
 
@@ -185,7 +187,7 @@ class PlcrService {
           reject(error)
           return false
         }
-
+        console.log('required votes: ', requiredVotes)
         try {
           await this.plcr.requestVotingRights(requiredVotes)
           PubSub.publish('TransactionProgressModal.next', transactionInfo)
@@ -316,14 +318,16 @@ class PlcrService {
   }
 
   async hasBeenRevealed (voter, pollId) {
-    try {
-      const response = await window.fetch(`https://adchain-registry-api-staging.metax.io/plcr/has_revealed?account=${voter}&poll_id=${pollId}`)
-      const data = await response.json()
-
-      return data
-    } catch (error) {
-      console.error('plcr has been revealed: error', error)
-    }
+    return new Promise(async (resolve, reject) => {
+      try {
+        const result = await this.plcr.didReveal(voter, pollId)
+        // const response = await window.fetch(`https://adchain-registry-api-staging.metax.io/plcr/has_revealed?account=${voter}&poll_id=${pollId}`)
+        // const data = await response.json()
+        resolve(result)
+      } catch (error) {
+        reject(error)
+      }
+    })
   }
 
   async rescueTokens (pollId) {

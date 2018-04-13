@@ -161,8 +161,8 @@ class DomainVoteRevealContainer extends Component {
                         <span className='VoteRevealLabelText'>
                     Challenge ID:
                         </span>
-                        <Input id='DomainVoteRevealChallengeIdInput' 
-                          value={this.state.challengeId} 
+                        <Input id='DomainVoteRevealChallengeIdInput'
+                          value={this.state.challengeId}
                           className='VoteRevealInput' />
                       </div>
                       <div className='VoteRevealLabel'>
@@ -274,25 +274,27 @@ class DomainVoteRevealContainer extends Component {
 
     try {
       const didReveal = await registry.didReveal(domain)
+      await this.getPoll()
       if (didReveal) {
-        const response = await window.fetch(`http://adchain-registry-api-staging.metax.io/account/rewards?account=${account}&status=revealed`)
+        const response = await window.fetch(`https://adchain-registry-api-staging.metax.io/account/rewards?account=${account}&status=revealed`)
         const data = await response.json()
+        console.log('response: ', data)
         data.forEach(eachDomain => {
           if (domain === eachDomain.domain) {
             this.setState({
               revealedVoteOption: eachDomain.choice === 1 ? 'support' : 'oppose',
-              revealedAmount: big(eachDomain.num_tokens).div(tenToTheNinth)
+              revealedAmount: big(eachDomain.num_tokens).div(tenToTheNinth),
+              didReveal: didReveal
             })
           }
         })
       }
 
-
-      if (this._isMounted) {
-        this.setState({
-          didReveal: didReveal
-        })
-      }
+      // if (this._isMounted) {
+      //   this.setState({
+      //     didReveal: didReveal
+      //   })
+      // }
     } catch (error) {
       console.error('Get Reveal Error: ', error)
       toastr.error('There was an error getting reveal')
@@ -368,9 +370,8 @@ class DomainVoteRevealContainer extends Component {
       const revealed = await registry.revealVote({domain, voteOption, salt})
       if (revealed) {
         // toastr.success('Successfully revealed')
-        this.setState({
-          didReveal: true
-        })
+        await this.getReveal()
+        PubSub.publish('DomainVoteTokenDistribution.getPoll')
       } else {
         setTimeout(() => {
           this.getReveal().then(
