@@ -382,7 +382,6 @@ class DomainVoteCommitContainer extends Component {
 
     try {
       const committed = await registry.commitVote({domain, votes, voteOption, salt})
-      console.log('committed: ', committed)
       if (committed) {
         // toastr.success('Successfully committed')
         await this.getCommit()

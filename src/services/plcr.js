@@ -232,7 +232,7 @@ class PlcrService {
         }
         PubSub.publish('TransactionProgressModal.open', transactionInfo)
         const result = await this.plcr.revealVote(pollId, voteOption, salt)
-        setTimeout(PubSub.publish('TransactionProgressModal.next', transactionInfo), 6e3)
+        setTimeout(PubSub.publish('TransactionProgressModal.next', transactionInfo), 8e3)
 
         store.dispatch({
           type: 'PLCR_VOTE_REVEAL',

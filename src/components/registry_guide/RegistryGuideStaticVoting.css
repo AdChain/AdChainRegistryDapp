@@ -83,6 +83,7 @@
 .ui.horizontal.segments {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
 }
 :root:root:root .RegistryGuideStaticVoting .SegmentOne {
   padding-right: 0;

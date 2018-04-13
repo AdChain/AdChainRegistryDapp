@@ -29,6 +29,7 @@ class TransactionProgressModal extends Component {
 
   next (topic, transactionInfo) {
     let src = transactionInfo.src
+    console.log('src: ', src)
     const current = this.state.current + 1
     if (this.steps[src][current]) {
       this.setState({
@@ -56,6 +57,7 @@ class TransactionProgressModal extends Component {
   error () {
     this.setState({
       src: 'error',
+      current: 0,
       title: 'Transaction Failed!',
       transactionComplete: true
     })

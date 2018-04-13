@@ -74,6 +74,7 @@ class DomainEmailNotifications extends Component {
         })
       }
     } catch (error) {
+      toastr.error('There was an error subscribing to email notifications')
       console.log(error)
     }
   }

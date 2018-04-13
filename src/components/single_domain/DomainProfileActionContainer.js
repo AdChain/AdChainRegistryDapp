@@ -70,7 +70,7 @@ class DomainProfileActionContainer extends Component {
     return (
       <div className='OuterDomainProfileActionContainer'>
         <div className='DomainProfileActionContainer BoxFrame'>
-          {component}
+          { component }
         </div>
       </div>
     )
