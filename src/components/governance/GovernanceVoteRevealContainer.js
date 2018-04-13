@@ -98,7 +98,7 @@ class GovernanceVoteRevealContainer extends Component {
           <div className='column sixteen wide center aligned'>
             <div>
               <p>
-            Reveal stage ends
+                Reveal stage ends
               </p>
               <p><strong>{stageEnd}</strong></p>
               <div>Remaining time: <Countdown
@@ -285,7 +285,6 @@ class GovernanceVoteRevealContainer extends Component {
 
     try {
       const revealed = await ParameterizerService.revealVote({challengeId, propId, voteOption, salt})
-      console.log('revealed: ', revealed)
       if (revealed) {
         // toastr.success('Successfully revealed')
 
