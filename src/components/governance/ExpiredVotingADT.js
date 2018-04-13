@@ -51,68 +51,27 @@ class ExpiredVotingADT extends Component {
   }
 
   async getExpiredDomainData () {
-    let committed = await this.getCommitted()
-    let revealed = await this.getRevealed()
-    // Determine which have not been revealed.
-    committed.map((com, i) => {
-      return revealed.map((rev, j) => {
-        if (rev.domain === com.domain) {
-          committed.splice(i, 1)
-          revealed.splice(i, 1)
-        }
-        return true
-      })
-    })
-
-    let expiredDomainData = await this.filterByStage(committed)
-    let totalExpiredTokens = this.getSum(expiredDomainData)
+    let unrevealed = await getUnrevealed()
 
     return {
-      totalExpiredTokens,
+      totalExpiredTokens: getSum(unrevealed),
       expiredDomainData,
       selectedPoll: expiredDomainData[0] ? expiredDomainData[0].pollID : null
     }
   }
 
-  async getCommitted () {
-    let committed = await (await window.fetch(`https://adchain-registry-api-staging.metax.io/registry/domains?account=${this.props.account}&include=committed`)).json()
-    return committed
-  }
-
-  async getRevealed () {
-    let revealed = await (await window.fetch(`https://adchain-registry-api-staging.metax.io/registry/domains?account=${this.props.account}&include=revealed`)).json()
+  async getUnrevealed () {
+    let revealed = await (await window.fetch(`https://adchain-registry-api-staging.metax.io/registry/domains?account=${this.props.account}&include=unrevealed`)).json()
     return revealed
   }
 
-  async filterByStage (possibleUnrevealed) {
-    // Map over unrevealed to determine the stage
-    // Returns domains in expired state
-
-    const expiredDomains = await Promise.all(possibleUnrevealed.map(async x => {
-      try {
-        // const listing = await registry.getListing(x.domain)
-        const inCommit = await registry.commitStageActive(x.domain)
-        const inReveal = await registry.revealStageActive(x.domain)
-        const didReveal = await registry.didRevealForPoll(x.pollID)
-
-        if (inCommit || inReveal || didReveal) return null
-
-        // const listing = await registry.getListing(x.domain)
-        // if (listing.challengeId === 0) return null
-        return { domain: x.domain, pollID: x.pollID }
-
-      } catch (error) {
-        console.log(error)
-      }
-    }))
-    return _.without(expiredDomains, null)
-  }
 
   getSum (domains) {
+    console.log(domains)
     if (domains.length > 0) {
       let sum = 0
       domains.map(x => {
-        sum += Number(x.currentDeposit)
+        sum += Number(x.value)
         return sum
       })
       return (sum / 1000000000).toFixed(0)
