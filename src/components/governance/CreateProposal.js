@@ -209,7 +209,6 @@ class CreateProposal extends Component {
         case 'minDeposit':
         case 'pMinDeposit':
           value = bigTokens
-          console.log('p minDeposit; ', value)
           break
         case 'applyStageLen':
         case 'pApplyStageLen':
