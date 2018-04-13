@@ -10,7 +10,7 @@ class RocketChat extends Component {
       <div>
         <div id='rocket'>
 
-          <iframe title='rocketchat'src='http://chat.adchain.com' height='500' style={{height: '100vh', width: '100%'}} />
+          <iframe title='rocketchat'src='https://chat.adchain.com' height='500' style={{height: '100vh', width: '100%'}} />
 
         </div>
       </div>
