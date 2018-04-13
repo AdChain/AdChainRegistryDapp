@@ -537,7 +537,6 @@ class RegistryService {
     try {
       const hash = saltHashVote(voteOption, salt)
 
-      console.log('hash vote:', hash)
       let transactionInfo = {
         src: 'vote',
         title: 'vote'

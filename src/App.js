@@ -15,8 +15,6 @@ import 'react-joyride/lib/react-joyride-compiled.css'
 import PubSub from 'pubsub-js'
 import TransactionProgressModal from './components/TransactionProgressModal'
 
-import './App.css'
-
 class App extends Component {
   constructor (props) {
     super(props)
