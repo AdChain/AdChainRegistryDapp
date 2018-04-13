@@ -274,27 +274,23 @@ class DomainVoteRevealContainer extends Component {
 
     try {
       const didReveal = await registry.didReveal(domain)
-      await this.getPoll()
+      // await this.getPoll()
       if (didReveal) {
         const response = await window.fetch(`https://adchain-registry-api-staging.metax.io/account/rewards?account=${account}&status=revealed`)
         const data = await response.json()
-        console.log('response: ', data)
+        let newState = {
+          revealedVoteOption: '',
+          revealedAmount: 0,
+          didReveal: true
+        }
         data.forEach(eachDomain => {
           if (domain === eachDomain.domain) {
-            this.setState({
-              revealedVoteOption: eachDomain.choice === 1 ? 'support' : 'oppose',
-              revealedAmount: big(eachDomain.num_tokens).div(tenToTheNinth),
-              didReveal: didReveal
-            })
+            newState.revealedVoteOption = eachDomain.choice === 1 ? 'support' : 'oppose'
+            newState.revealedAmount = big(eachDomain.num_tokens).div(tenToTheNinth).words[0]
           }
         })
+        this.setState(newState)
       }
-
-      // if (this._isMounted) {
-      //   this.setState({
-      //     didReveal: didReveal
-      //   })
-      // }
     } catch (error) {
       console.error('Get Reveal Error: ', error)
       toastr.error('There was an error getting reveal')
@@ -354,7 +350,7 @@ class DomainVoteRevealContainer extends Component {
   }
 
   async reveal () {
-    const {domain, salt, voteOption} = this.state
+    const {domain, salt, voteOption, account} = this.state
 
     if (!salt) {
       toastr.error('Please enter salt value')
@@ -369,9 +365,22 @@ class DomainVoteRevealContainer extends Component {
     try {
       const revealed = await registry.revealVote({domain, voteOption, salt})
       if (revealed) {
-        // toastr.success('Successfully revealed')
         await this.getReveal()
-        PubSub.publish('DomainVoteTokenDistribution.getPoll')
+        const response = await window.fetch(`https://adchain-registry-api-staging.metax.io/account/rewards?account=${account}&status=revealed`)
+        const data = await response.json()
+        let newState = {
+          revealedVoteOption: '',
+          revealedAmount: 0,
+          didReveal: true
+        }
+        data.forEach(eachDomain => {
+          if (domain === eachDomain.domain) {
+            newState.revealedVoteOption = eachDomain.choice === 1 ? 'support' : 'oppose'
+            newState.revealedAmount = big(eachDomain.num_tokens).div(tenToTheNinth).words[0]
+          }
+        })
+        this.setState(newState)
+        PubSub.publish('DomainVoteTokenDistribution.getPoll')     
       } else {
         setTimeout(() => {
           this.getReveal().then(
