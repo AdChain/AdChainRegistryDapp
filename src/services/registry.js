@@ -115,7 +115,7 @@ class RegistryService {
     let allowed = await (await token.allowance(this.account, this.address)).toString(10)
 
     let transactionInfo = {}
-    if (allowed < bigDeposit) {
+    if (Number(allowed) < Number(bigDeposit)) {
       // if what you pre approved is less than the min deposit
       // open not approved adt modal
       transactionInfo = {

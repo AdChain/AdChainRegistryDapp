@@ -94,13 +94,15 @@ class ParameterizerService {
   }
 
   async proposeReparameterization (deposit, name, value) {
+    console.log('hit')
     let result
     if (!name || !value) { console.log('name or value missing'); return }
     try {
       const bigDeposit = big(deposit).mul(tenToTheNinth).toString(10)
       const allowed = await (await token.allowance(this.account, this.address)).toString('10')
       let transactionInfo = {}
-      if (allowed < bigDeposit) {
+
+      if (Number(allowed) < Number(bigDeposit)) {
         // open not approved adt modal
         try {
           transactionInfo = {
@@ -124,8 +126,6 @@ class ParameterizerService {
       }
 
       try {
-        console.log(deposit, name, value, bigDeposit, allowed)
-
         result = await this.parameterizer.proposeReparameterization(name, value)
         PubSub.publish('TransactionProgressModal.next', transactionInfo)
       } catch (error) {
@@ -145,7 +145,7 @@ class ParameterizerService {
       const allowed = await (await token.allowance(this.account, this.address)).toString('10')
 
       let transactionInfo = {}
-      if (allowed < bigDeposit) {
+      if (Number(allowed) < Number(bigDeposit)) {
         // open not approved adt modal
         try {
           transactionInfo = {
