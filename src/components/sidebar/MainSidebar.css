@@ -75,16 +75,17 @@
   margin: unset;
 }
 
-.ui.accordion.menu .item .AccordionArrow {
+:root:root:root .ui.accordion.menu .item .AccordionArrow {
   float: none !important;
   color: #3434CE;
+  transform: rotate(0deg);
 }
 
 :root:root:root .ui.accordion.menu .item .AccordionArrowRotatedHelp,
 :root:root:root .ui.accordion.menu .item .AccordionArrowRotatedSocial  {
   float: none !important;
   color: #3434CE;
-  transform: rotate(-90deg);
+  transform: rotate(90deg);
 }
 
 .ui.sidebar.menu .item .content ul {

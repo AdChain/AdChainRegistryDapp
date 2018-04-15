@@ -108,8 +108,8 @@ class MainSidebar extends Component {
                 onClick={this.handleClick}>
                 <img src={helpLogo} alt='help' />
               Help
+                <i aria-hidden='true' className={this.state.accordionArrow === 'help' ? this.state.helpClicked ? 'dropdown icon AccordionArrowRotatedHelp' : 'dropdown icon AccordionArrow' : 'dropdown icon AccordionArrow'} />
               </Accordion.Title>
-              <i aria-hidden='true' className={this.state.accordionArrow === 'help' ? this.state.helpClicked ? 'dropdown icon AccordionArrowRotatedHelp' : 'dropdown icon AccordionArrow' : 'dropdown icon AccordionArrow'} />
               <Accordion.Content active={activeIndex === 1} content={HelpOptions} />
             </Menu.Item>
             <Menu.Item name='social'>
@@ -119,8 +119,8 @@ class MainSidebar extends Component {
                 onClick={this.handleClick}>
                 <img src={socialLogo} alt='social' />
               Social
+                <i aria-hidden='true' className={this.state.accordionArrow === 'social' ? this.state.socialClicked ? 'dropdown icon AccordionArrowRotatedSocial' : 'dropdown icon AccordionArrow' : 'dropdown icon AccordionArrow'} />
               </Accordion.Title>
-              <i aria-hidden='true' className={this.state.accordionArrow === 'social' ? this.state.socialClicked ? 'dropdown icon AccordionArrowRotatedSocial' : 'dropdown icon AccordionArrow' : 'dropdown icon AccordionArrow'} />
               <Accordion.Content active={activeIndex === 2} content={SocialLinks} />
             </Menu.Item>
           </div>
