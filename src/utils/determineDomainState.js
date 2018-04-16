@@ -140,7 +140,7 @@ const getDomainState = async (domain) => {
       item.actionLabel = 'REFRESH STATUS'
       item.color = 'greyblack'
       item.stageMapSrc = 'MapRevealPending'
-      item.label = 'Reveal - Pending'
+      item.label = <span><i className='icon circle thin' />Reveal - Pending</span>
       item.stage = 'reveal_pending'
 
 // -----------------------------------------

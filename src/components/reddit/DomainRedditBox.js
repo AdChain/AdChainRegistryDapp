@@ -225,7 +225,7 @@ class DomainProfileInfo extends Component {
 
     return (
       <div className='DomainProfileInfo BoxFrame'>
-        <span className='BoxFrameLabel ui grid'>REDDIT DISCUSSION<Tooltip info={'Simple site analytics, provided by Alexa'} /></span>
+        <span className='BoxFrameLabel ui grid'>REDDIT DISCUSSION<Tooltip info={'This Reddit discussion box will display the threads associated with the latest application or challenge of this domain.'} /></span>
         <div className='ui grid stackable'>
           <div className='column sixteen wide' style={{padding: '13px 4px'}}>
             <Tab menu={{ secondary: true, pointing: true }} panes={panes} onTabChange={this.handleTabChange} activeIndex={redditTabIndex} />

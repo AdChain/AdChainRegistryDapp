@@ -58,6 +58,10 @@
 .DashboardFirstCell {
   /* padding-right: 2em; */
   font-weight: 600;
+  max-width: 150px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .DashboardSecondCell {
@@ -84,4 +88,13 @@
   display: flex;
   max-height: 500px;
   align-items: flex-start;
+}
+
+:root:root:root .DashboardTable {
+  border-style: none;
+}
+:root:root:root .DashboardTable thead th {
+  background-color: #FFF;
+  padding-top: 0px;
+  border-bottom: none;
 }

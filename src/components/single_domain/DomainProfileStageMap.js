@@ -65,7 +65,7 @@ class DomainProfileStageMap extends Component {
   render () {
     return (
       <div className='DomainProfileStageMap BoxFrame'>
-        <span className='BoxFrameLabel ui grid'>STAGE MAP: {this.state.domain} <Tooltip info={"A visual map that displays where in the adChain Registry the domain is. The domain's track is highlighted in blue (red if rejected)."} /></span>
+        <span className='BoxFrameLabel ui grid'>STAGE MAP: <span className='DomainName'>{this.state.domain}</span> <Tooltip info={"A visual map that displays where in the adChain Registry the domain is. The domain's track is highlighted in blue (red if rejected)."} /></span>
         <div className='ui grid stackable'>
           <div className='column sixteen wide MapPicture'>
             <object className='stagesvg' type='image/svg+xml' data={this.state.stageMapSrc} aria-label='stageMap' />
