@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import Eth from 'ethjs'
 import toastr from 'toastr'
-import moment from 'moment'
 import commafy from 'commafy'
 import PubSub from 'pubsub-js'
 import PropTypes from 'prop-types'
@@ -9,7 +8,6 @@ import { Button, Input, Segment } from 'semantic-ui-react'
 
 import Tooltip from '../Tooltip'
 import calculateGas from '../../utils/calculateGas'
-import { isExpired } from '../../utils/isExpired'
 
 import registry from '../../services/registry'
 import DomainChallengeContainer from './DomainChallengeContainer'
@@ -62,11 +60,8 @@ class DomainInRegistryContainer extends Component {
       minDeposit,
       canWithdraw,
       currentDeposit,
-      applicationExpiry
     } = this.state
 
-    const stageEndMoment = applicationExpiry ? moment.unix(applicationExpiry) : null
-    const stageEnd = stageEndMoment ? stageEndMoment.format('YYYY-MM-DD HH:mm:ss') : '-'
     const stakedDifference = currentDeposit - minDeposit
     const formattedStakedDifference = stakedDifference ? stakedDifference > 0 ? '+' + commafy(stakedDifference) : commafy(stakedDifference) : 0
     const stakedDifferenceClass = stakedDifference > 0 ? 'StakedDifferencePositive' : stakedDifference < 0 ? 'StakedDifferenceNegative' : 'StakedDifferenceZero'

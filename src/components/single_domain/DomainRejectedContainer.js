@@ -1,13 +1,12 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Button } from 'semantic-ui-react'
 import Tooltip from '../Tooltip'
 import './DomainRejectedContainer.css'
 import registry from '../../services/registry'
 // import toastr from 'toastr'
 
 class DomainRejectedContainer extends Component {
-  constructor (props) {
+  constructor(props) {
     super()
 
     this.state = {
@@ -15,7 +14,7 @@ class DomainRejectedContainer extends Component {
     }
   }
 
-  render () {
+  render() {
     const {
       domain
     } = this.state
@@ -31,13 +30,6 @@ class DomainRejectedContainer extends Component {
                   info='The first phase of the voting process is the commit phase where the ADT holder stakes a hidden amount of votes to SUPPORT or OPPOSE the domain application. The second phase is the reveal phase where the ADT holder reveals the staked amount of votes to either the SUPPORT or OPPOSE side.'
                 />
               </div>
-              {/* <Button
-                basic
-                className='right refresh'
-                onClick={() => this.updateStatus(domain)}
-              >
-                Refresh Status
-              </Button> */}
             </div>
             <div className='ui divider' />
           </div>
@@ -53,7 +45,7 @@ class DomainRejectedContainer extends Component {
     )
   }
 
-  async updateStatus (domain) {
+  async updateStatus(domain) {
     try {
       await registry.updateStatus(domain)
     } catch (error) {
