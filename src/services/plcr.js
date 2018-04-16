@@ -170,7 +170,7 @@ class PlcrService {
       const requiredVotes = (tokens - voteTokenBalance)
       let transactionInfo = {}
 
-      if (requiredVotes >= 0) {
+      if (requiredVotes > 0) {
         // this means that you submitted more votes than your existing voting rights
         transactionInfo = {
           src: 'not_approved_' + transactionSrc.src,
@@ -185,7 +185,6 @@ class PlcrService {
           reject(error)
           return false
         }
-
         try {
           await this.plcr.requestVotingRights(requiredVotes)
           PubSub.publish('TransactionProgressModal.next', transactionInfo)
@@ -232,7 +231,8 @@ class PlcrService {
         }
         PubSub.publish('TransactionProgressModal.open', transactionInfo)
         const result = await this.plcr.revealVote(pollId, voteOption, salt)
-        setTimeout(PubSub.publish('TransactionProgressModal.next', transactionInfo), 6e3)
+        console.log('after plcr.revealvote')
+        setTimeout(PubSub.publish('TransactionProgressModal.next', transactionInfo), 8e3)
 
         store.dispatch({
           type: 'PLCR_VOTE_REVEAL',
@@ -316,14 +316,16 @@ class PlcrService {
   }
 
   async hasBeenRevealed (voter, pollId) {
-    try {
-      const response = await window.fetch(`https://adchain-registry-api-staging.metax.io/plcr/has_revealed?account=${voter}&poll_id=${pollId}`)
-      const data = await response.json()
-
-      return data
-    } catch (error) {
-      console.error('plcr has been revealed: error', error)
-    }
+    return new Promise(async (resolve, reject) => {
+      try {
+        const result = await this.plcr.didReveal(voter, pollId)
+        // const response = await window.fetch(`https://adchain-registry-api-staging.metax.io/plcr/has_revealed?account=${voter}&poll_id=${pollId}`)
+        // const data = await response.json()
+        resolve(result)
+      } catch (error) {
+        reject(error)
+      }
+    })
   }
 
   async rescueTokens (pollId) {
@@ -332,6 +334,7 @@ class PlcrService {
       return res
     } catch (error) {
       console.log('Rescue tokens error: ', error)
+      throw error
     }
   }
 

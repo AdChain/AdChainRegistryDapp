@@ -14,8 +14,7 @@
 }
 
 :root:root:root .DomainChallengeContainer .refresh {
-  display: inline-block;
-  float: right;
+  display: flex;
   border: 1px solid #3434CE;
   border-radius: 3px;
   color: #3434CE !important;
@@ -24,6 +23,7 @@
   font-weight: bold;
   line-height: 11px;
   text-transform: uppercase;
+  margin-right: 10px !important;
 }
 
 .DomainChallengeContainer .HeaderColumn {
@@ -32,6 +32,11 @@
 
 .DomainChallengeContainer .HeaderRow {
   padding-top: 10px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
 }
 
 .DomainChallengeContainer .NumberCircle {
@@ -105,12 +110,13 @@
   color: #FFF !important;
 }
 
-.ChallengeInfoContainer { 
+:root:root:root .ChallengeInfoContainer { 
   border: 2px solid #F4F7FA;
   border-radius: 3px;
   font-family: 'Open Sans', sans-serif;
   font-size: 12px;
   line-height: 17px;
+  width: 95% !important;
 }
 
 .RequiredADT {
@@ -147,21 +153,31 @@
 /*
   Proposal Modal Style Overrides
 */
-:root:root:root .ProposalChallengeContainer .SegmentOne p, 
-:root:root:root .ProposalChallengeContainer .SegmentTwo p, 
-:root:root:root .ProposalChallengeContainer .SegmentThree p {
-    color: #424242;
-    font-family: "Open Sans", sans-serif;
-    font-size: 12px;
-    line-height: 1.6;
+
+:root:root:root .ProposalChallengeContainer {
+  width: unset;
 }
+
 :root:root:root .ProposalChallengeContainer p,
 :root:root:root .ProposalChallengeContainer .ui.large.header{
   font-family: "Open Sans", sans-serif !important;
   color:rgb(66, 66, 66);
 }
-:root:root:root .ProposalChallengeContainer .SegmentTwo p {
-    padding-left: 4em;
-    padding-right: 3em;
-    text-align: left;
+
+:root:root:root .ProposalChallengeContainer .GovernanceChallengeInfo {
+  border: 2px solid #F4F7FA;
+  border-radius: 3px;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 12px;
+  line-height: 17px;
+}
+:root:root:root .ProposalChallengeContainer .HeaderColumn {
+  padding-top: 0px;
+}
+
+:root:root:root .ProposalChallengeContainer .HeaderRow span {
+  background-color: #F4F7FA;
+  border-radius: 3px;
+  padding: 10px 20px;
+  font-weight: 600;
 }

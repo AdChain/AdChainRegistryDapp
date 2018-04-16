@@ -2,7 +2,6 @@ import React, {Component} from 'react'
 import Tooltip from '../Tooltip'
 import registry from '../../services/registry'
 import toastr from 'toastr'
-import PubSub from 'pubsub-js'
 
 class ExpiredVotingADT extends Component {
   constructor () {
@@ -63,7 +62,7 @@ class ExpiredVotingADT extends Component {
   }
 
   getSum (domains) {
-    try{
+    try {
       if (domains.length > 0) {
         let sum = 0
         domains.map(x => {
@@ -73,31 +72,24 @@ class ExpiredVotingADT extends Component {
         return (sum / 1000000000).toFixed(0)
       }
       return 0
-    }catch(error){
+    } catch (error) {
       console.log(error)
       return 0
     }
   }
 
   async rescueTokens (challenge_id) {
-
     if (isNaN(this.state.totalExpiredTokens) || this.state.totalExpiredTokens <= 0) {
       toastr.error('There are no expired ADT to unlock')
       return
     }
 
-    let transactionInfo = {
-      src: 'unlock_expired_ADT',
-      title: 'Unlock Expired ADT'
-    }
     try {
-      PubSub.publish('TransactionProgressModal.open', transactionInfo)
       let res = await registry.rescueTokens(challenge_id)
       this.init()
       return res
     } catch (error) {
       console.log('error: ', error)
-      PubSub.publish('TransactionProgressModal.error')
     }
   }
 }

@@ -143,7 +143,9 @@ class DomainVoteCommitContainer extends Component {
               <Segment.Group horizontal>
                 <Segment className='SegmentOne'>
                   <div className='NumberCircle'>2</div>
-                  <label>Choose Your Vote Option:</label>
+                  <label>
+                    Choose your vote option for the <b><u>domain</u></b>:
+                  </label>
                 </Segment>
                 <Segment className='SegmentTwo'>
                   <Button
@@ -382,7 +384,6 @@ class DomainVoteCommitContainer extends Component {
 
     try {
       const committed = await registry.commitVote({domain, votes, voteOption, salt})
-      console.log('committed: ', committed)
       if (committed) {
         // toastr.success('Successfully committed')
         await this.getCommit()

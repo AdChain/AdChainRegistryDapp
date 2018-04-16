@@ -8,6 +8,7 @@ import commafy from 'commafy'
 import isMobile from 'is-mobile'
 import PubSub from 'pubsub-js'
 import RedditConfirmationModal from '../reddit/RedditConfirmationModal'
+import Tooltip from '../Tooltip'
 
 import './SideBarApplicationContainer.css'
 
@@ -142,7 +143,13 @@ class SideBarApplicationContainer extends Component {
           onSubmit={this.onFormSubmit}
           id='ApplicationForm'>
           <Form.Field>
-            <label className='ApplicationLabel DomainUrlLabel'>Domain URL</label>
+            <div className='ApplicationLabelRow'>
+              <label className='ApplicationLabel DomainUrlLabel'>Apply Domain</label>
+              <Tooltip
+                whiteVersion
+                info='You can apply a domain into the adChain Registry from here'
+              />
+            </div>
             <input
               onFocus={this.addClass}
               className='ApplicationInput'

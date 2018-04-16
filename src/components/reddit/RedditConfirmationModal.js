@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Modal, Button, TextArea } from 'semantic-ui-react'
 import { withRouter } from 'react-router-dom'
 import PubSub from 'pubsub-js'
-import toastr from 'toastr'
+// import toastr from 'toastr'
 
 import { createPostApplication, createPostChallenge } from '../../services/redditActions'
 import registry from '../../services/registry'
@@ -94,6 +94,9 @@ class RedditConfirmationModal extends Component {
     const { domain, reason, stake, action } = this.state
 
     try {
+      setTimeout(() => {
+        this.close()
+      }, 500)
       if (action === 'apply') {
         await registry.apply(domain, stake)
         await createPostApplication(domain, reason)
@@ -105,11 +108,10 @@ class RedditConfirmationModal extends Component {
       // setTimeout(() => {
       //   window.location.reload()
       // }, 2e3)
-      this.close()
     } catch (error) {
       console.error(error)
       this.close()
-      toastr.error('There was an error with your request')
+      // toastr.error('There was an error with your request')
     }
   }
 }

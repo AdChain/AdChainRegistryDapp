@@ -4,6 +4,7 @@ import toastr from 'toastr'
 import moment from 'moment'
 import { Input, Segment, Button, Dropdown } from 'semantic-ui-react'
 import Tooltip from '../Tooltip'
+import Eth from 'ethjs'
 
 import Countdown from '../CountdownText'
 import registry from '../../services/registry'
@@ -11,6 +12,9 @@ import DomainVoteTokenDistribution from './DomainVoteTokenDistribution'
 import PubSub from 'pubsub-js'
 
 import './DomainVoteRevealContainer.css'
+
+const big = (number) => new Eth.BN(number.toString(10))
+const tenToTheNinth = big(10).pow(big(9))
 
 class DomainVoteRevealContainer extends Component {
   constructor (props) {
@@ -29,7 +33,9 @@ class DomainVoteRevealContainer extends Component {
       didReveal: false,
       salt: '',
       voteOption: '',
-      challengeId: ''
+      challengeId: '',
+      revealedVoteOption: '',
+      revealedAmount: 0
     }
 
     this.onVoteOptionChange = this.onVoteOptionChange.bind(this)
@@ -61,7 +67,9 @@ class DomainVoteRevealContainer extends Component {
       revealEndDate,
       didChallenge,
       didCommit,
-      didReveal
+      didReveal,
+      revealedVoteOption,
+      revealedAmount
       // voteOption,
       // challengeId,
       // salt
@@ -111,7 +119,11 @@ class DomainVoteRevealContainer extends Component {
               You've <strong>committed</strong> for this domain.
             </div>
           </div>
-            : null}
+            : <div className='column sixteen wide center aligned'>
+              <div className='ui message warning'>
+                You have <strong>not committed</strong> for this domain.
+              </div>
+            </div>}
           {didReveal ? <div className='column sixteen wide center aligned'>
             <div className='ui message warning'>
               You've <strong>revealed</strong> for this domain.
@@ -121,63 +133,81 @@ class DomainVoteRevealContainer extends Component {
           <div className='ui divider' />
           <DomainVoteTokenDistribution domain={domain} />
           <div className='ui divider' />
-          <div className='column sixteen wide center aligned'>
-            <Segment className='LeftSegment' floated='left'>
-              <div className='NumberCircleContainer'>
-                <div className='NumberCircle'>1</div>
-              </div>
-                  Upload your JSON commit file to reveal your vote:
-              <div className='UploadCommitButtonContainer'>
-                <Button className='UploadCommitButton' basic onClick={this.uploadClick}>Upload Commit &nbsp;<i className='icon long arrow up' /></Button>
-                <input
-                  type='file'
-                  name='file'
-                  id='HiddenCommitFile'
-                  ref='HiddenFileUploader' style={{display: 'none'}}
-                  onChange={this.onFileInput}
-                  className='ui file' />
-              </div>
-            </Segment>
-            <Segment className='RightSegment' floated='right'>
-                If you misplaced your JSON commit file, you can enter the information below to reveal:
-              <div className='VoteRevealLabel'>
-                <span className='VoteRevealLabelText'>
+          { // Only displays the upload commit feature if they have actually committed votes for the challenge
+            didCommit
+              ? !didReveal
+                ? <div className='DidRevealContainer'>
+                  <div className='column sixteen wide center aligned RevealActionRow'>
+                    <Segment className='LeftSegment' floated='left'>
+                      <div className='UploadJSONLabel'>
+                      Upload your JSON commit file to reveal your vote:
+                      </div>
+                      <div className='UploadCommitButtonContainer'>
+                        <Button className='UploadCommitButton' basic onClick={this.uploadClick}>Upload Commit &nbsp;<i className='icon long arrow up' /></Button>
+                        <input
+                          type='file'
+                          name='file'
+                          id='HiddenCommitFile'
+                          ref='HiddenFileUploader' style={{display: 'none'}}
+                          onChange={this.onFileInput}
+                          className='ui file' />
+                      </div>
+                    </Segment>
+                    <Segment className='RightSegment' floated='right'>
+                      <div className='ManualJSONInputLabel'>
+                    If you misplaced your JSON commit file, you can enter the information below to reveal:
+                      </div>
+                      <div className='VoteRevealLabel'>
+                        <span className='VoteRevealLabelText'>
                     Challenge ID:
-                </span>
-                <Input id='DomainVoteRevealChallengeIdInput' value={this.state.challengeId} className='VoteRevealInput' />
-              </div>
-              <div className='VoteRevealLabel'>
-                <span className='VoteRevealLabelText'>
+                        </span>
+                        <Input id='DomainVoteRevealChallengeIdInput'
+                          value={this.state.challengeId}
+                          className='VoteRevealInput' />
+                      </div>
+                      <div className='VoteRevealLabel'>
+                        <span className='VoteRevealLabelText'>
                   Secret Phrase:
-                </span>
-                <Input id='DomainVoteRevealSaltInput' onChange={this.onSaltChange} className='VoteRevealInput' />
-              </div>
-              <div className='VoteRevealLabel'>
-                <span className='VoteRevealLabelText'>
+                        </span>
+                        <Input id='DomainVoteRevealSaltInput' onChange={this.onSaltChange} className='VoteRevealInput' />
+                      </div>
+                      <div className='VoteRevealLabel'>
+                        <span className='VoteRevealLabelText'>
                   Vote Option:
-                </span>
-                <Dropdown
-                  onChange={this.onVoteOptionChange}
-                  options={voteOptions}
-                  placeholder=''
-                  selection
-                  id='DomainVoteRevealVoteOption'
-                  className='VoteRevealDropdown'
-                  value={this.state.voteOption}
-                />
-              </div>
-            </Segment>
-          </div>
-          <div className='SubmitVoteButtonContainer'>
-            <Button
-              className='SubmitVoteButton centered'
-              basic
-              type='submit'
-              onClick={this.onFormSubmit}
-            >
+                        </span>
+                        <Dropdown
+                          onChange={this.onVoteOptionChange}
+                          options={voteOptions}
+                          placeholder=''
+                          selection
+                          id='DomainVoteRevealVoteOption'
+                          className='VoteRevealDropdown'
+                          value={this.state.voteOption}
+                        />
+                      </div>
+                    </Segment>
+                  </div>
+                  <div className='SubmitVoteButtonContainer'>
+                    <Button
+                      className='SubmitVoteButton centered'
+                      basic
+                      type='submit'
+                      onClick={this.onFormSubmit}
+                    >
               Reveal Vote
-            </Button>
-          </div>
+                    </Button>
+                  </div>
+                </div>
+                : <div className='RevealedDataContainer'>
+                  <div className='RevealedVoteOption'>
+                  You voted to <span>{revealedVoteOption}</span> this domain with
+                  </div>
+                  <div className='RevealedAmount'>
+                    {revealedAmount} ADT
+                  </div>
+                </div>
+              : null
+          }
         </div>
       </div>
     )
@@ -244,11 +274,22 @@ class DomainVoteRevealContainer extends Component {
 
     try {
       const didReveal = await registry.didReveal(domain)
-
-      if (this._isMounted) {
-        this.setState({
-          didReveal: didReveal
+      // await this.getPoll()
+      if (didReveal) {
+        const response = await window.fetch(`https://adchain-registry-api-staging.metax.io/account/rewards?account=${account}&status=revealed`)
+        const data = await response.json()
+        let newState = {
+          revealedVoteOption: '',
+          revealedAmount: 0,
+          didReveal: true
+        }
+        data.forEach(eachDomain => {
+          if (domain === eachDomain.domain) {
+            newState.revealedVoteOption = eachDomain.choice === 1 ? 'support' : 'oppose'
+            newState.revealedAmount = big(eachDomain.num_tokens).div(tenToTheNinth).words[0]
+          }
         })
+        this.setState(newState)
       }
     } catch (error) {
       console.error('Get Reveal Error: ', error)
@@ -309,7 +350,7 @@ class DomainVoteRevealContainer extends Component {
   }
 
   async reveal () {
-    const {domain, salt, voteOption} = this.state
+    const {domain, salt, voteOption, account} = this.state
 
     if (!salt) {
       toastr.error('Please enter salt value')
@@ -324,16 +365,30 @@ class DomainVoteRevealContainer extends Component {
     try {
       const revealed = await registry.revealVote({domain, voteOption, salt})
       if (revealed) {
-        // toastr.success('Successfully revealed')
-        this.setState({
+        await this.getReveal()
+        const response = await window.fetch(`https://adchain-registry-api-staging.metax.io/account/rewards?account=${account}&status=revealed`)
+        const data = await response.json()
+        let newState = {
+          revealedVoteOption: '',
+          revealedAmount: 0,
           didReveal: true
+        }
+        data.forEach(eachDomain => {
+          if (domain === eachDomain.domain) {
+            newState.revealedVoteOption = eachDomain.choice === 1 ? 'support' : 'oppose'
+            newState.revealedAmount = big(eachDomain.num_tokens).div(tenToTheNinth).words[0]
+          }
         })
+
+        //need to confirm that it re-renders 
+        this.setState(newState)
+        PubSub.publish('DomainVoteTokenDistribution.getPoll')     
       } else {
         setTimeout(() => {
           this.getReveal().then(
             PubSub.publish('DomainVoteTokenDistribution.getPoll')
           )
-        }, 3e3)
+        }, 2e3)
       }
     } catch (error) {
       console.error('Reveal Error: ', error)

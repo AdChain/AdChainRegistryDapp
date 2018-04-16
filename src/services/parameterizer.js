@@ -123,7 +123,6 @@ class ParameterizerService {
         }
         PubSub.publish('TransactionProgressModal.open', transactionInfo)
       }
-
       try {
         result = await this.parameterizer.proposeReparameterization(name, value)
         PubSub.publish('TransactionProgressModal.next', transactionInfo)
@@ -227,7 +226,7 @@ class ParameterizerService {
     }
   }
 
-/*
+  /*
  * ------------------------------------------------
  * The below funcitons are specific to PLCR voting,
  * rewards and determining a proposal's current state

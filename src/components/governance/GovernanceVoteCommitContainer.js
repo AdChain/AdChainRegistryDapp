@@ -68,15 +68,15 @@ class GovernanceVoteCommitContainer extends Component {
       didCommit,
       salt,
       SupportState,
-      OpposeState
+      OpposeState,
       // voteOption,
       // enableDownload,
-      // commitDownloaded,
+      commitDownloaded,
       // votes
       // revealReminderDownloaded
     } = this.state
 
-    const { challengeId } = this.props.proposal
+    const { challengeId, name } = this.props.proposal
     const stageEndMoment = commitEndDate ? moment.unix(commitEndDate) : null
     const stageEnd = stageEndMoment ? stageEndMoment.format('MMMM Do YYYY HH:mm:ss') : '-'
 
@@ -87,10 +87,13 @@ class GovernanceVoteCommitContainer extends Component {
             <div className='row HeaderRow'>
               <div className='ui large header'>
               Stage: Voting
-              <Tooltip
-                info='The first phase of the voting process is the commit phase where the ADT holder stakes a hidden amount of votes to SUPPORT or OPPOSE the parameter application. The second phase is the reveal phase where the ADT holder reveals the staked amount of votes to either the SUPPORT or OPPOSE side.'
-              />
+                <Tooltip
+                  info='The first phase of the voting process is the commit phase where the ADT holder stakes a hidden amount of votes to SUPPORT or OPPOSE the parameter application. The second phase is the reveal phase where the ADT holder reveals the staked amount of votes to either the SUPPORT or OPPOSE side.'
+                />
               </div>
+              <span>
+                {name}
+              </span>
             </div>
           </div>
           {didChallenge ? <div className='column sixteen wide center aligned'>
@@ -98,13 +101,13 @@ class GovernanceVoteCommitContainer extends Component {
               You've <strong>challenged</strong> this Parameter.
             </div>
           </div>
-          : null}
+            : null}
           {didCommit ? <div className='column sixteen wide center aligned'>
             <div className='ui message warning'>
               You've <strong>committed</strong> votes for this proposal.
             </div>
           </div>
-          : null}
+            : null}
           <div className='ui divider' style={{width: '100%'}} />
           <div className='column sixteen wide center aligned'>
             <div className='VotingDeadline'>
@@ -127,17 +130,17 @@ class GovernanceVoteCommitContainer extends Component {
               // <div className='ui field'>
               //   <p>Challenge ID: <label className='ui label'>{challengeId}</label></p>
               // </div>
-            }
+              }
               <Segment.Group horizontal>
                 <Segment className='SegmentOne' >
                   <div className='NumberCircle'>1</div>
                   <label style={{lineHeight: 1.8, fontSize: '13px', paddingLeft: '16px'}}>
-                  Enter the Number of votes to commit:
+                  Enter the number of votes to commit:
                   </label>
                   {
-              // </Segment>
-              // <Segment className='SegmentTwo'>
-            }
+                    // </Segment>
+                    // <Segment className='SegmentTwo'>
+                  }
                 </Segment>
                 <Segment className='SegmentThree'>
                   <div className='ui input small'>
@@ -153,7 +156,7 @@ class GovernanceVoteCommitContainer extends Component {
                 <Segment className='SegmentOne' >
                   <div className='NumberCircle'>2</div>
                   <label style={{lineHeight: 1.8, fontSize: '13px', paddingLeft: '16px'}}>
-                  Choose Your Vote Option:
+                    Choose your vote option for the <b><u>proposal</u></b>:
                   </label>
                 </Segment>
                 <Segment className='SegmentTwo'>
@@ -165,7 +168,7 @@ class GovernanceVoteCommitContainer extends Component {
                     onClick={this.onVoteOptionChange}
                   >
                   Support
-                </Button>
+                  </Button>
                 </Segment>
                 <Segment className='SegmentThree'>
                   <Button
@@ -174,7 +177,7 @@ class GovernanceVoteCommitContainer extends Component {
                     name='voteOption'
                     value='0'
                     onClick={this.onVoteOptionChange}
-                    >
+                  >
                     Oppose
                   </Button>
                 </Segment>
@@ -200,8 +203,17 @@ class GovernanceVoteCommitContainer extends Component {
                 </Segment>
               </div>
               <div className='SubmitVoteButtonContainer'>
-                <Button className='SubmitVoteButton centered' basic onClick={this.onFormSubmit}>Submit Vote</Button>
+                {
+                  commitDownloaded
+                    ? <Button className='SubmitVoteButton centered' basic onClick={this.onFormSubmit}>Submit Vote</Button>
+                    : <Button className='SubmitVoteButton centered' basic disabled>Submit Vote</Button>
+                }
               </div>
+              {
+                !commitDownloaded
+                  ? <div className='SubmitMessage'>Please download the commit file in order to submit your vote</div>
+                  : null
+              }
             </form>
           </div>
         </div>

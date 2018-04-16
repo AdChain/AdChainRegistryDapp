@@ -68,6 +68,8 @@ class GovernanceVoteRevealContainer extends Component {
       // salt
     } = this.state
 
+    const { name } = this.props.proposal
+
     const voteOptions = [
       { key: 1, text: 'Support', value: 1 },
       { key: 2, text: 'Oppose', value: 0 }
@@ -87,6 +89,9 @@ class GovernanceVoteRevealContainer extends Component {
                   info='The first phase of the voting process is the commit phase where the ADT holder stakes a hidden amount of votes to SUPPORT or OPPOSE the parameter application. The second phase is the reveal phase where the ADT holder reveals the staked amount of votes to either the SUPPORT or OPPOSE side.'
                 />
               </div>
+              <span>
+                {name}
+              </span>
             </div>
           </div>
           <div className='ui divider' style={{width: '100%'}} />
@@ -120,14 +125,12 @@ class GovernanceVoteRevealContainer extends Component {
           </div>
             : null}
           {
+            // need to add domainvotetokendistribution functionality for governance
           // <DomainVoteTokenDistribution {...this.props} />
           }
           <div className='column sixteen wide center aligned'>
             <Segment className='LeftSegment' floated='left'>
-              <div className='NumberCircleContainer'>
-                <div className='NumberCircle'>1</div>
-              </div>
-                  Upload your JSON commit file to reveal your vote:
+                Upload your JSON commit file to reveal your vote:
               <div className='UploadCommitButtonContainer'>
                 <Button className='UploadCommitButton' basic onClick={this.uploadClick}>Upload Commit &nbsp;<i className='icon long arrow up' /></Button>
                 <input

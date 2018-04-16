@@ -11,11 +11,21 @@
   margin-right: 8%;
   margin-top: 2em;
   margin-bottom: auto;
+  background-color: #3434CE;
+}
+
+.ApplicationLabelRow {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+}
+
+.ApplicationLabelRow .InfoIcon {
+  margin-right: 10px;
 }
 
 :root:root:root:root .ApplicationButton {
-  color: #10C903 !important;
-  border: 1px solid #10C903;
+  color: #FFF !important;
   border-radius: 3px;
   display: block;
   margin: 0 auto !important;
@@ -23,12 +33,11 @@
   height: 24px;
   font-size: 8px;
   font-weight: bold;
+  background-color: #10c903 !important;
 }
 
 :root:root:root .ApplicationButton:hover,
 :root:root:root .ApplicationButton:focus {
-  background-color: #10C903 !important;
-  color: #FFF !important;
   border: none;
   box-shadow: unset;
 }
@@ -39,10 +48,12 @@
 
 :root:root:root .ApplicationContainer .ApplicationLabel {
   color: #FFF;
+  font-size: 13px;
+  font-weight: 600;
 }
 
-:root:root:root .ApplicationContainer .DomainUrlLabel::after {
-  content: url(../assets/info_blue.svg);
+/* :root:root:root .ApplicationContainer .DomainUrlLabel::after {
+  content: url(../assets/info_white.svg);
   -webkit-transform: scale(1.2) translateY(1.2px);
   -ms-transform: scale(1.2) translateY(1.2px);
   transform: scale(1.2) translateY(1.2px);
@@ -57,12 +68,7 @@
   transform: scale(1.2) translateY(1.2px);
   float: right;
   padding-right: 1em;
-}
-
-
-:root:root:root .ApplicationContainer .ActiveForm .ApplicationLabel {
-  color: #FFF;
-}
+} */
 
 :root:root:root .ApplicationContainer .ActiveForm .ApplicationButton {
   background-color: #10C903 !important;

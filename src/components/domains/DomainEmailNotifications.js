@@ -44,7 +44,7 @@ class DomainEmailNotifications extends Component {
           </div>
         </div>
         <div className={this.state.subscribed ? 'hide' : 'show SubscribeButtonContainer'}>
-          <Button basic onClick={this.subscribeEmail}>Subscribe</Button>
+          <Button basic onClick={() => { this.subscribeEmail() }}>Subscribe</Button>
         </div>
       </div>
     )
@@ -74,6 +74,7 @@ class DomainEmailNotifications extends Component {
         })
       }
     } catch (error) {
+      toastr.error('There was an error subscribing to email notifications')
       console.log(error)
     }
   }

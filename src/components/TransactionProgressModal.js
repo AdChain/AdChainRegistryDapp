@@ -56,13 +56,13 @@ class TransactionProgressModal extends Component {
   error () {
     this.setState({
       src: 'error',
+      current: 0,
       title: 'Transaction Failed!',
       transactionComplete: true
     })
   }
 
   open (topic, transactionInfo) {
-    // console.log('info: ', transactionInfo)
     this.setState({
       open: true,
       src: transactionInfo.src,
@@ -208,12 +208,7 @@ class TransactionProgressModal extends Component {
         {
           content:
   <div className='transaction-content'>
-    <p><b>You will receive 1 MetaMask prompt to either:</b></p>
-    <ul className='transaction-content-list'>
-      <li className={this.state.stepClass}>Admit the domain into the registry if unchallenged</li>
-      <li className='ListSpacer'>OR</li>
-      <li className={this.state.stepClass}>Resolve the challenge and either admits the domain into the registry or rejects the domain from the registry, depending on the voting outcome</li>
-    </ul>
+    <p><b>You will receive 1 MetaMask prompt to update the status of the domain</b></p>
   </div>
         }
       ],
@@ -542,7 +537,7 @@ class TransactionProgressModal extends Component {
             transactionComplete
               ? src === 'error'
                 ? <Icon name='remove' size='huge' className='ErrorIcon' />
-                : <Icon name='check circle' size='huge' className='CheckCircle' />
+                : null
               : <Loader indeterminate active inline='centered' />
           }
         </div>
@@ -568,15 +563,18 @@ class TransactionProgressModal extends Component {
             <div className='steps-content'>
               {
                 src
-                  ? this.steps[src][current].content
+                  ? src === 'refresh' && transactionComplete
+                    ? null
+                    : this.steps[src][current].content
                   : null
               }
             </div>
             <div className='MetaMaskNote'>
               {
-              // possibly remove this message once transaction complete
+                transactionComplete
+                  ? null
+                  : '* If a transaction is stuck, you can check your MetaMask status'
               }
-            * If a transaction is stuck, you can check your MetaMask status
             </div>
             <div className='steps-action'>
               {

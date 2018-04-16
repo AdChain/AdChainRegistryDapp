@@ -212,7 +212,7 @@ class RegistryService {
     const minDepositAdt = minDeposit.mul(tenToTheNinth)
 
     let transactionInfo = {}
-    if (allowed < minDeposit) {
+    if (Number(allowed) < Number(minDeposit)) {
       // open not approved adt challenge modal
       try {
         transactionInfo = {
@@ -536,7 +536,6 @@ class RegistryService {
 
     try {
       const hash = saltHashVote(voteOption, salt)
-
       let transactionInfo = {
         src: 'vote',
         title: 'vote'
@@ -833,16 +832,18 @@ class RegistryService {
 
   async rescueTokens (pollId) {
     try {
-      let res = await plcr.rescueTokens(pollId)
       let transactionInfo = {
         src: 'unlock_expired_ADT',
         title: 'Unlock Expired ADT'
       }
+      PubSub.publish('TransactionProgressModal.open', transactionInfo)
+      let res = await plcr.rescueTokens(pollId)
       PubSub.publish('TransactionProgressModal.next', transactionInfo)
       return res
     } catch (error) {
       console.log('Rescue tokens error: ', error)
       PubSub.publish('TransactionProgressModal.error')
+      throw error
     }
   }
 

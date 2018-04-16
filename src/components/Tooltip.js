@@ -1,5 +1,6 @@
 import React from 'react'
 import infoIcon from './assets/info_gray.svg'
+import whiteIcon from './assets/info_white.svg'
 import { Popup } from 'semantic-ui-react'
 
 /*
@@ -9,7 +10,7 @@ import { Popup } from 'semantic-ui-react'
 const Tooltip = (props) => {
   return (
     <Popup className='Tooltip'
-      trigger={<img alt='i' className={props.class || 'InfoIcon'} src={infoIcon} />}
+      trigger={<img alt='i' className={props.class || 'InfoIcon'} src={props.whiteVersion ? whiteIcon : infoIcon} />}
       content={props.info} />
   )
 }
