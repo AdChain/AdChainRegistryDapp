@@ -6,6 +6,7 @@ import moment from 'moment'
 import { Button } from 'semantic-ui-react'
 import Tooltip from '../Tooltip'
 import calculateGas from '../../utils/calculateGas'
+import { isExpired } from '../../utils/isExpired'
 
 import Countdown from '../CountdownText'
 import registry from '../../services/registry'
@@ -82,7 +83,7 @@ class DomainChallengeContainer extends Component {
                   </div>
                   <Button
                     basic
-                    className='right refresh'
+                    className={isExpired(stageEndMoment) ? 'hide' : ' show right refresh'}
                     onClick={this.updateStatus}
                   >
                   Refresh Status

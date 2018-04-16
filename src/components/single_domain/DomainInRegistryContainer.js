@@ -1,16 +1,19 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
+import Eth from 'ethjs'
 import toastr from 'toastr'
-import { Button, Input, Segment } from 'semantic-ui-react'
 import commafy from 'commafy'
+import PubSub from 'pubsub-js'
+import PropTypes from 'prop-types'
+import { Button, Input, Segment } from 'semantic-ui-react'
+
 import Tooltip from '../Tooltip'
 import calculateGas from '../../utils/calculateGas'
 
 import registry from '../../services/registry'
-import './DomainInRegistryContainer.css'
 import DomainChallengeContainer from './DomainChallengeContainer'
-import Eth from 'ethjs'
-import PubSub from 'pubsub-js'
+
+import './DomainInRegistryContainer.css'
+
 
 const big = (number) => new Eth.BN(number.toString(10))
 const tenToTheNinth = big(10).pow(big(9))
@@ -56,7 +59,7 @@ class DomainInRegistryContainer extends Component {
       domain,
       minDeposit,
       canWithdraw,
-      currentDeposit
+      currentDeposit,
     } = this.state
 
     const stakedDifference = currentDeposit - minDeposit
@@ -76,13 +79,6 @@ class DomainInRegistryContainer extends Component {
                   info='The first phase of the voting process is the commit phase where the ADT holder stakes a hidden amount of votes to SUPPORT or OPPOSE the domain application. The second phase is the reveal phase where the ADT holder reveals the staked amount of votes to either the SUPPORT or OPPOSE side.'
                 />
               </div>
-              <Button
-                basic
-                className='right refresh'
-                onClick={this.updateStatus}
-              >
-                Refresh Status
-              </Button>
             </div>
           </div>
           <div className='ui divider' />
