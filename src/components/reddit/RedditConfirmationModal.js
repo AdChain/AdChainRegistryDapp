@@ -27,7 +27,8 @@ class RedditConfirmationModal extends Component {
   }
 
   componentWillMount () {
-    this.subEvent = PubSub.subscribe('RedditConfirmationModal.show', this.show)
+    this.openEvent = PubSub.subscribe('RedditConfirmationModal.show', this.show)
+    this.closeEvent = PubSub.subscribe('RedditConfirmationModal.close', this.close)
   }
 
   render () {
@@ -94,9 +95,6 @@ class RedditConfirmationModal extends Component {
     const { domain, reason, stake, action } = this.state
 
     try {
-      setTimeout(() => {
-        this.close()
-      }, 500)
       if (action === 'apply') {
         await registry.apply(domain, stake)
         await createPostApplication(domain, reason)

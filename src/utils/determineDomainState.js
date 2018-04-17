@@ -149,7 +149,7 @@ const getDomainState = async (domain) => {
       item.stage = 'apply'
       item.actionLabel = 'APPLY'
       item.color = 'blue'
-      item.label = <span><i className='icon x circle' /> Rejected</span>
+      item.label = <span><i className='icon x circle' />Rejected</span>
       item.stageMapSrc = 'MapRejected'
     }
 
