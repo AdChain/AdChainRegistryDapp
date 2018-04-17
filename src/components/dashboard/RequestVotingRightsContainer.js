@@ -133,12 +133,15 @@ class RequestVotingRightsContainer extends Component {
     }
 
     try {
-      const availableVotes = (await registry.getTotalVotingRights()).toNumber()
-      if (this._isMounted) {
-        this.setState({
-          availableVotes
-        })
+      if(this.state.contract){
+        const availableVotes = (await this.state.contract.getTotalVotingRights()).toNumber()
+        if (this._isMounted) {
+          this.setState({
+            availableVotes
+          })
+        }
       }
+
     } catch (error) {
       console.error('Get Available Votes Error: ', error)
       toastr.error('There was an error fetching your available votes. Please make sure you are signed in to MetaMask.')

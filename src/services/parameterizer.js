@@ -570,6 +570,26 @@ class ParameterizerService {
     }
   }
 
+  async requestVotingRights (votes) {
+    // normal ADT to nano ADT
+    const tokens = big(votes).mul(tenToTheNinth).toString(10)
+
+    try {
+      let transactionInfo = {
+        src: 'conversion_to_voting_ADT',
+        title: 'Conversion to Voting ADT'
+      }
+      await token.approve(plcr.address, tokens)
+      PubSub.publish('TransactionProgressModal.next', transactionInfo)
+
+      await plcr.requestVotingRights(tokens)
+      PubSub.publish('TransactionProgressModal.next', transactionInfo)
+    } catch (error) {
+      console.error('request voting rights error: ', error)
+      PubSub.publish('TransactionProgressModal.error')
+    }
+  }
+
   async rescueTokens (pollId) {
     try {
       let transactionInfo = {

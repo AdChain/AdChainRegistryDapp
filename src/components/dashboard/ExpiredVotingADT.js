@@ -35,6 +35,9 @@ class ExpiredVotingADT extends Component {
   }
 
   async init () {
+    if(!this.state.selectedPoll !== null) {
+      return {}
+    }
     try {
       let {
         unrevealed,
@@ -67,7 +70,6 @@ class ExpiredVotingADT extends Component {
   }
 
   async getUnrevealed () {
-    if(!this.state.selectedPoll !== null) return
     let unrevealed = await (await window.fetch(`https://adchain-registry-api-staging.metax.io/parameterization/rewards?status=unrevealed&account=${this.state.account}`)).json()
     // Determine which have not been revealed.
     let totalExpiredTokens = this.getSum(unrevealed)
