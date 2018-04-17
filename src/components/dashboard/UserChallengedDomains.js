@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import './UserChallengedDomains.css'
 import Tooltip from '../Tooltip'
+import { Table } from 'semantic-ui-react'
 
 class UserChallengedDomains extends Component {
   constructor (props) {
@@ -32,10 +33,10 @@ class UserChallengedDomains extends Component {
     try {
       const { challengedDomains } = this.state
       data = challengedDomains.length !== 0 ? challengedDomains.map((domain, idx) =>
-        <tr key={idx} className='DashboardRow'>
-          <td className='DashboardFirstCell' onClick={(event) => { event.preventDefault(); this.history.push(`/domains/${domain.domain}`) }}>{domain.domain}</td>
-          <td className='DashboardSecondCell'>{domain.stage}</td>
-        </tr>) : null
+        <Table.Row key={idx} className='DashboardRow'>
+          <Table.Cell className='DashboardFirstCell' onClick={(event) => { event.preventDefault(); this.history.push(`/domains/${domain.domain}`) }}>{domain.domain}</Table.Cell>
+          <Table.Cell className='DashboardSecondCell'>{domain.stage}</Table.Cell>
+        </Table.Row>) : null
     } catch (error) {
       console.log(error)
       data = []
@@ -47,15 +48,21 @@ class UserChallengedDomains extends Component {
         <div className='ui grid'>
           <div className='column sixteen wide'>
             {data
-              ? <table>
-                <tbody>
-                  <tr>
-                    <th className='DashboardTitle'>Domain</th>
-                    <th className='DashboardTitle'>Stage</th>
-                  </tr>
+              ? <Table unstackable className='DashboardTable'>
+                <Table.Header>
+                  <Table.Row>
+                    <Table.HeaderCell>
+                      Domain
+                    </Table.HeaderCell>
+                    <Table.HeaderCell>
+                      Stage
+                    </Table.HeaderCell>
+                  </Table.Row>
+                </Table.Header>
+                <Table.Body>
                   {data}
-                </tbody>
-              </table>
+                </Table.Body>
+              </Table>
               : <div className='NoDataMessage'>The domains In Application that you challenged are recorded here. The domain's status is shown to its right.</div>}
           </div>
         </div>

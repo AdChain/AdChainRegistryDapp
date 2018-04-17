@@ -115,6 +115,7 @@ class RegistryService {
     let allowed = await (await token.allowance(this.account, this.address)).toString(10)
 
     let transactionInfo = {}
+    PubSub.publish('RedditConfirmationModal.close')
     if (Number(allowed) < Number(bigDeposit)) {
       // if what you pre approved is less than the min deposit
       // open not approved adt modal
@@ -141,7 +142,7 @@ class RegistryService {
 
     try {
       await this.registry.apply(hash, bigDeposit, data)
-      PubSub.publish('TransactionProgressModal.next', transactionInfo)
+      PubSub.publish('DomainsTable.fetchNewData', transactionInfo) // this will update the domain table and also update the transaction progress modal
     } catch (error) {
       PubSub.publish('TransactionProgressModal.error')
       throw error
@@ -212,6 +213,8 @@ class RegistryService {
     const minDepositAdt = minDeposit.mul(tenToTheNinth)
 
     let transactionInfo = {}
+
+    PubSub.publish('RedditConfirmationModal.close')
     if (Number(allowed) < Number(minDeposit)) {
       // open not approved adt challenge modal
       try {

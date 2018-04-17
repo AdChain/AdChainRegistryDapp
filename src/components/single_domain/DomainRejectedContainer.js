@@ -35,7 +35,7 @@ class DomainRejectedContainer extends Component {
           </div>
           <div className='column sixteen wide center aligned'>
             <p className='RejectedMessage'>
-              You can apply <strong>{domain}</strong> into the
+              You can apply <span className='DomainName'><strong>{domain}</strong></span> into the
               adChain Registry within the application modal
               on the left navigation column.
             </p>

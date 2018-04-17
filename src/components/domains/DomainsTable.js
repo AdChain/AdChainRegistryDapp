@@ -55,6 +55,8 @@ class DomainsTable extends Component {
     history = props.history
 
     this.onTableFetchData = this.onTableFetchData.bind(this)
+    this.getData = this.getData.bind(this)
+    this.fetchNewData = this.fetchNewData.bind(this)
     // this.getData()
   }
 
@@ -65,12 +67,17 @@ class DomainsTable extends Component {
     store.subscribe(x => {
       this.getData(this.props.filters)
     })
+
   }
 
+  componentWillMount() {
+    this.fetchNewDataEvent = PubSub.subscribe('DomainsTable.fetchNewData', this.fetchNewData)
+  }
+  
   componentWillUnmount () {
     this._isMounted = false
   }
-
+  
   componentWillReceiveProps (props) {
     const {filters} = props
     if (this._isMounted) {
@@ -78,7 +85,7 @@ class DomainsTable extends Component {
     }
     this.getData(filters)
   }
-
+  
   render () {
     const {
       columns,
@@ -87,7 +94,7 @@ class DomainsTable extends Component {
       pageSize,
       isLoading
     } = this.state
-
+        
     return (
       <div className='DomainsTable BoxFrame'>
         <span className='BoxFrameLabel ui grid'>DOMAINS <Tooltip info={'The Domains Table shows a holistic view of every active domain that has applied to the registry. Feel free to use the DOMAIN FILTER box to the left to display the desired content.'} /></span>
@@ -235,6 +242,7 @@ class DomainsTable extends Component {
   }
 
   async onTableFetchData () {
+    console.log('fetching data')
     if (this._isMounted) {
       this.setState({
         isLoading: true
@@ -280,6 +288,8 @@ class DomainsTable extends Component {
   }
 
   async getData (filters) {
+    console.log('getting data')
+    console.log('filters: ', filters)
     try {
       const {
         pageSize
@@ -356,18 +366,48 @@ class DomainsTable extends Component {
       }
 
       if (this._isMounted) {
+        window.localStorage.setItem('TotalNumDomains', JSON.stringify(domains.length))
         this.setState({
           allDomains: domains,
           pages: Math.ceil(domains.length / pageSize, 10)
         })
+
+        this.onTableFetchData()
+
       }
 
-      // if (!this.state.data.length) {
-      this.onTableFetchData()
+      
     } catch (error) {
       console.log(error)
     }
-    // }
+  }
+
+  async fetchNewData (topic, source) {
+    const { filters } = this.state
+    const transactionInfo = source
+    const currentNumDomains = Number(window.localStorage.getItem('TotalNumDomains'))
+    let domains
+    try {
+      domains = await (await window.fetch(`https://adchain-registry-api-staging.metax.io/registry/domains`)).json()
+      if (!Array.isArray(domains)) {
+        domains = []
+      } else {
+        if(domains.length !== currentNumDomains) {
+          // if new result from api endpoint is not equal to the current number of domains
+          // that means that the database has been updated, so we need to re-render the table
+          this.getData(filters) // this should re-render the table and set a new number of total num domains
+          PubSub.publish('TransactionProgressModal.next', transactionInfo) // this will display the final complete state of the transaction progress modal
+        } else {
+          // if the result from api is still the same as the existing number in storage,
+          // we want to run this function again to hit the api again
+          setTimeout(() => {
+            this.fetchNewData('', transactionInfo)
+          }, 2e3)
+        }
+      }
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   async updateStatus (domain) {

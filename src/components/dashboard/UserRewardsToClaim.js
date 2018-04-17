@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Button } from 'semantic-ui-react'
+import { Button, Table } from 'semantic-ui-react'
 import registry from '../../services/registry'
 // import toastr from 'toastr'
 import Tooltip from '../Tooltip'
@@ -36,11 +36,11 @@ class UserRewardsToClaim extends Component {
   render () {
     const { rewards } = this.state
     const data = rewards.length !== 0 ? rewards.map((domain, idx) =>
-      <tr key={idx} className='DashboardRow'>
-        <td className='DashboardFirstCell' onClick={(event) => { event.preventDefault(); this.history.push(`/domains/${domain.domain}`) }}>{domain.domain}</td>
-        <td id={domain.domain} className='RewardValueCell'>{domain.reward ? domain.reward + ' ADT' : ' - '}</td>
-        <td><Button basic id={domain.domain + 'Button'} className='RewardClaimButton' onClick={() => this.claimReward(domain.challenge_id, domain.salt, domain.domain)}>Claim</Button></td>
-      </tr>) : null
+      <Table.Row key={idx} className='DashboardRow'>
+        <Table.Cell className='DashboardFirstCell' onClick={(event) => { event.preventDefault(); this.history.push(`/domains/${domain.domain}`) }}>{domain.domain}</Table.Cell>
+        <Table.Cell id={domain.domain} className='RewardValueCell'>{domain.reward ? domain.reward + ' ADT' : ' - '}</Table.Cell>
+        <Table.Cell><Button basic id={domain.domain + 'Button'} className='RewardClaimButton' onClick={() => this.claimReward(domain.challenge_id, domain.salt, domain.domain)}>Claim</Button></Table.Cell>
+      </Table.Row>) : null
 
     return (
       <div className='BoxFrame DashboardColumn'>
@@ -48,16 +48,24 @@ class UserRewardsToClaim extends Component {
         <div className='ui grid'>
           <div className='column sixteen wide'>
             {data
-              ? <table className='DashboardTable'>
-                <tbody>
-                  <tr>
-                    <th className='DashboardTitle'>Domain</th>
-                    <th className='DashboardTitle'>Value</th>
-                    <th className='DashboardTitle'>Action</th>
-                  </tr>
+              ? <Table unstackable className='DashboardTable'>
+                <Table.Header>
+                  <Table.Row>
+                    <Table.HeaderCell>
+                      Domain
+                    </Table.HeaderCell>
+                    <Table.HeaderCell>
+                      Value
+                    </Table.HeaderCell>
+                    <Table.HeaderCell>
+                      Action
+                    </Table.HeaderCell>
+                  </Table.Row>
+                </Table.Header>
+                <Table.Body>
                   {data}
-                </tbody>
-              </table>
+                </Table.Body>
+              </Table>
               : <div className='NoDataMessage'>Domains listed here have an associated voting reward that you are eligible to claim if you voted on the winning side.</div>
             }
           </div>

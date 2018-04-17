@@ -145,7 +145,7 @@ const getDomainState = async (domain) => {
       item.actionLabel = 'REFRESH STATUS'
       item.color = 'greyblack'
       item.stageMapSrc = 'MapRevealPending'
-      item.label = 'Reveal - Pending'
+      item.label = <span><i className='icon circle thin' />Reveal - Pending</span>
       item.stage = 'reveal_pending'
 
 // -----------------------------------------
@@ -154,7 +154,7 @@ const getDomainState = async (domain) => {
       item.stage = 'apply'
       item.actionLabel = 'APPLY'
       item.color = 'blue'
-      item.label = <span><i className='icon x circle' /> Rejected</span>
+      item.label = <span><i className='icon x circle' />Rejected</span>
       item.stageMapSrc = 'MapRejected'
     }
 
