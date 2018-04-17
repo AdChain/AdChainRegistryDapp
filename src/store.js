@@ -38,6 +38,7 @@ function reducer (state = -1, action) {
     case 'PLCR_WITHDRAW_VOTING_RIGHTS':
     case 'PARAMETERIZER_CONTRACT_INIT':
     case 'PARAMETERIZER_EVENT':
+    case 'FETCH_WITHDRAWN':
       return state + 1
     default:
       return state
@@ -52,10 +53,10 @@ let store = createStore(reducer)
 // Normally you'd use a view binding library (e.g. React Redux) rather than subscribe() directly.
 // However it can also be handy to persist the current state in the localStorage.
 
-/*
-store.subscribe(() =>
-  console.log(store.getState())
-)
-*/
+
+// store.subscribe(() =>
+//   console.log(store.getState())
+// )
+
 
 export default store

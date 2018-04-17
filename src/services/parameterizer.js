@@ -494,6 +494,42 @@ class ParameterizerService {
     })
   }
 
+  async getTotalVotingRights () {
+    const tokens = await plcr.getTokenBalance()
+    return big(tokens).div(tenToTheNinth)
+  }
+
+  async getAvailableTokensToWithdraw () {
+    const tokens = await plcr.getAvailableTokensToWithdraw()
+    return big(tokens).div(tenToTheNinth)
+  }
+
+  async getLockedTokens () {
+    const tokens = await plcr.getLockedTokens()
+    return big(tokens).div(tenToTheNinth)
+  }
+
+  async withdrawVotingRights (tokens) {
+    if (!tokens) {
+      throw new Error('Number of tokens required')
+    }
+
+    tokens = big(tokens).mul(tenToTheNinth).toString(10)
+
+    try {
+      let transactionInfo = {
+        src: 'withdraw_voting_ADT',
+        title: 'Withdraw Voting ADT'
+      }
+      await plcr.withdrawVotingRights(tokens)
+      PubSub.publish('TransactionProgressModal.next', transactionInfo)
+    } catch (error) {
+      console.error('withdraw voting rights error: ', error)
+      PubSub.publish('TransactionProgressModal.error')
+    }
+
+    return true
+  }
   async getChallenge (challengeId) {
     if (!challengeId) {
       throw new Error('Challenge ID is required')
@@ -530,6 +566,23 @@ class ParameterizerService {
       const challengeId = paramProposal[1].c[0]
       return challengeId
     } catch (error) {
+      throw error
+    }
+  }
+
+  async rescueTokens (pollId) {
+    try {
+      let transactionInfo = {
+        src: 'unlock_expired_ADT',
+        title: 'Unlock Expired ADT'
+      }
+      PubSub.publish('TransactionProgressModal.open', transactionInfo)
+      let res = await plcr.rescueTokens(pollId)
+      PubSub.publish('TransactionProgressModal.next', transactionInfo)
+      return res
+    } catch (error) {
+      console.log('Rescue tokens error: ', error)
+      PubSub.publish('TransactionProgressModal.error')
       throw error
     }
   }

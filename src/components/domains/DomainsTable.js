@@ -401,6 +401,7 @@ class DomainsTable extends Component {
     const {filters} = this.props
     this.getData(filters)
   }
+
 }
 
 DomainsTable.propTypes = {

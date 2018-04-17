@@ -1,20 +1,37 @@
 import React, {Component} from 'react'
 import Tooltip from '../Tooltip'
 import registry from '../../services/registry'
+import parameterizer from '../../services/parameterizer'
 import toastr from 'toastr'
 
 class ExpiredVotingADT extends Component {
-  constructor () {
+  constructor (props) {
     super()
     this.state = {
       totalExpiredTokens: 0,
+      contract: props.contract,
+      account: props.account,
       unrevealed: [],
       selectedPoll: null
     }
   }
 
-  async componentDidMount () {
-    await this.init()
+  componentWillMount(){
+    if(this.state.contract === 'registry'){
+      this.setState({
+        contract: registry,
+      })
+    }else if(this.state.contract === 'parameterizer'){
+      this.setState({
+        contract: parameterizer
+      })
+    }
+  }
+
+  async componentWillReceiveProps(){
+    if(this.state.account){
+      await this.init()
+    }
   }
 
   async init () {
@@ -50,7 +67,8 @@ class ExpiredVotingADT extends Component {
   }
 
   async getUnrevealed () {
-    let unrevealed = await (await window.fetch(`https://adchain-registry-api-staging.metax.io/account/rewards?status=unrevealed&account=${this.props.account}`)).json()
+    if(!this.state.selectedPoll !== null) return
+    let unrevealed = await (await window.fetch(`https://adchain-registry-api-staging.metax.io/parameterization/rewards?status=unrevealed&account=${this.state.account}`)).json()
     // Determine which have not been revealed.
     let totalExpiredTokens = this.getSum(unrevealed)
     return {
@@ -84,7 +102,7 @@ class ExpiredVotingADT extends Component {
     }
 
     try {
-      let res = await registry.rescueTokens(challenge_id)
+      let res = await this.state.contract.rescueTokens(challenge_id)
       this.init()
       return res
     } catch (error) {

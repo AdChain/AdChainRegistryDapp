@@ -10,34 +10,43 @@ import PubSub from 'pubsub-js'
 const allParameterData = Object.assign({}, parameterData.coreParameterData, parameterData.governanceParameterData)
 
 class GovernanceRewardsTable extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       claimProgress: false
     }
   }
-  render () {
+  render() {
+    const table = this.generateRewardsTable()
+
     return (
-      <div className='AllParameters'>
-        <div className='BoxFrame mt-25 RegistryGuideClaimRewards'>
+      <div className='AllParameters mt-25'>
+        <div className='BoxFrame RegistryGuideClaimRewards' style={{minHeight:'129px'}}>
           <span className='BoxFrameLabel ui grid'>CLAIM REWARDS <Tooltip info={'These are the proposals you have voted in and can claim rewards. If you can\'t claim your rewards here you may have not yet REFRESHED STATUS of the proposal.'} /></span>
           <div className='ui grid'>
-            <div className='column sixteen wide'>
-              <div>
-                <span>Parameters</span>
-                <span className='ValuesTitle'>Action</span>
-              </div>
-              <div>
-                {this.generateRewardsTable()}
-              </div>
-            </div>
+            {
+              table ?
+                <div className='column sixteen wide'>
+                  <div>
+                    <span>Parameters</span>
+                    <span className='ValuesTitle'>Action</span>
+                  </div>
+                  <div>
+                    {table}
+                  </div>
+                </div>
+                :
+                <div className='column sixteen wide'>
+                  <div className='t-center f-grey'>Here you will be able to claim voting ADT rewards for when you vote on the winning side</div>
+                </div>
+            }
           </div>
         </div>
       </div>
     )
   }
 
-  generateRewardsTable () {
+  generateRewardsTable() {
     try {
       if (this.props.rewards.length < 1) return false
 
@@ -53,34 +62,39 @@ class GovernanceRewardsTable extends Component {
             <span key={name + i} className={color}>{allParameterData[name].name}</span>
             {
               !this.state.claimProgress && rewards[i].status === "unclaimed"
-                ? 
-                <span key={i} className='ui button green' onClick={() => { this.claimReward(rewards[i].challenge_id, rewards[i].salt) }} style={{padding: '0.571429em 1.2em'}}>CLAIM</span>
-                :
-                rewards[i].status === "claimed" 
                 ?
-                  <span key={i} style={{float: 'right', color: 'green'}}>
-                    Claimed <i className='icon check circle' style={{color: 'green', fontSize: '13px'}} />
+                <span key={i} className='ui button green' onClick={() => { this.claimReward(rewards[i].challenge_id, rewards[i].salt) }} style={{ padding: '0.571429em 1.2em' }}>CLAIM</span>
+                :
+                rewards[i].status === "claimed"
+                  ?
+                  <span key={i} style={{ float: 'right', color: 'green' }}>
+                    Claimed <i className='icon check circle' style={{ color: 'green', fontSize: '13px' }} />
                   </span>
                   :
                   this.state.claimProgress !== 'SUCCESS'
-                    ? 
-                    <span key={i} className='ui green loader inline mini active' style={{padding: '.571429em 5em .571429em 0', float: 'right'}} />
-                    : 
-                    <span key={i} style={{float: 'right', color: 'green'}}>
-                      Claimed <i className='icon check circle' style={{color: 'green', fontSize: '13px'}} />
+                    ?
+                    <span key={i} className='ui green loader inline mini active' style={{ padding: '.571429em 5em .571429em 0', float: 'right' }} />
+                    :
+                    <span key={i} style={{ float: 'right', color: 'green' }}>
+                      Claimed <i className='icon check circle' style={{ color: 'green', fontSize: '13px' }} />
                     </span>
             }
           </div>
         )
         return result
       }, [])
-      return table
+
+      if (table.length <= 1) {
+        return false
+      } else {
+        return table
+      }
     } catch (error) {
       console.log(error)
     }
   }
 
-  async claimReward (challenge_id, salt) {
+  async claimReward(challenge_id, salt) {
     try {
       let transactionInfo = {
         src: 'claim_governance_reward',
