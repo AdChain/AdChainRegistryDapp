@@ -37,7 +37,7 @@ class GovernanceRewardsTable extends Component {
                 </div>
                 :
                 <div className='column sixteen wide'>
-                  <div className='t-center f-grey'>Here you will be able to claim voting ADT rewards for when you vote on the winning side</div>
+                  <div className='t-center f-grey fw-200'>Here you will be able to claim voting ADT rewards for when you vote on the winning side</div>
                 </div>
             }
           </div>
@@ -56,6 +56,7 @@ class GovernanceRewardsTable extends Component {
       const table = _.reduce(rewards, (result, { name, value }) => {
         // If name exists in core param data, use blue color, else use red
         i++
+        console.log(rewards[i].status)
         color = this.props.coreParameterData[name] ? 'f-blue bold' : 'f-red bold'
         result.push(
           <div key={name + i} className='ParameterRow'>

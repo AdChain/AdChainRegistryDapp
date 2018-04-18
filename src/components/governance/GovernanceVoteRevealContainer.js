@@ -236,7 +236,6 @@ class GovernanceVoteRevealContainer extends Component {
         revealEndDate
       } = await ParameterizerService.getChallengePoll(challengeId, propId)
       if (this._isMounted) {
-        console.log('hit')
         this.setState({
           votesFor,
           votesAgainst,
@@ -261,6 +260,7 @@ class GovernanceVoteRevealContainer extends Component {
       }
     } catch (error) {
       toastr.error('There was an error getting commit')
+      console.log("error")
     }
   }
 
