@@ -4,6 +4,7 @@ import toastr from 'toastr'
 import commafy from 'commafy'
 import Tooltip from '../Tooltip'
 import registry from '../../services/registry'
+import parameterizer from '../../services/parameterizer'
 import store from '../../store'
 import PubSub from 'pubsub-js'
 
@@ -15,12 +16,25 @@ class RequestVotingRightsContainer extends Component {
 
     this.state = {
       account: props.account,
+      contract: props.contract,
       availableVotes: null,
       requestVotes: null
     }
 
     this.onRequest = this.onRequest.bind(this)
     this.onVotesKeyUp = this.onVotesKeyUp.bind(this)
+  }
+
+  componentWillMount(){
+    if(this.state.contract === 'registry'){
+      this.setState({
+        contract: registry,
+      })
+    }else if(this.state.contract === 'parameterizer'){
+      this.setState({
+        contract: parameterizer
+      })
+    }
   }
 
   componentDidMount () {
@@ -32,6 +46,7 @@ class RequestVotingRightsContainer extends Component {
       this.getAvailableVotes()
     })
   }
+
 
   componentWillUnmount () {
     this._isMounted = false
@@ -96,7 +111,7 @@ class RequestVotingRightsContainer extends Component {
         title: 'Conversion to Voting ADT'
       }
       PubSub.publish('TransactionProgressModal.open', transactionInfo)
-      await registry.requestVotingRights(requestVotes)
+      await this.state.contract.requestVotingRights(requestVotes)
 
       // TODO: better way to reset input
       const input = document.querySelector('#RequestVotingRightsContainerInput')
@@ -118,12 +133,15 @@ class RequestVotingRightsContainer extends Component {
     }
 
     try {
-      const availableVotes = (await registry.getTotalVotingRights()).toNumber()
-      if (this._isMounted) {
-        this.setState({
-          availableVotes
-        })
+      if(this.state.contract){
+        const availableVotes = (await this.state.contract.getTotalVotingRights()).toNumber()
+        if (this._isMounted) {
+          this.setState({
+            availableVotes
+          })
+        }
       }
+
     } catch (error) {
       console.error('Get Available Votes Error: ', error)
       toastr.error('There was an error fetching your available votes. Please make sure you are signed in to MetaMask.')

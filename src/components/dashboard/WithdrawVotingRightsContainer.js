@@ -5,6 +5,7 @@ import toastr from 'toastr'
 import Tooltip from '../Tooltip'
 import store from '../../store'
 import registry from '../../services/registry'
+import parameterizer from '../../services/parameterizer'
 import PubSub from 'pubsub-js'
 
 import './WithdrawVotingRightsContainer.css'
@@ -15,11 +16,24 @@ class WithdrawVotingRightsContainer extends Component {
 
     this.state = {
       account: props.account,
+      contract: props.contract,
       availableTokens: null,
       lockedTokens: null
     }
 
     this.onWithdraw = this.onWithdraw.bind(this)
+  }
+  
+  componentWillMount(){
+    if(this.state.contract === 'registry'){
+      this.setState({
+        contract: registry,
+      })
+    }else if(this.state.contract === 'parameterizer'){
+      this.setState({
+        contract: parameterizer
+      })
+    }
   }
 
   componentDidMount () {
@@ -42,7 +56,7 @@ class WithdrawVotingRightsContainer extends Component {
 
     return (
 
-      <div className='column five wide t-center'>
+      <div className='column five wide t-center WithdrawVotingRightsContainer'>
             Unlocked Voting ADT <Tooltip class='InfoIconHigh' info='These voting tokens are not used in polls and are eligible to be withdrawn from the registry and returned to your wallet.' />
         <div className='column sixteen wide UnlockedAdt'>
           <span className='VotingTokensAmount'>
@@ -68,8 +82,8 @@ class WithdrawVotingRightsContainer extends Component {
     }
 
     try {
-      const availableTokens = await registry.getAvailableTokensToWithdraw()
-      const lockedTokens = (await registry.getLockedTokens()).toNumber()
+      const availableTokens = await this.state.contract.getAvailableTokensToWithdraw()
+      const lockedTokens = (await this.state.contract.getLockedTokens()).toNumber()
       if (this._isMounted) {
         this.setState({
           availableTokens,
@@ -101,7 +115,8 @@ class WithdrawVotingRightsContainer extends Component {
       }
       PubSub.publish('TransactionProgressModal.open', transactionInfo)
       console.log('available tokens: ', availableTokens)
-      await registry.withdrawVotingRights(availableTokens)
+      debugger
+      await this.state.contract.withdrawVotingRights(availableTokens)
     } catch (error) {
       console.error('Withdraw Tokens Error: ', error)
       PubSub.publish('TransactionProgressModal.error')

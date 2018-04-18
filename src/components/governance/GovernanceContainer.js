@@ -1,23 +1,29 @@
 import React, { Component } from 'react'
 import _ from 'lodash'
-import GovernanceAndCoreParameters from './GovernanceAndCoreParameters'
-import GovernanceRewardsTable from './GovernanceRewardsTable'
-import CreateProposal from './CreateProposal'
-import OpenProposalsTable from './OpenProposalsTable'
-import ParameterizerService from '../../services/parameterizer'
-import registry from '../../services/registry'
-import { parameterData } from '../../models/parameters'
 import moment from 'moment-timezone'
 import commafy from 'commafy'
 import PubSub from 'pubsub-js'
 import Eth from 'ethjs'
 
-const url = 'https://adchain-registry-api-staging.metax.io/'
+import GovernanceAndCoreParameters from './GovernanceAndCoreParameters'
+import GovernanceRewardsTable from './GovernanceRewardsTable'
+import CreateProposal from './CreateProposal'
+import OpenProposalsTable from './OpenProposalsTable'
+import ParameterizerService from '../../services/parameterizer'
+import RequestVotingRightsContainer from '../dashboard/RequestVotingRightsContainer.js'
+import WithdrawVotingRightsContainer from '../dashboard/WithdrawVotingRightsContainer.js'
+import ExpiredVotingADT from '../dashboard/ExpiredVotingADT'
+import registry from '../../services/registry'
+import { parameterData } from '../../models/parameters'
+import { registryApiURL } from '../../models/urls'
+import Tooltip from '../Tooltip'
+
+
 const big = (number) => new Eth.BN(number.toString(10))
 const tenToTheNinth = big(10).pow(big(9))
 
 class GovernanceContainer extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       coreParameterData: Object.assign({}, parameterData.coreParameterData),
@@ -31,18 +37,19 @@ class GovernanceContainer extends Component {
     }
   }
 
-  async componentWillMount () {
+  async componentWillMount() {
     try {
       await ParameterizerService.init()
+      this.getAccount()
       await this.getParameterValues('governanceParameterData')
       await this.getParameterValues('coreParameterData')
-      await this.getAccount()
       await this.fetchRewards()
       this.getProposalsAndPropIds()
 
       /*
        * ---------------------- PubSub Pattern -----------------------
-       * Used to subscribe and publish events on non-related components.
+       * 
+       * Subscribe and Publish events on non-related components.
        * Useful for updating state on another component that is not in the same
        * heirarchy or does not have access to the same props/state.
        *
@@ -62,35 +69,52 @@ class GovernanceContainer extends Component {
       console.log(error)
     }
   }
-  componentDidMount () {
+  componentDidMount() {
     this._isMounted = true
   }
-  componentWillUnmount () {
+  componentWillUnmount() {
     // Unsubscribe from event once unmounting
     PubSub.unsubscribe(this.subEvent)
     this._isMounted = false
   }
 
-  render () {
+  render() {
     let props = this.state
-    if (!this.state.rewards) return false
+    const { account } = this.state
+    if (!this.state.rewards || !account) return false
     return (
       <div className='ui stackable grid padded'>
         <div className='column four wide'>
           <GovernanceAndCoreParameters {...props} />
         </div>
-        <div className='column three wide'>
-          <CreateProposal {...props} />
-          <GovernanceRewardsTable {...props} />
-        </div>
-        <div className='column eight wide'>
-          <OpenProposalsTable {...props} />
+        <div className="column twelve wide">
+          <div className="ui stackable grid">
+            <div className='column four wide'>
+              <CreateProposal {...props} />
+              <GovernanceRewardsTable {...props} />
+            </div>
+            <div className='column twelve wide'>
+              <OpenProposalsTable {...props} />
+            </div>
+            <div className='column sixteen wide'>
+              <div className='BoxFrame'>
+                <span className='ui grid BoxFrameLabel'>PRE-APPROVE TOKENS FOR VOTING<Tooltip info={'Pre-Approve Voting Rights to reduce the number of MetaMask transactions.'} /></span>
+                <div className='ui grid'>
+                  <div className='row f-13 f-os'>
+                    <RequestVotingRightsContainer account={account} contract={'parameterizer'} />
+                    <ExpiredVotingADT account={account} contract={'parameterizer'} />
+                    <WithdrawVotingRightsContainer account={account} contract={'parameterizer'} />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     )
   }
 
-  getParameterValues (parameterType) {
+  getParameterValues(parameterType) {
     let result
     _.forOwn(this.state[parameterType], (param, name) => {
       try {
@@ -110,18 +134,16 @@ class GovernanceContainer extends Component {
     })
   }
 
-  getAccount () {
-    if (!this.state.account) {
-      const account = registry.getAccount()
-      if (this._isMounted) {
-        this.setState({
-          account
-        })
-      }
+  getAccount() {
+    const account = registry.getAccount()
+    if (this._isMounted) {
+      this.setState({
+        account
+      })
     }
   }
 
-  getProposalsAndPropIds () {
+  getProposalsAndPropIds() {
     let proposals
     // reset state
     this.setState({
@@ -150,7 +172,7 @@ class GovernanceContainer extends Component {
     }
   }
 
-  formatProposal (proposal, propId) {
+  formatProposal(proposal, propId) {
     return {
       propId,
       appExpiry: moment.tz(proposal[0].c[0], moment.tz.guess())._i,
@@ -167,7 +189,7 @@ class GovernanceContainer extends Component {
     }
   }
 
-  formatValue (name, value) {
+  formatValue(name, value) {
     try {
       switch (name) {
         case 'minDeposit':
@@ -191,8 +213,8 @@ class GovernanceContainer extends Component {
     }
   }
 
-  async fetchRewards () {
-    let data = await (await window.fetch(`${url}/parameterization/rewards?account=${this.state.account}`)).json()
+  async fetchRewards() {
+    let data = await (await window.fetch(`${registryApiURL}parameterization/rewards?account=${this.state.account}`)).json()
     // data = _.filter(data, (rewards) => rewards.status === 'unclaimed')
 
     if (data instanceof Array) {

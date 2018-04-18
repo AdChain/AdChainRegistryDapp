@@ -53,10 +53,23 @@ async function init () {
             token.init()
           ])
           try {
-            calculateGas({
-              event: 'page load',
-              contract_event: false
-            })
+            // Store item to prevent multiple entries of page load event
+            let time = Number(window.localStorage.getItem('page load'))
+            if(time){
+              if(time > Date.now() + 40000){
+                calculateGas({
+                  event: 'page load',
+                  contract_event: false
+                })
+                window.localStorage.setItem('page load', Date.now())
+              }
+            }else{
+              window.localStorage.setItem('page load', Date.now())
+              calculateGas({
+                event: 'page load',
+                contract_event: false
+              })
+            }
           } catch (error) {
             console.log('error reporting gas')
           }

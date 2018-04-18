@@ -1,12 +1,17 @@
 import React from 'react'
 import registry from '../services/registry'
 import moment from 'moment'
+import store from '../store'
 
 function isExpired (end) {
   const now = moment().unix()
   if (!end) return false
   return end < now
 }
+
+store.subscribe(x => {
+  getWithdrawn()
+})
 
 const getDomainState = async (domain) => {
   if (!domain) return {}
@@ -156,7 +161,7 @@ const getDomainState = async (domain) => {
     return item
 
 // --------------------------------------------------------------
-// -------------Catch All Wrong Network--------------------------
+// -------------Catch All - Wrong Network------------------------
 // --------------------------------------------------------------
   } catch (error) {
     console.log(error)
@@ -176,6 +181,11 @@ const getDomainState = async (domain) => {
       return {}
     }
   }
+}
+
+const getWithdrawn = async () => {
+  const withdrawn = await (await window.fetch(`https://adchain-registry-api-staging.metax.io/registry/domains?withdrawn`)).json()
+  return withdrawn
 }
 
 export default getDomainState
