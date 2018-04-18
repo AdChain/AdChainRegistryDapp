@@ -33,8 +33,13 @@ class RedditReasonModal extends Component {
               Reasoning
             </div>
             <div className='RedditReason'>
-              {!_.isEmpty(this.props.data) ? this.props.data.selftext.split('\n')[2].replace('Reason: ', '')
-                : 'No reason has been submitted.'}
+              {
+                !_.isEmpty(this.props.data)
+                  ? this.props.data.selftext
+                    ? this.props.data.selftext.split('\n')[2].replace('Reason: ', '')
+                    : 'No reason has been submitted.'
+                  : 'No reason has been submitted.'
+              }
             </div>
             <div className='ButtonsContainer'>
               <Button basic className='CancelButton' onClick={this.close}>Cancel</Button>

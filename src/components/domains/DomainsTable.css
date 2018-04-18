@@ -161,7 +161,19 @@
 
 :root:root .DomainsTable .ReactTable .-pagination .-btn {
   padding: .2em;
+  background-color: #FFF;
 }
+
+:root:root .DomainsTable .ReactTable .-pagination .-btn:hover {
+  background-color: #3434CE;
+  color: #FFF;
+}
+
+:root:root .ReactTable .-pagination .-btn[disabled]:hover {
+  background-color: unset;
+  color: rgba(0,0,0,0.6);
+}
+
 
 :root:root .DomainsTable .ReactTable .-pagination .-pageInfo {
   color: #a2a2a2;

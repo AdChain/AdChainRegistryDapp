@@ -18,7 +18,7 @@ class RegistryGuideStaticChallenge extends Component {
                 />
               </div>
               <Button basic className='right refresh'>
-                Refresh Status
+                Refresh
               </Button>
             </div>
             <div className='ui divider' />

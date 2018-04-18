@@ -75,7 +75,7 @@ const getDomainState = async (domain) => {
           item.deposit = listing.currentDeposit
           item.label = <span><i className='icon check circle' /> <strong>|&nbsp;</strong> Pending</span>
           item.color = 'greyblack'
-          item.actionLabel = 'REFRESH STATUS'
+          item.actionLabel = 'REFRESH'
           item.stageMapSrc = 'MapInRegistryRevealPending'
         } else {
           item.stage = 'in_registry'
@@ -99,7 +99,7 @@ const getDomainState = async (domain) => {
 // --------------------------------------------------------------
     } else if (challengeOpen) {
       if (isExpired(applicationExpiry)) {
-        item.actionLabel = 'REFRESH STATUS'
+        item.actionLabel = 'REFRESH'
         item.color = 'greyblack'
         item.stageMapSrc = 'MapInApplicationPending'
         item.label = 'Application (Pending)'
@@ -142,7 +142,7 @@ const getDomainState = async (domain) => {
 // -----------------------------------------
 // -----------------------------------------
     } else if (applicationExists) {
-      item.actionLabel = 'REFRESH STATUS'
+      item.actionLabel = 'REFRESH'
       item.color = 'greyblack'
       item.stageMapSrc = 'MapRevealPending'
       item.label = <span><i className='icon circle thin' />Reveal - Pending</span>

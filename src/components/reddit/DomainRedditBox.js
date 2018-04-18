@@ -4,15 +4,12 @@ import _ from 'lodash'
 import toastr from 'toastr'
 import moment from 'moment'
 import Tooltip from '../Tooltip'
-import { Tab, Button, Input } from 'semantic-ui-react'
+import { Tab, Button, Input, Loader } from 'semantic-ui-react'
 import './DomainRedditBox.css'
 
 import getDomainState from '../../utils/determineDomainState'
 import RedditReasonModal from './RedditReasonModal'
 import { getPosts, createComment } from '../../services/redditActions'
-
-const activeLoader = 'ui active centered indeterminate inline small loader'
-const inactiveLoader = 'ui centered indeterminate inline small loader'
 
 class DomainProfileInfo extends Component {
   constructor (props) {
@@ -32,7 +29,7 @@ class DomainProfileInfo extends Component {
       redditIdApplied: '',
       redditItChallenged: '',
       redditTabIndex: 0,
-      inProgress: inactiveLoader
+      inProgress: ''
     }
 
     this.handleInputChange = this.handleInputChange.bind(this)
@@ -98,7 +95,7 @@ class DomainProfileInfo extends Component {
               {comment[idx].author}
             </span>
             <span className='PostVotes'>
-              {comment[idx].score}
+              {'+' + comment[idx].score}
             </span>
             <span className='PostTime'>
               {moment.unix(comment[idx].created - 28800).fromNow()}
@@ -107,7 +104,7 @@ class DomainProfileInfo extends Component {
           <div className='PostContent'>
             {comment[idx].body}
           </div>
-        </div>) : 'There is currently no discussion for this domain. Feel free to be the first to start the discussion!'
+        </div>) : <div className={'t-center pd-10 f-os'}>There is currently no discussion for this domain. Feel free to be the first to start the discussion!</div>
 
     const challengedData = !_.isEmpty(challengedObj) && challengedObj.id && challengedObj.comments.length > 0
       ? challengedObj.comments.map((comment, idx) =>
@@ -118,7 +115,7 @@ class DomainProfileInfo extends Component {
               {comment[idx].author}
             </span>
             <span className='PostVotes'>
-              {comment[idx].score}
+              {'+' + comment[idx].score}
             </span>
             <span className='PostTime'>
               {moment.unix(comment[idx].created - 28800).fromNow()}
@@ -142,6 +139,30 @@ class DomainProfileInfo extends Component {
         </g>
       </svg>
     )
+
+    const loadingMessage = inProgress === 'success'
+      ? (
+        <div className='LoadingMessage success'>
+          <i className='icon big check circle' />
+        Your comment was successfully posted!
+        </div>
+      )
+      : inProgress === 'error'
+        ? (
+          <div className='LoadingMessage error'>
+            <i className='icon big remove circle ' />
+          There was an error with your submission.
+          </div>
+        ) : inProgress === 'loading'
+          ? (
+            <Loader indeterminate active inline='centered' />
+          ) : inProgress === 'blank'
+            ? (
+              <div className='LoadingMessage error'>
+                <i className='icon big remove circle ' />
+          Please enter a comment.
+              </div>
+            ) : null
 
     const panes = [
       {
@@ -167,6 +188,7 @@ class DomainProfileInfo extends Component {
             <div className='RedditInputContainer'>
               <form
                 onSubmit={this.onCommentSubmit}>
+                {loadingMessage}
                 <Input
                   type='text'
                   id={!_.isEmpty(appliedObj) ? appliedObj.id : ''}
@@ -175,7 +197,6 @@ class DomainProfileInfo extends Component {
                   value={this.state.comment}
                   onChange={this.handleInputChange}
                 />
-                <div className={inProgress} />
               </form>
             </div>
           </Tab.Pane>
@@ -207,6 +228,7 @@ class DomainProfileInfo extends Component {
               <div className='RedditInputContainer'>
                 <form
                   onSubmit={this.onCommentSubmit}>
+                  {loadingMessage}
                   <Input
                     type='text'
                     id={!_.isEmpty(challengedObj) ? challengedObj.id : ''}
@@ -215,7 +237,6 @@ class DomainProfileInfo extends Component {
                     value={this.state.comment}
                     onChange={this.handleInputChange}
                   />
-                  <div className={inProgress} />
                 </form>
               </div>
             </Tab.Pane>
@@ -227,8 +248,8 @@ class DomainProfileInfo extends Component {
       <div className='DomainProfileInfo BoxFrame'>
         <span className='BoxFrameLabel ui grid'>REDDIT DISCUSSION<Tooltip info={'This Reddit discussion box will display the threads associated with the latest application or challenge of this domain.'} /></span>
         <div className='ui grid stackable'>
-          <div className='column sixteen wide' style={{padding: '13px 4px'}}>
-            <Tab menu={{ secondary: true, pointing: true }} panes={panes} onTabChange={this.handleTabChange} activeIndex={redditTabIndex} />
+          <div className='column sixteen wide' style={{padding: '13px 4px', height: '100%'}}>
+            <Tab menu={{ secondary: true, pointing: true }} panes={panes} onTabChange={this.handleTabChange} activeIndex={redditTabIndex} className='TabDiv'/>
           </div>
         </div>
       </div>
@@ -250,7 +271,8 @@ class DomainProfileInfo extends Component {
       this.setState({
         // redditId: data.activeIndex === 0 ? appliedObj.id : challengedObj.id,
         comment: '',
-        redditTabIndex: data.activeIndex
+        redditTabIndex: data.activeIndex,
+        inProgress: ''
       })
     }
   }
@@ -279,25 +301,64 @@ class DomainProfileInfo extends Component {
     const { comment, redditTabIndex } = this.state
 
     const redditId = redditTabIndex === 0 ? this.state.redditIdApplied : this.state.redditItChallenged
+    let redditCommentsObj = redditTabIndex === 0 ? {...this.state.appliedObj} : {...this.state.challengedObj}
+
+    if(!comment) {
+      this.setState({
+        inProgress: 'blank'
+      })
+      return
+    }
 
     try {
       this.setState({
-        inProgress: activeLoader
+        inProgress: 'loading'
       })
 
-      await createComment(redditId, comment)
-      setTimeout(() => this.fetchRedditData()
-        .then(this.setState({
-          inProgress: inactiveLoader,
+      const result = await createComment(redditId, comment)
+      const idx = redditCommentsObj.comments ? redditCommentsObj.comments.length : 0
+
+      if (!redditCommentsObj.comments) {
+        redditCommentsObj.comments = []
+      }
+
+      redditCommentsObj.comments.push({
+        [idx]: {
+          author: 'qa_adchain_registry',
+          body: result.data.comment,
+          created: moment().unix() + 28800,
+          score: 1
+        }
+      })
+      if (redditTabIndex === 0) {
+        this.setState({
+          appliedObj: redditCommentsObj,
+          inProgress: 'success',
           comment: ''
-        })), 4e3)
+        })
+      } else {
+        this.setState({
+          challengedObj: redditCommentsObj,
+          inProgress: 'success',
+          comment: ''
+        })
+      }
+      setTimeout(() => {
+        this.setState({
+          inProgress: ''
+        })
+      }, 5e3)
     } catch (error) {
       this.setState({
         comment: '',
-        inProgress: inactiveLoader
+        inProgress: 'error'
       })
-      toastr.error('There was an error submitting your comment.')
       console.error(error)
+      setTimeout(() => {
+        this.setState({
+          inProgress: ''
+        })
+      }, 5e3)
     }
   }
 }

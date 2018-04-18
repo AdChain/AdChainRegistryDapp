@@ -21,7 +21,7 @@ import Eth from 'ethjs'
 
 import './AccountDashboard.css'
 
-const url = 'https://adchain-registry-api-staging.metax.io/'
+const url = 'https://adchain-registry-api-staging.metax.io'
 const big = (number) => new Eth.BN(number.toString(10))
 const tenToTheNinth = big(10).pow(big(9))
 

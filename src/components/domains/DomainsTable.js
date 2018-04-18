@@ -165,18 +165,28 @@ class DomainsTable extends Component {
           className={color ? `ui mini button table-button ${color}` : ' table-button transparent-button'}
           href='#!'
           title={actionLabel}
-          onClick={(event) => {
+          onClick={async (event) => {
             event.preventDefault()
-            if (actionLabel === 'REFRESH STATUS') {
+            if (actionLabel === 'REFRESH') {
               this.updateStatus(domain)
               return
             }
             if (actionLabel === 'APPLY') {
-              PubSub.publish('SideBarApplicationContainer.populateApplicationForm', domain)
+              try {
+                const minDeposit = await registry.getMinDeposit()
+                let data = {
+                  domain: domain,
+                  stake: Number(minDeposit),
+                  action: 'apply'
+                }
+                PubSub.publish('RedditConfirmationModal.show', data)
+              } catch (error) {
+                console.log('Error applying the domain: ', error)
+              }
               return
             }
             history.push(`/domains/${domain}`)
-          }}>{actionLabel} &nbsp;{actionLabel === 'REFRESH STATUS' ? <i className='icon refresh' /> : '' }</a>
+          }}>{actionLabel} &nbsp;{actionLabel === 'REFRESH' ? <i className='icon refresh' /> : '' }</a>
       },
       minWidth: 120
     }, {
@@ -190,7 +200,7 @@ class DomainsTable extends Component {
         return ([
           expired ? <a
             href='#!'
-            title='Refresh status'
+            title='Refresh'
             key={Math.random()}
             onClick={(event) => {
               event.preventDefault()
@@ -242,7 +252,6 @@ class DomainsTable extends Component {
   }
 
   async onTableFetchData () {
-    console.log('fetching data')
     if (this._isMounted) {
       this.setState({
         isLoading: true
@@ -288,8 +297,6 @@ class DomainsTable extends Component {
   }
 
   async getData (filters) {
-    console.log('getting data')
-    console.log('filters: ', filters)
     try {
       const {
         pageSize
@@ -375,14 +382,12 @@ class DomainsTable extends Component {
         this.onTableFetchData()
 
       }
-
-      
     } catch (error) {
       console.log(error)
     }
   }
 
-  async fetchNewData (topic, source) {
+  async fetchNewData (topic, source, counter = 0) {
     const { filters } = this.state
     const transactionInfo = source
     const currentNumDomains = Number(window.localStorage.getItem('TotalNumDomains'))
@@ -392,7 +397,7 @@ class DomainsTable extends Component {
       if (!Array.isArray(domains)) {
         domains = []
       } else {
-        if(domains.length !== currentNumDomains) {
+        if (domains.length !== currentNumDomains) {
           // if new result from api endpoint is not equal to the current number of domains
           // that means that the database has been updated, so we need to re-render the table
           this.getData(filters) // this should re-render the table and set a new number of total num domains
@@ -400,9 +405,14 @@ class DomainsTable extends Component {
         } else {
           // if the result from api is still the same as the existing number in storage,
           // we want to run this function again to hit the api again
+          if (counter === 5) {
+            PubSub.publish('TransactionProgressModal.next', transactionInfo)
+            return
+          }
           setTimeout(() => {
-            this.fetchNewData('', transactionInfo)
+            this.fetchNewData('', transactionInfo, ++counter)
           }, 2e3)
+
         }
       }
     } catch (error) {

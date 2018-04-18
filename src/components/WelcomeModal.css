@@ -28,7 +28,7 @@
 }
 
 .ant-steps-item-title {
-  font-size: 10px !important; 
+  font-size: 10px !important;
 }
 
 .ant-steps-label-vertical .ant-steps-item-content {
@@ -113,7 +113,7 @@
 }
 
 .WelcomeCheckBox {
-  text-align: right;  
+  text-align: right;
 }
 
 .WelcomeCheckBox label {
@@ -144,4 +144,12 @@
 
 .ant-steps-item-finish > .ant-steps-item-tail:after {
     background-color: #3434CE !important;
+}
+
+a.WelcomeHyperlinks {
+  color: #3434CE;
+}
+
+a.WelcomeHyperlinks:hover {
+  cursor: pointer;
 }
