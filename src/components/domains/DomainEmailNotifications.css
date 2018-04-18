@@ -20,9 +20,8 @@
   display: inline-block;
 }
 
-
 .DomainEmailNotifications .DomainEmailNotificationsContainer label {
-  padding-left: 6px;
+  padding-left: 0px;
   padding-top: 10px;
   margin-top: 4px;
   display: inline-block;
@@ -46,7 +45,10 @@
   border-bottom: 1px solid #BDBDBD;
   border-radius: 0;
   padding-bottom: 2px;
-  margin-left: 6px;
+  margin-left: 0px;
+  padding-left: 0px;
+  padding-top: 0px;
+  height: 30px;
   /* color: #F4F7FA; */
 }
 

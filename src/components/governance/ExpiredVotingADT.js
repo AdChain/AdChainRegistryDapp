@@ -61,8 +61,9 @@ class ExpiredVotingADT extends Component {
   }
 
   async getUnrevealed () {
-    let revealed = await (await window.fetch(`https://adchain-registry-api-staging.metax.io/registry/domains?account=${this.props.account}&include=unrevealed`)).json()
-    return revealed
+    let unrevealed = await (await window.fetch(`https://adchain-registry-api-staging.metax.io/registry/domains?account=${this.props.account}&include=unrevealed`)).json()
+    console.log("unrevealed: ", unrevealed)
+    return unrevealed
   }
 
 
