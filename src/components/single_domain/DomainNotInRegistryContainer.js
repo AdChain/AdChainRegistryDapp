@@ -36,7 +36,7 @@ class DomainNotInRegistryContainer extends Component {
                 className='right refresh'
                 onClick={() => this.updateStatus(domain)}
               >
-                Refresh Status
+                Refresh
               </Button>
             </div>
             <div className='ui divider' />

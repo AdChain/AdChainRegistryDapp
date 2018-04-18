@@ -161,7 +161,7 @@ class OpenProposalsTable extends Component {
       proposal.stage = 'InApplication'
     } else if (proposal) {
       action.class = 'ui mini button greyblack refresh'
-      action.label = 'REFRESH STATUS'
+      action.label = 'REFRESH'
       proposal.stage = 'InApplication'
       action.event = () => {
         try {

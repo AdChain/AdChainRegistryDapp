@@ -86,7 +86,7 @@ class DomainChallengeContainer extends Component {
                     className={isExpired(stageEndMoment) ? 'hide' : ' show right refresh'}
                     onClick={this.updateStatus}
                   >
-                  Refresh Status
+                  Refresh
                   </Button>
                 </div>
                 <div className='ui divider' />

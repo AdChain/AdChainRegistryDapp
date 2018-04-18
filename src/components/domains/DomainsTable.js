@@ -167,7 +167,7 @@ class DomainsTable extends Component {
           title={actionLabel}
           onClick={async (event) => {
             event.preventDefault()
-            if (actionLabel === 'REFRESH STATUS') {
+            if (actionLabel === 'REFRESH') {
               this.updateStatus(domain)
               return
             }
@@ -186,7 +186,7 @@ class DomainsTable extends Component {
               return
             }
             history.push(`/domains/${domain}`)
-          }}>{actionLabel} &nbsp;{actionLabel === 'REFRESH STATUS' ? <i className='icon refresh' /> : '' }</a>
+          }}>{actionLabel} &nbsp;{actionLabel === 'REFRESH' ? <i className='icon refresh' /> : '' }</a>
       },
       minWidth: 120
     }, {
@@ -200,7 +200,7 @@ class DomainsTable extends Component {
         return ([
           expired ? <a
             href='#!'
-            title='Refresh status'
+            title='Refresh'
             key={Math.random()}
             onClick={(event) => {
               event.preventDefault()

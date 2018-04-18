@@ -37,14 +37,14 @@ class DomainPendingContainer extends Component {
                 className='right refresh'
                 onClick={() => this.updateStatus(domain)}
               >
-                Refresh Status
+                Refresh
               </Button>
             </div>
             <div className='ui divider' />
           </div>
           <div className='column sixteen wide center aligned'>
             <p className='PendingMessage'>
-              Please click on the <strong>REFRESH STATUS</strong> button above to refresh the correct stage for {domain}
+              Please click on the <strong>REFRESH</strong> button above to refresh the correct stage for {domain}
             </p>
           </div>
         </div>
