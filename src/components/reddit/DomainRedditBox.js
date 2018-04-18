@@ -157,12 +157,12 @@ class DomainProfileInfo extends Component {
           ? (
             <Loader indeterminate active inline='centered' />
           ) : inProgress === 'blank'
-          ? (
-            <div className='LoadingMessage error'>
-            <i className='icon big remove circle ' />
+            ? (
+              <div className='LoadingMessage error'>
+                <i className='icon big remove circle ' />
           Please enter a comment.
-          </div>
-          ) : null
+              </div>
+            ) : null
 
     const panes = [
       {
@@ -271,7 +271,8 @@ class DomainProfileInfo extends Component {
       this.setState({
         // redditId: data.activeIndex === 0 ? appliedObj.id : challengedObj.id,
         comment: '',
-        redditTabIndex: data.activeIndex
+        redditTabIndex: data.activeIndex,
+        inProgress: ''
       })
     }
   }
