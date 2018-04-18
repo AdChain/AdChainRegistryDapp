@@ -25,12 +25,12 @@ class RequestVotingRightsContainer extends Component {
     this.onVotesKeyUp = this.onVotesKeyUp.bind(this)
   }
 
-  componentWillMount(){
-    if(this.state.contract === 'registry'){
+  componentWillMount () {
+    if (this.state.contract === 'registry') {
       this.setState({
-        contract: registry,
+        contract: registry
       })
-    }else if(this.state.contract === 'parameterizer'){
+    } else if (this.state.contract === 'parameterizer') {
       this.setState({
         contract: parameterizer
       })
@@ -47,7 +47,6 @@ class RequestVotingRightsContainer extends Component {
     })
   }
 
-
   componentWillUnmount () {
     this._isMounted = false
   }
@@ -61,7 +60,7 @@ class RequestVotingRightsContainer extends Component {
 
       <div className='column six wide VotingRights t-center'>
         <div className='VotingRightsText'>
-          Current Voting Rights <Tooltip class='InfoIconHigh' info='The amount of adToken you have pre-approved for voting.' />
+          Current Voting Rights <Tooltip class='InfoIconHigh' info='The amount of adToken you have pre-approved for voting. You will be able to withdraw your Voting ADT when all polls with your token end.' />
           <br />
           <span className='VotingTokensAmount'>
             {availableVotes !== null ? commafy(availableVotes) + ' ADT' : '-'}
@@ -74,7 +73,7 @@ class RequestVotingRightsContainer extends Component {
             style={{maxWidth: '90px'}}
             id='RequestVotingRightsContainerInput'
             onKeyUp={this.onVotesKeyUp}
-              />
+          />
           <button
             onClick={this.onRequest}
             className='ui button blue tiny'>
@@ -133,7 +132,7 @@ class RequestVotingRightsContainer extends Component {
     }
 
     try {
-      if(this.state.contract){
+      if (this.state.contract) {
         const availableVotes = (await this.state.contract.getTotalVotingRights()).toNumber()
         if (this._isMounted) {
           this.setState({
@@ -141,7 +140,6 @@ class RequestVotingRightsContainer extends Component {
           })
         }
       }
-
     } catch (error) {
       console.error('Get Available Votes Error: ', error)
       toastr.error('There was an error fetching your available votes. Please make sure you are signed in to MetaMask.')

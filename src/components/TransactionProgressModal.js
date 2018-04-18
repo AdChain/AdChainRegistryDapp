@@ -570,10 +570,11 @@ class TransactionProgressModal extends Component {
               }
             </div>
             <div className='MetaMaskNote'>
+              <br />
               {
                 transactionComplete
                   ? null
-                  : '* If a transaction is stuck, you can check your MetaMask status'
+                  : <p>* Please click "SUBMIT" in your MetaMask extension. If a transaction seems stuck, check MetaMask and/or the transaction's Etherscan link for the current status.</p>
               }
             </div>
             <div className='steps-action'>
