@@ -59,12 +59,12 @@ class GovernanceRewardsTable extends Component {
         color = this.props.coreParameterData[name] ? 'f-blue bold' : 'f-red bold'
         if (rewards[i].hasOwnProperty('status')) {
           console.log(rewards[i].status === 'claimed')
-          if (rewards[i].status === 'unclaimed' || rewards[i].status === 'claimed') {
+          if (rewards[i].status === 'unclaimed') {
             result.push(
               <div key={name + i} className='ParameterRow'>
                 <span key={name + i} className={color}>{allParameterData[name].name}</span>
                 {
-                  !this.state.claimProgress && rewards[i].status === "unclaimed"
+                  rewards[i].status === "unclaimed"
                     ?
                     <span key={i} className='ui button green' onClick={() => { this.claimReward(rewards[i].challenge_id, rewards[i].salt) }} style={{ padding: '0.571429em 1.2em' }}>CLAIM</span>
                     :
@@ -74,10 +74,6 @@ class GovernanceRewardsTable extends Component {
                         Claimed <i className='icon check circle' style={{ color: 'green', fontSize: '13px' }} />
                       </span>
                       :
-                      this.state.claimProgress !== 'SUCCESS'
-                        ?
-                        <span key={i} className='ui green loader inline mini active' style={{ padding: '.571429em 5em .571429em 0', float: 'right' }} />
-                        :
                         <span key={i} style={{ float: 'right', color: 'green' }}>
                           Claimed <i className='icon check circle' style={{ color: 'green', fontSize: '13px' }} />
                         </span>
