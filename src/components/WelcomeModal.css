@@ -4,8 +4,8 @@
   text-align: left;
   padding-top: 40px;
   font-family: 'Open Sans', sans-serif;
-  padding-left: 40px;
-  padding-right: 40px;
+  padding-left: 50px;
+  padding-right: 50px;
 }
 
 .steps-content p {
@@ -15,6 +15,14 @@
 .steps-action {
   margin-top: 24px;
   text-align: center;
+}
+
+:root:root:root .WelcomeModalContainer .ant-steps-item {
+  flex: 0 1 0%;
+}
+
+:root:root:root .WelcomeModalContainer .ant-steps-dot .ant-steps-item-title {
+  padding-left: 40px;
 }
 
 :root:root:root .ant-steps-dot .ant-steps-item-tail:after {
@@ -36,6 +44,7 @@
   font-family: 'Open Sans', sans-serif;
   text-transform: uppercase;
   font-weight: bold;
+  width: 100px;
 }
 
 .WelcomeHeaderUnderline {
@@ -144,4 +153,54 @@
 
 .ant-steps-item-finish > .ant-steps-item-tail:after {
     background-color: #3434CE !important;
+}
+
+.WelcomeModalContainer .DomainEmailNotifications {
+  box-shadow: unset;
+  width: 350px;
+}
+
+.WelcomeModalContainer .DomainEmailNotifications .BoxFrameLabel {
+  display: none !important;
+}
+
+.WelcomeModalContainer .WelcomeEmailFooter {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.WelcomeModalContainer .WelcomeEmailFooter span {
+  font-size: 10px;
+  opacity: .6;
+  padding-right: 10px;
+}
+
+.GovernXLogoContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.GovernXLogo {
+  width: 90px;
+  height: 40px;
+}
+
+.WelcomeEmailFooter .DomainEmailNotificationsContainer {
+  padding-left: 0px !important;
+}
+.WelcomeEmailFooter .DomainEmailNotifications .SubscribeButtonContainer {
+  display: none !important;
+}
+
+.WelcomeEmailFooter .DomainEmailNotificationsContainer label {
+  padding-left: 0px !important;
+}
+
+.WelcomeEmailFooter .DomainEmailNotificationsContainer input, 
+.WelcomeEmailFooter .DomainEmailNotificationsContainer input:focus {
+  margin-left: 0px !important;
+  padding-left: 0px !important;
 }

@@ -6,6 +6,8 @@ import 'antd/lib/steps/style/css'
 import { Modal, Checkbox } from 'semantic-ui-react'
 import './WelcomeModal.css'
 import PubSub from 'pubsub-js'
+import DomainEmailNotifications from './domains/DomainEmailNotifications'
+import GovernXLogo from './assets/governx_logo.svg'
 
 const Step = Steps.Step
 
@@ -26,6 +28,21 @@ const steps = [
   }, {
     title: 'Rewards',
     content: <div><b>adToken Rewards</b><p>Applicants, Challengers, and Voters can all earn adToken rewards as a result of winning by majority vote. These are called <u>special dispensation rewards</u>. If the applicant wins the vote, then the special dispensation is paid out of the challengers minimum deposit, and if the challenger wins the vote, then the special dispensation is paid out of the applicants minimum deposit.</p><p>Voters that voted on the winning side also receive a portion of the special dispensation reward distributed according to their token weight, i.e., the more token used to vote with the bigger the share of the reward. See <u>voter rewards</u> for more.</p></div>
+  }, {
+    title: 'Email',
+    content:
+  <div>
+    <b>Sign Up For Email Notifications</b>
+    <p>Do you have FOMO? Powered by GovernX, the adChain Registry Daily Digest email notifications are the best way to make sure you don't miss out on everything that happens in the adChain Registry.</p>
+    <br />
+    <p>Sign up below to receive the adChain Registry Daily Digest:</p>
+    <div className='WelcomeEmailFooter'>
+      <DomainEmailNotifications />
+      <div className='GovernXLogoContainer'>
+        <span>Powered By</span><img src={GovernXLogo} alt='GovernX' className='GovernXLogo' />
+      </div>
+    </div>
+  </div>
   }
 ]
 
@@ -37,10 +54,13 @@ class WelcomeModal extends Component {
       open: true,
       size: 'small',
       returningUser: false,
-      displaySettingChanged: false
+      displaySettingChanged: false,
+      finalButtonText: 'Finish'
     }
 
     this.open = this.open.bind(this)
+    this.updateButtonText = this.updateButtonText.bind(this)
+    this.close = this.close.bind(this)
   }
   next () {
     const current = this.state.current + 1
@@ -60,7 +80,20 @@ class WelcomeModal extends Component {
     } else {
       window.localStorage.setItem('returningUser', 'false')
     }
-    this.setState({ open: false })
+    if (this.state.finalButtonText === 'Subscribe') {
+      PubSub.publish('DomainEmailNotifications.subscribe')
+    }
+    this.setState({
+      open: false,
+      current: 0,
+      finalButtonText: 'Finish'
+    })
+  }
+
+  updateButtonText (topic, title) {
+    this.setState({
+      finalButtonText: title
+    })
   }
 
   setReturningUser () {
@@ -82,21 +115,24 @@ class WelcomeModal extends Component {
     this.setState({
       open: true,
       displaySettingChanged: displaySettingChanged,
-      returningUser: returningUser
+      returningUser: returningUser,
+      finalButtonText: 'Finish'
     })
   }
 
   componentWillMount () {
     this.subEvent = PubSub.subscribe('WelcomeModal.open', this.open)
+    this.updateEvent = PubSub.subscribe('WelcomeModal.updateButtonText', this.updateButtonText)
+    this.closeEvent = PubSub.subscribe('WelcomeModal.close', this.close)
   }
 
   render () {
-    const { current, open, size } = this.state
+    const { current, open, size, finalButtonText } = this.state
     const returningUser = window.localStorage.getItem('returningUser')
 
     return (
       !returningUser || returningUser === 'false'
-        ? <Modal size={size} open={open} onClose={() => this.close()} closeIcon>
+        ? <Modal size={size} open={open} onClose={() => this.close()} closeIcon className='WelcomeModalContainer'>
           <Modal.Header className='WelcomeHeader'><span className='WelcomeHeaderUnderline'>WELCOME TO THE ADCHAIN REGISTRY</span></Modal.Header>
           <Modal.Content>
             <div>
@@ -115,7 +151,7 @@ class WelcomeModal extends Component {
                 }
                 {
                   this.state.current === (steps.length - 1) &&
-                  <Button className='WelcomeCloseButton' onClick={() => this.close()}>Finish</Button>
+                  <Button className='WelcomeCloseButton' onClick={() => this.close()}>{finalButtonText}</Button>
                 }
               </div>
               <div className='WelcomeCheckBox'>

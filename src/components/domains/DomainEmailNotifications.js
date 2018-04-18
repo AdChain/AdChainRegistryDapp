@@ -4,6 +4,9 @@ import Tooltip from '../Tooltip'
 import { Button, Input } from 'semantic-ui-react'
 import toastr from 'toastr'
 import './DomainEmailNotifications.css'
+import PubSub from 'pubsub-js'
+import EmailConfirmationModal from '../EmailConfirmationModal'
+import isValidEmail from 'is-valid-email'
 
 class DomainEmailNotifications extends Component {
   constructor (props) {
@@ -15,6 +18,11 @@ class DomainEmailNotifications extends Component {
     }
     this.handleChange = this.handleChange.bind(this)
     this.subscribeEmail = this.subscribeEmail.bind(this)
+    this.notifyGovernX = this.notifyGovernX.bind(this)
+  }
+
+  componentWillMount () {
+    this.subscribeEvent = PubSub.subscribe('DomainEmailNotifications.subscribe', this.subscribeEmail)
   }
 
   // No functionality yet
@@ -24,7 +32,7 @@ class DomainEmailNotifications extends Component {
       <div className='DomainEmailNotifications BoxFrame'>
         <div className='ui grid stackable'>
           <div className='DomainEmailNotificationsContainer column sixteen wide'>
-            <span className='BoxFrameLabel ui grid'>ADCHAIN REGISTRY EMAIL NOTIFICATIONS <Tooltip info={'The fields in this box filter the user view in the DOMAINS table.'} /></span>
+            <span className='BoxFrameLabel ui grid'>ADCHAIN REGISTRY EMAIL NOTIFICATIONS <Tooltip info={'Receive daily updates on new activity in the adChain Registry. Powered by GovernX'} /></span>
             <div className={this.state.subscribed ? 'hide' : 'show'}>
               <label className='f-os'>Email</label>
               <div className='EmailInputContainer'>
@@ -46,6 +54,7 @@ class DomainEmailNotifications extends Component {
         <div className={this.state.subscribed ? 'hide' : 'show SubscribeButtonContainer'}>
           <Button basic onClick={() => { this.subscribeEmail() }}>Subscribe</Button>
         </div>
+        <EmailConfirmationModal email={this.state.email} />
       </div>
     )
   }
@@ -54,28 +63,57 @@ class DomainEmailNotifications extends Component {
     this.setState({
       [target.name]: target.value
     })
+    PubSub.publish('WelcomeModal.updateButtonText', target.value ? 'Subscribe' : 'Finish')
   }
 
-  async subscribeEmail () {
-    if (!this.state.email) {
-      toastr.error('The field you wish to interact with is empty')
-      return false
-    }
+  async notifyGovernX () {
+    const {email} = this.state
     try {
-      let res = await axios.get('https://api.governx.org/notify', { params: {
-        network: 'rinkeby',
-        organization: '0x5a7e9046edadc58bb94f8c18c68856ff83f7ec4d',
-        email: this.state.email,
-        url: 'https://metax.io'
-      }})
+      let res = await axios.get('https://api.governx.org/notify', {
+        params: {
+          network: 'rinkeby',
+          organization: '0x5a7e9046edadc58bb94f8c18c68856ff83f7ec4d',
+          email: email,
+          url: 'https://metax.io'
+        }
+      })
       if (res.data.success === true) {
         this.setState({
           subscribed: true
         })
+        PubSub.publish('EmailConfirmationModal.open', email)
       }
     } catch (error) {
       toastr.error('There was an error subscribing to email notifications')
       console.log(error)
+    }
+  }
+
+  async subscribeEmail (topic) {
+    const {email} = this.state
+
+    // this code gets executed when run from welcome modal
+    if (topic) {
+      if (email) { // if there is an email input
+        const validEmail = isValidEmail(email)
+        if (validEmail) { // if it's a valid email
+          PubSub.subscribe('WelcomeModal.close', this.close)
+          await this.notifyGovernX()
+        } else {
+          toastr.error('You did not enter a valid email address')
+        }
+      }
+    } else {
+      // this is executed on the normal domains email notifications container
+      if (!email) {
+        toastr.error('The field you wish to interact with is empty')
+        return false
+      } else {
+        const validEmail = isValidEmail(email)
+        if (validEmail) {
+          this.notifyGovernX()
+        }
+      }
     }
   }
 }

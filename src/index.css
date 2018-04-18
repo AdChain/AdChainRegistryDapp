@@ -315,13 +315,13 @@ select::-ms-expand {
   }
 }
 
-@media only screen and (min-width: 1279px) and (max-width: 1280px) {
+/* @media only screen and (min-width: 1279px) and (max-width: 1280px) {
   body {
    -moz-transform: scale(0.8, 0.8);
    zoom: 0.8;
    zoom: 80%;
   }
-}
+} */
 
 /*
  * /END GLOBALS
