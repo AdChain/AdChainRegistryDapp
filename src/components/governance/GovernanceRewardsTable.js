@@ -21,7 +21,7 @@ class GovernanceRewardsTable extends Component {
 
     return (
       <div className='AllParameters mt-25'>
-        <div className='BoxFrame RegistryGuideClaimRewards' style={{minHeight:'129px'}}>
+        <div className='BoxFrame RegistryGuideClaimRewards' style={{ minHeight: '129px' }}>
           <span className='BoxFrameLabel ui grid'>CLAIM REWARDS <Tooltip info={'These are the proposals you have voted in and can claim rewards. If you can\'t claim your rewards here you may have not yet REFRESHED STATUS of the proposal.'} /></span>
           <div className='ui grid'>
             {
@@ -56,36 +56,41 @@ class GovernanceRewardsTable extends Component {
       const table = _.reduce(rewards, (result, { name, value }) => {
         // If name exists in core param data, use blue color, else use red
         i++
-        console.log(rewards[i].status)
         color = this.props.coreParameterData[name] ? 'f-blue bold' : 'f-red bold'
-        result.push(
-          <div key={name + i} className='ParameterRow'>
-            <span key={name + i} className={color}>{allParameterData[name].name}</span>
-            {
-              !this.state.claimProgress && rewards[i].status === "unclaimed"
-                ?
-                <span key={i} className='ui button green' onClick={() => { this.claimReward(rewards[i].challenge_id, rewards[i].salt) }} style={{ padding: '0.571429em 1.2em' }}>CLAIM</span>
-                :
-                rewards[i].status === "claimed"
-                  ?
-                  <span key={i} style={{ float: 'right', color: 'green' }}>
-                    Claimed <i className='icon check circle' style={{ color: 'green', fontSize: '13px' }} />
-                  </span>
-                  :
-                  this.state.claimProgress !== 'SUCCESS'
+        if (rewards[i].hasOwnProperty('status')) {
+          console.log(rewards[i].status === 'claimed')
+          if (rewards[i].status === 'unclaimed' || rewards[i].status === 'claimed') {
+            result.push(
+              <div key={name + i} className='ParameterRow'>
+                <span key={name + i} className={color}>{allParameterData[name].name}</span>
+                {
+                  !this.state.claimProgress && rewards[i].status === "unclaimed"
                     ?
-                    <span key={i} className='ui green loader inline mini active' style={{ padding: '.571429em 5em .571429em 0', float: 'right' }} />
+                    <span key={i} className='ui button green' onClick={() => { this.claimReward(rewards[i].challenge_id, rewards[i].salt) }} style={{ padding: '0.571429em 1.2em' }}>CLAIM</span>
                     :
-                    <span key={i} style={{ float: 'right', color: 'green' }}>
-                      Claimed <i className='icon check circle' style={{ color: 'green', fontSize: '13px' }} />
-                    </span>
-            }
-          </div>
-        )
+                    rewards[i].status === "claimed"
+                      ?
+                      <span key={i} style={{ float: 'right', color: 'green' }}>
+                        Claimed <i className='icon check circle' style={{ color: 'green', fontSize: '13px' }} />
+                      </span>
+                      :
+                      this.state.claimProgress !== 'SUCCESS'
+                        ?
+                        <span key={i} className='ui green loader inline mini active' style={{ padding: '.571429em 5em .571429em 0', float: 'right' }} />
+                        :
+                        <span key={i} style={{ float: 'right', color: 'green' }}>
+                          Claimed <i className='icon check circle' style={{ color: 'green', fontSize: '13px' }} />
+                        </span>
+                }
+              </div>
+            )
+          }
+        }
+
         return result
       }, [])
 
-      if (table.length <= 1) {
+      if (table.length < 1) {
         return false
       } else {
         return table

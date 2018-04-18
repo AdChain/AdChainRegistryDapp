@@ -12,8 +12,10 @@ class ExpiredVotingADT extends Component {
       contract: props.contract,
       account: props.account,
       unrevealed: [],
-      selectedPoll: null
+      selectedPoll: null,
+      fetching: false
     }
+
   }
 
   componentWillMount(){
@@ -35,7 +37,7 @@ class ExpiredVotingADT extends Component {
   }
 
   async init () {
-    if(!this.state.selectedPoll !== null) {
+    if(this.state.fetching) {
       return {}
     }
     try {
@@ -70,8 +72,21 @@ class ExpiredVotingADT extends Component {
   }
 
   async getUnrevealed () {
-    let unrevealed = await (await window.fetch(`https://adchain-registry-api-staging.metax.io/parameterization/rewards?status=unrevealed&account=${this.state.account}`)).json()
-    // Determine which have not been revealed.
+    let unrevealed    
+
+    this.setState({
+      fetching: true
+    })   
+    if(this.state.contract === 'parameterizer'){
+      unrevealed = await (await window.fetch(`https://adchain-registry-api-staging.metax.io/parameterization/rewards?status=unrevealed&account=${this.state.account}`)).json()
+  
+    }else{
+      unrevealed = await (await window.fetch(`https://adchain-registry-api-staging.metax.io/account/rewards?status=unrevealed&account=${this.state.account}`)).json()
+    }
+    this.setState({
+      fetching: false
+    })   
+
     let totalExpiredTokens = this.getSum(unrevealed)
     return {
       totalExpiredTokens,
