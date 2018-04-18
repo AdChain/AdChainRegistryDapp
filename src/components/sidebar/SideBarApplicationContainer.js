@@ -32,7 +32,6 @@ class SideBarApplicationContainer extends Component {
 
   async componentWillMount () {
     await this.getMinDeposit()
-    this.subEvent = PubSub.subscribe('SideBarApplicationContainer.populateApplicationForm', this.populateApplicationForm.bind(this))
   }
 
   componentDidMount () {
@@ -118,13 +117,8 @@ class SideBarApplicationContainer extends Component {
       }
       return false
     }
-  }
-
-  populateApplicationForm (topic, domain) {
-    this.applicationFormInput.focus()
     this.setState({
-      active: true,
-      domain: domain
+      domain: ''
     })
   }
 

@@ -7,7 +7,7 @@ export async function getPosts (domain) {
   let res
   try {
     res = await axios.post(`${url}get/post`, {
-      domain: domain
+      domain: domain.toLowerCase()
     })
     return res
   } catch (error) {
@@ -19,7 +19,7 @@ export async function createPostApplication (domain, reason) {
   let res
   try {
     res = await axios.post(`${url}create/post/application`, {
-      domain: domain,
+      domain: domain.toLowerCase(),
       reason: reason
     })
     return res
@@ -32,7 +32,7 @@ export async function createPostChallenge (domain, reason) {
   let res
   try {
     res = await axios.post(`${url}create/post/challenge`, {
-      domain: domain,
+      domain: domain.toLowerCase(),
       reason: reason
     })
     return res
@@ -48,6 +48,7 @@ export async function createComment (id, comment) {
       id: id,
       comment: comment
     })
+    console.log('response: ', res)
     return res
   } catch (error) {
     console.error(error)

@@ -31,6 +31,11 @@
   align-items: center;
 }
 
+.ReasonInput .ErrorMessage {
+  color: #CE3434;
+  padding-top: 5px;
+}
+
 .PopulatedSpan {
   background-color: #F4F7FA;
   border-radius: 3px;

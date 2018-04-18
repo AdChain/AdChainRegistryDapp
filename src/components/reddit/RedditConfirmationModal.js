@@ -18,7 +18,8 @@ class RedditConfirmationModal extends Component {
       domain: '',
       stake: 0,
       reason: '',
-      action: ''
+      action: '',
+      error: false
     }
     this.close = this.close.bind(this)
     this.show = this.show.bind(this)
@@ -32,7 +33,7 @@ class RedditConfirmationModal extends Component {
   }
 
   render () {
-    const { open, size, domain, stake, action } = this.state
+    const { open, size, domain, stake, action, error } = this.state
 
     return (
       <Modal size={size} open={open} closeIcon className='RedditConfirmationModal' onClose={this.close}>
@@ -54,6 +55,7 @@ class RedditConfirmationModal extends Component {
                 value={this.state.reason}
                 onChange={this.handleChange}
               />
+              {error ? <div className='ErrorMessage'>Please enter a reason with a minimum of 15 characters.</div> : null}
             </div>
             <div className='ButtonsContainer'>
               <Button basic className='CancelButton' onClick={this.close}>Cancel</Button>
@@ -77,7 +79,8 @@ class RedditConfirmationModal extends Component {
       domain: '',
       stake: '',
       action: '',
-      reason: ''
+      reason: '',
+      error: false
     })
   }
 
@@ -87,13 +90,20 @@ class RedditConfirmationModal extends Component {
       domain: data.domain,
       stake: data.stake,
       action: data.action,
-      reason: ''
+      reason: '',
+      error: false
     })
   }
 
   async submit () {
     const { domain, reason, stake, action } = this.state
 
+    if (reason.length < 15) {
+      this.setState({
+        error: true
+      })
+      return
+    }
     try {
       if (action === 'apply') {
         await registry.apply(domain, stake)

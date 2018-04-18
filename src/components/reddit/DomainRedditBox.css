@@ -78,6 +78,8 @@
   margin-top: 10px;
   padding-bottom: 10px;
   overflow: scroll;
+  max-height: 300px;
+  flex-grow: 2;
 }
 
 .RedditStageLabel {
@@ -112,11 +114,17 @@
   border-style: none;
   box-shadow: unset;
   padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: normal;
+  height: 90%;
+  justify-content: space-between;
 }
 
 .RedditPosts {
   padding-left: 8px;
   padding-top: 8px;
+  padding-right: 2px;
 }
 
 .PostInfo {
@@ -146,7 +154,7 @@
 }
 
 .RedditInputContainer {
-  margin-top: 100%;
+  margin-top: 25px;
 }
 
 :root:root .RedditInputContainer .input {
@@ -164,11 +172,35 @@
   border-color: #3434CE;
 }
 
-:root:root .DomainProfileInfo .active.loader {
-    position: absolute;
-    top: 94%;
-    right: 0;
-    background-color: white;
-    padding-left: 100%;
-    padding-top: 20px;
+.RedditInputContainer .icon.check.circle.big {
+  color: #10C903;
+}
+
+.RedditInputContainer .icon.remove.circle.big {
+  color: #CE3434;
+}
+
+.RedditInputContainer .LoadingMessage {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 12px;
+}
+
+.RedditInputContainer .LoadingMessage.success {
+  color: #10C903;
+}
+
+.RedditInputContainer .LoadingMessage.error {
+  color: #CE3434;
+}
+
+.DomainProfileInfo .TabDiv {
+  height: 100%;
+}
+
+:root:root:root .DomainProfileInfo .ui.grid.stackable {
+  height: 100%;
 }
