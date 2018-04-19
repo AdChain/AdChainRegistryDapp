@@ -226,7 +226,7 @@ class OpenProposalsTable extends Component {
         revealEndDate
       }
     } catch (error) {
-      console.log('no challenge found for this poll: ', 'pollId: ', challengeId )
+      // console.log('no challenge found for this poll: ', 'pollId: ', challengeId )
       return {
         commitEndDate: null,
         revealEndDate: null

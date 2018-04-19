@@ -89,7 +89,7 @@
   border-left: none;
   border-radius: 0;
   background: transparent;
-  border-bottom: 1px solid rgba(255,255,255,0.5);
+  border-bottom: 2px solid rgba(255,255,255,0.5);
   width: 90%;
   color: #FFF !important;
   padding-left: 0px;
@@ -99,6 +99,7 @@
 :root:root:root .ApplicationInput:focus{
   background: transparent;
   border-radius: 0;
+  border-bottom: 2px solid rgba(255,255,255,0.5);
 }
 
 .ADTStakedMessage {

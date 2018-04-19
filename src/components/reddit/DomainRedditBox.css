@@ -135,26 +135,38 @@
 
 .PostAuthor {
   font-size: 12px;
-  font-weight: 600;
+  font-weight: 800;
   padding-right: 10px;
+  font-family: 'Open Sans', sans-serif;
 }
 
 .PostVotes {
   font-size: 10px;
   padding-right: 10px;
+  font-family: 'Open Sans', sans-serif;
 }
 
 .PostTime {
   font-size: 10px;
   opacity: .5;
+  font-family: 'Open Sans', sans-serif;
 }
 
 .PostContent {
   font-size: 12px;
+  font-family: 'Open Sans', sans-serif;
 }
 
 .RedditInputContainer {
   margin-top: 25px;
+  font-family: 'Open Sans', sans-serif !important;
+}
+
+.RedditInputContainer input:focus::-webkit-input-placeholder,
+.RedditInputContainer input::-webkit-input-placeholder {
+  color: #BEC0C2;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 12px;
 }
 
 :root:root .RedditInputContainer .input {
@@ -166,10 +178,12 @@
   border-right: none;
   border-left: none;
   border-radius: 0px;
+  padding-left: 0px;
 }
 
 :root:root .RedditInputContainer input:focus {
   border-color: #3434CE;
+  padding-left: 0px;
 }
 
 .RedditInputContainer .icon.check.circle.big {
@@ -203,4 +217,11 @@
 
 :root:root:root .DomainProfileInfo .ui.grid.stackable {
   height: 100%;
+}
+
+.t-center.pd-10.f-os {
+  font-size: 10px;
+  opacity: .50;
+  display: flex;
+  align-items: center;
 }

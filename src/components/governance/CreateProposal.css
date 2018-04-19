@@ -36,7 +36,8 @@
 }
 .selectdiv{
   margin-bottom: 10px;
-  border-bottom: 1px solid #ddd;
+  border-bottom: 2px solid;
+  border-bottom-color: rgb(244, 247, 250);
   padding-bottom: 5px;
 }
 .selectdiv:after {
@@ -54,18 +55,28 @@
 .BlueDropdown option{
   color:blue;
 }
+
 .ProposalInput{
-  border:none;
+  border: none;
   display: inline-block;
   width: 76%;
 }
 
-.ProposalInputWrapper{
-  padding:2px;
-  border-bottom:1px solid #ddd;  
+.ProposalInputWrapper {
+  padding: 2px;
+  padding-left: 0px;
+  border-bottom:2px solid;
+  border-bottom-color: rgb(244, 247, 250);
   margin-bottom:10px;
-
 }
+
+.ProposalInputWrapper:focus-within {
+  border-bottom-color: #3434CE;
+}
+/* .ProposalInputWrapper focus{
+  border-bottom-color: #3434CE;
+} */
+
 .InProgressProposal{
   position: absolute;
   height: 45%;
@@ -77,7 +88,7 @@
 }
 .CreateProposal .Content > div > strong {
   padding-right: 8px;
-} 
+}
 
 .Content .icon.check.circle{
   font-size: 2em;
@@ -86,4 +97,3 @@
 /*.ProposalInputWrapper::after{
   content: "ADT";
 }*/
-
