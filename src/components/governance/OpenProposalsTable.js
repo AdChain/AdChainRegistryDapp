@@ -116,17 +116,18 @@ class OpenProposalsTable extends Component {
     try {
       if (this.props.currentProposals.length > 0) {
         return this.props.currentProposals.map(async (proposal, i) => {
-          
+
           const {
             commitEndDate,
             revealEndDate
           } = await this.getPoll(proposal.propId, proposal.challengeId)
-          
+
           let time
-          if (commitEndDate) {
+
+          if (commitEndDate > Date.now() / 1000) {
             time = commitEndDate
           }
-          else if (revealEndDate) {
+          else if (revealEndDate > Date.now() / 1000) {
             time = revealEndDate
           }
           else {
@@ -226,7 +227,6 @@ class OpenProposalsTable extends Component {
         revealEndDate
       }
     } catch (error) {
-      // console.log('no challenge found for this poll: ', 'pollId: ', challengeId )
       return {
         commitEndDate: null,
         revealEndDate: null

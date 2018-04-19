@@ -18,7 +18,8 @@ class ExpiredVotingADT extends Component {
 
   }
 
-  componentWillMount(){
+
+  async componentWillReceiveProps(){
     if(this.state.contract === 'registry'){
       this.setState({
         contract: registry,
@@ -28,10 +29,7 @@ class ExpiredVotingADT extends Component {
         contract: parameterizer
       })
     }
-  }
-
-  async componentWillReceiveProps(){
-    if(this.state.account){
+    if(this.state.account && this.state.contract){
       await this.init()
     }
   }
@@ -40,18 +38,11 @@ class ExpiredVotingADT extends Component {
     if(this.state.fetching) {
       return {}
     }
+    if(!this.props.contract){
+      return {}
+    }
     try {
-      let {
-        unrevealed,
-        totalExpiredTokens,
-        selectedPoll
-      } = await this.getUnrevealed()
-
-      this.setState({
-        unrevealed,
-        totalExpiredTokens,
-        selectedPoll
-      })
+      await this.getUnrevealed()
     } catch (error) {
       console.log(error)
     }
@@ -79,25 +70,27 @@ class ExpiredVotingADT extends Component {
     })   
     if(this.state.contract === 'parameterizer'){
       unrevealed = await (await window.fetch(`https://adchain-registry-api-staging.metax.io/parameterization/rewards?status=unrevealed&account=${this.state.account}`)).json()
-  
-    }else{
+    }else if(this.state.contract === 'registry'){
       unrevealed = await (await window.fetch(`https://adchain-registry-api-staging.metax.io/account/rewards?status=unrevealed&account=${this.state.account}`)).json()
     }
+
     this.setState({
       fetching: false
     })   
 
     let totalExpiredTokens = this.getSum(unrevealed)
-    return {
-      totalExpiredTokens,
-      unrevealed,
-      selectedPoll: unrevealed[0] ? unrevealed[0].challenge_id : null
+    if(unrevealed){
+      this.setState({
+        unrevealed,
+        totalExpiredTokens,
+        selectedPoll: unrevealed[0] ? unrevealed[0].challenge_id : null
+      })
     }
   }
 
   getSum (domains) {
     try {
-      if (domains.length > 0) {
+      if (domains && domains.length > 0) {
         let sum = 0
         domains.map(x => {
           sum += Number(x.num_tokens)

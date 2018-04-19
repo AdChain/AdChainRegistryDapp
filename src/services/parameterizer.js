@@ -346,7 +346,7 @@ class ParameterizerService {
       }
       return result
     } catch (error) {
-      console.log('No challenge for this Proposal. Or incorrect data sent to contract')
+      console.log(`No challenge for this proposal. Poll ID: ${challengeId}. Or incorrect data sent to contract`)
       throw error
     }
   }

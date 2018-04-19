@@ -10,12 +10,7 @@ import PubSub from 'pubsub-js'
 const allParameterData = Object.assign({}, parameterData.coreParameterData, parameterData.governanceParameterData)
 
 class GovernanceRewardsTable extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      claimProgress: false
-    }
-  }
+
   render() {
     const table = this.generateRewardsTable()
 
@@ -50,15 +45,12 @@ class GovernanceRewardsTable extends Component {
     try {
       if (this.props.rewards.length < 1) return false
 
-      let i = -1
       let color
       const rewards = this.props.rewards
-      const table = _.reduce(rewards, (result, { name, value }) => {
+      const table = _.reduce(rewards, (result, { name, value }, i) => {
         // If name exists in core param data, use blue color, else use red
-        i++
         color = this.props.coreParameterData[name] ? 'f-blue bold' : 'f-red bold'
         if (rewards[i].hasOwnProperty('status')) {
-          console.log(rewards[i].status === 'claimed')
           if (rewards[i].status === 'unclaimed') {
             result.push(
               <div key={name + i} className='ParameterRow'>
@@ -74,9 +66,9 @@ class GovernanceRewardsTable extends Component {
                         Claimed <i className='icon check circle' style={{ color: 'green', fontSize: '13px' }} />
                       </span>
                       :
-                        <span key={i} style={{ float: 'right', color: 'green' }}>
-                          Claimed <i className='icon check circle' style={{ color: 'green', fontSize: '13px' }} />
-                        </span>
+                      <span key={i} style={{ float: 'right', color: 'green' }}>
+                        Claimed <i className='icon check circle' style={{ color: 'green', fontSize: '13px' }} />
+                      </span>
                 }
               </div>
             )
@@ -97,6 +89,7 @@ class GovernanceRewardsTable extends Component {
   }
 
   async claimReward(challenge_id, salt) {
+    console.log(challenge_id, salt)
     try {
       let transactionInfo = {
         src: 'claim_governance_reward',
@@ -104,15 +97,10 @@ class GovernanceRewardsTable extends Component {
       }
       PubSub.publish('TransactionProgressModal.open', transactionInfo)
       await ParameterizerService.claimReward(challenge_id, salt)
-      this.setState({
-        claimProgress: 'SUCCESS'
-      })
+
     } catch (error) {
       console.error('Governance Reward Claim Error: ', error)
       PubSub.publish('TransactionProgressModal.error')
-      this.setState({
-        claimProgress: false
-      })
     }
   }
 }
