@@ -16,7 +16,6 @@ import RegistryGuideStaticVoting from '../registry_guide/RegistryGuideStaticVoti
 import RegistryGuideStaticReveal from '../registry_guide/RegistryGuideStaticReveal'
 import RegistryGuideStaticDashboard from '../registry_guide/RegistryGuideStaticDashboard'
 import DomainEmailNotifications from './DomainEmailNotifications'
-import EmailConfirmationModal from '../EmailConfirmationModal'
 
 import './DomainsContainer.css'
 
@@ -55,6 +54,7 @@ class DomainsContainer extends Component {
     const searchParams = new URLSearchParams(window.location.search)
     const kind = searchParams.get('kind')
     const email = searchParams.get('email')
+    const listingHash = searchParams.get('')
     if (kind) {
       this.setState({
         kind: kind,
@@ -93,12 +93,13 @@ class DomainsContainer extends Component {
     return (
       <div className='DomainsContainer'>
         <div className='ui grid stackable padded'>
-          {/*<div className='column ten wide NoPaddingBottom NoPaddingRight'>
+          {
+            /* <div className='column ten wide NoPaddingBottom NoPaddingRight'>
             <RegistryStatsbar />
           </div>
           <div className='column six wide NoPaddingBottom'>
             <AdtCalculator />
-          </div>*/
+          </div> */
           }
           <div className='column sixteen wide'>
             <div className='ui grid stackable'>

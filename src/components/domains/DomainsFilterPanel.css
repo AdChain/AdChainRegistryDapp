@@ -46,7 +46,7 @@
 
 .DomainsFilterPanel .SearchContainer .icon {
   color: #F4F7FA;
-  height: 50px;
+  /* height: 50px; */
   margin-top: -10px;
 }
 
@@ -76,7 +76,8 @@
   font-family: 'Open Sans',sans-serif;
 }
 
-.DomainsFilterPanel .ListTitle {
+.DomainsFilterPanel .ListTitle,
+.DomainsFilterPanel .SearchTitle {
     font-size: 12px;
     color: #424242;
     margin-bottom: 0px;
@@ -84,6 +85,13 @@
     font-weight: 600;
     font-family: 'Open Sans', sans-serif;
 }
+
+.DomainsFilterPanel .SearchTitle {
+  padding-left: 0px;
+  padding-top: 10px;
+  padding-bottom: 5px;
+}
+
 #DomainsFiltersPanelDomainSearch{
   padding:0;
 }
