@@ -319,7 +319,7 @@ class PlcrService {
     return new Promise(async (resolve, reject) => {
       try {
         const result = await this.plcr.didReveal(voter, pollId)
-        // const response = await window.fetch(`https://adchain-registry-api-staging.metax.io/plcr/has_revealed?account=${voter}&poll_id=${pollId}`)
+        // const response = await window.fetch(`https://adchain-registry-api-mainnet.metax.io/plcr/has_revealed?account=${voter}&poll_id=${pollId}`)
         // const data = await response.json()
         resolve(result)
       } catch (error) {

@@ -231,13 +231,13 @@ class DomainsFilterPanel extends Component {
   async fetchStats () {
     try{
 
-      let totalStaked = await (await window.fetch(`https://adchain-registry-api-staging.metax.io/registry/domains/stake/count`)).json()
-      const totalInApplication = await (await window.fetch(`https://adchain-registry-api-staging.metax.io/registry/domains/application/count`)).json()
-      const totalInCommit = await (await window.fetch(`https://adchain-registry-api-staging.metax.io/registry/domains/incommit/count`)).json()
-      const totalInReveal = await (await window.fetch(`https://adchain-registry-api-staging.metax.io/registry/domains/inreveal/count`)).json()
-      const totalInRegistry = await (await window.fetch(`https://adchain-registry-api-staging.metax.io/registry/domains/registry/count`)).json()
-      const totalWithdrawn = await (await window.fetch(`https://adchain-registry-api-staging.metax.io/registry/domains/withdrawn/count`)).json()
-      const totalRejected = await (await window.fetch(`https://adchain-registry-api-staging.metax.io/registry/domains/rejected/count`)).json()
+      let totalStaked = await (await window.fetch(`https://adchain-registry-api-mainnet.metax.io/registry/domains/stake/count`)).json()
+      const totalInApplication = await (await window.fetch(`https://adchain-registry-api-mainnet.metax.io/registry/domains/application/count`)).json()
+      const totalInCommit = await (await window.fetch(`https://adchain-registry-api-mainnet.metax.io/registry/domains/incommit/count`)).json()
+      const totalInReveal = await (await window.fetch(`https://adchain-registry-api-mainnet.metax.io/registry/domains/inreveal/count`)).json()
+      const totalInRegistry = await (await window.fetch(`https://adchain-registry-api-mainnet.metax.io/registry/domains/registry/count`)).json()
+      const totalWithdrawn = await (await window.fetch(`https://adchain-registry-api-mainnet.metax.io/registry/domains/withdrawn/count`)).json()
+      const totalRejected = await (await window.fetch(`https://adchain-registry-api-mainnet.metax.io/registry/domains/rejected/count`)).json()
 
       if (totalStaked) {
         totalStaked = totalStaked / Math.pow(10, token.decimals)

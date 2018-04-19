@@ -93,7 +93,7 @@ class DomainStatsbar extends Component {
       cache: 'no-cache'
     }
 
-    const response = await window.fetch(`https://adchain-registry-api-staging.metax.io/stats/domain?domain=${domain}&filter=alexa`, options)
+    const response = await window.fetch(`https://adchain-registry-api-mainnet.metax.io/stats/domain?domain=${domain}&filter=alexa`, options)
     const data = await response.json()
 
     if (this._isMounted) {

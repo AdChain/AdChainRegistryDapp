@@ -69,9 +69,9 @@ class ExpiredVotingADT extends Component {
       fetching: true
     })   
     if(this.state.contract === 'parameterizer'){
-      unrevealed = await (await window.fetch(`https://adchain-registry-api-staging.metax.io/parameterization/rewards?status=unrevealed&account=${this.state.account}`)).json()
+      unrevealed = await (await window.fetch(`https://adchain-registry-api-mainnet.metax.io/parameterization/rewards?status=unrevealed&account=${this.state.account}`)).json()
     }else if(this.state.contract === 'registry'){
-      unrevealed = await (await window.fetch(`https://adchain-registry-api-staging.metax.io/account/rewards?status=unrevealed&account=${this.state.account}`)).json()
+      unrevealed = await (await window.fetch(`https://adchain-registry-api-mainnet.metax.io/account/rewards?status=unrevealed&account=${this.state.account}`)).json()
     }
 
     this.setState({

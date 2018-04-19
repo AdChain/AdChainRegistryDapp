@@ -77,7 +77,7 @@ class AccountStatsbar extends Component {
     }
 
     try {
-      const response = await window.fetch(`https://adchain-registry-api-staging.metax.io/stats/account?account=${account}`)
+      const response = await window.fetch(`https://adchain-registry-api-mainnet.metax.io/stats/account?account=${account}`)
       const {
         totalTimesChallenged,
         totalTimesCommitted,

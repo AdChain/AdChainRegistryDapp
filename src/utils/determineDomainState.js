@@ -184,7 +184,7 @@ const getDomainState = async (domain) => {
 }
 
 const getWithdrawn = async () => {
-  const withdrawn = await (await window.fetch(`https://adchain-registry-api-staging.metax.io/registry/domains?withdrawn`)).json()
+  const withdrawn = await (await window.fetch(`https://adchain-registry-api-mainnet.metax.io/registry/domains?withdrawn`)).json()
   return withdrawn
 }
 
