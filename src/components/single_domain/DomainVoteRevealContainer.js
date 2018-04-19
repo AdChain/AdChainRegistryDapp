@@ -287,9 +287,10 @@ class DomainVoteRevealContainer extends Component {
           if (domain === eachDomain.domain) {
             newState.revealedVoteOption = eachDomain.choice === 1 ? 'support' : 'oppose'
             newState.revealedAmount = big(eachDomain.num_tokens).div(tenToTheNinth).words[0]
+            this.setState(newState)
           }
         })
-        this.setState(newState)
+
       }
     } catch (error) {
       console.error('Get Reveal Error: ', error)
@@ -377,11 +378,9 @@ class DomainVoteRevealContainer extends Component {
           if (domain === eachDomain.domain) {
             newState.revealedVoteOption = eachDomain.choice === 1 ? 'support' : 'oppose'
             newState.revealedAmount = big(eachDomain.num_tokens).div(tenToTheNinth).words[0]
+            this.setState(newState)
           }
         })
-
-        //need to confirm that it re-renders 
-        this.setState(newState)
         PubSub.publish('DomainVoteTokenDistribution.getPoll')     
       } else {
         setTimeout(() => {

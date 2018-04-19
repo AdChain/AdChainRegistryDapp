@@ -112,6 +112,7 @@ class RedditConfirmationModal extends Component {
         let data = ''
         await registry.challenge(domain, data)
         await createPostChallenge(domain, reason)
+        PubSub.publish('DomainRedditBox.fetchRedditData')
       }
       // setTimeout(() => {
       //   window.location.reload()

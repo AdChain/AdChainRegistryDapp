@@ -4,7 +4,7 @@ import commafy from 'commafy'
 import Tooltip from '../Tooltip'
 import store from '../../store'
 import token from '../../services/token'
-
+import { Input } from 'semantic-ui-react'
 
 import './DomainsFilterPanel.css'
 
@@ -68,23 +68,24 @@ class DomainsFilterPanel extends Component {
         <div className='ui grid stackable'>
           <div className='SearchContainer column sixteen wide'>
             <span className='BoxFrameLabel ui grid'>DOMAIN FILTERS <Tooltip info={'The fields in this box filter the user view in the DOMAINS table.'} /></span>
+            <div className='SearchTitle'>
+              Search Domains
+            </div>
             <div>
-            {
-              // <i className='search icon' /> &nbsp;
-            }
-              <br />
-              <input
+              <Input
+                icon='search'
+                iconPosition='left'
+                placeholder='example.com'
                 name='domain'
                 id='DomainsFiltersPanelDomainSearch'
                 defaultValue={filters.domain}
                 onKeyUp={this.onSearchInput}
-                type='text'
-                placeholder='Search Domain' />
+                type='text' />
             </div>
           </div>
           <div className='ListTitle'>
             Stage
-            </div>
+          </div>
           <div className='ui grid'>
             <div className='sixteen wide column'>
               <ul className='ui list'>
@@ -96,7 +97,7 @@ class DomainsFilterPanel extends Component {
                       name='inRegistry'
                       checked={!!filters.inRegistry}
                       onChange={this.onFilterChange}
-                  />
+                    />
                   </div>
                   <label htmlFor='DomainsFilterPanel_InRegistry'>In Registry</label> &nbsp;
                   <span className="f-grey f-12 f-os">({totalInRegistry != null ? commafy(totalInRegistry) : '-'})</span>
@@ -109,7 +110,7 @@ class DomainsFilterPanel extends Component {
                       name='inApplication'
                       checked={!!filters.inApplication}
                       onChange={this.onFilterChange}
-                  />
+                    />
                   </div>
                   <label htmlFor='DomainsFilterPanel_InApplication'>In Application</label> &nbsp;
                   <span className="f-grey f-12 f-os">({totalInApplication != null ? commafy(totalInApplication) : '-'})</span>
@@ -123,7 +124,7 @@ class DomainsFilterPanel extends Component {
                       name='inVotingCommit'
                       checked={!!filters.inVotingCommit}
                       onChange={this.onFilterChange}
-                  />
+                    />
                   </div>
                   <label htmlFor='DomainsFilterPanel_InVotingCommit'>In Commit</label> &nbsp;
                   <span className="f-grey f-12 f-os">({totalInCommit != null ? commafy(totalInCommit) : '-'})</span>
@@ -136,7 +137,7 @@ class DomainsFilterPanel extends Component {
                       name='inVotingReveal'
                       checked={!!filters.inVotingReveal}
                       onChange={this.onFilterChange}
-                  />
+                    />
                   </div>
                   <label htmlFor='DomainsFilterPanel_InVotingReveal'>In Reveal</label> &nbsp;
                   <span className="f-grey f-12 f-os">({totalInReveal != null ? commafy(totalInReveal) : '-'})</span>
@@ -149,7 +150,7 @@ class DomainsFilterPanel extends Component {
                       name='rejected'
                       checked={!!filters.rejected}
                       onChange={this.onFilterChange}
-                  />
+                    />
                   </div>
                   <label htmlFor='DomainsFilterPanel_Rejected'>Rejected</label> &nbsp;
                   <span className="f-grey f-12 f-os">({totalRejected != null ? commafy(totalRejected) : '-'})</span>
@@ -162,7 +163,7 @@ class DomainsFilterPanel extends Component {
                       name='withdrawn'
                       checked={!!filters.withdrawn}
                       onChange={this.onFilterChange}
-                  />
+                    />
                   </div>
                   <label htmlFor='DomainsFilterPanel_Withdrawn'>Withdrawn</label> &nbsp;
                   <span className="f-grey f-12 f-os">({totalWithdrawn != null ? commafy(totalWithdrawn) : '-'})</span>

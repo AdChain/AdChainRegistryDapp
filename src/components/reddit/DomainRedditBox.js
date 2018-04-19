@@ -10,6 +10,7 @@ import './DomainRedditBox.css'
 import getDomainState from '../../utils/determineDomainState'
 import RedditReasonModal from './RedditReasonModal'
 import { getPosts, createComment } from '../../services/redditActions'
+import PubSub from 'pubsub-js'
 
 class DomainProfileInfo extends Component {
   constructor (props) {
@@ -78,6 +79,10 @@ class DomainProfileInfo extends Component {
           break
       }
     }
+  }
+
+  componentWillMount () {
+    PubSub.subscribe('DomainRedditBox.fetchRedditData', this.fetchRedditData)
   }
 
   componentWillUnmount () {
