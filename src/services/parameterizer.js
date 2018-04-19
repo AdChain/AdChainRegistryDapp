@@ -79,7 +79,6 @@ class ParameterizerService {
     let proposals = await (await window.fetch(`https://adchain-registry-api-staging.metax.io/parameterization/proposals`)).json()
 
     let propIds = proposals.map(proposal => proposal.prop_id)
-
     let item
     let result = []
     for (let i = 0; i < propIds.length; i++) {
@@ -347,7 +346,7 @@ class ParameterizerService {
       }
       return result
     } catch (error) {
-      console.log(error)
+      console.log('No challenge for this Proposal. Or incorrect data sent to contract')
       throw error
     }
   }

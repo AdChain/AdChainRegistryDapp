@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Modal } from 'semantic-ui-react'
 import moment from 'moment-timezone'
 import Tooltip from '../Tooltip'
-import ParamterizerService from '../../services/parameterizer'
+import ParameterizerService from '../../services/parameterizer'
 import GovernanceChallengeContainer from './GovernanceChallengeContainer'
 import GovernanceVoteCommitContainer from './GovernanceVoteCommitContainer'
 import GovernanceVoteRevealContainer from './GovernanceVoteRevealContainer'
@@ -11,7 +11,7 @@ import PubSub from 'pubsub-js'
 import './OpenProposalsTable.css'
 
 class OpenProposalsTable extends Component {
-  constructor () {
+  constructor(props) {
     super()
     this.state = {
       open: false,
@@ -27,7 +27,7 @@ class OpenProposalsTable extends Component {
     this.close = this.close.bind(this)
   }
 
-  async componentWillReceiveProps () {
+  async componentWillReceiveProps() {
     if (!this.props || !this.props.hasOwnProperty('currentProposals')) {
       return false
     }
@@ -35,8 +35,11 @@ class OpenProposalsTable extends Component {
       await this.createTable()
     }
   }
+  componentDidMount() {
+    this._isMounted = true
+  }
 
-  render () {
+  render() {
     const { open } = this.state
     return (
       <div className='BoxFrame mt-25 RegistryGuideOpenProposals'>
@@ -65,7 +68,7 @@ class OpenProposalsTable extends Component {
                   </tr>
                 </thead>
                 <tbody>
-                  { this.state.table }
+                  {this.state.table}
                 </tbody>
               </table>
               : <div>
@@ -79,7 +82,7 @@ class OpenProposalsTable extends Component {
                     </tr>
                   </thead>
                 </table>
-                <div className='NoDataMessage' style={{paddingTop: '9em', minHeight: '300px'}}>
+                <div className='NoDataMessage' style={{ paddingTop: '9em', minHeight: '300px' }}>
                   Proposed parameter values will be displayed here. You will have the opportunity to challenge, vote, and reveal from this table.
                 </div>
               </div>
@@ -95,34 +98,51 @@ class OpenProposalsTable extends Component {
     )
   }
 
-  getModal (stage) {
+  getModal(stage) {
     if (stage === 'InApplication') {
       return <GovernanceChallengeContainer proposal={this.state.selectedProposal} {...this.props} />
     } else if (stage === 'InCommit') {
       return <GovernanceVoteCommitContainer proposal={this.state.selectedProposal} {...this.props} />
     } else if (stage === 'InReveal') {
-      console.log('InReveal')
       return <GovernanceVoteRevealContainer proposal={this.state.selectedProposal} {...this.props} />
     } else {
       return []
     }
   }
 
-  createTable () {
+  createTable() {
     let table = []
+
     try {
       if (this.props.currentProposals.length > 0) {
-        return this.props.currentProposals.map((proposal, i) => {
+        return this.props.currentProposals.map(async (proposal, i) => {
+          
+          const {
+            commitEndDate,
+            revealEndDate
+          } = await this.getPoll(proposal.propId, proposal.challengeId)
+          
+          let time
+          if (commitEndDate) {
+            time = commitEndDate
+          }
+          else if (revealEndDate) {
+            time = revealEndDate
+          }
+          else {
+            time = proposal.appExpiry
+          }
+
           return this.determineAction(proposal).then(async item => {
             table.push(
               <tr className='table-row' key={i}>
                 <td className={proposal.color}>{proposal.name}</td>
                 <td>{`${proposal.proposedValue + ' ' + proposal.metric}`}</td>
-                <td><CountdownSnapshot endDate={proposal.appExpiry} /></td>
+                <td><CountdownSnapshot endDate={time} /></td>
                 {item}
               </tr>
             )
-            this.setState({table})
+            this.setState({ table })
           })
         })
       }
@@ -131,7 +151,7 @@ class OpenProposalsTable extends Component {
     }
   }
 
-  async determineAction (proposal) {
+  async determineAction(proposal) {
     let action = {
       event: '',
       class: '',
@@ -141,8 +161,8 @@ class OpenProposalsTable extends Component {
     const propId = proposal.propId
     const challengeOpen = (proposal.challengeId === 0 && proposal.appExpiry && proposal.appExpiry > Date.now() / 1000)
 
-    let commitOpen = await ParamterizerService.commitStageActive(propId)
-    let revealOpen = await ParamterizerService.revealStageActive(propId)
+    let commitOpen = await ParameterizerService.commitStageActive(propId)
+    let revealOpen = await ParameterizerService.revealStageActive(propId)
 
     if (commitOpen) {
       action.class = 'ui mini button blue'
@@ -170,7 +190,7 @@ class OpenProposalsTable extends Component {
             title: 'Refresh'
           }
           PubSub.publish('TransactionProgressModal.open', transactionInfo)
-          ParamterizerService.processProposal(propId)
+          ParameterizerService.processProposal(propId)
         } catch (error) {
           console.error(error)
           PubSub.publish('TransactionProgressModal.error')
@@ -183,7 +203,7 @@ class OpenProposalsTable extends Component {
       action.event = null
       console.log('proposal not found')
     }
-    this.setState({loading: false})
+    this.setState({ loading: false })
 
     return (
       <td>
@@ -194,14 +214,34 @@ class OpenProposalsTable extends Component {
     )
   }
 
-  promptModal (type, proposal) {
+  async getPoll(propId, challengeId) {
+    try {
+      const {
+        commitEndDate,
+        revealEndDate
+      } = await ParameterizerService.getChallengePoll(challengeId, String(propId))
+
+      return {
+        commitEndDate,
+        revealEndDate
+      }
+    } catch (error) {
+      // console.log('no challenge found for this poll: ', 'pollId: ', challengeId )
+      return {
+        commitEndDate: null,
+        revealEndDate: null
+      }
+    }
+  }
+
+  promptModal(type, proposal) {
     this.show()
     this.setState({
       selectedProposal: proposal
     })
   }
 
-  isExpired (row) {
+  isExpired(row) {
     const now = moment().unix()
     const end = row._original.stageEndsTimestamp
 
@@ -209,11 +249,11 @@ class OpenProposalsTable extends Component {
     return end < now
   }
 
-  show () {
+  show() {
     this.setState({ open: true })
   }
 
-  close () {
+  close() {
     this.setState({ open: false })
   }
 }
