@@ -6,6 +6,12 @@
   max-width: 70px;
 }
 
+:root:root .VotingRights input:focus {
+  max-width: 70px;
+  border-color: #3434CE !important;
+  border-right-style: none;
+}
+
 :root:root .RequestVotingRightsContainer .VotingRights {
   padding-top: 0;
 }
@@ -14,5 +20,5 @@
   padding-bottom: 1em;
 }
 .RequestVotingRightsContainerInput {
-  max-width:90px !important;
+  max-width: 90px !important;
 }

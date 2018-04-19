@@ -37,12 +37,12 @@
   width: 100%;
 }
 
-.DomainEmailNotifications .DomainEmailNotificationsContainer input,
-.DomainEmailNotifications .DomainEmailNotificationsContainer input:focus {
+.DomainEmailNotifications .DomainEmailNotificationsContainer input {
   width: 90%;
   background: none;
   border: none;
-  border-bottom: 1px solid #BDBDBD;
+  border-bottom: 2px solid;
+  border-bottom-color: rgb(244, 247, 250);
   border-radius: 0;
   padding-bottom: 2px;
   margin-left: 0px;
@@ -52,11 +52,24 @@
   /* color: #F4F7FA; */
 }
 
+.DomainEmailNotifications .DomainEmailNotificationsContainer input:focus {
+
+  border-bottom-color: #3434CE;
+}
+
 .DomainEmailNotifications .DomainEmailNotificationsContainer input:focus::-webkit-input-placeholder,
 .DomainEmailNotifications .DomainEmailNotificationsContainer input::-webkit-input-placeholder {
   color: #BEC0C2;
   font-family: 'Open Sans', sans-serif;
   font-size: 10px;
+}
+
+.DomainEmailNotifications .DomainEmailNotificationsContainer input:-webkit-autofill,
+.DomainEmailNotifications .DomainEmailNotificationsContainer input:-webkit-autofill:hover, 
+.DomainEmailNotifications .DomainEmailNotificationsContainer input:-webkit-autofill:focus
+.DomainEmailNotifications .DomainEmailNotificationsContainer input:-webkit-autofill {
+  background-color: unset;
+  -webkit-box-shadow: 0 0 0px 1000px #FFF inset;
 }
 
 .DomainEmailNotifications .SubscribeButtonContainer {

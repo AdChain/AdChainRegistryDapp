@@ -40,16 +40,48 @@
 }
 
 :root:root:root .DomainVoteCommitContainer .InputVoteCommit input {
-  background-color: #FFF;
+  background-color: #fff;
   border-bottom: 1px solid;
+  border-bottom-color: rgba(34, 36, 38, 0.15);
   border-radius: 0;
   margin-left: 0;
   margin-right: 0;
+  height: 30px;
+  padding-left: 0px;
+}
+
+:root:root:root .DomainVoteCommitContainer .InputVoteCommit input:focus {
+  border-bottom-color: #3434CE;
+  border-top: none;
+  border-right: none;
+  border-left: none;
 }
 
 :root:root:root .DomainVoteCommitContainer .InputVoteCommit input[type='text']{
-  text-align:right;
+  text-align:left;
   padding-bottom: 0;
+}
+:root:root:root .DomainVoteCommitContainer .InputVoteCommit input::-webkit-input-placeholder {
+  text-align: right;
+  color: #000;
+  font-family: 'Open Sans', sans-serif;
+  opacity: .5;
+}
+
+:root:root:root .DomainVoteCommitContainer .InputVoteCommit input:-moz-placeholder { /* Firefox 18- */
+  text-align: right;
+  color: #000;
+  font-family: 'Open Sans', sans-serif;
+}
+:root:root:root .DomainVoteCommitContainer .InputVoteCommit input::-moz-placeholder {  /* Firefox 19+ */
+  text-align: right;
+  color: #000;
+  font-family: 'Open Sans', sans-serif;
+}
+:root:root:root .DomainVoteCommitContainer .InputVoteCommit input:-ms-input-placeholder {
+  text-align: right;
+  color: #000;
+  font-family: 'Open Sans', sans-serif;
 }
 
 .DomainVoteCommitContainer .NumberCircle {
@@ -201,7 +233,7 @@
   text-align: center;
 }
 
-.ChallengeID { 
+.ChallengeID {
   padding-top: 15px;
 }
 

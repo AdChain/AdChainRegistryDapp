@@ -34,6 +34,7 @@ class MainContainer extends Component {
               <Route path='/account' exact component={AccountDashboard} />
               <Route path='/chat' exact component={RocketChat} />
               <Route path='/governance' exact component={GovernanceContainer} />
+              <Route path='/gx' exact component={DomainsContainer} />
               <Route path='/' exact component={DomainsContainer} />
             </Switch>
           </Route>
