@@ -59,6 +59,7 @@
   opacity: .5;
   font-size: 16px;
   padding-left: 10px;
+  font-family: 'Open Sans', sans-serif;
 }
 
 
@@ -374,4 +375,3 @@
     display: none;
   }
 }
-
