@@ -27,3 +27,7 @@
   font-family: 'Open Sans', sans-serif;
   font-size: 12px !important;
 }
+
+.EmailConfirmationContainer .WelcomeHeaderUnderline {
+  text-transform: uppercase;
+}

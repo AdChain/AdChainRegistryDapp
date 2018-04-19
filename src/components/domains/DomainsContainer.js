@@ -16,6 +16,7 @@ import RegistryGuideStaticVoting from '../registry_guide/RegistryGuideStaticVoti
 import RegistryGuideStaticReveal from '../registry_guide/RegistryGuideStaticReveal'
 import RegistryGuideStaticDashboard from '../registry_guide/RegistryGuideStaticDashboard'
 import DomainEmailNotifications from './DomainEmailNotifications'
+import EmailConfirmationModal from '../EmailConfirmationModal'
 
 import './DomainsContainer.css'
 
@@ -29,7 +30,9 @@ class DomainsContainer extends Component {
       query: normalizeQueryObj(query),
       history: props.history,
       tableFilters: [],
-      staticContainer: null
+      staticContainer: null,
+      kind: null,
+      email: null
     }
     this.onQueryChange = this.onQueryChange.bind(this)
     this.updateTableFilters = this.updateTableFilters.bind(this)
@@ -48,6 +51,15 @@ class DomainsContainer extends Component {
 
     if (!returningUser || returningUser === 'false') {
       window.localStorage.setItem('returningUser', 'false')
+    }
+    const searchParams = new URLSearchParams(window.location.search)
+    const kind = searchParams.get('kind')
+    const email = searchParams.get('email')
+    if (kind) {
+      this.setState({
+        kind: kind,
+        email: email
+      })
     }
   }
 
@@ -73,7 +85,9 @@ class DomainsContainer extends Component {
       query,
       history,
       tableFilters,
-      staticContainer
+      staticContainer,
+      kind,
+      email
     } = this.state
 
     return (
@@ -97,7 +111,7 @@ class DomainsContainer extends Component {
                       onFiltersChange={this.onQueryChange}
                     />
                 }
-                <DomainEmailNotifications />
+                <DomainEmailNotifications history={history} kind={kind} email={email} />
               </div>
               {
                 (staticContainer === 'challenge')

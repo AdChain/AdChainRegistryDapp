@@ -59,6 +59,14 @@
   font-size: 10px;
 }
 
+.DomainEmailNotifications .DomainEmailNotificationsContainer input:-webkit-autofill,
+.DomainEmailNotifications .DomainEmailNotificationsContainer input:-webkit-autofill:hover, 
+.DomainEmailNotifications .DomainEmailNotificationsContainer input:-webkit-autofill:focus
+.DomainEmailNotifications .DomainEmailNotificationsContainer input:-webkit-autofill {
+  background-color: unset;
+  -webkit-box-shadow: 0 0 0px 1000px #FFF inset;
+}
+
 .DomainEmailNotifications .SubscribeButtonContainer {
   text-align: center;
   padding-bottom:10px;

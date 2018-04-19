@@ -76,6 +76,9 @@ class WelcomeModal extends Component {
     this.setState({ current })
   }
   close () {
+    if (this.state.finalButtonText === 'Subscribe') {
+      PubSub.publish('DomainEmailNotifications.subscribe')
+    }
     if (this.state.displaySettingChanged) {
       window.localStorage.setItem('returningUser', 'true')
     }
@@ -84,9 +87,6 @@ class WelcomeModal extends Component {
       window.localStorage.setItem('returningUser', this.state.returningUser ? 'true' : 'false')
     } else {
       window.localStorage.setItem('returningUser', 'false')
-    }
-    if (this.state.finalButtonText === 'Subscribe') {
-      PubSub.publish('DomainEmailNotifications.subscribe')
     }
     this.setState({
       open: false,

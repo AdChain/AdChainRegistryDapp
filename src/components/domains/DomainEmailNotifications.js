@@ -13,12 +13,20 @@ class DomainEmailNotifications extends Component {
     super()
 
     this.state = {
-      email: '',
-      subscribed: false
+      email: ''
+      // subscribed: false
     }
     this.handleChange = this.handleChange.bind(this)
     this.subscribeEmail = this.subscribeEmail.bind(this)
     this.notifyGovernX = this.notifyGovernX.bind(this)
+  }
+
+  componentDidMount() {
+    this._isMounted = true
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false
   }
 
   componentWillMount () {
@@ -33,7 +41,7 @@ class DomainEmailNotifications extends Component {
         <div className='ui grid stackable'>
           <div className='DomainEmailNotificationsContainer column sixteen wide'>
             <span className='BoxFrameLabel ui grid'>ADCHAIN REGISTRY EMAIL NOTIFICATIONS <Tooltip info={'Receive daily updates on new activity in the adChain Registry. Powered by GovernX'} /></span>
-            <div className={this.state.subscribed ? 'hide' : 'show'}>
+            <div>
               <label className='f-os'>Email</label>
               <div className='EmailInputContainer'>
                 <Input
@@ -46,24 +54,23 @@ class DomainEmailNotifications extends Component {
                 />
               </div>
             </div>
-            <div className={this.state.subscribed ? 'show f-os pd-10 t-center' : 'hide'}>
-              A confirmation email was sent to the email registered. Please check your inbox and spam folders for the confirmation email.
-            </div>
           </div>
         </div>
-        <div className={this.state.subscribed ? 'hide' : 'show SubscribeButtonContainer'}>
+        <div className='SubscribeButtonContainer'>
           <Button basic onClick={() => { this.subscribeEmail() }}>Subscribe</Button>
         </div>
-        <EmailConfirmationModal email={this.state.email} />
+        <EmailConfirmationModal email={this.state.email || this.props.email} kind={this.props.kind} history={this.props.history} />
       </div>
     )
   }
 
   handleChange ({target}) {
-    this.setState({
-      [target.name]: target.value
-    })
-    PubSub.publish('WelcomeModal.updateButtonText', target.value ? 'Subscribe' : 'Finish')
+    if (this._isMounted) {
+      this.setState({
+        [target.name]: target.value
+      })
+      PubSub.publish('WelcomeModal.updateButtonText', target.value ? 'Subscribe' : 'Finish')
+    }
   }
 
   async notifyGovernX () {
@@ -74,14 +81,14 @@ class DomainEmailNotifications extends Component {
           network: 'rinkeby',
           organization: '0x5a7e9046edadc58bb94f8c18c68856ff83f7ec4d',
           email: email,
-          url: 'https://metax.io'
+          url: 'https://staging-redesign.adchain.com/gx'
         }
       })
       if (res.data.success === true) {
-        this.setState({
-          subscribed: true
-        })
         PubSub.publish('EmailConfirmationModal.open', email)
+        this.setState({
+          email: ''
+        })
       }
     } catch (error) {
       toastr.error('There was an error subscribing to email notifications')
