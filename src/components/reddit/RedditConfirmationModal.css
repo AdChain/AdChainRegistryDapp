@@ -6,7 +6,7 @@
 
 .DomainInput, .ADTInput {
   display: flex;
-  flex-direction: row; 
+  flex-direction: row;
   /* justify-content: center; */
   padding-top: 15px;
   padding-bottom: 15px;
@@ -54,6 +54,7 @@
   border-style: none;
   background-color: #F4F7FA;
   border-radius: 3px;
+  padding: 10px;
 }
 
 .ReasonInputLabel {
@@ -68,22 +69,22 @@
 
 .ReasonInput textarea::-webkit-input-placeholder {
   padding: 5px;
-  opacity: .4;
+  opacity: .5;
 }
 
 .ReasonInput textarea:-moz-placeholder { /* Firefox 18- */
   padding: 5px;
-  opacity: .4;  
+  opacity: .5;
 }
 
 .ReasonInput textarea::-moz-placeholder {  /* Firefox 19+ */
   padding: 5px;
-  opacity: .4;  
+  opacity: .5;
 }
 
 .ReasonInput textarea:-ms-input-placeholder {
   padding: 5px;
-  opacity: .4;  
+  opacity: .4;
 }
 
 .RedditConfirmationModal .ButtonsContainer {

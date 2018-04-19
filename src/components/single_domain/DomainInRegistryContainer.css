@@ -123,7 +123,7 @@
   padding-bottom: 5px;
 }
 
-:root:root:root .CurrentDepositLabel, 
+:root:root:root .CurrentDepositLabel,
 :root:root:root .StakedDifferenceLabel {
   text-align: left;
   padding-bottom: 5px;
@@ -215,6 +215,7 @@
 .ADTInputContainer {
   text-align: left;
   padding-left: 20px;
+
 }
 
 
@@ -238,11 +239,11 @@
   border-right: none;
   border-left: none;
   border-bottom: 1px solid;
-  border-bottom-color: rgb(189, 189, 189);
+  border-bottom-color: rgba(34, 36, 38, 0.15);
   border-radius: 0;
   padding-top: none;
-  padding-right: none;
-  padding-left: 4px;
+  padding-right: 0px;
+  padding-left: 0px;
   padding-bottom: 4px;
 }
 
@@ -250,6 +251,7 @@
   text-align: right;
   color: #000;
   font-family: 'Open Sans', sans-serif;
+  opacity: .5;
 }
 :root:root:root .DomainInRegistryContainer .ADTInput input:-moz-placeholder { /* Firefox 18- */
   text-align: right;

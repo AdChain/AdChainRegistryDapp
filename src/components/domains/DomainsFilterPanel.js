@@ -27,7 +27,7 @@ class DomainsFilterPanel extends Component {
     this.onFilterChange = this.onFilterChange.bind(this)
     this.onFiltersChange = props.onFiltersChange.bind(this)
     this.resetFilters = this.resetFilters.bind(this)
-    
+
     this.fetchStats()
   }
 
@@ -68,9 +68,10 @@ class DomainsFilterPanel extends Component {
         <div className='ui grid stackable'>
           <div className='SearchContainer column sixteen wide'>
             <span className='BoxFrameLabel ui grid'>DOMAIN FILTERS <Tooltip info={'The fields in this box filter the user view in the DOMAINS table.'} /></span>
-            <label className='f-os'>Search Domain</label>
-            <div className='ui left icon input'>
-              <i className='search icon' /> &nbsp;
+            <div>
+            {
+              // <i className='search icon' /> &nbsp;
+            }
               <br />
               <input
                 name='domain'
@@ -182,12 +183,12 @@ class DomainsFilterPanel extends Component {
     const {name} = target
     const {filters} = this.state
     filters[name] = target.value
-    
-    if (this._isMounted) {  
+
+    if (this._isMounted) {
       this.setState(filters)
     }
     this.onFiltersChange(filters)
-  
+
   }
 
   onFilterChange (event) {
@@ -229,7 +230,7 @@ class DomainsFilterPanel extends Component {
 
   async fetchStats () {
     try{
-      
+
       let totalStaked = await (await window.fetch(`https://adchain-registry-api-staging.metax.io/registry/domains/stake/count`)).json()
       const totalInApplication = await (await window.fetch(`https://adchain-registry-api-staging.metax.io/registry/domains/application/count`)).json()
       const totalInCommit = await (await window.fetch(`https://adchain-registry-api-staging.metax.io/registry/domains/incommit/count`)).json()
@@ -237,7 +238,7 @@ class DomainsFilterPanel extends Component {
       const totalInRegistry = await (await window.fetch(`https://adchain-registry-api-staging.metax.io/registry/domains/registry/count`)).json()
       const totalWithdrawn = await (await window.fetch(`https://adchain-registry-api-staging.metax.io/registry/domains/withdrawn/count`)).json()
       const totalRejected = await (await window.fetch(`https://adchain-registry-api-staging.metax.io/registry/domains/rejected/count`)).json()
-      
+
       if (totalStaked) {
         totalStaked = totalStaked / Math.pow(10, token.decimals)
       }

@@ -8,13 +8,13 @@
 .MainTopbar .item{
   color:black !important;
   color: #424242;
-  font-family: Open Sans,sans-serif;
+  font-family: 'Open Sans',sans-serif;
   font-size: 14px;
   font-weight: 100;
 }
 .MainTopbar .item span{
   color: #424242;
-  font-family: Open Sans,sans-serif;
+  font-family: 'Open Sans',sans-serif;
   font-size: 16px;
   font-weight: 300;
 }
@@ -96,6 +96,11 @@
   color: #aeebff;
 }
 
+.BalanceText {
+  font-family: 'Open Sans', sans-serif !important;
+}
+
+
 @media only screen and (max-width: 767px) {
   :root:root .MainTopbar {
     padding: 0;
@@ -117,4 +122,5 @@
   .MainTopbar{
     display:none;
   }
+
 }

@@ -193,7 +193,7 @@ class DomainProfileInfo extends Component {
                   type='text'
                   id={!_.isEmpty(appliedObj) ? appliedObj.id : ''}
                   name='appliedComment'
-                  placeholder='Message (press enter to submit)'
+                  placeholder='Comment (press enter to submit)'
                   value={this.state.comment}
                   onChange={this.handleInputChange}
                 />
