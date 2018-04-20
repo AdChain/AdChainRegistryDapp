@@ -6,7 +6,7 @@ let Page = () => {
 
     <div className='intro-page'>
       <div className='metax-img'>
-        <img height='240' style={{'padding': '10px'}} src='/assets/MetaX_Loading_Logo.png' alt='MetaX' />
+        <img height='340' style={{'padding': '10px'}} src='/assets/MetaX_Presents_Date.png' alt='MetaX' />
       </div>
       <div>
         <br />
