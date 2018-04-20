@@ -57,7 +57,6 @@ class DomainsContainer extends Component {
     kind = kind ? kind.toLowerCase() : null
     const email = searchParams.get('email')
     const listingHash = searchParams.get('listingHash')
-    const challengeId = searchParams.get('challengeId')
 
     if (kind) {
       if (listingHash) {

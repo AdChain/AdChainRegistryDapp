@@ -290,6 +290,8 @@ class DomainInRegistryContainer extends Component {
       this.setState({
         canWithdraw: false
       })
+      PubSub.publish('DomainProfileActionContainer.getData')
+      PubSub.publish('DomainProfileStageMap.updateStageMap')
       try {
         calculateGas({
           domain: domain,

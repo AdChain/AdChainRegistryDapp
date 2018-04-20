@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import toastr from 'toastr'
-
+import PubSub from 'pubsub-js'
 import store from '../../store'
 import determineDomainState from '../../utils/determineDomainState'
 
@@ -27,6 +27,7 @@ class DomainProfileActionContainer extends Component {
       domain,
       stage: null
     }
+    this.getData = this.getData.bind(this)
 
     this.getData()
   }
@@ -37,6 +38,10 @@ class DomainProfileActionContainer extends Component {
     store.subscribe(x => {
       setTimeout(() => this.getData(), 1e3)
     })
+  }
+
+  componentWillMount () {
+    PubSub.subscribe('DomainProfileActionContainer.getData', this.getData)
   }
 
   componentWillUnmount () {
@@ -81,7 +86,6 @@ class DomainProfileActionContainer extends Component {
 
     try {
       const domainData = await determineDomainState(domain)
-
       if (this._isMounted) {
         this.setState({
           stage: domainData.stage
