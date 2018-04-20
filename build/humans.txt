@@ -1,5 +1,0 @@
-/* TEAM */
-
-Software Engineer: Miguel Mota
-Contact: miguel@metax.io
-Github: https://github.com/miguelmota
