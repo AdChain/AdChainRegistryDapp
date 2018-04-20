@@ -35,6 +35,7 @@ class DomainsContainer extends Component {
     }
     this.onQueryChange = this.onQueryChange.bind(this)
     this.updateTableFilters = this.updateTableFilters.bind(this)
+    this.getDomainName = this.getDomainName.bind(this)
 
     // Delay required for table to properly update with filters
     setTimeout(() => {
@@ -45,21 +46,33 @@ class DomainsContainer extends Component {
     window.scrollTo(0, -1)
   }
 
-  componentDidMount () {
+  async componentDidMount () {
     let returningUser = window.localStorage.getItem('returningUser')
 
     if (!returningUser || returningUser === 'false') {
       window.localStorage.setItem('returningUser', 'false')
     }
     const searchParams = new URLSearchParams(window.location.search)
-    const kind = searchParams.get('kind')
+    let kind = searchParams.get('kind')
+    kind = kind ? kind.toLowerCase() : null
     const email = searchParams.get('email')
-    const listingHash = searchParams.get('')
+    const listingHash = searchParams.get('listingHash')
+    const challengeId = searchParams.get('challengeId')
+
     if (kind) {
-      this.setState({
-        kind: kind,
-        email: email
-      })
+      if (listingHash) {
+        const domain = await this.getDomainName(listingHash)
+        this.state.history.push(`/domains/${domain}`)
+      } else if (kind.includes('challenge')) {
+        this.state.history.push('/')
+      } else if (kind.includes('param')) {
+        this.state.history.push('/governance')
+      } else {
+        this.setState({
+          kind: kind,
+          email: email
+        })
+      }
     }
   }
 
@@ -201,6 +214,11 @@ class DomainsContainer extends Component {
     filter = new RegExp(filter.join('|'), 'gi')
     stageFilter.value = filter
     this.setState({tableFilters: [domainFilter, stageFilter]})
+  }
+
+  async getDomainName (listingHash) {
+    const result = await (await window.fetch(`https://adchain-registry-api-staging.metax.io/registry/listing_hash?listing_hash=${listingHash}`)).json()
+    return result.domain
   }
 }
 

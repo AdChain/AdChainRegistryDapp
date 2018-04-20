@@ -85,7 +85,12 @@ class DomainEmailNotifications extends Component {
         }
       })
       if (res.data.success === true) {
-        PubSub.publish('EmailConfirmationModal.open', email)
+        let data = {
+          email: email,
+          kind: 'confirmation',
+          header: 'Please confirm your subscription'
+        }
+        PubSub.publish('EmailConfirmationModal.open', data)
         this.setState({
           email: ''
         })

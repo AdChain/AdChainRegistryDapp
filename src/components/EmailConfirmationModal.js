@@ -12,7 +12,7 @@ class EmailConfirmationModal extends Component {
       size: 'small',
       email: '',
       kind: null,
-      header: 'Please confirm your subscription'
+      header: ''
     }
     this.history = props.history
     this.open = this.open.bind(this)
@@ -25,11 +25,13 @@ class EmailConfirmationModal extends Component {
     }
   }
 
-  open (topic, email) {
+  open (topic, data) {
     if (this._isMounted) {
       this.setState({
         open: true,
-        email: email
+        email: data.email,
+        kind: data.kind,
+        header: data.header
       })
     }
   }
@@ -47,28 +49,27 @@ class EmailConfirmationModal extends Component {
   }
 
   componentWillReceiveProps (nextProps, prevState) {
-    if (nextProps.kind === prevState.kind) {
+    if (nextProps.kind === prevState.kind || (nextProps.kind !== '_subscriptionsuccess' && nextProps.kind !== '_unsubscribesuccess')) {
       return null
-    }
-    let header
-    switch (nextProps.kind) {
-      case '_SubscriptionSuccess':
-        header = 'Subscription Confirmed!'
-        break
-      case '_UnsubscribeSuccess':
-        header = 'Unsubscription Confirmed!'
-        break
-      default:
-        header = 'Please confirm your subscription'
-        break
-    }
-    if (nextProps.kind) {
-      this.setState({
-        kind: nextProps.kind,
+    } else {
+      let header
+      switch (nextProps.kind) {
+        case '_subscriptionsuccess':
+          header = 'Subscription Confirmed!'
+          break
+        case '_unsubscribesuccess':
+          header = 'Unsubscription Confirmed!'
+          break
+        default:
+          header = 'Please confirm your subscription'
+          break
+      }
+      const data = {
         email: nextProps.email,
-        header: header,
-        open: true
-      })
+        kind: nextProps.kind,
+        header: header
+      }
+      this.open('', data)
     }
   }
 
@@ -81,11 +82,13 @@ class EmailConfirmationModal extends Component {
         </Modal.Header>
         <Modal.Content>
           {
-            kind === '_SubscriptionSuccess'
+            kind === '_subscriptionsuccess'
               ? <div>The email <b>{email}</b> is confirmed to receive the adChain Registry Daily Digest.</div>
-              : kind === '_UnsubscribeSuccess'
+              : kind === '_unsubscribesuccess'
                 ? <div>The email <b>{email}</b> is unsubscribed from receiving the adChain Registry Daily Digest. Although we're sad to see you leave, we wish you luck in staying up to date with everything that happens in the adChain Registry.</div>
-                : <div>A confirmation email was sent to <b>{email}</b>. Please confirm the email to sign-up for the adChain Registry Daily Digest email notifications, powered by <b>GovernX</b>. Don't forget to check your spam!</div>
+                : kind === 'confirmation'
+                  ? <div>A confirmation email was sent to <b>{email}</b>. Please confirm the email to sign-up for the adChain Registry Daily Digest email notifications, powered by <b>GovernX</b>. Don't forget to check your spam!</div>
+                  : null
           }
           <div className='ButtonContainer'>
             <Button basic onClick={() => { this.close() }}>Return to Dapp</Button>
