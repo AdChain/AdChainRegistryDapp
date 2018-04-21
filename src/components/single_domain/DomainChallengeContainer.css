@@ -24,7 +24,14 @@
   line-height: 11px;
   text-transform: uppercase;
   margin-right: 10px !important;
+  box-shadow: unset;
 }
+
+:root:root:root .DomainChallengeContainer .refresh:hover {
+  background-color: #3434CE !important;
+  color: #FFF !important;
+}
+
 
 .DomainChallengeContainer .HeaderColumn {
   padding-bottom: 0px !important;
@@ -116,7 +123,7 @@
   font-family: 'Open Sans', sans-serif;
   font-size: 12px;
   line-height: 17px;
-  width: 95% !important;
+  width: 100% !important;
 }
 
 .RequiredADT {

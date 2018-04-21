@@ -21,6 +21,11 @@
   box-shadow: unset;
 }
 
+:root:root:root .DomainPendingContainer .refresh:hover {
+  background-color: #3434CE !important;
+  color: #FFF !important;
+}
+
 .DomainPendingContainer .HeaderColumn {
   padding-bottom: 0px !important;
 }

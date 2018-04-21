@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import Tooltip from '../Tooltip'
-import { Button, Input } from 'semantic-ui-react'
+import { Button, Input, Popup } from 'semantic-ui-react'
 import toastr from 'toastr'
 import './DomainEmailNotifications.css'
 import PubSub from 'pubsub-js'
@@ -21,11 +21,11 @@ class DomainEmailNotifications extends Component {
     this.notifyGovernX = this.notifyGovernX.bind(this)
   }
 
-  componentDidMount() {
+  componentDidMount () {
     this._isMounted = true
   }
 
-  componentWillUnmount() {
+  componentWillUnmount () {
     this._isMounted = false
   }
 
@@ -57,7 +57,11 @@ class DomainEmailNotifications extends Component {
           </div>
         </div>
         <div className='SubscribeButtonContainer'>
+          <div className='Spacer'>Legal Notice</div>
           <Button basic onClick={() => { this.subscribeEmail() }}>Subscribe</Button>
+          <Popup className='Tooltip'
+            trigger={<span className='EmailLegalNotice'><u>Legal Notice</u></span>}
+            content={'GovernX may collect information from you directly or automatically through your use of our services. We may use this information to (a) operate, maintain, and improve our services, (b) send information including confirmations, updates, and support messages or (c) provide and deliver services that you request. We will not share your data with any parties outside of the decentralized application you signed up through and those who need it to do work for us. We will not use your data for marketing or other purposes not directly relevant to what you signed up for.'} />
         </div>
         <EmailConfirmationModal email={this.state.email || this.props.email} kind={this.props.kind} history={this.props.history} />
       </div>

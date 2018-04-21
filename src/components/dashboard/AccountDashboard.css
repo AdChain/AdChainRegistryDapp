@@ -98,3 +98,9 @@
   padding-top: 0px;
   border-bottom: none;
 }
+
+@media only screen and (max-width: 1280px) {
+  .DashboardRow {
+   font-size: 10px;
+  }
+}

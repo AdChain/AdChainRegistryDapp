@@ -13,30 +13,30 @@
             <path d="M98.4922097,220.120034 L98.5421436,332.984937" id="Line" stroke="#F4F7FA" stroke-linecap="square" transform="translate(98.517177, 276.552485) rotate(-45.000000) translate(-98.517177, -276.552485) "></path>
             <path d="M58.5,135.5 L58.5,215.5" id="Line" stroke="#F4F7FA" stroke-linecap="square"></path>
             <path d="M58.5,235.5 L58.5,315.5" id="Line" stroke="#F4F7FA" stroke-linecap="square"></path>
-            <rect id="Rectangle-11" fill="#3434CE" x="18" y="16" width="81" height="20" rx="3"></rect>
-            <text id="In-Application" font-family="Open Sans, sans-serif" font-size="9" font-weight="500" fill="#FCFCFF">
-                <tspan x="29.0424805" y="30">In Application</tspan>
+            <rect id="Rectangle-11" fill="#3434CE" x="18" y="16" width="90" height="20" rx="3"></rect>
+            <text id="IN-APPLICATION" font-family="Open Sans, sans-serif" font-size="9" font-weight="500" fill="#FCFCFF">
+                <tspan x="29.0424805" y="30">IN APPLICATION</tspan>
             </text>
-            <rect id="Rectangle-11-Copy" fill="#F4F7FA" x="18" y="116" width="81" height="20" rx="3"></rect>
-            <text id="Voting" font-family="Open Sans, sans-serif" font-size="9" font-weight="normal" fill="#424242">
-                <tspan x="43.739502" y="130">Voting</tspan>
+            <rect id="Rectangle-11-Copy" fill="#F4F7FA" x="18" y="116" width="87" height="20" rx="3"></rect>
+            <text id="VOTING" font-family="Open Sans, sans-serif" font-size="9" font-weight="normal" fill="#424242">
+                <tspan x="43.739502" y="130">VOTING</tspan>
             </text>
-            <rect id="Rectangle-11-Copy-2" fill="#F4F7FA" x="18" y="216" width="81" height="20" rx="3"></rect>
-            <text id="Reveal" font-family="Open Sans, sans-serif" font-size="9" font-weight="normal" fill="#424242">
-                <tspan x="43.8637695" y="230">Reveal</tspan>
+            <rect id="Rectangle-11-Copy-2" fill="#F4F7FA" x="18" y="216" width="87" height="20" rx="3"></rect>
+            <text id="REVEAL" font-family="Open Sans, sans-serif" font-size="9" font-weight="normal" fill="#424242">
+                <tspan x="43.8637695" y="230">REVEAL</tspan>
             </text>
-            <rect id="Rectangle-11-Copy-3" fill="#F4F7FA" x="18" y="316" width="81" height="20" rx="3"></rect>
-            <text id="Rejected" font-family="Open Sans, sans-serif" font-size="9" font-weight="normal" fill="#424242">
-                <tspan x="38.5175781" y="330">Rejected</tspan>
+            <rect id="Rectangle-11-Copy-3" fill="#F4F7FA" x="18" y="316" width="87" height="20" rx="3"></rect>
+            <text id="REJECTED" font-family="Open Sans, sans-serif" font-size="9" font-weight="normal" fill="#424242">
+                <tspan x="38.5175781" y="330">REJECTED</tspan>
             </text>
-            <rect id="Rectangle-11-Copy-5" fill="#F4F7FA" x="138" y="316" width="81" height="20" rx="3"></rect>
-            <text id="In-Registry" font-family="Open Sans, sans-serif" font-size="9" font-weight="normal" fill="#424242">
-                <tspan x="157.064697" y="330">In Registry</tspan>
+            <rect id="Rectangle-11-Copy-5" fill="#F4F7FA" x="138" y="316" width="90" height="20" rx="3"></rect>
+            <text id="IN-REGISTRY" font-family="Open Sans, sans-serif" font-size="9" font-weight="normal" fill="#424242">
+                <tspan x="157.064697" y="330">IN REGISTRY</tspan>
             </text>
-            <rect id="Rectangle-11-Copy-4" fill="#10C903" x="138" y="116" width="81" height="20" rx="3"></rect>
-            <rect id="Rectangle-11-Copy-6" stroke="#10C903" x="136.5" y="114.5" width="84" height="23" rx="3"></rect>
-            <text id="In-Registry" font-family="Open Sans, sans-serif" font-size="9" font-weight="500" fill="#FCFCFF">
-                <tspan x="156.062744" y="130">In Registry</tspan>
+            <rect id="Rectangle-11-Copy-4" fill="#10C903" x="138" y="116" width="90" height="20" rx="3"></rect>
+            <rect id="Rectangle-11-Copy-6" stroke="#10C903" x="136.5" y="114.5" width="93" height="23" rx="3"></rect>
+            <text id="IN-REGISTRY" font-family="Open Sans, sans-serif" font-size="9" font-weight="500" fill="#FCFCFF">
+                <tspan x="156.062744" y="130">IN REGISTRY</tspan>
             </text>
             <g id="Group" transform="translate(98.720888, 76.504650) rotate(-45.000000) translate(-98.720888, -76.504650) translate(94.220888, 19.004650)" stroke="#424242">
                 <path d="M4.45006608,0.635096805 L4.5,113.5" id="Line" stroke-linecap="square"></path>

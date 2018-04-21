@@ -75,6 +75,23 @@
 .DomainEmailNotifications .SubscribeButtonContainer {
   text-align: center;
   padding-bottom:10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.EmailLegalNotice {
+	color: #BEC0C2;
+  font-family: "Open Sans", sans-serif;
+  font-size: 10px;
+  line-height: 11px;
+  margin-top: 10px;
+  padding-right: 15px;
+}
+
+.EmailLegalNotice:hover {
+  cursor: pointer;
 }
 
 :root:root .DomainEmailNotifications .SubscribeButtonContainer button {
@@ -92,4 +109,8 @@
 :root:root .DomainEmailNotifications .SubscribeButtonContainer button:hover {
   color: #FFF !important;
   background-color: #3434CE !important;
+}
+
+.Spacer {
+  visibility: hidden;
 }
