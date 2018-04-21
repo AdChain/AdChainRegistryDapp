@@ -129,6 +129,7 @@ class RegistryGuideModal extends Component {
   }
 
   async show () {
+    window.localStorage.setItem('returningUser', 'true')
     if (window.location.pathname !== '/domains') {
       await this.updateRoute('./')
     }
