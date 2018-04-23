@@ -10,12 +10,14 @@ import normalizeQueryObj from '../../utils/normalizeQueryObj'
 import DomainsTable from './DomainsTable'
 import DomainsFilterPanel from './DomainsFilterPanel'
 import WelcomeModal from '../WelcomeModal'
+import { AirSwap } from '../airswap/AirSwap'
 import RegistryGuideStaticChallenge from '../registry_guide/RegistryGuideStaticChallenge'
 import RegistryGuideStaticInRegistry from '../registry_guide/RegistryGuideStaticInRegistry'
 import RegistryGuideStaticVoting from '../registry_guide/RegistryGuideStaticVoting'
 import RegistryGuideStaticReveal from '../registry_guide/RegistryGuideStaticReveal'
 import RegistryGuideStaticDashboard from '../registry_guide/RegistryGuideStaticDashboard'
 import DomainEmailNotifications from './DomainEmailNotifications'
+
 
 import './DomainsContainer.css'
 
