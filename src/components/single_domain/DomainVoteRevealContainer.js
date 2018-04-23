@@ -122,7 +122,7 @@ class DomainVoteRevealContainer extends Component {
           </div>
             : <div className='column sixteen wide center aligned'>
               <div className='ui message warning'>
-                You have <strong>not committed</strong> for this domain.
+                You <strong>did not commit</strong> votes for this domain, and therefore have nothing to reveal.
               </div>
             </div>}
           {didReveal ? <div className='column sixteen wide center aligned'>
