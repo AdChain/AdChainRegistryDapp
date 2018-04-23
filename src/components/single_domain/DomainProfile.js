@@ -72,10 +72,10 @@ class DomainProfile extends Component {
             </div>
           </div>
           <div className='row'>
-            <div className='column five wide'>
+            <div className='column four wide'>
               <DomainProfileStageMap stage={stage} domain={domain} />
             </div>
-            <div className='column four wide'>
+            <div className='column five wide'>
               <DomainRedditBox
                 domain={domain}
               />
