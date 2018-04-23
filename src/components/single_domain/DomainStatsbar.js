@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import commafy from 'commafy'
 import Tooltip from '../Tooltip'
 import './DomainStatsbar.css'
+import { registryApiURL } from '../../models/urls'
 
 class DomainStatsbar extends Component {
   constructor (props) {
@@ -93,7 +94,7 @@ class DomainStatsbar extends Component {
       cache: 'no-cache'
     }
 
-    const response = await window.fetch(`https://adchain-registry-api-staging.metax.io/stats/domain?domain=${domain}&filter=alexa`, options)
+    const response = await window.fetch(`${registryApiURL}/stats/domain?domain=${domain}&filter=alexa`, options)
     const data = await response.json()
 
     if (this._isMounted) {

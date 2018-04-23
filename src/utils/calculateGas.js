@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-import { utiltyApiURL } from '../models/urls'
+import { utilityApiURL } from '../models/urls'
 
 import token from '../services/token'
 import moment from 'moment'
@@ -43,7 +43,7 @@ const calculateGas = async (x) => {
   }
 
   try {
-    let res = await axios.post(`${utiltyApiURL}calculate/gas`, data)
+    let res = await axios.post(`${utilityApiURL}/calculate/gas`, data)
     return res
   } catch (error) {
     console.log('catch: calculating gas')

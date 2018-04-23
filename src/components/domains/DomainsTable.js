@@ -11,6 +11,7 @@ import './DomainsTable.css'
 import PubSub from 'pubsub-js'
 import CountdownSnapshot from '../CountdownSnapshot'
 import calculateGas from '../../utils/calculateGas'
+import { registryApiURL } from '../../models/urls'
 
 import store from '../../store'
 import registry from '../../services/registry'
@@ -364,7 +365,7 @@ class DomainsTable extends Component {
       }
 
       try {
-        domains = await (await window.fetch(`https://adchain-registry-api-staging.metax.io/registry/domains?${query}`)).json()
+        domains = await (await window.fetch(`${registryApiURL}/registry/domains?${query}`)).json()
         if (!Array.isArray(domains)) {
           domains = []
         }
@@ -393,7 +394,7 @@ class DomainsTable extends Component {
     const currentNumDomains = Number(window.localStorage.getItem('TotalNumDomains'))
     let domains
     try {
-      domains = await (await window.fetch(`https://adchain-registry-api-staging.metax.io/registry/domains`)).json()
+      domains = await (await window.fetch(`${registryApiURL}/registry/domains`)).json()
       if (!Array.isArray(domains)) {
         domains = []
       } else {

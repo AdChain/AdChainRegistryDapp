@@ -18,12 +18,11 @@ import { parameterData } from '../../models/parameters'
 import { registryApiURL } from '../../models/urls'
 import Tooltip from '../Tooltip'
 
-
 const big = (number) => new Eth.BN(number.toString(10))
 const tenToTheNinth = big(10).pow(big(9))
 
 class GovernanceContainer extends Component {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.state = {
       coreParameterData: Object.assign({}, parameterData.coreParameterData),
@@ -37,7 +36,7 @@ class GovernanceContainer extends Component {
     }
   }
 
-  async componentWillMount() {
+  async componentWillMount () {
     try {
       await ParameterizerService.init()
       this.getAccount()
@@ -48,7 +47,7 @@ class GovernanceContainer extends Component {
 
       /*
        * ---------------------- PubSub Pattern -----------------------
-       * 
+       *
        * Subscribe and Publish events on non-related components.
        * Useful for updating state on another component that is not in the same
        * heirarchy or does not have access to the same props/state.
@@ -69,16 +68,16 @@ class GovernanceContainer extends Component {
       console.log(error)
     }
   }
-  componentDidMount() {
+  componentDidMount () {
     this._isMounted = true
   }
-  componentWillUnmount() {
+  componentWillUnmount () {
     // Unsubscribe from event once unmounting
     PubSub.unsubscribe(this.subEvent)
     this._isMounted = false
   }
 
-  render() {
+  render () {
     let props = this.state
     const { account } = this.state
     if (!this.state.rewards || !account) return false
@@ -87,8 +86,8 @@ class GovernanceContainer extends Component {
         <div className='column four wide'>
           <GovernanceAndCoreParameters {...props} />
         </div>
-        <div className="column twelve wide">
-          <div className="ui stackable grid">
+        <div className='column twelve wide'>
+          <div className='ui stackable grid'>
             <div className='column four wide'>
               <CreateProposal {...props} />
               <GovernanceRewardsTable {...props} />
@@ -114,7 +113,7 @@ class GovernanceContainer extends Component {
     )
   }
 
-  getParameterValues(parameterType) {
+  getParameterValues (parameterType) {
     let result
     _.forOwn(this.state[parameterType], (param, name) => {
       try {
@@ -134,7 +133,7 @@ class GovernanceContainer extends Component {
     })
   }
 
-  getAccount() {
+  getAccount () {
     const account = registry.getAccount()
     if (this._isMounted) {
       this.setState({
@@ -143,7 +142,7 @@ class GovernanceContainer extends Component {
     }
   }
 
-  getProposalsAndPropIds() {
+  getProposalsAndPropIds () {
     let proposals
     // reset state
     this.setState({
@@ -172,7 +171,7 @@ class GovernanceContainer extends Component {
     }
   }
 
-  formatProposal(proposal, propId) {
+  formatProposal (proposal, propId) {
     return {
       propId,
       appExpiry: moment.tz(proposal[0].c[0], moment.tz.guess())._i,
@@ -189,7 +188,7 @@ class GovernanceContainer extends Component {
     }
   }
 
-  formatValue(name, value) {
+  formatValue (name, value) {
     try {
       switch (name) {
         case 'minDeposit':
@@ -213,8 +212,8 @@ class GovernanceContainer extends Component {
     }
   }
 
-  async fetchRewards() {
-    let data = await (await window.fetch(`${registryApiURL}parameterization/rewards?account=${this.state.account}`)).json()
+  async fetchRewards () {
+    let data = await (await window.fetch(`${registryApiURL}/parameterization/rewards?account=${this.state.account}`)).json()
     // data = _.filter(data, (rewards) => rewards.status === 'unclaimed')
 
     if (data instanceof Array) {

@@ -16,12 +16,12 @@ import UserRewardsToClaim from './UserRewardsToClaim.js'
 import AccountDashboardLoadingInProgress from './AccountDashboardLoadingInProgress'
 import Tooltip from '../Tooltip'
 import getDomainState from '../../utils/determineDomainState'
+import { registryApiURL } from '../../models/urls'
 
 import Eth from 'ethjs'
 
 import './AccountDashboard.css'
 
-const url = 'https://adchain-registry-api-staging.metax.io'
 const big = (number) => new Eth.BN(number.toString(10))
 const tenToTheNinth = big(10).pow(big(9))
 
@@ -159,7 +159,7 @@ class AccountDashboard extends Component {
     }
 
     try {
-      const response = await window.fetch(`${url}/registry/domains?account=${account}&include=applied`)
+      const response = await window.fetch(`${registryApiURL}/registry/domains?account=${account}&include=applied`)
       const data = await response.json()
       let appliedDomains = []
 
@@ -206,7 +206,7 @@ class AccountDashboard extends Component {
     }
 
     try {
-      const response = await window.fetch(`${url}/registry/domains?account=${account}&include=challenged`)
+      const response = await window.fetch(`${registryApiURL}/registry/domains?account=${account}&include=challenged`)
       const data = await response.json()
 
       for (let i = 0; i < data.length; i++) {
@@ -243,7 +243,7 @@ class AccountDashboard extends Component {
       return false
     }
     try {
-      const response = await window.fetch(`${url}/account/rewards?account=${account}&status=revealing`)
+      const response = await window.fetch(`${registryApiURL}/account/rewards?account=${account}&status=revealing`)
       const data = await response.json()
         if (this._isMounted) {
 
@@ -275,7 +275,7 @@ class AccountDashboard extends Component {
       return false
     }
     try {
-      const response = await window.fetch(`${url}/account/rewards?account=${account}&status=unclaimed`)
+      const response = await window.fetch(`${registryApiURL}/account/rewards?account=${account}&status=unclaimed`)
       let data = await response.json()
 
       for (let i = 0; i < data.length; i++) {

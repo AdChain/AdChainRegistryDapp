@@ -9,6 +9,7 @@ import DomainRedditBox from '../reddit/DomainRedditBox'
 import DomainProfileActionContainer from './DomainProfileActionContainer'
 // import DomainProfileAdsTxtStatus from './DomainProfileAdsTxtStatus'
 import DomainProfileStageMap from './DomainProfileStageMap'
+import { registryApiURL } from '../../models/urls'
 
 import './DomainProfile.css'
 
@@ -101,7 +102,7 @@ class DomainProfile extends Component {
       return false
     }
 
-    const response = await window.fetch(`https://adchain-registry-api-staging.metax.io/domains/metadata?domain=${domain}`)
+    const response = await window.fetch(`${registryApiURL}/domains/metadata?domain=${domain}`)
 
     try {
       const {

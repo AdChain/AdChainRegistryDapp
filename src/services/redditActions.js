@@ -1,12 +1,13 @@
 import axios from 'axios'
+import { utilityApiURL } from '../models/urls'
+
 // const url = 'https://utility.adchain.com/'
 // second server = https://utility2.adchain.com/
-const url = 'https://utility-staging.adchain.com/' // staging
 
 export async function getPosts (domain) {
   let res
   try {
-    res = await axios.post(`${url}get/post`, {
+    res = await axios.post(`${utilityApiURL}/get/post`, {
       domain: domain.toLowerCase()
     })
     return res
@@ -18,7 +19,7 @@ export async function getPosts (domain) {
 export async function createPostApplication (domain, reason) {
   let res
   try {
-    res = await axios.post(`${url}create/post/application`, {
+    res = await axios.post(`${utilityApiURL}/create/post/application`, {
       domain: domain.toLowerCase(),
       reason: reason
     })
@@ -31,7 +32,7 @@ export async function createPostApplication (domain, reason) {
 export async function createPostChallenge (domain, reason) {
   let res
   try {
-    res = await axios.post(`${url}create/post/challenge`, {
+    res = await axios.post(`${utilityApiURL}/create/post/challenge`, {
       domain: domain.toLowerCase(),
       reason: reason
     })
@@ -44,7 +45,7 @@ export async function createPostChallenge (domain, reason) {
 export async function createComment (id, comment) {
   let res
   try {
-    res = await axios.post(`${url}create/comment`, {
+    res = await axios.post(`${utilityApiURL}/create/comment`, {
       id: id,
       comment: comment
     })

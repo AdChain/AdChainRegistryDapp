@@ -2,6 +2,7 @@ import React from 'react'
 import registry from '../services/registry'
 import moment from 'moment'
 import store from '../store'
+import { registryApiURL } from '../models/urls'
 
 function isExpired (end) {
   const now = moment().unix()
@@ -184,7 +185,7 @@ const getDomainState = async (domain) => {
 }
 
 const getWithdrawn = async () => {
-  const withdrawn = await (await window.fetch(`https://adchain-registry-api-staging.metax.io/registry/domains?withdrawn`)).json()
+  const withdrawn = await (await window.fetch(`${registryApiURL}/registry/domains?withdrawn`)).json()
   return withdrawn
 }
 

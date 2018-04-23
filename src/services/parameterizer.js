@@ -7,6 +7,7 @@ import plcr from './plcr'
 import moment from 'moment-timezone'
 import saltHashVote from '../utils/saltHashVote'
 import PubSub from 'pubsub-js'
+import { registryApiURL } from '../models/urls'
 
 const big = (number) => new Eth.BN(number.toString(10))
 const tenToTheNinth = big(10).pow(big(9))
@@ -76,7 +77,7 @@ class ParameterizerService {
   }
 
   async getProposalsAndPropIds () {
-    let proposals = await (await window.fetch(`https://adchain-registry-api-staging.metax.io/parameterization/proposals`)).json()
+    let proposals = await (await window.fetch(`${registryApiURL}/parameterization/proposals`)).json()
 
     let propIds = proposals.map(proposal => proposal.prop_id)
     let item
@@ -214,7 +215,7 @@ class ParameterizerService {
   // propIds are fetched from db
   async getPropId (name) {
     try {
-      let proposals = await (await window.fetch(`https://adchain-registry-api-staging.metax.io/parameterization/proposals`)).json()
+      let proposals = await (await window.fetch(`${registryApiURL}/parameterization/proposals`)).json()
       for (let i = 0; i < proposals.length; i++) {
         if (proposals[i].name === name) {
           return proposals[i].prop_id

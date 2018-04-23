@@ -1,11 +1,11 @@
 import Eth from 'ethjs'
+import { network } from '../models/network'
 
 export const getProviderUrl = () => {
-  const net = 'rinkeby'
-  if (net === 'testrpc') {
+  if (network === 'testrpc') {
     return 'http://localhost:8545'
   } else {
-    return `https://${net}.infura.io:443`
+    return `https://${network}.infura.io:443`
   }
 }
 
@@ -23,5 +23,5 @@ export const getWebsocketProvider = () => {
     window.Web3.providers.WebsocketProvider.prototype.sendAsync = window.Web3.providers.WebsocketProvider.prototype.send
   }
 
-  return new window.Web3.providers.WebsocketProvider('wss://rinkeby.infura.io/_ws')
+  return new window.Web3.providers.WebsocketProvider(`wss://${network}.infura.io/_ws`)
 }

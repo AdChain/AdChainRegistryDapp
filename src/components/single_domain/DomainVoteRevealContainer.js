@@ -10,6 +10,7 @@ import Countdown from '../CountdownText'
 import registry from '../../services/registry'
 import DomainVoteTokenDistribution from './DomainVoteTokenDistribution'
 import PubSub from 'pubsub-js'
+import { registryApiURL } from '../../models/urls'
 
 import './DomainVoteRevealContainer.css'
 
@@ -276,7 +277,7 @@ class DomainVoteRevealContainer extends Component {
       const didReveal = await registry.didReveal(domain)
       // await this.getPoll()
       if (didReveal) {
-        const response = await window.fetch(`https://adchain-registry-api-staging.metax.io/account/rewards?account=${account}&status=revealed`)
+        const response = await window.fetch(`${registryApiURL}/account/rewards?account=${account}&status=revealed`)
         const data = await response.json()
         let newState = {
           revealedVoteOption: '',
@@ -367,7 +368,7 @@ class DomainVoteRevealContainer extends Component {
       const revealed = await registry.revealVote({domain, voteOption, salt})
       if (revealed) {
         await this.getReveal()
-        const response = await window.fetch(`https://adchain-registry-api-staging.metax.io/account/rewards?account=${account}&status=revealed`)
+        const response = await window.fetch(`${registryApiURL}/account/rewards?account=${account}&status=revealed`)
         const data = await response.json()
         let newState = {
           revealedVoteOption: '',

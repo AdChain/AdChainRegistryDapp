@@ -17,6 +17,7 @@ import RegistryGuideStaticVoting from '../registry_guide/RegistryGuideStaticVoti
 import RegistryGuideStaticReveal from '../registry_guide/RegistryGuideStaticReveal'
 import RegistryGuideStaticDashboard from '../registry_guide/RegistryGuideStaticDashboard'
 import DomainEmailNotifications from './DomainEmailNotifications'
+import { registryApiURL } from '../../models/urls'
 
 
 import './DomainsContainer.css'
@@ -218,7 +219,7 @@ class DomainsContainer extends Component {
   }
 
   async getDomainName (listingHash) {
-    const result = await (await window.fetch(`https://adchain-registry-api-staging.metax.io/registry/listing_hash?listing_hash=${listingHash}`)).json()
+    const result = await (await window.fetch(`${registryApiURL}/registry/listing_hash?listing_hash=${listingHash}`)).json()
     return result.domain
   }
 }

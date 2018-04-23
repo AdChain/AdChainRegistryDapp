@@ -5,9 +5,11 @@ import registry from '../../services/registry'
 import token from '../../services/token'
 import Identicon from '../Identicon'
 import moment from 'moment-timezone'
+import { network } from '../../models/network'
 
 import adtLogo from '../assets/adtoken_logo.png'
 import ethLogo from '../assets/ethereum_purple_logo.png'
+import _ from 'lodash'
 
 import './MainTopbar.css'
 
@@ -63,7 +65,7 @@ class MainTopbar extends Component {
               </div>
               : isLoading ? 'Loading...' : <div className='NoWalletMessage'>
                Please download or unlock <a href='https://metamask.io/' target='_blank' rel='noopener noreferrer' style={{color: 'orange'}}>MetaMask</a> extension to load application and Ethereum wallet
-            </div>}
+              </div>}
           </div>
 
           <div className='menu right'>
@@ -71,11 +73,11 @@ class MainTopbar extends Component {
               ? <div className={'item ' + (invalidNetwork ? 'RedAlert' : '')}>
                 <div>
                   {invalidNetwork
-                    ? <strong>Please connect to Rinkeby Ethereum Network</strong>
-                  : <span><strong>Network: </strong>Rinkeby Ethereum Network</span>}
+                    ? <strong>Please connect to {_.capitalize(network)} Ethereum Network</strong>
+                    : <span><strong>Network: </strong>{_.capitalize(network)} Ethereum Network</span>}
                 </div>
               </div>
-            : null}
+              : null}
             <div className='item TimeZone'>
               <div>
                 <span>
@@ -91,11 +93,11 @@ class MainTopbar extends Component {
                     alt='ETH' />
                 </div>
                 {ethBalance !== null ? commafy(ethBalance.toFixed(4)) : '-'} ETH
-              {ethBalance === 0
-                ? <span>&nbsp;(<a href='https://faucet.rinkeby.io/' target='_blank' rel='noopener noreferrer' className='AcquireLink'>Acquire ETH</a>)</span>
-              : null}
+                {ethBalance === 0
+                  ? <span>&nbsp;(<a href='https://adchain.zendesk.com/hc/en-us/articles/360003417354' target='_blank' rel='noopener noreferrer' className='AcquireLink'>Acquire ETH</a>)</span>
+                  : null}
               </div>
-            : null}
+              : null}
             {address
               ? <div className={'JoyrideTopBar BalanceText item ' + (adtBalance === 0 || adtBalance === null ? 'RedAlert' : '')}>
                 <div className='AdtLogo ui image'>
@@ -104,14 +106,12 @@ class MainTopbar extends Component {
                     alt='ADT' />
                 </div>
                 {adtBalance !== null ? commafy(adtBalance) : '-'} ADT
-              {adtBalance === 0
-                ? <span>&nbsp;(<a href='https://faucet.adtoken.com' target='_blank' rel='noopener noreferrer' className='AcquireLink'>Acquire ADT</a>)</span>
-              : null}
+                {adtBalance === 0
+                  ? <span>&nbsp;(<a href='https://adchain.zendesk.com/hc/en-us/articles/360003436793' target='_blank' rel='noopener noreferrer' className='AcquireLink'>Acquire ADT</a>)</span>
+                  : null}
               </div>
-            : null}
-            <div className='item'>
-
-            </div>
+              : null}
+            <div className='item' />
           </div>
         </div>
 
@@ -154,9 +154,9 @@ class MainTopbar extends Component {
   }
 
   async updateNetwork () {
-    const network = await registry.getNetwork()
+    const fetchedNetwork = await registry.getNetwork()
     this.setState({
-      invalidNetwork: (network.type !== 'rinkeby')
+      invalidNetwork: (fetchedNetwork.type !== network)
     })
   }
 }

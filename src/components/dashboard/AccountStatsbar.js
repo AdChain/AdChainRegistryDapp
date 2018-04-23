@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import commafy from 'commafy'
 import Tooltip from '../Tooltip'
 import './AccountStatsbar.css'
+import { registryApiURL } from '../../models/urls'
 
 class AccountStatsbar extends Component {
   constructor (props) {
@@ -77,7 +78,7 @@ class AccountStatsbar extends Component {
     }
 
     try {
-      const response = await window.fetch(`https://adchain-registry-api-staging.metax.io/stats/account?account=${account}`)
+      const response = await window.fetch(`${registryApiURL}/stats/account?account=${account}`)
       const {
         totalTimesChallenged,
         totalTimesCommitted,

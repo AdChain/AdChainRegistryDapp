@@ -5,6 +5,7 @@ import Tooltip from '../Tooltip'
 import store from '../../store'
 import token from '../../services/token'
 import { Input } from 'semantic-ui-react'
+import { registryApiURL } from '../../models/urls'
 
 import './DomainsFilterPanel.css'
 
@@ -47,10 +48,9 @@ class DomainsFilterPanel extends Component {
       })
     }
   }
-  componentWillUnmount(){
+  componentWillUnmount () {
     this._isMounted = false
   }
-
 
   render () {
     const {
@@ -100,7 +100,7 @@ class DomainsFilterPanel extends Component {
                     />
                   </div>
                   <label htmlFor='DomainsFilterPanel_InRegistry'>In Registry</label> &nbsp;
-                  <span className="f-grey f-12 f-os">({totalInRegistry != null ? commafy(totalInRegistry) : '-'})</span>
+                  <span className='f-grey f-12 f-os'>({totalInRegistry != null ? commafy(totalInRegistry) : '-'})</span>
                 </li>
                 <li className='item'>
                   <div className='ui input'>
@@ -113,7 +113,7 @@ class DomainsFilterPanel extends Component {
                     />
                   </div>
                   <label htmlFor='DomainsFilterPanel_InApplication'>In Application</label> &nbsp;
-                  <span className="f-grey f-12 f-os">({totalInApplication != null ? commafy(totalInApplication) : '-'})</span>
+                  <span className='f-grey f-12 f-os'>({totalInApplication != null ? commafy(totalInApplication) : '-'})</span>
 
                 </li>
                 <li className='item'>
@@ -127,7 +127,7 @@ class DomainsFilterPanel extends Component {
                     />
                   </div>
                   <label htmlFor='DomainsFilterPanel_InVotingCommit'>In Commit</label> &nbsp;
-                  <span className="f-grey f-12 f-os">({totalInCommit != null ? commafy(totalInCommit) : '-'})</span>
+                  <span className='f-grey f-12 f-os'>({totalInCommit != null ? commafy(totalInCommit) : '-'})</span>
                 </li>
                 <li className='item'>
                   <div className='ui input'>
@@ -140,7 +140,7 @@ class DomainsFilterPanel extends Component {
                     />
                   </div>
                   <label htmlFor='DomainsFilterPanel_InVotingReveal'>In Reveal</label> &nbsp;
-                  <span className="f-grey f-12 f-os">({totalInReveal != null ? commafy(totalInReveal) : '-'})</span>
+                  <span className='f-grey f-12 f-os'>({totalInReveal != null ? commafy(totalInReveal) : '-'})</span>
                 </li>
                 <li className='item'>
                   <div className='ui input'>
@@ -153,7 +153,7 @@ class DomainsFilterPanel extends Component {
                     />
                   </div>
                   <label htmlFor='DomainsFilterPanel_Rejected'>Rejected</label> &nbsp;
-                  <span className="f-grey f-12 f-os">({totalRejected != null ? commafy(totalRejected) : '-'})</span>
+                  <span className='f-grey f-12 f-os'>({totalRejected != null ? commafy(totalRejected) : '-'})</span>
                 </li>
                 <li className='item'>
                   <div className='ui input'>
@@ -166,7 +166,7 @@ class DomainsFilterPanel extends Component {
                     />
                   </div>
                   <label htmlFor='DomainsFilterPanel_Withdrawn'>Withdrawn</label> &nbsp;
-                  <span className="f-grey f-12 f-os">({totalWithdrawn != null ? commafy(totalWithdrawn) : '-'})</span>
+                  <span className='f-grey f-12 f-os'>({totalWithdrawn != null ? commafy(totalWithdrawn) : '-'})</span>
                 </li>
               </ul>
             </div>
@@ -189,11 +189,9 @@ class DomainsFilterPanel extends Component {
       this.setState(filters)
     }
     this.onFiltersChange(filters)
-
   }
 
   onFilterChange (event) {
-
     const target = event.target
     const {name, checked} = target
 
@@ -230,15 +228,14 @@ class DomainsFilterPanel extends Component {
   }
 
   async fetchStats () {
-    try{
-
-      let totalStaked = await (await window.fetch(`https://adchain-registry-api-staging.metax.io/registry/domains/stake/count`)).json()
-      const totalInApplication = await (await window.fetch(`https://adchain-registry-api-staging.metax.io/registry/domains/application/count`)).json()
-      const totalInCommit = await (await window.fetch(`https://adchain-registry-api-staging.metax.io/registry/domains/incommit/count`)).json()
-      const totalInReveal = await (await window.fetch(`https://adchain-registry-api-staging.metax.io/registry/domains/inreveal/count`)).json()
-      const totalInRegistry = await (await window.fetch(`https://adchain-registry-api-staging.metax.io/registry/domains/registry/count`)).json()
-      const totalWithdrawn = await (await window.fetch(`https://adchain-registry-api-staging.metax.io/registry/domains/withdrawn/count`)).json()
-      const totalRejected = await (await window.fetch(`https://adchain-registry-api-staging.metax.io/registry/domains/rejected/count`)).json()
+    try {
+      let totalStaked = await (await window.fetch(`${registryApiURL}/registry/domains/stake/count`)).json()
+      const totalInApplication = await (await window.fetch(`${registryApiURL}/registry/domains/application/count`)).json()
+      const totalInCommit = await (await window.fetch(`${registryApiURL}/registry/domains/incommit/count`)).json()
+      const totalInReveal = await (await window.fetch(`${registryApiURL}/registry/domains/inreveal/count`)).json()
+      const totalInRegistry = await (await window.fetch(`${registryApiURL}/registry/domains/registry/count`)).json()
+      const totalWithdrawn = await (await window.fetch(`${registryApiURL}/registry/domains/withdrawn/count`)).json()
+      const totalRejected = await (await window.fetch(`${registryApiURL}/registry/domains/rejected/count`)).json()
 
       if (totalStaked) {
         totalStaked = totalStaked / Math.pow(10, token.decimals)
@@ -255,11 +252,10 @@ class DomainsFilterPanel extends Component {
           totalRejected
         })
       }
-    }catch(error){
+    } catch (error) {
       console.log(error)
     }
   }
-
 }
 
 DomainsFilterPanel.propTypes = {

@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import Tooltip from '../Tooltip'
 import registry from '../../services/registry'
 import parameterizer from '../../services/parameterizer'
+import { registryApiURL } from '../../models/urls'
 import toastr from 'toastr'
 
 class ExpiredVotingADT extends Component {
@@ -18,27 +19,26 @@ class ExpiredVotingADT extends Component {
 
   }
 
-
-  async componentWillReceiveProps(){
-    if(this.state.contract === 'registry'){
+  async componentWillReceiveProps() {
+    if (this.state.contract === 'registry') {
       this.setState({
         contract: registry,
       })
-    }else if(this.state.contract === 'parameterizer'){
+    } else if (this.state.contract === 'parameterizer') {
       this.setState({
         contract: parameterizer
       })
     }
-    if(this.state.account && this.state.contract){
+    if (this.state.account && this.state.contract) {
       await this.init()
     }
   }
 
   async init () {
-    if(this.state.fetching) {
+    if (this.state.fetching) {
       return {}
     }
-    if(!this.props.contract){
+    if (!this.props.contract) {
       return {}
     }
     try {
@@ -63,23 +63,23 @@ class ExpiredVotingADT extends Component {
   }
 
   async getUnrevealed () {
-    let unrevealed    
+    let unrevealed
 
     this.setState({
       fetching: true
-    })   
-    if(this.state.contract === 'parameterizer'){
-      unrevealed = await (await window.fetch(`https://adchain-registry-api-staging.metax.io/parameterization/rewards?status=unrevealed&account=${this.state.account}`)).json()
-    }else if(this.state.contract === 'registry'){
-      unrevealed = await (await window.fetch(`https://adchain-registry-api-staging.metax.io/account/rewards?status=unrevealed&account=${this.state.account}`)).json()
+    })
+    if (this.state.contract === 'parameterizer') {
+      unrevealed = await (await window.fetch(`${registryApiURL}/parameterization/rewards?status=unrevealed&account=${this.state.account}`)).json()
+    } else if (this.state.contract === 'registry') {
+      unrevealed = await (await window.fetch(`${registryApiURL}/account/rewards?status=unrevealed&account=${this.state.account}`)).json()
     }
 
     this.setState({
       fetching: false
-    })   
+    })
 
     let totalExpiredTokens = this.getSum(unrevealed)
-    if(unrevealed){
+    if (unrevealed) {
       this.setState({
         unrevealed,
         totalExpiredTokens,
