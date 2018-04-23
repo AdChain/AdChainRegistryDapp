@@ -80,6 +80,16 @@ class SideBarApplicationContainer extends Component {
     }
 
     try {
+      const appExists = await registry.applicationExists(domain)
+      if (appExists) {
+        toastr.error('This domain cannot be applied because it already exists within the registry')
+        return
+      }
+    } catch (error) {
+      toastr.error('Error')
+    }
+
+    try {
       try {
         calculateGas({
           value_staked: minDeposit,
