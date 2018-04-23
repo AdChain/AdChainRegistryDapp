@@ -15,6 +15,8 @@ import store from 'store'
 import calculateGas from "./utils/calculateGas"
 
 import './index.css'
+require('dotenv').config()
+
 const adblockDetect = require('adblock-detect')
 
 function adBlockDetected () {

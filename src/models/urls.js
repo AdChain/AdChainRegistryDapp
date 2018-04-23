@@ -1,6 +1,5 @@
+export const utilityApiURL = process.env.REACT_APP_UTILITY_API_URL
 
-export const utilityApiURL = 'https://utility-staging.adchain.com'
+export const registryApiURL = process.env.REACT_APP_REGISTRY_API_URL
 
-export const registryApiURL = 'https://adchain-registry-api-staging.metax.io'
-
-export const contractsURL = 'https://s3-us-west-2.amazonaws.com/tcr-contracts-rinkeby/'
+export const contractsURL = process.env.REACT_APP_CONTRACTS_URL

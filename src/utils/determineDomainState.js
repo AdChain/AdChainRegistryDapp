@@ -1,18 +1,13 @@
 import React from 'react'
 import registry from '../services/registry'
 import moment from 'moment'
-import store from '../store'
-import { registryApiURL } from '../models/urls'
+// import { registryApiURL } from '../models/urls'
 
 function isExpired (end) {
   const now = moment().unix()
   if (!end) return false
   return end < now
 }
-
-store.subscribe(x => {
-  getWithdrawn()
-})
 
 const getDomainState = async (domain) => {
   if (!domain) return {}
@@ -184,9 +179,9 @@ const getDomainState = async (domain) => {
   }
 }
 
-const getWithdrawn = async () => {
-  const withdrawn = await (await window.fetch(`${registryApiURL}/registry/domains?withdrawn`)).json()
-  return withdrawn
-}
+// const getWithdrawn = async () => {
+//   const withdrawn = await (await window.fetch(`${registryApiURL}/registry/domains?withdrawn`)).json()
+//   return withdrawn
+// }
 
 export default getDomainState
