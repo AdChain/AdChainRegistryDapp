@@ -3,6 +3,7 @@ import { Button, Form } from 'semantic-ui-react'
 import toastr from 'toastr'
 import isValidDomain from 'is-valid-domain'
 import registry from '../../services/registry'
+import token from '../../services/token'
 import calculateGas from '../../utils/calculateGas'
 import commafy from 'commafy'
 import isMobile from 'is-mobile'
@@ -80,6 +81,12 @@ class SideBarApplicationContainer extends Component {
     }
 
     try {
+      const adtBalance = await token.getBalance()
+      if (adtBalance < minDeposit) {
+        toastr.error('You do not have enough ADT to apply this domain')
+        return
+      }
+
       const appExists = await registry.applicationExists(domain)
       if (appExists) {
         toastr.error('This domain cannot be applied because it already exists within the registry')

@@ -4,7 +4,7 @@ import ReactTable from 'react-table'
 import Tooltip from '../Tooltip'
 import commafy from 'commafy'
 import moment from 'moment'
-// import toastr from 'toastr'
+import toastr from 'toastr'
 import 'react-table/react-table.css'
 import './DomainsTable.css'
 
@@ -15,6 +15,7 @@ import { registryApiURL } from '../../models/urls'
 
 import store from '../../store'
 import registry from '../../services/registry'
+import token from '../../services/token'
 import getDomainState from '../../utils/determineDomainState'
 
 // import StatProgressBar from './StatProgressBar'
@@ -175,6 +176,11 @@ class DomainsTable extends Component {
             if (actionLabel === 'APPLY') {
               try {
                 const minDeposit = await registry.getMinDeposit()
+                const adtBalance = await token.getBalance()
+                if (adtBalance < minDeposit) {
+                  toastr.error('You do not have enough ADT to apply this domain')
+                  return
+                }
                 let data = {
                   domain: domain,
                   stake: Number(minDeposit),

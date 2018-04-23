@@ -2,6 +2,7 @@ import Eth from 'ethjs'
 import React, { Component } from 'react'
 import _ from 'lodash'
 import ParameterizerService from '../../services/parameterizer'
+import token from '../../services/token'
 import commafy from 'commafy'
 import toastr from 'toastr'
 import PubSub from 'pubsub-js'
@@ -119,6 +120,12 @@ class CreateProposal extends Component {
   async submitProposal () {
     if (this.state.proposalValue < 1) {
       toastr.error('Please enter a valid proposal value')
+      return
+    }
+
+    const adtBalance = await token.getBalance()
+    if (adtBalance < parseFloat(this.state.currentMinDeposit.replace(/,/g, ''))) {
+      toastr.error('You do not have enough ADT to submit this proposal')
       return
     }
 
