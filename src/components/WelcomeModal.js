@@ -160,6 +160,7 @@ class WelcomeModal extends Component {
                 }
               </div>
               <div className='WelcomeCheckBox'>
+                <span className='Disclaimer'><a href='https://adchain.zendesk.com/hc/en-us/articles/360003427494' target='_blank' rel='noopener noreferrer'>Disclaimer</a></span>
                 <Checkbox label="I don't want to see this again" onClick={() => this.setReturningUser()} />
               </div>
             </div>
