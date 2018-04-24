@@ -11,19 +11,19 @@
             <path d="M40.4760206,20.3303996 L120.318868,100.102629 L40.4760206,20.3303996 Z" id="Line" stroke="#F4F7FA" stroke-linecap="square"></path>
             <path d="M40.5,219.5 L40.5,299.5" id="Line" stroke="#F4F7FA" stroke-linecap="square"></path>
             <rect id="Rectangle-11" fill="#3434CE" x="0" y="0" width="81" height="20" rx="3"></rect>
-            <text id="IN-APPLICATION" font-family="OpenSans-SemiBold, Open Sans" font-size="9" font-weight="500" fill="#FCFCFF">
+            <text id="IN-APPLICATION" font-family="Open Sans, sans-serif" font-size="9" font-weight="500" fill="#FCFCFF">
                 <tspan x="5.60961914" y="14">IN APPLICATION</tspan>
             </text>
             <rect id="Rectangle-11-Copy" fill="#3434CE" x="0" y="100" width="81" height="20" rx="3"></rect>
-            <text id="VOTING" font-family="OpenSans-SemiBold, Open Sans" font-size="9" font-weight="500" fill="#FCFCFF">
+            <text id="VOTING" font-family="Open Sans, sans-serif" font-size="9" font-weight="500" fill="#FCFCFF">
                 <tspan x="24.125" y="114">VOTING</tspan>
             </text>
             <rect id="Rectangle-11-Copy-2" fill="#3434CE" x="0" y="200" width="81" height="20" rx="3"></rect>
-            <text id="REVEAL" font-family="OpenSans-SemiBold, Open Sans" font-size="9" font-weight="500" fill="#FCFCFF">
+            <text id="REVEAL" font-family="Open Sans, sans-serif" font-size="9" font-weight="500" fill="#FCFCFF">
                 <tspan x="24.3874512" y="214">REVEAL</tspan>
             </text>
             <rect id="Rectangle-11-Copy-3" fill="#F4F7FA" x="0" y="300" width="81" height="20" rx="3"></rect>
-            <text id="REJECTED" font-family="OpenSans-Regular, Open Sans" font-size="9" font-weight="normal" fill="#424242">
+            <text id="REJECTED" font-family="Open Sans, sans-serif" font-size="9" font-weight="normal" fill="#424242">
                 <tspan x="20.1291504" y="314">REJECTED</tspan>
             </text>
             <rect id="Rectangle-11-Copy-5" fill="#10C903" x="120" y="300" width="81" height="20" rx="3"></rect>
@@ -35,17 +35,17 @@
                 </g>
                 <circle id="Oval-2" fill="#FCFCFF" cx="3.5" cy="3.5" r="2.5"></circle>
             </g>
-            <text id="IN-REGISTRY" font-family="OpenSans-SemiBold, Open Sans" font-size="9" font-weight="500" fill="#F4F7FA">
+            <text id="IN-REGISTRY" font-family="Open Sans, sans-serif" font-size="9" font-weight="500" fill="#F4F7FA">
                 <tspan x="134.344971" y="314">IN REGISTRY</tspan>
             </text>
             <rect id="Rectangle-11-Copy-4" fill="#F4F7FA" x="120" y="100" width="81" height="20" rx="3"></rect>
-            <text id="IN-REGISTRY" font-family="OpenSans-Regular, Open Sans" font-size="9" font-weight="normal" fill="#424242">
+            <text id="IN-REGISTRY" font-family="Open Sans, sans-serif" font-size="9" font-weight="normal" fill="#424242">
                 <tspan x="135.107422" y="114">IN REGISTRY</tspan>
             </text>
             <path d="M100.5,92.4868444 L100.5,130.5" id="Line" stroke="#F4F7FA" stroke-linecap="square" transform="translate(101.000000, 111.000000) rotate(-270.000000) translate(-101.000000, -111.000000) "></path>
             <g id="Group-4-Copy" transform="translate(52.000000, 255.000000)">
                 <rect id="Rectangle-12" fill="#FFFFFF" x="0" y="0" width="60" height="10"></rect>
-                <text id="SUPPORTED" font-family="OpenSans-SemiBold, Open Sans" font-size="7" font-weight="500" fill="#10C903">
+                <text id="SUPPORTED" font-family="Open Sans, sans-serif" font-size="7" font-weight="500" fill="#10C903">
                     <tspan x="8.67675781" y="8">SUPPORTED</tspan>
                 </text>
             </g>
@@ -56,7 +56,7 @@
             </g>
             <g id="Group-4" transform="translate(16.000000, 54.000000)">
                 <rect id="Rectangle-12" fill="#FFFFFF" x="0" y="0" width="48" height="10"></rect>
-                <text id="CHALLENGED" font-family="OpenSans-SemiBold, Open Sans" font-size="7" font-weight="500" fill="#CE3434">
+                <text id="CHALLENGED" font-family="Open Sans, sans-serif" font-size="7" font-weight="500" fill="#CE3434">
                     <tspan x="1.28759766" y="8">CHALLENGED</tspan>
                 </text>
             </g>

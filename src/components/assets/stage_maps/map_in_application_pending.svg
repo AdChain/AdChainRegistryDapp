@@ -13,34 +13,34 @@
             <path d="M42.5,221.5 L42.5,301.5" id="Line" stroke="#F4F7FA" stroke-linecap="square"></path>
             <rect id="Rectangle-11" fill="#3434CE" x="2" y="2" width="81" height="20" rx="3"></rect>
             <rect id="Rectangle-11" stroke="#3434CE" x="0.5" y="0.5" width="84" height="23" rx="3"></rect>
-            <text id="In-Application" font-family="OpenSans-SemiBold, Open Sans" font-size="9" font-weight="500" fill="#FCFCFF">
+            <text id="In-Application" font-family="Open Sans, sans-serif" font-size="9" font-weight="500" fill="#FCFCFF">
                 <tspan x="8.10961914" y="16">IN APPLICATION</tspan>
             </text>
             <rect id="Rectangle-11-Copy" fill="#F4F7FA" x="2" y="102" width="81" height="20" rx="3"></rect>
-            <text id="Voting" font-family="OpenSans-Regular, Open Sans" font-size="9" font-weight="normal" fill="#424242">
+            <text id="Voting" font-family="Open Sans, sans-serif" font-size="9" font-weight="normal" fill="#424242">
                 <tspan x="26.0820312" y="116">VOTING</tspan>
             </text>
             <rect id="Rectangle-11-Copy-2" fill="#F4F7FA" x="2" y="202" width="81" height="20" rx="3"></rect>
-            <text id="Reveal" font-family="OpenSans-Regular, Open Sans" font-size="9" font-weight="normal" fill="#424242">
+            <text id="Reveal" font-family="Open Sans, sans-serif" font-size="9" font-weight="normal" fill="#424242">
                 <tspan x="27.3510742" y="216">REVEAL</tspan>
             </text>
             <rect id="Rectangle-11-Copy-3" fill="#F4F7FA" x="2" y="302" width="81" height="20" rx="3"></rect>
-            <text id="Rejected" font-family="OpenSans-Regular, Open Sans" font-size="9" font-weight="normal" fill="#424242">
+            <text id="Rejected" font-family="Open Sans, sans-serif" font-size="9" font-weight="normal" fill="#424242">
                 <tspan x="22.1291504" y="316">REJECTED</tspan>
             </text>
             <rect id="Rectangle-11-Copy-5" fill="#F4F7FA" x="122" y="302" width="81" height="20" rx="3"></rect>
             <path d="M136.023241,101.936457 L147.459628,321.060019" id="Line" stroke="#F4F7FA" stroke-linecap="square" transform="translate(141.741435, 211.498238) rotate(-210.000000) translate(-141.741435, -211.498238) "></path>
-            <text id="In-Registry" font-family="OpenSans-Regular, Open Sans" font-size="9" font-weight="normal" fill="#424242">
+            <text id="In-Registry" font-family="Open Sans, sans-serif" font-size="9" font-weight="normal" fill="#424242">
                 <tspan x="137.107422" y="316">IN REGISTRY</tspan>
             </text>
             <rect id="Rectangle-11-Copy-4" fill="#F4F7FA" x="122" y="102" width="81" height="20" rx="3"></rect>
-            <text id="In-Registry" font-family="OpenSans-Regular, Open Sans" font-size="9" font-weight="normal" fill="#424242">
+            <text id="In-Registry" font-family="Open Sans, sans-serif" font-size="9" font-weight="normal" fill="#424242">
                 <tspan x="137.107422" y="116">IN REGISTRY</tspan>
             </text>
             <path d="M84,12 L105.505813,12" id="Line" stroke="#424242" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="2,2"></path>
-            <text id="Click-REFRESH-STATUS" font-family="OpenSans-Regular, Open Sans" font-size="7" font-weight="normal" line-spacing="10" letter-spacing="0.100000001" fill="#CE4034">
+            <text id="Click-REFRESH-STATUS" font-family="Open Sans, sans-serif" font-size="7" font-weight="normal" line-spacing="10" letter-spacing="0.100000001" fill="#CE4034">
                 <tspan x="107.17041" y="13">Click </tspan>
-                <tspan x="124.552637" y="13" font-family="OpenSans-SemiBold, Open Sans" font-weight="500">REFRESH STATUS</tspan>
+                <tspan x="124.552637" y="13" font-family="Open Sans, sans-serif" font-weight="500">REFRESH STATUS</tspan>
             </text>
             <path d="M102.5,94.4868444 L102.5,132.5" id="Line" stroke="#F4F7FA" stroke-linecap="square" transform="translate(103.000000, 113.000000) rotate(-270.000000) translate(-103.000000, -113.000000) "></path>
         </g>

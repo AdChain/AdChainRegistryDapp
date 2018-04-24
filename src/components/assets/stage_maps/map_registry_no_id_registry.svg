@@ -9,35 +9,35 @@
             <path d="M134.023241,99.9364567 L145.459628,319.060019" id="Line" stroke="#F4F7FA" stroke-linecap="square" transform="translate(139.741435, 209.498238) rotate(-210.000000) translate(-139.741435, -209.498238) "></path>
             <rect id="Rectangle-11-Copy-5" fill="#10C903" x="120" y="300" width="81" height="20" rx="3"></rect>
             <rect id="Rectangle-11-Copy-6" stroke="#10C903" x="118.5" y="298.5" width="84" height="23" rx="3"></rect>
-            <text id="IN-REGISTRY" font-family="OpenSans-SemiBold, Open Sans" font-size="9" font-weight="500" fill="#F4F7FA">
+            <text id="IN-REGISTRY" font-family="Open Sans, sans-serif" font-size="9" font-weight="500" fill="#F4F7FA">
                 <tspan x="134.344971" y="314">IN REGISTRY</tspan>
             </text>
             <path d="M40.5,19.5 L40.5,99.5" id="Line" stroke="#F4F7FA" stroke-linecap="square"></path>
             <rect id="Rectangle-11" fill="#F4F7FA" x="0" y="0" width="81" height="20" rx="3"></rect>
-            <text id="IN-APPLICATION" font-family="OpenSans-Regular, Open Sans" font-size="9" font-weight="normal" fill="#424242">
+            <text id="IN-APPLICATION" font-family="Open Sans, sans-serif" font-size="9" font-weight="normal" fill="#424242">
                 <tspan x="7.3137207" y="14">IN APPLICATION</tspan>
             </text>
             <path d="M40.4760206,20.3303996 L120.318868,100.102629 L40.4760206,20.3303996 Z" id="Line" stroke="#F4F7FA" stroke-linecap="square"></path>
             <path d="M40.5,219.5 L40.5,299.5" id="Line" stroke="#F4F7FA" stroke-linecap="square"></path>
             <rect id="Rectangle-11-Copy" fill="#3434CE" x="0" y="100" width="81" height="20" rx="3"></rect>
-            <text id="Voting" font-family="OpenSans-SemiBold, Open Sans" font-size="9" font-weight="500" fill="#FCFCFF">
+            <text id="Voting" font-family="Open Sans, sans-serif" font-size="9" font-weight="500" fill="#FCFCFF">
                 <tspan x="24.125" y="114">VOTING</tspan>
             </text>
             <rect id="Rectangle-11-Copy-3" fill="#F4F7FA" x="0" y="300" width="81" height="20" rx="3"></rect>
-            <text id="Rejected" font-family="OpenSans-Regular, Open Sans" font-size="9" font-weight="normal" fill="#424242">
+            <text id="Rejected" font-family="Open Sans, sans-serif" font-size="9" font-weight="normal" fill="#424242">
                 <tspan x="18.1291504" y="314">REJECTED</tspan>
             </text>
             <rect id="Rectangle-11-Copy-2" fill="#3434CE" x="0" y="200" width="81" height="20" rx="3"></rect>
-            <text id="REVEAL" font-family="OpenSans-SemiBold, Open Sans" font-size="9" font-weight="500" fill="#FCFCFF">
+            <text id="REVEAL" font-family="Open Sans, sans-serif" font-size="9" font-weight="500" fill="#FCFCFF">
                 <tspan x="24.3874512" y="214">REVEAL</tspan>
             </text>
             <rect id="Rectangle-11-Copy-4" fill="#10C903" x="120" y="100" width="81" height="20" rx="3"></rect>
-            <text id="In-Registry" font-family="OpenSans-SemiBold, Open Sans" font-size="9" font-weight="500" fill="#FCFCFF">
+            <text id="In-Registry" font-family="Open Sans, sans-serif" font-size="9" font-weight="500" fill="#FCFCFF">
                 <tspan x="134.344971" y="114">IN REGISTRY</tspan>
             </text>
             <g id="Group-4" transform="translate(78.000000, 121.000000)">
                 <rect id="Rectangle-12" fill="#FFFFFF" x="0" y="0" width="48" height="10"></rect>
-                <text id="CHALLENGED" font-family="OpenSans-SemiBold, Open Sans" font-size="7" font-weight="500" fill="#CE3434">
+                <text id="CHALLENGED" font-family="Open Sans, sans-serif" font-size="7" font-weight="500" fill="#CE3434">
                     <tspan x="1.28759766" y="8">CHALLENGED</tspan>
                 </text>
             </g>
@@ -60,7 +60,7 @@
             </g>
             <g id="Group-4-Copy" transform="translate(52.000000, 255.000000)">
                 <rect id="Rectangle-12" fill="#FFFFFF" x="0" y="0" width="60" height="10"></rect>
-                <text id="SUPPORTED" font-family="OpenSans-SemiBold, Open Sans" font-size="7" font-weight="500" fill="#10C903">
+                <text id="SUPPORTED" font-family="Open Sans, sans-serif" font-size="7" font-weight="500" fill="#10C903">
                     <tspan x="8.67675781" y="8">SUPPORTED</tspan>
                 </text>
             </g>
