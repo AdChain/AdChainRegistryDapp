@@ -6,11 +6,9 @@
 
 [ ![Codeship Status for AdChain/AdChainRegistryDapp](https://app.codeship.com/projects/3bdbcb30-abc8-0135-1d7c-326c62bbc0df/status?branch=master)](https://app.codeship.com/projects/256831)
 
-Currently in Beta on Rinkeby testnet.
+# Live
 
-# Demo
-
-[https://app.adchain.com](https://app.adchain.com)
+[https://publisher.adchain.com](https://publisher.adchain.com)
 
 # Install
 

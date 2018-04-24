@@ -47,7 +47,7 @@ class MainSidebar extends Component {
           <Link to='/domains' onClick={() => PubSub.publish('RegistryGuideModal.show')} activeClassName='active'>View Guides</Link>
         </li>
         <li>
-          <Link to='https://adchain.zendesk.com/hc/en-us/categories/115000415353-adChain-Registry-DApp' target='_blank' rel='noopener noreferrer' activeClassName='active'>Help Center</Link>
+          <Link to='https://adchain.zendesk.com/hc/en-us' target='_blank' rel='noopener noreferrer' activeClassName='active'>Help Center</Link>
         </li>
         <li>
           <Link to='https://goo.gl/forms/px9fgyKhFrZDjBV42' target='_blank' rel='noopener noreferrer' activeClassName='active'>Submit Feedback</Link>
