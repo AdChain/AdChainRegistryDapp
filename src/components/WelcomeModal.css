@@ -121,8 +121,24 @@
   text-transform: uppercase;
 }
 
+.Disclaimer a {
+  color: #CE3434;
+  text-transform: uppercase;
+  font-weight: 700;
+  padding-left: 50px;
+  font-size: 10px;
+}
+
+.Disclaimer a:hover {
+  text-decoration: underline;
+}
+
+
 .WelcomeCheckBox {
-  text-align: right;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
 }
 
 .WelcomeCheckBox label {

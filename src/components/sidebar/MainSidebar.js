@@ -127,6 +127,7 @@ class MainSidebar extends Component {
         </div>
         <SideBarApplicationContainer />
         <div className='SidebarFooter'>
+          <div className='ReleaseCandidate'><a href='https://adchain.zendesk.com/hc/en-us/articles/360003427494' target='_blank' rel='noopener noreferrer'>Release Candidate</a></div>
           <div className='PoweredBy'>
             Powered By
           </div>
@@ -140,8 +141,8 @@ class MainSidebar extends Component {
             </a>
           </div>
           <div className='Copyright'>
-            <p>© Copyright 2018 MetaXchain, Inc.
-            All rights reserved.</p>
+            <p>© Copyright 2018 MetaXchain, Inc.</p>
+            <p>All rights reserved.</p>
           </div>
         </div>
       </Accordion>

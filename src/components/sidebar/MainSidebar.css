@@ -287,7 +287,8 @@
 
 :root:root .MainSidebar .Copyright p {
   font-size: 0.6em;
-  color: #686972;
+  color: #FFF;
+  margin-bottom: 0px;
 }
 
 .MainSidebar .overflow-x::-webkit-scrollbar,
@@ -310,6 +311,25 @@
 .MainSidebar .overflow-x::-webkit-scrollbar-thumb:hover,
 .MainSidebar .overflow-y::-webkit-scrollbar-thumb:hover {
   background-color: #1a1d23;
+}
+
+.ReleaseCandidate {
+  text-align: center;
+  padding-bottom: 15px;
+}
+
+.ReleaseCandidate a {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  text-align: center;
+  color: #FFF;
+  letter-spacing: 4px;
+}
+
+.ReleaseCandidate a:hover {
+  text-decoration: underline;
+  color: #FFF;
 }
 
 @media only screen and (max-width: 767px) {
