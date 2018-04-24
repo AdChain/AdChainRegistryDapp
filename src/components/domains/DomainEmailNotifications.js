@@ -7,7 +7,7 @@ import './DomainEmailNotifications.css'
 import PubSub from 'pubsub-js'
 import EmailConfirmationModal from '../EmailConfirmationModal'
 import isValidEmail from 'is-valid-email'
-import { network, organization, governxUrl } from '../../models/network'
+import { websocketNetwork, organization, governxUrl } from '../../models/network'
 
 class DomainEmailNotifications extends Component {
   constructor (props) {
@@ -83,7 +83,7 @@ class DomainEmailNotifications extends Component {
     try {
       let res = await axios.get('https://api.governx.org/notify', {
         params: {
-          network: network,
+          network: websocketNetwork,
           organization: organization,
           email: email,
           url: governxUrl
