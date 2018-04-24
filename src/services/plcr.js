@@ -1,10 +1,11 @@
 import Eth from 'ethjs'
 import { getProvider } from './provider'
-import { promisify as pify } from 'bluebird'
+// import { promisify as pify } from 'bluebird'
 
 import { getPLCR } from '../config'
 import token from './token'
 import store from '../store'
+import PubSub from 'pubsub-js'
 
 /**
  * PollId = ChallengeId
@@ -105,7 +106,7 @@ class PlcrService {
       }
 
       try {
-        const result = await this.plcr.commitStageActive(pollId)
+        const result = await this.plcr.commitPeriodActive(pollId)
         resolve(result)
         return false
       } catch (error) {
@@ -123,7 +124,7 @@ class PlcrService {
       }
 
       try {
-        const result = await this.plcr.revealStageActive(pollId)
+        const result = await this.plcr.revealPeriodActive(pollId)
         resolve(result)
         return false
       } catch (error) {
@@ -133,7 +134,7 @@ class PlcrService {
     })
   }
 
-  async commit ({pollId, hash, tokens}) {
+  async commit ({pollId, hash, tokens}, transactionSrc) { // added transactionSrc param to differentiate between governance and domain voting
     return new Promise(async (resolve, reject) => {
       if (!pollId) {
         reject(new Error('Poll ID is required'))
@@ -155,6 +156,7 @@ class PlcrService {
       try {
         active = await this.commitStageActive(pollId)
       } catch (error) {
+        console.error(error)
         reject(error)
         return false
       }
@@ -165,29 +167,45 @@ class PlcrService {
       }
 
       const voteTokenBalance = (await this.plcr.voteTokenBalance(this.getAccount())).toString(10)
-
       const requiredVotes = (tokens - voteTokenBalance)
+      let transactionInfo = {}
 
       if (requiredVotes > 0) {
+        // this means that you submitted more votes than your existing voting rights
+        transactionInfo = {
+          src: 'not_approved_' + transactionSrc.src,
+          title: transactionSrc.title
+        }
         try {
+          PubSub.publish('TransactionProgressModal.open', transactionInfo)
           await token.approve(this.address, requiredVotes)
+          PubSub.publish('TransactionProgressModal.next', transactionInfo)
         } catch (error) {
+          PubSub.publish('TransactionProgressModal.error')
           reject(error)
           return false
         }
-
         try {
           await this.plcr.requestVotingRights(requiredVotes)
+          PubSub.publish('TransactionProgressModal.next', transactionInfo)
         } catch (error) {
+          PubSub.publish('TransactionProgressModal.error')
           reject(error)
           return false
         }
+      } else {
+        // this means that you can use existing voting rights
+        transactionInfo = {
+          src: 'approved_' + transactionSrc.src,
+          title: transactionSrc.title
+        }
+        PubSub.publish('TransactionProgressModal.open', transactionInfo)
       }
 
       try {
-        const prevPollId =
-          await this.plcr.getInsertPointForNumTokens.call(this.getAccount(), tokens)
+        const prevPollId = await this.plcr.getInsertPointForNumTokens.call(this.getAccount(), tokens, pollId)
         const result = await this.plcr.commitVote(pollId, hash, tokens, prevPollId)
+        PubSub.publish('TransactionProgressModal.next', transactionInfo)
 
         store.dispatch({
           type: 'PLCR_VOTE_COMMIT',
@@ -197,24 +215,34 @@ class PlcrService {
         resolve(result)
         return false
       } catch (error) {
+        PubSub.publish('TransactionProgressModal.error')
         reject(error)
         return false
       }
     })
   }
 
-  async reveal ({pollId, voteOption, salt}) {
+  async reveal ({pollId, voteOption, salt}, transactionSrc) {
     return new Promise(async (resolve, reject) => {
       try {
-        await this.plcr.revealVote(pollId, voteOption, salt)
+        let transactionInfo = {
+          src: transactionSrc.src,
+          title: transactionSrc.title
+        }
+        PubSub.publish('TransactionProgressModal.open', transactionInfo)
+        const result = await this.plcr.revealVote(pollId, voteOption, salt)
+        console.log('after plcr.revealvote')
+        setTimeout(PubSub.publish('TransactionProgressModal.next', transactionInfo), 8e3)
 
         store.dispatch({
           type: 'PLCR_VOTE_REVEAL',
           pollId
         })
+        console.log(' plcr result: ', result)
 
-        resolve()
+        resolve(result)
       } catch (error) {
+        PubSub.publish('TransactionProgressModal.error')
         reject(error)
         return false
       }
@@ -289,33 +317,37 @@ class PlcrService {
 
   async hasBeenRevealed (voter, pollId) {
     return new Promise(async (resolve, reject) => {
-      if (!pollId) {
-        resolve(false)
-        return false
-      }
-
       try {
-        const didReveal = await this.plcr.hasBeenRevealed(voter, pollId)
-
-        resolve(didReveal)
-      } catch (error) {
-        reject(error)
-      }
-    })
-  }
-
-  async getTransactionReceipt (tx) {
-    return new Promise(async (resolve, reject) => {
-      try {
-        const result = await pify(window.web3.eth.getTransactionReceipt)(tx)
+        const result = await this.plcr.didReveal(voter, pollId)
         resolve(result)
-        return false
       } catch (error) {
         reject(error)
-        return false
       }
     })
   }
+
+  async rescueTokens (pollId) {
+    try {
+      let res = await this.plcr.rescueTokens(pollId)
+      return res
+    } catch (error) {
+      console.log('Rescue tokens error: ', error)
+      throw error
+    }
+  }
+
+  // async getTransactionReceipt (tx) {
+  //   return new Promise(async (resolve, reject) => {
+  //     try {
+  //       const result = await pify(window.web3.eth.getTransactionReceipt)(tx)
+  //       resolve(result)
+  //       return false
+  //     } catch (error) {
+  //       reject(error)
+  //       return false
+  //     }
+  //   })
+  // }
 
   async withdrawVotingRights (tokens) {
     await this.plcr.withdrawVotingRights(tokens)

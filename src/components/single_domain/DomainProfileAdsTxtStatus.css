@@ -1,0 +1,46 @@
+:root:root:root .DomainProfileAdsTxtStatus {
+  margin-top: 14px;
+}
+
+.DomainProfileAdsTxtStatus .Header {
+  text-transform: uppercase;
+  color: #909090;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 14px;
+  min-height: 13px;
+  font-family: 'Open Sans',sans-serif;
+}
+
+.DomainProfileAdsTxtStatus .Header::after {
+  content: url(./assets/info_gray.svg);
+  transform: scale(1.4) translateY(1.1px);
+  padding-left: 7px;
+  cursor: pointer;
+}
+
+.DomainProfileAdsTxtStatus .AdsTxtStatus {
+  font-size: 12px !important;
+   font-family: "Open Sans", sans-serif;
+   padding-bottom:10px;
+}
+
+.DomainProfileAdsTxtStatus .AdsTxtStatus .InAdsTxt {
+  	color: #10C903;
+    font-family: "Open Sans", sans-serif;
+  	font-size: 12px;
+    font-weight: bold;
+    display: inline-block;
+}
+
+.DomainProfileAdsTxtStatus .AdsTxtStatus .NotInAdsTxt {
+  color: #CE3434;
+  font-family: "Open Sans", sans-serif;
+  font-size: 12px;
+  font-weight: bold;
+  display: inline-block;
+}
+/*
+.DomainProfileAdsTxtStatus .AdsTxtStatus i .remove {
+  color: #CE3434 !important;
+} */

@@ -1,0 +1,126 @@
+.MainTopbar {
+  width: 100%;
+  background: white;
+  box-shadow:0 2px 4px 0 rgba(225, 225, 225, 0.27);
+  color:black;
+  overflow: scroll;
+}
+.MainTopbar .item{
+  color:black !important;
+  color: #424242;
+  font-family: 'Open Sans',sans-serif;
+  font-size: 14px;
+  font-weight: 100;
+}
+.MainTopbar .item span{
+  color: #424242;
+  font-family: 'Open Sans',sans-serif;
+  font-size: 16px;
+  font-weight: 300;
+}
+.TimeZoneDropdown{
+  border:1px solid #3534ce;
+}
+:root:root .MainTopbar .menu {
+  border: none;
+  border-radius: 0;
+  background: none;
+}
+
+:root:root .MainTopbar .menu span strong {
+  font-weight: 800;
+}
+
+:root:root .MainTopbar .menu.top {
+  min-height: 70px;
+}
+
+:root:root .MainTopbar .overflow-x::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+:root:root .MainTopbar .overflow-x::-webkit-scrollbar-track {
+  background: #2e323a;
+}
+
+:root:root .MainTopbar .overflow-x::-webkit-scrollbar-thumb {
+  background-color: #414652;
+  border: 1px solid #414652;
+}
+
+:root:root .MainTopbar .overflow-x::-webkit-scrollbar-thumb:hover {
+  background-color: #1a1d23;
+}
+
+.MainTopbar .AddressContainer {
+  display: flex;
+  align-items: center;
+}
+
+.MainTopbar .AddressContainer .Identicon {
+  margin-right: 5px;
+}
+
+.MainTopbar .NoWalletMessage {
+  color:white;
+}
+
+.MainTopbar .NoWalletMessage a {
+  color: white;
+  font-weight: bold;
+}
+
+.MainTopbar .NoWalletMessage a:hover {
+  text-decoration: underline;
+}
+.MainTopbar.NoWallet .ui > .item:first-of-type{
+  background:#961919;
+}
+:root:root:root .MainTopbar .RedAlert {
+  background: #961919;
+  color: white !important;
+}
+
+.MainTopbar .AdtLogo {
+  width: 28px;
+  margin-right: 5px;
+}
+
+.MainTopbar .EthLogo {
+  width: 18px;
+  margin-right: 5px;
+}
+
+.MainTopbar .AcquireLink {
+  color: #aeebff;
+}
+
+.BalanceText {
+  font-family: 'Open Sans', sans-serif !important;
+}
+
+
+@media only screen and (max-width: 767px) {
+  :root:root .MainTopbar {
+    padding: 0;
+  }
+
+  .MainTopbar .AddressContainer {
+    width: 100%;
+  }
+
+  .MainTopbar .AddressContainer span {
+    color:#424242;
+    display: inline-block;
+    overflow-x: auto;
+    white-space: nowrap;
+    width: 100%;
+  }
+}
+@media (max-width: 767px) {
+  .MainTopbar{
+    display:none;
+  }
+
+}

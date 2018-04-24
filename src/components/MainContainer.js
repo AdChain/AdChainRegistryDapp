@@ -1,45 +1,48 @@
-import React from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import MainTopbar from './MainTopbar'
-import ApplicationContainer from './ApplicationContainer'
-import DomainsContainer from './DomainsContainer'
-import DomainProfile from './DomainProfile'
-import AccountDashboard from './AccountDashboard'
+import MainTopbar from './topbar/MainTopbar'
+import DomainsContainer from './domains/DomainsContainer'
+import DomainProfile from './single_domain/DomainProfile'
+import AccountDashboard from './dashboard/AccountDashboard'
 import RocketChat from './RocketChat'
+import GovernanceContainer from './governance/GovernanceContainer'
 import './MainContainer.css'
 
-function MainContainer (props) {
-  const Route = props.Route
-  const Switch = props.Switch
-  const Redirect = props.Redirect
-  const CSSTransitionGroup = props.CSSTransitionGroup
-  const location = props.location
-  const key = location.pathname
+class MainContainer extends Component {
+  render () {
+    const Route = this.props.Route
+    const Switch = this.props.Switch
+    const Redirect = this.props.Redirect
+    const CSSTransitionGroup = this.props.CSSTransitionGroup
+    const location = this.props.location
+    const key = location.pathname
 
-  return (
-    <div className='ui grid'>
-      <MainTopbar />
+    return (
+      <div className='ui grid'>
+        <MainTopbar />
 
-      <CSSTransitionGroup
-        transitionName='MainContainerFade'
-        transitionEnterTimeout={500}
-        transitionLeaveTimeout={500}>
+        <CSSTransitionGroup
+          transitionName='MainContainerFade'
+          transitionEnterTimeout={500}
+          transitionLeaveTimeout={500}>
 
-        <Route location={location} key={key} >
-          <Switch>
-            <Redirect path='/' to='/domains' exact />
-            <Route path='/apply' exact component={ApplicationContainer} />
-            <Route path='/domains' exact component={DomainsContainer} />
-            <Route path='/domains/:domain' exact component={DomainProfile} />
-            <Route path='/account' exact component={AccountDashboard} />
-            <Route path='/chat' exact component={RocketChat} />
-            <Route path='/' exact component={DomainsContainer} />
-          </Switch>
-        </Route>
-      </CSSTransitionGroup>
+          <Route location={location} key={key} >
+            <Switch>
+              <Redirect path='/' to='/domains' exact />
+              <Route path='/domains' exact render={props => <DomainsContainer {... props} staticContainer={this.props.staticContainer} joyride={this.props.joyride} resumeJoyride={this.props.resumeJoyride} />} />
+              <Route path='/domains/:domain' exact component={DomainProfile} />
+              <Route path='/account' exact component={AccountDashboard} />
+              <Route path='/chat' exact component={RocketChat} />
+              <Route path='/governance' exact component={GovernanceContainer} />
+              <Route path='/gx' exact component={DomainsContainer} />
+              <Route path='/' exact component={DomainsContainer} />
+            </Switch>
+          </Route>
+        </CSSTransitionGroup>
 
-    </div>
-  )
+      </div>
+    )
+  }
 }
 
 MainContainer.propTypes = {

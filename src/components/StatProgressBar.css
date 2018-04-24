@@ -4,7 +4,7 @@
 
 .StatProgressBar .StatBarContainer {
   width: 100%;
-  height: 1.6em;
+  height: 1.3em;
   border: none;
   position: relative;
   border-radius: 15px;
@@ -19,10 +19,10 @@
   align-items: center;
   float: left;
   height: 100%;
-  background: #4585c7;
+  background: #10C903;
   text-align: center;
   color: #FFFFFF;
-  font-size: 0.9em;
+  font-size: 0.6em;
 }
 
 .StatProgressBar .StatBarFillContainer:first-child {
@@ -31,7 +31,7 @@
 }
 
 .StatProgressBar .StatBarFillContainer:nth-child(2) {
-  background: #633e80;
+  background: #CE3434;
   border-top-right-radius: 15px;
   border-bottom-right-radius: 15px;
 }
@@ -50,9 +50,9 @@
 
 .StatProgressBar .FillLabel {
   font-size: 0.8em;
-  color: #4585c7;
+  color: #10C903;
 }
 
 .StatProgressBar .FillLabel:nth-child(2) {
-  color: #633e80;
+  color: #CE3434;
 }

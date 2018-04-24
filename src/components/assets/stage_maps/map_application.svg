@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="207px" height="326px" viewBox="0 0 207 326" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 49.3 (51167) - http://www.bohemiancoding.com/sketch -->
+    <title>map_application</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="map_application" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group" transform="translate(1.000000, 1.000000)">
+            <path d="M43,22 L43,102" id="Line" stroke="#F4F7FA" stroke-linecap="square"></path>
+            <path d="M42,22 L122,102 L42,22 Z" id="Line" stroke="#F4F7FA" stroke-linecap="square"></path>
+            <rect id="Rectangle-11" stroke="#3434CE" x="0.5" y="0.5" width="84" height="23" rx="3"></rect>
+            <path d="M81.9756412,206 L82.0243588,319" id="Line" stroke="#F4F7FA" stroke-linecap="square" transform="translate(82.000000, 262.500000) rotate(-45.000000) translate(-82.000000, -262.500000) "></path>
+            <path d="M43,122 L43,202" id="Line" stroke="#F4F7FA" stroke-linecap="square"></path>
+            <path d="M43,222 L43,302" id="Line" stroke="#F4F7FA" stroke-linecap="square"></path>
+            <rect id="Rectangle-11" fill="#3434CE" x="2" y="2" width="81" height="20" rx="3"></rect>
+            <text id="In-Application" font-family="OpenSans-SemiBold, Open Sans" font-size="9" font-weight="500" fill="#FCFCFF">
+                <tspan x="8.10961914" y="16">IN APPLICATION</tspan>
+            </text>
+            <rect id="Rectangle-11-Copy" fill="#F4F7FA" x="2" y="102" width="81" height="20" rx="3"></rect>
+            <text id="Voting" font-family="OpenSans-Regular, Open Sans" font-size="9" font-weight="normal" fill="#424242">
+                <tspan x="26.0820312" y="116">VOTING</tspan>
+            </text>
+            <rect id="Rectangle-11-Copy-2" fill="#F4F7FA" x="2" y="202" width="81" height="20" rx="3"></rect>
+            <text id="Reveal" font-family="OpenSans-Regular, Open Sans" font-size="9" font-weight="normal" fill="#424242">
+                <tspan x="27.3510742" y="216">REVEAL</tspan>
+            </text>
+            <rect id="Rectangle-11-Copy-3" fill="#F4F7FA" x="2" y="302" width="81" height="20" rx="3"></rect>
+            <text id="Rejected" font-family="OpenSans-Regular, Open Sans" font-size="9" font-weight="normal" fill="#424242">
+                <tspan x="22.1291504" y="316">REJECTED</tspan>
+            </text>
+            <rect id="Rectangle-11-Copy-5" fill="#F4F7FA" x="122" y="302" width="81" height="20" rx="3"></rect>
+            <path d="M136,102 L147,321" id="Line" stroke="#F4F7FA" stroke-linecap="square" transform="translate(141.500000, 211.500000) rotate(-210.000000) translate(-141.500000, -211.500000) "></path>
+            <text id="In-Registry" font-family="OpenSans-Regular, Open Sans" font-size="9" font-weight="normal" fill="#424242">
+                <tspan x="137.107422" y="316">IN REGISTRY</tspan>
+            </text>
+            <rect id="Rectangle-11-Copy-4" fill="#F4F7FA" x="122" y="102" width="81" height="20" rx="3"></rect>
+            <text id="In-Registry" font-family="OpenSans-Regular, Open Sans" font-size="9" font-weight="normal" fill="#424242">
+                <tspan x="137.107422" y="116">IN REGISTRY</tspan>
+            </text>
+            <path d="M103,94.9868444 L103,133" id="Line" stroke="#F4F7FA" stroke-linecap="square" transform="translate(103.500000, 113.500000) rotate(-270.000000) translate(-103.500000, -113.500000) "></path>
+        </g>
+    </g>
+</svg>

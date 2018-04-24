@@ -1,7 +1,0 @@
-.RequestVotingRightsContainer {
-  position: relative;
-}
-
-:root:root .RequestVotingRightsContainer input {
-  max-width: 70px;
-}

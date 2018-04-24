@@ -1,7 +1,0 @@
-.RequestTokenApprovalContainer {
-  position: relative;
-}
-
-:root:root .RequestTokenApprovalContainer input {
-  max-width: 70px;
-}

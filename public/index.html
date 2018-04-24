@@ -1,33 +1,87 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <script>
-      // redirect
-      var url = window.location.href.replace(/http:\/\/app\.adchain\.com/gi, 'https://app.adchain.com');
-      if (url !== window.location.href) {
-        window.location.href = url
-      }
-    </script>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="theme-color" content="#000000">
-    <!--
+
+<head>
+  <script>
+    // redirect
+    var url = window.location.href.replace(/http:\/\/publisher\.adchain\.com/gi, 'https://publisher.adchain.com');
+    if (url !== window.location.href) {
+      window.location.href = url
+    }
+  </script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="theme-color" content="#000000">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+  <!--
       manifest.json provides metadata used when your web app is added to the
       homescreen on Android. See https://developers.google.com/web/fundamentals/engage-and-retain/web-app-manifest/
     -->
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json">
-    <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
-    <link rel="stylesheet" href="%PUBLIC_URL%/vendor/semantic.min.css">
-    <link rel="stylesheet" href="%PUBLIC_URL%/vendor/toastr.css">
-    <style>
+    <script src="https://airswap-cdn.com/airswap-trader-0.2.1.js"></script>
+
+  <link rel="manifest" href="%PUBLIC_URL%/manifest.json">
+  <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
+  <link rel="stylesheet" href="%PUBLIC_URL%/vendor/semantic.min.css">
+  <link rel="stylesheet" href="%PUBLIC_URL%/vendor/toastr.css">
+
+  <!-- Start of adchain Zendesk Widget script -->
+  <script>/*<![CDATA[*/window.zEmbed || function (e, t) { var n, o, d, i, s, a = [], r = document.createElement("iframe"); window.zEmbed = function () { a.push(arguments) }, window.zE = window.zE || window.zEmbed, r.src = "javascript:false", r.title = "", r.role = "presentation", (r.frameElement || r).style.cssText = "display: none", d = document.getElementsByTagName("script"), d = d[d.length - 1], d.parentNode.insertBefore(r, d), i = r.contentWindow, s = i.document; try { o = s } catch (e) { n = document.domain, r.src = 'javascript:var d=document.open();d.domain="' + n + '";void(0);', o = s } o.open()._l = function () { var e = this.createElement("script"); n && (this.domain = n), e.id = "js-iframe-async", e.src = "https://assets.zendesk.com/embeddable_framework/main.js", this.t = +new Date, this.zendeskHost = "adchain.zendesk.com", this.zEQueue = a, this.body.appendChild(e) }, o.write('<body onload="document._l();">'), o.close() }();
+  /*]]>*/</script>
+  <!-- End of adchain Zendesk Widget script -->
+
+  <style>
+    :root:root .intro-adchain {
+      position: absolute;
+      bottom: 10px;
+      left: 10px;
+    }
+    :root:root .intro-text{
+      /* font-family: 'Open Sans', sans-serif !important; */
+      font-family: 'arial';
+
+      font-size: 18px;
+      color:white;
+      font-weight: 100;
+      padding: 10px 0;
+      margin-top:10px;
+    }
+    :root:root  .metax-img {
+      position: fixed;
+      top: 33%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      font-size: 25px;
+      color: white;
+      /* font-family: "Open Sans", sans-serif; */
+      font-weight: 100;
+    }
+  
     :root:root .RootLoader {
       position: fixed;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
     }
-    </style>
-    <!--
+    :root:root .intro-page {
+      background: linear-gradient(45deg, #0E0E39 0%, #3434CE 100%);
+      height: 100vh;
+      width: 100vw;
+    }
+  </style>
+
+  <!-- Google Tag Manager -->
+  <script>(function (w, d, s, l, i) {
+    w[l] = w[l] || []; w[l].push({
+      'gtm.start':
+        new Date().getTime(), event: 'gtm.js'
+    }); var f = d.getElementsByTagName(s)[0],
+      j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+        'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+    })(window, document, 'script', 'dataLayer', 'GTM-KHXQSKX');</script>
+  <!-- End Google Tag Manager -->
+
+  <!--
       Notice the use of %PUBLIC_URL% in the tags above.
       It will be replaced with the URL of the `public` folder during the build.
       Only files inside the `public` folder can be referenced from the HTML.
@@ -36,24 +90,44 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
-    <title>adChain Registry</title>
-  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-90917761-4"></script>
+  <title>adChain Registry</title>
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-90917761-9"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
+    function gtag() { dataLayer.push(arguments); }
     gtag('js', new Date());
 
-    gtag('config', 'UA-90917761-4');
+    gtag('config', 'UA-90917761-9');
   </script>
-  </head>
-  <body>
-    <noscript>
-      You need to enable JavaScript to run this app.
-    </noscript>
-    <div id="root">
-      <div class="ui active inline loader RootLoader"></div>
+</head>
+
+<body>
+  <noscript>
+    You need to enable JavaScript to run this app.
+  </noscript>
+  <!-- Google Tag Manager (noscript) -->
+  <noscript>
+    <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KHXQSKX" height="0" width="0" style="display:none;visibility:hidden"></iframe>
+  </noscript>
+  <!-- End Google Tag Manager (noscript) -->
+
+
+  <div id="root">
+    <div class='intro-page'>
+      <div class="metax-img">
+        <img height="240" style='padding:10px' src='/assets/MetaX_Loading_Logo.png' />
+      </div>
+      <div class="ui active inline loader RootLoader">
+        <br/>
+        <div style="color:white;margin-top:25px; text-align:center">Loading</div>
+      </div>
+      <div class='intro-adchain'>
+        <img height="90" src='/assets/adChain_Publisher_Registry_Logo.png' />
+      </div>
     </div>
-    <!--
+  </div>
+  <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.
 
@@ -63,12 +137,12 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
-  <script
-    src="//code.jquery.com/jquery-3.2.1.min.js"
-    integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
-    crossorigin="anonymous"></script>
+  <script src="//code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
   <script src="%PUBLIC_URL%/vendor/web3-1.0.min.js"></script>
   <!--<script src="%PUBLIC_URL%/vendor/web3.min.js"></script>-->
+
   <script src="%PUBLIC_URL%/vendor/fab.min.js"></script>
-  </body>
+
+</body>
+
 </html>

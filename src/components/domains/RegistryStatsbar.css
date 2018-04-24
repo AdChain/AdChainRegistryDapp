@@ -1,0 +1,81 @@
+:root:root .RegistryStatsbar {
+  min-height: 122px;
+  display: block;
+  align-items: center;
+  justify-content: center;
+  font-family: "Open Sans", sans-serif;
+
+}
+
+:root:root .RegistryStatsbar .large.header {
+  border-bottom: 4px solid #4585c7;
+}
+
+:root:root .RegistryStatsbar .statistics {
+ font-size: 0.8em;
+ margin-top: 1.6em;
+ display: block;
+ align-items: center;
+ font-family: "Open Sans", sans-serif;
+
+}
+
+:root:root .RegistryStatsbar .statistic {
+  text-align: center;
+  margin-bottom: 0;
+  position: relative;
+  min-width: 95px;
+  padding: 0.3em;
+}
+
+/*:root:root .RegistryStatsbar .statistic:not(:last-child):after {
+  content: '';
+  display: block;
+  position: absolute;
+  right: -1.5em;
+  top: 0;
+  height: 100%;
+  width: 1px;
+  border-right: 1px solid #dddddda3;
+}*/
+
+:root:root .RegistryStatsbar .statistic .label,
+:root:root .RegistryStatsbar .statistic .value {
+  font-weight: normal;
+  font-family: "Open Sans", sans-serif;
+
+
+}
+
+:root:root .RegistryStatsbar .statistic .value {
+  margin-bottom: 0.2em;
+}
+
+:root:root .RegistryStatsbar .statistics {
+  min-width: 800px;
+
+}
+:root:root .RegistryStatsbar .sixteen .InfoIcon{
+  margin-top: -2px;
+}
+
+@media only screen and (max-width: 767px) {
+  :root:root .RegistryStatsbar .grid {
+    width: 100%;
+  }
+
+  :root:root .RegistryStatsbar .statistics {
+    margin: 0 auto;
+    flex-direction: column;
+    min-width: 800px;
+
+  }
+
+  :root:root:root .RegistryStatsbar .statistic {
+    margin-bottom: 1em;
+  }
+
+  :root:root:root .RegistryStatsbar .statistic:after {
+    display: none;
+  }
+}

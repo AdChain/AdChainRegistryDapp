@@ -1,10 +1,9 @@
 import React, { Component } from 'react'
 import commafy from 'commafy'
-import { Dropdown, Popup } from 'semantic-ui-react'
-
+import { Dropdown } from 'semantic-ui-react'
+import Tooltip from './Tooltip'
 import priceStats from '../services/priceStats'
 import toCurrency from '../utils/toCurrency'
-
 import './AdtCalculator.css'
 
 function formatValue (value) {
@@ -72,16 +71,16 @@ class AdtCalculator extends Component {
 
     return (
       <div className='AdtCalculator BoxFrame'>
+        <span className='ui grid BoxFrameLabel'>ADTOKEN CALCULATOR <Tooltip info={'The adToken Calculator gives the user real-time conversion prices between USD, ETH, and ADT. The data is provided by coinmarketcap.com'} /></span>
         <div className='ui grid'>
           <div className='row'>
-            <div className='column seven wide'>
-              ETH/USD: <strong>{ethUsd ? toCurrency(ethUsd) : '-'}</strong>
-              <Popup
-                trigger={<i className='icon info circle' />}
-                content='Price in USD for 1 ETH'
+            <div className='column eight wide'>
+              ETH/USD: <strong>{ethUsd ? toCurrency(ethUsd.toFixed(2)) : '-'}</strong>&nbsp;
+              <Tooltip
+                info='Price in USD for 1 ETH'
               />
             </div>
-            <div className='column nine wide'>
+            <div className='column eight wide'>
               <div className='ui right labeled mini input'>
                 <input
                   type='text'
@@ -90,7 +89,7 @@ class AdtCalculator extends Component {
                   onInput={this.onInput.bind(this)}
                 />
                 <Dropdown
-                  className='label blue'
+                  className='label AdtCalcDropdown'
                   value={selectedOption}
                   options={options}
                   onChange={this.onDropdownChange.bind(this)}
@@ -99,26 +98,24 @@ class AdtCalculator extends Component {
             </div>
           </div>
           <div className='row'>
-            <div className='column seven wide'>
-              ADT/ETH: <strong>{adtUsd ? formatValue(adtEth) : '-'}Ξ</strong>
-              <Popup
-                trigger={<i className='icon info circle' />}
-                content='Price in ETH for 1 ADT'
+            <div className='column eight wide'>
+              ADT/ETH: <strong>{adtUsd ? formatValue(adtEth) : '-'}Ξ</strong>&nbsp;
+              <Tooltip
+                info='Price in ETH for 1 ADT'
               />
             </div>
-            <div className='column nine wide'>
+            <div className='column eight wide'>
               {selectedOption === 'eth' || selectedOption === 'adt' ? <span>Amount in USD: <strong>{toCurrency(conversionUsd)}</strong></span> : <span>Amount in ETH: <strong>{formatValue(conversionEth)}Ξ</strong></span>}
             </div>
           </div>
           <div className='row'>
-            <div className='column seven wide'>
-              ADT/USD: <strong>{adtUsd ? toCurrency(adtUsd) : '-'}</strong>
-              <Popup
-                trigger={<i className='icon info circle' />}
-                content='Price in ADT for 1 USD'
+            <div className='column eight wide'>
+              ADT/USD: <strong>{adtUsd ? toCurrency(adtUsd.toFixed(4)) : '-'}</strong>&nbsp;
+              <Tooltip
+                info='Price in ADT for 1 USD'
               />
             </div>
-            <div className='column nine wide'>
+            <div className='column eight wide'>
               {selectedOption === 'usd' || selectedOption === 'eth' ? <span>Amount in ADT: <strong>{formatValue(conversionAdt)}</strong></span> : <span>Amount in ETH: <strong>{formatValue(conversionEth)}</strong></span>}
             </div>
           </div>

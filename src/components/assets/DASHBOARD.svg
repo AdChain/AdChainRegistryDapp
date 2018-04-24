@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="20px" height="20px" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 48.2 (47327) - http://www.bohemiancoding.com/sketch -->
+    <title>DASHBOARD</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="DASHBOARD">
+            <path d="M16.4158604,5.19141901 L13.3287663,11.8420367 L11.7340941,9.02426446 L10,12.7912111 C7.93974547,9.29230846 6.90961821,7.54285716 6.90961821,7.54285716 C6.90961821,7.54285716 6.05997137,10.0254619 4.36067769,14.9906713" id="Line" stroke="#F1F5F8" stroke-linecap="round" stroke-linejoin="round"></path>
+            <circle id="Oval-2-Copy-5" stroke="#F4F7FA" cx="4" cy="16" r="1"></circle>
+            <circle id="Oval-2-Copy-6" stroke="#F4F7FA" cx="17" cy="4" r="1"></circle>
+        </g>
+    </g>
+</svg>

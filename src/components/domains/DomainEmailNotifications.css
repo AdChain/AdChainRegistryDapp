@@ -1,0 +1,116 @@
+.DomainEmailNotifications.BoxFrame {
+  padding: 0;
+  margin-top: 14px;
+}
+
+.DomainEmailNotifications .grid {
+  width: 100%;
+  margin: 0;
+}
+
+@media only screen and (max-width: 767px) {
+  :root:root:root:root .DomainEmailNotifications .grid {
+    width: 100%;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+}
+
+.DomainEmailNotifications .DomainEmailNotificationsContainer .BoxFrameLabel {
+  display: inline-block;
+}
+
+.DomainEmailNotifications .DomainEmailNotificationsContainer label {
+  padding-left: 0px;
+  padding-top: 10px;
+  margin-top: 4px;
+  display: inline-block;
+  color: #424242;
+	font-family: "Open Sans", sans-serif;
+	font-size: 12px;
+	font-weight: 600;
+  line-height: 14px;
+}
+
+.DomainEmailNotifications .DomainEmailNotificationsContainer .EmailInputContainer .input {
+  display: block;
+  width: 100%;
+}
+
+.DomainEmailNotifications .DomainEmailNotificationsContainer input {
+  width: 90%;
+  background: none;
+  border: none;
+  border-bottom: 2px solid;
+  border-bottom-color: rgb(244, 247, 250);
+  border-radius: 0;
+  padding-bottom: 2px;
+  margin-left: 0px;
+  padding-left: 0px;
+  padding-top: 0px;
+  height: 30px;
+  /* color: #F4F7FA; */
+}
+
+.DomainEmailNotifications .DomainEmailNotificationsContainer input:focus {
+
+  border-bottom-color: #3434CE;
+}
+
+.DomainEmailNotifications .DomainEmailNotificationsContainer input:focus::-webkit-input-placeholder,
+.DomainEmailNotifications .DomainEmailNotificationsContainer input::-webkit-input-placeholder {
+  color: #BEC0C2;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 10px;
+}
+
+.DomainEmailNotifications .DomainEmailNotificationsContainer input:-webkit-autofill,
+.DomainEmailNotifications .DomainEmailNotificationsContainer input:-webkit-autofill:hover, 
+.DomainEmailNotifications .DomainEmailNotificationsContainer input:-webkit-autofill:focus
+.DomainEmailNotifications .DomainEmailNotificationsContainer input:-webkit-autofill {
+  background-color: unset;
+  -webkit-box-shadow: 0 0 0px 1000px #FFF inset;
+}
+
+.DomainEmailNotifications .SubscribeButtonContainer {
+  text-align: center;
+  padding-bottom:10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.EmailLegalNotice {
+	color: #BEC0C2;
+  font-family: "Open Sans", sans-serif;
+  font-size: 10px;
+  line-height: 11px;
+  margin-top: 10px;
+  padding-right: 15px;
+}
+
+.EmailLegalNotice:hover {
+  cursor: pointer;
+}
+
+:root:root .DomainEmailNotifications .SubscribeButtonContainer button {
+  display: inline-block;
+  text-transform: uppercase;
+  color: #3434CE !important;
+  font-size: 10px;
+  font-weight: 600;
+  border: 1px solid #3434CE;
+  border-radius: 3px;
+  box-shadow: unset;
+  padding: 6px 9px;
+}
+
+:root:root .DomainEmailNotifications .SubscribeButtonContainer button:hover {
+  color: #FFF !important;
+  background-color: #3434CE !important;
+}
+
+.Spacer {
+  visibility: hidden;
+}

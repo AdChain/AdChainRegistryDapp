@@ -13,7 +13,10 @@ class CountdownText extends Component {
 
     this.state = {
       endDate: endDate || moment(),
-      countdown: '00:00:00',
+      days: '00',
+      hours: '00',
+      minutes: '00',
+      seconds: '00',
       isExpired: false,
 
       // expired if no endDate set on init
@@ -62,12 +65,27 @@ class CountdownText extends Component {
   }
 
   render () {
-    const {countdown, isExpired} = this.state
+    const {days, hours, minutes, seconds, isExpired} = this.state
 
     return (
-      <span className={`CountdownText ${isExpired ? 'expired' : ''}`}>
-        {countdown}
-      </span>
+      <div className={`CountdownText ${isExpired ? 'expired' : ''}`}>
+        <div className='CountdownUnit'>
+          {days}
+          <span className='CountdownLabel'>days</span>
+        </div>
+        <div className='CountdownUnit'>
+          {hours}
+          <span className='CountdownLabel'>hours</span>
+        </div>
+        <div className='CountdownUnit'>
+          {minutes}
+          <span className='CountdownLabel'>minutes</span>
+        </div>
+        <div className='CountdownUnit'>
+          {seconds}
+          <span className='CountdownLabel'>seconds</span>
+        </div>
+      </div>
     )
   }
 
@@ -77,7 +95,10 @@ class CountdownText extends Component {
     if (!endDate) {
       if (this._isMounted) {
         this.setState({
-          countdown: '00:00:00',
+          days: '00',
+          hours: '00',
+          minutes: '00',
+          seconds: '00',
           isExpired: true
         })
       }
@@ -91,7 +112,10 @@ class CountdownText extends Component {
     if (diff <= 0) {
       if (this._isMounted) {
         this.setState({
-          countdown: '00:00:00',
+          days: '00',
+          hours: '00',
+          minutes: '00',
+          seconds: '00',
           isExpired: true
         })
       }
@@ -107,13 +131,18 @@ class CountdownText extends Component {
     }
 
     const dur = moment.duration(diff, 'seconds')
-    const hours = dur.hours() + (dur.days() * 24)
-
-    const countdown = `${pad(hours, 2, 0)}:${pad(dur.minutes(), 2, 0)}:${pad(dur.seconds(), 2, 0)}`
+    const days = `${pad(dur.days(), 2, 0)}`
+    const hours = `${pad(dur.hours(), 2, 0)}`
+    const minutes = `${pad(dur.minutes(), 2, 0)}`
+    const seconds = `${pad(dur.seconds(), 2, 0)}`
+    // const countdown = `${pad(dur.days(), 2, 0)}:${pad(hours, 2, 0)}:${pad(dur.minutes(), 2, 0)}:${pad(dur.seconds(), 2, 0)}`
 
     if (this._isMounted) {
       this.setState({
-        countdown,
+        days,
+        hours,
+        minutes,
+        seconds,
         isExpired: false
       })
     }
