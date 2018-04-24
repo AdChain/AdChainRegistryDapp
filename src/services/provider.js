@@ -1,5 +1,5 @@
 import Eth from 'ethjs'
-import { network } from '../models/network'
+import { network, websocketNetwork } from '../models/network'
 
 export const getProviderUrl = () => {
   if (network === 'testrpc') {
@@ -23,5 +23,5 @@ export const getWebsocketProvider = () => {
     window.Web3.providers.WebsocketProvider.prototype.sendAsync = window.Web3.providers.WebsocketProvider.prototype.send
   }
 
-  return new window.Web3.providers.WebsocketProvider(`wss://${network}.infura.io/_ws`)
+  return new window.Web3.providers.WebsocketProvider(`wss://${websocketNetwork}.infura.io/_ws`)
 }
