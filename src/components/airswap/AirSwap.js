@@ -1,6 +1,5 @@
 import React from 'react'
 import Tooltip from '../Tooltip'
-import { Button } from 'semantic-ui-react'
 
 export const AirSwap = () => {
     return (
