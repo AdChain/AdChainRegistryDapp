@@ -329,7 +329,7 @@ class DomainProfileInfo extends Component {
 
       redditCommentsObj.comments.push({
         [idx]: {
-          author: 'qa_adchain_registry',
+          author: 'adchain_registry',
           body: result.data.comment,
           created: moment().unix() + 28800,
           score: 1

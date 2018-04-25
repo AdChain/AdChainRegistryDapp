@@ -2,11 +2,11 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Tooltip from '../Tooltip'
 import './DomainRejectedContainer.css'
-import registry from '../../services/registry'
+// import registry from '../../services/registry'
 // import toastr from 'toastr'
 
 class DomainRejectedContainer extends Component {
-  constructor(props) {
+  constructor (props) {
     super()
 
     this.state = {
@@ -14,7 +14,7 @@ class DomainRejectedContainer extends Component {
     }
   }
 
-  render() {
+  render () {
     const {
       domain
     } = this.state
@@ -43,18 +43,6 @@ class DomainRejectedContainer extends Component {
         </div>
       </div>
     )
-  }
-
-  async updateStatus(domain) {
-    try {
-      await registry.updateStatus(domain)
-    } catch (error) {
-      try {
-        console.log(error)
-      } catch (err) {
-        console.log(err)
-      }
-    }
   }
 }
 

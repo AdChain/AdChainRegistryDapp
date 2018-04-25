@@ -6,7 +6,6 @@ import moment from 'moment'
 import { Button } from 'semantic-ui-react'
 import Tooltip from '../Tooltip'
 import calculateGas from '../../utils/calculateGas'
-import { isExpired } from '../../utils/isExpired'
 
 import Countdown from '../CountdownText'
 import registry from '../../services/registry'
@@ -32,7 +31,6 @@ class DomainChallengeContainer extends Component {
       dispensationPct: null
     }
 
-    this.updateStatus = this.updateStatus.bind(this)
     this.getDispensationPct = this.getDispensationPct.bind(this)
   }
 
@@ -81,13 +79,6 @@ class DomainChallengeContainer extends Component {
                       info='The first phase of the voting process is the commit phase where the ADT holder stakes a hidden amount of votes to SUPPORT or OPPOSE the domain application. The second phase is the reveal phase where the ADT holder reveals the staked amount of votes to either the SUPPORT or OPPOSE side.'
                     />
                   </div>
-                  <Button
-                    basic
-                    className={isExpired(stageEndMoment) ? 'hide' : ' show right refresh'}
-                    onClick={this.updateStatus}
-                  >
-                  Refresh
-                  </Button>
                 </div>
                 <div className='ui divider' />
               </div>
@@ -163,36 +154,6 @@ class DomainChallengeContainer extends Component {
     event.preventDefault()
 
     this.challenge()
-  }
-
-  async updateStatus () {
-    const {domain} = this.state
-    try {
-      await registry.updateStatus(domain)
-      await PubSub.publish('DomainProfileStageMap.updateStageMap')
-      try {
-        calculateGas({
-          domain: domain,
-          contract_event: 'update status',
-          contract: 'registry',
-          event_success: false
-        })
-      } catch (error) {
-        console.log('error reporting gas')
-      }
-    } catch (error) {
-      console.error(error)
-      try {
-        calculateGas({
-          domain: domain,
-          contract_event: 'update status',
-          contract: 'registry',
-          event_success: false
-        })
-      } catch (error) {
-        console.log('error reporting gas')
-      }
-    }
   }
 
   async challenge () {

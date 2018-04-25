@@ -18,7 +18,7 @@ class DomainPendingContainer extends Component {
 
   render () {
     const {
-      domain,
+      domain
     } = this.state
 
     return (

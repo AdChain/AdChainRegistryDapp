@@ -35,7 +35,6 @@ class DomainInRegistryContainer extends Component {
 
     this.withdrawListing = this.withdrawListing.bind(this)
     this.topOff = this.topOff.bind(this)
-    this.updateStatus = this.updateStatus.bind(this)
     this.withdrawADT = this.withdrawADT.bind(this)
   }
 
@@ -227,38 +226,6 @@ class DomainInRegistryContainer extends Component {
     } catch (error) {
       console.error('Domain In Registry Container Check Owner Error: ', error)
       toastr.error('There was an error with your request')
-    }
-  }
-
-  async updateStatus () {
-    const {domain} = this.state
-    try {
-      await registry.updateStatus(domain)
-      await PubSub.publish('DomainProfileStageMap.updateStageMap')
-      try {
-        calculateGas({
-          domain: domain,
-          contract_event: true,
-          event: 'update status',
-          contract: 'registry',
-          event_success: true
-        })
-      } catch (error) {
-        console.log('error reporting gas')
-      }
-    } catch (error) {
-      console.error(error)
-      try {
-        calculateGas({
-          domain: domain,
-          contract_event: true,
-          event: 'update status',
-          contract: 'registry',
-          event_success: false
-        })
-      } catch (error) {
-        console.log('error reporting gas')
-      }
     }
   }
 
