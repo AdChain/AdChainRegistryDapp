@@ -1,9 +1,9 @@
 import React from 'react'
 import Tooltip from '../Tooltip'
+import {renderAirSwap} from '../../utils/renderAirSwap'
 
 export const AirSwap = () => {
     return (
-
         <div className='DomainEmailNotifications BoxFrame'>
             <div className='ui grid stackable'>
                 <div className='DomainEmailNotificationsContainer column sixteen wide'>
@@ -18,21 +18,3 @@ export const AirSwap = () => {
     )
 }
 
-const renderAirSwap = () => {
-    try {
-        window.AirSwap.Trader.render({
-            mode: 'buy',
-            amount: '0',
-            env: 'production',
-            token: '0xd0d6d6c5fe4a677d343cc433536bb717bae167dd',
-            onCancel: function () {
-                console.info('Trade was cancelled.');
-            },
-            onComplete: function (transactionId, makerAmount, makerToken, takerAmount, takerToken) {
-                alert('Trade complete. Thank you, come again.');
-            }
-        }, 'body');
-    } catch (error) {
-        console.log(error)
-    }
-}

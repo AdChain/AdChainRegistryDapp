@@ -6,6 +6,7 @@ import token from '../../services/token'
 import Identicon from '../Identicon'
 import moment from 'moment-timezone'
 import { network } from '../../models/network'
+import {renderAirSwap} from '../../utils/renderAirSwap'
 
 import adtLogo from '../assets/adtoken_logo.png'
 import ethLogo from '../assets/ethereum_purple_logo.png'
@@ -107,7 +108,7 @@ class MainTopbar extends Component {
                 </div>
                 {adtBalance !== null ? commafy(adtBalance) : '-'} ADT
                 {adtBalance === 0
-                  ? <span>&nbsp;(<a href='https://adchain.zendesk.com/hc/en-us/articles/360003436793' target='_blank' rel='noopener noreferrer' className='AcquireLink'>Acquire ADT</a>)</span>
+                  ? <span>&nbsp;(<a onClick={() => { renderAirSwap() }} className='AcquireLink'>Acquire ADT</a>)</span>
                   : null}
               </div>
               : null}
