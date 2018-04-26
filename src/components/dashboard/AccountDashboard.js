@@ -154,8 +154,8 @@ class AccountDashboard extends Component {
   async fetchAppliedDomains () {
     const { account } = this.state
 
-    if (!account) {
-      return false
+    if (!account || account === '0x0') {
+      return null
     }
 
     try {
@@ -201,7 +201,7 @@ class AccountDashboard extends Component {
   async fetchChallengedDomains () {
     const { account } = this.state
 
-    if (!account) {
+    if  (!account || account === '0x0') {
       return false
     }
 
@@ -239,7 +239,7 @@ class AccountDashboard extends Component {
   async fetchCommitsToReveal () {
     const { account } = this.state
 
-    if (!account) {
+    if  (!account || account === '0x0') {
       return false
     }
     try {
@@ -271,7 +271,7 @@ class AccountDashboard extends Component {
   async fetchRewards () {
     const { account } = this.state
 
-    if (!account) {
+    if  (!account || account === '0x0') {
       return false
     }
     try {

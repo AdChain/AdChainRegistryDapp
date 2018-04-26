@@ -73,7 +73,7 @@ class AccountStatsbar extends Component {
   async fetchStats () {
     const {account} = this.state
 
-    if (!account) {
+    if (!account || account === '0x0') {
       return false
     }
 

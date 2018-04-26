@@ -1,6 +1,6 @@
 import Eth from 'ethjs'
 import keyMirror from 'key-mirror'
-import detectNetwork from 'web3-detect-network'
+import { detectNetwork } from '../utils/detectNetwork'
 import moment from 'moment-timezone'
 import { soliditySHA3 } from 'ethereumjs-abi'
 import store from '../store'

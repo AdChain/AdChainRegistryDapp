@@ -7,7 +7,7 @@ import token from './token'
 import store from '../store'
 import PubSub from 'pubsub-js'
 
-/**
+/*
  * PollId = ChallengeId
  */
 
@@ -170,12 +170,18 @@ class PlcrService {
       const requiredVotes = (tokens - voteTokenBalance)
       let transactionInfo = {}
 
+      let allowed = await (await token.allowance(this.account, this.address)).toString(10)
+      let needsApproval = (Number(allowed) < Number(tokens))
+
+      // if true this skips first 2 txs
       if (requiredVotes > 0) {
         // this means that you submitted more votes than your existing voting rights
         transactionInfo = {
           src: 'not_approved_' + transactionSrc.src,
           title: transactionSrc.title
         }
+
+        // Step 1
         try {
           PubSub.publish('TransactionProgressModal.open', transactionInfo)
           await token.approve(this.address, requiredVotes)
@@ -185,7 +191,22 @@ class PlcrService {
           reject(error)
           return false
         }
+
+        // Step 2
         try {
+          await this.plcr.requestVotingRights(requiredVotes)
+          PubSub.publish('TransactionProgressModal.next', transactionInfo)
+        } catch (error) {
+          PubSub.publish('TransactionProgressModal.error')
+          reject(error)
+          return false
+        }
+      } else if (needsApproval) {
+          // Step 2
+        try {
+          PubSub.publish('TransactionProgressModal.open', transactionInfo)
+          PubSub.publish('TransactionProgressModal.next', transactionInfo)
+
           await this.plcr.requestVotingRights(requiredVotes)
           PubSub.publish('TransactionProgressModal.next', transactionInfo)
         } catch (error) {
@@ -203,6 +224,7 @@ class PlcrService {
       }
 
       try {
+        // Step 3
         const prevPollId = await this.plcr.getInsertPointForNumTokens.call(this.getAccount(), tokens, pollId)
         const result = await this.plcr.commitVote(pollId, hash, tokens, prevPollId)
         PubSub.publish('TransactionProgressModal.next', transactionInfo)
