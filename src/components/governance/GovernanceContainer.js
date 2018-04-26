@@ -40,8 +40,10 @@ class GovernanceContainer extends Component {
     try {
       await ParameterizerService.init()
       this.getAccount()
+      
       await this.getParameterValues('governanceParameterData')
       await this.getParameterValues('coreParameterData')
+
       await this.fetchRewards()
       this.getProposalsAndPropIds()
 
@@ -80,7 +82,7 @@ class GovernanceContainer extends Component {
   render () {
     let props = this.state
     const { account } = this.state
-    if (!this.state.rewards || !account) return false
+    if (!this.state.rewards || !account || account === '0x0') return null
     return (
       <div className='ui stackable grid padded'>
         <div className='column four wide'>
@@ -213,6 +215,9 @@ class GovernanceContainer extends Component {
   }
 
   async fetchRewards () {
+    if(!this.state.account || this.state.account === '0x0'){
+      return null
+    }
     let data = await (await window.fetch(`${registryApiURL}/parameterization/rewards?account=${this.state.account}`)).json()
     // data = _.filter(data, (rewards) => rewards.status === 'unclaimed')
 

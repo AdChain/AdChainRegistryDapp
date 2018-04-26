@@ -65,6 +65,10 @@ class ExpiredVotingADT extends Component {
   async getUnrevealed () {
     let unrevealed
 
+    if (!this.state.account || this.state.account === '0x0'){
+      return null
+    }
+
     this.setState({
       fetching: true
     })

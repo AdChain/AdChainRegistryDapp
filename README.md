@@ -30,6 +30,19 @@ Lint and test
 npm run lint:fix && npm test
 ```
 
+## Docker Development
+
+To test build locally:
+   - install Docker 
+   - ```cd ``` into the project root
+   - run ```docker build ./```
+   - copy the **container id**
+
+To see your container on host environment:
+   - run ```docker run -it --expose 8000 -p 8000:8000``` **put container id here**
+   - Open browser and navigate to [http://localhost:8000](http://localhost:8000/)
+
+
 # License
 
 MIT
