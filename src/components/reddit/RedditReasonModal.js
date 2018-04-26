@@ -36,7 +36,9 @@ class RedditReasonModal extends Component {
               {
                 !_.isEmpty(this.props.data)
                   ? this.props.data.selftext
-                    ? this.props.data.selftext.split('\n')[2].replace('Reason: ', '')
+                    ? this.props.data.selftext.split('\n')[2]
+                      ? this.props.data.selftext.split('\n')[2].replace('Reason: ', '')
+                      : 'No reason has been submitted.'
                     : 'No reason has been submitted.'
                   : 'No reason has been submitted.'
               }

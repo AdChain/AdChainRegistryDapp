@@ -9,7 +9,7 @@ import './DomainRedditBox.css'
 
 import getDomainState from '../../utils/determineDomainState'
 import RedditReasonModal from './RedditReasonModal'
-import { getPosts, createComment } from '../../services/redditActions'
+import { getPosts, createComment, createPostApplication } from '../../services/redditActions'
 import PubSub from 'pubsub-js'
 
 class DomainProfileInfo extends Component {
@@ -254,7 +254,7 @@ class DomainProfileInfo extends Component {
         <span className='BoxFrameLabel ui grid'>REDDIT DISCUSSION<Tooltip info={'This Reddit discussion box will display the threads associated with the latest application or challenge of this domain.'} /></span>
         <div className='ui grid stackable'>
           <div className='column sixteen wide' style={{padding: '13px 4px', height: '100%'}}>
-            <Tab menu={{ secondary: true, pointing: true }} panes={panes} onTabChange={this.handleTabChange} activeIndex={redditTabIndex} className='TabDiv'/>
+            <Tab menu={{ secondary: true, pointing: true }} panes={panes} onTabChange={this.handleTabChange} activeIndex={redditTabIndex} className='TabDiv' />
           </div>
         </div>
       </div>
@@ -303,12 +303,12 @@ class DomainProfileInfo extends Component {
 
   async onCommentSubmit (event) {
     event.preventDefault()
-    const { comment, redditTabIndex } = this.state
+    const { comment, redditTabIndex, domain } = this.state
 
-    const redditId = redditTabIndex === 0 ? this.state.redditIdApplied : this.state.redditItChallenged
+    let redditId = redditTabIndex === 0 ? this.state.redditIdApplied : this.state.redditItChallenged
     let redditCommentsObj = redditTabIndex === 0 ? {...this.state.appliedObj} : {...this.state.challengedObj}
 
-    if(!comment) {
+    if (!comment) {
       this.setState({
         inProgress: 'blank'
       })
@@ -319,6 +319,12 @@ class DomainProfileInfo extends Component {
       this.setState({
         inProgress: 'loading'
       })
+      if (!redditId) {
+        const response = await createPostApplication(domain, 'No reason has been submitted.')
+        redditId = response.data.post.post_id
+        redditCommentsObj.id = redditId
+        redditCommentsObj.url = `https://reddit.com/r/adchainregistry/${redditId.split('_')[1]}`
+      }
 
       const result = await createComment(redditId, comment)
       const idx = redditCommentsObj.comments ? redditCommentsObj.comments.length : 0
@@ -335,6 +341,7 @@ class DomainProfileInfo extends Component {
           score: 1
         }
       })
+
       if (redditTabIndex === 0) {
         this.setState({
           appliedObj: redditCommentsObj,
