@@ -17,9 +17,6 @@ class RegistryGuideStaticInRegistry extends Component {
                   content='The first phase of the voting process is the commit phase where the ADT holder stakes a hidden amount of votes to SUPPORT or OPPOSE the domain application. The second phase is the reveal phase where the ADT holder reveals the staked amount of votes to either the SUPPORT or OPPOSE side.'
                 />
               </div>
-              <Button basic className='right refresh'>
-                Refresh
-              </Button>
             </div>
             <div className='ui divider' />
           </div>

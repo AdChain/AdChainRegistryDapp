@@ -30,13 +30,15 @@ class DomainProfileInfo extends Component {
       redditIdApplied: '',
       redditItChallenged: '',
       redditTabIndex: 0,
-      inProgress: ''
+      inProgress: '',
+      redditRefreshInProgress: false
     }
 
     this.handleInputChange = this.handleInputChange.bind(this)
     this.onCommentSubmit = this.onCommentSubmit.bind(this)
     this.handleTabChange = this.handleTabChange.bind(this)
     this.fetchRedditData = this.fetchRedditData.bind(this)
+    this.redditRefresh = _.debounce(this.redditRefresh.bind(this), 3e3, { 'leading': true, 'trailing': false })
   }
 
   async componentDidMount () {
@@ -90,7 +92,7 @@ class DomainProfileInfo extends Component {
   }
 
   render () {
-    const { appliedObj, challengedObj, domain, redditTabIndex, inProgress } = this.state
+    const { appliedObj, challengedObj, domain, redditTabIndex, inProgress, redditRefreshInProgress } = this.state
 
     const appliedData = !_.isEmpty(appliedObj) && appliedObj.id && appliedObj.comments.length > 0
       ? appliedObj.comments.map((comment, idx) =>
@@ -251,9 +253,24 @@ class DomainProfileInfo extends Component {
 
     return (
       <div className='DomainProfileInfo BoxFrame'>
-        <span className='BoxFrameLabel ui grid'>REDDIT DISCUSSION<Tooltip info={'This Reddit discussion box will display the threads associated with the latest application or challenge of this domain.'} /></span>
+        <div className='HeaderRow'>
+          <span className='BoxFrameLabel ui grid'>
+        REDDIT DISCUSSION
+            <Tooltip info={'This Reddit discussion box will display the threads associated with the latest application or challenge of this domain.'} />
+          </span>
+          <span className='RedditRefresh'>
+            <Button
+              basic
+              onClick={this.redditRefresh}
+            > {
+                redditRefreshInProgress ? <Loader active inline='centered' size='mini' /> : <i className='icon small refresh' />
+              }
+            </Button>
+          </span>
+
+        </div>
         <div className='ui grid stackable'>
-          <div className='column sixteen wide' style={{padding: '13px 4px', height: '100%'}}>
+          <div className='column sixteen wide' style={{padding: '13px 4px', height: '100%', marginTop: '13px'}}>
             <Tab menu={{ secondary: true, pointing: true }} panes={panes} onTabChange={this.handleTabChange} activeIndex={redditTabIndex} className='TabDiv' />
           </div>
         </div>
@@ -279,6 +296,26 @@ class DomainProfileInfo extends Component {
         redditTabIndex: data.activeIndex,
         inProgress: ''
       })
+    }
+  }
+
+  async redditRefresh () {
+    try {
+      this.setState({
+        redditRefreshInProgress: true
+      })
+      await this.fetchRedditData()
+      setTimeout(() => {
+        this.setState({
+          redditRefreshInProgress: false
+        })
+      }, 3e3)
+    } catch (error) {
+      console.log(error)
+      this.setState({
+        redditRefreshInProgress: false
+      })
+      toastr.error('There was an error fetching the Reddit data')
     }
   }
 

@@ -12,6 +12,13 @@
   font-family: 'Open Sans',sans-serif;
 }
 
+.DomainProfileInfo .HeaderRow {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
 .DomainProfileInfo .Header::after {
   content: url(../assets/info_gray.svg);
   transform: scale(1.2) translateY(1.2px);
@@ -224,4 +231,24 @@
   opacity: .50;
   display: flex;
   align-items: center;
+}
+
+:root:root:root .DomainProfileInfo .RedditRefresh button {
+  margin-top: -1rem;
+  padding: 5px;
+  justify-content: center;
+  display: flex;
+  border: 1px solid #3434CE !important;
+  color: #3434CE !important;
+  box-shadow: unset;
+}
+
+:root:root:root .DomainProfileInfo .RedditRefresh button:hover {
+  background-color: #3434CE !important;
+  color: #FFF !important;
+}
+
+:root:root:root .DomainProfileInfo .RedditRefresh button .refresh {
+  margin-right: 0px !important;
+  margin-left: 0px !important;
 }

@@ -9,7 +9,6 @@
 }
 
 :root:root:root .DomainPendingContainer .refresh {
-  float: right;
   border: 1px solid #3434CE;
   border-radius: 3px;
   color: #3434CE !important;
@@ -19,6 +18,7 @@
   line-height: 11px;
   text-transform: uppercase;
   box-shadow: unset;
+  height: 33px;
 }
 
 :root:root:root .DomainPendingContainer .refresh:hover {
@@ -31,7 +31,9 @@
 }
 
 .DomainPendingContainer .HeaderRow {
-  padding-top: 10px;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
 }
 
 .DomainPendingContainer .DomainPendingBody {
