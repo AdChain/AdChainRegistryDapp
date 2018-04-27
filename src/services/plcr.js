@@ -7,7 +7,7 @@ import token from './token'
 import store from '../store'
 import PubSub from 'pubsub-js'
 
-/**
+/*
  * PollId = ChallengeId
  */
 
@@ -134,7 +134,8 @@ class PlcrService {
     })
   }
 
-  async commit ({pollId, hash, tokens}, transactionSrc) { // added transactionSrc param to differentiate between governance and domain voting
+  async commit ({pollId, hash, tokens}, transactionSrc) {
+    // added transactionSrc param to differentiate between governance and domain voting
     return new Promise(async (resolve, reject) => {
       if (!pollId) {
         reject(new Error('Poll ID is required'))
@@ -168,14 +169,19 @@ class PlcrService {
 
       const voteTokenBalance = (await this.plcr.voteTokenBalance(this.getAccount())).toString(10)
       const requiredVotes = (tokens - voteTokenBalance)
-      let transactionInfo = {}
 
-      if (requiredVotes > 0) {
-        // this means that you submitted more votes than your existing voting rights
-        transactionInfo = {
-          src: 'not_approved_' + transactionSrc.src,
-          title: transactionSrc.title
-        }
+      let transactionInfo = {
+        src: 'not_approved_' + transactionSrc.src,
+        title: transactionSrc.title
+      }
+
+      let allowed = await (await token.allowance(this.account, this.address)).toString(10)
+      // console.log((Number(allowed) <= Number(tokens)), Number(allowed) , Number(tokens), requiredVotes)
+      // (Number(allowed) <= Number(tokens))
+
+      // if true this hits first 2 txs
+      if (requiredVotes > 0 && (Number(allowed) < Number(tokens))) {
+        // Step 1
         try {
           PubSub.publish('TransactionProgressModal.open', transactionInfo)
           await token.approve(this.address, requiredVotes)
@@ -185,7 +191,22 @@ class PlcrService {
           reject(error)
           return false
         }
+
+        // Step 2
         try {
+          await this.plcr.requestVotingRights(requiredVotes)
+          PubSub.publish('TransactionProgressModal.next', transactionInfo)
+        } catch (error) {
+          PubSub.publish('TransactionProgressModal.error')
+          reject(error)
+          return false
+        }
+      } else if (requiredVotes > 0) {
+          // Step 2: You have already approved token but not requested plcr voting rights
+        try {
+          PubSub.publish('TransactionProgressModal.open', transactionInfo)
+          PubSub.publish('TransactionProgressModal.next', transactionInfo)
+
           await this.plcr.requestVotingRights(requiredVotes)
           PubSub.publish('TransactionProgressModal.next', transactionInfo)
         } catch (error) {
@@ -203,6 +224,7 @@ class PlcrService {
       }
 
       try {
+        // Step 3
         const prevPollId = await this.plcr.getInsertPointForNumTokens.call(this.getAccount(), tokens, pollId)
         const result = await this.plcr.commitVote(pollId, hash, tokens, prevPollId)
         PubSub.publish('TransactionProgressModal.next', transactionInfo)
