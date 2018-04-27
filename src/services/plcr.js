@@ -134,7 +134,8 @@ class PlcrService {
     })
   }
 
-  async commit ({pollId, hash, tokens}, transactionSrc) { // added transactionSrc param to differentiate between governance and domain voting
+  async commit ({pollId, hash, tokens}, transactionSrc) {
+    // added transactionSrc param to differentiate between governance and domain voting
     return new Promise(async (resolve, reject) => {
       if (!pollId) {
         reject(new Error('Poll ID is required'))
@@ -168,19 +169,18 @@ class PlcrService {
 
       const voteTokenBalance = (await this.plcr.voteTokenBalance(this.getAccount())).toString(10)
       const requiredVotes = (tokens - voteTokenBalance)
-      let transactionInfo = {}
+
+      let transactionInfo = {
+        src: 'not_approved_' + transactionSrc.src,
+        title: transactionSrc.title
+      }
 
       let allowed = await (await token.allowance(this.account, this.address)).toString(10)
-      let needsApproval = (Number(allowed) < Number(tokens))
+      // console.log((Number(allowed) <= Number(tokens)), Number(allowed) , Number(tokens), requiredVotes)
+      // (Number(allowed) <= Number(tokens))
 
-      // if true this skips first 2 txs
-      if (requiredVotes > 0) {
-        // this means that you submitted more votes than your existing voting rights
-        transactionInfo = {
-          src: 'not_approved_' + transactionSrc.src,
-          title: transactionSrc.title
-        }
-
+      // if true this hits first 2 txs
+      if (requiredVotes > 0 && (Number(allowed) < Number(tokens))) {
         // Step 1
         try {
           PubSub.publish('TransactionProgressModal.open', transactionInfo)
@@ -201,8 +201,8 @@ class PlcrService {
           reject(error)
           return false
         }
-      } else if (needsApproval) {
-          // Step 2
+      } else if (requiredVotes > 0) {
+          // Step 2: You have already approved token but not requested plcr voting rights
         try {
           PubSub.publish('TransactionProgressModal.open', transactionInfo)
           PubSub.publish('TransactionProgressModal.next', transactionInfo)

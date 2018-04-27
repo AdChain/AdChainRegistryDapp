@@ -114,8 +114,7 @@ class WithdrawVotingRightsContainer extends Component {
         title: 'Withdraw Voting ADT'
       }
       PubSub.publish('TransactionProgressModal.open', transactionInfo)
-      console.log('available tokens: ', availableTokens)
-      debugger
+      // console.log('available tokens: ', availableTokens)
       await this.state.contract.withdrawVotingRights(availableTokens)
     } catch (error) {
       console.error('Withdraw Tokens Error: ', error)
