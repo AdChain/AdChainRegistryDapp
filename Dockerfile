@@ -13,5 +13,5 @@ RUN npm install
 RUN npm install serve -g
 RUN npm run build
 
-ENTRYPOINT [ "serve" ]
-CMD ["-s", "build"]
+ENTRYPOINT [ "npm" ]
+CMD ["run", "start"]
