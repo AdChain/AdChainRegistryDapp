@@ -109,7 +109,7 @@ class RequestTokenApprovalContainer extends Component {
   async requestTokenApproval () {
     const {tokenAmount} = this.state
 
-    if (!tokenAmount) {
+    if (tokenAmount < 0) {
       toastr.error('Please enter a valid amount of ADT')
       return false
     }
