@@ -279,7 +279,7 @@ class RegistryService {
   }
 
   async applicationExists (domain) {
-    if (!domain) {
+    if (!domain || !this.registry) {
       throw new Error('Domain is required')
     }
 
@@ -294,7 +294,7 @@ class RegistryService {
   }
 
   async getListing (domain) {
-    if (!domain) {
+    if (!domain || !this.registry) {
       throw new Error('Domain is required')
     }
 
