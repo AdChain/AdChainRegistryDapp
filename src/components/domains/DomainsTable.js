@@ -295,7 +295,6 @@ class DomainsTable extends Component {
         console.log(error)
       }
     }))
-
     if (this._isMounted) {
       this.setState({
         data,
