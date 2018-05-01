@@ -279,31 +279,26 @@ class RegistryService {
     }
   }
 
-  async applicationExists (domain) {
-    if (!domain || !this.registry) {
+  async applicationExists (listingHash) {
+    if (!listingHash || !this.registry) {
       throw new Error('Domain is required')
     }
 
-    // domain = domain.toLowerCase()
-    const hash = `0x${soliditySHA3(['string'], [domain.trim()]).toString('hex')}`
-
     try {
-      return this.registry.appWasMade(hash)
+      return this.registry.appWasMade(listingHash)
     } catch (error) {
       throw error
     }
   }
 
-  async getListing (domain) {
-    if (!domain || !this.registry) {
+  async getListing (listingHash) {
+    console.log('listing hash: ', listingHash)
+    if (!listingHash || !this.registry) {
       throw new Error('Domain is required')
     }
 
     try {
-      // domain = domain.toLowerCase()
-
-      const hash = `0x${soliditySHA3(['string'], [domain.trim()]).toString('hex')}`
-      const result = await this.registry.listings.call(hash)
+      const result = await this.registry.listings.call(listingHash)
 
       const map = {
         applicationExpiry: result[0].toNumber() <= 0 ? null : moment.tz(result[0].toNumber(), moment.tz.guess()),
@@ -344,12 +339,11 @@ class RegistryService {
     }
   }
 
+  // Domain param is listingHash
   async getChallengeId (domain) {
     if (!domain) {
       throw new Error('Domain is required')
     }
-
-    // domain = domain.toLowerCase()
 
     try {
       const listing = await this.getListing(domain)
@@ -368,8 +362,6 @@ class RegistryService {
     if (!domain) {
       throw new Error('Domain is required')
     }
-
-    // domain = domain.toLowerCase()
 
     try {
       return this.registry.isWhitelisted.call(domain)

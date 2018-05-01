@@ -16,7 +16,7 @@ import { registryApiURL } from '../../models/urls'
 import store from '../../store'
 import registry from '../../services/registry'
 import token from '../../services/token'
-import getDomainState from '../../utils/determineDomainState'
+import getDomainState from '../../utils/getDomainState'
 
 // import StatProgressBar from './StatProgressBar'
 
@@ -288,7 +288,7 @@ class DomainsTable extends Component {
     const data = await Promise.all(domains.map(async domainData => {
       try {
         if(domainData.domain){
-          let domainState = await getDomainState(domainData.domain)
+          let domainState = await getDomainState(domainData)
           return domainState
         }
       } catch (error) {

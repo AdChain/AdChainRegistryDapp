@@ -38,6 +38,9 @@ class OpenProposalsTable extends Component {
   componentDidMount() {
     this._isMounted = true
   }
+  componentWillUnmount() {
+    this._isMounted = false
+  }
 
   render() {
     const { open } = this.state
@@ -143,7 +146,9 @@ class OpenProposalsTable extends Component {
                 {item}
               </tr>
             )
-            this.setState({ table })
+            if (this._isMounted) {
+              this.setState({ table })
+            }
           })
         })
       }
@@ -204,8 +209,10 @@ class OpenProposalsTable extends Component {
       action.event = null
       console.log('proposal not found')
     }
-    this.setState({ loading: false })
+    if (this._isMounted) {
 
+      this.setState({ loading: false })
+    }
     return (
       <td>
         <a onClick={() => { action.event() }} name={propId} className={action.class}>
@@ -236,9 +243,11 @@ class OpenProposalsTable extends Component {
 
   promptModal(type, proposal) {
     this.show()
-    this.setState({
-      selectedProposal: proposal
-    })
+    if (this._isMounted) {
+      this.setState({
+        selectedProposal: proposal
+      })
+    }
   }
 
   isExpired(row) {
@@ -250,11 +259,15 @@ class OpenProposalsTable extends Component {
   }
 
   show() {
-    this.setState({ open: true })
+    if (this._isMounted) {
+      this.setState({ open: true })
+    }
   }
 
   close() {
-    this.setState({ open: false })
+    if (this._isMounted) {
+      this.setState({ open: false })
+    }
   }
 }
 

@@ -3,7 +3,6 @@ import toastr from 'toastr'
 
 import './DomainProfileStageMap.css'
 import Tooltip from '../Tooltip'
-import getDomainState from '../../utils/determineDomainState'
 
 import MapInApplication from '../assets/stage_maps/map_application.svg'
 import MapInApplicationPending from '../assets/stage_maps/map_in_application_pending.svg'
@@ -34,35 +33,46 @@ const stageMaps = {
 }
 
 class DomainProfileStageMap extends Component {
-  constructor (props) {
+  constructor(props) {
     super()
 
     const {
-      domain
+      domain,
+      domainData
     } = props
 
     this.state = {
       domain,
+      domainData,
       stageMapSrc: null
     }
 
-    this.updateStageMap()
+    // this.updateStageMap()
   }
 
-  componentWillMount () {
+  componentWillMount() {
     this.subEvent = PubSub.subscribe('DomainProfileStageMap.updateStageMap', this.updateStageMap.bind(this))
   }
 
-  componentDidMount () {
+  componentDidMount() {
     this._isMounted = true
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     this._isMounted = false
     PubSub.unsubscribe(this.subEvent)
   }
 
-  render () {
+  componentWillReceiveProps(next){
+    this.setState({
+      domainData: next.domainData
+    })
+    if(next.domainData) {
+      this.updateStageMap(next.domainData)
+    }
+  }
+
+  render() {
     return (
       <div className='DomainProfileStageMap BoxFrame'>
         <span className='BoxFrameLabel ui grid'>STAGE MAP: <span className='DomainName'>{this.state.domain}</span> <Tooltip info={"A visual map that displays where in the adChain Registry the domain is. The domain's track is highlighted in blue (red if rejected)."} /></span>
@@ -75,13 +85,13 @@ class DomainProfileStageMap extends Component {
     )
   }
 
-  async updateStageMap () {
+  async updateStageMap(domainData) {
     try {
-      const { domain } = this.state
-      const domainData = await getDomainState(domain)
-      this.setState({
-        stageMapSrc: stageMaps[domainData.stageMapSrc]
-      })
+      if(domainData){
+        this.setState({
+          stageMapSrc: stageMaps[domainData.stageMapSrc]
+        })
+      }
     } catch (error) {
       toastr.error('There was an error with your request')
     }

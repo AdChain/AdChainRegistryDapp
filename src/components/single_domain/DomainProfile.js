@@ -12,13 +12,14 @@ import DomainProfileStageMap from './DomainProfileStageMap'
 import { registryApiURL } from '../../models/urls'
 
 import './DomainProfile.css'
+import getDomainState from '../../utils/getDomainState';
 
 class DomainProfile extends Component {
-  constructor (props) {
+  constructor(props) {
     super()
 
-    const {params} = props.match
-    const {domain} = params
+    const { params } = props.match
+    const { domain } = params
 
     const query = qs.parse(props.location.search.substr(1))
     const action = query.action
@@ -29,30 +30,33 @@ class DomainProfile extends Component {
       siteDescription: '',
       country: null,
       action,
-      stage: null
+      stage: null,
+      domainData: null
     }
 
     // scroll to top
     window.scrollTo(0, -1)
   }
 
-  componentDidMount () {
+  componentDidMount() {
     this._isMounted = true
-    this.fetchSiteMetadata()
+    this.fetchSiteData()
   }
 
-  componentWillUnmount () {
+
+  componentWillUnmount() {
     this._isMounted = false
   }
 
-  render () {
+  render() {
     const {
+      stage,
       domain,
-      siteName,
-      siteDescription,
-      country,
       action,
-      stage
+      country,
+      siteName,
+      domainData,
+      siteDescription,
     } = this.state
 
     const redirectState = this.props.location.state
@@ -67,19 +71,28 @@ class DomainProfile extends Component {
                 name={siteName}
                 description={siteDescription}
                 country={country}
+                domainData={domainData}
               />
             </div>
             <div className='column nine wide'>
-              <DomainStatsbar domain={domain} />
+              <DomainStatsbar
+                domain={domain}
+                domainData={domainData}
+              />
             </div>
           </div>
           <div className='row'>
             <div className='column four wide'>
-              <DomainProfileStageMap stage={stage} domain={domain} />
+              <DomainProfileStageMap
+                stage={stage}
+                domain={domain}
+                domainData={domainData}
+              />
             </div>
             <div className='column five wide'>
               <DomainRedditBox
                 domain={domain}
+                domainData={domainData}
               />
               {
                 // <DomainProfileAdsTxtStatus domain={domain} />
@@ -90,6 +103,7 @@ class DomainProfile extends Component {
                 domain={domain}
                 action={action}
                 redirectState={redirectState}
+                domainData={domainData}
               />
             </div>
           </div>
@@ -98,29 +112,48 @@ class DomainProfile extends Component {
     )
   }
 
-  async fetchSiteMetadata () {
-    const {domain} = this.state
+  async fetchSiteData() {
+    let metadata
+    let domainsData
+    const { domain } = this.state
 
-    if (!domain) {
-      return false
-    }
-
-    const response = await window.fetch(`${registryApiURL}/domains/metadata?domain=${domain}`)
+    if (!domain) return null
 
     try {
-      const {
-        title,
-        description
-      } = await response.json()
+      domainsData = await (await window.fetch(`${registryApiURL}/registry/domains`)).json()
+      try{
+        metadata = await (await window.fetch(`${registryApiURL}/domains/metadata?domain=${domain}`)).json()
 
-      if (this._isMounted) {
-        this.setState({
-          siteName: title,
-          siteDescription: description
-        })
+      }catch(error){
+        console.log(error)
+      }      
+        let listingHash
+
+        for (let d of domainsData) {
+          if (d.domain === domain) {
+            listingHash = d.domainHash
+          }
+        }
+        
+        const domainData = await getDomainState({ domain, domainHash: listingHash })
+
+
+        const {
+          title,
+          description
+        } = metadata
+  
+        if (this._isMounted) {
+          this.setState({
+            domainData,
+            siteName: title,
+            siteDescription: description
+          })
+        // }
       }
-    } catch (error) {
 
+    } catch (error) {
+      console.log(error)
     }
   }
 }

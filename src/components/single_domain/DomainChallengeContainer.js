@@ -21,44 +21,46 @@ const tenToTheNinth = big(10).pow(big(9))
 
 class DomainChallengeContainer extends Component {
   constructor (props) {
-    super()
-
+    super(props)
     let displayChallengeModal = JSON.parse(window.localStorage.getItem('ChallengeGuide'))
-
+    const { domainData, domain } = props
     this.state = {
-      domain: props.domain,
+      domain,
       applicationExpiry: null,
       minDeposit: null,
       currentDeposit: null,
       source: props.source,
       dispensationPct: null,
-      displayChallengeModal: !displayChallengeModal
+      displayChallengeModal: !displayChallengeModal,
+      domainData
     }
 
     this.getDispensationPct = this.getDispensationPct.bind(this)
   }
 
-  async componentDidMount () {
+  async componentDidMount() {
     this._isMounted = true
     
     await this.getMinDeposit()
-    await this.getListing()
     await this.getDispensationPct()
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     this._isMounted = false
   }
 
-  componentWillReceiveProps (nextProps) {
-    if (nextProps.currentDeposit !== this.props.currentDeposit) {
+  componentWillReceiveProps(next) {
+    console.log("2: ", next.domainData, this.props)
+    if(this.domainData){
       this.setState({
-        currentDeposit: nextProps.currentDeposit
+        domainData: next.domainData,
+        applicationExpiry: next.domainData.applicationExpiry,
+        currentDeposit: big(next.domainData.currentDeposit).div(tenToTheNinth)
       })
     }
   }
 
-  render () {
+  render() {
     const {
       applicationExpiry,
       minDeposit,
@@ -81,7 +83,7 @@ class DomainChallengeContainer extends Component {
               : <div className='column sixteen wide HeaderColumn'>
                 <div className='row HeaderRow'>
                   <div className='ui large header'>
-                  Stage: In Application
+                    Stage: In Application
                     <Tooltip
                       info='The first phase of the voting process is the commit phase where the ADT holder stakes a hidden amount of votes to SUPPORT or OPPOSE the domain application. The second phase is the reveal phase where the ADT holder reveals the staked amount of votes to either the SUPPORT or OPPOSE side.'
                     />
@@ -139,7 +141,7 @@ class DomainChallengeContainer extends Component {
     )
   }
 
-  async getMinDeposit () {
+  async getMinDeposit() {
     if (this._isMounted) {
       this.setState({
         minDeposit: (await registry.getMinDeposit()).toNumber()
@@ -147,36 +149,20 @@ class DomainChallengeContainer extends Component {
     }
   }
 
-  async getListing () {
-    const {domain} = this.state
-    const listing = await registry.getListing(domain)
 
-    const {
-      applicationExpiry,
-      currentDeposit
-    } = listing
-
-    if (this._isMounted) {
-      this.setState({
-        applicationExpiry,
-        currentDeposit: big(currentDeposit).div(tenToTheNinth)
-      })
-    }
-  }
-
-  onChallenge (event) {
+  onChallenge(event) {
     event.preventDefault()
 
     this.challenge()
   }
 
-  async challenge () {
-    const {domain, minDeposit} = this.state
+  async challenge() {
+    const { domain, minDeposit } = this.state
 
     let inApplication = null
 
     try {
-      inApplication = await registry.applicationExists(domain)
+      inApplication = await registry.applicationExists(this.state.domainData.listingHash)
     } catch (error) {
       toastr.error('Error')
     }
@@ -224,14 +210,14 @@ class DomainChallengeContainer extends Component {
     }
   }
 
-  onCountdownExpire () {
+  onCountdownExpire() {
     // allow some time for new block to get mined and reload page
     setTimeout(() => {
       window.location.reload()
     }, 15000)
   }
 
-  async getDispensationPct () {
+  async getDispensationPct() {
     try {
       parametizer.get('dispensationPct')
         .then((response) => {

@@ -15,7 +15,7 @@ import UserCommitsToReveal from './UserCommitsToReveal.js'
 import UserRewardsToClaim from './UserRewardsToClaim.js'
 import AccountDashboardLoadingInProgress from './AccountDashboardLoadingInProgress'
 import Tooltip from '../Tooltip'
-import getDomainState from '../../utils/determineDomainState'
+import getDomainState from '../../utils/getDomainState'
 import { registryApiURL } from '../../models/urls'
 
 import Eth from 'ethjs'
@@ -174,7 +174,7 @@ class AccountDashboard extends Component {
           }
           if (!domainExists) {
             try {
-              data[i].stage = await this.fetchDomainStage(data[i].domain)
+              data[i].stage = await this.fetchDomainStage(data[i])
               appliedDomains.push(data[i])
             } catch (error) {
               console.log('Error fetching stage')
@@ -211,7 +211,7 @@ class AccountDashboard extends Component {
 
       for (let i = 0; i < data.length; i++) {
         if (data[i]) {
-          data[i].stage = await this.fetchDomainStage(data[i].domain)
+          data[i].stage = await this.fetchDomainStage(data[i])
         }
       }
       if (this._isMounted) {

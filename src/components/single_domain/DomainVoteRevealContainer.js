@@ -54,7 +54,6 @@ class DomainVoteRevealContainer extends Component {
     this._isMounted = true
 
     Promise.all([
-      this.getListing(),
       this.getPoll(),
       this.getChallenge(),
       this.getCommit(),
@@ -66,6 +65,24 @@ class DomainVoteRevealContainer extends Component {
     this._isMounted = false
   }
 
+  componentWillReceiveProps (next) {
+    if (next.domainData && next.currentDeposit !== this.props.currentDeposit) {
+      this.setState({
+        domainData: next.domainData,
+        challengeId: next.domainData.challengeId,
+        applicationExpiry: next.domainData.applicationExpiry,
+      })
+
+     const listingHash = next.domainData.listingHash
+
+      Promise.all([
+        this.getPoll(listingHash),
+        this.getChallenge(listingHash),
+        this.getCommit(listingHash),
+        this.getReveal(listingHash)
+      ])
+    }
+  }
   render () {
     const {
       domain,
@@ -242,25 +259,10 @@ class DomainVoteRevealContainer extends Component {
     this.refs.HiddenFileUploader.click()
   }
 
-  async getListing () {
-    const {domain} = this.state
-    const listing = await registry.getListing(domain)
 
-    const {
-      applicationExpiry,
-      challengeId
-    } = listing
 
-    if (this._isMounted) {
-      this.setState({
-        applicationExpiry,
-        challengeId
-      })
-    }
-  }
-
-  async getCommit () {
-    const {domain, account} = this.state
+  async getCommit (domain) {
+    const {account} = this.state
 
     if (!account) {
       return false
@@ -278,8 +280,8 @@ class DomainVoteRevealContainer extends Component {
     }
   }
 
-  async getReveal () {
-    const {account, domain} = this.state
+  async getReveal (domain) {
+    const {account} = this.state
 
     if (!account) {
       return false
@@ -311,8 +313,7 @@ class DomainVoteRevealContainer extends Component {
     }
   }
 
-  async getPoll () {
-    const {domain} = this.state
+  async getPoll (domain) {
 
     try {
       const {
@@ -336,8 +337,8 @@ class DomainVoteRevealContainer extends Component {
     }
   }
 
-  async getChallenge () {
-    const {domain, account} = this.state
+  async getChallenge (domain) {
+    const {account} = this.state
 
     if (!account) {
       return false
@@ -360,11 +361,11 @@ class DomainVoteRevealContainer extends Component {
   onFormSubmit (event) {
     event.preventDefault()
 
-    this.reveal()
+    this.reveal(this.state.domainData.listingHash)
   }
 
-  async reveal () {
-    const {domain, salt, voteOption, account} = this.state
+  async reveal (domain) {
+    const {salt, voteOption, account} = this.state
 
     if (!salt) {
       toastr.error('Please enter salt value')

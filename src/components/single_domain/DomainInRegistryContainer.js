@@ -27,7 +27,6 @@ class DomainInRegistryContainer extends Component {
     this.state = {
       domain: props.domain,
       account: registry.getAccount(),
-      // didReveal: false,
       didClaim: false,
       minDeposit: null,
       canWithdraw: false,
@@ -43,17 +42,25 @@ class DomainInRegistryContainer extends Component {
 
   componentDidMount () {
     this._isMounted = true
-
     this.getPoll()
-    // this.getReveal()
-    // this.getClaims()
     this.getMinDeposit()
-    this.getCurrentDeposit()
-    this.checkOwner()
   }
 
   componentWillUnmount () {
     this._isMounted = false
+  }
+  
+  componentWillReceiveProps (next) {
+    const {domain, account} = this.state
+    
+    if (next.domainData) {
+      this.setState({
+        domainData: next.domainData,
+        applicationExpiry: next.domainData.applicationExpiry,
+        currentDeposit: big(next.domainData.currentDeposit).div(tenToTheNinth),
+        ownerAddress: (next.domainData.ownerAddress === account) ? true : false
+      })
+    }
   }
 
   render () {
@@ -61,6 +68,7 @@ class DomainInRegistryContainer extends Component {
       domain,
       minDeposit,
       canWithdraw,
+      domainData,
       currentDeposit,
       displayChallengeModal
     } = this.state
@@ -72,7 +80,7 @@ class DomainInRegistryContainer extends Component {
     let redirectState = this.props.redirectState ? this.props.redirectState.cameFromRedirect : false
 
     // const hasVotes = (votesFor || votesAgainst)
-
+    console.log("hit this")
     return (
       <div className='DomainInRegistryContainer'>
         <div className='ui grid stackable'>
@@ -87,7 +95,7 @@ class DomainInRegistryContainer extends Component {
             </div>
           </div>
           <div className='ui divider' />
-          <DomainChallengeContainer domain={domain} source='InRegistry' currentDeposit={currentDeposit} />
+          <DomainChallengeContainer domainData={this.props.domainData} domain={domain} source='InRegistry' currentDeposit={currentDeposit} />
           <div className='column sixteen wide center aligned'>
             { canWithdraw
               ? <div>
@@ -221,36 +229,6 @@ class DomainInRegistryContainer extends Component {
     } catch (error) {
       console.error('Domain In Registry Container Get Claims Error: ', error)
       toastr.error('There was an error with your request')
-    }
-  }
-
-  async checkOwner () {
-    const {domain, account} = this.state
-
-    try {
-      const listing = await registry.getListing(domain)
-      if (listing.ownerAddress === account) {
-        this.setState({
-          canWithdraw: true
-        })
-      }
-    } catch (error) {
-      console.error('Domain In Registry Container Check Owner Error: ', error)
-      toastr.error('There was an error with your request')
-    }
-  }
-
-  async getCurrentDeposit () {
-    const {domain} = this.state
-    try {
-      const listing = await registry.getListing(domain)
-      if (listing.currentDeposit) {
-        this.setState({
-          currentDeposit: big(listing.currentDeposit).div(tenToTheNinth)
-        })
-      }
-    } catch (error) {
-      console.error(error)
     }
   }
 

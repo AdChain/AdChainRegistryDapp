@@ -40,11 +40,6 @@ class DomainVoteCommitContainer extends Component {
       displayCommitModal: !displayCommitModal
     }
 
-    this.getListing()
-    this.getPoll()
-    this.getChallenge()
-    this.getCommit()
-
     this.onDepositKeyUp = this.onDepositKeyUp.bind(this)
     this.onVoteOptionChange = this.onVoteOptionChange.bind(this)
     this.onFormSubmit = this.onFormSubmit.bind(this)
@@ -64,6 +59,20 @@ class DomainVoteCommitContainer extends Component {
     setTimeout(() => {
       this.enableDownloadCheck()
     }, 0)
+  }
+
+  componentWillReceiveProps (next) {
+    if (next.domainData && next.currentDeposit !== this.props.currentDeposit) {
+      this.setState({
+        domainData: next.domainData,
+        challengeId: next.domainData.challengeId,
+        applicationExpiry: next.domainData.applicationExpiry,
+      })
+
+      this.getPoll(next.domainData.listingHash)
+      this.getChallenge(next.domainData.listingHash)
+      this.getCommit(next.domainData.listingHash)
+    }
   }
 
   render () {
@@ -308,23 +317,6 @@ class DomainVoteCommitContainer extends Component {
     event.preventDefault()
 
     this.commit()
-  }
-
-  async getListing () {
-    const {domain} = this.state
-    const listing = await registry.getListing(domain)
-
-    const {
-      applicationExpiry,
-      challengeId
-    } = listing
-
-    if (this._isMounted) {
-      this.setState({
-        applicationExpiry,
-        challengeId
-      })
-    }
   }
 
   async getPoll () {

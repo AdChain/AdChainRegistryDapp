@@ -7,22 +7,23 @@ import Tooltip from '../Tooltip'
 import { Tab, Button, Input, Loader } from 'semantic-ui-react'
 import './DomainRedditBox.css'
 
-import getDomainState from '../../utils/determineDomainState'
 import RedditReasonModal from './RedditReasonModal'
 import { getPosts, createComment, createPostApplication } from '../../services/redditActions'
 import PubSub from 'pubsub-js'
 
 class DomainProfileInfo extends Component {
-  constructor (props) {
+  constructor(props) {
     super()
 
     const {
       domain,
-      description
+      description,
+      listingHash
     } = props
 
     this.state = {
       domain,
+      listingHash,
       description,
       appliedObj: {},
       challengedObj: {},
@@ -41,57 +42,28 @@ class DomainProfileInfo extends Component {
     this.redditRefresh = _.debounce(this.redditRefresh.bind(this), 3e3, { 'leading': true, 'trailing': false })
   }
 
-  async componentDidMount () {
+  async componentDidMount() {
     this._isMounted = true
-
-    if (this._isMounted) {
-      // let cachedRedditData = window.localStorage.getItem(`${this.state.domain}RedditData`)
-      // cachedRedditData = JSON.parse(cachedRedditData)
-
-      // if (!_.isEmpty(cachedRedditData)) {
-      //   this.setState({
-      //     appliedObj: _.isEmpty(cachedRedditData.applied) ? {} : cachedRedditData.applied,
-      //     challengedObj: _.isEmpty(cachedRedditData.challenged) ? {} : cachedRedditData.challenged,
-      //     redditId: _.isEmpty(cachedRedditData.applied) ? null : cachedRedditData.applied.id
-      //   })
-      //   if (moment().diff(cachedRedditData.timeAdded, 'minutes') >= 5) {
-      //     await this.fetchRedditData()
-      //   }
-      // } else {
-      //   await this.fetchRedditData()
-      // }
-
-      await this.fetchRedditData()
-
-      const domainState = await getDomainState(this.state.domain)
-
-      switch (domainState.stage) {
-        case 'in_registry_in_commit':
-        case 'in_registry_in_reveal':
-        case 'in_registry_update_status':
-        case 'voting_commit':
-        case 'voting_reveal':
-        case 'reveal_pending':
-        case 'apply':
-          if (!_.isEmpty(this.state.challengedObj)) {
-            this.setState({redditTabIndex: 1})
-          }
-          break
-        default:
-          break
-      }
-    }
   }
 
-  componentWillMount () {
+  componentWillMount() {
     PubSub.subscribe('DomainRedditBox.fetchRedditData', this.fetchRedditData)
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     this._isMounted = false
   }
 
-  render () {
+  async componentWillReceiveProps(next) {
+    if (this._isMounted) {
+      this.setState({
+        domainData: next.domainData
+      })
+    }
+    await this.setDomainState(next.domainData)
+  }
+
+  render() {
     const { appliedObj, challengedObj, domain, redditTabIndex, inProgress, redditRefreshInProgress } = this.state
 
     const appliedData = !_.isEmpty(appliedObj) && appliedObj.id && appliedObj.comments.length > 0
@@ -151,14 +123,14 @@ class DomainProfileInfo extends Component {
       ? (
         <div className='LoadingMessage success'>
           <i className='icon big check circle' />
-        Your comment was successfully posted!
+          Your comment was successfully posted!
         </div>
       )
       : inProgress === 'error'
         ? (
           <div className='LoadingMessage error'>
             <i className='icon big remove circle ' />
-          There was an error with your submission.
+            There was an error with your submission.
           </div>
         ) : inProgress === 'loading'
           ? (
@@ -167,7 +139,7 @@ class DomainProfileInfo extends Component {
             ? (
               <div className='LoadingMessage error'>
                 <i className='icon big remove circle ' />
-          Please enter a comment.
+                Please enter a comment.
               </div>
             ) : null
 
@@ -255,7 +227,7 @@ class DomainProfileInfo extends Component {
       <div className='DomainProfileInfo DomainRedditBox BoxFrame'>
         <div className='HeaderRow'>
           <span className='BoxFrameLabel ui grid'>
-        REDDIT DISCUSSION
+            REDDIT DISCUSSION
             <Tooltip info={'This Reddit discussion box will display the threads associated with the latest application or challenge of this domain.'} />
           </span>
           <span className='RedditRefresh'>
@@ -270,7 +242,7 @@ class DomainProfileInfo extends Component {
 
         </div>
         <div className='ui grid stackable'>
-          <div className='column sixteen wide' style={{padding: '13px 4px', height: '100%', marginTop: '13px'}}>
+          <div className='column sixteen wide' style={{ padding: '13px 4px', height: '100%', marginTop: '13px' }}>
             <Tab menu={{ secondary: true, pointing: true }} panes={panes} onTabChange={this.handleTabChange} activeIndex={redditTabIndex} className='TabDiv' />
           </div>
         </div>
@@ -278,7 +250,33 @@ class DomainProfileInfo extends Component {
     )
   }
 
-  handleInputChange (event) {
+
+  async setDomainState(domainData) {
+    if(domainData){
+      if (this._isMounted) {
+
+        await this.fetchRedditData()
+
+        switch (domainData.stage) {
+          case 'in_registry_in_commit':
+          case 'in_registry_in_reveal':
+          case 'in_registry_update_status':
+          case 'voting_commit':
+          case 'voting_reveal':
+          case 'reveal_pending':
+          case 'apply':
+            if (!_.isEmpty(this.state.challengedObj)) {
+              this.setState({ redditTabIndex: 1 })
+            }
+            break
+          default:
+            break
+        }
+      }
+    }
+  }
+
+  handleInputChange(event) {
     if (this._isMounted) {
       this.setState({
         comment: event.target.value
@@ -286,7 +284,7 @@ class DomainProfileInfo extends Component {
     }
   }
 
-  handleTabChange (event, data) {
+  handleTabChange(event, data) {
     // const { appliedObj, challengedObj } = this.state
 
     if (this._isMounted) {
@@ -299,38 +297,41 @@ class DomainProfileInfo extends Component {
     }
   }
 
-  async redditRefresh () {
-    try {
-      this.setState({
-        redditRefreshInProgress: true
-      })
-      await this.fetchRedditData()
-      setTimeout(() => {
+  async redditRefresh() {
+    if (this._isMounted) {
+      try {
+        this.setState({
+          redditRefreshInProgress: true
+        })
+        await this.fetchRedditData()
+        setTimeout(() => {
+          this.setState({
+            redditRefreshInProgress: false
+          })
+        }, 3e3)
+      } catch (error) {
+        console.log(error)
         this.setState({
           redditRefreshInProgress: false
         })
-      }, 3e3)
-    } catch (error) {
-      console.log(error)
-      this.setState({
-        redditRefreshInProgress: false
-      })
-      toastr.error('There was an error fetching the Reddit data')
+        toastr.error('There was an error fetching the Reddit data')
+      }
     }
   }
 
-  async fetchRedditData () {
+  async fetchRedditData() {
     try {
       let redditData = await getPosts(this.state.domain)
+      if (this._isMounted) {
+        this.setState({
+          appliedObj: _.isEmpty(redditData.data.applied) ? {} : redditData.data.applied,
+          challengedObj: _.isEmpty(redditData.data.challenged) ? {} : redditData.data.challenged,
+          redditIdApplied: _.isEmpty(redditData.data.applied) ? null : redditData.data.applied.id,
+          redditItChallenged: _.isEmpty(redditData.data.challenged) ? null : redditData.data.challenged.id
 
-      this.setState({
-        appliedObj: _.isEmpty(redditData.data.applied) ? {} : redditData.data.applied,
-        challengedObj: _.isEmpty(redditData.data.challenged) ? {} : redditData.data.challenged,
-        redditIdApplied: _.isEmpty(redditData.data.applied) ? null : redditData.data.applied.id,
-        redditItChallenged: _.isEmpty(redditData.data.challenged) ? null : redditData.data.challenged.id
-
-      })
-      redditData.data.timeAdded = moment()
+        })
+        redditData.data.timeAdded = moment()
+      }
       // window.localStorage.setItem(`${this.state.domain}RedditData`, JSON.stringify(redditData.data))
     } catch (error) {
       console.error(error)
@@ -338,24 +339,28 @@ class DomainProfileInfo extends Component {
     }
   }
 
-  async onCommentSubmit (event) {
+  async onCommentSubmit(event) {
     event.preventDefault()
     const { comment, redditTabIndex, domain } = this.state
 
     let redditId = redditTabIndex === 0 ? this.state.redditIdApplied : this.state.redditItChallenged
-    let redditCommentsObj = redditTabIndex === 0 ? {...this.state.appliedObj} : {...this.state.challengedObj}
+    let redditCommentsObj = redditTabIndex === 0 ? { ...this.state.appliedObj } : { ...this.state.challengedObj }
 
     if (!comment) {
-      this.setState({
-        inProgress: 'blank'
-      })
-      return
+      if (this._isMounted) {
+        this.setState({
+          inProgress: 'blank'
+        })
+        return
+      }
     }
 
     try {
-      this.setState({
-        inProgress: 'loading'
-      })
+      if (this._isMounted) {
+        this.setState({
+          inProgress: 'loading'
+        })
+      }
       if (!redditId) {
         const response = await createPostApplication(domain, 'No reason has been submitted.')
         redditId = response.data.post.post_id
@@ -378,36 +383,39 @@ class DomainProfileInfo extends Component {
           score: 1
         }
       })
-
-      if (redditTabIndex === 0) {
-        this.setState({
-          appliedObj: redditCommentsObj,
-          inProgress: 'success',
-          comment: ''
-        })
-      } else {
-        this.setState({
-          challengedObj: redditCommentsObj,
-          inProgress: 'success',
-          comment: ''
-        })
+      if (this._isMounted) {
+        if (redditTabIndex === 0) {
+          this.setState({
+            appliedObj: redditCommentsObj,
+            inProgress: 'success',
+            comment: ''
+          })
+        } else {
+          this.setState({
+            challengedObj: redditCommentsObj,
+            inProgress: 'success',
+            comment: ''
+          })
+        }
+        setTimeout(() => {
+          this.setState({
+            inProgress: ''
+          })
+        }, 5e3)
       }
-      setTimeout(() => {
-        this.setState({
-          inProgress: ''
-        })
-      }, 5e3)
     } catch (error) {
-      this.setState({
-        comment: '',
-        inProgress: 'error'
-      })
-      console.error(error)
-      setTimeout(() => {
+      if (this._isMounted) {
         this.setState({
-          inProgress: ''
+          comment: '',
+          inProgress: 'error'
         })
-      }, 5e3)
+        console.error(error)
+        setTimeout(() => {
+          this.setState({
+            inProgress: ''
+          })
+        }, 5e3)
+      }
     }
   }
 }
