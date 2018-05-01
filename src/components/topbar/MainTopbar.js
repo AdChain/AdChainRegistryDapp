@@ -4,9 +4,10 @@ import store from '../../store'
 import registry from '../../services/registry'
 import token from '../../services/token'
 import Identicon from '../Identicon'
-import moment from 'moment-timezone'
+// import moment from 'moment-timezone'
 import { network } from '../../models/network'
 import {renderAirSwap} from '../../utils/renderAirSwap'
+import { Button } from 'semantic-ui-react'
 
 import adtLogo from '../assets/adtoken_logo.png'
 import ethLogo from '../assets/ethereum_purple_logo.png'
@@ -62,7 +63,7 @@ class MainTopbar extends Component {
                   address={address}
                   size={6}
                   scale={6} />
-                <span>&nbsp;{address}</span>
+                <span>&nbsp;<a href={`https://etherscan.io/address/${address}`} target='_blank' rel='noopener noreferrer'>{address.substr(0, 8) + '...' + address.substr(address.length - 4)}</a></span>
               </div>
               : isLoading ? 'Loading...' : <div className='NoWalletMessage'>
                Please download or unlock <a href='https://metamask.io/' target='_blank' rel='noopener noreferrer' style={{color: 'orange'}}>MetaMask</a> extension to load application and Ethereum wallet
@@ -79,13 +80,16 @@ class MainTopbar extends Component {
                 </div>
               </div>
               : null}
-            <div className='item TimeZone'>
-              <div>
-                <span>
-                  <strong>Time Zone:</strong> &nbsp;&nbsp; {moment.tz(moment.tz.guess()).zoneAbbr()}
-                </span>
-              </div>
-            </div>
+            {
+              // <div className='item TimeZone'>
+              // <div>
+              // <span>
+              // <strong>Time Zone:</strong> &nbsp;&nbsp; {moment.tz(moment.tz.guess()).zoneAbbr()}
+              // </span>
+              // </div>
+              // </div>
+
+            }
             {address
               ? <div className={'JoyrideTopBar BalanceText item ' + (ethBalance === 0 || ethBalance === null ? 'RedAlert' : '')}>
                 <div className='EthLogo ui image'>
@@ -94,11 +98,10 @@ class MainTopbar extends Component {
                     alt='ETH' />
                 </div>
                 {ethBalance !== null ? commafy(ethBalance.toFixed(4)) : '-'} ETH
-                {ethBalance === 0
-                  ? <span>&nbsp;(<a href='https://adchain.zendesk.com/hc/en-us/articles/360003417354' target='_blank' rel='noopener noreferrer' className='AcquireLink'>Acquire ETH</a>)</span>
-                  : null}
+                <Button basic className='AcquireEthButton'><a href='https://adchain.zendesk.com/hc/en-us/articles/360003417354' target='_blank' rel='noopener noreferrer' className='AcquireLink'>Buy Ethereum</a></Button>
               </div>
-              : null}
+              : null
+            }
             {address
               ? <div className={'JoyrideTopBar BalanceText item ' + (adtBalance === 0 || adtBalance === null ? 'RedAlert' : '')}>
                 <div className='AdtLogo ui image'>
@@ -107,11 +110,10 @@ class MainTopbar extends Component {
                     alt='ADT' />
                 </div>
                 {adtBalance !== null ? commafy(adtBalance) : '-'} ADT
-                {adtBalance === 0
-                  ? <span>&nbsp;(<a onClick={() => { renderAirSwap() }} className='AcquireLink'>Acquire ADT</a>)</span>
-                  : null}
+                <Button basic className='AcquireAdtButton' onClick={() => { renderAirSwap() }}>Buy Adtoken</Button>
               </div>
-              : null}
+              : null
+            }
             <div className='item' />
           </div>
         </div>
