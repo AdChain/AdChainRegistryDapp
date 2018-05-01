@@ -252,7 +252,7 @@ class DomainProfileInfo extends Component {
     }
 
     return (
-      <div className='DomainProfileInfo BoxFrame'>
+      <div className='DomainProfileInfo DomainRedditBox BoxFrame'>
         <div className='HeaderRow'>
           <span className='BoxFrameLabel ui grid'>
         REDDIT DISCUSSION

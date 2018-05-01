@@ -72,7 +72,6 @@ class RegistryService {
             console.error(error)
             return false
           }
-
           store.dispatch({
             type: 'REGISTRY_EVENT'
           })
@@ -84,7 +83,6 @@ class RegistryService {
 
   async setAccount () {
     const accounts = await this.eth.accounts()
-
     if (window.web3 && !window.web3.eth.defaultAccount) {
       window.web3.eth.defaultAccount = accounts[0]
     }
@@ -94,7 +92,7 @@ class RegistryService {
     return this.account
   }
 
-  // When applying a domain, the `data` parameter must be set to the domain's name
+  // When applying a domain, the `data` parameter must be set to ipfs hash of --> {id: domain name}
   // The 'domain' parameter will be also be the domain name but it will be hashed in this function before it hits the contract
   async apply (domain, deposit = 0, data = '') {
     if (!domain) {
@@ -107,10 +105,11 @@ class RegistryService {
       throw new Error('Application already exists')
     }
 
-    // domain = domain.toLowerCase()
-    const hash = `0x${soliditySHA3(['string'], [domain.trim()]).toString('hex')}`
+    domain = domain.trim()
 
-    data = await ipfsAddObject({ id: hash })
+    const hash = `0x${soliditySHA3(['string'], [domain]).toString('hex')}`
+
+    data = await ipfsAddObject({ id: domain })
 
     const bigDeposit = big(deposit).mul(tenToTheNinth).toString(10)
 
