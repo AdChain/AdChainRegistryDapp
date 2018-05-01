@@ -12,6 +12,7 @@ import registry from '../../services/registry'
 import parametizer from '../../services/parameterizer'
 import PubSub from 'pubsub-js'
 import Eth from 'ethjs'
+import IndividualGuideModal from './IndividualGuideModal'
 
 import './DomainChallengeContainer.css'
 
@@ -22,13 +23,16 @@ class DomainChallengeContainer extends Component {
   constructor (props) {
     super()
 
+    let displayChallengeModal = JSON.parse(window.localStorage.getItem('ChallengeGuide'))
+
     this.state = {
       domain: props.domain,
       applicationExpiry: null,
       minDeposit: null,
       currentDeposit: null,
       source: props.source,
-      dispensationPct: null
+      dispensationPct: null,
+      displayChallengeModal: !displayChallengeModal
     }
 
     this.getDispensationPct = this.getDispensationPct.bind(this)
@@ -36,6 +40,7 @@ class DomainChallengeContainer extends Component {
 
   async componentDidMount () {
     this._isMounted = true
+    
     await this.getMinDeposit()
     await this.getListing()
     await this.getDispensationPct()
@@ -59,12 +64,14 @@ class DomainChallengeContainer extends Component {
       minDeposit,
       source,
       dispensationPct,
-      currentDeposit
+      currentDeposit,
+      displayChallengeModal
     } = this.state
 
     const stageEndMoment = applicationExpiry ? moment.unix(applicationExpiry) : null
     const stageEnd = stageEndMoment ? stageEndMoment.format('YYYY-MM-DD HH:mm:ss') : '-'
     const stakedDifference = currentDeposit - minDeposit
+    let redirectState = this.props.redirectState ? this.props.redirectState.cameFromRedirect : false
 
     return (
       <div className='DomainChallengeContainer'>
@@ -121,6 +128,13 @@ class DomainChallengeContainer extends Component {
             <Button basic className='ChallengeButton' onClick={this.onChallenge.bind(this)}>Challenge</Button>
           </div>
         </div>
+        {
+          source === 'InRegistry'
+            ? null
+            : redirectState
+              ? null
+              : <IndividualGuideModal steps={'ChallengeGuide'} open={displayChallengeModal} />
+        }
       </div>
     )
   }

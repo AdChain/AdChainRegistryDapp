@@ -57,13 +57,13 @@ class DomainProfileActionContainer extends Component {
     let component = null
 
     if (stage === 'in_application') {
-      component = <DomainChallengeContainer domain={domain} />
+      component = <DomainChallengeContainer domain={domain} redirectState={this.props.redirectState} />
     } else if (stage === 'voting_commit' || stage === 'in_registry_in_commit') {
-      component = <DomainVoteCommitContainer domain={domain} />
+      component = <DomainVoteCommitContainer domain={domain} redirectState={this.props.redirectState} />
     } else if (stage === 'voting_reveal' || stage === 'in_registry_in_reveal') {
-      component = <DomainVoteRevealContainer domain={domain} />
+      component = <DomainVoteRevealContainer domain={domain} redirectState={this.props.redirectState} />
     } else if (stage === 'in_registry') {
-      component = <DomainInRegistryContainer domain={domain} />
+      component = <DomainInRegistryContainer domain={domain} redirectState={this.props.redirectState} />
     } else if (stage === 'in_registry_update_status' || stage === 'in_application_pending' || stage === 'reveal_pending') {
       component = <DomainPendingContainer domain={domain} />
     } else if (stage === 'apply') {

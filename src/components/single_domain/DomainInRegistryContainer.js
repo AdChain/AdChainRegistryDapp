@@ -11,9 +11,9 @@ import calculateGas from '../../utils/calculateGas'
 
 import registry from '../../services/registry'
 import DomainChallengeContainer from './DomainChallengeContainer'
+import IndividualGuideModal from './IndividualGuideModal'
 
 import './DomainInRegistryContainer.css'
-
 
 const big = (number) => new Eth.BN(number.toString(10))
 const tenToTheNinth = big(10).pow(big(9))
@@ -21,6 +21,8 @@ const tenToTheNinth = big(10).pow(big(9))
 class DomainInRegistryContainer extends Component {
   constructor (props) {
     super()
+
+    let displayChallengeModal = JSON.parse(window.localStorage.getItem('ChallengeGuide'))
 
     this.state = {
       domain: props.domain,
@@ -30,7 +32,8 @@ class DomainInRegistryContainer extends Component {
       minDeposit: null,
       canWithdraw: false,
       currentDeposit: null,
-      stakedDifferenceUpdated: false
+      stakedDifferenceUpdated: false,
+      displayChallengeModal: !displayChallengeModal
     }
 
     this.withdrawListing = this.withdrawListing.bind(this)
@@ -59,11 +62,14 @@ class DomainInRegistryContainer extends Component {
       minDeposit,
       canWithdraw,
       currentDeposit,
+      displayChallengeModal
     } = this.state
 
     const stakedDifference = currentDeposit - minDeposit
     const formattedStakedDifference = stakedDifference ? stakedDifference > 0 ? '+' + commafy(stakedDifference) : commafy(stakedDifference) : 0
     const stakedDifferenceClass = stakedDifference > 0 ? 'StakedDifferencePositive' : stakedDifference < 0 ? 'StakedDifferenceNegative' : 'StakedDifferenceZero'
+
+    let redirectState = this.props.redirectState ? this.props.redirectState.cameFromRedirect : false
 
     // const hasVotes = (votesFor || votesAgainst)
 
@@ -138,6 +144,11 @@ class DomainInRegistryContainer extends Component {
               : null
             }
           </div>
+          {
+            redirectState
+              ? null
+              : <IndividualGuideModal steps={'ChallengeGuide'} open={displayChallengeModal} />
+          }
         </div>
       </div>
     )

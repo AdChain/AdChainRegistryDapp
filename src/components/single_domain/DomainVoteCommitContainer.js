@@ -10,6 +10,7 @@ import calculateGas from '../../utils/calculateGas'
 import saveFile from '../../utils/saveFile'
 import Countdown from '../CountdownText'
 import registry from '../../services/registry'
+import IndividualGuideModal from './IndividualGuideModal'
 
 import './DomainVoteCommitContainer.css'
 
@@ -18,6 +19,7 @@ class DomainVoteCommitContainer extends Component {
     super()
 
     const salt = randomInt(1e6, 1e8)
+    let displayCommitModal = JSON.parse(window.localStorage.getItem('CommitGuide'))
 
     this.state = {
       votes: 0,
@@ -34,7 +36,8 @@ class DomainVoteCommitContainer extends Component {
       commitDownloaded: false,
       revealReminderDownloaded: false,
       SupportState: 'SupportButton',
-      OpposeState: 'OpposeButton'
+      OpposeState: 'OpposeButton',
+      displayCommitModal: !displayCommitModal
     }
 
     this.getListing()
@@ -75,13 +78,15 @@ class DomainVoteCommitContainer extends Component {
       // voteOption,
       challengeId,
       // enableDownload,
-      commitDownloaded
+      commitDownloaded,
+      displayCommitModal
       // votes
       // revealReminderDownloaded
     } = this.state
 
     const stageEndMoment = commitEndDate ? moment.unix(commitEndDate) : null
     const stageEnd = stageEndMoment ? stageEndMoment.format('MMMM Do YYYY HH:mm:ss') : '-'
+    let redirectState = this.props.redirectState ? this.props.redirectState.cameFromRedirect : false
 
     return (
       <div className='DomainVoteCommitContainer'>
@@ -205,6 +210,11 @@ class DomainVoteCommitContainer extends Component {
             </form>
           </div>
         </div>
+        {
+          redirectState
+            ? null
+            : <IndividualGuideModal steps={'CommitGuide'} open={displayCommitModal} />
+        }
       </div>
     )
   }

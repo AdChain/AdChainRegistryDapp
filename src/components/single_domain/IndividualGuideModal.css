@@ -1,0 +1,23 @@
+:root:root:root .IndividualGuideModal .ContinueButton {
+  border: 1px solid #3434CE !important;
+  color: #3434CE !important;
+}
+
+:root:root:root .IndividualGuideModal .ContinueButton:hover {
+  border: 1px solid #3434CE !important;
+  color: #FFF !important;
+  background-color: #3434CE !important;
+}
+
+.IndividualGuideModal .ButtonContainer {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px; 
+}
+
+.IndividualGuideModal .GuideText {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}

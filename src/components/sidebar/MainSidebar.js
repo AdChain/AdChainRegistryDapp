@@ -32,6 +32,11 @@ class MainSidebar extends Component {
     this.handleClick = this.handleClick.bind(this)
     this.updateRoute = this.updateRoute.bind(this)
     this.collapse = this.toggleMenu.bind(this)
+    this.pushHistory = this.pushHistory.bind(this)
+  }
+
+  componentWillMount () {
+    this.updateEvent = PubSub.subscribe('MainSidebar.PushHistory', this.pushHistory)
   }
 
   render () {
@@ -176,9 +181,17 @@ class MainSidebar extends Component {
     })
   }
 
+  async pushHistory (topic, route) {
+    console.log('MAINSIDEBAR PUSH HISTORY', route)
+    await this._history.push(route)
+  }
+
   async updateRoute (route) {
-    if (route !== window.location.pathname) {
-      this._history.push(`${route}`)
+    console.log('MAINSIDEBAR UPDATE ROUTE', route)
+    let pathName = route.pathname || route
+    if (pathName !== window.location.pathname) {
+      // this._history.push(`${route}`)
+      await this._history.push(route)
     }
     await this.props.confirmWalkthrough()
   }

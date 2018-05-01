@@ -4,6 +4,7 @@ import moment from 'moment-timezone'
 import commafy from 'commafy'
 import PubSub from 'pubsub-js'
 import Eth from 'ethjs'
+import { Modal } from 'semantic-ui-react'
 
 import GovernanceAndCoreParameters from './GovernanceAndCoreParameters'
 import GovernanceRewardsTable from './GovernanceRewardsTable'
@@ -17,6 +18,7 @@ import registry from '../../services/registry'
 import { parameterData } from '../../models/parameters'
 import { registryApiURL } from '../../models/urls'
 import Tooltip from '../Tooltip'
+import RegistryGuideModalGovernance from '../registry_guide/RegistryGuideModalGovernance'
 
 const big = (number) => new Eth.BN(number.toString(10))
 const tenToTheNinth = big(10).pow(big(9))
@@ -24,6 +26,7 @@ const tenToTheNinth = big(10).pow(big(9))
 class GovernanceContainer extends Component {
   constructor (props) {
     super(props)
+    let doNotDisplay = JSON.parse(window.localStorage.getItem('GovernanceModalDisplay'))
     this.state = {
       coreParameterData: Object.assign({}, parameterData.coreParameterData),
       governanceParameterData: Object.assign({}, parameterData.governanceParameterData),
@@ -32,8 +35,12 @@ class GovernanceContainer extends Component {
       currentProposalsLoading: true,
       currentProposals: [],
       rewards: [],
-      account: ''
+      account: '',
+      modalOpen: true,
+      registryGuideSrc: false,
+      doNotDisplay: doNotDisplay
     }
+    this.close = this.close.bind(this)
   }
 
   async componentWillMount () {
@@ -64,12 +71,14 @@ class GovernanceContainer extends Component {
 
       // PubSub subscription set here
       this.subEvent = PubSub.subscribe('GovernanceContainer.getProposalsAndPropIds', this.getProposalsAndPropIds.bind(this))
+      this.closeEvent = PubSub.subscribe('GovernanceContainer.closeModal', this.close)
     } catch (error) {
       console.log(error)
     }
   }
   componentDidMount () {
     this._isMounted = true
+    // launch modal on load only if it's not coming from the main registry guide modal or they clicked do not see this again
   }
   componentWillUnmount () {
     // Unsubscribe from event once unmounting
@@ -79,7 +88,9 @@ class GovernanceContainer extends Component {
 
   render () {
     let props = this.state
-    const { account } = this.state
+    const { account, modalOpen, doNotDisplay } = this.state
+    let registryGuideSrc = this.props.location.state ? this.props.location.state.registryGuideSrc : null
+
     if (!this.state.rewards || !account) return false
     return (
       <div className='ui stackable grid padded'>
@@ -109,8 +120,21 @@ class GovernanceContainer extends Component {
             </div>
           </div>
         </div>
+        {
+          registryGuideSrc
+            ? null
+            : doNotDisplay
+              ? null
+              : <Modal size={'small'} open={modalOpen} closeIcon className='GovernanceGuideModal' onClose={this.close}>
+                <RegistryGuideModalGovernance src={'governance'} />
+              </Modal>
+        }
       </div>
     )
+  }
+
+  close () {
+    this.setState({modalOpen: false})
   }
 
   getParameterValues (parameterType) {

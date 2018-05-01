@@ -11,6 +11,7 @@ import registry from '../../services/registry'
 import DomainVoteTokenDistribution from './DomainVoteTokenDistribution'
 import PubSub from 'pubsub-js'
 import { registryApiURL } from '../../models/urls'
+import IndividualGuideModal from './IndividualGuideModal'
 
 import './DomainVoteRevealContainer.css'
 
@@ -20,6 +21,8 @@ const tenToTheNinth = big(10).pow(big(9))
 class DomainVoteRevealContainer extends Component {
   constructor (props) {
     super()
+
+    let displayRevealModal = JSON.parse(window.localStorage.getItem('RevealGuide'))
 
     this.state = {
       domain: props.domain,
@@ -36,7 +39,8 @@ class DomainVoteRevealContainer extends Component {
       voteOption: '',
       challengeId: '',
       revealedVoteOption: '',
-      revealedAmount: 0
+      revealedAmount: 0,
+      displayRevealModal: !displayRevealModal
     }
 
     this.onVoteOptionChange = this.onVoteOptionChange.bind(this)
@@ -70,7 +74,8 @@ class DomainVoteRevealContainer extends Component {
       didCommit,
       didReveal,
       revealedVoteOption,
-      revealedAmount
+      revealedAmount,
+      displayRevealModal
       // voteOption,
       // challengeId,
       // salt
@@ -83,6 +88,8 @@ class DomainVoteRevealContainer extends Component {
 
     const stageEndMoment = revealEndDate ? moment.unix(revealEndDate) : null
     const stageEnd = stageEndMoment ? stageEndMoment.format('YYYY-MM-DD HH:mm:ss') : '-'
+    let redirectState = this.props.redirectState ? this.props.redirectState.cameFromRedirect : false
+
 
     return (
       <div className='DomainVoteRevealContainer'>
@@ -210,6 +217,11 @@ class DomainVoteRevealContainer extends Component {
               : null
           }
         </div>
+        {
+          redirectState
+            ? null
+            : <IndividualGuideModal steps={'RevealGuide'} open={displayRevealModal} />
+        }
       </div>
     )
   }

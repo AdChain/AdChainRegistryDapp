@@ -205,6 +205,8 @@ class App extends Component {
   }
 
   startJoyride (topic, steps) {
+    console.log('APP START WALKTHROUGH')
+
     this.setState({ 
       shouldRun: true,
       walkthroughSteps: this.state.walkthroughSteps.concat(steps),
@@ -225,6 +227,7 @@ class App extends Component {
   }
 
   async confirmWalkthrough () {
+    console.log('APP CONFIRM WALKTHROUGH')
     this.setState({
       walkthroughFinished: false
     })

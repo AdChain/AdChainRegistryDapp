@@ -25,7 +25,8 @@ class RegistryGuideModal extends Component {
       six: false,
       seven: false,
       lastOpened: '',
-      route: 'domains'
+      route: 'domains',
+      redirect: null
     }
 
     this.setGuideContent = this.setGuideContent.bind(this)
@@ -34,11 +35,13 @@ class RegistryGuideModal extends Component {
     this.show = this.show.bind(this)
     this.updateRoute = props.updateRoute
     this.startRegistryWalkthrough = this.startRegistryWalkthrough.bind(this)
+    this.redirect = this.redirect.bind(this)
   }
 
   componentWillMount () {
     this.subEvent = PubSub.subscribe('RegistryGuideModal.startRegistryWalkthrough', this.startRegistryWalkthrough)
     this.viewGuide = PubSub.subscribe('RegistryGuideModal.show', this.show)
+    this.redirectEvent = PubSub.subscribe('RegistryGuideModal.redirect', this.redirect)
   }
 
   componentWillReceiveProps (nextProps) {
@@ -103,19 +106,30 @@ class RegistryGuideModal extends Component {
     guideToDisplay['menu'] = false
     guideToDisplay['lastOpened'] = section
     if (section === 'seven') {
-      await this.updateRoute('/governance')
+      await this.updateRoute({
+        pathname: '/governance',
+        state: { registryGuideSrc: true }
+      })
     }
     this.setState(guideToDisplay)
   }
 
   async returnToMenu (section = null) {
-    const { lastOpened } = this.state
+    const { lastOpened, redirect } = this.state
     let guideToDisplay = {}
     guideToDisplay[section] = !(section)
     guideToDisplay[lastOpened] = false
     guideToDisplay['menu'] = true
-    guideToDisplay['open'] = true
-    await this.updateRoute('/domains')
+    if (redirect) {
+      guideToDisplay['open'] = false
+      await this.updateRoute({
+        pathname: redirect,
+        state: { cameFromRedirect: true }
+      })
+    } else {
+      guideToDisplay['open'] = true
+      await this.updateRoute('/domains')
+    }
     this.setState(guideToDisplay)
   }
 
@@ -136,11 +150,20 @@ class RegistryGuideModal extends Component {
     this.setState({ open: true })
   }
 
-  startRegistryWalkthrough (topic, steps) {
+  async startRegistryWalkthrough (topic, steps) {
     if (steps[0].name !== 'domainsjourney-first-step') {
+      if (this.props.location.pathname === '/governance' && !this.props.location.state) {
+        PubSub.publish('GovernanceContainer.closeModal')
+      }
       this.close()
     }
-    PubSub.publish('App.startJoyride', steps)
+    await PubSub.publish('App.startJoyride', steps)
+  }
+
+  redirect (topic, route) {
+    this.setState({
+      redirect: route
+    })
   }
 }
 

@@ -55,6 +55,8 @@ class DomainProfile extends Component {
       stage
     } = this.state
 
+    const redirectState = this.props.location.state
+
     return (
       <div className='DomainProfile'>
         <div className='ui grid stackable padded'>
@@ -87,6 +89,7 @@ class DomainProfile extends Component {
               <DomainProfileActionContainer
                 domain={domain}
                 action={action}
+                redirectState={redirectState}
               />
             </div>
           </div>
