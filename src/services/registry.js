@@ -1,6 +1,6 @@
 import Eth from 'ethjs'
 import keyMirror from 'key-mirror'
-import detectNetwork from 'web3-detect-network'
+import { detectNetwork } from '../utils/detectNetwork'
 import moment from 'moment-timezone'
 import { soliditySHA3 } from 'ethereumjs-abi'
 import store from '../store'
@@ -10,6 +10,7 @@ import parameterizer from './parameterizer'
 import saltHashVote from '../utils/saltHashVote'
 import { getRegistry } from '../config'
 import { getProvider, getWebsocketProvider } from './provider'
+import { ipfsAddObject } from '../services/ipfs'
 import PubSub from 'pubsub-js'
 // import { runInThisContext } from 'vm'
 
@@ -71,7 +72,6 @@ class RegistryService {
             console.error(error)
             return false
           }
-
           store.dispatch({
             type: 'REGISTRY_EVENT'
           })
@@ -83,7 +83,6 @@ class RegistryService {
 
   async setAccount () {
     const accounts = await this.eth.accounts()
-
     if (window.web3 && !window.web3.eth.defaultAccount) {
       window.web3.eth.defaultAccount = accounts[0]
     }
@@ -93,24 +92,26 @@ class RegistryService {
     return this.account
   }
 
-  // When applying a domain, the `data` parameter must be set to the domain's name
+  // When applying a domain, the `data` parameter must be set to ipfs hash of --> {id: domain name}
   // The 'domain' parameter will be also be the domain name but it will be hashed in this function before it hits the contract
   async apply (domain, deposit = 0, data = '') {
     if (!domain) {
       throw new Error('Domain is required')
     }
 
-    domain = domain.toLowerCase()
-    data = domain
-
     const exists = await this.applicationExists(domain)
-
-    const bigDeposit = big(deposit).mul(tenToTheNinth).toString(10)
-    const hash = `0x${soliditySHA3(['bytes32'], [domain.toLowerCase().trim()]).toString('hex')}`
 
     if (exists) {
       throw new Error('Application already exists')
     }
+
+    domain = domain.trim()
+
+    const hash = `0x${soliditySHA3(['string'], [domain]).toString('hex')}`
+
+    data = await ipfsAddObject({ id: domain })
+
+    const bigDeposit = big(deposit).mul(tenToTheNinth).toString(10)
 
     let allowed = await (await token.allowance(this.account, this.address)).toString(10)
 
@@ -162,8 +163,8 @@ class RegistryService {
       throw new Error('You did not specify an amount')
     }
 
-    domain = domain.toLowerCase()
-    const domainHash = `0x${soliditySHA3(['bytes32'], [domain]).toString('hex')}`
+    // domain = domain.toLowerCase()
+    const domainHash = `0x${soliditySHA3(['string'], [domain]).toString('hex')}`
     const bigDeposit = big(amount).mul(tenToTheNinth).toString(10)
     let allowed = await (await token.allowance(this.account, this.address)).toString(10)
 
@@ -205,8 +206,8 @@ class RegistryService {
       throw new Error('Domain is required')
     }
 
-    domain = domain.toLowerCase()
-    const domainHash = `0x${soliditySHA3(['bytes32'], [domain.toLowerCase().trim()]).toString('hex')}`
+    // domain = domain.toLowerCase()
+    const domainHash = `0x${soliditySHA3(['string'], [domain.trim()]).toString('hex')}`
 
     let allowed = await (await token.allowance(this.account, this.address)).toString(10)
     const minDeposit = await this.getMinDeposit()
@@ -259,7 +260,7 @@ class RegistryService {
       throw new Error('Domain is required')
     }
 
-    domain = domain.toLowerCase()
+    // domain = domain.toLowerCase()
     let challengeId = null
 
     try {
@@ -279,12 +280,12 @@ class RegistryService {
   }
 
   async applicationExists (domain) {
-    if (!domain) {
+    if (!domain || !this.registry) {
       throw new Error('Domain is required')
     }
 
-    domain = domain.toLowerCase()
-    const hash = `0x${soliditySHA3(['bytes32'], [domain.toLowerCase().trim()]).toString('hex')}`
+    // domain = domain.toLowerCase()
+    const hash = `0x${soliditySHA3(['string'], [domain.trim()]).toString('hex')}`
 
     try {
       return this.registry.appWasMade(hash)
@@ -294,14 +295,14 @@ class RegistryService {
   }
 
   async getListing (domain) {
-    if (!domain) {
+    if (!domain || !this.registry) {
       throw new Error('Domain is required')
     }
 
     try {
-      domain = domain.toLowerCase()
+      // domain = domain.toLowerCase()
 
-      const hash = `0x${soliditySHA3(['bytes32'], [domain.toLowerCase().trim()]).toString('hex')}`
+      const hash = `0x${soliditySHA3(['string'], [domain.trim()]).toString('hex')}`
       const result = await this.registry.listings.call(hash)
 
       const map = {
@@ -348,7 +349,7 @@ class RegistryService {
       throw new Error('Domain is required')
     }
 
-    domain = domain.toLowerCase()
+    // domain = domain.toLowerCase()
 
     try {
       const listing = await this.getListing(domain)
@@ -368,7 +369,7 @@ class RegistryService {
       throw new Error('Domain is required')
     }
 
-    domain = domain.toLowerCase()
+    // domain = domain.toLowerCase()
 
     try {
       return this.registry.isWhitelisted.call(domain)
@@ -383,8 +384,8 @@ class RegistryService {
     }
     // opens refresh loading modal
 
-    domain = domain.toLowerCase()
-    const domainHash = `0x${soliditySHA3(['bytes32'], [domain]).toString('hex')}`
+    // domain = domain.toLowerCase()
+    const domainHash = `0x${soliditySHA3(['string'], [domain]).toString('hex')}`
 
     try {
       let transactionInfo = {
@@ -471,8 +472,8 @@ class RegistryService {
       throw new Error('Domain is required')
     }
 
-    domain = domain.toLowerCase()
-    // const hash = `0x${soliditySHA3(['bytes32'], [domain]).toString('hex')}`
+    // domain = domain.toLowerCase()
+    // const hash = `0x${soliditySHA3(['string'], [domain]).toString('hex')}`
 
     let pollId = null
 
@@ -498,8 +499,8 @@ class RegistryService {
       throw new Error('Domain is required')
     }
 
-    domain = domain.toLowerCase()
-    // const hash = `0x${soliditySHA3(['bytes32'], [domain]).toString('hex')}`
+    // domain = domain.toLowerCase()
+    // const hash = `0x${soliditySHA3(['string'], [domain]).toString('hex')}`
 
     let pollId = null
 
@@ -528,7 +529,7 @@ class RegistryService {
     // nano ADT to normal ADT
     const bigVotes = big(votes).mul(tenToTheNinth).toString(10)
 
-    domain = domain.toLowerCase()
+    // domain = domain.toLowerCase()
     let challengeId = null
 
     try {
@@ -552,7 +553,7 @@ class RegistryService {
   }
 
   async revealVote ({domain, voteOption, salt}) {
-    domain = domain.toLowerCase()
+    // domain = domain.toLowerCase()
     let challengeId = null
 
     try {
@@ -580,7 +581,7 @@ class RegistryService {
       throw new Error('Domain is required')
     }
 
-    domain = domain.toLowerCase()
+    // domain = domain.toLowerCase()
 
     try {
       const challengeId = await this.getChallengeId(domain)
@@ -604,7 +605,7 @@ class RegistryService {
   }
 
   async pollEnded (domain) {
-    domain = domain.toLowerCase()
+    // domain = domain.toLowerCase()
     const challengeId = await this.getChallengeId(domain)
 
     if (!challengeId) {
@@ -619,7 +620,7 @@ class RegistryService {
   }
 
   async getCommitHash (domain) {
-    domain = domain.toLowerCase()
+    // domain = domain.toLowerCase()
     const voter = this.account
 
     if (!voter) {
@@ -635,7 +636,7 @@ class RegistryService {
   }
 
   async didCommit (domain) {
-    domain = domain.toLowerCase()
+    // domain = domain.toLowerCase()
 
     try {
       const challengeId = await this.getChallengeId(domain)
@@ -667,7 +668,7 @@ class RegistryService {
   }
 
   async didReveal (domain) {
-    domain = domain.toLowerCase()
+    // domain = domain.toLowerCase()
 
     const voter = this.account
 
@@ -894,8 +895,8 @@ class RegistryService {
   }
 
   async exit (domain) {
-    domain = domain.toLowerCase()
-    const domainHash = `0x${soliditySHA3(['bytes32'], [domain]).toString('hex')}`
+    // domain = domain.toLowerCase()
+    const domainHash = `0x${soliditySHA3(['string'], [domain]).toString('hex')}`
 
     try {
       let transactionInfo = {
@@ -915,10 +916,10 @@ class RegistryService {
       throw new Error('Domain is required')
     }
 
-    domain = domain.toLowerCase()
+    // domain = domain.toLowerCase()
 
     const bigWithdrawAmount = big(amount).mul(tenToTheNinth).toString(10)
-    const hash = `0x${soliditySHA3(['bytes32'], [domain.toLowerCase().trim()]).toString('hex')}`
+    const hash = `0x${soliditySHA3(['string'], [domain.trim()]).toString('hex')}`
 
     // let allowed = await (await token.allowance(this.account, this.address)).toString(10)
 

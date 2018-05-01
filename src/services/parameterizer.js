@@ -270,7 +270,7 @@ class ParameterizerService {
       throw new Error('Domain is required')
     }
 
-    // const hash = `0x${soliditySHA3(['bytes32'], [domain]).toString('hex')}`
+    // const hash = `0x${soliditySHA3(['string'], [domain]).toString('hex')}`
 
     let challengeId = null
 

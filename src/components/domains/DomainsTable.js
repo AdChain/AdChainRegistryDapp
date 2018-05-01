@@ -287,13 +287,14 @@ class DomainsTable extends Component {
     // domains = domains.slice(start, end)
     const data = await Promise.all(domains.map(async domainData => {
       try {
-        let domainState = await getDomainState(domainData.domain)
-        return domainState
+        if(domainData.domain){
+          let domainState = await getDomainState(domainData.domain)
+          return domainState
+        }
       } catch (error) {
         console.log(error)
       }
     }))
-
     if (this._isMounted) {
       this.setState({
         data,

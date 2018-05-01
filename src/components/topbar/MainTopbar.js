@@ -157,10 +157,14 @@ class MainTopbar extends Component {
   }
 
   async updateNetwork () {
-    const fetchedNetwork = await registry.getNetwork()
-    this.setState({
-      invalidNetwork: (fetchedNetwork.type !== network)
-    })
+    try{
+      const fetchedNetwork = await registry.getNetwork()
+      this.setState({
+        invalidNetwork: (fetchedNetwork.type !== network)
+      })
+    }catch(error){
+      console.log(error)
+    }
   }
 }
 
