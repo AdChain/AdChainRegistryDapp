@@ -194,7 +194,7 @@ class DomainsFilterPanel extends Component {
   onFilterChange (event) {
     const target = event.target
     const {name, checked} = target
-
+    console.log(this.state.filters)
     const {filters} = this.state
     filters[name] = checked
     if (this._isMounted) {

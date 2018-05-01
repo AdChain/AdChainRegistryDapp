@@ -1,9 +1,6 @@
 import axios from 'axios'
 import { utilityApiURL } from '../models/urls'
 
-// const url = 'https://utility.adchain.com/'
-// second server = https://utility2.adchain.com/
-
 export async function getPosts (domain) {
   let res
   try {

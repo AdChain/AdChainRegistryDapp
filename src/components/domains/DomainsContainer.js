@@ -23,7 +23,7 @@ import { registryApiURL } from '../../models/urls'
 import './DomainsContainer.css'
 
 class DomainsContainer extends Component {
-  constructor (props) {
+  constructor(props) {
     super()
 
     const query = qs.parse(props.location.search.substr(1))
@@ -32,6 +32,7 @@ class DomainsContainer extends Component {
       query: normalizeQueryObj(query),
       history: props.history,
       tableFilters: [],
+      domainsData: props.domainsData,
       staticContainer: null,
       kind: null,
       email: null
@@ -49,7 +50,7 @@ class DomainsContainer extends Component {
     window.scrollTo(0, -1)
   }
 
-  async componentDidMount () {
+  async componentDidMount() {
     let returningUser = window.localStorage.getItem('returningUser')
 
     if (!returningUser || returningUser === 'false') {
@@ -78,32 +79,38 @@ class DomainsContainer extends Component {
     }
   }
 
-  componentWillReceiveProps (nextProps) {
-    // if (nextProps.location.key === this.props.location.key) {
-    const query = qs.parse(nextProps.location.search.substr(1))
-    this.setState({
-      query: normalizeQueryObj(query),
-      staticContainer: nextProps.staticContainer
-    })
-    this.updateTableFilters(query)
-    // }
+  componentWillReceiveProps(nextProps) {
+
+    if (this.props.domainsData.filtered && nextProps.domainsData.filtered.length !== this.props.domainsData.filtered.length) {
+      const query = qs.parse(nextProps.location.search.substr(1))
+      this.setState({
+        query: normalizeQueryObj(query),
+        staticContainer: nextProps.staticContainer,
+        domainsData: nextProps.domainsData
+      })
+      this.updateTableFilters(query)
+    }
   }
 
-  componentDidUpdate (prevProps, prevState) {
+  componentDidUpdate(prevProps, prevState) {
     if (this.props.staticContainer !== prevProps.staticContainer) {
       prevProps.resumeJoyride()
     }
   }
 
-  render () {
+  render() {
     const {
       query,
       history,
       tableFilters,
       staticContainer,
       kind,
-      email
+      email,
+      domainsData
     } = this.state
+
+    // The domainsData is passed down as props from App
+    if (!domainsData) return null
 
     return (
       <div className='DomainsContainer'>
@@ -125,10 +132,11 @@ class DomainsContainer extends Component {
                     : <DomainsFilterPanel
                       filters={query}
                       onFiltersChange={this.onQueryChange}
+                      domainsData={domainsData}
                     />
                 }
                 <DomainEmailNotifications history={history} kind={kind} email={email} />
-                <AirSwap/>
+                <AirSwap />
               </div>
               {
                 (staticContainer === 'challenge')
@@ -149,6 +157,7 @@ class DomainsContainer extends Component {
                         </div>
                         : <div className='column twelve wide'>
                           <DomainsTable
+                            domainsData={this.props.domainsData}
                             history={history}
                             filters={tableFilters}
                           />
@@ -168,17 +177,17 @@ class DomainsContainer extends Component {
   // If you want to create/remove a filter, code pertaining to the domain
   // filters is located here, DomainsFilterPanel, and bottom of DomainsTable.
   // This function get passed down as props to DomainFiltersPanel.js.
-  onQueryChange (query) {
+  onQueryChange(query) {
     const url = window.location.href
     const newQuery = updateQuery(url, query)
     window.history.replaceState({}, window.location.pathname, newQuery)
 
-    this.setState({query})
+    this.setState({ query })
     this.updateTableFilters(query)
   }
 
   // React-table filter
-  updateTableFilters (query) {
+  updateTableFilters(query) {
     const stageFilter = {
       id: 'stage',
       value: undefined
@@ -216,10 +225,10 @@ class DomainsContainer extends Component {
 
     filter = new RegExp(filter.join('|'), 'gi')
     stageFilter.value = filter
-    this.setState({tableFilters: [domainFilter, stageFilter]})
+    this.setState({ tableFilters: [domainFilter, stageFilter] })
   }
 
-  async getDomainName (listingHash) {
+  async getDomainName(listingHash) {
     const result = await (await window.fetch(`${registryApiURL}/registry/listing_hash?listing_hash=${listingHash}`)).json()
     return result.domain
   }

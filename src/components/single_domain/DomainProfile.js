@@ -103,7 +103,7 @@ class DomainProfile extends Component {
     }
 
     const response = await window.fetch(`${registryApiURL}/domains/metadata?domain=${domain}`)
-
+    
     try {
       const {
         title,

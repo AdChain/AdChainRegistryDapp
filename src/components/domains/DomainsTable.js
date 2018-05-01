@@ -11,16 +11,14 @@ import './DomainsTable.css'
 import PubSub from 'pubsub-js'
 import CountdownSnapshot from '../CountdownSnapshot'
 import calculateGas from '../../utils/calculateGas'
-import { registryApiURL } from '../../models/urls'
 
-import store from '../../store'
 import registry from '../../services/registry'
 import token from '../../services/token'
 import getDomainState from '../../utils/determineDomainState'
 
 // import StatProgressBar from './StatProgressBar'
 
-function filterMethod (filter, row) {
+function filterMethod(filter, row) {
   const id = filter.pivotId || filter.id
   if (filter.value instanceof RegExp) {
     return row[id] !== undefined ? filter.value.test(row[id]) : true
@@ -32,14 +30,14 @@ function filterMethod (filter, row) {
 
 var history = null
 
-function isExpired (end) {
+function isExpired(end) {
   const now = moment().unix()
   if (!end) return false
   return end < now
 }
 
 class DomainsTable extends Component {
-  constructor (props) {
+  constructor(props) {
     super()
 
     const filters = props.filters
@@ -59,44 +57,47 @@ class DomainsTable extends Component {
     this.onTableFetchData = this.onTableFetchData.bind(this)
     this.getData = this.getData.bind(this)
     this.fetchNewData = this.fetchNewData.bind(this)
-    // this.getData()
   }
 
-  componentDidMount () {
+  componentDidMount() {
     this._isMounted = true
-    // infinite calls if enabled,
-    // need to debug
-    store.subscribe(x => {
-      this.getData(this.props.filters)
-    })
-
+    this.getData(this.state.filters)
   }
 
   componentWillMount() {
     this.fetchNewDataEvent = PubSub.subscribe('DomainsTable.fetchNewData', this.fetchNewData)
   }
-  
-  componentWillUnmount () {
+
+  componentWillUnmount() {
     this._isMounted = false
   }
-  
-  componentWillReceiveProps (props) {
-    const {filters} = props
-    if (this._isMounted) {
-      this.setState({filters})
+
+  componentWillReceiveProps(props) {
+    console.log("hit:")
+      const { filters, domainsData } = props
+      if (this._isMounted) {
+        if(domainsData.hasOwnProperty('filtered')){
+          this.setState({
+            domainsData
+          })
+        }
+
+          this.setState({
+            filters,
+          })
+      this.getData(filters)
     }
-    this.getData(filters)
   }
-  
-  render () {
+
+  render() {
     const {
-      columns,
       data,
       pages,
+      columns,
       pageSize,
       isLoading
     } = this.state
-        
+
     return (
       <div className='DomainsTable BoxFrame'>
         <span className='BoxFrameLabel ui grid'>DOMAINS <Tooltip info={'The Domains Table shows a holistic view of every active domain that has applied to the registry. Feel free to use the DOMAIN FILTER box to the left to display the desired content.'} /></span>
@@ -115,8 +116,8 @@ class DomainsTable extends Component {
             resizable
             className='ui table'
             multiSort={false}
-            // manual
-            // onFetchData={this.onTableFetchData}
+          // manual
+          // onFetchData={this.onTableFetchData}
           />
           <div className='Legend'>
             <span><i className='icon check circle' /> = &nbsp;  In Registry</span>
@@ -130,7 +131,7 @@ class DomainsTable extends Component {
 
   // The 'props' parameter used here is coming from the data prop in the ReactTable
   // It is how the react table requires you to pass custom data: https://github.com/react-tools/react-table#props
-  getColumns () {
+  getColumns() {
     const columns = [{
       Header: 'Domain',
       accessor: 'domain',
@@ -193,7 +194,7 @@ class DomainsTable extends Component {
               return
             }
             history.push(`/domains/${domain}`)
-          }}>{actionLabel} &nbsp;{actionLabel === 'REFRESH' ? <i className='icon refresh' /> : '' }</a>
+          }}>{actionLabel} &nbsp;{actionLabel === 'REFRESH' ? <i className='icon refresh' /> : ''}</a>
       },
       minWidth: 120
     }, {
@@ -238,8 +239,8 @@ class DomainsTable extends Component {
       className: 'Number',
       headerClassName: 'Number',
       Cell: (props) => {
-        const {value, row} = props
-        const {domain} = row
+        const { value, row } = props
+        const { domain } = row
 
         if (value) {
           return <CountdownSnapshot endDate={value} />
@@ -258,37 +259,29 @@ class DomainsTable extends Component {
     return columns
   }
 
-  async onTableFetchData () {
+  async onTableFetchData() {
     if (this._isMounted) {
       this.setState({
         isLoading: true
       })
     }
 
-    // const {
-    //   page,
-    //   pageSize
-    // } = state
-
     const filtered = this.state.filters
 
-    // const start = page * pageSize
-    // const end = start + pageSize
+    // The domainsData is passed down as props from App
+    let domains = this.props.domainsData.filtered
+    if (!domains) return null
 
-    const allDomains = this.state.allDomains
-    let domains = allDomains
     if (filtered && filtered[0]) {
       domains = domains.filter(domain => {
-        return filterMethod(filtered[0], {domain})
+        return filterMethod(filtered[0], { domain })
       })
     }
 
-    // const pages = Math.ceil(domains.length / pageSize, 10)
-    // domains = domains.slice(start, end)
     const data = await Promise.all(domains.map(async domainData => {
       try {
-        if(domainData.domain){
-          let domainState = await getDomainState(domainData.domain)
+        if (domainData.hasOwnProperty('domainHash')) {
+          let domainState = await getDomainState(domainData)
           return domainState
         }
       } catch (error) {
@@ -304,7 +297,8 @@ class DomainsTable extends Component {
     }
   }
 
-  async getData (filters) {
+  async getData(filters) {
+
     try {
       const {
         pageSize
@@ -354,25 +348,21 @@ class DomainsTable extends Component {
         }
       }
 
-      // TODO: optimize filtering
-      const accountFilter = (filters || []).reduce((acc, x) => {
-        if (x.id === 'account') {
-          return x
-        }
-
-        return acc
-      }, null)
-
       let query = `filter=${queryFilters.join(',')}`
 
-      if (accountFilter) {
-        const account = accountFilter.value || ''
-
-        query += `&account=${account}&include=applied,challenged,committed,revealed,registry,rejected,withdrawn`
-      }
-
       try {
-        domains = await (await window.fetch(`${registryApiURL}/registry/domains?${query}`)).json()
+
+        // The domainsData is passed down as props from App
+        if (this.props.domainsData.filter !== query) {
+
+          console.log("hit: ", query)
+          PubSub.publish("App.getDomainsData", query)
+        }
+        await setTimeout(()=>{
+          domains = this.props.domainsData.filtered
+
+        },2000)
+
         if (!Array.isArray(domains)) {
           domains = []
         }
@@ -395,13 +385,15 @@ class DomainsTable extends Component {
     }
   }
 
-  async fetchNewData (topic, source, counter = 0) {
+  async fetchNewData(topic, source, counter = 0) {
     const { filters } = this.state
     const transactionInfo = source
     const currentNumDomains = Number(window.localStorage.getItem('TotalNumDomains'))
     let domains
     try {
-      domains = await (await window.fetch(`${registryApiURL}/registry/domains`)).json()
+      PubSub.subscribe("App.getDomainsData", filters)
+      domains = this.state.domainsData
+      console.log("Domains: ", domains)
       if (!Array.isArray(domains)) {
         domains = []
       } else {
@@ -428,7 +420,7 @@ class DomainsTable extends Component {
     }
   }
 
-  async updateStatus (domain) {
+  async updateStatus(domain) {
     try {
       await registry.updateStatus(domain)
       try {
@@ -456,7 +448,7 @@ class DomainsTable extends Component {
         console.log('error reporting gas')
       }
     }
-    const {filters} = this.props
+    const { filters } = this.props
     this.getData(filters)
   }
 

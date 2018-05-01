@@ -303,8 +303,8 @@ class RegistryService {
     try {
       // domain = domain.toLowerCase()
 
-      const hash = `0x${soliditySHA3(['string'], [domain.trim()]).toString('hex')}`
-      const result = await this.registry.listings.call(hash)
+      // const hash = `0x${soliditySHA3(['string'], [domain.trim()]).toString('hex')}`
+      const result = await this.registry.listings.call(domain)
 
       const map = {
         applicationExpiry: result[0].toNumber() <= 0 ? null : moment.tz(result[0].toNumber(), moment.tz.guess()),

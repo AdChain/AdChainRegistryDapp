@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
+// import PropTypes from 'prop-types'
 import MainTopbar from './topbar/MainTopbar'
 import DomainsContainer from './domains/DomainsContainer'
 import DomainProfile from './single_domain/DomainProfile'
@@ -10,26 +10,29 @@ import './MainContainer.css'
 
 class MainContainer extends Component {
   render () {
-    const Route = this.props.Route
-    const Switch = this.props.Switch
-    const Redirect = this.props.Redirect
-    const CSSTransitionGroup = this.props.CSSTransitionGroup
-    const location = this.props.location
+    const {
+      Route,
+      Switch,
+      Redirect,
+      CSSTransitionGroup,
+      location,
+      domainsData
+    } = this.props
+
     const key = location.pathname
 
     return (
+
       <div className='ui grid'>
         <MainTopbar />
-
         <CSSTransitionGroup
           transitionName='MainContainerFade'
           transitionEnterTimeout={500}
           transitionLeaveTimeout={500}>
-
           <Route location={location} key={key} >
             <Switch>
               <Redirect path='/' to='/domains' exact />
-              <Route path='/domains' exact render={props => <DomainsContainer {... props} staticContainer={this.props.staticContainer} joyride={this.props.joyride} resumeJoyride={this.props.resumeJoyride} />} />
+              <Route path='/domains' exact render={props => <DomainsContainer {...props} domainsData={domainsData} staticContainer={this.props.staticContainer} joyride={this.props.joyride} resumeJoyride={this.props.resumeJoyride} />} />
               <Route path='/domains/:domain' exact component={DomainProfile} />
               <Route path='/account' exact component={AccountDashboard} />
               <Route path='/chat' exact component={RocketChat} />
@@ -39,19 +42,16 @@ class MainContainer extends Component {
             </Switch>
           </Route>
         </CSSTransitionGroup>
-
       </div>
     )
   }
 }
 
 MainContainer.propTypes = {
-/*
-  Route: PropTypes.ReactElement,
-  Switch: PropTypes.ReactElement,
-  CSSTransitionGroup: PropTypes.ReactElement,
-*/
-  location: PropTypes.object
+  // Route: PropTypes.ReactElement,
+  // Switch: PropTypes.ReactElement,
+  // CSSTransitionGroup: PropTypes.ReactElement,
+  // location: PropTypes.object
 }
 
 export default MainContainer

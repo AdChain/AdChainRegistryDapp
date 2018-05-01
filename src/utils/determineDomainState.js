@@ -12,27 +12,28 @@ function isExpired (end) {
 const getDomainState = async (domain) => {
   if (!domain) return {}
   const item = {
-    domain,
+    domain: domain.domain,
     color: '',
     stage: null,
     stats: null,
     label: null,
     action: null,
-    siteName: domain,
+    siteName: domain.domain,
     stageEnds: null,
     challenged: null,
     actionLabel: null,
     stageMapSrc: null,
-    stageEndsTimestamp: null
+    stageEndsTimestamp: null,
+    listingHash: domain.domainHash
   }
 
   try {
-    const listing = await registry.getListing(domain)
+    const listing = await registry.getListing(item.listingHash)
     const { applicationExpiry, isWhitelisted, challengeId } = listing
     const applicationExists = !!applicationExpiry
     const challengeOpen = (challengeId === 0 && !isWhitelisted && applicationExpiry)
-    const commitOpen = await registry.commitStageActive(domain)
-    const revealOpen = await registry.revealStageActive(domain)
+    const commitOpen = await registry.commitStageActive(item.listingHash)
+    const revealOpen = await registry.revealStageActive(item.listingHash)
     const isInRegistry = (isWhitelisted)
     item.challenged = challengeId > 0
 
@@ -48,7 +49,7 @@ const getDomainState = async (domain) => {
         const challenge = await registry.getChallenge(challengeId)
 
         if (commitOpen) {
-          let {commitEndDate} = await registry.getChallengePoll(domain)
+          let {commitEndDate} = await registry.getChallengePoll(item.listingHash)
           item.stage = 'in_registry_in_commit'
           item.stageEndsTimestamp = commitEndDate
           item.stageEnds = moment.unix(commitEndDate).format('YYYY-MM-DD HH:mm:ss')
@@ -57,7 +58,7 @@ const getDomainState = async (domain) => {
           item.label = <span><i className='icon check circle' /> <strong>|&nbsp;</strong> Voting - Commit</span>
           item.stageMapSrc = 'MapInRegistryCommit'
         } else if (revealOpen) {
-          let { revealEndDate, votesFor, votesAgainst } = await registry.getChallengePoll(domain)
+          let { revealEndDate, votesFor, votesAgainst } = await registry.getChallengePoll(item.listingHash)
           item.stage = 'in_registry_in_reveal'
           item.stageEndsTimestamp = revealEndDate
           item.stageEnds = moment.unix(revealEndDate).format('YYYY-MM-DD HH:mm:ss')
@@ -114,7 +115,7 @@ const getDomainState = async (domain) => {
 // -----------------------------------------
     } else if (commitOpen) {
       item.stage = 'voting_commit'
-      let {commitEndDate} = await registry.getChallengePoll(domain)
+      let {commitEndDate} = await registry.getChallengePoll(item.listingHash)
       item.stageEndsTimestamp = commitEndDate
       item.stageEnds = moment.unix(commitEndDate).format('YYYY-MM-DD HH:mm:ss')
       item.label = <span><i className='icon signup' />Vote - Commit</span>
@@ -126,7 +127,7 @@ const getDomainState = async (domain) => {
 // -----------------------------------------
     } else if (revealOpen) {
       item.stageMapSrc = 'MapReveal'
-      let { revealEndDate, votesFor, votesAgainst } = await registry.getChallengePoll(domain)
+      let { revealEndDate, votesFor, votesAgainst } = await registry.getChallengePoll(item.listingHash)
       item.stage = 'voting_reveal'
       item.stageEndsTimestamp = revealEndDate
       item.stageEnds = moment.unix(revealEndDate).format('YYYY-MM-DD HH:mm:ss')

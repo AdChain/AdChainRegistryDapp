@@ -12,6 +12,7 @@ import MainSidebar from './components/sidebar/MainSidebar'
 import MainContainer from './components/MainContainer'
 import Joyride from 'react-joyride'
 import 'react-joyride/lib/react-joyride-compiled.css'
+import { _getDomainsData } from "./services/getDomainsData"
 import PubSub from 'pubsub-js'
 import TransactionProgressModal from './components/TransactionProgressModal'
 
@@ -24,21 +25,50 @@ class App extends Component {
       staticContainer: null,
       domainJourney: null,
       shouldShowOverlay: true,
-      walkthroughFinished: false
+      walkthroughFinished: false,
+      domainsData: {},
+      fetching:false
     }
     this.handleJoyrideCallback = this.handleJoyrideCallback.bind(this)
     this.startJoyride = this.startJoyride.bind(this)
     this.resumeJoyride = this.resumeJoyride.bind(this)
     this.toggleOverlay = this.toggleOverlay.bind(this)
     this.confirmWalkthrough = this.confirmWalkthrough.bind(this)
+
   }
 
-  componentWillMount () {
+  async componentWillMount () {
+    this.domainsEvent = PubSub.subscribe('App.getDomainsData', this.getDomainsData.bind(this))
     this.subEvent = PubSub.subscribe('App.startJoyride', this.startJoyride)
   }
 
+  async getDomainsData(action, query){
+    if(this.state.fetching === true) return null
+
+    let domainsData = {
+      filtered: [],
+      filter: query
+    }
+     
+    if(this.state.domainsData.all){
+      domainsData.all = this.state.domainsData.all
+    }else{
+      this.setState({fetching:true})
+      domainsData.all = await _getDomainsData()
+    }
+
+    if(query !== this.state.domainsData.filter && query !== 'filter='){ 
+      console.log("here")
+      domainsData.filtered = await _getDomainsData(query)
+    } else {
+      domainsData.filtered = domainsData.all
+    }
+
+    this.setState({ domainsData, fetching:false })
+  }
+
   render () {
-    const { shouldRun, walkthroughSteps, staticContainer, domainJourney, shouldShowOverlay, walkthroughFinished } = this.state
+    const { domainsData, shouldRun, walkthroughSteps, staticContainer, domainJourney, shouldShowOverlay, walkthroughFinished } = this.state
 
     return (
       <Router>
@@ -66,6 +96,7 @@ class App extends Component {
               </div>
               <div className='MainContainerWrap column twelve wide'>
                 <MainContainer
+                  domainsData={domainsData}
                   Link={Link}
                   Route={Route}
                   CSSTransitionGroup={CSSTransitionGroup}
@@ -84,6 +115,10 @@ class App extends Component {
       </Router>
     )
   }
+
+
+
+
   handleJoyrideCallback (result) {
     if (result.type === 'overlay:click' || result.type === 'finished') {
       this.joyride.reset()
