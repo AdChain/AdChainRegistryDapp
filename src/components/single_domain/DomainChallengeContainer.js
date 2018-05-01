@@ -49,26 +49,20 @@ class DomainChallengeContainer extends Component {
     this._isMounted = false
   }
 
-  componentWillReceiveProps(next) {
-    console.log("2: ", next.domainData, this.props)
-    if(this.domainData){
-      this.setState({
-        domainData: next.domainData,
-        applicationExpiry: next.domainData.applicationExpiry,
-        currentDeposit: big(next.domainData.currentDeposit).div(tenToTheNinth)
-      })
-    }
-  }
 
   render() {
     const {
-      applicationExpiry,
       minDeposit,
       source,
       dispensationPct,
       currentDeposit,
       displayChallengeModal
     } = this.state
+
+    const {
+      applicationExpiry,
+      currentDeposit
+    } = this.props.domainData
 
     const stageEndMoment = applicationExpiry ? moment.unix(applicationExpiry) : null
     const stageEnd = stageEndMoment ? stageEndMoment.format('YYYY-MM-DD HH:mm:ss') : '-'
@@ -162,7 +156,7 @@ class DomainChallengeContainer extends Component {
     let inApplication = null
 
     try {
-      inApplication = await registry.applicationExists(this.state.domainData.listingHash)
+      inApplication = await registry.applicationExists(this.props.domainData.listingHash)
     } catch (error) {
       toastr.error('Error')
     }

@@ -100,7 +100,6 @@ class DomainProfileActionContainer extends Component {
       try {
 
         if (this._isMounted) {
-          console.log("hit")
           this.setState({
             stage: domainData.stage,
             domainData

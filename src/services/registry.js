@@ -513,9 +513,9 @@ class RegistryService {
     }
   }
 
-  async commitVote ({domain, votes, voteOption, salt}) {
-    if (!domain) {
-      throw new Error('Domain is required')
+  async commitVote ({listingHash, votes, voteOption, salt}) {
+    if (!listingHash) {
+      throw new Error('listingHash is required')
     }
 
     // nano ADT to normal ADT
@@ -525,7 +525,7 @@ class RegistryService {
     let challengeId = null
 
     try {
-      challengeId = await this.getChallengeId(domain)
+      challengeId = await this.getChallengeId(listingHash)
     } catch (error) {
       throw error
     }
@@ -544,12 +544,11 @@ class RegistryService {
     }
   }
 
-  async revealVote ({domain, voteOption, salt}) {
-    // domain = domain.toLowerCase()
+  async revealVote ({listingHash, voteOption, salt}) {
     let challengeId = null
 
     try {
-      challengeId = await this.getChallengeId(domain)
+      challengeId = await this.getChallengeId(listingHash)
     } catch (error) {
       console.error('get challenge id: ', error)
       throw error

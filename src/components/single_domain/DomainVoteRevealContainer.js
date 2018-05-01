@@ -52,13 +52,14 @@ class DomainVoteRevealContainer extends Component {
 
   async componentDidMount () {
     this._isMounted = true
-
-    Promise.all([
-      this.getPoll(),
-      this.getChallenge(),
-      this.getCommit(),
-      this.getReveal()
-    ])
+    if(this.props.domainData){
+      Promise.all([
+        this.getPoll(),
+        this.getChallenge(),
+        this.getCommit(),
+        this.getReveal()
+      ])
+    }
   }
 
   componentWillUnmount () {
@@ -75,12 +76,7 @@ class DomainVoteRevealContainer extends Component {
 
      const listingHash = next.domainData.listingHash
 
-      Promise.all([
-        this.getPoll(listingHash),
-        this.getChallenge(listingHash),
-        this.getCommit(listingHash),
-        this.getReveal(listingHash)
-      ])
+
     }
   }
   render () {
@@ -261,15 +257,16 @@ class DomainVoteRevealContainer extends Component {
 
 
 
-  async getCommit (domain) {
+  async getCommit () {
     const {account} = this.state
+    const {listingHash} = this.props.domainData
 
     if (!account) {
       return false
     }
 
     try {
-      const didCommit = await registry.didCommit(domain)
+      const didCommit = await registry.didCommit(listingHash)
 
       this.setState({
         didCommit: didCommit
@@ -280,15 +277,16 @@ class DomainVoteRevealContainer extends Component {
     }
   }
 
-  async getReveal (domain) {
+  async getReveal () {
     const {account} = this.state
+    const {listingHash} = this.props.domainData
 
     if (!account) {
       return false
     }
 
     try {
-      const didReveal = await registry.didReveal(domain)
+      const didReveal = await registry.didReveal(listingHash)
       // await this.getPoll()
       if (didReveal) {
         const response = await window.fetch(`${registryApiURL}/account/rewards?account=${account}&status=revealed`)
@@ -299,7 +297,7 @@ class DomainVoteRevealContainer extends Component {
           didReveal: true
         }
         data.forEach(eachDomain => {
-          if (domain === eachDomain.domain) {
+          if (this.props.domainData.domain === eachDomain.domain) {
             newState.revealedVoteOption = eachDomain.choice === 1 ? 'support' : 'oppose'
             newState.revealedAmount = big(eachDomain.num_tokens).div(tenToTheNinth).words[0]
             this.setState(newState)
@@ -313,15 +311,16 @@ class DomainVoteRevealContainer extends Component {
     }
   }
 
-  async getPoll (domain) {
-
+  async getPoll () {
+    const {listingHash} = this.props.domainData
+    console.log("Lhash: ",listingHash)
     try {
       const {
         votesFor,
         votesAgainst,
         commitEndDate,
         revealEndDate
-      } = await registry.getChallengePoll(domain)
+      } = await registry.getChallengePoll(listingHash)
 
       if (this._isMounted) {
         this.setState({
@@ -332,20 +331,21 @@ class DomainVoteRevealContainer extends Component {
         })
       }
     } catch (error) {
-      console.error('Get Poll Error: ', error)
+      console.log('Get Poll Error: ', error)
       toastr.error('There was an error getting poll')
     }
   }
 
-  async getChallenge (domain) {
+  async getChallenge () {
     const {account} = this.state
+    const {listingHash} = this.props.domainData
 
     if (!account) {
       return false
     }
 
     try {
-      const didChallenge = await registry.didChallenge(domain)
+      const didChallenge = await registry.didChallenge(listingHash)
 
       if (this._isMounted) {
         this.setState({
@@ -361,11 +361,12 @@ class DomainVoteRevealContainer extends Component {
   onFormSubmit (event) {
     event.preventDefault()
 
-    this.reveal(this.state.domainData.listingHash)
+    this.reveal()
   }
 
-  async reveal (domain) {
+  async reveal () {
     const {salt, voteOption, account} = this.state
+    const {listingHash} = this.props.domainData
 
     if (!salt) {
       toastr.error('Please enter salt value')
@@ -378,9 +379,9 @@ class DomainVoteRevealContainer extends Component {
     }
 
     try {
-      const revealed = await registry.revealVote({domain, voteOption, salt})
+      const revealed = await registry.revealVote({listingHash, voteOption, salt})
       if (revealed) {
-        await this.getReveal()
+        await this.getReveal(listingHash)
         const response = await window.fetch(`${registryApiURL}/account/rewards?account=${account}&status=revealed`)
         const data = await response.json()
         let newState = {
@@ -389,7 +390,7 @@ class DomainVoteRevealContainer extends Component {
           didReveal: true
         }
         data.forEach(eachDomain => {
-          if (domain === eachDomain.domain) {
+          if (this.props.domainData.domain === eachDomain.domain) {
             newState.revealedVoteOption = eachDomain.choice === 1 ? 'support' : 'oppose'
             newState.revealedAmount = big(eachDomain.num_tokens).div(tenToTheNinth).words[0]
             this.setState(newState)

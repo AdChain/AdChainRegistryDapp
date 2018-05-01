@@ -80,7 +80,6 @@ class DomainInRegistryContainer extends Component {
     let redirectState = this.props.redirectState ? this.props.redirectState.cameFromRedirect : false
 
     // const hasVotes = (votesFor || votesAgainst)
-    console.log("hit this")
     return (
       <div className='DomainInRegistryContainer'>
         <div className='ui grid stackable'>

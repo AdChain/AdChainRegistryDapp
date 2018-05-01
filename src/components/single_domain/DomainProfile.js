@@ -132,6 +132,7 @@ class DomainProfile extends Component {
         for (let d of domainsData) {
           if (d.domain === domain) {
             listingHash = d.domainHash
+            break;
           }
         }
         

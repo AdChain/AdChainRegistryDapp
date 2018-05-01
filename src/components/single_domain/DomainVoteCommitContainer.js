@@ -47,6 +47,13 @@ class DomainVoteCommitContainer extends Component {
     this.enableDownloadCheck = this.enableDownloadCheck.bind(this)
   }
 
+  componentWillMount(){
+    if(this.props.domainData){
+      this.getPoll(this.props.domainData.listingHash)
+      this.getChallenge(this.props.domainData.listingHash)
+      this.getCommit(this.props.domainData.listingHash)
+    }
+  }
   componentDidMount () {
     this._isMounted = true
   }
@@ -63,15 +70,13 @@ class DomainVoteCommitContainer extends Component {
 
   componentWillReceiveProps (next) {
     if (next.domainData && next.currentDeposit !== this.props.currentDeposit) {
+      console.log("vote commit props")
       this.setState({
         domainData: next.domainData,
         challengeId: next.domainData.challengeId,
         applicationExpiry: next.domainData.applicationExpiry,
       })
 
-      this.getPoll(next.domainData.listingHash)
-      this.getChallenge(next.domainData.listingHash)
-      this.getCommit(next.domainData.listingHash)
     }
   }
 
@@ -326,7 +331,7 @@ class DomainVoteCommitContainer extends Component {
       const {
         commitEndDate,
         revealEndDate
-      } = await registry.getChallengePoll(domain)
+      } = await registry.getChallengePoll(this.props.domainData.listingHash)
 
       if (this._isMounted) {
         this.setState({
@@ -340,10 +345,9 @@ class DomainVoteCommitContainer extends Component {
   }
 
   async getChallenge () {
-    const {domain} = this.state
 
     try {
-      const didChallenge = await registry.didChallenge(domain)
+      const didChallenge = await registry.didChallenge(this.props.domainData.listingHash)
 
       if (this._isMounted) {
         this.setState({
@@ -356,10 +360,9 @@ class DomainVoteCommitContainer extends Component {
   }
 
   async getCommit () {
-    const {domain} = this.state
 
     try {
-      const didCommit = await registry.didCommit(domain)
+      const didCommit = await registry.didCommit(this.props.domainData.listingHash)
 
       if (this._isMounted) {
         this.setState({
@@ -372,6 +375,7 @@ class DomainVoteCommitContainer extends Component {
   }
 
   async commit () {
+
     const {
       domain,
       votes,
@@ -383,12 +387,15 @@ class DomainVoteCommitContainer extends Component {
       toastr.error('Please select a vote option')
       return false
     }
+    const {listingHash} = this.props.domainData
+
+    console.log("listingHash: ", listingHash, this.props.domainData)
 
     try {
-      const committed = await registry.commitVote({domain, votes, voteOption, salt})
+      const committed = await registry.commitVote({listingHash, votes, voteOption, salt})
       if (committed) {
         // toastr.success('Successfully committed')
-        await this.getCommit()
+        await this.getCommit(listingHash)
         try {
           calculateGas({
             domain: domain,

@@ -19,12 +19,15 @@ class DomainVoteTokenDistribution extends Component {
       votesAgainst: 0
     }
     this.getPoll = this.getPoll.bind(this)
-    this.getPoll()
+    
   }
 
   componentDidMount () {
     this._isMounted = true
     this.subEvent = PubSub.subscribe('DomainVoteTokenDistribution.getPoll', this.getPoll)
+    if(this.props.domainData){
+      this.getPoll()
+    }
   }
 
   componentWillUnmount () {
@@ -33,22 +36,31 @@ class DomainVoteTokenDistribution extends Component {
   }
 
   async getPoll () {
-    const {domain} = this.state
+    let listingHash
+    
+    if(this.props.domainData){
+      listingHash = this.props.domainData
+    }else{
+      listingHash = this.state
+    }
+
 
     try {
       const {
         votesFor,
         votesAgainst
-      } = await registry.getChallengePoll(domain)
+      } = await registry.getChallengePoll(listingHash)
 
       if (this._isMounted) {
         this.setState({
           votesFor,
-          votesAgainst
+          votesAgainst,
+          listingHash
         })
       }
     } catch (error) {
-      toastr.error('There was an error getting poll')
+      console.log(error)
+      toastr.error('There was an error getting poll ')
     }
   }
 
