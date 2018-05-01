@@ -90,15 +90,11 @@ class GovernanceContainer extends Component {
 
   render () {
     let props = this.state
-<<<<<<< HEAD
-    const { account, modalOpen, doNotDisplay } = this.state
+    const { account, doNotDisplay, modalOpen } = this.state
     let registryGuideSrc = this.props.location.state ? this.props.location.state.registryGuideSrc : null
 
-    if (!this.state.rewards || !account) return false
-=======
-    const { account } = this.state
     if (!this.state.rewards || !account || account === '0x0') return null
->>>>>>> ffbe6f8c5e9a6695c511ec38db9e53a3c292c30b
+
     return (
       <div className='ui stackable grid padded'>
         <div className='column four wide'>
