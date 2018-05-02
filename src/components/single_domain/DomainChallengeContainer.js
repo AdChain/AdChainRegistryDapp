@@ -11,7 +11,6 @@ import Countdown from '../CountdownText'
 import registry from '../../services/registry'
 import parametizer from '../../services/parameterizer'
 import PubSub from 'pubsub-js'
-import Eth from 'ethjs'
 import IndividualGuideModal from './IndividualGuideModal'
 
 import './DomainChallengeContainer.css'

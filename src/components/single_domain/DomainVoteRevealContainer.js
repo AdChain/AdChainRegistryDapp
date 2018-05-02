@@ -74,9 +74,6 @@ class DomainVoteRevealContainer extends Component {
         applicationExpiry: next.domainData.applicationExpiry,
       })
 
-     const listingHash = next.domainData.listingHash
-
-
     }
   }
   render () {
