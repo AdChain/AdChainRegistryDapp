@@ -16,9 +16,9 @@ import RegistryGuideStaticInRegistry from '../registry_guide/RegistryGuideStatic
 import RegistryGuideStaticVoting from '../registry_guide/RegistryGuideStaticVoting'
 import RegistryGuideStaticReveal from '../registry_guide/RegistryGuideStaticReveal'
 import RegistryGuideStaticDashboard from '../registry_guide/RegistryGuideStaticDashboard'
+import RegistryGuideStaticDomainsTable from '../registry_guide/RegistryGuideStaticDomainsTable'
 import DomainEmailNotifications from './DomainEmailNotifications'
 import { registryApiURL } from '../../models/urls'
-
 
 import './DomainsContainer.css'
 
@@ -128,7 +128,7 @@ class DomainsContainer extends Component {
                     />
                 }
                 <DomainEmailNotifications history={history} kind={kind} email={email} />
-                <AirSwap/>
+                <AirSwap />
               </div>
               {
                 (staticContainer === 'challenge')
@@ -147,12 +147,24 @@ class DomainsContainer extends Component {
                         ? <div className='column six wide'>
                           <RegistryGuideStaticReveal />
                         </div>
-                        : <div className='column twelve wide'>
-                          <DomainsTable
-                            history={history}
-                            filters={tableFilters}
-                          />
-                        </div>
+                        : (staticContainer === 'applicationDomains')
+                          ? <div className='column twelve wide'>
+                            <RegistryGuideStaticDomainsTable source={'application'} />
+                          </div>
+                          : (staticContainer === 'commitDomains')
+                            ? <div className='column twelve wide'>
+                              <RegistryGuideStaticDomainsTable source={'commit'} />
+                            </div>
+                            : (staticContainer === 'revealDomains')
+                              ? <div className='column twelve wide'>
+                                <RegistryGuideStaticDomainsTable source={'reveal'} />
+                              </div>
+                              : <div className='column twelve wide'>
+                                <DomainsTable
+                                  history={history}
+                                  filters={tableFilters}
+                                />
+                              </div>
               }
             </div>
             {

@@ -29,7 +29,6 @@ class DomainProfileActionContainer extends Component {
       stage: null
     }
     this.getData = this.getData.bind(this)
-
   }
 
   componentDidMount () {
@@ -48,12 +47,12 @@ class DomainProfileActionContainer extends Component {
     this._isMounted = false
   }
 
-  componentWillReceiveProps(next){
-    if(next.domainData){
+  componentWillReceiveProps (next) {
+    if (next.domainData) {
       this.setState({
         domainData: next.domainData
       })
-      if(next.domainData) this.getData(next.domainData)
+      if (next.domainData) this.getData(next.domainData)
     }
   }
 
@@ -64,7 +63,7 @@ class DomainProfileActionContainer extends Component {
       domainData
     } = this.state
 
-    if(!stage || !domainData) return null
+    if (!stage || !domainData) return null
 
     let component = null
     if (stage === 'in_application') {
@@ -75,15 +74,14 @@ class DomainProfileActionContainer extends Component {
       component = <DomainVoteRevealContainer domain={domain} domainData={domainData} redirectState={this.props.redirectState} />
     } else if (stage === 'in_registry') {
       component = <DomainInRegistryContainer domain={domain} domainData={domainData} redirectState={this.props.redirectState} />
-
     } else if (stage === 'in_registry_update_status' || stage === 'in_application_pending' || stage === 'reveal_pending') {
-      component = <DomainPendingContainer domain={domain} domainData={domainData}/>
+      component = <DomainPendingContainer domain={domain} domainData={domainData} />
     } else if (stage === 'apply') {
       component = <DomainRejectedContainer stage={'Rejected'} domain={domain} domainData={domainData}/>
     } else if (stage === 'withdrawn') {
       component = <DomainRejectedContainer stage={'Withdrawn'} domain={domain} domainData={domainData}/>
     } else {
-      component = <DomainNotInRegistryContainer domain={domain} domainData={domainData}/>
+      component = <DomainNotInRegistryContainer domain={domain} domainData={domainData} />
     }
 
     return (
@@ -96,10 +94,8 @@ class DomainProfileActionContainer extends Component {
   }
 
   async getData (domainData) {
-
-    if(domainData){
+    if (domainData) {
       try {
-
         if (this._isMounted) {
           this.setState({
             stage: domainData.stage,
@@ -112,7 +108,6 @@ class DomainProfileActionContainer extends Component {
       }
     }
   }
-
 }
 
 DomainProfileActionContainer.propTypes = {

@@ -76,7 +76,7 @@ export const ApplicationSteps = [
   {
     title: 'Step 5',
     text: '<span>Applying a Domain</span>Once the transactions are signed, your applied domain can be found in the DOMAINS box.',
-    selector: '.DomainsTable',
+    selector: '.RegistryGuideStaticDomainsTable',
     position: 'left',
     type: 'click',
     isFixed: true,
@@ -133,7 +133,7 @@ export const ChallengeSteps = [
   {
     title: 'Step 2',
     text: '<span>Challenging a Domain</span>Click on the domain you want to Challenge to open the Domain-Level View.',
-    selector: '.DomainsTable',
+    selector: '.RegistryGuideStaticDomainsTable',
     position: 'left',
     type: 'click',
     isFixed: true,
@@ -208,7 +208,7 @@ export const CommitSteps = [
   {
     title: 'Step 2',
     text: '<span>Committing a Vote</span>The filtered domains are all in the Voting Commit stage. Voters have until the Stage Ends period to commit votes.',
-    selector: '.DomainsTable',
+    selector: '.RegistryGuideStaticDomainsTable',
     position: 'left',
     type: 'click',
     isFixed: true,
@@ -319,7 +319,7 @@ export const RevealSteps = [
   {
     title: 'Step 2',
     text: '<span>Revealing a Vote</span>The filtered domains are all in the Voting Reveal stage. Voters have until the Stage Ends period to reveal their votes.',
-    selector: '.DomainsTable',
+    selector: '.RegistryGuideStaticDomainsTable',
     position: 'left',
     type: 'click',
     isFixed: true,

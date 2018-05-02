@@ -97,16 +97,72 @@ class App extends Component {
       this.setState({
         shouldRun: false
       })
-    } else if (result.step.name === 'application-fifth-step' && result.action === 'next' && result.type === 'tooltip:before') {
+    } else if (result.step.name === 'application-fourth-step' && result.action === 'next' && result.type === 'step:before') {
       this.setState({
-        staticContainer: 'dashboard'
+        staticContainer: 'applicationDomains'
       })
-    } else if (result.step.name === 'challenge-second-step' && result.action === 'next' && result.type === 'step:after') {
+    } else if (result.step.name === 'application-fourth-step' && result.action === 'start') {
+      this.setState({
+        staticContainer: 'applicationDomains'
+      })
+    } else if (result.step.name === 'application-fifth-step' && result.type === 'step:after') {
+      if (result.action === 'next') {
+        this.setState({
+          staticContainer: 'dashboard',
+          shouldRun: false
+        })
+      } 
+      // else if (result.action === 'back') {
+        // this.setState({
+        //   staticContainer: 'applicationDomains',
+        //   shouldRun: false
+        // })
+      // }
+    } else if (result.step.name === 'application-sixth-step' && result.action === 'back' && result.type === 'step:after') {
+      this.setState({
+        staticContainer: 'applicationDomains',
+        shouldRun: false
+      })
+    } else if (result.step.name === 'challenge-first-step' && result.action === 'next') {
+      this.setState({
+        staticContainer: 'applicationDomains',
+        shouldRun: false
+      })
+    } else if (result.step.name === 'challenge-second-step' && result.type === 'step:after') {
+      if (result.action === 'next') {
+        this.setState({
+          staticContainer: 'challenge',
+          shouldRun: false
+        })
+      } else if (result.action === 'back') {
+        this.setState({
+          staticContainer: null,
+          shouldRun: false
+        })
+      }
+    } else if (result.step.name === 'challenge-third-step' && result.type === 'step:after') {
+      if (result.action === 'next') {
+        this.setState({
+          staticContainer: 'voting',
+          shouldRun: false
+        })
+      } else if (result.action === 'back') {
+        this.setState({
+          staticContainer: 'applicationDomains',
+          shouldRun: false
+        })
+      }
+    } else if (result.step.name === 'challenge-fourth-step' && result.action === 'back' && result.type === 'step:after') {
       this.setState({
         staticContainer: 'challenge',
         shouldRun: false
       })
-    } else if (result.step.name === 'challenge-third-step' && result.type === 'step:after') {
+    } else if (result.step.name === 'vote-first-step' && result.action === 'next') {
+      this.setState({
+        staticContainer: 'commitDomains',
+        shouldRun: false
+      })
+    } else if (result.step.name === 'vote-second-step' && result.type === 'step:after') {
       if (result.action === 'next') {
         this.setState({
           staticContainer: 'voting',
@@ -118,29 +174,31 @@ class App extends Component {
           shouldRun: false
         })
       }
-    } else if (result.step.name === 'challenge-fourth-step' && result.action === 'back' && result.type === 'step:after') {
-      this.setState({
-        staticContainer: 'challenge',
-        shouldRun: false
-      })
-    } else if (result.step.name === 'vote-second-step' && result.action === 'next' && result.type === 'step:after') {
-      this.setState({
-        staticContainer: 'voting',
-        shouldRun: false
-      })
     } else if (result.step.name === 'vote-third-step' && result.action === 'back' && result.type === 'step:after') {
       this.setState({
-        staticContainer: null,
+        staticContainer: 'commitDomains',
         shouldRun: false
       })
-    } else if (result.step.name === 'reveal-second-step' && result.action === 'next' && result.type === 'step:after') {
+    } else if (result.step.name === 'reveal-first-step' && result.action === 'next') {
       this.setState({
-        staticContainer: 'reveal',
+        staticContainer: 'revealDomains',
         shouldRun: false
       })
+    } else if (result.step.name === 'reveal-second-step' && result.type === 'step:after') {
+      if (result.action === 'next') {
+        this.setState({
+          staticContainer: 'reveal',
+          shouldRun: false
+        })
+      } else if (result.action === 'back') {
+        this.setState({
+          staticContainer: null,
+          shouldRun: false
+        })
+      }
     } else if (result.step.name === 'reveal-third-step' && result.action === 'back' && result.type === 'step:after') {
       this.setState({
-        staticContainer: null,
+        staticContainer: 'revealDomains',
         shouldRun: false
       })
     } else if (result.step.name === 'domainsjourney-first-step' && result.action === 'next' && result.type === 'step:after') {
@@ -205,7 +263,7 @@ class App extends Component {
   }
 
   startJoyride (topic, steps) {
-    this.setState({ 
+    this.setState({
       shouldRun: true,
       walkthroughSteps: this.state.walkthroughSteps.concat(steps),
       walkthroughFinished: false
