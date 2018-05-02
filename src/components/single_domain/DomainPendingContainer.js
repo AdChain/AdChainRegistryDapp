@@ -35,7 +35,7 @@ class DomainPendingContainer extends Component {
               <Button
                 basic
                 className='right refresh'
-                onClick={() => this.updateStatus(domain)}
+                onClick={() => this.updateStatus(this.props.domainData.listingHash)}
               >
                 Refresh Status
               </Button>
@@ -52,9 +52,9 @@ class DomainPendingContainer extends Component {
     )
   }
 
-  async updateStatus (domain) {
+  async updateStatus (listingHash) {
     try {
-      await registry.updateStatus(domain)
+      await registry.updateStatus(listingHash)
       await PubSub.publish('DomainProfileStageMap.updateStageMap')
     } catch (error) {
       console.error(error)

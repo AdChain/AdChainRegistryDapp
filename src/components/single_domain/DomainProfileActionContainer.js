@@ -65,7 +65,6 @@ class DomainProfileActionContainer extends Component {
     } = this.state
 
     if(!stage || !domainData) return null
-    console.log("1: ", domainData)
 
     let component = null
     if (stage === 'in_application') {

@@ -320,13 +320,10 @@ class DomainVoteCommitContainer extends Component {
 
   onFormSubmit (event) {
     event.preventDefault()
-
     this.commit()
   }
 
   async getPoll () {
-    const {domain} = this.state
-
     try {
       const {
         commitEndDate,

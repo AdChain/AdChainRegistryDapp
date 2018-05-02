@@ -91,12 +91,13 @@ class RedditConfirmationModal extends Component {
       stake: data.stake,
       action: data.action,
       reason: '',
-      error: false
+      error: false,
+      listingHash: data.listingHash
     })
   }
 
   async submit () {
-    const { domain, reason, stake, action } = this.state
+    const { domain, listingHash, reason, stake, action } = this.state
 
     if (reason.length < 15) {
       this.setState({
@@ -110,7 +111,7 @@ class RedditConfirmationModal extends Component {
         await createPostApplication(domain, reason)
       } else {
         let data = ''
-        await registry.challenge(domain, data)
+        await registry.challenge(listingHash, data)
         await createPostChallenge(domain, reason)
         PubSub.publish('DomainRedditBox.fetchRedditData')
       }

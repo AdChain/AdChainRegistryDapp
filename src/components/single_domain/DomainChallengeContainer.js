@@ -16,8 +16,6 @@ import IndividualGuideModal from './IndividualGuideModal'
 
 import './DomainChallengeContainer.css'
 
-const big = (number) => new Eth.BN(number.toString(10))
-const tenToTheNinth = big(10).pow(big(9))
 
 class DomainChallengeContainer extends Component {
   constructor (props) {
@@ -146,17 +144,17 @@ class DomainChallengeContainer extends Component {
 
   onChallenge(event) {
     event.preventDefault()
-
     this.challenge()
   }
 
   async challenge() {
     const { domain, minDeposit } = this.state
+    const {listingHash} = this.props.domainData
 
     let inApplication = null
 
     try {
-      inApplication = await registry.applicationExists(this.props.domainData.listingHash)
+      inApplication = await registry.applicationExists(listingHash)
     } catch (error) {
       toastr.error('Error')
     }
@@ -164,10 +162,12 @@ class DomainChallengeContainer extends Component {
     if (inApplication) {
       try {
         let data = {
-          domain: domain,
+          domain,
+          listingHash,
           stake: minDeposit,
           action: 'challenge'
         }
+        console.log("listng: ", listingHash)
         PubSub.publish('RedditConfirmationModal.show', data)
         try {
           calculateGas({

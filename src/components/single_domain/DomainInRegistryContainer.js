@@ -51,7 +51,7 @@ class DomainInRegistryContainer extends Component {
   }
   
   componentWillReceiveProps (next) {
-    const {domain, account} = this.state
+    const {account} = this.state
     
     if (next.domainData) {
       this.setState({
@@ -68,7 +68,6 @@ class DomainInRegistryContainer extends Component {
       domain,
       minDeposit,
       canWithdraw,
-      domainData,
       currentDeposit,
       displayChallengeModal
     } = this.state
@@ -277,6 +276,7 @@ class DomainInRegistryContainer extends Component {
 
   async topOff () {
     const {domain, currentDeposit} = this.state
+
     const amount = document.getElementById('ADTAmount').value
 
     // Possibly include other verification checks
@@ -288,7 +288,9 @@ class DomainInRegistryContainer extends Component {
     const stakedDeposit = parseInt(amount, 10) + parseInt(currentDeposit, 10)
 
     try {
-      await registry.deposit(domain, amount)
+      const {listingHash} = this.props.domainData
+
+      await registry.deposit(listingHash, amount)
       if (this._isMounted) {
         this.setState({
           currentDeposit: stakedDeposit,
@@ -311,7 +313,7 @@ class DomainInRegistryContainer extends Component {
       toastr.error('There was an error with your request')
       try {
         calculateGas({
-          domain: domain,
+          domain,
           contract_event: true,
           event: 'top off',
           contract: 'registry',
@@ -325,6 +327,7 @@ class DomainInRegistryContainer extends Component {
 
   async withdrawADT () {
     const {domain, currentDeposit, minDeposit} = this.state
+
     const amount = document.getElementById('ADTAmount').value
 
     if (parseInt(currentDeposit, 10) - parseInt(amount, 10) < minDeposit) {
@@ -341,8 +344,9 @@ class DomainInRegistryContainer extends Component {
         src: 'withdraw_ADT',
         title: 'Withdraw ADT'
       }
+      const {listingHash} = this.props.domainData
       PubSub.publish('TransactionProgressModal.open', transactionInfo)
-      await registry.withdraw(domain, amount)
+      await registry.withdraw(listingHash, amount)
       if (this._isMounted) {
         this.setState({
           currentDeposit: parseInt(currentDeposit, 10) - parseInt(amount, 10)

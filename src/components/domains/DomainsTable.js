@@ -10,7 +10,6 @@ import './DomainsTable.css'
 
 import PubSub from 'pubsub-js'
 import CountdownSnapshot from '../CountdownSnapshot'
-import calculateGas from '../../utils/calculateGas'
 import { registryApiURL } from '../../models/urls'
 
 import store from '../../store'
@@ -59,7 +58,6 @@ class DomainsTable extends Component {
     this.onTableFetchData = this.onTableFetchData.bind(this)
     this.getData = this.getData.bind(this)
     this.fetchNewData = this.fetchNewData.bind(this)
-    // this.getData()
   }
 
   componentDidMount () {
@@ -159,9 +157,7 @@ class DomainsTable extends Component {
       Header: 'Action',
       accessor: 'stage',
       Cell: (props) => {
-        const domain = props.original.domain
-        let color = props.original.color
-        let actionLabel = props.original.actionLabel
+        let { domain, color, actionLabel, listingHash } = props.original
 
         return <a
           className={color ? `ui mini button table-button ${color}` : ' table-button transparent-button'}
@@ -170,7 +166,7 @@ class DomainsTable extends Component {
           onClick={async (event) => {
             event.preventDefault()
             if (actionLabel === 'REFRESH') {
-              this.updateStatus(domain)
+              this.updateStatus(listingHash)
               return
             }
             if (actionLabel === 'APPLY') {
@@ -200,8 +196,8 @@ class DomainsTable extends Component {
       Header: 'Stage',
       accessor: 'stage',
       Cell: (props) => {
-        const domain = props.original.domain
-        let label = props.original.label
+        let{ domain, label, listingHash }= props.original
+
         const expired = isExpired(props.original.stageEndsTimestamp) || props.original.stage === 'view'
 
         return ([
@@ -212,7 +208,7 @@ class DomainsTable extends Component {
             onClick={(event) => {
               event.preventDefault()
 
-              this.updateStatus(domain)
+              this.updateStatus(listingHash)
             }}>
             <span
               onClick={(event) => {
@@ -265,15 +261,7 @@ class DomainsTable extends Component {
       })
     }
 
-    // const {
-    //   page,
-    //   pageSize
-    // } = state
-
     const filtered = this.state.filters
-
-    // const start = page * pageSize
-    // const end = start + pageSize
 
     const allDomains = this.state.allDomains
     let domains = allDomains
@@ -428,33 +416,11 @@ class DomainsTable extends Component {
     }
   }
 
-  async updateStatus (domain) {
+  async updateStatus (listingHash) {
     try {
-      await registry.updateStatus(domain)
-      try {
-        calculateGas({
-          domain: domain,
-          contract_event: true,
-          event: 'update status',
-          contract: 'registry',
-          event_success: true
-        })
-      } catch (error) {
-        console.log('error reporting gas')
-      }
+      await registry.updateStatus(listingHash)
     } catch (error) {
       console.error(error)
-      try {
-        calculateGas({
-          domain: domain,
-          contract_event: true,
-          event: 'update status',
-          contract: 'registry',
-          event_success: false
-        })
-      } catch (error) {
-        console.log('error reporting gas')
-      }
     }
     const {filters} = this.props
     this.getData(filters)

@@ -155,8 +155,8 @@ class RegistryService {
     })
   }
 
-  async deposit (domain, amount = 0) {
-    if (!domain) {
+  async deposit (listingHash, amount = 0) {
+    if (!listingHash) {
       throw new Error('Domain is required')
     }
     if (!amount) {
@@ -164,7 +164,6 @@ class RegistryService {
     }
 
     // domain = domain.toLowerCase()
-    const domainHash = `0x${soliditySHA3(['string'], [domain]).toString('hex')}`
     const bigDeposit = big(amount).mul(tenToTheNinth).toString(10)
     let allowed = await (await token.allowance(this.account, this.address)).toString(10)
 
@@ -193,7 +192,7 @@ class RegistryService {
     }
 
     try {
-      await this.registry.deposit(domainHash, bigDeposit)
+      await this.registry.deposit(listingHash, bigDeposit)
       PubSub.publish('TransactionProgressModal.next', transactionInfo)
     } catch (error) {
       PubSub.publish('TransactionProgressModal.error')
@@ -201,13 +200,13 @@ class RegistryService {
     }
   }
 
-  async challenge (domain, data) {
-    if (!domain) {
+  async challenge (listingHash, data) {
+    if (!listingHash) {
       throw new Error('Domain is required')
     }
 
     // domain = domain.toLowerCase()
-    const domainHash = `0x${soliditySHA3(['string'], [domain.trim()]).toString('hex')}`
+    // const domainHash = `0x${soliditySHA3(['string'], [domain.trim()]).toString('hex')}`
 
     let allowed = await (await token.allowance(this.account, this.address)).toString(10)
     const minDeposit = await this.getMinDeposit()
@@ -241,7 +240,7 @@ class RegistryService {
     }
 
     try {
-      await this.registry.challenge(domainHash, data)
+      await this.registry.challenge(listingHash, data)
       PubSub.publish('TransactionProgressModal.next', transactionInfo)
     } catch (error) {
       console.error(error)
@@ -251,12 +250,12 @@ class RegistryService {
 
     store.dispatch({
       type: 'REGISTRY_DOMAIN_CHALLENGE',
-      domain
+      listingHash
     })
   }
 
-  async didChallenge (domain) {
-    if (!domain) {
+  async didChallenge (listingHash) {
+    if (!listingHash) {
       throw new Error('Domain is required')
     }
 
@@ -264,7 +263,7 @@ class RegistryService {
     let challengeId = null
 
     try {
-      challengeId = await this.getChallengeId(domain)
+      challengeId = await this.getChallengeId(listingHash)
     } catch (error) {
       console.error('getchallengeid error: ', error)
       throw error
@@ -292,7 +291,6 @@ class RegistryService {
   }
 
   async getListing (listingHash) {
-    console.log('listing hash: ', listingHash)
     if (!listingHash || !this.registry) {
       throw new Error('Domain is required')
     }
@@ -340,13 +338,13 @@ class RegistryService {
   }
 
   // Domain param is listingHash
-  async getChallengeId (domain) {
-    if (!domain) {
+  async getChallengeId (listingHash) {
+    if (!listingHash) {
       throw new Error('Domain is required')
     }
 
     try {
-      const listing = await this.getListing(domain)
+      const listing = await this.getListing(listingHash)
 
       const {
         challengeId
@@ -358,26 +356,22 @@ class RegistryService {
     }
   }
 
-  async isWhitelisted (domain) {
-    if (!domain) {
+  async isWhitelisted (listingHash) {
+    if (!listingHash) {
       throw new Error('Domain is required')
     }
 
     try {
-      return this.registry.isWhitelisted.call(domain)
+      return this.registry.isWhitelisted.call(listingHash)
     } catch (error) {
       throw error
     }
   }
 
-  async updateStatus (domain) {
-    if (!domain) {
+  async updateStatus (listingHash) {
+    if (!listingHash) {
       throw new Error('Domain is required')
     }
-    // opens refresh loading modal
-
-    // domain = domain.toLowerCase()
-    const domainHash = `0x${soliditySHA3(['string'], [domain]).toString('hex')}`
 
     try {
       let transactionInfo = {
@@ -385,12 +379,12 @@ class RegistryService {
         title: 'refresh'
       }
       PubSub.publish('TransactionProgressModal.open', transactionInfo)
-      const result = await this.registry.updateStatus(domainHash)
+      const result = await this.registry.updateStatus(listingHash)
       PubSub.publish('TransactionProgressModal.next', transactionInfo)
 
       store.dispatch({
         type: 'REGISTRY_DOMAIN_UPDATE_STATUS',
-        domain
+        listingHash
       })
 
       return result
@@ -459,18 +453,15 @@ class RegistryService {
     }
   }
 
-  async commitStageActive (domain) {
-    if (!domain) {
+  async commitStageActive (listingHash) {
+    if (!listingHash) {
       throw new Error('Domain is required')
     }
-
-    // domain = domain.toLowerCase()
-    // const hash = `0x${soliditySHA3(['string'], [domain]).toString('hex')}`
 
     let pollId = null
 
     try {
-      pollId = await this.getChallengeId(domain)
+      pollId = await this.getChallengeId(listingHash)
     } catch (error) {
       throw error
     }
@@ -486,18 +477,15 @@ class RegistryService {
     }
   }
 
-  async revealStageActive (domain) {
-    if (!domain) {
+  async revealStageActive (listingHash) {
+    if (!listingHash) {
       throw new Error('Domain is required')
     }
-
-    // domain = domain.toLowerCase()
-    // const hash = `0x${soliditySHA3(['string'], [domain]).toString('hex')}`
 
     let pollId = null
 
     try {
-      pollId = await this.getChallengeId(domain)
+      pollId = await this.getChallengeId(listingHash)
     } catch (error) {
       throw error
     }
@@ -567,15 +555,15 @@ class RegistryService {
     }
   }
 
-  async getChallengePoll (domain) {
-    if (!domain) {
+  async getChallengePoll (listingHash) {
+    if (!listingHash) {
       throw new Error('Domain is required')
     }
 
-    // domain = domain.toLowerCase()
+    // listingHash = listingHash.toLowerCase()
 
     try {
-      const challengeId = await this.getChallengeId(domain)
+      const challengeId = await this.getChallengeId(listingHash)
       const {
         commitEndDate,
         revealEndDate,
@@ -595,9 +583,9 @@ class RegistryService {
     }
   }
 
-  async pollEnded (domain) {
-    // domain = domain.toLowerCase()
-    const challengeId = await this.getChallengeId(domain)
+  async pollEnded (listingHash) {
+    // listingHash = listingHash.toLowerCase()
+    const challengeId = await this.getChallengeId(listingHash)
 
     if (!challengeId) {
       return false
@@ -610,8 +598,8 @@ class RegistryService {
     }
   }
 
-  async getCommitHash (domain) {
-    // domain = domain.toLowerCase()
+  async getCommitHash (listingHash) {
+    // listingHash = listingHash.toLowerCase()
     const voter = this.account
 
     if (!voter) {
@@ -619,18 +607,18 @@ class RegistryService {
     }
 
     try {
-      const challengeId = await this.getChallengeId(domain)
+      const challengeId = await this.getChallengeId(listingHash)
       return plcr.getCommitHash(voter, challengeId)
     } catch (error) {
       throw error
     }
   }
 
-  async didCommit (domain) {
-    // domain = domain.toLowerCase()
+  async didCommit (listingHash) {
+    // listingHash = listingHash.toLowerCase()
 
     try {
-      const challengeId = await this.getChallengeId(domain)
+      const challengeId = await this.getChallengeId(listingHash)
       return this.didCommitForPoll(challengeId)
     } catch (error) {
       throw error
@@ -658,8 +646,8 @@ class RegistryService {
     }
   }
 
-  async didReveal (domain) {
-    // domain = domain.toLowerCase()
+  async didReveal (listingHash) {
+    // listingHash = listingHash.toLowerCase()
 
     const voter = this.account
 
@@ -668,7 +656,7 @@ class RegistryService {
     }
 
     try {
-      const challengeId = await this.getChallengeId(domain)
+      const challengeId = await this.getChallengeId(listingHash)
 
       if (!challengeId) {
         return false
@@ -702,9 +690,9 @@ class RegistryService {
     return plcr.hasEnoughTokens(tokens)
   }
 
-  async didClaim (domain) {
+  async didClaim (listingHash) {
     try {
-      const challengeId = await this.getChallengeId(domain)
+      const challengeId = await this.getChallengeId(listingHash)
       return await this.didClaimForPoll(challengeId)
     } catch (error) {
       throw error
@@ -885,16 +873,15 @@ class RegistryService {
     return result.div(tenToTheEighteenth)
   }
 
-  async exit (domain) {
+  async exit (listingHash) {
     // domain = domain.toLowerCase()
-    const domainHash = `0x${soliditySHA3(['string'], [domain]).toString('hex')}`
 
     try {
       let transactionInfo = {
         src: 'withdraw_listing',
         title: 'Withdraw Listing'
       }
-      await this.registry.exit(domainHash)
+      await this.registry.exit(listingHash)
       PubSub.publish('TransactionProgressModal.next', transactionInfo)
     } catch (error) {
       PubSub.publish('TransactionProgressModal.error')
@@ -902,15 +889,12 @@ class RegistryService {
     }
   }
 
-  async withdraw (domain, amount = 0) {
-    if (!domain) {
-      throw new Error('Domain is required')
+  async withdraw (listingHash, amount = 0) {
+    if (!listingHash) {
+      throw new Error('listingHash is required')
     }
 
-    // domain = domain.toLowerCase()
-
     const bigWithdrawAmount = big(amount).mul(tenToTheNinth).toString(10)
-    const hash = `0x${soliditySHA3(['string'], [domain.trim()]).toString('hex')}`
 
     // let allowed = await (await token.allowance(this.account, this.address)).toString(10)
 
@@ -927,7 +911,7 @@ class RegistryService {
         src: 'withdraw_ADT',
         title: 'Withdraw ADT'
       }
-      await this.registry.withdraw(hash, bigWithdrawAmount)
+      await this.registry.withdraw(listingHash, bigWithdrawAmount)
       PubSub.publish('TransactionProgressModal.next', transactionInfo)
     } catch (error) {
       PubSub.publish('TransactionProgressModal.error')
