@@ -1,6 +1,7 @@
 import React from 'react'
 import registry from '../services/registry'
 import moment from 'moment'
+// import  {registryApiURL} from "../models/urls"
 
 function isExpired (end) {
   const now = moment().unix()
@@ -9,7 +10,7 @@ function isExpired (end) {
 }
 
 const getDomainState = async (data) => {
-  if (!data) return {}
+  if (!data || !data.domainHash) return {}
   const item = {
     domain: data.domain,
     color: '',
@@ -42,9 +43,9 @@ const getDomainState = async (data) => {
     item.currentDeposit = currentDeposit
     item.applicationExpiry = applicationExpiry
 
-// -----------------------------------------------------------
-// -------------------In Registry States----------------------
-// -----------------------------------------------------------
+    // -----------------------------------------------------------
+    // -------------------In Registry States----------------------
+    // -----------------------------------------------------------
     if (isInRegistry || (commitOpen && isWhitelisted) || (revealOpen && isWhitelisted)) {
       if (challengeId) {
         // This is logic to determine the following state:
@@ -54,7 +55,7 @@ const getDomainState = async (data) => {
         const challenge = await registry.getChallenge(challengeId)
 
         if (commitOpen) {
-          let {commitEndDate} = await registry.getChallengePoll(item.listingHash)
+          let { commitEndDate } = await registry.getChallengePoll(item.listingHash)
           item.stage = 'in_registry_in_commit'
           item.stageEndsTimestamp = commitEndDate
           item.stageEnds = moment.unix(commitEndDate).format('YYYY-MM-DD HH:mm:ss')
@@ -96,9 +97,9 @@ const getDomainState = async (data) => {
         item.label = <span><i className='icon check circle' />In Registry</span>
       }
 
-// --------------------------------------------------------------
-// ----------------In Application States-------------------------
-// --------------------------------------------------------------
+      // --------------------------------------------------------------
+      // ----------------In Application States-------------------------
+      // --------------------------------------------------------------
     } else if (challengeOpen) {
       if (isExpired(applicationExpiry)) {
         item.actionLabel = 'REFRESH'
@@ -116,11 +117,11 @@ const getDomainState = async (data) => {
       item.stageEndsTimestamp = applicationExpiry
       item.stageEnds = moment.unix(applicationExpiry).format('YYYY-MM-DD HH:mm:ss')
 
-// -----------------------------------------
-// -----------------------------------------
+      // -----------------------------------------
+      // -----------------------------------------
     } else if (commitOpen) {
       item.stage = 'voting_commit'
-      let {commitEndDate} = await registry.getChallengePoll(item.listingHash)
+      let { commitEndDate } = await registry.getChallengePoll(item.listingHash)
       item.stageEndsTimestamp = commitEndDate
       item.stageEnds = moment.unix(commitEndDate).format('YYYY-MM-DD HH:mm:ss')
       item.label = <span><i className='icon signup' />Vote - Commit</span>
@@ -128,8 +129,8 @@ const getDomainState = async (data) => {
       item.actionLabel = 'VOTE'
       item.stageMapSrc = 'MapCommit'
 
-// -----------------------------------------
-// -----------------------------------------
+      // -----------------------------------------
+      // -----------------------------------------
     } else if (revealOpen) {
       item.stageMapSrc = 'MapReveal'
       let { revealEndDate, votesFor, votesAgainst } = await registry.getChallengePoll(item.listingHash)
@@ -141,8 +142,8 @@ const getDomainState = async (data) => {
       item.color = 'green'
       item.actionLabel = 'REVEAL'
 
-// -----------------------------------------
-// -----------------------------------------
+      // -----------------------------------------
+      // -----------------------------------------
     } else if (applicationExists) {
       item.actionLabel = 'REFRESH'
       item.color = 'greyblack'
@@ -150,8 +151,8 @@ const getDomainState = async (data) => {
       item.label = <span><i className='icon circle thin' />Reveal - Pending</span>
       item.stage = 'reveal_pending'
 
-// -----------------------------------------
-// -----------------------------------------
+      // -----------------------------------------
+      // -----------------------------------------
     } else {
       item.stage = 'apply'
       item.actionLabel = 'APPLY'
@@ -162,9 +163,9 @@ const getDomainState = async (data) => {
 
     return item
 
-// --------------------------------------------------------------
-// -------------Catch All - Wrong Network------------------------
-// --------------------------------------------------------------
+    // --------------------------------------------------------------
+    // -------------Catch All - Wrong Network------------------------
+    // --------------------------------------------------------------
   } catch (error) {
     console.log(error)
     if (item.domain) {
@@ -184,10 +185,5 @@ const getDomainState = async (data) => {
     }
   }
 }
-
-// const getWithdrawn = async () => {
-//   const withdrawn = await (await window.fetch(`${registryApiURL}/registry/domains?withdrawn`)).json()
-//   return withdrawn
-// }
 
 export default getDomainState

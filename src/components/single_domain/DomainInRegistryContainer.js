@@ -29,7 +29,7 @@ class DomainInRegistryContainer extends Component {
       account: registry.getAccount(),
       didClaim: false,
       minDeposit: null,
-      canWithdraw: false,
+      doneWithdrawing: false,
       currentDeposit: null,
       stakedDifferenceUpdated: false,
       displayChallengeModal: !displayChallengeModal
@@ -51,14 +51,11 @@ class DomainInRegistryContainer extends Component {
   }
   
   componentWillReceiveProps (next) {
-    const {account} = this.state
     
     if (next.domainData) {
       this.setState({
         domainData: next.domainData,
         applicationExpiry: next.domainData.applicationExpiry,
-        currentDeposit: big(next.domainData.currentDeposit).div(tenToTheNinth),
-        ownerAddress: (next.domainData.ownerAddress === account) ? true : false
       })
     }
   }
@@ -66,12 +63,14 @@ class DomainInRegistryContainer extends Component {
   render () {
     const {
       domain,
+      account,
       minDeposit,
-      canWithdraw,
-      currentDeposit,
+      doneWithdrawing,
       displayChallengeModal
     } = this.state
 
+    const canWithdraw = (this.props.domainData.ownerAddress === account) ? true : false
+    const currentDeposit = big(this.props.domainData.currentDeposit).div(tenToTheNinth)
     const stakedDifference = currentDeposit - minDeposit
     const formattedStakedDifference = stakedDifference ? stakedDifference > 0 ? '+' + commafy(stakedDifference) : commafy(stakedDifference) : 0
     const stakedDifferenceClass = stakedDifference > 0 ? 'StakedDifferencePositive' : stakedDifference < 0 ? 'StakedDifferenceNegative' : 'StakedDifferenceZero'
@@ -95,7 +94,7 @@ class DomainInRegistryContainer extends Component {
           <div className='ui divider' />
           <DomainChallengeContainer domainData={this.props.domainData} domain={domain} source='InRegistry' currentDeposit={currentDeposit} />
           <div className='column sixteen wide center aligned'>
-            { canWithdraw
+            { canWithdraw && !doneWithdrawing
               ? <div>
                 <Segment className='LeftSegment' floated='left'>
                   <p>Remove listing for</p>
@@ -240,9 +239,9 @@ class DomainInRegistryContainer extends Component {
       }
 
       PubSub.publish('TransactionProgressModal.open', transactionInfo)
-      await registry.exit(domain)
+      await registry.exit(this.props.domainData.listingHash)
       this.setState({
-        canWithdraw: false
+        doneWithdrawing: true
       })
       PubSub.publish('DomainProfileActionContainer.getData')
       PubSub.publish('DomainProfileStageMap.updateStageMap')
