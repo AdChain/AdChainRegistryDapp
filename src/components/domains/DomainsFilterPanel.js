@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import commafy from 'commafy'
 import Tooltip from '../Tooltip'
 import store from '../../store'
-import token from '../../services/token'
+// import token from '../../services/token'
 import { Input } from 'semantic-ui-react'
 import { registryApiURL } from '../../models/urls'
 
@@ -229,7 +229,7 @@ class DomainsFilterPanel extends Component {
 
   async fetchStats () {
     try {
-      let totalStaked = await (await window.fetch(`${registryApiURL}/registry/domains/stake/count`)).json()
+      // let totalStaked = await (await window.fetch(`${registryApiURL}/registry/domains/stake/count`)).json()
       const totalInApplication = await (await window.fetch(`${registryApiURL}/registry/domains/application/count`)).json()
       const totalInCommit = await (await window.fetch(`${registryApiURL}/registry/domains/incommit/count`)).json()
       const totalInReveal = await (await window.fetch(`${registryApiURL}/registry/domains/inreveal/count`)).json()
@@ -237,13 +237,13 @@ class DomainsFilterPanel extends Component {
       const totalWithdrawn = await (await window.fetch(`${registryApiURL}/registry/domains/withdrawn/count`)).json()
       const totalRejected = await (await window.fetch(`${registryApiURL}/registry/domains/rejected/count`)).json()
 
-      if (totalStaked) {
-        totalStaked = totalStaked / Math.pow(10, token.decimals)
-      }
+      // if (totalStaked) {
+      //   totalStaked = totalStaked / Math.pow(10, token.decimals)
+      // }
 
       if (this._isMounted) {
         this.setState({
-          totalStaked,
+          // totalStaked,
           totalInApplication,
           totalInCommit,
           totalInReveal,
