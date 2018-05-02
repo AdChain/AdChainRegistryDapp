@@ -182,12 +182,10 @@ class MainSidebar extends Component {
   }
 
   async pushHistory (topic, route) {
-    console.log('MAINSIDEBAR PUSH HISTORY', route)
     await this._history.push(route)
   }
 
   async updateRoute (route) {
-    console.log('MAINSIDEBAR UPDATE ROUTE', route)
     let pathName = route.pathname || route
     if (pathName !== window.location.pathname) {
       // this._history.push(`${route}`)

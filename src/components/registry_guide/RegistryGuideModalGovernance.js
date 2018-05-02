@@ -12,11 +12,17 @@ class RegistryGuideModalGovernance extends Component {
       src: props.src
     }
     this.doNotDisplay = this.doNotDisplay.bind(this)
+    this.launchGuide = this.launchGuide.bind(this)
   }
 
   doNotDisplay () {
     let doNotDisplay = JSON.parse(window.localStorage.getItem('GovernanceModalDisplay'))
     window.localStorage.setItem('GovernanceModalDisplay', !doNotDisplay)
+  }
+
+  async launchGuide () {
+    PubSub.publish('RegistryGuideModal.redirect', window.location.pathname)
+    PubSub.publish('RegistryGuideModal.startRegistryWalkthrough', GovernanceSteps)
   }
 
   render () {
@@ -50,7 +56,7 @@ class RegistryGuideModalGovernance extends Component {
               ? <Button basic className='ReturnButton' onClick={() => this.props.returnToMenu(section)} content='Return to Guide' />
               : null
             }
-            <Button basic className='ContinueButton' content='Continue' onClick={() => PubSub.publish('RegistryGuideModal.startRegistryWalkthrough', GovernanceSteps)} />
+            <Button basic className='ContinueButton' content='Continue' onClick={() => this.launchGuide()} />
           </div>
           <div className='GuideText'>
             <span>

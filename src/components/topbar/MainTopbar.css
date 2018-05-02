@@ -112,6 +112,8 @@
   margin-left: 10px;
   padding-top: 7px !important;
   padding-bottom: 7px !important;
+  padding-left: 15px !important;
+  padding-right: 15px !important;
   line-height: 10px;
 }
 
@@ -122,11 +124,6 @@
   font-size: 10px;
   text-decoration: none;
 }
-
-/* :root:root:root .MainTopbar .AcquireEthButton a:visited,
-:root:root:root .MainTopbar .AcquireEthButton a:hover {
-  text-decoration: none;
-} */
 
 :root:root:root .MainTopbar .AcquireAdtButton {
   background-color: #3434CE !important;

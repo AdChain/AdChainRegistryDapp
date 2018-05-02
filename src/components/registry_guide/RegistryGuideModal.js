@@ -130,6 +130,7 @@ class RegistryGuideModal extends Component {
       guideToDisplay['open'] = true
       await this.updateRoute('/domains')
     }
+    guideToDisplay['redirect'] = null
     this.setState(guideToDisplay)
   }
 
