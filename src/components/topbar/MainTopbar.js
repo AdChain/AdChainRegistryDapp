@@ -98,7 +98,7 @@ class MainTopbar extends Component {
                     alt='ETH' />
                 </div>
                 {ethBalance !== null ? commafy(ethBalance.toFixed(4)) : '-'} ETH
-                <Button basic className='AcquireEthButton'><a href='https://adchain.zendesk.com/hc/en-us/articles/360003417354' target='_blank' rel='noopener noreferrer' className='AcquireLink'>Buy Ethereum</a></Button>
+                <Button basic className='AcquireEthButton'><a href='https://adchain.zendesk.com/hc/en-us/articles/360003417354' target='_blank' rel='noopener noreferrer' className='AcquireLink'>Purchase ETH</a></Button>
               </div>
               : null
             }
@@ -110,7 +110,7 @@ class MainTopbar extends Component {
                     alt='ADT' />
                 </div>
                 {adtBalance !== null ? commafy(adtBalance) : '-'} ADT
-                <Button basic className='AcquireAdtButton' onClick={() => { renderAirSwap() }}>Buy Adtoken</Button>
+                <Button basic className='AcquireAdtButton' onClick={() => { renderAirSwap() }}>PURCHASE ADTOKEN</Button>
               </div>
               : null
             }

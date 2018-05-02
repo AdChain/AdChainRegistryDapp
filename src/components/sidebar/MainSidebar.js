@@ -75,7 +75,7 @@ class MainSidebar extends Component {
           <a href='https://github.com/adchain' target='_blank' rel='noopener noreferrer'>GitHub</a>
         </li>
         <li>
-          <a href='https://reddit.com/adchain' target='_blank' rel='noopener noreferrer'>Reddit</a>
+          <a href='https://reddit.com/r/adchain' target='_blank' rel='noopener noreferrer'>Reddit</a>
         </li>
       </ul>
     )
