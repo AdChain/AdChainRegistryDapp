@@ -52,7 +52,6 @@ class DomainChallengeContainer extends Component {
       minDeposit,
       source,
       dispensationPct,
-      currentDeposit,
       displayChallengeModal
     } = this.state
 
