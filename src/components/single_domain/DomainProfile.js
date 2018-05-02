@@ -120,36 +120,36 @@ class DomainProfile extends Component {
     if (!domain) return null
 
     try {
-      domainsData = await (await window.fetch(`${registryApiURL}/registry/domains`)).json()
-      try{
+      domainsData = await (await window.fetch(`${registryApiURL}/registry/domain?domain=${domain}`)).json()
+      
+      try {
         metadata = await (await window.fetch(`${registryApiURL}/domains/metadata?domain=${domain}`)).json()
-
-      }catch(error){
+      } catch (error) {
         console.log(error)
-      }      
-        let listingHash
+      }
 
-        for (let d of domainsData) {
-          if (d.domain === domain) {
-            listingHash = d.domainHash
-            break;
-          }
-        }
-        
-        const domainData = await getDomainState({ domain, domainHash: listingHash })
+      let listingHash = domainsData.listingHashNew || domainsData.listingHashOld
 
+      // for (let d of domainsData) {
+      //   if (d.domain === domain) {
+      //     listingHash = d.domainHash
+      //     break;
+      //   }
+      // }
 
-        const {
-          title,
-          description
-        } = metadata
-  
-        if (this._isMounted) {
-          this.setState({
-            domainData,
-            siteName: title,
-            siteDescription: description
-          })
+      const domainData = await getDomainState({ domain, domainHash: listingHash })
+
+      const {
+        title,
+        description
+      } = metadata
+
+      if (this._isMounted) {
+        this.setState({
+          domainData,
+          siteName: title,
+          siteDescription: description
+        })
         // }
       }
 
