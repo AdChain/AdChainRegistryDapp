@@ -130,29 +130,15 @@ class DomainProfile extends Component {
 
       let listingHash = domainsData.listingHashNew || domainsData.listingHashOld
 
-      // for (let d of domainsData) {
-      //   if (d.domain === domain) {
-      //     listingHash = d.domainHash
-      //     break;
-      //   }
-      // }
-
       const domainData = await getDomainState({ domain, domainHash: listingHash })
-
-      const {
-        title,
-        description
-      } = metadata
 
       if (this._isMounted) {
         this.setState({
           domainData,
-          siteName: title,
-          siteDescription: description
+          siteName: domainData.siteName,
+          siteDescription: metadata ? metadata.description : ''
         })
-        // }
       }
-
     } catch (error) {
       console.log(error)
     }

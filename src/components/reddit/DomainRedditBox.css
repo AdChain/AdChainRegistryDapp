@@ -1,4 +1,4 @@
-.DomainProfileInfo {
+.DomainRedditBox {
   height: 100%;
 }
 
@@ -6,7 +6,7 @@
   max-height: 673px;
 }
 
-.DomainProfileInfo .Header {
+.DomainRedditBox .Header {
   text-transform: uppercase;
   color: #909090;
   font-size: 12px;
@@ -16,25 +16,25 @@
   font-family: 'Open Sans',sans-serif;
 }
 
-.DomainProfileInfo .HeaderRow {
+.DomainRedditBox .HeaderRow {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-between;
 }
 
-.DomainProfileInfo .Header::after {
+.DomainRedditBox .Header::after {
   content: url(../assets/info_gray.svg);
   transform: scale(1.2) translateY(1.2px);
   padding-left: 7px;
   cursor: pointer;
 }
 
-.DomainProfileInfo .green {
+.DomainRedditBox .green {
   color: #4ea565;
 }
 
-.DomainProfileInfo .red {
+.DomainRedditBox .red {
   color: #dc2a2a;
 }
 
@@ -111,13 +111,13 @@
   flex-wrap: wrap;
 }
 
-:root:root .DomainProfileInfo .ui.secondary.pointing.menu .item {
+:root:root .DomainRedditBox .ui.secondary.pointing.menu .item {
   justify-content: center;
   display: flex;
   flex-grow: 1;
 }
 
-:root:root .DomainProfileInfo .ui.secondary.pointing.menu .active.item {
+:root:root .DomainRedditBox .ui.secondary.pointing.menu .active.item {
   border-color: #3434CE;
 }
 
@@ -222,11 +222,11 @@
   color: #CE3434;
 }
 
-.DomainProfileInfo .TabDiv {
+.DomainRedditBox .TabDiv {
   height: 100%;
 }
 
-:root:root:root .DomainProfileInfo .ui.grid.stackable {
+:root:root:root .DomainRedditBox .ui.grid.stackable {
   height: 100%;
 }
 
@@ -237,7 +237,7 @@
   align-items: center;
 }
 
-:root:root:root .DomainProfileInfo .RedditRefresh button {
+:root:root:root .DomainRedditBox .RedditRefresh button {
   margin-top: -1rem;
   padding: 5px;
   justify-content: center;
@@ -247,12 +247,12 @@
   box-shadow: unset;
 }
 
-:root:root:root .DomainProfileInfo .RedditRefresh button:hover {
+:root:root:root .DomainRedditBox .RedditRefresh button:hover {
   background-color: #3434CE !important;
   color: #FFF !important;
 }
 
-:root:root:root .DomainProfileInfo .RedditRefresh button .refresh {
+:root:root:root .DomainRedditBox .RedditRefresh button .refresh {
   margin-right: 0px !important;
   margin-left: 0px !important;
 }

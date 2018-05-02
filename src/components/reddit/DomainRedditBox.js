@@ -11,7 +11,7 @@ import RedditReasonModal from './RedditReasonModal'
 import { getPosts, createComment, createPostApplication } from '../../services/redditActions'
 import PubSub from 'pubsub-js'
 
-class DomainProfileInfo extends Component {
+class DomainRedditBox extends Component {
   constructor(props) {
     super()
 
@@ -224,7 +224,7 @@ class DomainProfileInfo extends Component {
     }
 
     return (
-      <div className='DomainProfileInfo DomainRedditBox BoxFrame'>
+      <div className='DomainRedditBox DomainRedditBox BoxFrame'>
         <div className='HeaderRow'>
           <span className='BoxFrameLabel ui grid'>
             REDDIT DISCUSSION
@@ -420,9 +420,9 @@ class DomainProfileInfo extends Component {
   }
 }
 
-DomainProfileInfo.propTypes = {
+DomainRedditBox.propTypes = {
   domain: PropTypes.string,
   description: PropTypes.string
 }
 
-export default DomainProfileInfo
+export default DomainRedditBox
