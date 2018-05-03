@@ -114,7 +114,8 @@
   padding-bottom: 7px !important;
   padding-left: 15px !important;
   padding-right: 15px !important;
-  line-height: 10px;
+  font-size: 10px;
+  min-height: 28px;
 }
 
 :root:root:root .MainTopbar .AcquireEthButton a {
@@ -135,6 +136,7 @@
   font-size: 10px;
   padding-top: 7px !important;
   padding-bottom: 7px !important;
+  min-height: 28px;
 }
 
 

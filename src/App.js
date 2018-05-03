@@ -124,10 +124,10 @@ class App extends Component {
         shouldRun: false
       })
     } else if (result.step.name === 'challenge-first-step' && result.action === 'next') {
-      this.setState({
-        staticContainer: 'applicationDomains',
-        shouldRun: false
-      })
+      // this.setState({
+      //   staticContainer: 'applicationDomains',
+      //   shouldRun: false
+      // })
     } else if (result.step.name === 'challenge-second-step' && result.type === 'step:after') {
       if (result.action === 'next') {
         this.setState({
@@ -135,10 +135,10 @@ class App extends Component {
           shouldRun: false
         })
       } else if (result.action === 'back') {
-        this.setState({
-          staticContainer: null,
-          shouldRun: false
-        })
+        // this.setState({
+        //   staticContainer: 'applicationDomains',
+        //   shouldRun: false
+        // })
       }
     } else if (result.step.name === 'challenge-third-step' && result.type === 'step:after') {
       if (result.action === 'next') {
@@ -158,10 +158,10 @@ class App extends Component {
         shouldRun: false
       })
     } else if (result.step.name === 'vote-first-step' && result.action === 'next') {
-      this.setState({
-        staticContainer: 'commitDomains',
-        shouldRun: false
-      })
+      // this.setState({
+      //   staticContainer: 'commitDomains',
+      //   shouldRun: false
+      // })
     } else if (result.step.name === 'vote-second-step' && result.type === 'step:after') {
       if (result.action === 'next') {
         this.setState({
@@ -170,8 +170,8 @@ class App extends Component {
         })
       } else if (result.action === 'back') {
         this.setState({
-          staticContainer: null,
-          shouldRun: false
+          staticContainer: 'commitDomains'
+          // shouldRun: false
         })
       }
     } else if (result.step.name === 'vote-third-step' && result.action === 'back' && result.type === 'step:after') {
@@ -180,10 +180,10 @@ class App extends Component {
         shouldRun: false
       })
     } else if (result.step.name === 'reveal-first-step' && result.action === 'next') {
-      this.setState({
-        staticContainer: 'revealDomains',
-        shouldRun: false
-      })
+      // this.setState({
+      //   staticContainer: 'revealDomains',
+      //   shouldRun: false
+      // })
     } else if (result.step.name === 'reveal-second-step' && result.type === 'step:after') {
       if (result.action === 'next') {
         this.setState({
@@ -192,8 +192,8 @@ class App extends Component {
         })
       } else if (result.action === 'back') {
         this.setState({
-          staticContainer: null,
-          shouldRun: false
+          staticContainer: 'revealDomains'
+          // shouldRun: false
         })
       }
     } else if (result.step.name === 'reveal-third-step' && result.action === 'back' && result.type === 'step:after') {
@@ -263,10 +263,21 @@ class App extends Component {
   }
 
   startJoyride (topic, steps) {
+    let staticContainer
+    if (steps[0].name.includes('application') || steps[0].name.includes('challenge')) {
+      staticContainer = 'applicationDomains'
+    } else if (steps[0].name.includes('vote')) {
+      staticContainer = 'commitDomains'
+    } else if (steps[0].name.includes('reveal')) {
+      staticContainer = 'revealDomains'
+    } else if (steps[0].name.includes('governance')) {
+      staticContainer = null
+    }
     this.setState({
       shouldRun: true,
       walkthroughSteps: this.state.walkthroughSteps.concat(steps),
-      walkthroughFinished: false
+      walkthroughFinished: false,
+      staticContainer: staticContainer
     })
   }
 

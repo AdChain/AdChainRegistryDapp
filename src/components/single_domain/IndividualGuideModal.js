@@ -27,6 +27,8 @@ class IndividualGuideModal extends Component {
   }
 
   async launchGuide (guideSteps) {
+    // prevents welcome modal from displaying
+    window.localStorage.setItem('returningUser', 'true')
     PubSub.publish('MainSidebar.PushHistory', './')
     PubSub.publish('RegistryGuideModal.redirect', window.location.pathname)
     // temporarily using set timeout in order to create a short delay.. without delay, joyride misses the first component. need to figure out a better way
