@@ -18,18 +18,20 @@ class WithdrawVotingRightsContainer extends Component {
       account: props.account,
       contract: props.contract,
       availableTokens: null,
-      lockedTokens: null
+      lockedTokens: null,
+      tokenAmount: null
     }
 
     this.onWithdraw = this.onWithdraw.bind(this)
+    this.onTokenAmountKeyUp = this.onTokenAmountKeyUp.bind(this)
   }
-  
-  componentWillMount(){
-    if(this.state.contract === 'registry'){
+
+  componentWillMount () {
+    if (this.state.contract === 'registry') {
       this.setState({
-        contract: registry,
+        contract: registry
       })
-    }else if(this.state.contract === 'parameterizer'){
+    } else if (this.state.contract === 'parameterizer') {
       this.setState({
         contract: parameterizer
       })
@@ -62,11 +64,17 @@ class WithdrawVotingRightsContainer extends Component {
           <span className='VotingTokensAmount'>
             {availableTokens !== null ? commafy(availableTokens) + ' ADT' : '-'}
           </span>
-          <div>
+          <div className='ui input action mini'>
+            <input
+              type='text'
+              placeholder='100'
+              id='WithdrawVotingRightsContainerInput'
+              onKeyUp={this.onTokenAmountKeyUp}
+            />
             <button
               onClick={this.onWithdraw}
               className='ui button green tiny'>
-                WITHDRAW
+              WITHDRAW
             </button>
           </div>
         </div>
@@ -96,6 +104,12 @@ class WithdrawVotingRightsContainer extends Component {
     }
   }
 
+  onTokenAmountKeyUp (event) {
+    this.setState({
+      tokenAmount: event.target.value | 0 // coerce to int
+    })
+  }
+
   onWithdraw (event) {
     event.preventDefault()
 
@@ -103,22 +117,42 @@ class WithdrawVotingRightsContainer extends Component {
   }
 
   async withdrawTokens () {
-    const {availableTokens} = this.state
+    const {availableTokens, tokenAmount} = this.state
+    const input = document.querySelector('#WithdrawVotingRightsContainerInput')
     if (commafy(availableTokens) === '0') {
       toastr.error('You do not have any available ADT to withdraw')
-      return false
+      return
     }
+    if (tokenAmount <= 0) {
+      toastr.error('Please enter a valid amount of ADT')
+      return
+    }
+    if (tokenAmount > availableTokens) {
+      toastr.error('You do not have enough ADT to withdraw')
+      return
+    }
+
     try {
       let transactionInfo = {
         src: 'withdraw_voting_ADT',
         title: 'Withdraw Voting ADT'
       }
       PubSub.publish('TransactionProgressModal.open', transactionInfo)
-      // console.log('available tokens: ', availableTokens)
-      await this.state.contract.withdrawVotingRights(availableTokens)
+      await this.state.contract.withdrawVotingRights(tokenAmount)
+
+      if (input) {
+        input.value = ''
+      }
+      this.setState({
+        tokenAmount: null
+      })
     } catch (error) {
       console.error('Withdraw Tokens Error: ', error)
       PubSub.publish('TransactionProgressModal.error')
+      input.value = ''
+      this.setState({
+        tokenAmount: null
+      })
     }
   }
 }

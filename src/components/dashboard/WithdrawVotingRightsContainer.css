@@ -9,3 +9,7 @@
 :root:root .WithdrawVotingRightsContainer .UnlockedAdtText {
   padding-bottom: 1em;
 }
+
+/* #WithdrawVotingRightsContainerInput {
+  max-width: 50px !important;
+} */

@@ -61,12 +61,12 @@ class RequestTokenApprovalContainer extends Component {
                 placeholder='100'
                 id='RequestTokenApprovalContainerInput'
                 onKeyUp={this.onTokenAmountKeyUp}
-                />
+              />
               <button
                 onClick={this.onRequest}
                 className='ui button blue tiny'>
                   APPROVE
-                </button>
+              </button>
             </div>
           </div>
         </div>

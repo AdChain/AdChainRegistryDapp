@@ -12,10 +12,10 @@ import DomainProfileStageMap from './DomainProfileStageMap'
 import { registryApiURL } from '../../models/urls'
 
 import './DomainProfile.css'
-import getDomainState from '../../utils/getDomainState';
+import getDomainState from '../../utils/getDomainState'
 
 class DomainProfile extends Component {
-  constructor(props) {
+  constructor (props) {
     super()
 
     const { params } = props.match
@@ -38,17 +38,16 @@ class DomainProfile extends Component {
     window.scrollTo(0, -1)
   }
 
-  componentDidMount() {
+  componentDidMount () {
     this._isMounted = true
     this.fetchSiteData()
   }
 
-
-  componentWillUnmount() {
+  componentWillUnmount () {
     this._isMounted = false
   }
 
-  render() {
+  render () {
     const {
       stage,
       domain,
@@ -56,7 +55,7 @@ class DomainProfile extends Component {
       country,
       siteName,
       domainData,
-      siteDescription,
+      siteDescription
     } = this.state
 
     const redirectState = this.props.location.state
@@ -112,7 +111,7 @@ class DomainProfile extends Component {
     )
   }
 
-  async fetchSiteData() {
+  async fetchSiteData () {
     let metadata
     let listing
     const { domain } = this.state
@@ -121,7 +120,7 @@ class DomainProfile extends Component {
 
     try {
       listing = await (await window.fetch(`${registryApiURL}/registry/domain?domain=${domain}`)).json()
-      
+
       try {
         metadata = await (await window.fetch(`${registryApiURL}/domains/metadata?domain=${domain}`)).json()
       } catch (error) {
@@ -133,7 +132,7 @@ class DomainProfile extends Component {
       const domainData = await getDomainState({ domain, domainHash: listingHash })
 
       // If rejected --> Check to see if listing is withdrawn
-      if(domainData.stage === 'rejected'){
+      if (domainData.stage === 'rejected') {
         const getWithdrawn = async () => {
           const withdrawn = await (await window.fetch(`${registryApiURL}/registry/domains?filter=withdrawn`)).json()
           return withdrawn
@@ -142,16 +141,16 @@ class DomainProfile extends Component {
         for (let w of withdrawn) {
           if (w.domainHash === domainData.listingHash) {
             domainData.stage = 'withdrawn'
-            if(domainData.challengeId > 0){
+            if (domainData.challengeId > 0){
               domainData.stageMapSrc = 'MapWithdrawnChallenge'
-            }else{
+            } else{
               domainData.stageMapSrc = 'MapWithdrawnNoChallenge'
             }
             break;
           }
         }
       }
-      
+
       if (this._isMounted) {
         this.setState({
           domainData,
