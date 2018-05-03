@@ -51,12 +51,15 @@ class ExpiredVotingADT extends Component {
   render () {
     return (
 
-      <div className='column five wide t-center'>
+      <div className='column five wide t-center ExpiredVotingAdtContainer'>
         <div>
+          <div>
           Expired Voting ADT <Tooltip class='InfoIconHigh' info={'Expired votes are tokens that were committed, but not revealed. Therefore, you need to unlock them in order to withdraw them. The number on the left is the number of transactions you\'ll need to sign in order to withdraw the ADT amount on the right.'} />
+          </div>
+          <div>
+            <span className='VotingTokensAmount' style={{marginRight: '4px', color: '#CE4034'}}>{this.state.unrevealed.length}</span><span className='VotingTokensAmount'>{this.state.totalExpiredTokens} ADT</span>
+          </div>
         </div>
-        <span className='VotingTokensAmount' style={{marginRight: '4px', color: '#CE4034'}}>{this.state.unrevealed.length}</span><span className='VotingTokensAmount'>{this.state.totalExpiredTokens} ADT</span>
-        <br />
         <button className='ui tiny button green' onClick={() => { this.rescueTokens(this.state.selectedPoll) }}>UNLOCK</button>
       </div>
     )

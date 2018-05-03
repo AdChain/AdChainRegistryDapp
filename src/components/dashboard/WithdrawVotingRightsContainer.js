@@ -59,24 +59,25 @@ class WithdrawVotingRightsContainer extends Component {
     return (
 
       <div className='column five wide t-center WithdrawVotingRightsContainer'>
+        <div className='UnlockedAdt'>
             Unlocked Voting ADT <Tooltip class='InfoIconHigh' info='These voting tokens are not used in polls and are eligible to be withdrawn from the registry and returned to your wallet.' />
-        <div className='column sixteen wide UnlockedAdt'>
+          <br />
           <span className='VotingTokensAmount'>
             {availableTokens !== null ? commafy(availableTokens) + ' ADT' : '-'}
           </span>
-          <div className='ui input action mini'>
-            <input
-              type='text'
-              placeholder='100'
-              id='WithdrawVotingRightsContainerInput'
-              onKeyUp={this.onTokenAmountKeyUp}
-            />
-            <button
-              onClick={this.onWithdraw}
-              className='ui button green tiny'>
+        </div>
+        <div className='ui input action mini'>
+          <input
+            type='text'
+            placeholder='100'
+            id='WithdrawVotingRightsContainerInput'
+            onKeyUp={this.onTokenAmountKeyUp}
+          />
+          <button
+            onClick={this.onWithdraw}
+            className='ui button green tiny'>
               WITHDRAW
-            </button>
-          </div>
+          </button>
         </div>
       </div>
     )

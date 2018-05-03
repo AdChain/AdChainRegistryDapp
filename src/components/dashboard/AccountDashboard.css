@@ -99,6 +99,19 @@
   border-bottom: none;
 }
 
+:root:root:root .VotingUtilitiesRow {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+
+:root:root:root .ExpiredVotingAdtContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 @media only screen and (max-width: 1280px) {
   .DashboardRow {
    font-size: 10px;

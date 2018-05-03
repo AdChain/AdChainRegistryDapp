@@ -110,7 +110,7 @@ class AccountDashboard extends Component {
               <div className='BoxFrame'>
                 <span className='ui grid BoxFrameLabel'>PRE-APPROVE TOKENS FOR VOTING<Tooltip info={'Pre-Approve Voting Rights to reduce the number of MetaMask transactions.'} /></span>
                 <div className='ui grid'>
-                  <div className='row f-13'>
+                  <div className='row f-13 VotingUtilitiesRow'>
                     <RequestVotingRightsContainer account={account} contract={'registry'} />
                     <ExpiredVotingADT account={account} contract={'registry'} />
                     <WithdrawVotingRightsContainer account={account} contract={'registry'} />

@@ -22,3 +22,9 @@
 .RequestVotingRightsContainerInput {
   max-width: 90px !important;
 }
+
+:root:root:root .VotingRights {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
