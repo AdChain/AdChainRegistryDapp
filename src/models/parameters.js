@@ -42,7 +42,7 @@ export const parameterData = {
       metric: '%',
       name: 'voteQuorum',
       value: 0,
-      info: 'The percentage of the total votes needed fot the Supporting side to be declared as the winner. For example, if VoteQuorum is set to 67%, then the Supporting Side (the side voting for the Applicant) will need to obtain at least 67% of the total votes to win.'
+      info: 'The percentage of the total votes needed for the Supporting side to be declared as the winner. For example, if VoteQuorum is set to 67%, then the Supporting Side (the side voting for the Applicant) will need to obtain at least 67% of the total votes to win.'
     }
   },
   // GLOBAL PARAM DATA
