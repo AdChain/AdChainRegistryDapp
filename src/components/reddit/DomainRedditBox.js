@@ -373,7 +373,7 @@ class DomainRedditBox extends Component {
       let {account} = this.state
 
       if(!account){
-        account = 'anon'
+        account = 'anonymous'
       }
       const result = await createComment(redditId, comment, account)
       const idx = redditCommentsObj.comments ? redditCommentsObj.comments.length : 0
@@ -384,7 +384,7 @@ class DomainRedditBox extends Component {
       console.log(result)
       redditCommentsObj.comments.push({
         [idx]: {
-          author: result.data.author,
+          author: result.data.user,
           body: result.data.comment,
           created: moment().unix() + 28800,
           score: 1
