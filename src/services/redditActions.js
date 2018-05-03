@@ -45,7 +45,9 @@ export async function createPostChallenge (domain, reason) {
 
 export async function createComment (id, comment, address) {
   let res
-  let user = address === 'anonymous' ? address : `0x${soliditySHA3(['string'], [address]).toString('hex')}`
+  let userHash = `0x${soliditySHA3(['string'], [address]).toString('hex')}`
+  let user = address === 'anonymous' ? address : userHash.substr(2, 7)
+
   try {
     res = await axios.post(`${utilityApiURL}/create/comment`, {
       id: id,
