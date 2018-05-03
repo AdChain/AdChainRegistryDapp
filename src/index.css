@@ -219,6 +219,7 @@ select:focus{
 select:hover{
   cursor:pointer;
 }
+.icon.sign.out.alternate{color:#9E9E9E}
 /* IE11 hide native button (thanks Matt!) */
 select::-ms-expand {
   display: none;

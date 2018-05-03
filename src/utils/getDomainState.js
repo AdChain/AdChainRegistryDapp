@@ -154,7 +154,7 @@ const getDomainState = async (data) => {
       // -----------------------------------------
       // -----------------------------------------
     } else {
-      item.stage = 'apply'
+      item.stage = 'rejected'
       item.actionLabel = 'APPLY'
       item.color = 'blue'
       item.label = <span><i className='icon x circle' />Rejected</span>

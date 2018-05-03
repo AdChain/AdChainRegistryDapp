@@ -79,7 +79,9 @@ class DomainProfileActionContainer extends Component {
     } else if (stage === 'in_registry_update_status' || stage === 'in_application_pending' || stage === 'reveal_pending') {
       component = <DomainPendingContainer domain={domain} domainData={domainData}/>
     } else if (stage === 'apply') {
-      component = <DomainRejectedContainer domain={domain} domainData={domainData}/>
+      component = <DomainRejectedContainer stage={'Rejected'} domain={domain} domainData={domainData}/>
+    } else if (stage === 'withdrawn') {
+      component = <DomainRejectedContainer stage={'Withdrawn'} domain={domain} domainData={domainData}/>
     } else {
       component = <DomainNotInRegistryContainer domain={domain} domainData={domainData}/>
     }

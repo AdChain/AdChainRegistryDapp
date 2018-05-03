@@ -142,29 +142,26 @@ class AccountDashboard extends Component {
     )
   }
 
-  async fetchDomainStage (domain) {
+  async fetchDomainStage (domainData) {
     try {
 
-      let domainState = await getDomainState(domain)
+      let domainState = await getDomainState(domainData)
 
       // If rejected --> Check to see if listing is withdrawn
       if(domainState.stage === 'rejected'){
-
         const getWithdrawn = async () => {
           const withdrawn = await (await window.fetch(`${registryApiURL}/registry/domains?filter=withdrawn`)).json()
           return withdrawn
         }
-
         let withdrawn = await getWithdrawn()
-
         for (let w of withdrawn) {
           if (w.domainHash === domainState.listingHash) {
-            domainState.label = <span><i className='icon x circle' />Withdrawn</span>
+            domainState.label = <span><i className='icon sign out alternate' />Withdrawn</span>
             break;
           }
         }
-
       }
+
       return domainState.label
     } catch (error) {
       console.error(error)
@@ -234,6 +231,7 @@ class AccountDashboard extends Component {
           data[i].stage = await this.fetchDomainStage(data[i])
         }
       }
+
       if (this._isMounted) {
         if (!data.error) {
           this.setState({

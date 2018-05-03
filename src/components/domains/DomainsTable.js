@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import ReactTable from 'react-table'
+import _ from 'lodash'
 import Tooltip from '../Tooltip'
 import commafy from 'commafy'
 import moment from 'moment'
@@ -19,7 +20,7 @@ import getDomainState from '../../utils/getDomainState'
 
 // import StatProgressBar from './StatProgressBar'
 
-function filterMethod (filter, row) {
+function filterMethod(filter, row) {
   const id = filter.pivotId || filter.id
   if (filter.value instanceof RegExp) {
     return row[id] !== undefined ? filter.value.test(row[id]) : true
@@ -31,14 +32,14 @@ function filterMethod (filter, row) {
 
 var history = null
 
-function isExpired (end) {
+function isExpired(end) {
   const now = moment().unix()
   if (!end) return false
   return end < now
 }
 
 class DomainsTable extends Component {
-  constructor (props) {
+  constructor(props) {
     super()
 
     const filters = props.filters
@@ -51,8 +52,10 @@ class DomainsTable extends Component {
       pages: -1, // we don't know how many pages yet
       pageSize: 11,
       isLoading: false,
-      inProgress: false
+      inProgress: false,
+      withdrawn: {}
     }
+
     history = props.history
 
     this.onTableFetchData = this.onTableFetchData.bind(this)
@@ -60,7 +63,7 @@ class DomainsTable extends Component {
     this.fetchNewData = this.fetchNewData.bind(this)
   }
 
-  componentDidMount () {
+  componentDidMount() {
     this._isMounted = true
     // infinite calls if enabled,
     // need to debug
@@ -73,20 +76,20 @@ class DomainsTable extends Component {
   componentWillMount() {
     this.fetchNewDataEvent = PubSub.subscribe('DomainsTable.fetchNewData', this.fetchNewData)
   }
-  
-  componentWillUnmount () {
+
+  componentWillUnmount() {
     this._isMounted = false
   }
-  
-  componentWillReceiveProps (props) {
-    const {filters} = props
+
+  componentWillReceiveProps(props) {
+    const { filters } = props
     if (this._isMounted) {
-      this.setState({filters})
+      this.setState({ filters })
     }
     this.getData(filters)
   }
-  
-  render () {
+
+  render() {
     const {
       columns,
       data,
@@ -94,7 +97,7 @@ class DomainsTable extends Component {
       pageSize,
       isLoading
     } = this.state
-        
+
     return (
       <div className='DomainsTable BoxFrame'>
         <span className='BoxFrameLabel ui grid'>DOMAINS <Tooltip info={'The Domains Table shows a holistic view of every active domain that has applied to the registry. Feel free to use the DOMAIN FILTER box to the left to display the desired content.'} /></span>
@@ -113,8 +116,8 @@ class DomainsTable extends Component {
             resizable
             className='ui table'
             multiSort={false}
-            // manual
-            // onFetchData={this.onTableFetchData}
+          // manual
+          // onFetchData={this.onTableFetchData}
           />
           <div className='Legend'>
             <span><i className='icon check circle' /> = &nbsp;  In Registry</span>
@@ -128,7 +131,7 @@ class DomainsTable extends Component {
 
   // The 'props' parameter used here is coming from the data prop in the ReactTable
   // It is how the react table requires you to pass custom data: https://github.com/react-tools/react-table#props
-  getColumns () {
+  getColumns() {
     const columns = [{
       Header: 'Domain',
       accessor: 'domain',
@@ -189,14 +192,14 @@ class DomainsTable extends Component {
               return
             }
             history.push(`/domains/${domain}`)
-          }}>{actionLabel} &nbsp;{actionLabel === 'REFRESH' ? <i className='icon refresh' /> : '' }</a>
+          }}>{actionLabel} &nbsp;{actionLabel === 'REFRESH' ? <i className='icon refresh' /> : ''}</a>
       },
       minWidth: 120
     }, {
       Header: 'Stage',
       accessor: 'stage',
       Cell: (props) => {
-        let{ domain, label, listingHash }= props.original
+        let { domain, label, listingHash } = props.original
 
         const expired = isExpired(props.original.stageEndsTimestamp) || props.original.stage === 'view'
 
@@ -234,8 +237,8 @@ class DomainsTable extends Component {
       className: 'Number',
       headerClassName: 'Number',
       Cell: (props) => {
-        const {value, row} = props
-        const {domain} = row
+        const { value, row } = props
+        const { domain } = row
 
         if (value) {
           return <CountdownSnapshot endDate={value} />
@@ -254,7 +257,7 @@ class DomainsTable extends Component {
     return columns
   }
 
-  async onTableFetchData () {
+  async onTableFetchData(withdrawn) {
     if (this._isMounted) {
       this.setState({
         isLoading: true
@@ -263,11 +266,11 @@ class DomainsTable extends Component {
 
     const filtered = this.state.filters
 
-    const allDomains = this.state.allDomains
-    let domains = allDomains
+    let domains = this.state.allDomains
+
     if (filtered && filtered[0]) {
       domains = domains.filter(domain => {
-        return filterMethod(filtered[0], {domain})
+        return filterMethod(filtered[0], { domain })
       })
     }
 
@@ -275,14 +278,22 @@ class DomainsTable extends Component {
     // domains = domains.slice(start, end)
     const data = await Promise.all(domains.map(async domainData => {
       try {
-        if(domainData.domain){
+        if (domainData.domain) {
           let domainState = await getDomainState(domainData)
+          if (domainState.stage === 'rejected') {
+            // If rejected --> Check to see if listing is withdrawn
+            if (withdrawn[domainState.listingHash]) {
+              domainState.label = <span><i className='icon sign out alternate' />Withdrawn</span>
+            }
+          }
           return domainState
         }
+
       } catch (error) {
         console.log(error)
       }
     }))
+
     if (this._isMounted) {
       this.setState({
         data,
@@ -292,7 +303,9 @@ class DomainsTable extends Component {
     }
   }
 
-  async getData (filters) {
+
+  async getData(filters) {
+
     try {
       const {
         pageSize
@@ -353,6 +366,11 @@ class DomainsTable extends Component {
 
       let query = `filter=${queryFilters.join(',')}`
 
+      // Get withdrawn domains so we can later check the rejected domains to see if they're withrawn.
+      let withdrawn = await (await window.fetch(`${registryApiURL}/registry/domains?filter=withdrawn`)).json()
+      // Create a hash map of hashes so lookup is faster
+      withdrawn = _.keyBy(withdrawn, 'domainHash')
+
       if (accountFilter) {
         const account = accountFilter.value || ''
 
@@ -375,7 +393,7 @@ class DomainsTable extends Component {
           pages: Math.ceil(domains.length / pageSize, 10)
         })
 
-        this.onTableFetchData()
+        this.onTableFetchData(withdrawn)
 
       }
     } catch (error) {
@@ -383,7 +401,7 @@ class DomainsTable extends Component {
     }
   }
 
-  async fetchNewData (topic, source, counter = 0) {
+  async fetchNewData(topic, source, counter = 0) {
     const { filters } = this.state
     const transactionInfo = source
     const currentNumDomains = Number(window.localStorage.getItem('TotalNumDomains'))
@@ -416,13 +434,13 @@ class DomainsTable extends Component {
     }
   }
 
-  async updateStatus (listingHash) {
+  async updateStatus(listingHash) {
     try {
       await registry.updateStatus(listingHash)
     } catch (error) {
       console.error(error)
     }
-    const {filters} = this.props
+    const { filters } = this.props
     this.getData(filters)
   }
 

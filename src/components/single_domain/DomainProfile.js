@@ -114,13 +114,13 @@ class DomainProfile extends Component {
 
   async fetchSiteData() {
     let metadata
-    let domainsData
+    let listing
     const { domain } = this.state
 
     if (!domain) return null
 
     try {
-      domainsData = await (await window.fetch(`${registryApiURL}/registry/domain?domain=${domain}`)).json()
+      listing = await (await window.fetch(`${registryApiURL}/registry/domain?domain=${domain}`)).json()
       
       try {
         metadata = await (await window.fetch(`${registryApiURL}/domains/metadata?domain=${domain}`)).json()
@@ -128,10 +128,25 @@ class DomainProfile extends Component {
         console.log(error)
       }
 
-      let listingHash = domainsData.listingHashNew || domainsData.listingHashOld
+      let listingHash = listing.listingHashNew || listing.listingHashOld
 
       const domainData = await getDomainState({ domain, domainHash: listingHash })
 
+      // If rejected --> Check to see if listing is withdrawn
+      if(domainData.stage === 'rejected'){
+        const getWithdrawn = async () => {
+          const withdrawn = await (await window.fetch(`${registryApiURL}/registry/domains?filter=withdrawn`)).json()
+          return withdrawn
+        }
+        let withdrawn = await getWithdrawn()
+        for (let w of withdrawn) {
+          if (w.domainHash === domainData.listingHash) {
+            domainData.stage = 'withdrawn'
+            break;
+          }
+        }
+      }
+      
       if (this._isMounted) {
         this.setState({
           domainData,

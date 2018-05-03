@@ -10,7 +10,8 @@ class DomainRejectedContainer extends Component {
     super()
 
     this.state = {
-      domain: props.domain
+      domain: props.domain,
+      stage: props.stage
     }
   }
 
@@ -25,7 +26,7 @@ class DomainRejectedContainer extends Component {
           <div className='column sixteen wide HeaderColumn'>
             <div className='row HeaderRow'>
               <div className='ui large header'>
-                Stage: Rejected
+                Stage: {this.props.stage}
                 <Tooltip
                   info='The first phase of the voting process is the commit phase where the ADT holder stakes a hidden amount of votes to SUPPORT or OPPOSE the domain application. The second phase is the reveal phase where the ADT holder reveals the staked amount of votes to either the SUPPORT or OPPOSE side.'
                 />
