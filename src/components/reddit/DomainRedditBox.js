@@ -1,15 +1,17 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
 import _ from 'lodash'
 import toastr from 'toastr'
 import moment from 'moment'
-import Tooltip from '../Tooltip'
-import { Tab, Button, Input, Loader } from 'semantic-ui-react'
-import './DomainRedditBox.css'
-
-import RedditReasonModal from './RedditReasonModal'
-import { getPosts, createComment, createPostApplication } from '../../services/redditActions'
 import PubSub from 'pubsub-js'
+import PropTypes from 'prop-types'
+
+import Tooltip from '../Tooltip'
+import registry from '../../services/registry'
+import RedditReasonModal from './RedditReasonModal'
+import { Tab, Button, Input, Loader } from 'semantic-ui-react'
+import { getPosts, createComment, createPostApplication } from '../../services/redditActions'
+
+import './DomainRedditBox.css'
 
 class DomainRedditBox extends Component {
   constructor(props) {
@@ -23,6 +25,7 @@ class DomainRedditBox extends Component {
 
     this.state = {
       domain,
+      account: registry.getAccount(),
       listingHash,
       description,
       appliedObj: {},
@@ -367,22 +370,27 @@ class DomainRedditBox extends Component {
         redditCommentsObj.id = redditId
         redditCommentsObj.url = `https://reddit.com/r/adchainregistry/${redditId.split('_')[1]}`
       }
+      let {account} = this.state
 
-      const result = await createComment(redditId, comment)
+      if(!account){
+        account = 'anon'
+      }
+      const result = await createComment(redditId, comment, account)
       const idx = redditCommentsObj.comments ? redditCommentsObj.comments.length : 0
 
       if (!redditCommentsObj.comments) {
         redditCommentsObj.comments = []
       }
-
+      console.log(result)
       redditCommentsObj.comments.push({
         [idx]: {
-          author: 'adchain_registry',
+          author: result.data.author,
           body: result.data.comment,
           created: moment().unix() + 28800,
           score: 1
         }
       })
+
       if (this._isMounted) {
         if (redditTabIndex === 0) {
           this.setState({

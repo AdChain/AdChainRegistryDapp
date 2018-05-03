@@ -13,14 +13,16 @@ export const detectNetwork = (provider) => {
   try {
     return new Promise(async (resolve, reject) => {
       if (!window.web3) {
-        throw new Error('No MetaMask/web3')
+        console.log('No MetaMask/web3')
+        return null
       }
       window.web3.version.getNetwork((err, _netId) => {
         if (_netId === undefined) {
           netId = null
         }
         if (err) {
-          throw new Error(err)
+          console.log(err)
+          return null
         }
 
         netId = _netId

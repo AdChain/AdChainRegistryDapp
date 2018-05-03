@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { soliditySHA3 } from 'ethereumjs-abi'
 import { utilityApiURL } from '../models/urls'
 
 // const url = 'https://utility.adchain.com/'
@@ -42,14 +43,14 @@ export async function createPostChallenge (domain, reason) {
   }
 }
 
-export async function createComment (id, comment) {
+export async function createComment (id, comment, address) {
   let res
   try {
     res = await axios.post(`${utilityApiURL}/create/comment`, {
       id: id,
-      comment: comment
+      comment: comment,
+      address: `0x${soliditySHA3(['string'], [address]).toString('hex')}`
     })
-    console.log('response: ', res)
     return res
   } catch (error) {
     console.error(error)
