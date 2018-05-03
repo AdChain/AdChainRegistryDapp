@@ -39,9 +39,7 @@ class DomainVoteTokenDistribution extends Component {
     let listingHash
     
     if(this.props.domainData){
-      listingHash = this.props.domainData
-    }else{
-      listingHash = this.state
+      listingHash = this.props.domainData.listingHash
     }
 
 

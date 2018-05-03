@@ -149,7 +149,7 @@ class DomainVoteRevealContainer extends Component {
           </div>
             : null}
           <div className='ui divider' />
-          <DomainVoteTokenDistribution domain={domain} />
+          <DomainVoteTokenDistribution domainData={this.props.domainData} domain={domain} />
           <div className='ui divider' />
           { // Only displays the upload commit feature if they have actually committed votes for the challenge
             didCommit
@@ -180,7 +180,7 @@ class DomainVoteRevealContainer extends Component {
                     Challenge ID:
                         </span>
                         <Input id='DomainVoteRevealChallengeIdInput'
-                          value={this.state.challengeId}
+                          value={this.props.domainData.challengeId}
                           className='VoteRevealInput' />
                       </div>
                       <div className='VoteRevealLabel'>
@@ -310,7 +310,6 @@ class DomainVoteRevealContainer extends Component {
 
   async getPoll () {
     const {listingHash} = this.props.domainData
-    console.log("Lhash: ",listingHash)
     try {
       const {
         votesFor,
