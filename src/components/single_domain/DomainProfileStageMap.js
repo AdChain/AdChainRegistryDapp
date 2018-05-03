@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import toastr from 'toastr'
+import PubSub from 'pubsub-js'
 
-import './DomainProfileStageMap.css'
 import Tooltip from '../Tooltip'
 
 import MapInApplication from '../assets/stage_maps/map_application.svg'
@@ -15,8 +15,10 @@ import MapInRegistryChallengeId from '../assets/stage_maps/map_in_registry_chall
 import MapInRegistryCommit from '../assets/stage_maps/map_in_registry_challenge_id_commit.svg'
 import MapInRegistryReveal from '../assets/stage_maps/map_in_registry_no_id_reveal.svg'
 import MapInRegistryRevealPending from '../assets/stage_maps/map_in_registry_no_id_reveal_pending.svg'
+import MapWithdrawnChallenge from '../assets/stage_maps/map_withdrawn_challenge_id.svg'
+import MapWithdrawnNoChallenge from '../assets/stage_maps/map_withdrawn_no_id.svg'
 
-import PubSub from 'pubsub-js'
+import './DomainProfileStageMap.css'
 
 const stageMaps = {
   MapInRegistryCommit,
@@ -29,7 +31,9 @@ const stageMaps = {
   MapCommit,
   MapReveal,
   MapRevealPending,
-  MapRejected
+  MapRejected,
+  MapWithdrawnChallenge,
+  MapWithdrawnNoChallenge
 }
 
 class DomainProfileStageMap extends Component {

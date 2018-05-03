@@ -19,14 +19,13 @@ const big = (number) => new Eth.BN(number.toString(10))
 const tenToTheNinth = big(10).pow(big(9))
 
 class DomainVoteRevealContainer extends Component {
-  constructor (props) {
+  constructor(props) {
     super()
 
     let displayRevealModal = JSON.parse(window.localStorage.getItem('RevealGuide'))
 
     this.state = {
       domain: props.domain,
-      account: registry.getAccount(),
       applicationExpiry: null,
       votesFor: 0,
       votesAgainst: 0,
@@ -40,6 +39,7 @@ class DomainVoteRevealContainer extends Component {
       challengeId: '',
       revealedVoteOption: '',
       revealedAmount: 0,
+      account: registry.getAccount(),
       displayRevealModal: !displayRevealModal
     }
 
@@ -50,9 +50,9 @@ class DomainVoteRevealContainer extends Component {
     this.onSaltChange = this.onSaltChange.bind(this)
   }
 
-  async componentDidMount () {
+  async componentDidMount() {
     this._isMounted = true
-    if(this.props.domainData){
+    if (this.props.domainData) {
       Promise.all([
         this.getPoll(),
         this.getChallenge(),
@@ -62,21 +62,21 @@ class DomainVoteRevealContainer extends Component {
     }
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     this._isMounted = false
   }
 
-  componentWillReceiveProps (next) {
+  componentWillReceiveProps(next) {
     if (next.domainData && next.currentDeposit !== this.props.currentDeposit) {
       this.setState({
         domainData: next.domainData,
         challengeId: next.domainData.challengeId,
         applicationExpiry: next.domainData.applicationExpiry,
       })
-
     }
   }
-  render () {
+
+  render() {
     const {
       domain,
       revealEndDate,
@@ -100,14 +100,13 @@ class DomainVoteRevealContainer extends Component {
     const stageEnd = stageEndMoment ? stageEndMoment.format('YYYY-MM-DD HH:mm:ss') : '-'
     let redirectState = this.props.redirectState ? this.props.redirectState.cameFromRedirect : false
 
-
     return (
       <div className='DomainVoteRevealContainer'>
         <div className='ui grid stackable'>
           <div className='column sixteen wide HeaderColumn'>
             <div className='row HeaderRow'>
               <div className='ui large header'>
-              Stage: Reveal
+                Stage: Reveal
                 <Tooltip
                   info='The first phase of the voting process is the commit phase where the ADT holder stakes a hidden amount of votes to SUPPORT or OPPOSE the domain application. The second phase is the reveal phase where the ADT holder reveals the staked amount of votes to either the SUPPORT or OPPOSE side.'
                 />
@@ -118,7 +117,7 @@ class DomainVoteRevealContainer extends Component {
           <div className='column sixteen wide center aligned'>
             <div>
               <p>
-            Reveal stage ends
+                Reveal stage ends
               </p>
               <p><strong>{stageEnd}</strong></p>
               <div>Remaining time: <Countdown
@@ -158,7 +157,7 @@ class DomainVoteRevealContainer extends Component {
                   <div className='column sixteen wide center aligned RevealActionRow'>
                     <Segment className='LeftSegment' floated='left'>
                       <div className='UploadJSONLabel'>
-                      Upload your JSON commit file to reveal your vote:
+                        Upload your JSON commit file to reveal your vote:
                       </div>
                       <div className='UploadCommitButtonContainer'>
                         <Button className='UploadCommitButton' basic onClick={this.uploadClick}>Upload Commit &nbsp;<i className='icon long arrow up' /></Button>
@@ -166,18 +165,18 @@ class DomainVoteRevealContainer extends Component {
                           type='file'
                           name='file'
                           id='HiddenCommitFile'
-                          ref='HiddenFileUploader' style={{display: 'none'}}
+                          ref='HiddenFileUploader' style={{ display: 'none' }}
                           onChange={this.onFileInput}
                           className='ui file' />
                       </div>
                     </Segment>
                     <Segment className='RightSegment' floated='right'>
                       <div className='ManualJSONInputLabel'>
-                    If you misplaced your JSON commit file, you can enter the information below to reveal:
+                        If you misplaced your JSON commit file, you can enter the information below to reveal:
                       </div>
                       <div className='VoteRevealLabel'>
                         <span className='VoteRevealLabelText'>
-                    Challenge ID:
+                          Challenge ID:
                         </span>
                         <Input id='DomainVoteRevealChallengeIdInput'
                           value={this.props.domainData.challengeId}
@@ -185,13 +184,13 @@ class DomainVoteRevealContainer extends Component {
                       </div>
                       <div className='VoteRevealLabel'>
                         <span className='VoteRevealLabelText'>
-                  Secret Phrase:
+                          Secret Phrase:
                         </span>
                         <Input id='DomainVoteRevealSaltInput' onChange={this.onSaltChange} className='VoteRevealInput' />
                       </div>
                       <div className='VoteRevealLabel'>
                         <span className='VoteRevealLabelText'>
-                  Vote Option:
+                          Vote Option:
                         </span>
                         <Dropdown
                           onChange={this.onVoteOptionChange}
@@ -212,13 +211,13 @@ class DomainVoteRevealContainer extends Component {
                       type='submit'
                       onClick={this.onFormSubmit}
                     >
-              Reveal Vote
+                      Reveal Vote
                     </Button>
                   </div>
                 </div>
                 : <div className='RevealedDataContainer'>
                   <div className='RevealedVoteOption'>
-                  You voted to <span>{revealedVoteOption}</span> this domain with
+                    You voted to <span>{revealedVoteOption}</span> this domain with
                   </div>
                   <div className='RevealedAmount'>
                     {revealedAmount} ADT
@@ -236,27 +235,25 @@ class DomainVoteRevealContainer extends Component {
     )
   }
 
-  onVoteOptionChange (event, { value }) {
+  onVoteOptionChange(event, { value }) {
     this.setState({
       voteOption: parseInt(value, 10)
     })
   }
 
-  onSaltChange (e) {
+  onSaltChange(e) {
     this.setState({
       salt: e.target.value
     })
   }
 
-  uploadClick (e) {
+  uploadClick(e) {
     this.refs.HiddenFileUploader.click()
   }
 
-
-
-  async getCommit () {
-    const {account} = this.state
-    const {listingHash} = this.props.domainData
+  async getCommit() {
+    const { account } = this.state
+    const { listingHash } = this.props.domainData
 
     if (!account) {
       return false
@@ -274,9 +271,9 @@ class DomainVoteRevealContainer extends Component {
     }
   }
 
-  async getReveal () {
-    const {account} = this.state
-    const {listingHash} = this.props.domainData
+  async getReveal() {
+    const { account } = this.state
+    const { listingHash } = this.props.domainData
 
     if (!account) {
       return false
@@ -308,8 +305,8 @@ class DomainVoteRevealContainer extends Component {
     }
   }
 
-  async getPoll () {
-    const {listingHash} = this.props.domainData
+  async getPoll() {
+    const { listingHash } = this.props.domainData
     try {
       const {
         votesFor,
@@ -332,9 +329,9 @@ class DomainVoteRevealContainer extends Component {
     }
   }
 
-  async getChallenge () {
-    const {account} = this.state
-    const {listingHash} = this.props.domainData
+  async getChallenge() {
+    const { account } = this.state
+    const { listingHash } = this.props.domainData
 
     if (!account) {
       return false
@@ -354,15 +351,15 @@ class DomainVoteRevealContainer extends Component {
     }
   }
 
-  onFormSubmit (event) {
+  onFormSubmit(event) {
     event.preventDefault()
 
     this.reveal()
   }
 
-  async reveal () {
-    const {salt, voteOption, account} = this.state
-    const {listingHash} = this.props.domainData
+  async reveal() {
+    const { salt, voteOption, account } = this.state
+    const { listingHash } = this.props.domainData
 
     if (!salt) {
       toastr.error('Please enter salt value')
@@ -375,7 +372,7 @@ class DomainVoteRevealContainer extends Component {
     }
 
     try {
-      const revealed = await registry.revealVote({listingHash, voteOption, salt})
+      const revealed = await registry.revealVote({ listingHash, voteOption, salt })
       if (revealed) {
         await this.getReveal(listingHash)
         const response = await window.fetch(`${registryApiURL}/account/rewards?account=${account}&status=revealed`)
@@ -392,7 +389,7 @@ class DomainVoteRevealContainer extends Component {
             this.setState(newState)
           }
         })
-        PubSub.publish('DomainVoteTokenDistribution.getPoll')     
+        PubSub.publish('DomainVoteTokenDistribution.getPoll')
       } else {
         setTimeout(() => {
           this.getReveal().then(
@@ -406,7 +403,7 @@ class DomainVoteRevealContainer extends Component {
     }
   }
 
-  onFileInput (event) {
+  onFileInput(event) {
     event.preventDefault()
     const file = event.target.files[0]
     const fr = new window.FileReader()
@@ -415,7 +412,7 @@ class DomainVoteRevealContainer extends Component {
       const contents = fr.result
 
       try {
-        const {salt, voteOption, challengeId} = JSON.parse(contents)
+        const { salt, voteOption, challengeId } = JSON.parse(contents)
 
         if (this._isMounted) {
           this.setState({
@@ -434,7 +431,7 @@ class DomainVoteRevealContainer extends Component {
         // set value
         saltInput.value = salt
         voteOptionDropdown.value = voteOption === 1 ? 'Support' : 'Oppose'
-      // trigger event
+        // trigger event
         // saltInput.dispatchEvent(event)
         // voteOptionDropdown.dispatchEvent(event)
       } catch (error) {
@@ -446,7 +443,7 @@ class DomainVoteRevealContainer extends Component {
     fr.readAsText(file)
   }
 
-  onCountdownExpire () {
+  onCountdownExpire() {
     // allow some time for new block to get mined and reload page
     setTimeout(() => {
       window.location.reload()

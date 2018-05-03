@@ -19,7 +19,6 @@ class DomainVoteTokenDistribution extends Component {
       votesAgainst: 0
     }
     this.getPoll = this.getPoll.bind(this)
-    
   }
 
   componentDidMount () {
@@ -41,7 +40,6 @@ class DomainVoteTokenDistribution extends Component {
     if(this.props.domainData){
       listingHash = this.props.domainData.listingHash
     }
-
 
     try {
       const {

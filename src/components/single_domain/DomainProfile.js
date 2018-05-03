@@ -142,6 +142,11 @@ class DomainProfile extends Component {
         for (let w of withdrawn) {
           if (w.domainHash === domainData.listingHash) {
             domainData.stage = 'withdrawn'
+            if(domainData.challengeId > 0){
+              domainData.stageMapSrc = 'MapWithdrawnChallenge'
+            }else{
+              domainData.stageMapSrc = 'MapWithdrawnNoChallenge'
+            }
             break;
           }
         }

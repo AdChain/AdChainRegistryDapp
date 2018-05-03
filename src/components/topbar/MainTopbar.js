@@ -55,6 +55,7 @@ class MainTopbar extends Component {
 
     return (
       <div className={'MainTopbar ' + (address ? '' : 'NoWallet')}>
+      
         <div className='ui top attached menu stackable inverted overflow-x'>
           <div className='item'>
             {address
@@ -88,7 +89,6 @@ class MainTopbar extends Component {
               // </span>
               // </div>
               // </div>
-
             }
             {address
               ? <div className={'JoyrideTopBar BalanceText item ' + (ethBalance === 0 || ethBalance === null ? 'RedAlert' : '')}>
