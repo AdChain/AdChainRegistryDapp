@@ -16,12 +16,12 @@ class DomainsFilterPanel extends Component {
     this.state = {
       filters: props.filters,
       totalStaked: 0,
-      totalInApplication: 0,
-      totalInCommit: 0,
-      totalInReveal: 0,
-      totalInRegistry: 0,
-      totalWithdrawn: 0,
-      totalRejected: 0
+      inApplication: 0,
+      inCommit: 0,
+      inReveal: 0,
+      inRegistry: 0,
+      withdrawn: 0,
+      rejected: 0
     }
 
     this.onSearchInput = this.onSearchInput.bind(this)
@@ -55,12 +55,12 @@ class DomainsFilterPanel extends Component {
   render () {
     const {
       filters,
-      totalInApplication,
-      totalInCommit,
-      totalInReveal,
-      totalInRegistry,
-      totalWithdrawn,
-      totalRejected
+      inApplication,
+      inCommit,
+      inReveal,
+      inRegistry,
+      withdrawn,
+      rejected
     } = this.state
 
     return (
@@ -100,7 +100,7 @@ class DomainsFilterPanel extends Component {
                     />
                   </div>
                   <label htmlFor='DomainsFilterPanel_InRegistry'>In Registry</label> &nbsp;
-                  <span className='f-grey f-12 f-os'>({totalInRegistry != null ? commafy(totalInRegistry) : '-'})</span>
+                  <span className='f-grey f-12 f-os'>({inRegistry != null ? commafy(inRegistry) : '-'})</span>
                 </li>
                 <li className='item'>
                   <div className='ui input'>
@@ -113,7 +113,7 @@ class DomainsFilterPanel extends Component {
                     />
                   </div>
                   <label htmlFor='DomainsFilterPanel_InApplication'>In Application</label> &nbsp;
-                  <span className='f-grey f-12 f-os'>({totalInApplication != null ? commafy(totalInApplication) : '-'})</span>
+                  <span className='f-grey f-12 f-os'>({inApplication != null ? commafy(inApplication) : '-'})</span>
 
                 </li>
                 <li className='item'>
@@ -127,7 +127,7 @@ class DomainsFilterPanel extends Component {
                     />
                   </div>
                   <label htmlFor='DomainsFilterPanel_InVotingCommit'>In Commit</label> &nbsp;
-                  <span className='f-grey f-12 f-os'>({totalInCommit != null ? commafy(totalInCommit) : '-'})</span>
+                  <span className='f-grey f-12 f-os'>({inCommit != null ? commafy(inCommit) : '-'})</span>
                 </li>
                 <li className='item'>
                   <div className='ui input'>
@@ -140,7 +140,7 @@ class DomainsFilterPanel extends Component {
                     />
                   </div>
                   <label htmlFor='DomainsFilterPanel_InVotingReveal'>In Reveal</label> &nbsp;
-                  <span className='f-grey f-12 f-os'>({totalInReveal != null ? commafy(totalInReveal) : '-'})</span>
+                  <span className='f-grey f-12 f-os'>({inReveal != null ? commafy(inReveal) : '-'})</span>
                 </li>
                 <li className='item'>
                   <div className='ui input'>
@@ -153,7 +153,7 @@ class DomainsFilterPanel extends Component {
                     />
                   </div>
                   <label htmlFor='DomainsFilterPanel_Rejected'>Rejected</label> &nbsp;
-                  <span className='f-grey f-12 f-os'>({totalRejected != null ? commafy(totalRejected) : '-'})</span>
+                  <span className='f-grey f-12 f-os'>({rejected != null ? commafy(rejected) : '-'})</span>
                 </li>
                 <li className='item'>
                   <div className='ui input'>
@@ -166,7 +166,7 @@ class DomainsFilterPanel extends Component {
                     />
                   </div>
                   <label htmlFor='DomainsFilterPanel_Withdrawn'>Withdrawn</label> &nbsp;
-                  <span className='f-grey f-12 f-os'>({totalWithdrawn != null ? commafy(totalWithdrawn) : '-'})</span>
+                  <span className='f-grey f-12 f-os'>({withdrawn != null ? commafy(withdrawn) : '-'})</span>
                 </li>
               </ul>
             </div>
@@ -230,12 +230,20 @@ class DomainsFilterPanel extends Component {
   async fetchStats () {
     try {
       // let totalStaked = await (await window.fetch(`${registryApiURL}/registry/domains/stake/count`)).json()
-      const totalInApplication = await (await window.fetch(`${registryApiURL}/registry/domains/application/count`)).json()
-      const totalInCommit = await (await window.fetch(`${registryApiURL}/registry/domains/incommit/count`)).json()
-      const totalInReveal = await (await window.fetch(`${registryApiURL}/registry/domains/inreveal/count`)).json()
-      const totalInRegistry = await (await window.fetch(`${registryApiURL}/registry/domains/registry/count`)).json()
-      const totalWithdrawn = await (await window.fetch(`${registryApiURL}/registry/domains/withdrawn/count`)).json()
-      const totalRejected = await (await window.fetch(`${registryApiURL}/registry/domains/rejected/count`)).json()
+      const {
+        inRegistry, 
+        inApplication, 
+        inCommit, 
+        inReveal, 
+        rejected, 
+        withdrawn
+      } = await (await window.fetch(`${registryApiURL}/registry/domains/count`)).json()
+
+      // const inCommit = await (await window.fetch(`${registryApiURL}/registry/domains/incommit/count`)).json()
+      // const inReveal = await (await window.fetch(`${registryApiURL}/registry/domains/inreveal/count`)).json()
+      // const inRegistry = await (await window.fetch(`${registryApiURL}/registry/domains/registry/count`)).json()
+      // const withdrawn = await (await window.fetch(`${registryApiURL}/registry/domains/withdrawn/count`)).json()
+      // const rejected = await (await window.fetch(`${registryApiURL}/registry/domains/rejected/count`)).json()
 
       // if (totalStaked) {
       //   totalStaked = totalStaked / Math.pow(10, token.decimals)
@@ -244,12 +252,12 @@ class DomainsFilterPanel extends Component {
       if (this._isMounted) {
         this.setState({
           // totalStaked,
-          totalInApplication,
-          totalInCommit,
-          totalInReveal,
-          totalInRegistry,
-          totalWithdrawn,
-          totalRejected
+          inApplication,
+          inCommit,
+          inReveal,
+          inRegistry,
+          withdrawn,
+          rejected
         })
       }
     } catch (error) {
