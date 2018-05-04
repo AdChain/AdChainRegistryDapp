@@ -144,11 +144,10 @@ class AccountDashboard extends Component {
 
   async fetchDomainStage (domainData) {
     try {
-
       let domainState = await getDomainState(domainData)
 
       // If rejected --> Check to see if listing is withdrawn
-      if(domainState.stage === 'rejected'){
+      if (domainState.stage === 'rejected') {
         const getWithdrawn = async () => {
           const withdrawn = await (await window.fetch(`${registryApiURL}/registry/domains?filter=withdrawn`)).json()
           return withdrawn
@@ -157,7 +156,7 @@ class AccountDashboard extends Component {
         for (let w of withdrawn) {
           if (w.domainHash === domainState.listingHash) {
             domainState.label = <span><i className='icon sign out alternate' />Withdrawn</span>
-            break;
+            break
           }
         }
       }
@@ -218,7 +217,7 @@ class AccountDashboard extends Component {
   async fetchChallengedDomains () {
     const { account } = this.state
 
-    if  (!account || account === '0x0') {
+    if (!account || account === '0x0') {
       return false
     }
 
@@ -257,18 +256,17 @@ class AccountDashboard extends Component {
   async fetchCommitsToReveal () {
     const { account } = this.state
 
-    if  (!account || account === '0x0') {
+    if (!account || account === '0x0') {
       return false
     }
     try {
       const response = await window.fetch(`${registryApiURL}/account/rewards?account=${account}&status=revealing`)
       const data = await response.json()
-        if (this._isMounted) {
-
-      if (!data.error) {
-        this.setState({
-          commitsToReveal: data
-        })
+      if (this._isMounted) {
+        if (!data.error) {
+          this.setState({
+            commitsToReveal: data
+          })
         } else {
           this.setState({
             commitsToReveal: []
@@ -289,7 +287,7 @@ class AccountDashboard extends Component {
   async fetchRewards () {
     const { account } = this.state
 
-    if  (!account || account === '0x0') {
+    if (!account || account === '0x0') {
       return false
     }
     try {
