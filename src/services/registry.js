@@ -9,7 +9,7 @@ import plcr from './plcr'
 import parameterizer from './parameterizer'
 import saltHashVote from '../utils/saltHashVote'
 import { getRegistry } from '../config'
-import { getProvider, getWebsocketProvider } from './provider'
+import { getProvider } from './provider'
 import { ipfsAddObject } from '../services/ipfs'
 import PubSub from 'pubsub-js'
 // import { runInThisContext } from 'vm'
@@ -49,7 +49,7 @@ class RegistryService {
       this.address = this.registry.address
       plcr.init()
 
-      this.setUpEvents()
+      // this.setUpEvents()
       this.setAccount()
 
       store.dispatch({
@@ -60,26 +60,26 @@ class RegistryService {
     }
   }
 
-  async setUpEvents () {
-    try {
-      // websocket provider required for events
-      const provider = getWebsocketProvider()
-      const registry = await getRegistry(null, provider)
+  // async setUpEvents () {
+  //   try {
+  //     // websocket provider required for events
+  //     const provider = getWebsocketProvider()
+  //     const registry = await getRegistry(null, provider)
 
-      registry.allEvents()
-        .watch((error, log) => {
-          if (error) {
-            console.error(error)
-            return false
-          }
-          store.dispatch({
-            type: 'REGISTRY_EVENT'
-          })
-        })
-    } catch (error) {
-      console.error(error)
-    }
-  }
+  //     registry.allEvents()
+  //       .watch((error, log) => {
+  //         if (error) {
+  //           console.error(error)
+  //           return false
+  //         }
+  //         store.dispatch({
+  //           type: 'REGISTRY_EVENT'
+  //         })
+  //       })
+  //   } catch (error) {
+  //     console.error(error)
+  //   }
+  // }
 
   async setAccount () {
     const accounts = await this.eth.accounts()
