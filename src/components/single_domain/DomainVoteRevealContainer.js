@@ -19,7 +19,7 @@ const big = (number) => new Eth.BN(number.toString(10))
 const tenToTheNinth = big(10).pow(big(9))
 
 class DomainVoteRevealContainer extends Component {
-  constructor(props) {
+  constructor (props) {
     super()
 
     let displayRevealModal = JSON.parse(window.localStorage.getItem('RevealGuide'))
@@ -50,7 +50,7 @@ class DomainVoteRevealContainer extends Component {
     this.onSaltChange = this.onSaltChange.bind(this)
   }
 
-  async componentDidMount() {
+  async componentDidMount () {
     this._isMounted = true
     if (this.props.domainData) {
       Promise.all([
@@ -62,21 +62,21 @@ class DomainVoteRevealContainer extends Component {
     }
   }
 
-  componentWillUnmount() {
+  componentWillUnmount () {
     this._isMounted = false
   }
 
-  componentWillReceiveProps(next) {
+  componentWillReceiveProps (next) {
     if (next.domainData && next.currentDeposit !== this.props.currentDeposit) {
       this.setState({
         domainData: next.domainData,
         challengeId: next.domainData.challengeId,
-        applicationExpiry: next.domainData.applicationExpiry,
+        applicationExpiry: next.domainData.applicationExpiry
       })
     }
   }
 
-  render() {
+  render () {
     const {
       domain,
       revealEndDate,
@@ -217,7 +217,7 @@ class DomainVoteRevealContainer extends Component {
                 </div>
                 : <div className='RevealedDataContainer'>
                   <div className='RevealedVoteOption'>
-                    You voted to <span>{revealedVoteOption}</span> this domain with
+                    You voted to <span className={revealedVoteOption}>{revealedVoteOption}</span> this domain with
                   </div>
                   <div className='RevealedAmount'>
                     {revealedAmount} ADT
@@ -235,23 +235,23 @@ class DomainVoteRevealContainer extends Component {
     )
   }
 
-  onVoteOptionChange(event, { value }) {
+  onVoteOptionChange (event, { value }) {
     this.setState({
       voteOption: parseInt(value, 10)
     })
   }
 
-  onSaltChange(e) {
+  onSaltChange (e) {
     this.setState({
       salt: e.target.value
     })
   }
 
-  uploadClick(e) {
+  uploadClick (e) {
     this.refs.HiddenFileUploader.click()
   }
 
-  async getCommit() {
+  async getCommit () {
     const { account } = this.state
     const { listingHash } = this.props.domainData
 
@@ -271,7 +271,7 @@ class DomainVoteRevealContainer extends Component {
     }
   }
 
-  async getReveal() {
+  async getReveal () {
     const { account } = this.state
     const { listingHash } = this.props.domainData
 
@@ -297,7 +297,7 @@ class DomainVoteRevealContainer extends Component {
             this.setState(newState)
           }
         })
-
+        console.log('newstate: ', newState)
       }
     } catch (error) {
       console.error('Get Reveal Error: ', error)
@@ -305,7 +305,7 @@ class DomainVoteRevealContainer extends Component {
     }
   }
 
-  async getPoll() {
+  async getPoll () {
     const { listingHash } = this.props.domainData
     try {
       const {
@@ -329,7 +329,7 @@ class DomainVoteRevealContainer extends Component {
     }
   }
 
-  async getChallenge() {
+  async getChallenge () {
     const { account } = this.state
     const { listingHash } = this.props.domainData
 
@@ -351,13 +351,13 @@ class DomainVoteRevealContainer extends Component {
     }
   }
 
-  onFormSubmit(event) {
+  onFormSubmit (event) {
     event.preventDefault()
 
     this.reveal()
   }
 
-  async reveal() {
+  async reveal () {
     const { salt, voteOption, account } = this.state
     const { listingHash } = this.props.domainData
 
@@ -403,7 +403,7 @@ class DomainVoteRevealContainer extends Component {
     }
   }
 
-  onFileInput(event) {
+  onFileInput (event) {
     event.preventDefault()
     const file = event.target.files[0]
     const fr = new window.FileReader()
@@ -443,7 +443,7 @@ class DomainVoteRevealContainer extends Component {
     fr.readAsText(file)
   }
 
-  onCountdownExpire() {
+  onCountdownExpire () {
     // allow some time for new block to get mined and reload page
     setTimeout(() => {
       window.location.reload()

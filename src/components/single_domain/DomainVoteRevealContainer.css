@@ -193,14 +193,20 @@
 }
 
 .DomainVoteRevealContainer .RevealedVoteOption span {
-  background-color: #F4F7FA;
-  border-radius: 3px;
-  color: #10C903;
   text-transform: uppercase;
   padding: 5px;
   font-weight: 600;
   margin-right: 5px;
   margin-left: 5px;
+  background-color: #F4F7FA;
+  border-radius: 3px;
+}
+.DomainVoteRevealContainer .RevealedVoteOption span.support {
+  color: #10C903;
+}
+
+.DomainVoteRevealContainer .RevealedVoteOption span.oppose {
+  color: #CE3434;
 }
 
 .DomainVoteRevealContainer .RevealedAmount {

@@ -37,7 +37,9 @@ class DomainVoteCommitContainer extends Component {
       revealReminderDownloaded: false,
       SupportState: 'SupportButton',
       OpposeState: 'OpposeButton',
-      displayCommitModal: !displayCommitModal
+      displayCommitModal: !displayCommitModal,
+      VoteOptionDisabled: true,
+      DownloadDisabled: true
     }
 
     this.onDepositKeyUp = this.onDepositKeyUp.bind(this)
@@ -47,8 +49,8 @@ class DomainVoteCommitContainer extends Component {
     this.enableDownloadCheck = this.enableDownloadCheck.bind(this)
   }
 
-  componentWillMount(){
-    if(this.props.domainData){
+  componentWillMount () {
+    if (this.props.domainData) {
       this.getPoll(this.props.domainData.listingHash)
       this.getChallenge(this.props.domainData.listingHash)
       this.getCommit(this.props.domainData.listingHash)
@@ -70,13 +72,11 @@ class DomainVoteCommitContainer extends Component {
 
   componentWillReceiveProps (next) {
     if (next.domainData && next.currentDeposit !== this.props.currentDeposit) {
-      console.log("vote commit props")
       this.setState({
         domainData: next.domainData,
         challengeId: next.domainData.challengeId,
-        applicationExpiry: next.domainData.applicationExpiry,
+        applicationExpiry: next.domainData.applicationExpiry
       })
-
     }
   }
 
@@ -93,7 +93,9 @@ class DomainVoteCommitContainer extends Component {
       challengeId,
       // enableDownload,
       commitDownloaded,
-      displayCommitModal
+      displayCommitModal,
+      VoteOptionDisabled,
+      DownloadDisabled
       // votes
       // revealReminderDownloaded
     } = this.state
@@ -159,7 +161,7 @@ class DomainVoteCommitContainer extends Component {
                   </div>
                 </Segment>
               </Segment.Group>
-              <Segment.Group horizontal>
+              <Segment.Group horizontal className='VoteOptionContainer'>
                 <Segment className='SegmentOne'>
                   <div className='NumberCircle'>2</div>
                   <label>
@@ -169,6 +171,7 @@ class DomainVoteCommitContainer extends Component {
                 <Segment className='SegmentTwo'>
                   <Button
                     basic
+                    disabled={VoteOptionDisabled}
                     className={SupportState}
                     name='voteOption'
                     value='1'
@@ -180,6 +183,7 @@ class DomainVoteCommitContainer extends Component {
                 <Segment className='SegmentThree'>
                   <Button
                     basic
+                    disabled={VoteOptionDisabled}
                     className={OpposeState}
                     name='voteOption'
                     value='0'
@@ -196,7 +200,14 @@ class DomainVoteCommitContainer extends Component {
                   </div>
                   Your commit is needed to reveal your vote in the Reveal stage:
                   <div className='DownloadCommitButtonContainer'>
-                    <Button className='DownloadCommitButton' basic onClick={this.onDownload}>Download Commit &nbsp;<i className='icon long arrow down' /></Button>
+                    <Button
+                      className='DownloadCommitButton'
+                      basic
+                      onClick={this.onDownload}
+                      disabled={DownloadDisabled}
+                    >
+                      Download Commit &nbsp;<i className='icon long arrow down' />
+                    </Button>
                   </div>
                 </Segment>
                 <Segment className='RightSegment' floated='right'>
@@ -234,10 +245,22 @@ class DomainVoteCommitContainer extends Component {
   }
 
   onDepositKeyUp (event) {
+    // user enters a number
+    // set state value that enables VoteOptionContainer
     if (this._isMounted) {
-      this.setState({
-        votes: event.target.value | 0 // coerce to int
-      })
+      if (event.target.value > 0) {
+        this.setState({
+          VoteOptionDisabled: false,
+          votes: event.target.value | 0 // coerce to int
+        })
+      } else {
+        this.setState({
+          VoteOptionDisabled: true,
+          DownloadDisabled: true,
+          SupportState: 'SupportButton',
+          OpposeState: 'OpposeButton'
+        })
+      }
     }
   }
 
@@ -250,7 +273,6 @@ class DomainVoteCommitContainer extends Component {
           voteOption: parseInt(value, 10),
           SupportState: 'SupportButton clicked',
           OpposeState: 'OpposeButton'
-
         })
       } else {
         this.setState({
@@ -259,6 +281,9 @@ class DomainVoteCommitContainer extends Component {
           SupportState: 'SupportButton'
         })
       }
+      this.setState({
+        DownloadDisabled: false
+      })
     }
   }
 
@@ -342,7 +367,6 @@ class DomainVoteCommitContainer extends Component {
   }
 
   async getChallenge () {
-
     try {
       const didChallenge = await registry.didChallenge(this.props.domainData.listingHash)
 
@@ -357,7 +381,6 @@ class DomainVoteCommitContainer extends Component {
   }
 
   async getCommit () {
-
     try {
       const didCommit = await registry.didCommit(this.props.domainData.listingHash)
 
@@ -372,7 +395,6 @@ class DomainVoteCommitContainer extends Component {
   }
 
   async commit () {
-
     const {
       domain,
       votes,
@@ -386,7 +408,7 @@ class DomainVoteCommitContainer extends Component {
     }
     const {listingHash} = this.props.domainData
 
-    console.log("listingHash: ", listingHash, this.props.domainData)
+    console.log('listingHash: ', listingHash, this.props.domainData)
 
     try {
       const committed = await registry.commitVote({listingHash, votes, voteOption, salt})
