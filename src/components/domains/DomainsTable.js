@@ -53,7 +53,8 @@ class DomainsTable extends Component {
       pageSize: 11,
       isLoading: false,
       inProgress: false,
-      withdrawn: {}
+      withdrawn: {},
+      fetching: false
     }
 
     history = props.history
@@ -303,9 +304,10 @@ class DomainsTable extends Component {
     }
   }
 
-
   async getData(filters) {
-
+    if(this.state.fetching){
+      return null
+    }
     try {
       const {
         pageSize
@@ -365,6 +367,11 @@ class DomainsTable extends Component {
       }, null)
 
       let query = `filter=${queryFilters.join(',')}`
+      if(this._isMounted){
+        this.setState({
+          fetching: true
+        })
+      }
 
       // Get withdrawn domains so we can later check the rejected domains to see if they're withrawn.
       let withdrawn = await (await window.fetch(`${registryApiURL}/registry/domains?filter=withdrawn`)).json()
@@ -389,6 +396,7 @@ class DomainsTable extends Component {
       if (this._isMounted) {
         window.localStorage.setItem('TotalNumDomains', JSON.stringify(domains.length))
         this.setState({
+          fetching: false,
           allDomains: domains,
           pages: Math.ceil(domains.length / pageSize, 10)
         })

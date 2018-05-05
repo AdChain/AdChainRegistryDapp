@@ -21,7 +21,8 @@ class DomainsFilterPanel extends Component {
       inReveal: 0,
       inRegistry: 0,
       withdrawn: 0,
-      rejected: 0
+      rejected: 0,
+      fetching: false
     }
 
     this.onSearchInput = this.onSearchInput.bind(this)
@@ -29,7 +30,7 @@ class DomainsFilterPanel extends Component {
     this.onFiltersChange = props.onFiltersChange.bind(this)
     this.resetFilters = this.resetFilters.bind(this)
 
-    this.fetchStats()
+    // this.fetchStats()
   }
 
   componentDidMount () {
@@ -198,7 +199,7 @@ class DomainsFilterPanel extends Component {
     const {filters} = this.state
     filters[name] = checked
     if (this._isMounted) {
-      this.setState(filters)
+      this.setState({filters})
     }
     this.onFiltersChange(filters)
   }
@@ -228,6 +229,14 @@ class DomainsFilterPanel extends Component {
   }
 
   async fetchStats () {
+    if(this.state.fetching === true){
+      return null
+    }
+
+    if(this._isMounted){
+      this.setState({fetching:true})
+    }
+
     try {
       // let totalStaked = await (await window.fetch(`${registryApiURL}/registry/domains/stake/count`)).json()
       const {
@@ -257,7 +266,8 @@ class DomainsFilterPanel extends Component {
           inReveal,
           inRegistry,
           withdrawn,
-          rejected
+          rejected,
+          fetching: false
         })
       }
     } catch (error) {
