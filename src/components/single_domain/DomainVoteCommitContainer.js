@@ -74,7 +74,6 @@ class DomainVoteCommitContainer extends Component {
     if (next.domainData && next.currentDeposit !== this.props.currentDeposit) {
       this.setState({
         domainData: next.domainData,
-        challengeId: next.domainData.challengeId,
         applicationExpiry: next.domainData.applicationExpiry
       })
     }
@@ -90,8 +89,7 @@ class DomainVoteCommitContainer extends Component {
       SupportState,
       OpposeState,
       // voteOption,
-      challengeId,
-      // enableDownload,
+            // enableDownload,
       commitDownloaded,
       displayCommitModal,
       VoteOptionDisabled,
@@ -213,7 +211,7 @@ class DomainVoteCommitContainer extends Component {
                 <Segment className='RightSegment' floated='right'>
                   If you misplace your commit, you can enter the information below to reveal your vote:
                   <div className='ChallengeID'>
-                    Challenge ID: <strong>{challengeId}</strong>
+                    Challenge ID: <strong>{this.props.domainData.challengeId}</strong>
                   </div>
                   <div>
                     Secret Phrase: <strong>{salt}</strong>
@@ -308,7 +306,6 @@ class DomainVoteCommitContainer extends Component {
       domain,
       voteOption,
       salt,
-      challengeId,
       commitEndDate
     } = this.state
 
@@ -316,7 +313,7 @@ class DomainVoteCommitContainer extends Component {
       domain,
       voteOption,
       salt,
-      challengeId,
+      challengeId: this.props.domainData.challengeId,
       commitEndDate
     }
 
@@ -324,7 +321,7 @@ class DomainVoteCommitContainer extends Component {
     const endDateString = moment.unix(commitEndDate).format('YYYY-MM-DD_HH-mm-ss')
     json.commitEndDate = endDateString
 
-    const filename = `${domainUnderscored}--challenge_id_${challengeId}--commit_end_${endDateString}--commit-vote.json`
+    const filename = `${domainUnderscored}--challenge_id_${this.props.domainData.challengeId}--commit_end_${endDateString}--commit-vote.json`
     saveFile(json, filename)
 
     this.setState({
