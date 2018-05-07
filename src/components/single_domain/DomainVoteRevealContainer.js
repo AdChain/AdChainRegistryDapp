@@ -291,13 +291,12 @@ class DomainVoteRevealContainer extends Component {
           didReveal: true
         }
         data.forEach(eachDomain => {
-          if (this.props.domainData.domain === eachDomain.domain) {
+          if (this.props.domainData.listingHash === eachDomain.listing_hash) {
             newState.revealedVoteOption = eachDomain.choice === 1 ? 'support' : 'oppose'
             newState.revealedAmount = big(eachDomain.num_tokens).div(tenToTheNinth).words[0]
             this.setState(newState)
           }
         })
-        console.log('newstate: ', newState)
       }
     } catch (error) {
       console.error('Get Reveal Error: ', error)
@@ -383,7 +382,7 @@ class DomainVoteRevealContainer extends Component {
           didReveal: true
         }
         data.forEach(eachDomain => {
-          if (this.props.domainData.domain === eachDomain.domain) {
+          if (this.props.domainData.listingHash === eachDomain.listing_hash) {
             newState.revealedVoteOption = eachDomain.choice === 1 ? 'support' : 'oppose'
             newState.revealedAmount = big(eachDomain.num_tokens).div(tenToTheNinth).words[0]
             this.setState(newState)

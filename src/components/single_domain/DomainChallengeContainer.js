@@ -15,7 +15,6 @@ import IndividualGuideModal from './IndividualGuideModal'
 
 import './DomainChallengeContainer.css'
 
-
 class DomainChallengeContainer extends Component {
   constructor (props) {
     super(props)
@@ -35,19 +34,18 @@ class DomainChallengeContainer extends Component {
     this.getDispensationPct = this.getDispensationPct.bind(this)
   }
 
-  async componentDidMount() {
+  async componentDidMount () {
     this._isMounted = true
-    
+
     await this.getMinDeposit()
     await this.getDispensationPct()
   }
 
-  componentWillUnmount() {
+  componentWillUnmount () {
     this._isMounted = false
   }
 
-
-  render() {
+  render () {
     const {
       minDeposit,
       source,
@@ -131,7 +129,7 @@ class DomainChallengeContainer extends Component {
     )
   }
 
-  async getMinDeposit() {
+  async getMinDeposit () {
     if (this._isMounted) {
       this.setState({
         minDeposit: (await registry.getMinDeposit()).toNumber()
@@ -139,13 +137,12 @@ class DomainChallengeContainer extends Component {
     }
   }
 
-
-  onChallenge(event) {
+  onChallenge (event) {
     event.preventDefault()
     this.challenge()
   }
 
-  async challenge() {
+  async challenge () {
     const { domain, minDeposit } = this.state
     const {listingHash} = this.props.domainData
 
@@ -165,7 +162,7 @@ class DomainChallengeContainer extends Component {
           stake: minDeposit,
           action: 'challenge'
         }
-        console.log("listng: ", listingHash)
+        console.log('listng: ', listingHash)
         PubSub.publish('RedditConfirmationModal.show', data)
         try {
           calculateGas({
@@ -202,14 +199,14 @@ class DomainChallengeContainer extends Component {
     }
   }
 
-  onCountdownExpire() {
+  onCountdownExpire () {
     // allow some time for new block to get mined and reload page
     setTimeout(() => {
       window.location.reload()
     }, 15000)
   }
 
-  async getDispensationPct() {
+  async getDispensationPct () {
     try {
       parametizer.get('dispensationPct')
         .then((response) => {

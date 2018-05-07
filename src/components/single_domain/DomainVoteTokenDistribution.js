@@ -24,7 +24,7 @@ class DomainVoteTokenDistribution extends Component {
   componentDidMount () {
     this._isMounted = true
     this.subEvent = PubSub.subscribe('DomainVoteTokenDistribution.getPoll', this.getPoll)
-    if(this.props.domainData){
+    if (this.props.domainData) {
       this.getPoll()
     }
   }
@@ -36,8 +36,8 @@ class DomainVoteTokenDistribution extends Component {
 
   async getPoll () {
     let listingHash
-    
-    if(this.props.domainData){
+
+    if (this.props.domainData) {
       listingHash = this.props.domainData.listingHash
     }
 
