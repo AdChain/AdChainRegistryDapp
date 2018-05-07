@@ -5,7 +5,7 @@ export const getProviderUrl = () => {
   if (network === 'testrpc') {
     return 'http://localhost:8545'
   } else {
-    return `https://${network}.infura.io:443`
+    return `https://${websocketNetwork}.infura.io:443`
   }
 }
 
@@ -13,6 +13,8 @@ export const getProvider = () => {
   if (typeof window.web3 !== 'undefined' && typeof window.web3.currentProvider !== 'undefined') {
     return window.web3.currentProvider
   } else {
+    console.log('provider')
+
     return new Eth.HttpProvider(getProviderUrl())
   }
 }
