@@ -19,6 +19,7 @@ import RegistryGuideStaticDashboard from '../registry_guide/RegistryGuideStaticD
 import RegistryGuideStaticDomainsTable from '../registry_guide/RegistryGuideStaticDomainsTable'
 import DomainEmailNotifications from './DomainEmailNotifications'
 import { registryApiURL } from '../../models/urls'
+import PubSub from 'pubsub-js'
 
 import './DomainsContainer.css'
 
@@ -39,6 +40,8 @@ class DomainsContainer extends Component {
     this.onQueryChange = this.onQueryChange.bind(this)
     this.updateTableFilters = this.updateTableFilters.bind(this)
     this.getDomainName = this.getDomainName.bind(this)
+    this.updateStaticContainer = this.updateStaticContainer.bind(this)
+    this.resumeJoyride = PubSub.publish('RegistryWalkthrough.resumeJoyride')
 
     // Delay required for table to properly update with filters
     setTimeout(() => {
@@ -78,20 +81,24 @@ class DomainsContainer extends Component {
     }
   }
 
+  componentWillMount () {
+    this.updateStaticContainerEvent = PubSub.subscribe('DomainsContainer.updateStaticContainer', this.updateStaticContainer)
+  }
+
   componentWillReceiveProps (nextProps) {
     // if (nextProps.location.key === this.props.location.key) {
     const query = qs.parse(nextProps.location.search.substr(1))
     this.setState({
-      query: normalizeQueryObj(query),
-      staticContainer: nextProps.staticContainer
+      query: normalizeQueryObj(query)
     })
     this.updateTableFilters(query)
     // }
   }
 
   componentDidUpdate (prevProps, prevState) {
-    if (this.props.staticContainer !== prevProps.staticContainer) {
-      prevProps.resumeJoyride()
+    if (this.state.staticContainer !== prevState.staticContainer) {
+      // this.resumeJoyride()
+      PubSub.publish('RegistryWalkthrough.resumeJoyride')
     }
   }
 
@@ -234,6 +241,19 @@ class DomainsContainer extends Component {
   async getDomainName (listingHash) {
     const result = await (await window.fetch(`${registryApiURL}/registry/listing_hash?listing_hash=${listingHash}`)).json()
     return result.domain
+  }
+
+  updateStaticContainer (topic, staticContainer = null) {
+    this.setState({
+      staticContainer: staticContainer
+    })
+    // if (!staticContainer) {
+    //   const query = qs.parse(this.props.location.search.substr(1))
+    //   this.setState({
+    //     query: normalizeQueryObj(query)
+    //   })
+    //   this.updateTableFilters(query)
+    // }
   }
 }
 

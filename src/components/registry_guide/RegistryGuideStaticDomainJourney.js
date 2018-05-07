@@ -12,39 +12,47 @@ import PubSub from 'pubsub-js'
 class RegistryGuideStaticDomainJourney extends Component {
   constructor (props) {
     super(props)
-
     this.state = {
       domainJourney: 'application'
     }
-
-    this.resumeJoyride = props.resumeJoyride
-    this.toggleOverlay = props.toggleOverlay
+    this.updateDomainJourney = this.updateDomainJourney.bind(this)
   }
 
   componentWillMount () {
-    this.toggleOverlay()
+    PubSub.publish('RegistryWalkthrough.toggleOverlay')
+    this.updateJourneyEvent = PubSub.subscribe('RegistryGuideStaticDomainJourney.updateDomainJourney', this.updateDomainJourney)
   }
 
   componentDidMount () {
+    this._isMounted = true
     PubSub.publish('RegistryGuideModal.startRegistryWalkthrough', DomainJourneySteps)
   }
 
-  componentWillReceiveProps (nextProps) {
-    if (nextProps.domainJourney !== this.state.domainJourney) {
-      this.setState({
-        domainJourney: nextProps.domainJourney
-      })
-    }
-  }
+  // componentWillReceiveProps (nextProps) {
+  //   if (nextProps.domainJourney !== this.state.domainJourney) {
+  //     this.setState({
+  //       domainJourney: nextProps.domainJourney
+  //     })
+  //   }
+  // }
 
-  componentDidUpdate (prevProps) {
-    if (this.props.domainJourney !== prevProps.domainJourney) {
-      this.resumeJoyride()
+  componentDidUpdate (prevProps, prevState) {
+    if (this.state.domainJourney !== prevState.domainJourney) {
+      PubSub.publish('RegistryWalkthrough.resumeJoyride')
     }
   }
 
   componentWillUnmount () {
-    this.toggleOverlay()
+    PubSub.publish('RegistryWalkthrough.toggleOverlay')
+    this._isMounted = false
+  }
+
+  updateDomainJourney (topic, domainJourney) {
+    if (this._isMounted) {
+      this.setState({
+        domainJourney: domainJourney
+      })
+    }
   }
 
   render () {

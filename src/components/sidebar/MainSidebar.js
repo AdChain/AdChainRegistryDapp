@@ -16,7 +16,6 @@ import RegistryGuideModal from '../registry_guide/RegistryGuideModal'
 
 import './MainSidebar.css'
 
-
 class MainSidebar extends Component {
   constructor (props) {
     super()
@@ -95,7 +94,7 @@ class MainSidebar extends Component {
         <div className={this.state.showMenu ? 'SidebarListContainer overflow-x' : 'hide'}>
           <div className='SidebarList overflow-y overflow-x'>
             <div className='ListTitle ui header'>
-              <RegistryGuideModal updateRoute={this.updateRoute} handleJoyrideCallback={this.props.handleJoyrideCallback} resumeJoyride={this.props.resumeJoyride} domainJourney={this.props.domainJourney} toggleOverlay={this.props.toggleOverlay} walkthroughFinished={this.props.walkthroughFinished} />
+              <RegistryGuideModal updateRoute={this.updateRoute} />
             </div>
             <Menu.Item name='domain'>
               <Link to='/domains' className='NavLink' activeClassName='active'><img src={wwwLogo} alt='www' />Domains</Link>
@@ -191,7 +190,7 @@ class MainSidebar extends Component {
       // this._history.push(`${route}`)
       await this._history.push(route)
     }
-    await this.props.confirmWalkthrough()
+    // await this.confirmWalkthrough()
   }
 
   collapse () {

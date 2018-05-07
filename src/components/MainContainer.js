@@ -29,7 +29,7 @@ class MainContainer extends Component {
           <Route location={location} key={key} >
             <Switch>
               <Redirect path='/' to='/domains' exact />
-              <Route path='/domains' exact render={props => <DomainsContainer {... props} staticContainer={this.props.staticContainer} joyride={this.props.joyride} resumeJoyride={this.props.resumeJoyride} />} />
+              <Route path='/domains' exact render={props => <DomainsContainer {... props} joyride={this.props.joyride} />} />
               <Route path='/domains/:domain' exact component={DomainProfile} />
               <Route path='/account' exact component={AccountDashboard} />
               <Route path='/chat' exact component={RocketChat} />

@@ -39,15 +39,7 @@ class RegistryGuideModal extends Component {
   }
 
   componentWillMount () {
-    this.subEvent = PubSub.subscribe('RegistryGuideModal.startRegistryWalkthrough', this.startRegistryWalkthrough)
-    this.viewGuide = PubSub.subscribe('RegistryGuideModal.show', this.show)
-    this.redirectEvent = PubSub.subscribe('RegistryGuideModal.redirect', this.redirect)
-  }
-
-  componentWillReceiveProps (nextProps) {
-    if (nextProps.walkthroughFinished === true) {
-      this.returnToMenu()
-    }
+    this.pubsubSubscription()
   }
 
   render () {
@@ -92,7 +84,7 @@ class RegistryGuideModal extends Component {
             : three ? <RegistryGuideModalChallengeDomain returnToMenu={this.returnToMenu} section={'three'} />
               : four ? <RegistryGuideModalCommitVote returnToMenu={this.returnToMenu} section={'four'} />
                 : five ? <RegistryGuideModalRevealVote returnToMenu={this.returnToMenu} section={'five'} />
-                  : six ? <RegistryGuideModalDomainJourney returnToMenu={this.returnToMenu} resumeJoyride={this.props.resumeJoyride} domainJourney={this.props.domainJourney} toggleOverlay={this.props.toggleOverlay} />
+                  : six ? <RegistryGuideModalDomainJourney returnToMenu={this.returnToMenu} />
                     : seven ? <RegistryGuideModalGovernance returnToMenu={this.returnToMenu} section={'seven'} />
                       : null
         }
@@ -135,12 +127,17 @@ class RegistryGuideModal extends Component {
   }
 
   close () {
-    const { lastOpened } = this.state
+    const { lastOpened, menu } = this.state
     let guideToDisplay = {}
     guideToDisplay[lastOpened] = false
     guideToDisplay['menu'] = true
     guideToDisplay['open'] = false
+    if (lastOpened === 'six' && !menu) {
+      PubSub.publish('RegistryWalkthrough.resetSteps')
+      this.returnToMenu()
+    }
     this.setState(guideToDisplay)
+
   }
 
   async show () {
@@ -158,13 +155,20 @@ class RegistryGuideModal extends Component {
       }
       this.close()
     }
-    await PubSub.publish('App.startJoyride', steps)
+    await PubSub.publish('RegistryWalkthrough.startJoyride', steps)
   }
 
   redirect (topic, route) {
     this.setState({
       redirect: route
     })
+  }
+
+  pubsubSubscription () {
+    this.startRegistryWalkthroughEvent = PubSub.subscribe('RegistryGuideModal.startRegistryWalkthrough', this.startRegistryWalkthrough)
+    this.viewGuideEvent = PubSub.subscribe('RegistryGuideModal.show', this.show)
+    this.redirectEvent = PubSub.subscribe('RegistryGuideModal.redirect', this.redirect)
+    this.returnToMenuEvent = PubSub.subscribe('RegistryGuideModal.returnToMenu', this.returnToMenu)
   }
 }
 

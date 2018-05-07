@@ -9,7 +9,7 @@ class RegistryGuideModalDomainJourney extends Component {
       <div className='RegistryGuideModalDomainJourney'>
         <Modal.Header className='RegistryGuideModalHeader'><span className='RegistryGuideModalHeaderText'>What is a Domain's Journey in the adChain Registry?</span></Modal.Header>
         <Modal.Content>
-          <RegistryGuideStaticDomainJourney domainJourney={this.props.domainJourney} resumeJoyride={this.props.resumeJoyride} toggleOverlay={this.props.toggleOverlay} />
+          <RegistryGuideStaticDomainJourney />
         </Modal.Content>
       </div>
     )
