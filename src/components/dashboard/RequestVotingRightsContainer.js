@@ -26,15 +26,7 @@ class RequestVotingRightsContainer extends Component {
   }
 
   componentWillMount () {
-    if (this.state.contract === 'registry') {
-      this.setState({
-        contract: registry
-      })
-    } else if (this.state.contract === 'parameterizer') {
-      this.setState({
-        contract: parameterizer
-      })
-    }
+    this.checkContract()
   }
 
   componentDidMount () {
@@ -83,7 +75,18 @@ class RequestVotingRightsContainer extends Component {
       </div>
     )
   }
-
+  
+  checkContract(){
+    if (this.state.contract === 'registry') {
+      this.setState({
+        contract: registry
+      })
+    } else if (this.state.contract === 'parameterizer') {
+      this.setState({
+        contract: parameterizer
+      })
+    }
+  }
   onVotesKeyUp (event) {
     this.setState({
       requestVotes: event.target.value | 0 // coerce to int
@@ -92,7 +95,6 @@ class RequestVotingRightsContainer extends Component {
 
   onRequest (event) {
     event.preventDefault()
-
     this.requestRights()
   }
 

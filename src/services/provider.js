@@ -13,8 +13,6 @@ export const getProvider = () => {
   if (typeof window.web3 !== 'undefined' && typeof window.web3.currentProvider !== 'undefined') {
     return window.web3.currentProvider
   } else {
-    console.log('provider')
-
     return new Eth.HttpProvider(getProviderUrl())
   }
 }

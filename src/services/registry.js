@@ -105,10 +105,13 @@ class RegistryService {
       throw new Error('Application already exists')
     }
 
+    // Remove spaces
     domain = domain.trim()
 
+    // Hash as string input
     const hash = `0x${soliditySHA3(['string'], [domain]).toString('hex')}`
 
+    // Add to IPFS
     data = await ipfsAddObject({ id: domain })
 
     const bigDeposit = big(deposit).mul(tenToTheNinth).toString(10)
@@ -501,7 +504,7 @@ class RegistryService {
     }
   }
 
-  async commitVote ({listingHash, votes, voteOption, salt}) {
+  async commitVote ({ listingHash, votes, voteOption, salt }) {
     if (!listingHash) {
       throw new Error('listingHash is required')
     }
@@ -525,14 +528,14 @@ class RegistryService {
         title: 'vote'
       }
 
-      await plcr.commit({pollId: challengeId, hash, tokens: bigVotes}, transactionInfo)
+      await plcr.commit({ pollId: challengeId, hash, tokens: bigVotes }, transactionInfo)
       return this.didCommitForPoll(challengeId)
     } catch (error) {
       throw error
     }
   }
 
-  async revealVote ({listingHash, voteOption, salt}) {
+  async revealVote ({ listingHash, voteOption, salt }) {
     let challengeId = null
 
     try {
@@ -547,7 +550,7 @@ class RegistryService {
         src: 'reveal',
         title: 'reveal'
       }
-      await plcr.reveal({pollId: challengeId, voteOption, salt}, transactionInfo)
+      await plcr.reveal({ pollId: challengeId, voteOption, salt }, transactionInfo)
       return this.didRevealForPoll(challengeId)
     } catch (error) {
       console.error('registry reveal: ', error)
@@ -752,16 +755,24 @@ class RegistryService {
   }
 
   async requestVotingRights (votes) {
-    // normal ADT to nano ADT
-    const tokens = big(votes).mul(tenToTheNinth).toString(10)
-
     try {
       let transactionInfo = {
         src: 'conversion_to_voting_ADT',
         title: 'Conversion to Voting ADT'
       }
-      await token.approve(plcr.address, tokens)
-      PubSub.publish('TransactionProgressModal.next', transactionInfo)
+
+      // Convert normal ADT to nano ADT
+      const tokens = big(votes).mul(tenToTheNinth).toString(10)
+      // Check to see if user has previously allowed the plcr contract to use token
+      let allowed = await (await token.allowance(this.account, plcr.address)).toString(10)
+      // If the token amount they previously approved is greater than or equal to how many votes they are trying to
+      // use then no need to approve again. Skip to second tx
+      if (Number(allowed) < Number(tokens)) {
+        await token.approve(plcr.address, tokens)
+        PubSub.publish('TransactionProgressModal.next', transactionInfo)
+      } else {
+        PubSub.publish('TransactionProgressModal.next', transactionInfo)
+      }
 
       await plcr.requestVotingRights(tokens)
       PubSub.publish('TransactionProgressModal.next', transactionInfo)
