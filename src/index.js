@@ -1,8 +1,8 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-//import registerServiceWorker from './registerServiceWorker'
-import { unregister } from './registerServiceWorker';
+import registerServiceWorker from './registerServiceWorker'
+// import { unregister } from './registerServiceWorker';
 
 import App from './App'
 import AdBlockAlert from './components/adblock/AdBlockAlert'
@@ -81,8 +81,8 @@ async function init () {
           console.error(error)
         }
         ReactDOM.render(<App />, document.getElementById('root'))
-        // registerServiceWorker()
-        unregister()
+        registerServiceWorker()
+        // unregister()
       }},
     {
       testInterval: 40,
