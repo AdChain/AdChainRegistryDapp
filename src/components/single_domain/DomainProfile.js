@@ -10,6 +10,7 @@ import DomainProfileActionContainer from './DomainProfileActionContainer'
 // import DomainProfileAdsTxtStatus from './DomainProfileAdsTxtStatus'
 import DomainProfileStageMap from './DomainProfileStageMap'
 import { registryApiURL } from '../../models/urls'
+import PubSub from 'pubsub-js'
 
 import './DomainProfile.css'
 import getDomainState from '../../utils/getDomainState'
@@ -41,6 +42,10 @@ class DomainProfile extends Component {
   componentDidMount () {
     this._isMounted = true
     this.fetchSiteData()
+  }
+
+  componentWillMount () {
+    this.fetchDataEvent = PubSub.subscribe('DomainProfile.fetchSiteData', this.fetchSiteData.bind(this))
   }
 
   componentWillUnmount () {

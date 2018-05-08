@@ -37,7 +37,7 @@ const stageMaps = {
 }
 
 class DomainProfileStageMap extends Component {
-  constructor(props) {
+  constructor (props) {
     super()
 
     const {
@@ -54,29 +54,29 @@ class DomainProfileStageMap extends Component {
     // this.updateStageMap()
   }
 
-  componentWillMount() {
+  componentWillMount () {
     this.subEvent = PubSub.subscribe('DomainProfileStageMap.updateStageMap', this.updateStageMap.bind(this))
   }
 
-  componentDidMount() {
+  componentDidMount () {
     this._isMounted = true
   }
 
-  componentWillUnmount() {
+  componentWillUnmount () {
     this._isMounted = false
     PubSub.unsubscribe(this.subEvent)
   }
 
-  componentWillReceiveProps(next){
+  componentWillReceiveProps (next) {
     this.setState({
       domainData: next.domainData
     })
-    if(next.domainData) {
+    if (next.domainData) {
       this.updateStageMap(next.domainData)
     }
   }
 
-  render() {
+  render () {
     return (
       <div className='DomainProfileStageMap BoxFrame'>
         <span className='BoxFrameLabel ui grid'>STAGE MAP: <span className='DomainName'>{this.state.domain}</span> <Tooltip info={"A visual map that displays where in the adChain Registry the domain is. The domain's track is highlighted in blue (red if rejected)."} /></span>
@@ -89,9 +89,9 @@ class DomainProfileStageMap extends Component {
     )
   }
 
-  async updateStageMap(domainData) {
+  async updateStageMap (domainData) {
     try {
-      if(domainData){
+      if (domainData) {
         this.setState({
           stageMapSrc: stageMaps[domainData.stageMapSrc]
         })

@@ -67,6 +67,8 @@ class DomainVoteRevealContainer extends Component {
   }
 
   componentWillReceiveProps (next) {
+    this.getReveal()
+    this.getPoll()
     if (next.domainData && next.currentDeposit !== this.props.currentDeposit) {
       this.setState({
         domainData: next.domainData,
@@ -357,7 +359,7 @@ class DomainVoteRevealContainer extends Component {
   }
 
   async reveal () {
-    const { salt, voteOption, account } = this.state
+    const { salt, voteOption } = this.state
     const { listingHash } = this.props.domainData
 
     if (!salt) {
@@ -372,30 +374,15 @@ class DomainVoteRevealContainer extends Component {
 
     try {
       const revealed = await registry.revealVote({ listingHash, voteOption, salt })
-      if (revealed) {
-        await this.getReveal(listingHash)
-        const response = await window.fetch(`${registryApiURL}/account/rewards?account=${account}&status=revealed`)
-        const data = await response.json()
-        let newState = {
-          revealedVoteOption: '',
-          revealedAmount: 0,
-          didReveal: true
-        }
-        data.forEach(eachDomain => {
-          if (this.props.domainData.listingHash === eachDomain.listing_hash) {
-            newState.revealedVoteOption = eachDomain.choice === 1 ? 'support' : 'oppose'
-            newState.revealedAmount = big(eachDomain.num_tokens).div(tenToTheNinth).words[0]
-            this.setState(newState)
-          }
-        })
-        PubSub.publish('DomainVoteTokenDistribution.getPoll')
-      } else {
-        setTimeout(() => {
-          this.getReveal().then(
-            PubSub.publish('DomainVoteTokenDistribution.getPoll')
-          )
-        }, 2e3)
+
+      // using revealed result to update this container
+      let newState = {
+        revealedVoteOption: big(revealed.data.logs[0].args.choice).toNumber() === 1 ? 'support' : 'oppose',
+        revealedAmount: big(revealed.data.logs[0].args.numTokens).div(tenToTheNinth).words[0],
+        didReveal: true
       }
+      this.setState(newState)
+      PubSub.publish('DomainVoteTokenDistribution.getPoll')
     } catch (error) {
       console.error('Reveal Error: ', error)
       PubSub.publish('TransactionProgressModal.error')

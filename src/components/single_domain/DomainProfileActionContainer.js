@@ -40,7 +40,7 @@ class DomainProfileActionContainer extends Component {
   }
 
   componentWillMount () {
-    PubSub.subscribe('DomainProfileActionContainer.getData', this.getData)
+    this.getDataEvent = PubSub.subscribe('DomainProfileActionContainer.getData', this.getData)
   }
 
   componentWillUnmount () {

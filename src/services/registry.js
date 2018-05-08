@@ -550,8 +550,8 @@ class RegistryService {
         src: 'reveal',
         title: 'reveal'
       }
-      await plcr.reveal({ pollId: challengeId, voteOption, salt }, transactionInfo)
-      return this.didRevealForPoll(challengeId)
+      const result = await plcr.reveal({ pollId: challengeId, voteOption, salt }, transactionInfo)
+      return this.didRevealForPoll(challengeId, result)
     } catch (error) {
       console.error('registry reveal: ', error)
       throw error
@@ -671,7 +671,7 @@ class RegistryService {
     }
   }
 
-  async didRevealForPoll (pollId) {
+  async didRevealForPoll (pollId, data) { // data is a param for the result from this.revealvote
     try {
       if (!pollId) {
         return false
@@ -682,8 +682,13 @@ class RegistryService {
       if (!voter) {
         return false
       }
+      const revealed = await plcr.hasBeenRevealed(voter, pollId)
+      const result = {
+        revealed: revealed,
+        data: data
+      }
 
-      return plcr.hasBeenRevealed(voter, pollId)
+      return result
     } catch (error) {
       throw error
     }

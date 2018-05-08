@@ -112,7 +112,10 @@ class RedditConfirmationModal extends Component {
       } else {
         let data = ''
         await registry.challenge(listingHash, data)
-        await createPostChallenge(domain, reason)
+        let redditChallenge = await createPostChallenge(domain, reason)
+        if (redditChallenge.data.status === 200) {
+          PubSub.publish('DomainProfile.fetchSiteData')
+        }
         PubSub.publish('DomainRedditBox.fetchRedditData')
       }
       // setTimeout(() => {
