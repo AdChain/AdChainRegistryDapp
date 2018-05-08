@@ -14,7 +14,7 @@ import { getPosts, createComment, createPostApplication } from '../../services/r
 import './DomainRedditBox.css'
 
 class DomainRedditBox extends Component {
-  constructor(props) {
+  constructor (props) {
     super()
 
     const {
@@ -45,19 +45,19 @@ class DomainRedditBox extends Component {
     this.redditRefresh = _.debounce(this.redditRefresh.bind(this), 3e3, { 'leading': true, 'trailing': false })
   }
 
-  async componentDidMount() {
+  async componentDidMount () {
     this._isMounted = true
   }
 
-  componentWillMount() {
+  componentWillMount () {
     PubSub.subscribe('DomainRedditBox.fetchRedditData', this.fetchRedditData)
   }
 
-  componentWillUnmount() {
+  componentWillUnmount () {
     this._isMounted = false
   }
 
-  async componentWillReceiveProps(next) {
+  async componentWillReceiveProps (next) {
     if (this._isMounted) {
       this.setState({
         domainData: next.domainData
@@ -66,7 +66,7 @@ class DomainRedditBox extends Component {
     await this.setDomainState(next.domainData)
   }
 
-  render() {
+  render () {
     const { appliedObj, challengedObj, domain, redditTabIndex, inProgress, redditRefreshInProgress } = this.state
 
     const appliedData = !_.isEmpty(appliedObj) && appliedObj.id && appliedObj.comments.length > 0
@@ -253,11 +253,9 @@ class DomainRedditBox extends Component {
     )
   }
 
-
-  async setDomainState(domainData) {
-    if(domainData){
+  async setDomainState (domainData) {
+    if (domainData) {
       if (this._isMounted) {
-
         await this.fetchRedditData()
 
         switch (domainData.stage) {
@@ -279,7 +277,7 @@ class DomainRedditBox extends Component {
     }
   }
 
-  handleInputChange(event) {
+  handleInputChange (event) {
     if (this._isMounted) {
       this.setState({
         comment: event.target.value
@@ -287,7 +285,7 @@ class DomainRedditBox extends Component {
     }
   }
 
-  handleTabChange(event, data) {
+  handleTabChange (event, data) {
     // const { appliedObj, challengedObj } = this.state
 
     if (this._isMounted) {
@@ -300,7 +298,7 @@ class DomainRedditBox extends Component {
     }
   }
 
-  async redditRefresh() {
+  async redditRefresh () {
     if (this._isMounted) {
       try {
         this.setState({
@@ -322,7 +320,7 @@ class DomainRedditBox extends Component {
     }
   }
 
-  async fetchRedditData() {
+  async fetchRedditData () {
     try {
       let redditData = await getPosts(this.state.domain)
       if (this._isMounted) {
@@ -342,7 +340,7 @@ class DomainRedditBox extends Component {
     }
   }
 
-  async onCommentSubmit(event) {
+  async onCommentSubmit (event) {
     event.preventDefault()
     const { comment, redditTabIndex, domain } = this.state
 
@@ -372,7 +370,7 @@ class DomainRedditBox extends Component {
       }
       let {account} = this.state
 
-      if(!account){
+      if (!account) {
         account = 'anonymous'
       }
       const result = await createComment(redditId, comment, account)
