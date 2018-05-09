@@ -41,7 +41,6 @@ class DomainsContainer extends Component {
     this.updateTableFilters = this.updateTableFilters.bind(this)
     this.getDomainName = this.getDomainName.bind(this)
     this.updateStaticContainer = this.updateStaticContainer.bind(this)
-    this.resumeJoyride = PubSub.publish('RegistryWalkthrough.resumeJoyride')
 
     // Delay required for table to properly update with filters
     setTimeout(() => {
@@ -97,7 +96,6 @@ class DomainsContainer extends Component {
 
   componentDidUpdate (prevProps, prevState) {
     if (this.state.staticContainer !== prevState.staticContainer) {
-      // this.resumeJoyride()
       PubSub.publish('RegistryWalkthrough.resumeJoyride')
     }
   }

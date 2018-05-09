@@ -55,7 +55,8 @@ class DomainPendingContainer extends Component {
   async updateStatus (listingHash) {
     try {
       await registry.updateStatus(listingHash)
-      await PubSub.publish('DomainProfileStageMap.updateStageMap')
+      // This re-renders the page so user doesn't need to manually refresh the page to see the new stage.
+      await PubSub.publish('DomainProfile.fetchSiteData')
     } catch (error) {
       console.error(error)
     }

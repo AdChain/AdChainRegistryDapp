@@ -10,7 +10,7 @@ import {
 import CSSTransitionGroup from 'react-addons-css-transition-group'
 import MainSidebar from './components/sidebar/MainSidebar'
 import MainContainer from './components/MainContainer'
-import RegistryWalkthrough from './components/RegistryWalkthrough'
+import RegistryWalkthrough from './components/registry_guide/RegistryWalkthrough'
 import TransactionProgressModal from './components/TransactionProgressModal'
 
 class App extends Component {

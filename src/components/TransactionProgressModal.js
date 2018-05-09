@@ -73,11 +73,15 @@ class TransactionProgressModal extends Component {
     })
   }
 
-  componentWillMount () {
+  pubsubSubscription () {
     this.openEvent = PubSub.subscribe('TransactionProgressModal.open', this.open)
     this.nextEvent = PubSub.subscribe('TransactionProgressModal.next', this.next)
     this.closeEvent = PubSub.subscribe('TransactionProgressModal.close', this.close)
     this.errorEvent = PubSub.subscribe('TransactionProgressModal.error', this.error)
+  }
+
+  componentWillMount () {
+    this.pubsubSubscription()
   }
 
   render () {
