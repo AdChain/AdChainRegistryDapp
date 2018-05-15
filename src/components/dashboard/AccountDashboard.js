@@ -19,6 +19,7 @@ import getDomainState from '../../utils/getDomainState'
 import { registryApiURL } from '../../models/urls'
 
 import Eth from 'ethjs'
+import _ from 'lodash'
 
 import './AccountDashboard.css'
 
@@ -44,6 +45,7 @@ class AccountDashboard extends Component {
     this.fetchCommitsToReveal = this.fetchCommitsToReveal.bind(this)
     this.fetchRewards = this.fetchRewards.bind(this)
     this.fetchDomainStage = this.fetchDomainStage.bind(this)
+    this.fetchWithdrawn = this.fetchWithdrawn.bind(this)
   }
 
   componentWillMount () {
@@ -64,8 +66,9 @@ class AccountDashboard extends Component {
         inProgress: true
       })
     }
-    await this.fetchAppliedDomains()
-    await this.fetchChallengedDomains()
+    let withdrawn = await this.fetchWithdrawn()
+    await this.fetchAppliedDomains(withdrawn)
+    await this.fetchChallengedDomains(withdrawn)
     await this.fetchCommitsToReveal()
     await this.fetchRewards()
 
@@ -142,22 +145,14 @@ class AccountDashboard extends Component {
     )
   }
 
-  async fetchDomainStage (domainData) {
+  async fetchDomainStage (domainData, withdrawn) {
     try {
       let domainState = await getDomainState(domainData)
 
       // If rejected --> Check to see if listing is withdrawn
       if (domainState.stage === 'rejected') {
-        const getWithdrawn = async () => {
-          const withdrawn = await (await window.fetch(`${registryApiURL}/registry/domains?filter=withdrawn`)).json()
-          return withdrawn
-        }
-        let withdrawn = await getWithdrawn()
-        for (let w of withdrawn) {
-          if (w.domainHash === domainState.listingHash) {
-            domainState.label = <span><i className='icon sign out alternate' />Withdrawn</span>
-            break
-          }
+        if (withdrawn[domainState.listingHash]) {
+          domainState.label = <span><i className='icon sign out alternate' />Withdrawn</span>
         }
       }
 
@@ -167,7 +162,15 @@ class AccountDashboard extends Component {
     }
   }
 
-  async fetchAppliedDomains () {
+  async fetchWithdrawn () {
+    let withdrawn = await (await window.fetch(`${registryApiURL}/registry/domains?filter=withdrawn`)).json()
+    // Create a hash map of hashes so lookup is faster
+    withdrawn = _.keyBy(withdrawn, 'domainHash')
+
+    return withdrawn
+  }
+
+  async fetchAppliedDomains (withdrawn) {
     const { account } = this.state
 
     if (!account || account === '0x0') {
@@ -190,7 +193,7 @@ class AccountDashboard extends Component {
           }
           if (!domainExists) {
             try {
-              data[i].stage = await this.fetchDomainStage(data[i])
+              data[i].stage = await this.fetchDomainStage(data[i], withdrawn)
               appliedDomains.push(data[i])
             } catch (error) {
               console.log('Error fetching stage')
@@ -214,7 +217,7 @@ class AccountDashboard extends Component {
     }
   }
 
-  async fetchChallengedDomains () {
+  async fetchChallengedDomains (withdrawn) {
     const { account } = this.state
 
     if (!account || account === '0x0') {
@@ -227,7 +230,7 @@ class AccountDashboard extends Component {
 
       for (let i = 0; i < data.length; i++) {
         if (data[i]) {
-          data[i].stage = await this.fetchDomainStage(data[i])
+          data[i].stage = await this.fetchDomainStage(data[i], withdrawn)
         }
       }
 
