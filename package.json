@@ -5,8 +5,8 @@
   "homepage": "https://publisher.adchain.com",
   "dependencies": {
     "adblock-detect": "^1.0.5",
-    "axios": "^0.18.0",
     "antd": "^3.2.2",
+    "axios": "^0.18.0",
     "blockies": "0.0.2",
     "commafy": "0.0.5",
     "dns": "^0.2.2",
@@ -36,7 +36,7 @@
     "react-countdown-moment": "0.0.3",
     "react-disqus-comments": "^1.1.0",
     "react-dom": "^15.6.1",
-    "react-joyride": "^1.11.4",
+    "react-joyride": "1.11.4",
     "react-router-dom": "^4.1.2",
     "react-scripts": "1.0.10",
     "react-table": "^6.5.1",

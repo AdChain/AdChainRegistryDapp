@@ -96,14 +96,45 @@ class RegistryService {
   // When applying a domain, the `data` parameter must be set to ipfs hash of --> {id: domain name}
   // The 'domain' parameter will be also be the domain name but it will be hashed in this function before it hits the contract
   async apply (domain, deposit = 0, data = '') {
-    if (!domain) {
-      throw new Error('Domain is required')
-    }
+    if (!domain) throw new Error('Domain is required')
 
+    // Check if application exists already
     const exists = await this.applicationExists(domain)
 
-    if (exists) {
-      throw new Error('Application already exists')
+    if (exists) throw new Error('Application already exists')
+
+    const bigDeposit = big(deposit).mul(tenToTheNinth).toString(10)
+
+    // Check to see how much token the user has perviously allowed the registry contract to use.
+    let allowed = await (await token.allowance(this.account, this.address)).toString(10)
+    // Used for the modal information
+    let transactionInfo = {}
+
+    // Open modal for user to supply reason for application.
+    PubSub.publish('RedditConfirmationModal.close')
+
+    // If what you previously pre approved is less than the min deposit, approve more token.
+    if (Number(allowed) < Number(bigDeposit)) {
+      transactionInfo = {
+        src: 'not_approved_application',
+        title: 'application'
+      }
+      try {
+        PubSub.publish('TransactionProgressModal.open', transactionInfo)
+        await token.approve(this.address, bigDeposit)
+
+        PubSub.publish('TransactionProgressModal.next', transactionInfo)
+      } catch (error) {
+        PubSub.publish('TransactionProgressModal.error')
+        throw error
+      }
+    } else {
+      // Open approved ADT modal
+      transactionInfo = {
+        src: 'approved_application',
+        title: 'application'
+      }
+      PubSub.publish('TransactionProgressModal.open', transactionInfo)
     }
 
     // Remove spaces
@@ -115,39 +146,11 @@ class RegistryService {
     // Add to IPFS
     data = await ipfsAddObject({ id: domain })
 
-    const bigDeposit = big(deposit).mul(tenToTheNinth).toString(10)
-
-    let allowed = await (await token.allowance(this.account, this.address)).toString(10)
-
-    let transactionInfo = {}
-    PubSub.publish('RedditConfirmationModal.close')
-    if (Number(allowed) < Number(bigDeposit)) {
-      // if what you pre approved is less than the min deposit
-      // open not approved adt modal
-      transactionInfo = {
-        src: 'not_approved_application',
-        title: 'application'
-      }
-      try {
-        PubSub.publish('TransactionProgressModal.open', transactionInfo)
-        await token.approve(this.address, bigDeposit)
-        PubSub.publish('TransactionProgressModal.next', transactionInfo)
-      } catch (error) {
-        PubSub.publish('TransactionProgressModal.error')
-        throw error
-      }
-    } else {
-      // open approved adt modal
-      transactionInfo = {
-        src: 'approved_application',
-        title: 'application'
-      }
-      PubSub.publish('TransactionProgressModal.open', transactionInfo)
-    }
-
     try {
+      // Apply listing to registry.
       await this.registry.apply(hash, bigDeposit, data)
-      PubSub.publish('DomainsTable.fetchNewData', transactionInfo) // this will update the domain table and also update the transaction progress modal
+      // This will update the domain table and also update the transaction progress modal.
+      PubSub.publish('DomainsTable.fetchNewData', transactionInfo)
     } catch (error) {
       PubSub.publish('TransactionProgressModal.error')
       throw error
@@ -167,13 +170,13 @@ class RegistryService {
       throw new Error('You did not specify an amount')
     }
 
-    // domain = domain.toLowerCase()
     const bigDeposit = big(amount).mul(tenToTheNinth).toString(10)
     let allowed = await (await token.allowance(this.account, this.address)).toString(10)
 
     let transactionInfo = {}
+
+    // If what you pre-approved is less than or equal to the amount you want to deposit
     if (allowed <= bigDeposit) {
-      // if what you pre-approved is less than or equal to the amount you want to deposit
       transactionInfo = {
         src: 'not_approved_deposit_ADT',
         title: 'Deposit ADT'
@@ -208,9 +211,6 @@ class RegistryService {
     if (!listingHash) {
       throw new Error('Domain is required')
     }
-
-    // domain = domain.toLowerCase()
-    // const domainHash = `0x${soliditySHA3(['string'], [domain.trim()]).toString('hex')}`
 
     let allowed = await (await token.allowance(this.account, this.address)).toString(10)
     const minDeposit = await this.getMinDeposit()
@@ -295,9 +295,8 @@ class RegistryService {
   }
 
   async getListing (listingHash) {
-    if (!listingHash || !this.registry) {
-      throw new Error('Domain is required')
-    }
+    if (!listingHash) throw new Error('Domain is required')
+    if (!this.registry) throw new Error('Contract not available')
 
     try {
       const result = await this.registry.listings.call(listingHash)
@@ -316,9 +315,7 @@ class RegistryService {
   }
 
   async getChallenge (challengeId) {
-    if (!challengeId) {
-      throw new Error('Challenge ID is required')
-    }
+    if (!challengeId) throw new Error('Challenge ID is required')
 
     try {
       const challenge = await this.registry.challenges.call(challengeId)
@@ -343,9 +340,7 @@ class RegistryService {
 
   // Domain param is listingHash
   async getChallengeId (listingHash) {
-    if (!listingHash) {
-      throw new Error('Domain is required')
-    }
+    if (!listingHash) throw new Error('Domain is required')
 
     try {
       const listing = await this.getListing(listingHash)
@@ -361,9 +356,7 @@ class RegistryService {
   }
 
   async isWhitelisted (listingHash) {
-    if (!listingHash) {
-      throw new Error('Domain is required')
-    }
+    if (!listingHash) throw new Error('Domain is required')
 
     try {
       return this.registry.isWhitelisted.call(listingHash)
@@ -373,9 +366,7 @@ class RegistryService {
   }
 
   async updateStatus (listingHash) {
-    if (!listingHash) {
-      throw new Error('Domain is required')
-    }
+    if (!listingHash) throw new Error('Domain is required')
 
     try {
       let transactionInfo = {
@@ -854,6 +845,7 @@ class RegistryService {
   }
 
   // async getTransaction (tx) {
+  //   console.log("TX: ", tx)
   //   return new Promise(async (resolve, reject) => {
   //     try {
   //       const result = await pify(window.web3.eth.getTransaction)(tx)
@@ -878,9 +870,8 @@ class RegistryService {
   // }
 
   async getEthBalance () {
-    if (!window.web3) {
-      return 0
-    }
+    if (!window.web3) return 0
+
     const result = await new Promise((resolve, reject) => {
       window.web3.eth.getBalance(this.account, function (err, res) {
         if (res) resolve(res)
@@ -891,7 +882,7 @@ class RegistryService {
   }
 
   async exit (listingHash) {
-    // domain = domain.toLowerCase()
+    if (!listingHash) throw new Error('listingHash is required')
 
     try {
       let transactionInfo = {
@@ -907,21 +898,9 @@ class RegistryService {
   }
 
   async withdraw (listingHash, amount = 0) {
-    if (!listingHash) {
-      throw new Error('listingHash is required')
-    }
+    if (!listingHash) throw new Error('listingHash is required')
 
     const bigWithdrawAmount = big(amount).mul(tenToTheNinth).toString(10)
-
-    // let allowed = await (await token.allowance(this.account, this.address)).toString(10)
-
-    // if (allowed < bigWithdrawAmount) {
-    //   try {
-    //     await token.approve(this.address, bigWithdrawAmount)
-    //   } catch (error) {
-    //     throw error
-    //   }
-    // }
 
     try {
       let transactionInfo = {
