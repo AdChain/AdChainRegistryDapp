@@ -12,6 +12,7 @@ import { getRegistry } from '../config'
 import { getProvider } from './provider'
 import { ipfsAddObject } from '../services/ipfs'
 import PubSub from 'pubsub-js'
+// import { promisify as pify } from 'bluebird'
 // import { runInThisContext } from 'vm'
 
 // TODO: check number param

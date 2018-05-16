@@ -18,7 +18,8 @@ class TransactionProgressModal extends Component {
       title: '',
       status: null,
       stepClass: null,
-      transactionComplete: false
+      transactionComplete: false,
+      closeOnLastTransaction: false
     }
 
     this.open = this.open.bind(this)
@@ -30,6 +31,13 @@ class TransactionProgressModal extends Component {
   next (topic, transactionInfo) {
     let src = transactionInfo.src
     const current = this.state.current + 1
+
+    if (!this.steps[src][current + 1]) {
+      this.setState({
+        closeOnLastTransaction: true
+      })
+    }
+
     if (this.steps[src][current]) {
       this.setState({
         current,
@@ -43,13 +51,15 @@ class TransactionProgressModal extends Component {
       })
     }
   }
+
   close () {
     this.setState({
       open: false,
       src: '',
       title: '',
       stepClass: null,
-      current: 0
+      current: 0,
+      closeOnLastTransaction: false
     })
   }
 
@@ -58,7 +68,8 @@ class TransactionProgressModal extends Component {
       src: 'error',
       current: 0,
       title: 'Transaction Failed!',
-      transactionComplete: true
+      transactionComplete: true,
+      closeOnLastTransaction: false
     })
   }
 
@@ -69,7 +80,8 @@ class TransactionProgressModal extends Component {
       title: transactionInfo.title,
       transactionComplete: false,
       status: null,
-      stepClass: null
+      stepClass: null,
+      closeOnLastTransaction: false
     })
   }
 
@@ -85,7 +97,7 @@ class TransactionProgressModal extends Component {
   }
 
   render () {
-    const { current, open, size, src, status, transactionComplete, title } = this.state
+    const { current, open, size, src, status, transactionComplete, title, closeOnLastTransaction } = this.state
     const Step = Steps.Step
 
     this.steps = {
@@ -534,8 +546,8 @@ class TransactionProgressModal extends Component {
         open={open}
         onClose={() => this.close()}
         className='TransactionProgressModal'
-        closeOnEscape={false}
-        closeOnRootNodeClick={false}>
+        closeOnEscape={closeOnLastTransaction}
+        closeOnRootNodeClick={closeOnLastTransaction}>
         <div className='LoadingIconContainer'>
           {
             transactionComplete
