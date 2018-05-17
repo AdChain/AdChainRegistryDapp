@@ -138,62 +138,59 @@ class DomainsTable extends Component {
       accessor: 'domain',
       Cell: (props) => {
         const domain = props.value
+        const url = `https://www.google.com/s2/favicons?domain=${domain}`
         return (
           <span
             className='Domain DomainFavicon'
             title='View profile'
             onClick={(event) => {
-              event.preventDefault()
+              event.preventDefault();
               history.push(`/domains/${props.value}`)
             }}>
-            <img
-              src={`https://www.google.com/s2/favicons?domain=${domain}`}
-              width={16}
-              alt=''
-            />&nbsp;
+            <img src={url} width={16} alt='' />
             {domain}
           </span>
         )
       },
       minWidth: 200
-    },
-    {
+    }, {
       Header: 'Action',
       accessor: 'stage',
       Cell: (props) => {
         let { domain, color, actionLabel, listingHash } = props.original
 
-        return <a
-          className={color ? `ui mini button table-button ${color}` : ' table-button transparent-button'}
-          href='#!'
-          title={actionLabel}
-          onClick={async (event) => {
-            event.preventDefault()
-            if (actionLabel === 'REFRESH') {
-              this.updateStatus(listingHash)
-              return
-            }
-            if (actionLabel === 'APPLY') {
-              try {
-                const minDeposit = await registry.getMinDeposit()
-                const adtBalance = await token.getBalance()
-                if (adtBalance < minDeposit) {
-                  toastr.error('You do not have enough ADT to apply this domain')
-                  return
+        return (
+          <a className={color ? `ui mini button table-button ${color}` : ' table-button transparent-button'}
+            href='#!'
+            title={actionLabel}
+            onClick={async (event) => {
+              event.preventDefault()
+              if (actionLabel === 'REFRESH') {
+                this.updateStatus(listingHash)
+                return
+              };
+              if (actionLabel === 'APPLY') {
+                try {
+                  const minDeposit = await registry.getMinDeposit()
+                  const adtBalance = await token.getBalance()
+                  if (adtBalance < minDeposit) {
+                    toastr.error('You do not have enough ADT to apply this domain')
+                    return
+                  }
+                  let data = {
+                    domain: domain,
+                    stake: Number(minDeposit),
+                    action: 'apply'
+                  }
+                  PubSub.publish('RedditConfirmationModal.show', data)
+                } catch (error) {
+                  console.log('Error applying the domain: ', error)
                 }
-                let data = {
-                  domain: domain,
-                  stake: Number(minDeposit),
-                  action: 'apply'
-                }
-                PubSub.publish('RedditConfirmationModal.show', data)
-              } catch (error) {
-                console.log('Error applying the domain: ', error)
+                return
               }
-              return
-            }
-            history.push(`/domains/${domain}`)
-          }}>{actionLabel} &nbsp;{actionLabel === 'REFRESH' ? <i className='icon refresh' /> : ''}</a>
+              history.push(`/domains/${domain}`)
+            }}>{actionLabel} &nbsp;{actionLabel === 'REFRESH' ? <i className='icon refresh' /> : ''}</a>
+        )
       },
       minWidth: 120
     }, {
@@ -202,7 +199,7 @@ class DomainsTable extends Component {
       Cell: (props) => {
         let { domain, label, listingHash } = props.original
 
-        const expired = isExpired(props.original.stageEndsTimestamp) || props.original.stage === 'view'
+        const expired = isExpired(props.original.stageEndsTimestamp) || props.original.stage === 'view';
 
         return ([
           expired ? <a
@@ -234,17 +231,15 @@ class DomainsTable extends Component {
       minWidth: 130
     }, {
       Header: 'Time Remaining',
-      accessor: 'stageEndsTimestamp',
       className: 'Number',
-      headerClassName: 'Number',
+      accessor: 'stageEndsTimestamp',
       Cell: (props) => {
-        const { value, row } = props
-        const { domain } = row
-
+        let { domain, value, stageEndsTimestamp } = props.original
+        value = stageEndsTimestamp
+        
         if (value) {
           return <CountdownSnapshot endDate={value} />
         }
-
         if (typeof props.value === 'number') {
           return <span onClick={(event) => {
             event.preventDefault()
@@ -305,7 +300,7 @@ class DomainsTable extends Component {
   }
 
   async getData(filters) {
-    if(this.state.fetching){
+    if (this.state.fetching) {
       return null
     }
     try {
@@ -367,7 +362,7 @@ class DomainsTable extends Component {
       }, null)
 
       let query = `filter=${queryFilters.join(',')}`
-      if(this._isMounted){
+      if (this._isMounted) {
         this.setState({
           fetching: true
         })

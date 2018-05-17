@@ -163,11 +163,15 @@ class AccountDashboard extends Component {
   }
 
   async fetchWithdrawn () {
-    let withdrawn = await (await window.fetch(`${registryApiURL}/registry/domains?filter=withdrawn`)).json()
-    // Create a hash map of hashes so lookup is faster
-    withdrawn = _.keyBy(withdrawn, 'domainHash')
-
-    return withdrawn
+    try{
+      let withdrawn = await (await window.fetch(`${registryApiURL}/registry/domains?filter=withdrawn`)).json()
+      // Create a hash map of hashes so lookup is faster
+      withdrawn = _.keyBy(withdrawn, 'domainHash')
+      return withdrawn
+    }catch(error){
+      console.log(error, "did not fetch withdrawn")
+      return []
+    }
   }
 
   async fetchAppliedDomains (withdrawn) {

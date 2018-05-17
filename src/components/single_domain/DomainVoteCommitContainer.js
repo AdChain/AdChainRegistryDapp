@@ -19,7 +19,6 @@ class DomainVoteCommitContainer extends Component {
     super()
 
     const salt = randomSalt()
-    console.log("salt: ", salt)
     let displayCommitModal = JSON.parse(window.localStorage.getItem('CommitGuide'))
 
     this.state = {

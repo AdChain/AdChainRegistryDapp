@@ -5,24 +5,14 @@ import pad from 'left-pad'
 import './CountdownSnapshot.css'
 
 class CountdownSnapshot extends Component {
-  constructor (props) {
-    super()
-
-    const endDate = moment.unix(props.endDate)
+  render () {
+    const endDate = moment.unix(this.props.endDate)
     const now = moment()
     const diff = endDate.diff(now, 'seconds')
     const dur = moment.duration(diff, 'seconds')
-
-    this.state = {
-      endDate: endDate,
-      days: `${pad(dur.days(), 2, 0)}`,
-      hours: `${pad(dur.hours(), 2, 0)}`,
-      minutes: `${pad(dur.minutes(), 2, 0)}`
-    }
-  }
-
-  render () {
-    const { days, hours, minutes } = this.state
+    const days = `${pad(dur.days(), 2, 0)}`
+    const hours = `${pad(dur.hours(), 2, 0)}`
+    const minutes = `${pad(dur.minutes(), 2, 0)}`
 
     return (
       <span className='StageEndsCountdownContainer'>
