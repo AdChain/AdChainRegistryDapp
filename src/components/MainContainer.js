@@ -4,7 +4,7 @@ import MainTopbar from './topbar/MainTopbar'
 import DomainsContainer from './domains/DomainsContainer'
 import DomainProfile from './single_domain/DomainProfile'
 import AccountDashboard from './dashboard/AccountDashboard'
-import RocketChat from './RocketChat'
+// import RocketChat from './RocketChat'
 import GovernanceContainer from './governance/GovernanceContainer'
 import './MainContainer.css'
 
@@ -32,7 +32,6 @@ class MainContainer extends Component {
               <Route path='/domains' exact render={props => <DomainsContainer {... props} joyride={this.props.joyride} />} />
               <Route path='/domains/:domain' exact component={DomainProfile} />
               <Route path='/account' exact component={AccountDashboard} />
-              <Route path='/chat' exact component={RocketChat} />
               <Route path='/governance' exact component={GovernanceContainer} />
               <Route path='/gx' exact component={DomainsContainer} />
               <Route path='/' exact component={DomainsContainer} />

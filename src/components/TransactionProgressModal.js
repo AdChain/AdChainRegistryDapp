@@ -83,6 +83,12 @@ class TransactionProgressModal extends Component {
       stepClass: null,
       closeOnLastTransaction: false
     })
+
+    if (this.steps[transactionInfo.src].length === 1) {
+      this.setState({
+        closeOnLastTransaction: true
+      })
+    }
   }
 
   pubsubSubscription () {
@@ -547,7 +553,8 @@ class TransactionProgressModal extends Component {
         onClose={() => this.close()}
         className='TransactionProgressModal'
         closeOnEscape={closeOnLastTransaction}
-        closeOnRootNodeClick={closeOnLastTransaction}>
+        closeOnRootNodeClick={closeOnLastTransaction}
+        closeIcon={closeOnLastTransaction}>
         <div className='LoadingIconContainer'>
           {
             transactionComplete
