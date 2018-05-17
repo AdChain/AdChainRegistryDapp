@@ -4,13 +4,13 @@ import toastr from 'toastr'
 import moment from 'moment'
 import { Input, Button, Segment } from 'semantic-ui-react'
 import Tooltip from '../Tooltip'
-import randomInt from 'random-int'
 import calculateGas from '../../utils/calculateGas'
 
 import saveFile from '../../utils/saveFile'
 import Countdown from '../CountdownText'
 import registry from '../../services/registry'
 import IndividualGuideModal from './IndividualGuideModal'
+import {randomSalt} from '../../utils/randomSalt'
 
 import './DomainVoteCommitContainer.css'
 
@@ -18,7 +18,8 @@ class DomainVoteCommitContainer extends Component {
   constructor (props) {
     super()
 
-    const salt = randomInt(1e6, 1e8)
+    const salt = randomSalt()
+    console.log("salt: ", salt)
     let displayCommitModal = JSON.parse(window.localStorage.getItem('CommitGuide'))
 
     this.state = {
@@ -214,7 +215,7 @@ class DomainVoteCommitContainer extends Component {
                     Challenge ID: <strong>{this.props.domainData.challengeId}</strong>
                   </div>
                   <div>
-                    Secret Phrase: <strong>{salt}</strong>
+                    Secret Phrase: <strong style={{wordWrap: 'break-word'}}>{salt}</strong>
                   </div>
                 </Segment>
               </div>

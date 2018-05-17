@@ -420,12 +420,12 @@ class DomainsTable extends Component {
         domains = []
       } else {
         if (domains.length !== currentNumDomains) {
-          // if new result from api endpoint is not equal to the current number of domains
-          // that means that the database has been updated, so we need to re-render the table
+          // If new result from api endpoint is not equal to the current number of domains,
+          // it means that the database has been updated, so we need to re-render the table
           this.getData(filters) // this should re-render the table and set a new number of total num domains
           PubSub.publish('TransactionProgressModal.next', transactionInfo) // this will display the final complete state of the transaction progress modal
         } else {
-          // if the result from api is still the same as the existing number in storage,
+          // If the result from api is still the same as the existing number in storage,
           // we want to run this function again to hit the api again
           if (counter === 5) {
             PubSub.publish('TransactionProgressModal.next', transactionInfo)
