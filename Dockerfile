@@ -1,8 +1,8 @@
 FROM node:8
 
-EXPOSE 5000
+EXPOSE 5001
 
-ENV PORT 5000
+ENV PORT 5001
 
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
