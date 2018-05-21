@@ -329,7 +329,7 @@ select::-ms-expand {
 /* Mobile Styles */
 @media (max-width: 812px) {
   .DomainsContainer{
-    margin-top: -63px;
+    margin-top: -3px;
     margin-bottom: 43px;
   }
   .DomainsTable .ui.grid{
@@ -415,6 +415,9 @@ select::-ms-expand {
     border: 1px solid #ddd;
     border-radius: 48px;
   }
+  .DomainsFilterPanel .Reset {
+    margin-left: 145px;
+  }
   :root:root:root:root:root .DomainsContainer .SearchContainer{
     padding-top: 23px !important;
     padding-bottom: 23px !important;
@@ -432,6 +435,10 @@ select::-ms-expand {
     top: 31px;
   }
   .MobileNavigation{display: block}
+  .AllParameters{
+    margin-top: -45px;
+    margin-bottom: 60px;
+  }
 }
 
 /* @media only screen and (min-width: 1279px) and (max-width: 1280px) {

@@ -100,16 +100,16 @@ class GovernanceContainer extends Component {
         <div className='column four wide'>
           <GovernanceAndCoreParameters {...props} />
         </div>
-        <div className='column twelve wide'>
+        <div className='column twelve wide mobile-hide'>
           <div className='ui stackable grid'>
-            <div className='column four wide'>
+            <div className='column four wide '>
               <CreateProposal {...props} />
               <GovernanceRewardsTable {...props} />
             </div>
             <div className='column twelve wide'>
               <OpenProposalsTable {...props} />
             </div>
-            <div className='column sixteen wide'>
+            <div className='column sixteen wide mobile-hide'>
               <div className='BoxFrame'>
                 <span className='ui grid BoxFrameLabel'>PRE-APPROVE TOKENS FOR VOTING<Tooltip info={'Pre-Approve Voting Rights to reduce the number of MetaMask transactions.'} /></span>
                 <div className='ui grid'>
