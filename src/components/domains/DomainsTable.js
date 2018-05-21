@@ -156,7 +156,7 @@ class DomainsTable extends Component {
           </span>
         )
       },
-      minWidth: 200
+      minWidth: 180
     }, {
       Header: 'Action',
       accessor: 'stage',
@@ -257,6 +257,7 @@ class DomainsTable extends Component {
     return columns
   }
 
+  // For Moblie Domains Table View
   mobileColumns() {
 
     const columns = [{
@@ -274,7 +275,7 @@ class DomainsTable extends Component {
             title='View profile'
             onClick={(event) => {
               event.preventDefault();
-              history.push(`/domains/${props.value}`)
+              history.push(`/domains/${domain}`)
             }}>
             <img src={url} width={16} alt='' />
             {domain}  <span style={{float:'right'}}>{time}</span> <br/>

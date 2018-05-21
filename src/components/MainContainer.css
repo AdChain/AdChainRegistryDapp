@@ -22,9 +22,6 @@
   }
 }
 
-.MainContainerFade-enter {
-
-}
 
 .MainContainerFade-enter.MainContainerFade-enter-active {
   animation-name: fadeInLeft;
@@ -33,27 +30,7 @@
   animation-fill-mode: both;
 }
 
-.MainContainerFade-leave {
 
-}
-
-.MainContainerFade-leave.fade-leave-active {
-
-}
-
-.MainContainerFade-appear {
-
-}
-
-.MainContainerFade-appear.MainContainerFade-appear-active {
-
-}
-
-@media only screen and (max-width: 767px) {
-  :root:root:root:root:root .MainContainerWrap {
-    margin-top: 125px !important;
-  }
-}
 
 .joyride { 
   z-index: 500;

@@ -30,7 +30,7 @@ class MainContainer extends Component {
             <Switch>
               <Redirect path='/' to='/domains' exact />
               <Route path='/domains' exact render={props => <DomainsContainer {... props} joyride={this.props.joyride} />} />
-              <Route path='/domains/:domain' exact component={DomainProfile} />
+              <Route path='/domains/:domain' exact render={props => <DomainProfile {... props} />} />
               <Route path='/account' exact component={AccountDashboard} />
               <Route path='/governance' exact component={GovernanceContainer} />
               <Route path='/gx' exact component={DomainsContainer} />

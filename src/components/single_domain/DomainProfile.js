@@ -78,7 +78,7 @@ class DomainProfile extends Component {
                 domainData={domainData}
               />
             </div>
-            <div className='column nine wide'>
+            <div className='column nine wide mobile-hide'>
               <DomainStatsbar
                 domain={domain}
                 domainData={domainData}
@@ -86,14 +86,14 @@ class DomainProfile extends Component {
             </div>
           </div>
           <div className='row'>
-            <div className='column four wide'>
+            <div className='column four wide mobile-hide'>
               <DomainProfileStageMap
                 stage={stage}
                 domain={domain}
                 domainData={domainData}
               />
             </div>
-            <div className='column five wide'>
+            <div className='column five wide mobile-hide'>
               <DomainRedditBox
                 domain={domain}
                 domainData={domainData}

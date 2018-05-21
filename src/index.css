@@ -326,25 +326,36 @@ select::-ms-expand {
 }
 
 
-
-
-
 /* Mobile Styles */
 @media (max-width: 812px) {
-  .DomainsContainer{margin-top: -20px;}
+  .DomainsContainer{
+    margin-top: -63px;
+    margin-bottom: 43px;
+  }
+  .DomainsTable .ui.grid{
+    margin-left:0;
+    margin-right:0;
+  }
   .mobile-hide{display: none}
   .mobile-show{display:inline-block}
   :root:root:root:root .DomainsContainer .ui.stackable.grid > div.column.wide{
+    padding-left:.5em !important;
+    padding-right:.5em !important;
+  }
+  .no-mobile-padding{padding-left:0 !important;padding-right:0 !important}
+
+  :root:root:root:root .DomainsContainer :nth-child(2) .ui.stackable.grid{
     padding-left:1em !important;
     padding-right:1em !important;
   }
-  .ui.grid>.stackable.stackable.row>.column, 
-  .ui.stackable.grid>.column.grid>.column, 
-  .ui.stackable.grid>.column.row>.column, 
-  .ui.stackable.grid>.column:not(.row), 
-  .ui.stackable.grid>.row>.column, 
-  .ui.stackable.grid>.row>.wide.column, 
-  .ui.stackable.grid>.wide.column {
+
+  .DomainsContainer .ui.grid>.stackable.stackable.row>.column, 
+  .DomainsContainer .ui.stackable.grid>.column.grid>.column, 
+  .DomainsContainer .ui.stackable.grid>.column.row>.column, 
+  .DomainsContainer .ui.stackable.grid>.column:not(.row), 
+  .DomainsContainer .ui.stackable.grid>.row>.column, 
+  .DomainsContainer .ui.stackable.grid>.row>.wide.column, 
+  .DomainsContainer .ui.stackable.grid>.wide.column {
     padding:0 !important;
   }
   :root:root .BoxFrame{
@@ -362,13 +373,10 @@ select::-ms-expand {
   }
   .StageEndsCountdownContainer .StageEndsTime{
     font-size:12px;
-    margin-left: -3px;
+    /* margin-left: -3px; */
   }
   .StageEndsCountdownContainer .StageEndsLabel{
     font-size:9px;
-  }
-  :root:root .DomainsTable .ReactTable .DomainFavicon {
-    padding-left: 5px;
   }
 
   :root:root  .ui.green.button, .ui.green.buttons .button {
@@ -407,13 +415,12 @@ select::-ms-expand {
     border: 1px solid #ddd;
     border-radius: 48px;
   }
-  :root:root:root:root:root .MainContainerWrap {
-    margin-top: 130px !important;
-  }
   :root:root:root:root:root .DomainsContainer .SearchContainer{
     padding-top: 23px !important;
     padding-bottom: 23px !important;
+    /* padding-right: 1em !important; */
   }
+  .ui.grid.stackable .NoPaddingRight{padding-right: 0 !important}
   :root:root:root .DomainsContainer .sixteen .grid .column.twelve.wide{
     margin-top: -15px !important
   }
@@ -424,6 +431,7 @@ select::-ms-expand {
     right: 20px;
     top: 31px;
   }
+  .MobileNavigation{display: block}
 }
 
 /* @media only screen and (min-width: 1279px) and (max-width: 1280px) {

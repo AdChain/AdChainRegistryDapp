@@ -45,7 +45,7 @@ class DomainsContainer extends Component {
     // Delay required for table to properly update with filters
     setTimeout(() => {
       this.updateTableFilters(query)
-    }, 0)
+    }, 10)
 
     // scroll to top
     window.scrollTo(0, -1)
@@ -164,7 +164,7 @@ class DomainsContainer extends Component {
                               ? <div className='column twelve wide'>
                                 <RegistryGuideStaticDomainsTable source={'reveal'} />
                               </div>
-                              : <div className='column twelve wide'>
+                              : <div className='column twelve wide DomainsTableColumns no-mobile-padding'>
                                 <DomainsTable
                                   history={history}
                                   filters={tableFilters}

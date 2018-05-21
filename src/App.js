@@ -12,6 +12,7 @@ import MainSidebar from './components/sidebar/MainSidebar'
 import MainContainer from './components/MainContainer'
 import RegistryWalkthrough from './components/registry_guide/RegistryWalkthrough'
 import TransactionProgressModal from './components/TransactionProgressModal'
+import { MobileNavigation } from './components/mobile_nav/MobileNavigation';
 
 class App extends Component {
   render () {
@@ -36,6 +37,7 @@ class App extends Component {
                   joyride={this.joyride}
                 />
               </div>
+              <MobileNavigation Link={Link} Route={Route}/>
               <TransactionProgressModal />
             </div>
           </div>
