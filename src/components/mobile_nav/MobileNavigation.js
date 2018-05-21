@@ -1,5 +1,10 @@
 import React from 'react'
 import './MobileNavigation.css'
+import { renderAirSwap } from '../../utils/renderAirSwap'
+import governanceIcon from "../../components/assets/governance_icon.svg"
+import applyIcon from "../../components/assets/apply_icon.svg"
+import domainsIcon from "../../components/assets/domains_icon.svg"
+import adtokenIcon from "../../components/assets/adtoken_icon.svg"
 
 export const MobileNavigation = (props) => {
     const Link = props.Link
@@ -7,16 +12,24 @@ export const MobileNavigation = (props) => {
     return (
         <div className='MobileNavigation'>
             <Link to='/domains'>
-                <img src="/static/media/WWW.4e7ac200.svg" alt="www" />
-                <br/>
-                DOMAINS
+                <img src={domainsIcon} alt="www" />
+                <br />
+                <span>DOMAINS</span>
             </Link>
-            <div>APPLY</div>
-            <div>ADTOKEN</div>
+            <div>
+                <img src={applyIcon} alt="governance" />
+                <br />
+                <span>APPLY</span>
+            </div>
+            <div onClick={() => { renderAirSwap() }}>
+                <img src={adtokenIcon} alt="adtoken" />
+
+                <span>ADTOKEN</span>
+            </div>
             <Link to='governance'>
-                <img src="/static/media/PARAMETERS.00dcd7a8.svg" alt="governance" />
-                <br/>
-                    GOVERNANCE
+                <img src={governanceIcon} alt="gov" />
+                <br />
+                <span>GOVERNANCE</span>
             </Link>
         </div>
 

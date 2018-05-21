@@ -427,12 +427,12 @@ select::-ms-expand {
   :root:root:root .DomainsContainer .sixteen .grid .column.twelve.wide{
     margin-top: -15px !important
   }
-  i.icon.edit.outline{
-    color: #3434CE !important; 
+  .FilterIcon{
     font-size:18px;
     position: absolute;
-    right: 20px;
-    top: 31px;
+    right: 23px;
+    top: 25px;
+    height: 18px;
   }
   .MobileNavigation{display: block}
   .AllParameters{

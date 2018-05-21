@@ -3,9 +3,12 @@ import PropTypes from 'prop-types'
 import commafy from 'commafy'
 import Tooltip from '../Tooltip'
 import store from '../../store'
+import isMobile from 'is-mobile'
 // import token from '../../services/token'
+import filterIcon from "../../components/assets/filter_icon.svg"
 import { Input } from 'semantic-ui-react'
 import { registryApiURL } from '../../models/urls'
+
 
 import './DomainsFilterPanel.css'
 
@@ -23,7 +26,7 @@ class DomainsFilterPanel extends Component {
       withdrawn: 0,
       rejected: 0,
       fetching: false,
-      showFilters: false
+      showFilters: !isMobile()
     }
 
     this.onSearchInput = this.onSearchInput.bind(this)
@@ -85,7 +88,7 @@ class DomainsFilterPanel extends Component {
                 onKeyUp={this.onSearchInput}
                 type='text' />
             </div>
-            <i className="i icon edit outline" onClick={() => { this.toggleFilters() }}></i>
+            <img className={isMobile() ? 'FilterIcon': 'hide'} onClick={() => { this.toggleFilters() }} src={filterIcon} alt='filter'/>
           </div>
           <div className={showFilters ? '' : 'hide'}>
             <div className='ListTitle'>

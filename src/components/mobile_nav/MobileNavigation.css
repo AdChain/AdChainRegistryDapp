@@ -12,8 +12,12 @@
     text-align: center;
     font-family: 'Open Sans', sans-serif;
     color:#a2a2a2;
-    padding: 14px 12px;
+    padding: 17px 12px;
     display: inline-block;
     width:25%;
     font-size: 11px !important;
+}
+.MobileNavigation span{
+    padding-top:4px;
+    display:inline-block;
 }
