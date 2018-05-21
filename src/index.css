@@ -211,6 +211,8 @@ input:focus{
   height: 100%;
   width: 100%;
 }
+
+
 select:focus{
   text-decoration: none;
   outline: none;
@@ -319,6 +321,108 @@ select::-ms-expand {
   :root:root:root:root .MainContainerWrap {
     margin-top: 70px !important;
     padding-left: inherit;
+  }
+  .mobile-hide{display: none !important}
+}
+
+
+
+
+
+/* Mobile Styles */
+@media (max-width: 812px) {
+  .DomainsContainer{margin-top: -20px;}
+  .mobile-hide{display: none}
+  .mobile-show{display:inline-block}
+  :root:root:root:root .DomainsContainer .ui.stackable.grid > div.column.wide{
+    padding-left:1em !important;
+    padding-right:1em !important;
+  }
+  .ui.grid>.stackable.stackable.row>.column, 
+  .ui.stackable.grid>.column.grid>.column, 
+  .ui.stackable.grid>.column.row>.column, 
+  .ui.stackable.grid>.column:not(.row), 
+  .ui.stackable.grid>.row>.column, 
+  .ui.stackable.grid>.row>.wide.column, 
+  .ui.stackable.grid>.wide.column {
+    padding:0 !important;
+  }
+  :root:root .BoxFrame{
+    border-radius:0;
+  }
+  .rt-td > .action { text-align: right}
+  .rt-thead.-header{display:none}
+  :root:root:root .DomainsTable{
+    padding:2em 1em;
+    padding-top:0;
+  }
+  :root:root .DomainsTable .ReactTable .Domain img {
+    margin-right: 0.5em;
+    vertical-align: middle;
+  }
+  .StageEndsCountdownContainer .StageEndsTime{
+    font-size:12px;
+    margin-left: -3px;
+  }
+  .StageEndsCountdownContainer .StageEndsLabel{
+    font-size:9px;
+  }
+  :root:root .DomainsTable .ReactTable .DomainFavicon {
+    padding-left: 5px;
+  }
+
+  :root:root  .ui.green.button, .ui.green.buttons .button {
+    background-color: #10C903;
+    color: white;
+    text-decoration: none;
+  }
+  :root:root  .ui.red.button, .ui.red.buttons .button {
+    color: white;
+    background: #db2828;
+    text-decoration: none;
+  }
+
+  :root:root  .ui.blue.button, .ui.blue.buttons .button {
+    color: white;
+    background: #3434CE;
+    text-decoration: none;
+  }
+  :root:root  .ui.greyblack.button, .ui.greyblack.buttons .button:hover .greyblack{
+    color:white;
+    background:#424242;
+  }
+  :root:root .ReactTable .rt-tr {
+    padding: 13px 2px;
+  }
+  :root:root .DomainsTable .ui.button, .ui.buttons .button {
+    padding: 8px;
+  }
+  .ListTitle{
+    font-size: 16px !important;
+    padding-top:15px;
+  }
+  #DomainsFiltersPanelDomainSearch {
+    padding: 0;
+    height: 36px;
+    border: 1px solid #ddd;
+    border-radius: 48px;
+  }
+  :root:root:root:root:root .MainContainerWrap {
+    margin-top: 130px !important;
+  }
+  :root:root:root:root:root .DomainsContainer .SearchContainer{
+    padding-top: 23px !important;
+    padding-bottom: 23px !important;
+  }
+  :root:root:root .DomainsContainer .sixteen .grid .column.twelve.wide{
+    margin-top: -15px !important
+  }
+  i.icon.edit.outline{
+    color: #3434CE !important; 
+    font-size:18px;
+    position: absolute;
+    right: 20px;
+    top: 31px;
   }
 }
 

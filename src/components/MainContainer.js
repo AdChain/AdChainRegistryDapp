@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+
 import MainTopbar from './topbar/MainTopbar'
 import DomainsContainer from './domains/DomainsContainer'
 import DomainProfile from './single_domain/DomainProfile'
 import AccountDashboard from './dashboard/AccountDashboard'
-// import RocketChat from './RocketChat'
 import GovernanceContainer from './governance/GovernanceContainer'
 import './MainContainer.css'
 
@@ -13,9 +13,9 @@ class MainContainer extends Component {
     const Route = this.props.Route
     const Switch = this.props.Switch
     const Redirect = this.props.Redirect
-    const CSSTransitionGroup = this.props.CSSTransitionGroup
     const location = this.props.location
     const key = location.pathname
+    const CSSTransitionGroup = this.props.CSSTransitionGroup
 
     return (
       <div className='ui grid'>

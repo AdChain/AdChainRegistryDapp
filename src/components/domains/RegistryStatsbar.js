@@ -48,7 +48,7 @@ class RegistryStatsbar extends Component {
     } = this.state
 
     return (
-      <div className='RegistryStatsbar BoxFrame'>
+      <div className='RegistryStatsbar BoxFrame mobile-hide'>
         <div className='ui grid stackable'>
           {showHeader
             ? <div className='column sixteen wide' >

@@ -4,7 +4,7 @@ import {renderAirSwap} from '../../utils/renderAirSwap'
 
 export const AirSwap = () => {
     return (
-        <div className='DomainEmailNotifications BoxFrame'>
+        <div className='DomainEmailNotifications BoxFrame mobile-hide'>
             <div className='ui grid stackable'>
                 <div className='DomainEmailNotificationsContainer column sixteen wide'>
                     <span className='BoxFrameLabel ui grid'>BUY ADTOKEN <Tooltip class='InfoIconHigh' info={'Easily trade Etheruem for adToken through AirSwap widget.'} /></span>

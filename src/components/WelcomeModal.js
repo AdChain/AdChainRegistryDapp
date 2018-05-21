@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import isMobile from 'is-mobile'
 import Button from 'antd/lib/button'
 import Steps from 'antd/lib/steps'
 import 'antd/lib/button/style/css'
@@ -132,12 +133,13 @@ class WelcomeModal extends Component {
   }
 
   render () {
+    if (isMobile) return null
     const { current, open, size, finalButtonText } = this.state
     const returningUser = window.localStorage.getItem('returningUser')
 
     return (
       !returningUser || returningUser === 'false'
-        ? <Modal size={size} open={open} onClose={() => this.close()} closeIcon className='WelcomeModalContainer'>
+        ? <Modal size={size} open={open} onClose={() => this.close()} closeIcon className='WelcomeModalContainer mobile-hide'>
           <Modal.Header className='WelcomeHeader'><span className='WelcomeHeaderUnderline'>WELCOME TO THE ADCHAIN REGISTRY</span></Modal.Header>
           <Modal.Content>
             <div>

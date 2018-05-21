@@ -38,7 +38,7 @@ class DomainEmailNotifications extends Component {
 
   render () {
     return (
-      <div className='DomainEmailNotifications BoxFrame'>
+      <div className='DomainEmailNotifications BoxFrame mobile-hide'>
         <div className='ui grid stackable'>
           <div className='DomainEmailNotificationsContainer column sixteen wide'>
             <span className='BoxFrameLabel ui grid'>ADCHAIN REGISTRY EMAIL NOTIFICATIONS <Tooltip class='InfoIconHigh' info={'Receive daily updates on new activity in the adChain Registry. Powered by GovernX'} /></span>

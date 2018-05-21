@@ -10,7 +10,7 @@ import { registryApiURL } from '../../models/urls'
 import './DomainsFilterPanel.css'
 
 class DomainsFilterPanel extends Component {
-  constructor (props) {
+  constructor(props) {
     super()
 
     this.state = {
@@ -22,7 +22,8 @@ class DomainsFilterPanel extends Component {
       inRegistry: 0,
       withdrawn: 0,
       rejected: 0,
-      fetching: false
+      fetching: false,
+      showFilters: false
     }
 
     this.onSearchInput = this.onSearchInput.bind(this)
@@ -33,7 +34,7 @@ class DomainsFilterPanel extends Component {
     // this.fetchStats()
   }
 
-  componentDidMount () {
+  componentDidMount() {
     this._isMounted = true
 
     this.fetchStats()
@@ -42,18 +43,18 @@ class DomainsFilterPanel extends Component {
     })
   }
 
-  componentWillReceiveProps (props) {
+  componentWillReceiveProps(props) {
     if (this._isMounted) {
       this.setState({
         filters: props.filters
       })
     }
   }
-  componentWillUnmount () {
+  componentWillUnmount() {
     this._isMounted = false
   }
 
-  render () {
+  render() {
     const {
       filters,
       inApplication,
@@ -61,129 +62,134 @@ class DomainsFilterPanel extends Component {
       inReveal,
       inRegistry,
       withdrawn,
-      rejected
+      rejected,
+      showFilters
     } = this.state
 
     return (
       <div className='DomainsFilterPanel BoxFrame'>
         <div className='ui grid stackable'>
           <div className='SearchContainer column sixteen wide'>
-            <span className='BoxFrameLabel ui grid'>DOMAIN FILTERS <Tooltip info={'The fields in this box filter the user view in the DOMAINS table.'} /></span>
-            <div className='SearchTitle'>
+            <span className='BoxFrameLabel ui grid mobile-hide'>DOMAIN FILTERS <Tooltip info={'The fields in this box filter the user view in the DOMAINS table.'} /></span>
+            <div className='SearchTitle mobile-hide'>
               Search Domains
             </div>
             <div>
               <Input
                 icon='search'
                 iconPosition='left'
-                placeholder='example.com'
+                placeholder='SEARCH DOMAIN'
                 name='domain'
                 id='DomainsFiltersPanelDomainSearch'
                 defaultValue={filters.domain}
                 onKeyUp={this.onSearchInput}
                 type='text' />
             </div>
+            <i className="i icon edit outline" onClick={() => { this.toggleFilters() }}></i>
           </div>
-          <div className='ListTitle'>
-            Stage
-          </div>
-          <div className='ui grid'>
-            <div className='sixteen wide column'>
-              <ul className='ui list'>
-                <li className='item'>
-                  <div className='ui input'>
-                    <input
-                      type='checkbox'
-                      id='DomainsFilterPanel_InRegistry'
-                      name='inRegistry'
-                      checked={!!filters.inRegistry}
-                      onChange={this.onFilterChange}
-                    />
-                  </div>
-                  <label htmlFor='DomainsFilterPanel_InRegistry'>In Registry</label> &nbsp;
+          <div className={showFilters ? '' : 'hide'}>
+            <div className='ListTitle'>
+              FILTERS
+            </div >
+            <div className='ui grid'>
+              <div className='sixteen wide column'>
+                <ul className='ui list'>
+                  <li className='item'>
+                    <div className='ui input'>
+                      <input
+                        type='checkbox'
+                        id='DomainsFilterPanel_InRegistry'
+                        name='inRegistry'
+                        checked={!!filters.inRegistry}
+                        onChange={this.onFilterChange}
+                      />
+                    </div>
+                    <label htmlFor='DomainsFilterPanel_InRegistry'>In Registry</label> &nbsp;
                   <span className='f-grey f-12 f-os'>({inRegistry != null ? commafy(inRegistry) : '-'})</span>
-                </li>
-                <li className='item'>
-                  <div className='ui input'>
-                    <input
-                      type='checkbox'
-                      id='DomainsFilterPanel_InApplication'
-                      name='inApplication'
-                      checked={!!filters.inApplication}
-                      onChange={this.onFilterChange}
-                    />
-                  </div>
-                  <label htmlFor='DomainsFilterPanel_InApplication'>In Application</label> &nbsp;
+                  </li>
+                  <li className='item'>
+                    <div className='ui input'>
+                      <input
+                        type='checkbox'
+                        id='DomainsFilterPanel_InApplication'
+                        name='inApplication'
+                        checked={!!filters.inApplication}
+                        onChange={this.onFilterChange}
+                      />
+                    </div>
+                    <label htmlFor='DomainsFilterPanel_InApplication'>In Application</label> &nbsp;
                   <span className='f-grey f-12 f-os'>({inApplication != null ? commafy(inApplication) : '-'})</span>
 
-                </li>
-                <li className='item'>
-                  <div className='ui input'>
-                    <input
-                      type='checkbox'
-                      id='DomainsFilterPanel_InVotingCommit'
-                      name='inVotingCommit'
-                      checked={!!filters.inVotingCommit}
-                      onChange={this.onFilterChange}
-                    />
-                  </div>
-                  <label htmlFor='DomainsFilterPanel_InVotingCommit'>In Commit</label> &nbsp;
+                  </li>
+                  <li className='item'>
+                    <div className='ui input'>
+                      <input
+                        type='checkbox'
+                        id='DomainsFilterPanel_InVotingCommit'
+                        name='inVotingCommit'
+                        checked={!!filters.inVotingCommit}
+                        onChange={this.onFilterChange}
+                      />
+                    </div>
+                    <label htmlFor='DomainsFilterPanel_InVotingCommit'>In Commit</label> &nbsp;
                   <span className='f-grey f-12 f-os'>({inCommit != null ? commafy(inCommit) : '-'})</span>
-                </li>
-                <li className='item'>
-                  <div className='ui input'>
-                    <input
-                      type='checkbox'
-                      id='DomainsFilterPanel_InVotingReveal'
-                      name='inVotingReveal'
-                      checked={!!filters.inVotingReveal}
-                      onChange={this.onFilterChange}
-                    />
-                  </div>
-                  <label htmlFor='DomainsFilterPanel_InVotingReveal'>In Reveal</label> &nbsp;
+                  </li>
+                  <li className='item'>
+                    <div className='ui input'>
+                      <input
+                        type='checkbox'
+                        id='DomainsFilterPanel_InVotingReveal'
+                        name='inVotingReveal'
+                        checked={!!filters.inVotingReveal}
+                        onChange={this.onFilterChange}
+                      />
+                    </div>
+                    <label htmlFor='DomainsFilterPanel_InVotingReveal'>In Reveal</label> &nbsp;
                   <span className='f-grey f-12 f-os'>({inReveal != null ? commafy(inReveal) : '-'})</span>
-                </li>
-                <li className='item'>
-                  <div className='ui input'>
-                    <input
-                      type='checkbox'
-                      id='DomainsFilterPanel_Rejected'
-                      name='rejected'
-                      checked={!!filters.rejected}
-                      onChange={this.onFilterChange}
-                    />
-                  </div>
-                  <label htmlFor='DomainsFilterPanel_Rejected'>Rejected</label> &nbsp;
+                  </li>
+                  <li className='item'>
+                    <div className='ui input'>
+                      <input
+                        type='checkbox'
+                        id='DomainsFilterPanel_Rejected'
+                        name='rejected'
+                        checked={!!filters.rejected}
+                        onChange={this.onFilterChange}
+                      />
+                    </div>
+                    <label htmlFor='DomainsFilterPanel_Rejected'>Rejected</label> &nbsp;
                   <span className='f-grey f-12 f-os'>({rejected != null ? commafy(rejected) : '-'})</span>
-                </li>
-                <li className='item'>
-                  <div className='ui input'>
-                    <input
-                      type='checkbox'
-                      id='DomainsFilterPanel_Withdrawn'
-                      name='withdrawn'
-                      checked={!!filters.withdrawn}
-                      onChange={this.onFilterChange}
-                    />
-                  </div>
-                  <label htmlFor='DomainsFilterPanel_Withdrawn'>Withdrawn</label> &nbsp;
+                  </li>
+                  <li className='item'>
+                    <div className='ui input'>
+                      <input
+                        type='checkbox'
+                        id='DomainsFilterPanel_Withdrawn'
+                        name='withdrawn'
+                        checked={!!filters.withdrawn}
+                        onChange={this.onFilterChange}
+                      />
+                    </div>
+                    <label htmlFor='DomainsFilterPanel_Withdrawn'>Withdrawn</label> &nbsp;
                   <span className='f-grey f-12 f-os'>({withdrawn != null ? commafy(withdrawn) : '-'})</span>
-                </li>
-              </ul>
+                  </li>
+                </ul>
+              </div>
             </div>
+          <div className='Reset'>
+            <a href onClick={this.resetFilters}>Reset</a>
+          </div>
           </div>
         </div>
-        <div className='Reset'>
-          <a href onClick={this.resetFilters}>Reset</a>
-        </div>
       </div>
+
     )
   }
 
-  onSearchInput (event) {
+  onSearchInput(event) {
     const target = event.target
-    const {name} = target
-    const {filters} = this.state
+    const { name } = target
+    const { filters } = this.state
     filters[name] = target.value
 
     if (this._isMounted) {
@@ -192,19 +198,19 @@ class DomainsFilterPanel extends Component {
     this.onFiltersChange(filters)
   }
 
-  onFilterChange (event) {
+  onFilterChange(event) {
     const target = event.target
-    const {name, checked} = target
+    const { name, checked } = target
 
-    const {filters} = this.state
+    const { filters } = this.state
     filters[name] = checked
     if (this._isMounted) {
-      this.setState({filters})
+      this.setState({ filters })
     }
     this.onFiltersChange(filters)
   }
 
-  resetFilters (event) {
+  resetFilters(event) {
     event.preventDefault()
 
     const filters = {
@@ -217,7 +223,7 @@ class DomainsFilterPanel extends Component {
       withdrawn: false
     }
     if (this._isMounted) {
-      this.setState({filters})
+      this.setState({ filters })
     }
     this.onFiltersChange(filters)
 
@@ -228,35 +234,31 @@ class DomainsFilterPanel extends Component {
     }
   }
 
-  async fetchStats () {
-    if(this.state.fetching === true){
+  toggleFilters() {
+    this.setState({
+      showFilters: !this.state.showFilters
+    })
+  }
+
+  async fetchStats() {
+    if (this.state.fetching === true) {
       return null
     }
 
-    if(this._isMounted){
-      this.setState({fetching:true})
+    if (this._isMounted) {
+      this.setState({ fetching: true })
     }
 
     try {
       // let totalStaked = await (await window.fetch(`${registryApiURL}/registry/domains/stake/count`)).json()
       const {
-        inRegistry, 
-        inApplication, 
-        inCommit, 
-        inReveal, 
-        rejected, 
+        inRegistry,
+        inApplication,
+        inCommit,
+        inReveal,
+        rejected,
         withdrawn
       } = await (await window.fetch(`${registryApiURL}/registry/domains/count`)).json()
-
-      // const inCommit = await (await window.fetch(`${registryApiURL}/registry/domains/incommit/count`)).json()
-      // const inReveal = await (await window.fetch(`${registryApiURL}/registry/domains/inreveal/count`)).json()
-      // const inRegistry = await (await window.fetch(`${registryApiURL}/registry/domains/registry/count`)).json()
-      // const withdrawn = await (await window.fetch(`${registryApiURL}/registry/domains/withdrawn/count`)).json()
-      // const rejected = await (await window.fetch(`${registryApiURL}/registry/domains/rejected/count`)).json()
-
-      // if (totalStaked) {
-      //   totalStaked = totalStaked / Math.pow(10, token.decimals)
-      // }
 
       if (this._isMounted) {
         this.setState({

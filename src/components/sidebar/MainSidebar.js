@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Menu, Accordion } from 'semantic-ui-react'
 import { withRouter } from 'react-router-dom'
 import PubSub from 'pubsub-js'
+import isMobile from 'is-mobile'
 
 import SideBarApplicationContainer from './SideBarApplicationContainer'
 import adchainPublisherLogo from '../assets/adchain_publisher_logo.svg'
@@ -24,7 +25,8 @@ class MainSidebar extends Component {
       accordionArrow: false,
       helpClicked: false,
       socialClicked: false,
-      showMenu: true
+      showMenu: true,
+      mobile: isMobile()
     }
     this._Link = props.Link
     this._history = props.history
@@ -85,13 +87,8 @@ class MainSidebar extends Component {
           <a href='/'>
             <object className='adchainPublisherLogo' type='image/svg+xml' data={adchainPublisherLogo} aria-label='adchainPublisherLogo' />
           </a>
-          <span className='MobileMenu' onClick={() => { this.toggleMenu() }}>
-            <span />
-            <span />
-            <span />
-          </span>
         </div>
-        <div className={this.state.showMenu ? 'SidebarListContainer overflow-x' : 'hide'}>
+        <div className={this.state.mobile ? 'hide': 'SidebarListContainer overflow-x'}>
           <div className='SidebarList overflow-y overflow-x'>
             <div className='ListTitle ui header'>
               <RegistryGuideModal updateRoute={this.updateRoute} />

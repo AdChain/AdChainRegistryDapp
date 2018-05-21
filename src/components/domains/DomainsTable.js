@@ -6,6 +6,7 @@ import Tooltip from '../Tooltip'
 import commafy from 'commafy'
 import moment from 'moment'
 import toastr from 'toastr'
+import isMobile from 'is-mobile'
 import 'react-table/react-table.css'
 import './DomainsTable.css'
 
@@ -101,7 +102,7 @@ class DomainsTable extends Component {
 
     return (
       <div className='DomainsTable BoxFrame'>
-        <span className='BoxFrameLabel ui grid'>DOMAINS <Tooltip info={'The Domains Table shows a holistic view of every active domain that has applied to the registry. Feel free to use the DOMAIN FILTER box to the left to display the desired content.'} /></span>
+        <span className='BoxFrameLabel ui grid mobile-hide'>DOMAINS <Tooltip info={'The Domains Table shows a holistic view of every active domain that has applied to the registry. Feel free to use the DOMAIN FILTER box to the left to display the desired content.'} /></span>
         <div className='ui grid'>
           <ReactTable
             loading={isLoading}
@@ -133,6 +134,9 @@ class DomainsTable extends Component {
   // The 'props' parameter used here is coming from the data prop in the ReactTable
   // It is how the react table requires you to pass custom data: https://github.com/react-tools/react-table#props
   getColumns() {
+    if(isMobile()){
+      return this.mobileColumns()
+    }
     const columns = [{
       Header: 'Domain',
       accessor: 'domain',
@@ -252,6 +256,77 @@ class DomainsTable extends Component {
 
     return columns
   }
+
+  mobileColumns() {
+
+    const columns = [{
+      Cell: (props) => {
+        let { domain, label, stageEndsTimestamp } = props.original
+        const url = `https://www.google.com/s2/favicons?domain=${domain}`
+        let value = stageEndsTimestamp
+        let time = ''
+        if (value) {
+          time = <CountdownSnapshot endDate={value} />
+        }
+        return (
+          <span
+            className='Domain DomainFavicon'
+            title='View profile'
+            onClick={(event) => {
+              event.preventDefault();
+              history.push(`/domains/${props.value}`)
+            }}>
+            <img src={url} width={16} alt='' />
+            {domain}  <span style={{float:'right'}}>{time}</span> <br/>
+            <span style={{paddingLeft: '22px', fontSize: '11px'}}>{label}</span>
+          </span>
+        )
+      },
+      minWidth: 200
+    },{
+      Cell: (props) => {
+        let { domain, color, actionLabel, listingHash } = props.original
+        return (
+          <span className="action">
+            <a className={color ? `ui mini button table-button ${color}` : ' table-button transparent-button'}
+              href='#!'
+              title={actionLabel}
+              onClick={async (event) => {
+                event.preventDefault()
+                if (actionLabel === 'REFRESH') {
+                  this.updateStatus(listingHash)
+                  return
+                };
+                if (actionLabel === 'APPLY') {
+                  try {
+                    const minDeposit = await registry.getMinDeposit()
+                    const adtBalance = await token.getBalance()
+                    if (adtBalance < minDeposit) {
+                      toastr.error('You do not have enough ADT to apply this domain')
+                      return
+                    }
+                    let data = {
+                      domain: domain,
+                      stake: Number(minDeposit),
+                      action: 'apply'
+                    }
+                    PubSub.publish('RedditConfirmationModal.show', data)
+                  } catch (error) {
+                    console.log('Error applying the domain: ', error)
+                  }
+                  return
+                }
+                history.push(`/domains/${domain}`)
+              }}>{actionLabel} &nbsp;{actionLabel === 'REFRESH' ? <i className='icon refresh' /> : ''}</a>
+            </span>
+        )
+      },
+      minWidth: 80
+    }]
+
+    return columns
+  }
+
 
   async onTableFetchData(withdrawn) {
     if (this._isMounted) {

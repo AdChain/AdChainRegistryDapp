@@ -2,12 +2,14 @@ import React, { Component } from 'react'
 import Joyride from 'react-joyride'
 import 'react-joyride/lib/react-joyride-compiled.css'
 import PubSub from 'pubsub-js'
+import isMobile from 'is-mobile'
 
 class RegistryWalkthrough extends Component {
   constructor (props) {
     super(props)
     this.state = {
       shouldRun: false,
+      mobile: isMobile(),
       walkthroughSteps: [],
       shouldShowOverlay: true
     }
@@ -26,6 +28,7 @@ class RegistryWalkthrough extends Component {
   }
 
   render () {
+    if(isMobile) return null
     const {
       shouldRun,
       walkthroughSteps,
