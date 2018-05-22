@@ -23,7 +23,7 @@ export const MobileNavigation = (props) => {
             </div>
             <div onClick={() => { renderAirSwap() }}>
                 <img src={adtokenIcon} alt="adtoken" />
-
+                <br />
                 <span>ADTOKEN</span>
             </div>
             <Link to='governance'>

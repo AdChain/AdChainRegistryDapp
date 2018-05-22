@@ -189,6 +189,7 @@ input:focus{
 .f-18{font-size:18px;}
 /*utility font weight*/
 .fw-200{font-weight:200}
+.fw-600{font-weight:600}
 /*utitlity font color*/
 .f-red{
   color:#CE3434;
@@ -233,6 +234,25 @@ select::-ms-expand {
   color:transparent;
   background: transparent;
   border-color: transparent;
+}
+.big-blue{
+  background: #3534ce;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 13px;
+  margin-top: 18px;
+  font-size: 12px;
+}
+.big-white{
+  background: white;
+  color: black;
+  border: 1px solid black;
+  border-radius: 5px;
+  padding: 10px 21px;
+  margin-top: 18px;
+  margin-left: 18px;
+  font-size: 12px;
 }
 :root:root  .ui.blue.button, .ui.blue.buttons .button {
     background-color: white;
@@ -419,7 +439,7 @@ select::-ms-expand {
     margin-left: 145px;
   }
   :root:root:root:root:root .DomainsContainer .SearchContainer{
-    padding-top: 23px !important;
+    padding-top: 28px !important;
     padding-bottom: 23px !important;
     /* padding-right: 1em !important; */
   }
@@ -431,7 +451,7 @@ select::-ms-expand {
     font-size:18px;
     position: absolute;
     right: 23px;
-    top: 25px;
+    top: 30px;
     height: 18px;
   }
   .MobileNavigation{display: block}

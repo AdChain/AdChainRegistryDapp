@@ -350,6 +350,7 @@
     display: block;
     width: 100%;
     box-shadow: none;
+    padding-top: 15px;
   }
 
   :root:root .MainSidebar .SidebarListContainer {

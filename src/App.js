@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import isMobile from 'is-mobile'
 import {
   BrowserRouter as Router,
   Route,
@@ -13,6 +14,7 @@ import MainContainer from './components/MainContainer'
 import RegistryWalkthrough from './components/registry_guide/RegistryWalkthrough'
 import TransactionProgressModal from './components/TransactionProgressModal'
 import { MobileNavigation } from './components/mobile_nav/MobileNavigation';
+import { MobileApplication } from './components/mobile_nav/MobileApplication';
 
 class App extends Component {
   render () {
@@ -22,9 +24,9 @@ class App extends Component {
           <div className='App'>
             <div className='ui grid stackable'>
               <RegistryWalkthrough />
-              <div
-                className='MainSidebarWrap column four wide'>
+              <div className={isMobile() ? '' :'MainSidebarWrap column four wide'}>
                 <MainSidebar Link={Link} />
+                <MobileApplication Link={Link} Route={Route}/>
               </div>
               <div className='MainContainerWrap column twelve wide'>
                 <MainContainer

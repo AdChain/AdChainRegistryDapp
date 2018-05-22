@@ -1,0 +1,15 @@
+.MobileApplication{
+    margin-top: 100px;
+    font-family: 'Open Sans', sans-serif;
+}
+.MobileApplication input{
+    border: none;
+    border-bottom: 1px solid #ddd;
+    width: 85%;
+    background: transparent;
+    margin-bottom: 5px;
+}
+.MobileApplication span{
+    padding:16px 0 4px 0;
+    display: inline-block;
+}
