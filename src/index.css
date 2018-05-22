@@ -204,6 +204,9 @@ input:focus{
 .ib{display: inline-block !important;}
 /*utility hide*/
 .hide{display: none !important;}
+/*utility opacity*/
+.op-5{opacity: 0.5;}
+
 .transparent-button{
   color:transparent;
   background: transparent;
@@ -434,6 +437,9 @@ select::-ms-expand {
     height: 36px;
     border: 1px solid #ddd;
     border-radius: 48px;
+  }
+  .DomainsFilterPanel{
+    margin-top: 28px;
   }
   .DomainsFilterPanel .Reset {
     margin-left: 145px;

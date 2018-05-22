@@ -131,7 +131,7 @@ class DomainsTable extends Component {
     )
   }
 
-  // The 'props' parameter used here is coming from the data prop in the ReactTable
+  // The 'props' parameter passed in the 'Cell' is coming from the data prop in the ReactTable
   // It is how the react table requires you to pass custom data: https://github.com/react-tools/react-table#props
   getColumns() {
     if(isMobile()){

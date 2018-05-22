@@ -14,7 +14,7 @@ import MainContainer from './components/MainContainer'
 import RegistryWalkthrough from './components/registry_guide/RegistryWalkthrough'
 import TransactionProgressModal from './components/TransactionProgressModal'
 import { MobileNavigation } from './components/mobile_nav/MobileNavigation';
-import { MobileApplication } from './components/mobile_nav/MobileApplication';
+import  MobileApplication  from './components/mobile_nav/MobileApplication';
 
 class App extends Component {
   render () {

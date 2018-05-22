@@ -11,9 +11,9 @@ import registry from './services/registry'
 import plcr from './services/plcr'
 import parameterizer from './services/parameterizer'
 import token from './services/token'
-import DocumentLoadingComponent from './components/DocumentLoadingComponent.js'
-import isMobile from 'is-mobile'
-import store from 'store'
+// import DocumentLoadingComponent from './components/DocumentLoadingComponent.js'
+// import isMobile from 'is-mobile'
+// import store from 'store'
 import calculateGas from "./utils/calculateGas"
 
 import './index.css'
@@ -27,17 +27,20 @@ function adBlockDetected () {
 }
 
 async function init () {
-  let hasAcceptedMobile
-  try {
-    hasAcceptedMobile = store.get('hasAcceptedMobile')
-  } catch (error) {
-    console.log(error)
-  }
 
-  if (isMobile() && !hasAcceptedMobile) {
-    ReactDOM.render(<DocumentLoadingComponent />, document.getElementById('root'))
-    return
-  }
+  /*
+    ==============Uncomment for mobile messaging prior to view rendering==============
+  */ 
+  // let hasAcceptedMobile
+  // try {
+  //   hasAcceptedMobile = store.get('hasAcceptedMobile')
+  // } catch (error) {
+  //   console.log(error)
+  // }
+  // if (isMobile() && !hasAcceptedMobile) {
+  //   ReactDOM.render(<DocumentLoadingComponent />, document.getElementById('root'))
+  //   return
+  // }
 
   if (typeof window.fuckAdBlock === 'undefined') {
     adBlockDetected()

@@ -1,37 +1,35 @@
 import React from 'react'
 import './MobileNavigation.css'
-import { renderAirSwap } from '../../utils/renderAirSwap'
-import governanceIcon from "../../components/assets/governance_icon.svg"
-import applyIcon from "../../components/assets/apply_icon.svg"
-import domainsIcon from "../../components/assets/domains_icon.svg"
-import adtokenIcon from "../../components/assets/adtoken_icon.svg"
+import {mobileNavData} from '../../models/mobileNav'
+
 
 export const MobileNavigation = (props) => {
     const Link = props.Link
 
+    let view = mobileNavData.map((x,i) => {
+        if (x.type === 'Link') {
+            return (
+                <Link key={i} to={x.link}>
+                    <img src={x.img} alt={x.alt} />
+                    <br />
+                    <span>{x.name}</span>
+                </Link>
+            )
+        } else {
+            return (
+                <div key={i} onClick={x.action}>
+                    <img src={x.img} alt={x.alt} />
+                    <br />
+                    <span>{x.name}</span>
+                </div>
+            )
+        }
+    })
+
     return (
         <div className='MobileNavigation'>
-            <Link to='/domains'>
-                <img src={domainsIcon} alt="www" />
-                <br />
-                <span>DOMAINS</span>
-            </Link>
-            <div>
-                <img src={applyIcon} alt="governance" />
-                <br />
-                <span>APPLY</span>
-            </div>
-            <div onClick={() => { renderAirSwap() }}>
-                <img src={adtokenIcon} alt="adtoken" />
-                <br />
-                <span>ADTOKEN</span>
-            </div>
-            <Link to='governance'>
-                <img src={governanceIcon} alt="gov" />
-                <br />
-                <span>GOVERNANCE</span>
-            </Link>
+            {view}
         </div>
-
     )
 }
+
