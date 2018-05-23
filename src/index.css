@@ -449,7 +449,7 @@ select::-ms-expand {
     border-radius: 48px;
   }
   .DomainsFilterPanel{
-    margin-top: 28px;
+    margin-top: 8px;
   }
   .DomainsFilterPanel .Reset {
     margin-left: 145px;
