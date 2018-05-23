@@ -545,72 +545,75 @@ class TransactionProgressModal extends Component {
         }
       ]
     }
-
-    return (
-      <Modal
-        size={size}
-        open={open}
-        onClose={() => this.close()}
-        className='TransactionProgressModal'
-        closeOnEscape={closeOnLastTransaction}
-        closeOnRootNodeClick={closeOnLastTransaction}
-        closeIcon={closeOnLastTransaction}>
-        <div className='LoadingIconContainer'>
-          {
-            transactionComplete
-              ? src === 'error'
-                ? <Icon name='remove' size='huge' className='ErrorIcon' />
-                : null
-              : <Loader indeterminate active inline='centered' />
-          }
-        </div>
-        <Modal.Header className='TransactionProgressHeader'>
-          {
-            transactionComplete
-              ? src === 'error'
-                ? <span>{title}</span>
-                : <span>{title} Successful!</span>
-              : <span>{title} in Progress</span>
-          }
-        </Modal.Header>
-        <Modal.Content>
-          <div>
-            <Steps current={current}>
-              {
-                // possibly remove step icons once transaction complete
-                src && src !== 'error'
-                  ? this.steps[src].map((item, idx) => <Step key={idx} status={status} />)
+    try {
+      return (
+        <Modal
+          size={size}
+          open={open}
+          onClose={() => this.close()}
+          className='TransactionProgressModal'
+          closeOnEscape={closeOnLastTransaction}
+          closeOnRootNodeClick={closeOnLastTransaction}
+          closeIcon={closeOnLastTransaction}>
+          <div className='LoadingIconContainer'>
+            {
+              transactionComplete
+                ? src === 'error'
+                  ? <Icon name='remove' size='huge' className='ErrorIcon' />
                   : null
-              }
-            </Steps>
-            <div className='steps-content'>
-              {
-                src
-                  ? src === 'refresh' && transactionComplete
-                    ? null
-                    : this.steps[src][current].content
-                  : null
-              }
-            </div>
-            <div className='MetaMaskNote'>
-              <br />
-              {
-                transactionComplete
-                  ? null
-                  : <p>* Please click "SUBMIT" in your MetaMask extension. If a transaction seems stuck, check MetaMask and/or the transaction's Etherscan link for the current status.</p>
-              }
-            </div>
-            <div className='steps-action'>
-              {
-                transactionComplete
-                  ? <Button className='TransactionProgressClose' onClick={() => this.close()}>Close</Button>
-                  : null
-              }
-            </div>
+                : <Loader indeterminate active inline='centered' />
+            }
           </div>
-        </Modal.Content>
-      </Modal>
-    )
+          <Modal.Header className='TransactionProgressHeader'>
+            {
+              transactionComplete
+                ? src === 'error'
+                  ? <span>{title}</span>
+                  : <span>{title} Successful!</span>
+                : <span>{title} in Progress</span>
+            }
+          </Modal.Header>
+          <Modal.Content>
+            <div>
+              <Steps current={current}>
+                {
+                  // possibly remove step icons once transaction complete
+                  src && src !== 'error'
+                    ? this.steps[src].map((item, idx) => <Step key={idx} status={status} />)
+                    : null
+                }
+              </Steps>
+              <div className='steps-content'>
+                {
+                  src
+                    ? src === 'refresh' && transactionComplete
+                      ? null
+                      : this.steps[src][current].content
+                    : null
+                }
+              </div>
+              <div className='MetaMaskNote'>
+                <br />
+                {
+                  transactionComplete
+                    ? null
+                    : <p>* Please click "SUBMIT" in your MetaMask extension. If a transaction seems stuck, check MetaMask and/or the transaction's Etherscan link for the current status.</p>
+                }
+              </div>
+              <div className='steps-action'>
+                {
+                  transactionComplete
+                    ? <Button className='TransactionProgressClose' onClick={() => this.close()}>Close</Button>
+                    : null
+                }
+              </div>
+            </div>
+          </Modal.Content>
+        </Modal>
+      )
+    } catch (error) {
+      console.log('error')
+    }
   }
 }
 
