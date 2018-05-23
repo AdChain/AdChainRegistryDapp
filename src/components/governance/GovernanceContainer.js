@@ -37,7 +37,7 @@ class GovernanceContainer extends Component {
       currentProposals: [],
       rewards: [],
       account: '',
-      modalOpen: !isMobile(),
+      modalOpen: false,
       registryGuideSrc: false,
       doNotDisplay: doNotDisplay
     }
@@ -94,7 +94,7 @@ class GovernanceContainer extends Component {
     const { account, doNotDisplay, modalOpen } = this.state
     let registryGuideSrc = this.props.location.state ? this.props.location.state.registryGuideSrc : null
 
-    if (!this.state.rewards || !account || account === '0x0') return null
+    // if (!this.state.rewards || !account || account === '0x0') return null
 
     return (
       <div className='ui stackable grid padded'>
@@ -127,7 +127,7 @@ class GovernanceContainer extends Component {
         {
           registryGuideSrc
             ? null
-            : doNotDisplay
+            : doNotDisplay || isMobile()
               ? null
               : <Modal size={'small'} open={modalOpen} closeIcon className='GovernanceGuideModal' onClose={this.close}>
                 <RegistryGuideModalGovernance src={'governance'} />

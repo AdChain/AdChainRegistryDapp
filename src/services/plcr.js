@@ -27,26 +27,26 @@ class PlcrService {
     this.account = accounts[0]
     this.plcr = await getPLCR(this.account)
     this.address = this.plcr.address
-    this.setUpEvents()
+    // this.setUpEvents()
 
     store.dispatch({
       type: 'PLCR_CONTRACT_INIT'
     })
   }
 
-  setUpEvents () {
-    this.plcr.allEvents()
-      .watch((error, log) => {
-        if (error) {
-          console.error(error)
-          return false
-        }
+  // setUpEvents () {
+  //   this.plcr.allEvents()
+  //     .watch((error, log) => {
+  //       if (error) {
+  //         console.error(error)
+  //         return false
+  //       }
 
-        store.dispatch({
-          type: 'PLCR_EVENT'
-        })
-      })
-  }
+  //       store.dispatch({
+  //         type: 'PLCR_EVENT'
+  //       })
+  //     })
+  // }
 
   async getPoll (pollId) {
     return new Promise(async (resolve, reject) => {
