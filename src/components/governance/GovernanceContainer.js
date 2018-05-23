@@ -4,6 +4,7 @@ import moment from 'moment-timezone'
 import commafy from 'commafy'
 import PubSub from 'pubsub-js'
 import Eth from 'ethjs'
+import isMobile from 'is-mobile'
 import { Modal } from 'semantic-ui-react'
 
 import GovernanceAndCoreParameters from './GovernanceAndCoreParameters'
@@ -36,7 +37,7 @@ class GovernanceContainer extends Component {
       currentProposals: [],
       rewards: [],
       account: '',
-      modalOpen: true,
+      modalOpen: !isMobile(),
       registryGuideSrc: false,
       doNotDisplay: doNotDisplay
     }
