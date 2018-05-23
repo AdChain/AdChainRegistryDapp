@@ -43,7 +43,7 @@ class MobileApplication extends Component {
                     <span>
                         The {minDeposit} ADT staked will remain with the domain applied until it is ether rejected or withdrawn.
                 </span>
-                    <button type='submit' className='big-blue'>APPLY DOMAIN</button>
+                    <button type='submit' className='big-green'>APPLY DOMAIN</button>
                     {/*<a onClick={() => { this.show() }} className='big-white'>CANCEL</a>*/}
                 </div>
             </Form>

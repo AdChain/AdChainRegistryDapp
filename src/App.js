@@ -24,7 +24,7 @@ class App extends Component {
           <div className='App'>
             <div className='ui grid stackable'>
               <RegistryWalkthrough />
-              <div className={isMobile() ? '' :'MainSidebarWrap column four wide'}>
+              <div className={isMobile() ? 'MobileApplicationContainer' :'MainSidebarWrap column four wide'}>
                 <MainSidebar Link={Link} />
                 <MobileApplication Link={Link} Route={Route}/>
               </div>

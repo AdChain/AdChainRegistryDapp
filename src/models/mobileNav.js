@@ -20,7 +20,9 @@ export const mobileNavData = [
     action: () => {
       PubSub.publish('MobileApplication.show')
       PubSub.publish('DomainsFilterPanel.toggle')
-      window.scrollTo(0, -1)
+      setTimeout(() => {
+        window.scrollTo(0, -1)
+      }, 200)
     },
     type: 'div'
   },

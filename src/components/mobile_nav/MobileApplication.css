@@ -13,3 +13,10 @@
     padding:16px 0 4px 0;
     display: inline-block;
 }
+.MobileApplicationContainer{
+    background: #3634ce;
+    color: white;
+    padding-bottom: 25px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}

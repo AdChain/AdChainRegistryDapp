@@ -188,16 +188,11 @@ class DomainChallengeContainer extends Component {
         if (isMobile()) {
           let data = ''
           await registry.challenge(listingHash, data)
-          // let redditChallenge = await createPostChallenge(domain, reason)
+          await createPostChallenge(domain, reason)
           PubSub.publish('DomainProfile.fetchSiteData')
         } else {
           PubSub.publish('RedditConfirmationModal.show', data)
         }
-
-        // TODO: better way of resetting state
-        // setTimeout(() => {
-        //   window.location.reload()
-        // }, 2e3)
 
       } catch (error) {
         console.log("error", error)
