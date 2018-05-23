@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import PubSub from 'pubsub-js'
 import commafy from 'commafy'
 import Tooltip from '../Tooltip'
 import store from '../../store'
@@ -26,7 +27,8 @@ class DomainsFilterPanel extends Component {
       withdrawn: 0,
       rejected: 0,
       fetching: false,
-      showFilters: !isMobile()
+      showFilters: !isMobile(),
+      toggle: true
     }
 
     this.onSearchInput = this.onSearchInput.bind(this)
@@ -44,6 +46,7 @@ class DomainsFilterPanel extends Component {
     store.subscribe(x => {
       this.fetchStats()
     })
+    this.toggleEvent = PubSub.subscribe("DomainsFilterPanel.toggle", this.toggle.bind(this))
   }
 
   componentWillReceiveProps(props) {
@@ -59,6 +62,7 @@ class DomainsFilterPanel extends Component {
 
   render() {
     const {
+      toggle,
       filters,
       inApplication,
       inCommit,
@@ -66,11 +70,11 @@ class DomainsFilterPanel extends Component {
       inRegistry,
       withdrawn,
       rejected,
-      showFilters
+      showFilters,
     } = this.state
 
     return (
-      <div className='DomainsFilterPanel BoxFrame'>
+      <div className={toggle ? 'DomainsFilterPanel BoxFrame' :'hide'}>
         <div className='ui grid stackable'>
           <div className='SearchContainer column sixteen wide'>
             <span className='BoxFrameLabel ui grid mobile-hide'>DOMAIN FILTERS <Tooltip info={'The fields in this box filter the user view in the DOMAINS table.'} /></span>
@@ -187,6 +191,11 @@ class DomainsFilterPanel extends Component {
       </div>
 
     )
+  }
+  toggle(){
+    this.setState({
+      toggle: !this.state.toggle
+    })
   }
 
   onSearchInput(event) {

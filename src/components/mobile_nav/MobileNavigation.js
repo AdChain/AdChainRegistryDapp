@@ -1,7 +1,6 @@
 import React from 'react'
 import './MobileNavigation.css'
-import {mobileNavData} from '../../models/mobileNav'
-
+import { mobileNavData } from '../../models/mobileNav'
 
 export const MobileNavigation = (props) => {
     const Link = props.Link

@@ -17,7 +17,11 @@ export const mobileNavData = [
     name: 'APPLY',
     img: applyIcon,
     alt: 'apply',
-    action: () => PubSub.publish('MobileApplication.show'),
+    action: () => {
+      PubSub.publish('MobileApplication.show')
+      PubSub.publish('DomainsFilterPanel.toggle')
+      window.scrollTo(0, -1)
+    },
     type: 'div'
   },
   {

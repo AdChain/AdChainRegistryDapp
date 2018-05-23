@@ -3,52 +3,56 @@ import PropTypes from 'prop-types'
 import commafy from 'commafy'
 import toastr from 'toastr'
 import moment from 'moment'
+import isMobile from 'is-mobile'
 import { Button } from 'semantic-ui-react'
 import Tooltip from '../Tooltip'
-import calculateGas from '../../utils/calculateGas'
 
 import Countdown from '../CountdownText'
 import registry from '../../services/registry'
 import parametizer from '../../services/parameterizer'
 import PubSub from 'pubsub-js'
 import IndividualGuideModal from './IndividualGuideModal'
+import { createPostChallenge } from '../../services/redditActions'
 
 import './DomainChallengeContainer.css'
 
 class DomainChallengeContainer extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     let displayChallengeModal = JSON.parse(window.localStorage.getItem('ChallengeGuide'))
     const { domainData, domain } = props
     this.state = {
       domain,
-      applicationExpiry: null,
+      reason: '',
+      domainData,
       minDeposit: null,
       currentDeposit: null,
       source: props.source,
       dispensationPct: null,
-      displayChallengeModal: !displayChallengeModal,
-      domainData
+      applicationExpiry: null,
+      displayChallengeModal: !displayChallengeModal
     }
-
+    
+    this.handleChange = this.handleChange.bind(this)
     this.getDispensationPct = this.getDispensationPct.bind(this)
   }
 
-  async componentDidMount () {
+  async componentDidMount() {
     this._isMounted = true
 
     await this.getMinDeposit()
     await this.getDispensationPct()
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     this._isMounted = false
   }
 
-  render () {
+  render() {
     const {
-      minDeposit,
       source,
+      reason,
+      minDeposit,
       dispensationPct,
       displayChallengeModal
     } = this.state
@@ -115,6 +119,12 @@ class DomainChallengeContainer extends Component {
                   </div>
               }
             </div>
+            <div className="form desktop-hide">
+              <span className='fw-600'>Enter Challenge Reasoning</span>
+              <br /><br />
+              <input className="MobileChallengeReasonInput" name="reason" value={reason} onChange={this.handleChange} type='text' placeholder='15 character minimum' />
+            </div>
+
             <Button basic className='ChallengeButton' onClick={this.onChallenge.bind(this)}>Challenge</Button>
           </div>
         </div>
@@ -129,7 +139,13 @@ class DomainChallengeContainer extends Component {
     )
   }
 
-  async getMinDeposit () {
+  handleChange(event) {
+    this.setState({
+      [event.target.name]: event.target.value
+    })
+  }
+
+  async getMinDeposit() {
     if (this._isMounted) {
       this.setState({
         minDeposit: (await registry.getMinDeposit()).toNumber()
@@ -137,14 +153,15 @@ class DomainChallengeContainer extends Component {
     }
   }
 
-  onChallenge (event) {
+  onChallenge(event) {
     event.preventDefault()
     this.challenge()
   }
 
-  async challenge () {
-    const { domain, minDeposit } = this.state
-    const {listingHash} = this.props.domainData
+  async challenge() {
+
+    const { domain, minDeposit, reason } = this.state
+    const { listingHash } = this.props.domainData
 
     let inApplication = null
 
@@ -154,7 +171,13 @@ class DomainChallengeContainer extends Component {
       toastr.error('Error')
     }
 
+    if (reason.length < 15) {
+      toastr.error("Challenge reasoning has 15 character minimum")
+      return
+    }
+
     if (inApplication) {
+
       try {
         let data = {
           domain,
@@ -162,51 +185,37 @@ class DomainChallengeContainer extends Component {
           stake: minDeposit,
           action: 'challenge'
         }
-        console.log('listng: ', listingHash)
-        PubSub.publish('RedditConfirmationModal.show', data)
-        try {
-          calculateGas({
-            domain: domain,
-            contract_event: true,
-            event: 'challenge',
-            contract: 'registry',
-            event_success: true
-          })
-        } catch (error) {
-          console.log('error reporting gas')
+        if (isMobile()) {
+          let data = ''
+          await registry.challenge(listingHash, data)
+          // let redditChallenge = await createPostChallenge(domain, reason)
+          PubSub.publish('DomainProfile.fetchSiteData')
+        } else {
+          PubSub.publish('RedditConfirmationModal.show', data)
         }
 
         // TODO: better way of resetting state
         // setTimeout(() => {
         //   window.location.reload()
         // }, 2e3)
+
       } catch (error) {
+        console.log("error", error)
         toastr.error('Error')
-        try {
-          calculateGas({
-            domain: domain,
-            contract_event: true,
-            event: 'challenge',
-            contract: 'registry',
-            event_success: false
-          })
-        } catch (error) {
-          console.log('error reporting gas')
-        }
       }
     } else {
       toastr.error('Domain not in application')
     }
   }
 
-  onCountdownExpire () {
+  onCountdownExpire() {
     // allow some time for new block to get mined and reload page
     setTimeout(() => {
       window.location.reload()
     }, 15000)
   }
 
-  async getDispensationPct () {
+  async getDispensationPct() {
     try {
       parametizer.get('dispensationPct')
         .then((response) => {
