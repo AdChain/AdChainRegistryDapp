@@ -10,14 +10,14 @@
           if (stillLoading) {
             let r = confirm("Please Make sure your MetaMask Extension is loaded properly and refresh page.")
             if (r) {
-              window.location.reload(true)
+              window.location.reload()
             }
           }
         } catch (error) {
           console.log(error)
         }
 
-      }, 10000)
+      }, 13000)
     }())
   </script>
   <script>
