@@ -18,9 +18,7 @@ export async function ipfsGetData (multihash) {
   })
 }
 
-// TODO: add tests
 export async function ipfsAddObject (obj) {
-  // TODO: verify keccak256
   const CID = await new Promise((resolve, reject) => {
     ipfs.addJSON(obj, (err, result) => {
       if (err) reject(new Error(err))

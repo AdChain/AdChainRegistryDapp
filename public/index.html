@@ -2,7 +2,15 @@
 <html lang="en">
 
 <head>
+<script>
+    // Redirect https
+    var url = window.location.href.replace(/http:\/\/publisher\.adchain\.com/gi, 'https://publisher.adchain.com');
+    if (url !== window.location.href) {
+      window.location.href = url;
+    };
+  </script>
   <script>
+    // If page takes too long, warn user and refresh.
     (function () {
       setTimeout(() => {
         try {
@@ -16,17 +24,10 @@
         } catch (error) {
           console.log(error)
         }
-
-      }, 13000)
+      }, 20000)
     }())
   </script>
-  <script>
-    // redirect
-    var url = window.location.href.replace(/http:\/\/publisher\.adchain\.com/gi, 'https://publisher.adchain.com');
-    if (url !== window.location.href) {
-      window.location.href = url;
-    };
-  </script>
+
   <meta charset="UTF-8">
   <meta name="description" content="adChain Publisher Registry - MetaX">
   <meta name="author" content="MetaX">
@@ -101,7 +102,6 @@
   </style>
 
 
-
   <!-- Google Tag Manager -->
   <script>(function (w, d, s, l, i) {
       w[l] = w[l] || []; w[l].push({
@@ -135,13 +135,13 @@
 </head>
 
 <body>
-  <div id="google_translate_element"></div><script type="text/javascript">
-      function googleTranslateElementInit() {
-        new google.translate.TranslateElement({pageLanguage: 'en', layout: google.translate.TranslateElement.InlineLayout.SIMPLE}, 'google_translate_element');
-      }
-      </script>
-      <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-              
+  <div id="google_translate_element"></div>
+  <script type="text/javascript">
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement({pageLanguage: 'en', layout: google.translate.TranslateElement.InlineLayout.SIMPLE}, 'google_translate_element');
+    }
+  </script>
+  <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
   <noscript>
     You need to enable JavaScript to run this app.
   </noscript>
@@ -165,27 +165,12 @@
     </div>
 
   </div>
-  <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
-
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
-
-      To begin the development, run `npm start` or `yarn start`.
-      To create a production bundle, use `npm run build` or `yarn build`.
-    -->
   <!-- AIRSWAP CDN -->
   <script type="text/javascript" src="https://cdn.airswap.io/gallery/airswap-trader.js"></script>
 
-  <!-- <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script> -->
   <script type="text/javascript" rc="%PUBLIC_URL%/vendor/web3-1.0.min.js"></script>
-  <!--<script src="%PUBLIC_URL%/vendor/web3.min.js"></script>-->
 
   <script type="text/javascript" src="%PUBLIC_URL%/vendor/fab.min.js"></script>
-
-
-
 
 </body>
 

@@ -35,8 +35,6 @@ class DomainEmailNotifications extends Component {
     this.subscribeEvent = PubSub.subscribe('DomainEmailNotifications.subscribe', this.subscribeEmail)
   }
 
-  // No functionality yet
-
   render () {
     return (
       <div className='DomainEmailNotifications BoxFrame mobile-hide'>

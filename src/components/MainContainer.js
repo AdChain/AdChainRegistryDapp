@@ -45,11 +45,6 @@ class MainContainer extends Component {
 }
 
 MainContainer.propTypes = {
-/*
-  Route: PropTypes.ReactElement,
-  Switch: PropTypes.ReactElement,
-  CSSTransitionGroup: PropTypes.ReactElement,
-*/
   location: PropTypes.object
 }
 
