@@ -28,7 +28,7 @@ class RegistryWalkthrough extends Component {
   }
 
   render () {
-    if(isMobile) return null
+    if(this.state.mobile) return null
     const {
       shouldRun,
       walkthroughSteps,
