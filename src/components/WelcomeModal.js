@@ -133,7 +133,7 @@ class WelcomeModal extends Component {
   }
 
   render () {
-    if (isMobile) return null
+    if (isMobile()) return null
     const { current, open, size, finalButtonText } = this.state
     const returningUser = window.localStorage.getItem('returningUser')
 
