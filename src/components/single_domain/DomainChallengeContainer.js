@@ -171,10 +171,7 @@ class DomainChallengeContainer extends Component {
       toastr.error('Error')
     }
 
-    if (reason.length < 15) {
-      toastr.error("Challenge reasoning has 15 character minimum")
-      return
-    }
+
 
     if (inApplication) {
 
@@ -187,6 +184,10 @@ class DomainChallengeContainer extends Component {
         }
         if (isMobile()) {
           let data = ''
+          if (reason.length < 15) {
+            toastr.error("Challenge reasoning has 15 character minimum")
+            return
+          }
           await registry.challenge(listingHash, data)
           await createPostChallenge(domain, reason)
           PubSub.publish('DomainProfile.fetchSiteData')
