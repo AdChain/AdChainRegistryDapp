@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-<script>
+  <script>
     // Redirect https
     var url = window.location.href.replace(/http:\/\/publisher\.adchain\.com/gi, 'https://publisher.adchain.com');
     if (url !== window.location.href) {
@@ -87,12 +87,14 @@
       height: 100vh;
       width: 100vw;
     }
-    #google_translate_element{
+
+    #google_translate_element {
       z-index: 103;
       position: absolute;
       bottom: 100px;
       left: 26px;
     }
+
     #google_translate_element .goog-te-gadget-simple {
       border-left: 1px solid #f6f6f6;
       border-top: none;
@@ -104,13 +106,13 @@
 
   <!-- Google Tag Manager -->
   <script>(function (w, d, s, l, i) {
-      w[l] = w[l] || []; w[l].push({
-        'gtm.start':
-          new Date().getTime(), event: 'gtm.js'
-      }); var f = d.getElementsByTagName(s)[0],
-        j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
-          'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
-    })(window, document, 'script', 'dataLayer', 'GTM-KHXQSKX');</script>
+        w[l] = w[l] || []; w[l].push({
+          'gtm.start':
+            new Date().getTime(), event: 'gtm.js'
+        }); var f = d.getElementsByTagName(s)[0],
+          j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+            'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+      })(window, document, 'script', 'dataLayer', 'GTM-KHXQSKX');</script>
   <!-- End Google Tag Manager -->
 
   <!--
@@ -138,7 +140,7 @@
   <div id="google_translate_element"></div>
   <script type="text/javascript">
     function googleTranslateElementInit() {
-      new google.translate.TranslateElement({pageLanguage: 'en', layout: google.translate.TranslateElement.InlineLayout.SIMPLE}, 'google_translate_element');
+      new google.translate.TranslateElement({ pageLanguage: 'en', layout: google.translate.TranslateElement.InlineLayout.SIMPLE }, 'google_translate_element');
     }
   </script>
   <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
@@ -171,9 +173,9 @@
   <script type="text/javascript" rc="%PUBLIC_URL%/vendor/web3-1.0.min.js"></script>
 
   <script type="text/javascript" src="%PUBLIC_URL%/vendor/fab.min.js"></script>
-<!-- Start of adchain Zendesk Widget script -->
-<script>/*<![CDATA[*/window.zE||(function(e,t,s){var n=window.zE=window.zEmbed=function(){n._.push(arguments)}, a=n.s=e.createElement(t),r=e.getElementsByTagName(t)[0];n.set=function(e){ n.set._.push(e)},n._=[],n.set._=[],a.async=true,a.setAttribute("charset","utf-8"), a.src="https://static.zdassets.com/ekr/asset_composer.js?key="+s, n.t=+new Date,a.type="text/javascript",r.parentNode.insertBefore(a,r)})(document,"script","d23ce9af-0e50-4ba4-a11f-288f341225a1");/*]]>*/</script>
-<!-- End of adchain Zendesk Widget script -->
+  <!-- Start of metax Zendesk Widget script -->
+  <script>/*<![CDATA[*/window.zE || (function (e, t, s) { var n = window.zE = window.zEmbed = function () { n._.push(arguments) }, a = n.s = e.createElement(t), r = e.getElementsByTagName(t)[0]; n.set = function (e) { n.set._.push(e) }, n._ = [], n.set._ = [], a.async = true, a.setAttribute("charset", "utf-8"), a.src = "https://static.zdassets.com/ekr/asset_composer.js?key=" + s, n.t = +new Date, a.type = "text/javascript", r.parentNode.insertBefore(a, r) })(document, "script", "3bba1377-a505-401b-8f14-ed05e178617e");/*]]>*/</script>
+  <!-- End of metax Zendesk Widget script -->
 </body>
 
 
