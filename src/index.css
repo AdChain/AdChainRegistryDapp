@@ -371,6 +371,7 @@ select::-ms-expand {
   }
   .mobile-hide{display: none}
   .mobile-show{display:inline-block}
+  .mobile-alert{display: block}
   :root:root:root:root .DomainsContainer .ui.stackable.grid > div.column.wide{
     padding-left:.5em !important;
     padding-right:.5em !important;
@@ -491,6 +492,14 @@ select::-ms-expand {
     height: 36px;
     margin-bottom: 11px;
     padding-left: 5px;
+  }
+  #launcher{
+    display: none !important;
+  }
+  input[type='text'],
+  input[type='number'],
+  textarea {
+    font-size: 16px;
   }
 }
 

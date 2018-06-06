@@ -4,13 +4,27 @@ import registerServiceWorker from './registerServiceWorker'
 import App from './App'
 import registry from './services/registry'
 import plcr from './services/plcr'
+import DocumentLoadingComponent from './components/DocumentLoadingComponent'
 import parameterizer from './services/parameterizer'
 import token from './services/token'
+import store from 'store'
+import isMobile from 'is-mobile'
 
 import './index.css'
 require('dotenv').config()
  
 async function init() {
+
+  let hasAcceptedMobile
+  try {
+    hasAcceptedMobile = store.get('hasAcceptedMobile')
+  } catch (error) {
+    console.log(error)
+  }
+  if (isMobile() && !hasAcceptedMobile && !window.web3) {
+    ReactDOM.render(<DocumentLoadingComponent />, document.getElementById('root'))
+    return
+  }
 
   try {
     await Promise.all([

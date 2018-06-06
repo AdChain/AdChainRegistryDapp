@@ -105,7 +105,7 @@ const getDomainState = async (data) => {
         item.actionLabel = 'REFRESH'
         item.color = 'greyblack'
         item.stageMapSrc = 'MapInApplicationPending'
-        item.label = <span><i className='icon circle thin' />Application - Pending</span>
+        item.label = <span><i className='icon circle thin' />App - Pending</span>
         item.stage = 'in_application_pending'
       } else {
         item.label = <span><i className='icon wait' />In Application</span>
