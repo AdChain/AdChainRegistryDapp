@@ -11,6 +11,7 @@ export const parameterData = {
     minDeposit: {
       metric: 'ADT',
       name: 'minDeposit',
+      normalizedName: 'Minimum Deposit',
       value: 0,
       info: 'The minimum amount of adToken required to apply a domain to the adChain Registry.'
     },

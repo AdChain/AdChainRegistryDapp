@@ -71,7 +71,7 @@ class GovernanceAndCoreParameters extends Component {
       }
       result.push(
         <div key={value + name} className='ParameterRow'>
-          <span key={name} className={parameterData === this.props.coreParameterData ? 'f-blue' : 'f-red'}>{parameterData[name].name} <Tooltip info={parameterData[name].info} class={'InfoIconLow'} /></span>
+          <span key={name} className={parameterData === this.props.coreParameterData ? 'f-blue' : 'f-red'}>{parameterData[name].normalizedName} <Tooltip info={parameterData[name].info} class={'InfoIconLow'} /></span>
           <span key={i++}>{value}</span>
         </div>
       )

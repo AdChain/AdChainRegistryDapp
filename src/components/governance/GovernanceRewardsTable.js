@@ -54,7 +54,7 @@ class GovernanceRewardsTable extends Component {
           if (rewards[i].status === 'unclaimed') {
             result.push(
               <div key={name + i} className='ParameterRow'>
-                <span key={name + i} className={color}>{allParameterData[name].name}</span>
+                <span key={name + i} className={color}>{allParameterData[name].normalizedName}</span>
                 {
                   rewards[i].status === "unclaimed"
                     ?

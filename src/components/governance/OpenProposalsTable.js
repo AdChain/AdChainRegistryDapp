@@ -140,7 +140,7 @@ class OpenProposalsTable extends Component {
           return this.determineAction(proposal).then(async item => {
             table.push(
               <tr className='table-row' key={i}>
-                <td className={proposal.color}>{proposal.name}</td>
+                <td className={proposal.color}>{proposal.normalizedName}</td>
                 <td>{`${proposal.proposedValue + ' ' + proposal.metric}`}</td>
                 <td><CountdownSnapshot endDate={time} /></td>
                 {item}
