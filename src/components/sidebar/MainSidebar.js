@@ -40,6 +40,10 @@ class MainSidebar extends Component {
     this.updateEvent = PubSub.subscribe('MainSidebar.PushHistory', this.pushHistory)
   }
 
+  componentDidMount () {
+    window.google.translate.TranslateElement({ pageLanguage: 'en', layout: window.google.translate.TranslateElement.InlineLayout.SIMPLE }, 'google_translate_element')
+  }
+
   render () {
     const Link = this._Link
     const { activeIndex } = this.state
@@ -128,6 +132,7 @@ class MainSidebar extends Component {
         </div>
         <SideBarApplicationContainer />
         <div className='SidebarFooter'>
+          <div id='google_translate_element' />
           <div className='ReleaseCandidate'><a href='https://adchain.zendesk.com/hc/en-us/articles/360003427494' target='_blank' rel='noopener noreferrer'>Release Candidate</a></div>
           <div className='PoweredBy'>
             Powered By

@@ -40,14 +40,27 @@
 
   #google_translate_element {
     z-index: 103;
-    position: absolute;
+    /* position: absolute;
     bottom: 100px;
-    left: 26px;
+    left: 26px; */
+    text-align: center;
   }
 
   #google_translate_element .goog-te-gadget-simple {
-    border-left: 1px solid #f6f6f6;
+    border-left: none;
     border-top: none;
-    border-bottom: 1px solid #f6f6f6;
+    border-bottom: none;
     border-right: none;
+    border-radius: 4px;
+    background-color: #3434CE;
+  }
+
+  .goog-te-gadget-icon {
+    background-image: none !important;
+  }
+
+  .goog-te-gadget-simple .goog-te-menu-value span {
+    color: #FFF !important;
+    font-family: 'Open Sans', sans-serif;
+    border-left: none !important;
   }

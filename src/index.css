@@ -342,11 +342,11 @@ select::-ms-expand {
 @media (max-width:1350px){
   #google_translate_element{
     z-index: 103;
-    position: absolute;
+    /* position: absolute;
     top: 84px;
     bottom:initial;
     left: initial;
-    right: 0;
+    right: 0; */
   }
 }
 @media only screen and (max-width: 767px) {
