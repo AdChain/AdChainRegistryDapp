@@ -98,7 +98,7 @@ class MainTopbar extends Component {
                     alt='ETH' />
                 </div>
                 {ethBalance !== null ? commafy(ethBalance.toFixed(4)) : '-'} ETH
-                <Button basic className='AcquireEthButton'><a href='https://adchain.zendesk.com/hc/en-us/articles/360003417354' target='_blank' rel='noopener noreferrer' className='AcquireLink'>Purchase ETH</a></Button>
+                <Button basic className='AcquireEthButton'><a href='https://metax.zendesk.com/hc/en-us/articles/360003417354' target='_blank' rel='noopener noreferrer' className='AcquireLink'>Purchase ETH</a></Button>
               </div>
               : null
             }

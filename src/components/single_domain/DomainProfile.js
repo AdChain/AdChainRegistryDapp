@@ -15,7 +15,8 @@ import _ from 'lodash'
 
 import './DomainProfile.css'
 import getDomainState from '../../utils/getDomainState'
-import DomainNotInRegistryContainer from './DomainNotInRegistryContainer'
+// import DomainNotInRegistryContainer from './DomainNotInRegistryContainer'
+import DomainNeverAppliedContainer from './DomainNeverAppliedContainer'
 // import { exists } from 'fs';
 
 class DomainProfile extends Component {
@@ -76,7 +77,7 @@ class DomainProfile extends Component {
           ? <div className='ui grid stackable padded'>
             <div className='row'>
               <div className='column sixteen wide BoxFrame NeverAppliedContainer'>
-                <DomainNotInRegistryContainer domain={domain} />
+                <DomainNeverAppliedContainer domain={domain} />
               </div>
             </div>
           </div>
