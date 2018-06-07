@@ -114,7 +114,7 @@ class IndividualGuideModal extends Component {
 
             <div className='GuideText'>
               <span>
-              Can’t find what you’re looking for? Click <a href='https://adchain.zendesk.com/hc/en-us' target='_blank' rel='noopener noreferrer'>here</a> to visit the help center.
+              Can’t find what you’re looking for? Click <a href='https://metax.zendesk.com/hc/en-us' target='_blank' rel='noopener noreferrer'>here</a> to visit the help center.
               </span>
               <Checkbox label="I don't want to see this again" onClick={() => this.doNotDisplay()} />
             </div>

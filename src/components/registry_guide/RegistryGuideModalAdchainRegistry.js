@@ -30,7 +30,7 @@ class RegistryGuideModalAdchainRegistry extends Component {
             <Button basic className='ExitButton' onClick={() => this.props.close()} content='Exit to Dapp' />
           </div>
           <div className='GuideText'>
-          Can’t find what you’re looking for? Click <a href='https://adchain.zendesk.com/hc/en-us' target='_blank' rel='noopener noreferrer'>here</a> to visit the help center.
+          Can’t find what you’re looking for? Click <a href='https://metax.zendesk.com/hc/en-us' target='_blank' rel='noopener noreferrer'>here</a> to visit the help center.
           </div>
         </Modal.Content>
       </div>

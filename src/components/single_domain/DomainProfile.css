@@ -10,3 +10,7 @@
 .DomainProfile > .grid > .row > .column:nth-child(2) {
   padding-right: 0;
 }
+
+.NeverAppliedContainer .HeaderRow {
+  text-align: center;
+}
