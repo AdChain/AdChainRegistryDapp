@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="20px" height="20px" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 50.2 (55047) - http://www.bohemiancoding.com/sketch -->
+    <title>DOMAINS</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="DOMAINS" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <circle id="Oval" stroke="#424242" cx="10" cy="10" r="9"></circle>
+        <g id="Group-2" transform="translate(3.124033, 8.434115)" stroke="#424242" stroke-linecap="round">
+            <g id="Group">
+                <path d="M0.406065113,0.54142015 L1.21819534,2.70710075" id="Line"></path>
+                <path d="M2.04260852,0.549764789 L1.20591238,2.69875611" id="Line"></path>
+                <path d="M2.03032556,0.54142015 L2.84245579,2.70710075" id="Line"></path>
+                <path d="M3.66686897,0.549764789 L2.83017283,2.69875611" id="Line"></path>
+            </g>
+            <g id="Group" transform="translate(4.872781, 0.000000)">
+                <path d="M0.406065113,0.54142015 L1.21819534,2.70710075" id="Line"></path>
+                <path d="M2.04260852,0.549764789 L1.20591238,2.69875611" id="Line"></path>
+                <path d="M2.03032556,0.54142015 L2.84245579,2.70710075" id="Line"></path>
+                <path d="M3.66686897,0.549764789 L2.83017283,2.69875611" id="Line"></path>
+            </g>
+            <g id="Group-Copy" transform="translate(9.745563, 0.000000)">
+                <path d="M0.406065113,0.54142015 L1.21819534,2.70710075" id="Line"></path>
+                <path d="M2.04260852,0.549764789 L1.20591238,2.69875611" id="Line"></path>
+                <path d="M2.03032556,0.54142015 L2.84245579,2.70710075" id="Line"></path>
+                <path d="M3.66686897,0.549764789 L2.83017283,2.69875611" id="Line"></path>
+            </g>
+        </g>
+        <path d="M4.5,13.5 L15.5,13.5" id="Line-3" stroke="#424242" stroke-linecap="round"></path>
+    </g>
+</svg>
