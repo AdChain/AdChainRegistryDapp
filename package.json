@@ -42,6 +42,7 @@
     "react-scripts": "^1.1.4",
     "react-table": "^6.5.1",
     "redux": "^3.7.2",
+    "run-parallel": "^1.1.9",
     "semantic-ui-react": "^0.71.3",
     "solidity-sha3": "^0.4.1",
     "store": "^2.0.12",
