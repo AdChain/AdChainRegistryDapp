@@ -28,7 +28,7 @@ class DocumentLoadingComponent extends Component {
           <div className='ui grid'>
             <div className='one column row'>
               <div className='column '>
-                <b> In order to intsfasdferact with the adChain Registry, please download the Toshi Mobile Browser & Wallet App below:</b>
+                <b> In order to interact with the adChain Registry, please download the Toshi Mobile Browser & Wallet App below:</b>
                 <br /><br />
                 <div className='mt-25'>
                   <a href={this.appLink}><img alt='Get Toshi' src={getToshiButton} height='60' /></a>
