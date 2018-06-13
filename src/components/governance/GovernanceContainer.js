@@ -211,6 +211,7 @@ class GovernanceContainer extends Component {
       proposedValue: this.formatValue(proposal[3], proposal[6].c[0]),
       currentValue: parameterData.coreParameterData[proposal[3]] ? parameterData.coreParameterData[proposal[3]].value : parameterData.governanceParameterData[proposal[3]].value,
       name: parameterData.coreParameterData[proposal[3]] ? parameterData.coreParameterData[proposal[3]].name : parameterData.governanceParameterData[proposal[3]].name,
+      normalizedName: parameterData.coreParameterData[proposal[3]] ? parameterData.coreParameterData[proposal[3]].normalizedName : parameterData.governanceParameterData[proposal[3]].normalizedName,
       color: parameterData.coreParameterData[proposal[3]] ? 'f-blue bold' : 'f-red bold',
       metric: parameterData.coreParameterData[proposal[3]] ? parameterData.coreParameterData[proposal[3]].metric : parameterData.governanceParameterData[proposal[3]].metric
     }

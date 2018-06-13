@@ -26,9 +26,9 @@ class DomainNotInRegistryContainer extends Component {
           <div className='column sixteen wide HeaderColumn'>
             <div className='row HeaderRow'>
               <div className='ui large header'>
-              Stage: None
+              Stage: Not in Registry
                 <Tooltip
-                  info='The first phase of the voting process is the commit phase where the ADT holder stakes a hidden amount of votes to SUPPORT or OPPOSE the domain application. The second phase is the reveal phase where the ADT holder reveals the staked amount of votes to either the SUPPORT or OPPOSE side.'
+                  info='This domain is not in the registry. This may occur when a domain was never applied, or if a domain was challenged and then rejected from the registry.'
                 />
               </div>
               {

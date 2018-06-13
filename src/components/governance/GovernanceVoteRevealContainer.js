@@ -68,7 +68,7 @@ class GovernanceVoteRevealContainer extends Component {
       // salt
     } = this.state
 
-    const { name } = this.props.proposal
+    const { normalizedName } = this.props.proposal
 
     const voteOptions = [
       { key: 1, text: 'Support', value: 1 },
@@ -90,7 +90,7 @@ class GovernanceVoteRevealContainer extends Component {
                 />
               </div>
               <span>
-                {name}
+                {normalizedName}
               </span>
             </div>
           </div>

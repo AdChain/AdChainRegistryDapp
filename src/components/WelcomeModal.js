@@ -31,8 +31,8 @@ const steps = [
     content:
   <div>
     <b>adToken Rewards</b>
-    <p>Applicants, Challengers, and Voters can all earn adToken rewards as a result of winning by majority vote. These are called <a className='WelcomeHyperlinks' href='https://adchain.zendesk.com/hc/en-us/articles/115003191314-Special-Dispensation-Rewards' target='_blank' rel='noopener noreferrer'><u>special dispensation rewards</u></a>. If the applicant wins the vote, then the special dispensation is paid out of the challengers minimum deposit, and if the challenger wins the vote, then the special dispensation is paid out of the applicants minimum deposit.</p>
-    <p>Voters that voted on the winning side also receive a portion of the special dispensation reward distributed according to their token weight, i.e., the more token used to vote with the bigger the share of the reward. See <a className='WelcomeHyperlinks' href='https://adchain.zendesk.com/hc/en-us/articles/115003191294-Claiming-Voter-Rewards' target='_blank' rel='noopener noreferrer'><u>voter rewards</u></a> for more.</p>
+    <p>Applicants, Challengers, and Voters can all earn adToken rewards as a result of winning by majority vote. These are called <a className='WelcomeHyperlinks' href='https://metax.zendesk.com/hc/en-us/articles/115003191314-Special-Dispensation-Rewards' target='_blank' rel='noopener noreferrer'><u>special dispensation rewards</u></a>. If the applicant wins the vote, then the special dispensation is paid out of the challengers minimum deposit, and if the challenger wins the vote, then the special dispensation is paid out of the applicants minimum deposit.</p>
+    <p>Voters that voted on the winning side also receive a portion of the special dispensation reward distributed according to their token weight, i.e., the more token used to vote with the bigger the share of the reward. See <a className='WelcomeHyperlinks' href='https://metax.zendesk.com/hc/en-us/articles/115003191294-Claiming-Voter-Rewards' target='_blank' rel='noopener noreferrer'><u>voter rewards</u></a> for more.</p>
   </div>
   }, {
     title: 'Email',
@@ -133,7 +133,7 @@ class WelcomeModal extends Component {
   }
 
   render () {
-    if (isMobile) return null
+    if (isMobile()) return null
     const { current, open, size, finalButtonText } = this.state
     const returningUser = window.localStorage.getItem('returningUser')
 
@@ -162,7 +162,7 @@ class WelcomeModal extends Component {
                 }
               </div>
               <div className='WelcomeCheckBox'>
-                <span className='Disclaimer'><a href='https://adchain.zendesk.com/hc/en-us/articles/360003427494' target='_blank' rel='noopener noreferrer'>Disclaimer</a></span>
+                <span className='Disclaimer'><a href='https://metax.zendesk.com/hc/en-us/articles/360003427494' target='_blank' rel='noopener noreferrer'>Disclaimer</a></span>
                 <Checkbox label="I don't want to see this again" onClick={() => this.setReturningUser()} />
               </div>
             </div>

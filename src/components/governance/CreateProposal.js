@@ -111,7 +111,7 @@ class CreateProposal extends Component {
   generateList () {
     let listData = Object.assign({}, this.props.coreParameterData, this.props.governanceParameterData)
     let list = _.reduce(listData, (result, value, param) => {
-      result.push(<option value={param} key={param}>{listData[param].name}</option>)
+      result.push(<option value={param} key={param}>{listData[param].normalizedName}</option>)
       return result
     }, [])
     return list

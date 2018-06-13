@@ -9,6 +9,7 @@
     "axios": "^0.18.0",
     "blockies": "0.0.2",
     "commafy": "0.0.5",
+    "detect-browser": "^2.5.1",
     "dns": "^0.2.2",
     "dotenv": "5.0.1",
     "ethereumjs-abi": "^0.6.4",
@@ -38,9 +39,10 @@
     "react-dom": "^15.6.1",
     "react-joyride": "1.11.4",
     "react-router-dom": "^4.1.2",
-    "react-scripts": "1.0.10",
+    "react-scripts": "^1.1.4",
     "react-table": "^6.5.1",
     "redux": "^3.7.2",
+    "run-parallel": "^1.1.9",
     "semantic-ui-react": "^0.71.3",
     "solidity-sha3": "^0.4.1",
     "store": "^2.0.12",
@@ -50,7 +52,7 @@
     "update-query": "^1.0.5"
   },
   "scripts": {
-    "start": "serve -s ./build --cache=-1 -p 5002",
+    "start": "serve -s ./build -p 5002",
     "start:dev": "react-scripts start --no-info",
     "build": "npm run polyfills && react-scripts build",
     "polyfills": "yes | cp -f src/polyfills/dotenv/main.js node_modules/dotenv/lib/* && yes | cp -f src/polyfills/pify/index.js node_modules/pify/index.js",
@@ -79,7 +81,7 @@
     "eslint-plugin-react": "^7.3.0",
     "eslint-plugin-standard": "^3.0.1",
     "pre-commit": "^1.2.2",
-    "serve": "^6.4.1",
+    "serve": "^8.2.0",
     "standard": "^10.0.2"
   },
   "standard": {

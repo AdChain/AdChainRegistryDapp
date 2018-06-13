@@ -11,9 +11,13 @@ import DomainProfileActionContainer from './DomainProfileActionContainer'
 import DomainProfileStageMap from './DomainProfileStageMap'
 import { registryApiURL } from '../../models/urls'
 import PubSub from 'pubsub-js'
+import _ from 'lodash'
 
 import './DomainProfile.css'
 import getDomainState from '../../utils/getDomainState'
+// import DomainNotInRegistryContainer from './DomainNotInRegistryContainer'
+import DomainNeverAppliedContainer from './DomainNeverAppliedContainer'
+// import { exists } from 'fs';
 
 class DomainProfile extends Component {
   constructor (props) {
@@ -32,7 +36,8 @@ class DomainProfile extends Component {
       country: null,
       action,
       stage: null,
-      domainData: null
+      domainData: null,
+      existsInRegistry: true
     }
 
     // scroll to top
@@ -60,58 +65,68 @@ class DomainProfile extends Component {
       country,
       siteName,
       domainData,
-      siteDescription
+      siteDescription,
+      existsInRegistry
     } = this.state
 
     const redirectState = this.props.location.state
 
     return (
       <div className='DomainProfile'>
-        <div className='ui grid stackable padded'>
-          <div className='row'>
-            <div className='column seven wide'>
-              <DomainProfileHeader
-                domain={domain}
-                name={siteName}
-                description={siteDescription}
-                country={country}
-                domainData={domainData}
-              />
-            </div>
-            <div className='column nine wide mobile-hide'>
-              <DomainStatsbar
-                domain={domain}
-                domainData={domainData}
-              />
+        { !existsInRegistry
+          ? <div className='ui grid stackable padded'>
+            <div className='row'>
+              <div className='column sixteen wide BoxFrame NeverAppliedContainer'>
+                <DomainNeverAppliedContainer domain={domain} />
+              </div>
             </div>
           </div>
-          <div className='row'>
-            <div className='column four wide mobile-hide'>
-              <DomainProfileStageMap
-                stage={stage}
-                domain={domain}
-                domainData={domainData}
-              />
+          : <div className='ui grid stackable padded'>
+            <div className='row'>
+              <div className='column seven wide'>
+                <DomainProfileHeader
+                  domain={domain}
+                  name={siteName}
+                  description={siteDescription}
+                  country={country}
+                  domainData={domainData}
+                />
+              </div>
+              <div className='column nine wide mobile-hide'>
+                <DomainStatsbar
+                  domain={domain}
+                  domainData={domainData}
+                />
+              </div>
             </div>
-            <div className='column five wide mobile-hide'>
-              <DomainRedditBox
-                domain={domain}
-                domainData={domainData}
-              />
-              {
-                // <DomainProfileAdsTxtStatus domain={domain} />
-              }
-            </div>
-            <div className='column seven wide'>
-              <DomainProfileActionContainer
-                domain={domain}
-                action={action}
-                redirectState={redirectState}
-                domainData={domainData}
-              />
+            <div className='row'>
+              <div className='column four wide mobile-hide'>
+                <DomainProfileStageMap
+                  stage={stage}
+                  domain={domain}
+                  domainData={domainData}
+                />
+              </div>
+              <div className='column five wide mobile-hide'>
+                <DomainRedditBox
+                  domain={domain}
+                  domainData={domainData}
+                />
+                {
+                  // <DomainProfileAdsTxtStatus domain={domain} />
+                }
+              </div>
+              <div className='column seven wide'>
+                <DomainProfileActionContainer
+                  domain={domain}
+                  action={action}
+                  redirectState={redirectState}
+                  domainData={domainData}
+                />
+              </div>
             </div>
           </div>
-        </div>
+        }
       </div>
     )
   }
@@ -136,6 +151,9 @@ class DomainProfile extends Component {
 
       const domainData = await getDomainState({ domain, domainHash: listingHash })
 
+      // check to see if the domain exists in the registry. if not, use this value to display Never Applied profile
+      let existsInRegistry = _.isEmpty(domainData) ? false : true
+
       // If rejected --> Check to see if listing is withdrawn
       if (domainData.stage === 'rejected') {
         const getWithdrawn = async () => {
@@ -146,12 +164,12 @@ class DomainProfile extends Component {
         for (let w of withdrawn) {
           if (w.domainHash === domainData.listingHash) {
             domainData.stage = 'withdrawn'
-            if (domainData.challengeId > 0){
+            if (domainData.challengeId > 0) {
               domainData.stageMapSrc = 'MapWithdrawnChallenge'
-            } else{
+            } else {
               domainData.stageMapSrc = 'MapWithdrawnNoChallenge'
             }
-            break;
+            break
           }
         }
       }
@@ -159,6 +177,7 @@ class DomainProfile extends Component {
       if (this._isMounted) {
         this.setState({
           domainData,
+          existsInRegistry,
           siteName: domainData.siteName,
           siteDescription: metadata ? metadata.description : ''
         })

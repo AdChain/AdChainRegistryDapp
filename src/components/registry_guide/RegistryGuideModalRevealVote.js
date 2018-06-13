@@ -37,7 +37,7 @@ class RegistryGuideModalRevealVote extends Component {
             <Button basic className='ContinueButton' content='Continue' onClick={() => PubSub.publish('RegistryGuideModal.startRegistryWalkthrough', RevealSteps)} />
           </div>
           <div className='GuideText'>
-          Can’t find what you’re looking for? Click <a href='https://adchain.zendesk.com/hc/en-us' target='_blank' rel='noopener noreferrer'>here</a> to visit the help center.
+          Can’t find what you’re looking for? Click <a href='https://metax.zendesk.com/hc/en-us' target='_blank' rel='noopener noreferrer'>here</a> to visit the help center.
           </div>
         </Modal.Content>
       </div>

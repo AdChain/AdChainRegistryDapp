@@ -41,9 +41,10 @@ class GovernanceChallengeContainer extends Component {
       appExpiry,
       // inProgress,
       stage,
-      name,
+      // name,
       // color,
-      propId
+      propId,
+      normalizedName
     } = this.props.proposal
 
     const minDeposit = this.props.governanceParameterProposals.pMinDeposit.value / 1000000000
@@ -66,7 +67,7 @@ class GovernanceChallengeContainer extends Component {
                     />
                   </div>
                   <span>
-                    {name}
+                    {normalizedName}
                   </span>
                 </div>
                 <div className='ui divider' />

@@ -76,7 +76,7 @@ class GovernanceVoteCommitContainer extends Component {
       // revealReminderDownloaded
     } = this.state
 
-    const { challengeId, name } = this.props.proposal
+    const { challengeId, normalizedName } = this.props.proposal
     const stageEndMoment = commitEndDate ? moment.unix(commitEndDate) : null
     const stageEnd = stageEndMoment ? stageEndMoment.format('MMMM Do YYYY HH:mm:ss') : '-'
 
@@ -92,7 +92,7 @@ class GovernanceVoteCommitContainer extends Component {
                 />
               </div>
               <span>
-                {name}
+                {normalizedName}
               </span>
             </div>
           </div>
