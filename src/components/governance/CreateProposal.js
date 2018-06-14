@@ -17,7 +17,7 @@ class CreateProposal extends Component {
       // inProgress: false,
       // defaults
       paramMetric: 'ADT',
-      proposalParam: 'Minimum Deposit',
+      proposalParam: 'minDeposit',
       proposalValue: '',
       currentMinDeposit: 0,
       rawCurrentMinDeposit: 0

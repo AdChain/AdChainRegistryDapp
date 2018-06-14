@@ -64,4 +64,15 @@
     color: #FFF !important;
     font-family: 'Open Sans', sans-serif;
     border-left: none !important;
+    text-transform: uppercase;
+  }
+
+  .goog-te-gadget-simple .goog-te-menu-value span:last-child {
+    visibility: hidden;
+  }
+
+  .goog-te-gadget-simple .goog-te-menu-value span:last-child:before {
+    content: "\f0d7";
+    visibility: visible;
+    font-family: FontAwesome;
   }

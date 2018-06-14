@@ -1,0 +1,78 @@
+:root:root .intro-adchain {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+  }
+
+  :root:root .intro-text {
+    font-family: 'arial';
+
+    font-size: 18px;
+    color: white;
+    font-weight: 100;
+    padding: 10px 0;
+    margin-top: 10px;
+  }
+
+  :root:root .metax-img {
+    position: fixed;
+    top: 33%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    font-size: 25px;
+    color: white;
+    font-weight: 100;
+  }
+
+  :root:root .RootLoader {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  :root:root .intro-page {
+    background: linear-gradient(45deg, #0E0E39 0%, #3434CE 100%);
+    height: 100vh;
+    width: 100vw;
+  }
+
+  #google_translate_element {
+    z-index: 103;
+    /* position: absolute;
+    bottom: 100px;
+    left: 26px; */
+    text-align: center;
+    margin-bottom: 7px;
+  }
+
+  #google_translate_element .goog-te-gadget-simple {
+    border-left: none;
+    border-top: none;
+    border-bottom: none;
+    border-right: none;
+    border-radius: 4px;
+    background-color: #3434CE;
+  }
+
+  .goog-te-gadget-icon {
+    background-image: none !important;
+  }
+
+  .goog-te-gadget-simple .goog-te-menu-value span {
+    color: #FFF !important;
+    font-family: 'Open Sans', sans-serif;
+    border-left: none !important;
+    text-transform: uppercase;
+  }
+
+  .goog-te-gadget-simple .goog-te-menu-value span:last-child {
+    visibility: hidden;
+  }
+
+  .goog-te-gadget-simple .goog-te-menu-value span:last-child:before {
+    content: "\f0d7";
+    visibility: visible;
+    font-family: FontAwesome;
+  }
