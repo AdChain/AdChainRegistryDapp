@@ -126,7 +126,7 @@ class DomainProfile extends Component {
             </div>
             <div className='row'>
               <div className='column nine wide mobile-hide'>
-                <div className="BoxFrame">
+                <div className="BoxFrame" style={{minHeight: '430px'}}>
                   <Tabs>
                     <TabList className='TabList'>
                       {
