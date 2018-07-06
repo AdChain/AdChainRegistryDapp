@@ -14,3 +14,20 @@
 .NeverAppliedContainer .HeaderRow {
   text-align: center;
 }
+.TabList{
+  display: inline-flex;
+    list-style-type: none;
+    border-bottom: 1px solid rgb(221, 221, 221);
+    width: 100%;
+    padding: 10px;
+}
+.TabContainer{
+  border-radius:5px;
+  background: #fff;
+}
+.TabList li{
+  padding:0 10px
+}
+.TabList li:hover{
+  cursor:pointer;
+}

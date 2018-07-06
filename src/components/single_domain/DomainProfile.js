@@ -1,26 +1,22 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import PubSub from 'pubsub-js'
+import _ from 'lodash'
 import qs from 'qs'
 
 import DomainProfileHeader from './DomainProfileHeader'
 import DomainStatsbar from './DomainStatsbar'
-// import DomainScamReport from './DomainScamReport'
 import DomainRedditBox from '../reddit/DomainRedditBox'
 import DomainProfileActionContainer from './DomainProfileActionContainer'
-// import DomainProfileAdsTxtStatus from './DomainProfileAdsTxtStatus'
 import DomainProfileStageMap from './DomainProfileStageMap'
+import { Tabs, Tab, TabList, TabPanel } from 'react-tabs'
 import { registryApiURL } from '../../models/urls'
-import PubSub from 'pubsub-js'
-import _ from 'lodash'
-
-import './DomainProfile.css'
 import getDomainState from '../../utils/getDomainState'
-// import DomainNotInRegistryContainer from './DomainNotInRegistryContainer'
 import DomainNeverAppliedContainer from './DomainNeverAppliedContainer'
-// import { exists } from 'fs';
+import './DomainProfile.css'
 
 class DomainProfile extends Component {
-  constructor (props) {
+  constructor(props) {
     super()
 
     const { params } = props.match
@@ -44,20 +40,20 @@ class DomainProfile extends Component {
     window.scrollTo(0, -1)
   }
 
-  componentDidMount () {
+  componentDidMount() {
     this._isMounted = true
     this.fetchSiteData()
   }
 
-  componentWillMount () {
+  componentWillMount() {
     this.fetchDataEvent = PubSub.subscribe('DomainProfile.fetchSiteData', this.fetchSiteData.bind(this))
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     this._isMounted = false
   }
 
-  render () {
+  render() {
     const {
       stage,
       domain,
@@ -71,9 +67,36 @@ class DomainProfile extends Component {
 
     const redirectState = this.props.location.state
 
+
+    const tabs = [
+      {
+        component: <DomainStatsbar domain={domain} domainData={domainData} />,
+        title: "Data"
+      },
+      {
+        component: <div>Domain History</div>,
+        title: "History"
+      },
+      {
+        component: <DomainRedditBox domain={domain} domainData={domainData} />,
+        title: "Discussion"
+      },
+      {
+        component: <div>Domain Audit</div>,
+        title: "Audit"
+      },
+      {
+        component: <div>Domain Badges</div>,
+        title: "Badges"
+      }
+    ]
+
+
+
+
     return (
       <div className='DomainProfile'>
-        { !existsInRegistry
+        {!existsInRegistry
           ? <div className='ui grid stackable padded'>
             <div className='row'>
               <div className='column sixteen wide BoxFrame NeverAppliedContainer'>
@@ -81,7 +104,8 @@ class DomainProfile extends Component {
               </div>
             </div>
           </div>
-          : <div className='ui grid stackable padded'>
+          :
+          <div className='ui grid stackable padded'>
             <div className='row'>
               <div className='column seven wide'>
                 <DomainProfileHeader
@@ -93,28 +117,27 @@ class DomainProfile extends Component {
                 />
               </div>
               <div className='column nine wide mobile-hide'>
-                <DomainStatsbar
-                  domain={domain}
-                  domainData={domainData}
-                />
-              </div>
-            </div>
-            <div className='row'>
-              <div className='column four wide mobile-hide'>
                 <DomainProfileStageMap
                   stage={stage}
                   domain={domain}
                   domainData={domainData}
                 />
               </div>
-              <div className='column five wide mobile-hide'>
-                <DomainRedditBox
-                  domain={domain}
-                  domainData={domainData}
-                />
-                {
-                  // <DomainProfileAdsTxtStatus domain={domain} />
-                }
+            </div>
+            <div className='row'>
+              <div className='column nine wide mobile-hide'>
+                <div className="BoxFrame">
+                  <Tabs>
+                    <TabList className='TabList'>
+                      {
+                        tabs.map(x => <Tab key={x.title}>{x.title}</Tab>)
+                      }
+                    </TabList>
+                    {
+                      tabs.map(x => <TabPanel key={x.title}>{x.component}</TabPanel>)
+                    }
+                  </Tabs>
+                </div>
               </div>
               <div className='column seven wide'>
                 <DomainProfileActionContainer
@@ -131,7 +154,7 @@ class DomainProfile extends Component {
     )
   }
 
-  async fetchSiteData () {
+  async fetchSiteData() {
     let metadata
     let listing
     const { domain } = this.state
