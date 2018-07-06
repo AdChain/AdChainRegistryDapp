@@ -1,43 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg width="95%" height="95%" viewBox="0 0 207 326" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <!-- Generator: Sketch 49.3 (51167) - http://www.bohemiancoding.com/sketch -->
+<svg width="553px" height="77px" viewBox="0 0 553 77" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 50.2 (55047) - http://www.bohemiancoding.com/sketch -->
     <title>map_application</title>
     <desc>Created with Sketch.</desc>
     <defs></defs>
     <g id="map_application" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="Group" transform="translate(1.000000, 1.000000)">
-            <path d="M43,22 L43,102" id="Line" stroke="#F4F7FA" stroke-linecap="square"></path>
-            <path d="M42,22 L122,102 L42,22 Z" id="Line" stroke="#F4F7FA" stroke-linecap="square"></path>
-            <rect id="Rectangle-11" stroke="#3434CE" x="0.5" y="0.5" width="84" height="23" rx="3"></rect>
-            <path d="M81.9756412,206 L82.0243588,319" id="Line" stroke="#F4F7FA" stroke-linecap="square" transform="translate(82.000000, 262.500000) rotate(-45.000000) translate(-82.000000, -262.500000) "></path>
-            <path d="M43,122 L43,202" id="Line" stroke="#F4F7FA" stroke-linecap="square"></path>
-            <path d="M43,222 L43,302" id="Line" stroke="#F4F7FA" stroke-linecap="square"></path>
-            <rect id="Rectangle-11" fill="#3434CE" x="2" y="2" width="81" height="20" rx="3"></rect>
-            <text id="In-Application" font-family="Open Sans, sans-serif" font-size="9" font-weight="500" fill="#FCFCFF">
-                <tspan x="8.10961914" y="16">IN APPLICATION</tspan>
-            </text>
-            <rect id="Rectangle-11-Copy" fill="#F4F7FA" x="2" y="102" width="81" height="20" rx="3"></rect>
-            <text id="Voting" font-family="Open Sans, sans-serif" font-size="9" font-weight="normal" fill="#424242">
-                <tspan x="26.0820312" y="116">VOTING</tspan>
-            </text>
-            <rect id="Rectangle-11-Copy-2" fill="#F4F7FA" x="2" y="202" width="81" height="20" rx="3"></rect>
-            <text id="Reveal" font-family="Open Sans, sans-serif" font-size="9" font-weight="normal" fill="#424242">
-                <tspan x="27.3510742" y="216">REVEAL</tspan>
-            </text>
-            <rect id="Rectangle-11-Copy-3" fill="#F4F7FA" x="2" y="302" width="81" height="20" rx="3"></rect>
-            <text id="Rejected" font-family="Open Sans, sans-serif" font-size="9" font-weight="normal" fill="#424242">
-                <tspan x="22.1291504" y="316">REJECTED</tspan>
-            </text>
-            <rect id="Rectangle-11-Copy-5" fill="#F4F7FA" x="122" y="302" width="81" height="20" rx="3"></rect>
-            <path d="M136,102 L147,321" id="Line" stroke="#F4F7FA" stroke-linecap="square" transform="translate(141.500000, 211.500000) rotate(-210.000000) translate(-141.500000, -211.500000) "></path>
-            <text id="In-Registry" font-family="Open Sans, sans-serif" font-size="9" font-weight="normal" fill="#424242">
-                <tspan x="137.107422" y="316">IN REGISTRY</tspan>
-            </text>
-            <rect id="Rectangle-11-Copy-4" fill="#F4F7FA" x="122" y="102" width="81" height="20" rx="3"></rect>
-            <text id="In-Registry" font-family="Open Sans, sans-serif" font-size="9" font-weight="normal" fill="#424242">
-                <tspan x="137.107422" y="116">IN REGISTRY</tspan>
-            </text>
-            <path d="M103,94.9868444 L103,133" id="Line" stroke="#F4F7FA" stroke-linecap="square" transform="translate(103.500000, 113.500000) rotate(-270.000000) translate(-103.500000, -113.500000) "></path>
-        </g>
+        <path d="M37.8688234,19.0791446 L37.8688234,47 C37.8688234,52.5228475 42.3459759,57 47.8688234,57 L361,57" id="Path-2" stroke="#F4F7FA" stroke-width="2"></path>
+        <path d="M361,19 L361,58" id="Line-2" stroke="#F4F7FA" stroke-width="2" stroke-linecap="square"></path>
+        <path d="M38,19 L199.500774,19" id="Line-2" stroke="#F4F7FA" stroke-width="2" stroke-linecap="square"></path>
+        <path d="M198.499233,19 L361.500585,19" id="Line-2" stroke="#F4F7FA" stroke-width="2" stroke-linecap="square"></path>
+        <path d="M360.499228,19 L522.500473,19" id="Line-2" stroke="#F4F7FA" stroke-width="2" stroke-linecap="square"></path>
+        <path d="M361.499224,57 L522.504253,57" id="Line-2" stroke="#F4F7FA" stroke-width="2" stroke-linecap="square" stroke-dasharray="1,5"></path>
+        <circle id="Oval" fill="#3434CE" cx="38" cy="19" r="5"></circle>
+        <circle id="Oval-Copy" stroke="#F4F7FA" stroke-width="2" fill="#FFFFFF" cx="199" cy="19" r="5"></circle>
+        <circle id="Oval-Copy-2" stroke="#F4F7FA" stroke-width="2" fill="#FFFFFF" cx="361" cy="19" r="5"></circle>
+        <circle id="Oval-Copy-2" stroke="#F4F7FA" stroke-width="2" fill="#FFFFFF" cx="361" cy="57" r="5"></circle>
+        <circle id="Oval-Copy-3" stroke="#F4F7FA" stroke-width="2" fill="#FFFFFF" cx="523" cy="19" r="5"></circle>
+        <circle id="Oval-Copy-3" stroke="#F4F7FA" stroke-width="2" fill="#FFFFFF" cx="523" cy="57" r="5"></circle>
+        <text id="IN-APPLICATION" font-family="Open Sans, sans-serif" font-size="10" font-weight="500" fill="#3434CE">
+            <tspan x="-0.267089844" y="8">IN APPLICATION</tspan>
+        </text>
+        <text id="VOTING-COMMIT" font-family="Open Sans, sans-serif" font-size="10" font-weight="normal" fill="#424242">
+            <tspan x="159.822266" y="8">VOTING COMMIT</tspan>
+        </text>
+        <text id="VOTING-REVEAL" font-family="Open Sans, sans-serif" font-size="10" font-weight="normal" fill="#424242">
+            <tspan x="324.071289" y="8">VOTING REVEAL</tspan>
+        </text>
+        <text id="IN-REGISTRY" font-family="Open Sans, sans-serif" font-size="10" font-weight="normal" fill="#424242">
+            <tspan x="332.230469" y="76">IN REGISTRY</tspan>
+        </text>
+        <text id="WITHDRAWN" font-family="Open Sans, sans-serif" font-size="10" font-weight="normal" fill="#424242">
+            <tspan x="492.423828" y="76">WITHDRAWN</tspan>
+        </text>
+        <text id="REJECTED" font-family="Open Sans, sans-serif" font-size="10" font-weight="normal" fill="#424242">
+            <tspan x="500.365723" y="8">REJECTED</tspan>
+        </text>
+        <circle id="Oval-Copy-2" stroke="#3434CE" cx="38" cy="19" r="7"></circle>
     </g>
 </svg>
