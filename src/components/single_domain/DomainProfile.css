@@ -26,7 +26,8 @@
   background: #fff;
 }
 .TabList li{
-  padding:0 10px
+  padding:0 10px;
+  text-transform: uppercase;
 }
 .TabList li:hover{
   cursor:pointer;
