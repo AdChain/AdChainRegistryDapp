@@ -1,6 +1,6 @@
 .DomainProfileHeader {
   display: flex;
-  min-height: 105px;
+  min-height: 151px;
   overflow: auto;
   max-height: 128px;
 }
@@ -52,6 +52,7 @@
 
 .DomainProfileHeader .SubHeader {
   font-size: 0.9em;
+  padding-bottom:23px;
 }
 
 .DomainProfileHeader .SubHeader .Name {

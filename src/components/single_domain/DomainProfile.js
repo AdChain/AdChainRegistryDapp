@@ -6,6 +6,7 @@ import qs from 'qs'
 
 import DomainProfileHeader from './DomainProfileHeader'
 import DomainStatsbar from './DomainStatsbar'
+import DomainHistory from './DomainHistory'
 import DomainRedditBox from '../reddit/DomainRedditBox'
 import DomainProfileActionContainer from './DomainProfileActionContainer'
 import DomainProfileStageMap from './DomainProfileStageMap'
@@ -33,11 +34,13 @@ class DomainProfile extends Component {
       action,
       stage: null,
       domainData: null,
+      activeTab: 'data',
       existsInRegistry: true
     }
 
     // scroll to top
     window.scrollTo(0, -1)
+    this.selectTab = this.selectTab.bind(this)
   }
 
   componentDidMount() {
@@ -60,6 +63,7 @@ class DomainProfile extends Component {
       action,
       country,
       siteName,
+      activeTab,
       domainData,
       siteDescription,
       existsInRegistry
@@ -67,27 +71,32 @@ class DomainProfile extends Component {
 
     const redirectState = this.props.location.state
 
-
+    // Data stucture for the tabbed component view.
     const tabs = [
       {
         component: <DomainStatsbar domain={domain} domainData={domainData} />,
-        title: "Data"
+        title: <span name='data' className={activeTab === 'data' ? 'ActiveTab': ''} onClick={e => this.selectTab(e)}>Data</span>,
+        name: 'data'
       },
       {
-        component: <div>Domain History</div>,
-        title: "History"
+        component: <DomainHistory domain={domain} domainData={domainData} />,
+        title:  <span name='history' className={activeTab === 'history' ? 'ActiveTab': ''} onClick={this.selectTab}>History</span>,
+        name: 'history'
       },
       {
         component: <DomainRedditBox domain={domain} domainData={domainData} />,
-        title: "Discussion"
+        title:  <span name='discussion' className={activeTab === 'discussion' ? 'ActiveTab': ''} onClick={this.selectTab}>Discussion</span>,
+        name: 'discussion'
       },
       {
         component: <div>Domain Audit</div>,
-        title: "Audit"
+        title:  <span name='audit' className={activeTab === 'audit' ? 'ActiveTab': ''} onClick={this.selectTab}>Audit</span>,
+        name: 'audit'
       },
       {
         component: <div>Domain Badges</div>,
-        title: "Badges"
+        title:  <span name='badges' className={activeTab === 'badges' ? 'ActiveTab': ''} onClick={this.selectTab}>Badges</span>,
+        name: 'badges'
       }
     ]
 
@@ -130,11 +139,11 @@ class DomainProfile extends Component {
                   <Tabs>
                     <TabList className='TabList'>
                       {
-                        tabs.map(x => <Tab key={x.title}>{x.title}</Tab>)
+                        tabs.map(x => <Tab className="f-grey" onClick={this.selectTab} key={x.name}>{x.title}</Tab>)
                       }
                     </TabList>
                     {
-                      tabs.map(x => <TabPanel key={x.title}>{x.component}</TabPanel>)
+                      tabs.map(x => <TabPanel key={x.name}>{x.component}</TabPanel>)
                     }
                   </Tabs>
                 </div>
@@ -163,7 +172,6 @@ class DomainProfile extends Component {
 
     try {
       listing = await (await window.fetch(`${registryApiURL}/registry/domain?domain=${domain}`)).json()
-
       try {
         metadata = await (await window.fetch(`${registryApiURL}/domains/metadata?domain=${domain}`)).json()
       } catch (error) {
@@ -183,6 +191,7 @@ class DomainProfile extends Component {
           const withdrawn = await (await window.fetch(`${registryApiURL}/registry/domains?filter=withdrawn`)).json()
           return withdrawn
         }
+        // Logic and request to check if domain has been withdrawn
         let withdrawn = await getWithdrawn()
         for (let w of withdrawn) {
           if (w.domainHash === domainData.listingHash) {
@@ -209,7 +218,18 @@ class DomainProfile extends Component {
       console.log(error)
     }
   }
+
+  selectTab(evt){
+    const {target} = evt
+    const name = target.getAttribute('name')
+    console.log("hit:", name)
+
+    this.setState({
+      activeTab: name
+    })
+  }
 }
+
 
 DomainProfile.propTypes = {
   location: PropTypes.object,

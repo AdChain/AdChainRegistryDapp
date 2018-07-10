@@ -5,7 +5,6 @@ import moment from 'moment'
 import PubSub from 'pubsub-js'
 import PropTypes from 'prop-types'
 
-import Tooltip from '../Tooltip'
 import registry from '../../services/registry'
 import RedditReasonModal from './RedditReasonModal'
 import { Tab, Button, Input, Loader } from 'semantic-ui-react'
@@ -32,7 +31,7 @@ class DomainRedditBox extends Component {
       challengedObj: {},
       comment: '',
       redditIdApplied: '',
-      redditItChallenged: '',
+      redditIdChallenged: '',
       redditTabIndex: 0,
       inProgress: '',
       redditRefreshInProgress: false
@@ -58,6 +57,7 @@ class DomainRedditBox extends Component {
   }
 
   async componentWillReceiveProps (next) {
+    console.log("componenet recieveed props")
     if (this._isMounted) {
       this.setState({
         domainData: next.domainData
@@ -67,6 +67,7 @@ class DomainRedditBox extends Component {
   }
 
   render () {
+
     const { appliedObj, challengedObj, domain, redditTabIndex, inProgress, redditRefreshInProgress } = this.state
 
     const appliedData = !_.isEmpty(appliedObj) && appliedObj.id && appliedObj.comments.length > 0
@@ -227,12 +228,8 @@ class DomainRedditBox extends Component {
     }
 
     return (
-      <div className='DomainRedditBox DomainRedditBox BoxFrame'>
+      <div className='DomainRedditBox DomainRedditBox'>
         <div className='HeaderRow'>
-          <span className='BoxFrameLabel ui grid'>
-            REDDIT DISCUSSION
-            <Tooltip info={'This Reddit discussion box will display the threads associated with the latest application or challenge of this domain.'} />
-          </span>
           <span className='RedditRefresh'>
             <Button
               basic
@@ -254,6 +251,7 @@ class DomainRedditBox extends Component {
   }
 
   async setDomainState (domainData) {
+    console.log("domain state set")
     if (domainData) {
       if (this._isMounted) {
         await this.fetchRedditData()
@@ -328,7 +326,7 @@ class DomainRedditBox extends Component {
           appliedObj: _.isEmpty(redditData.data.applied) ? {} : redditData.data.applied,
           challengedObj: _.isEmpty(redditData.data.challenged) ? {} : redditData.data.challenged,
           redditIdApplied: _.isEmpty(redditData.data.applied) ? null : redditData.data.applied.id,
-          redditItChallenged: _.isEmpty(redditData.data.challenged) ? null : redditData.data.challenged.id
+          redditIdChallenged: _.isEmpty(redditData.data.challenged) ? null : redditData.data.challenged.id
 
         })
         redditData.data.timeAdded = moment()
@@ -344,7 +342,7 @@ class DomainRedditBox extends Component {
     event.preventDefault()
     const { comment, redditTabIndex, domain } = this.state
 
-    let redditId = redditTabIndex === 0 ? this.state.redditIdApplied : this.state.redditItChallenged
+    let redditId = redditTabIndex === 0 ? this.state.redditIdApplied : this.state.redditIdChallenged
     let redditCommentsObj = redditTabIndex === 0 ? { ...this.state.appliedObj } : { ...this.state.challengedObj }
 
     if (!comment) {
