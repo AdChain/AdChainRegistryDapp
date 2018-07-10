@@ -54,12 +54,6 @@
   color: #F4F7FA;
 }
 
-:root:root:root .DomainStatsbar .Category strong {
-  height: auto;
-  display: inline-block;
-  white-space: nowrap;
-  overflow-x: auto;
-}
 
 :root:root:root .DomainStatsbar .Source {
   position: absolute;

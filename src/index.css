@@ -199,6 +199,10 @@ input:focus{
   color:#3434CE;
   font-weight: 600
 }
+.f-green{
+  color:#0bca04;
+  font-weight: 600
+}
 .f-grey{color:#bdbebd;}
 /*utility inline block*/
 .ib{display: inline-block !important;}
@@ -215,7 +219,7 @@ input:focus{
   height: 100%;
   width: 100%;
 }
-
+.w-100{width:100%}
 
 select:focus{
   text-decoration: none;

@@ -17,7 +17,7 @@
 .TabList{
   display: inline-flex;
     list-style-type: none;
-    border-bottom: 1px solid rgb(221, 221, 221);
+    border-bottom: 2px solid #f4f7fa;
     width: 100%;
     padding: 10px;
 }
@@ -26,9 +26,20 @@
   background: #fff;
 }
 .TabList li{
-  padding:0 10px;
+  padding:0 12px;
+  color: #a5a5a5;
+  font-size: 15px;
   text-transform: uppercase;
 }
 .TabList li:hover{
   cursor:pointer;
+}
+.DomainHistoryTable td{
+  padding: 7px 0;
+  border-bottom: 2px solid #f4f7fa;
+}
+.ActiveTab{
+  color: #3434ce;
+  border-bottom: 2px solid #3434ce;
+  padding-bottom: 13px;
 }

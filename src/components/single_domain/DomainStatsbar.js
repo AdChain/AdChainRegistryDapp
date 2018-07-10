@@ -45,31 +45,37 @@ class DomainStatsbar extends Component {
     } = this.state
 
     return (
-      <div className='DomainStatsbar BoxFrame'>
-        <span className='BoxFrameLabel ui grid'>SITE ANALYTICS <Tooltip info={'Simple site analytics, provided by Alexa'} /></span>
+      <div className='DomainStatsbar'>
         <div className='ui grid stackable'>
           <div className='row'>
             <div className='column eight wide'>
-              Daily Page Views per Visitor: <strong>{commafy(dailyPageViewsPerVisitor)}</strong>
+              Daily Page Views per Visitor<br/>
+              <strong>{commafy(dailyPageViewsPerVisitor)}</strong>
             </div>
             <div className='column eight wide'>
-              Bounce Rate: <strong>{bounceRate}</strong>
+              Bounce Rate <br/>
+               <strong>{bounceRate}</strong>
+            
             </div>
           </div>
           <div className='row'>
             <div className='column eight wide'>
-              Daily Time on Site: <strong>{dailyTimeOnSite}</strong>
+              Daily Time on Site <br/>
+               <strong>{dailyTimeOnSite}</strong>
             </div>
             <div className='column eight wide Category'>
-              <span>Category:&nbsp;</span><strong className='overflow-x'>{category}</strong>
+              Category<br/>
+              <strong>{category}</strong>
             </div>
           </div>
           <div className='row'>
             <div className='column eight wide'>
-              Total Sites Linking In: <strong>{commafy(totalSitesLinkingIn)}</strong>
+              Total Sites Linking In<br/>
+               <strong>{commafy(totalSitesLinkingIn)}</strong>
             </div>
             <div className='column eight wide'>
-              Global Rank: <strong>{commafy(globalRank)}</strong>
+              Global Rank<br/>
+               <strong>{commafy(globalRank)}</strong>
             </div>
           </div>
           <div className='Source'>
