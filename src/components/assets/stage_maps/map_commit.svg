@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg width="553px" height="77px" viewBox="0 0 553 77" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<svg width="557px" height="77px" viewBox="0 0 557 77" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     <!-- Generator: Sketch 50.2 (55047) - http://www.bohemiancoding.com/sketch -->
     <title>map_commit</title>
     <desc>Created with Sketch.</desc>
@@ -22,6 +22,9 @@
         </text>
         <text id="VOTING-COMMIT" font-family="Open Sans, sans-serif" font-size="10" font-weight="500" fill="#3434CE">
             <tspan x="158.862793" y="8">VOTING COMMIT</tspan>
+        </text>
+        <text id="challenged" font-family="Open Sans, sans-serif" font-size="10" font-style="italic" font-weight="300" fill="#CE3434">
+            <tspan x="96.331543" y="35">challenged</tspan>
         </text>
         <text id="VOTING-REVEAL" font-family="Open Sans, sans-serif" font-size="10" font-weight="normal" fill="#424242">
             <tspan x="324.071289" y="8">VOTING REVEAL</tspan>

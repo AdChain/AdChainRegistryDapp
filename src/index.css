@@ -158,6 +158,7 @@ input:focus{
   width: 100%;
 }
 
+:root:root:root:root .bb-none{border-bottom:none !important}
 /*utility margin styles*/
 .mt-25{margin-top:25px;}
 .mt-50{margin-top:50px;}
@@ -188,7 +189,7 @@ input:focus{
 .f-16{font-size:16px;}
 .f-18{font-size:18px;}
 /*utility font weight*/
-.fw-200{font-weight:200}
+.fw-200{font-weight:200 !important}
 .fw-600{font-weight:600}
 /*utitlity font color*/
 .f-red{

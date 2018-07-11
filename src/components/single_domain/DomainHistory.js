@@ -24,7 +24,7 @@ class DomainHistory extends Component {
             return <div className="ui active inline loader t-center mt-25"></div>
         }
         return (
-            <div>
+            <div className="DomainHistoryTableContainer">
                 <table className='DomainHistoryTable f-os w-100'>
                     <tbody>
                         <tr>
@@ -41,10 +41,10 @@ class DomainHistory extends Component {
                             return (
                                 <tbody key={x.data.transaction_hash + Math.random()}>
                                     <tr>
-                                        <td >{i + 1}. <span className={style}>{eventName}</span> by {truncTX} </td>
+                                        <td >{i + 1}. <span className={style}>{eventName}</span><span className="f-12"> by {truncTX}</span> </td>
                                         <td className="t-center">{dateString}</td>
                                         <td className="t-center">
-                                            <a rel="noopener noreferrer" target='_blank' href={`https://etherscan.io/tx/${x.data.transaction_hash}`}>View TX</a>
+                                            <a className="f-blue fw-200" rel="noopener noreferrer" target='_blank' href={`https://etherscan.io/tx/${x.data.transaction_hash}`}>View TX</a>
                                         </td>
                                     </tr>
                                 </tbody>

@@ -1,13 +1,15 @@
 :root:root:root .DomainStatsbar {
   position: relative;
   min-height: 105px;
-  font-size: 12px;
+  font-size: 16px;
   font-family: "Open Sans", sans-serif;
+  margin-top: 40px;
 }
 
 :root:root:root .DomainStatsbar .row {
   margin: 0;
-  padding: 5px 0;
+  padding:0;
+  height: 100px
 }
 
 :root:root:root .DomainStatsbar .input {
@@ -38,15 +40,7 @@
   min-height: 13px;
   font-family: 'Open Sans',sans-serif;
 }
-/*:root:root:root .DomainStatsbar .InfoIcon {
-  margin-top:-1px;
-  padding-left:5px;
-}
-*/
 
-:root:root:root .DomainStatsbar .Category {
-  display: flex;
-}
 
 :root:root:root .DomainStatsbar .Category ::-webkit-scrollbar {
   width: 137px;
@@ -75,4 +69,28 @@
   :root:root:root .DomainStatsbar .row:nth-child(2) .column:first-child:after {
     border-right: none;
   }
+}
+:root:root:root .DomainStatsbar .Category strong{
+  font-size: 12px;
+}
+
+:root:root:root .DomainStatsbar strong {
+  font-weight: bolder;
+  font-size: 14px;
+  text-align: center;
+  display: block;
+}
+
+:root:root:root .DomainStatsbar h4 {
+  text-align: center;
+  padding-top:23px;
+}
+:root:root:root .column.eight.wide:nth-child(even) {
+  border-left:2px solid #f4f7fa;
+}
+:root:root:root .column.eight.wide {
+  border-bottom:2px solid #f4f7fa;
+}
+:root:root:root .column.eight.wide:nth-child(5) {
+  border-bottom:none;
 }

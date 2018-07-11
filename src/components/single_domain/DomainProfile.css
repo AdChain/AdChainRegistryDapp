@@ -34,9 +34,14 @@
 .TabList li:hover{
   cursor:pointer;
 }
+.DomainHistoryTableContainer{
+  max-height: 534px;
+  overflow: scroll;
+}
 .DomainHistoryTable td{
-  padding: 7px 0;
+  padding: 9px 0;
   border-bottom: 2px solid #f4f7fa;
+
 }
 .ActiveTab{
   color: #3434ce;
