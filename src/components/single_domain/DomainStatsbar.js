@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import commafy from 'commafy'
-import Tooltip from '../Tooltip'
 import './DomainStatsbar.css'
 import { registryApiURL } from '../../models/urls'
 
@@ -45,31 +44,37 @@ class DomainStatsbar extends Component {
     } = this.state
 
     return (
-      <div className='DomainStatsbar BoxFrame'>
-        <span className='BoxFrameLabel ui grid'>SITE ANALYTICS <Tooltip info={'Simple site analytics, provided by Alexa'} /></span>
+      <div className='DomainStatsbar'>
         <div className='ui grid stackable'>
           <div className='row'>
             <div className='column eight wide'>
-              Daily Page Views per Visitor: <strong>{commafy(dailyPageViewsPerVisitor)}</strong>
+              <h4>Daily Page Views per Visitor</h4>
+              <strong>{commafy(dailyPageViewsPerVisitor)}</strong>
             </div>
             <div className='column eight wide'>
-              Bounce Rate: <strong>{bounceRate}</strong>
+              <h4>Bounce Rate</h4> 
+               <strong>{bounceRate}</strong>
+            
             </div>
           </div>
           <div className='row'>
             <div className='column eight wide'>
-              Daily Time on Site: <strong>{dailyTimeOnSite}</strong>
+              <h4>Daily Time on Site</h4> 
+               <strong>{dailyTimeOnSite}</strong>
             </div>
             <div className='column eight wide Category'>
-              <span>Category:&nbsp;</span><strong className='overflow-x'>{category}</strong>
+              <h4>Category</h4>
+              <strong>{category}</strong>
             </div>
           </div>
           <div className='row'>
-            <div className='column eight wide'>
-              Total Sites Linking In: <strong>{commafy(totalSitesLinkingIn)}</strong>
+            <div className='column eight wide bb-none'>
+              <h4>Total Sites Linking In</h4>
+               <strong>{commafy(totalSitesLinkingIn)}</strong>
             </div>
-            <div className='column eight wide'>
-              Global Rank: <strong>{commafy(globalRank)}</strong>
+            <div className='column eight wide bb-none'>
+              <h4>Global Rank</h4>
+               <strong>{commafy(globalRank)}</strong>
             </div>
           </div>
           <div className='Source'>

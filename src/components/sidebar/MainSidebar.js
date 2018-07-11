@@ -57,10 +57,10 @@ class MainSidebar extends Component {
           <Link to='/domains' onClick={() => PubSub.publish('RegistryGuideModal.show')} activeClassName='active'>View Guides</Link>
         </li>
         <li>
-          <Link to='https://metax.zendesk.com/hc/en-us' target='_blank' rel='noopener noreferrer' activeClassName='active'>Help Center</Link>
+          <a href='https://metax.zendesk.com/hc/en-us' target='_blank' rel='noopener noreferrer'>Help Center</a>
         </li>
         <li>
-          <Link to='https://goo.gl/forms/px9fgyKhFrZDjBV42' target='_blank' rel='noopener noreferrer' activeClassName='active'>Submit Feedback</Link>
+          <a href='https://goo.gl/forms/px9fgyKhFrZDjBV42' target='_blank' rel='noopener noreferrer'>Submit Feedback</a>
         </li>
       </ul>
     )

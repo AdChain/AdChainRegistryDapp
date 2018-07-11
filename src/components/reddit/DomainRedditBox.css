@@ -89,7 +89,7 @@
   margin-top: 10px;
   padding-bottom: 10px;
   overflow: scroll;
-  /* max-height: 300px; */
+  min-height: 300px;
   flex-grow: 2;
 }
 
@@ -171,6 +171,11 @@
 .RedditInputContainer {
   margin-top: 25px;
   font-family: 'Open Sans', sans-serif !important;
+}
+.RedditRefresh{
+  position: absolute;
+  right: 17px;
+  margin-top: 10px;
 }
 
 .RedditInputContainer input:focus::-webkit-input-placeholder,
