@@ -44,27 +44,18 @@ class DomainRedditBox extends Component {
     this.redditRefresh = _.debounce(this.redditRefresh.bind(this), 3e3, { 'leading': true, 'trailing': false })
   }
 
-  async componentDidMount () {
-    this._isMounted = true
-  }
+
 
   componentWillMount () {
+    this._isMounted = true
     PubSub.subscribe('DomainRedditBox.fetchRedditData', this.fetchRedditData)
+    this.setDomainState(this.props.domainData)
   }
 
-  componentWillUnmount () {
+  componentWillUnmount(){
     this._isMounted = false
   }
 
-  async componentWillReceiveProps (next) {
-    console.log("componenet recieveed props")
-    if (this._isMounted) {
-      this.setState({
-        domainData: next.domainData
-      })
-    }
-    await this.setDomainState(next.domainData)
-  }
 
   render () {
 
@@ -251,11 +242,9 @@ class DomainRedditBox extends Component {
   }
 
   async setDomainState (domainData) {
-    console.log("domain state set")
     if (domainData) {
       if (this._isMounted) {
         await this.fetchRedditData()
-
         switch (domainData.stage) {
           case 'in_registry_in_commit':
           case 'in_registry_in_reveal':

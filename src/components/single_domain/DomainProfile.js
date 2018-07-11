@@ -72,6 +72,7 @@ class DomainProfile extends Component {
     const redirectState = this.props.location.state
 
     // Data stucture for the tabbed component view.
+    // To add/remove tab, create/remove the tab objects below.
     const tabs = [
       {
         component: <DomainStatsbar domain={domain} domainData={domainData} />,
@@ -88,20 +89,17 @@ class DomainProfile extends Component {
         title:  <span name='discussion' className={activeTab === 'discussion' ? 'ActiveTab': ''} onClick={this.selectTab}>Discussion</span>,
         name: 'discussion'
       },
-      {
-        component: <div>Domain Audit</div>,
-        title:  <span name='audit' className={activeTab === 'audit' ? 'ActiveTab': ''} onClick={this.selectTab}>Audit</span>,
-        name: 'audit'
-      },
-      {
-        component: <div>Domain Badges</div>,
-        title:  <span name='badges' className={activeTab === 'badges' ? 'ActiveTab': ''} onClick={this.selectTab}>Badges</span>,
-        name: 'badges'
-      }
+      // {
+      //   component: <div>Domain Audit</div>,
+      //   title:  <span name='audit' className={activeTab === 'audit' ? 'ActiveTab': ''} onClick={this.selectTab}>Audit</span>,
+      //   name: 'audit'
+      // },
+      // {
+      //   component: <div>Domain Badges</div>,
+      //   title:  <span name='badges' className={activeTab === 'badges' ? 'ActiveTab': ''} onClick={this.selectTab}>Badges</span>,
+      //   name: 'badges'
+      // }
     ]
-
-
-
 
     return (
       <div className='DomainProfile'>
@@ -222,7 +220,6 @@ class DomainProfile extends Component {
   selectTab(evt){
     const {target} = evt
     const name = target.getAttribute('name')
-    console.log("hit:", name)
 
     this.setState({
       activeTab: name
