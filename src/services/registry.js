@@ -8,12 +8,11 @@ import token from './token'
 import plcr from './plcr'
 import parameterizer from './parameterizer'
 import saltHashVote from '../utils/saltHashVote'
+import TransactionQueue from './transactionQueue'
 import { getRegistry } from '../config'
 import { getProvider } from './provider'
 import { ipfsAddObject } from '../services/ipfs'
 import PubSub from 'pubsub-js'
-// import { promisify as pify } from 'bluebird'
-// import { runInThisContext } from 'vm'
 
 // TODO: check number param
 const big = (number) => new Eth.BN(number.toString(10))
@@ -33,6 +32,7 @@ class RegistryService {
     this.registry = null
     this.account = null
     this.address = null
+    this.queue = null
   }
 
   async init () {
@@ -50,14 +50,16 @@ class RegistryService {
       this.address = this.registry.address
       plcr.init()
 
-      // this.setUpEvents()
+      this.queue = TransactionQueue
+      TransactionQueue.create()
+
       this.setAccount()
 
       store.dispatch({
         type: 'REGISTRY_CONTRACT_INIT'
       })
     } catch (error) {
-      console.log('Error initializing Registry Service')
+      console.log(error, 'Error initializing Registry Service')
     }
   }
 
@@ -112,30 +114,47 @@ class RegistryService {
 
     // Open modal for user to supply reason for application.
     PubSub.publish('RedditConfirmationModal.close')
+    let currentTxHash
 
-    // If what you previously pre approved is less than the min deposit, approve more token.
-    if (Number(allowed) < Number(bigDeposit)) {
-      transactionInfo = {
-        src: 'not_approved_application',
-        title: 'application'
-      }
-      try {
+    this.queue.addNode({
+      allTxData: [
+        async () => {
+          await checkAllowance(this.address, bigDeposit)
+        }
+
+      ]
+    })
+
+    const checkAllowance = async () => {
+      // If the token amount you previously pre approved is less than the min deposit, approve more token.
+      if (Number(allowed) < Number(bigDeposit)) {
+        transactionInfo = {
+          src: 'not_approved_application',
+          title: 'application'
+        }
+        try {
+          PubSub.publish('TransactionProgressModal.open', transactionInfo)
+          currentTxHash = await token.approve.sendTransaction(this.address, bigDeposit)
+
+          this.queue.incrementCurrent(1)
+
+          this.queue.updateCurrentTxhash(currentTxHash)
+
+          PubSub.publish('TransactionProgressModal.next', transactionInfo)
+        } catch (error) {
+          PubSub.publish('TransactionProgressModal.error')
+          throw error
+        }
+      } else {
+        // Open approved ADT modal
+        transactionInfo = {
+          src: 'approved_application',
+          title: 'application'
+        }
         PubSub.publish('TransactionProgressModal.open', transactionInfo)
-        await token.approve(this.address, bigDeposit)
-
-        PubSub.publish('TransactionProgressModal.next', transactionInfo)
-      } catch (error) {
-        PubSub.publish('TransactionProgressModal.error')
-        throw error
       }
-    } else {
-      // Open approved ADT modal
-      transactionInfo = {
-        src: 'approved_application',
-        title: 'application'
-      }
-      PubSub.publish('TransactionProgressModal.open', transactionInfo)
     }
+    await checkAllowance()
 
     // Remove spaces
     domain = domain.trim()
