@@ -51,10 +51,9 @@ class RegistryService {
       plcr.init()
 
       this.queue = TransactionQueue
-      TransactionQueue.create()
+      this.shouldUseQueue()
 
       this.setAccount()
-
       store.dispatch({
         type: 'REGISTRY_CONTRACT_INIT'
       })
@@ -63,27 +62,6 @@ class RegistryService {
     }
   }
 
-  // async setUpEvents () {
-  //   try {
-  //     // websocket provider required for events
-  //     const provider = getWebsocketProvider()
-  //     const registry = await getRegistry(null, provider)
-
-  //     registry.allEvents()
-  //       .watch((error, log) => {
-  //         if (error) {
-  //           console.error(error)
-  //           return false
-  //         }
-  //         store.dispatch({
-  //           type: 'REGISTRY_EVENT'
-  //         })
-  //       })
-  //   } catch (error) {
-  //     console.error(error)
-  //   }
-  // }
-
   async setAccount () {
     const accounts = await this.eth.accounts()
     if (window.web3 && !window.web3.eth.defaultAccount) {
@@ -91,41 +69,64 @@ class RegistryService {
     }
   }
 
+  async shouldUseQueue () {
+    if (!this.queue.doesExist(await this.getAccount(), await this.getNetwork())) {
+      this.queue.create({
+        name: 'registry',
+        account: await this.getAccount(),
+        network: await this.getNetwork()
+      })
+    }
+  }
+
   getAccount () {
     return this.account
   }
 
-  // When applying a domain, the `data` parameter must be set to ipfs hash of --> {id: domain name}
+  // When applying a domain, the `data` parameter must be set to ipfs hash of this object --> {id: domain name}
   // The 'domain' parameter will be also be the domain name but it will be hashed in this function before it hits the contract
   async apply (domain, deposit = 0, data = '') {
-    if (!domain) throw new Error('Domain is required')
-
-    // Check if application exists already
-    const exists = await this.applicationExists(domain)
-
-    if (exists) throw new Error('Application already exists')
-
-    const bigDeposit = big(deposit).mul(tenToTheNinth).toString(10)
-
-    // Check to see how much token the user has perviously allowed the registry contract to use.
-    let allowed = await (await token.allowance(this.account, this.address)).toString(10)
-    // Used for the modal information
-    let transactionInfo = {}
+    await async function validateDomain () {
+      if (!domain) throw new Error('Domain is required')
+      const exists = await this.applicationExists(domain)
+      if (exists) throw new Error('Application already exists')
+    }.bind(this)()
 
     // Open modal for user to supply reason for application.
     PubSub.publish('RedditConfirmationModal.close')
-    let currentTxHash
 
-    this.queue.addNode({
-      allTxData: [
-        async () => {
-          await checkAllowance(this.address, bigDeposit)
-        }
+    let transactionInfo = {}
+    let currentTxHash = null
+    let hash = null
+    let bigDeposit = null
 
-      ]
-    })
+    await (async function assignApplicationVariables () {
+      domain = domain.trim()
+      hash = `0x${soliditySHA3(['string'], [domain]).toString('hex')}`
+      data = await ipfsAddObject({ id: domain })
+      bigDeposit = big(deposit).mul(tenToTheNinth).toString(10)
+    })()
 
-    const checkAllowance = async () => {
+    console.log('2')
+
+    await function addToQueue () {
+      console.info('%c Add to Queue ', 'color:#3434CE; background-color:lightblue; font-weight:500')
+
+      this.queue.addNode([{
+        name: 'token.allowance',
+        params: [this.address, bigDeposit],
+        status: null
+      },
+      {
+        name: 'registry.apply',
+        params: [hash, bigDeposit, data],
+        status: null
+      }])
+    }.bind(this)()
+
+    await async function checkAllowance () {
+      // Check to see how much token the user has previously allowed the registry contract to use.
+      const allowed = await (await token.allowance(this.account, this.address)).toString(10)
       // If the token amount you previously pre approved is less than the min deposit, approve more token.
       if (Number(allowed) < Number(bigDeposit)) {
         transactionInfo = {
@@ -134,11 +135,10 @@ class RegistryService {
         }
         try {
           PubSub.publish('TransactionProgressModal.open', transactionInfo)
-          currentTxHash = await token.approve.sendTransaction(this.address, bigDeposit)
 
-          this.queue.incrementCurrent(1)
-
-          this.queue.updateCurrentTxhash(currentTxHash)
+          currentTxHash = await token.approve(this.address, bigDeposit)
+          this.queue.removeNode(this.queue.queueLength - 1)
+          this.queue.updateCurrentTxHash(currentTxHash)
 
           PubSub.publish('TransactionProgressModal.next', transactionInfo)
         } catch (error) {
@@ -151,29 +151,23 @@ class RegistryService {
           src: 'approved_application',
           title: 'application'
         }
+        console.log('q length: ', this.queue.getQueueLength())
+        this.queue.removeNode(this.queue.getQueueLength() - 1)
         PubSub.publish('TransactionProgressModal.open', transactionInfo)
       }
-    }
-    await checkAllowance()
+    }.bind(this)()
 
-    // Remove spaces
-    domain = domain.trim()
-
-    // Hash as string input
-    const hash = `0x${soliditySHA3(['string'], [domain]).toString('hex')}`
-
-    // Add to IPFS
-    data = await ipfsAddObject({ id: domain })
-
-    try {
-      // Apply listing to registry.
-      await this.registry.apply(hash, bigDeposit, data)
-      // This will update the domain table and also update the transaction progress modal.
-      PubSub.publish('DomainsTable.fetchNewData', transactionInfo)
-    } catch (error) {
-      PubSub.publish('TransactionProgressModal.error')
-      throw error
-    }
+    await async function applyListing () {
+      try {
+        currentTxHash = await this.registry.apply.sendTransaction(hash, bigDeposit, data)
+        this.queue.updateCurrentTxHash(currentTxHash)
+        // This will update the domain table and also update the transaction progress modal.
+        PubSub.publish('DomainsTable.fetchNewData', transactionInfo)
+      } catch (error) {
+        PubSub.publish('TransactionProgressModal.error')
+        throw error
+      }
+    }.bind(this)()
 
     store.dispatch({
       type: 'REGISTRY_DOMAIN_APPLY',
