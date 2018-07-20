@@ -1,4 +1,4 @@
-// import RegistryService from '../services/registry'
+import registry from '../services/registry'
 
 class TransactionQueue {
   constructor () {
@@ -34,17 +34,15 @@ class TransactionQueue {
   }
 
   async setCurrentTxStatus () {
-    if (this.currentTxStatus) {
-      const checkPending = await setInterval(async () => {
-        this.currentTxStatus = await this.getTransactionStatus()
-        window.localStorage.setItem('currentTxStatus', this.currentTxStatus)
-        if (this.shouldMoveToNextTx()) {
-          clearInterval(checkPending)
-          this.removeNode(1)
-          this.executeNextInQueue()
-        }
-      }, 10000)
-    }
+    const checkPending = await setInterval(async () => {
+      this.currentTxStatus = await this.getTransactionStatus()
+      window.localStorage.setItem('currentTxStatus', this.currentTxStatus)
+      if (this.shouldMoveToNextTx()) {
+        clearInterval(checkPending)
+        this.removeNode(1)
+        this.executeNextInQueue()
+      }
+    }, 10000)
   }
 
   shouldMoveToNextTx () {
@@ -124,8 +122,16 @@ class TransactionQueue {
     }
   }
 
-  executeNextInQueue () {
-
+  async executeNextInQueue () {
+    try {
+      console.log('Execute next in queue')
+    //   const service = this.queue[0].service
+      const serviceFn = this.queue[0].serviceFn
+      const params = this.queue[0].params
+      await registry[serviceFn](...params)
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   getQueue () {

@@ -86,6 +86,7 @@ class RegistryService {
   // When applying a domain, the `data` parameter must be set to ipfs hash of this object --> {id: domain name}
   // The 'domain' parameter will be also be the domain name but it will be hashed in this function before it hits the contract
   async apply (domain, deposit = 0, data = '') {
+    console.log('apply')
     await async function validateDomain () {
       if (!domain) throw new Error('Domain is required')
       const exists = await this.applicationExists(domain)
@@ -112,14 +113,14 @@ class RegistryService {
 
       this.queue.addNode([{
         name: 'token.approve',
-        params: [this.address, bigDeposit],
+        params: [domain, deposit, data],
         status: null,
         service: 'RegistryService',
         serviceFn: 'apply'
       },
       {
         name: 'registry.apply',
-        params: [hash, bigDeposit, data],
+        params: [domain, deposit, data],
         status: null,
         service: 'RegistryService',
         serviceFn: 'apply'
