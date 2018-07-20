@@ -107,20 +107,22 @@ class RegistryService {
       bigDeposit = big(deposit).mul(tenToTheNinth).toString(10)
     })()
 
-    console.log('2')
-
     await function addToQueue () {
-      console.info('%c Add to Queue ', 'color:#3434CE; background-color:lightblue; font-weight:500')
+      console.info('%c Add to Queue - 2 nodes', 'color:#3434CE; background-color:lightblue; font-weight:500')
 
       this.queue.addNode([{
-        name: 'token.allowance',
+        name: 'token.approve',
         params: [this.address, bigDeposit],
-        status: null
+        status: null,
+        service: 'RegistryService',
+        serviceFn: 'apply'
       },
       {
         name: 'registry.apply',
         params: [hash, bigDeposit, data],
-        status: null
+        status: null,
+        service: 'RegistryService',
+        serviceFn: 'apply'
       }])
     }.bind(this)()
 
@@ -137,7 +139,7 @@ class RegistryService {
           PubSub.publish('TransactionProgressModal.open', transactionInfo)
 
           currentTxHash = await token.approve(this.address, bigDeposit)
-          this.queue.removeNode(this.queue.queueLength - 1)
+          this.queue.removeNode(this.queue.getQueueLength() - 1)
           this.queue.updateCurrentTxHash(currentTxHash)
 
           PubSub.publish('TransactionProgressModal.next', transactionInfo)
@@ -151,7 +153,6 @@ class RegistryService {
           src: 'approved_application',
           title: 'application'
         }
-        console.log('q length: ', this.queue.getQueueLength())
         this.queue.removeNode(this.queue.getQueueLength() - 1)
         PubSub.publish('TransactionProgressModal.open', transactionInfo)
       }
