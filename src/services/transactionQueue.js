@@ -23,9 +23,9 @@ class TransactionQueue {
   }
 
   shouldQueueBeCleared () {
-        // If transaction queue is at last node
-        // and last transaction is no longer pending
-        // clear the queue in local storage
+    // If transaction queue is at last node
+    // and last transaction is no longer pending
+    // clear the queue in local storage
     if (this.queue.length < 1) {
       return true
     } else {
@@ -46,23 +46,24 @@ class TransactionQueue {
   }
 
   shouldMoveToNextTx () {
-    if ((this.currentTxStatus === 'pass' || this.currentTxStatus === 'fail') && this.getQueueLength() > 0) {
+    if (this.currentTx && (this.currentTxStatus === 'pass' || this.currentTxStatus === 'fail') && this.getQueueLength() > 0) {
       return true
     } else {
-      if (this.getQueueLength() < 1) {
-        console.log(`%c Current transaction still pending`, 'color:blue')
-      } else {
-        console.log(`%c Transaction ${this.currentTxStatus}`, 'color:blue')
-      }
+      //   if (this.getQueueLength() < 1) {
+      //     console.log(`%c Current transaction still pending`, 'color:blue')
+      //   } else {
+      console.log(`%c Transaction ${this.currentTxStatus}`, 'color:blue')
+
       return false
     }
   }
 
   doesExist (account, network) {
     try {
-      const currentNetwork = JSON.parse(this.network)
-            // console.log("network:", JSON.parse(this.network), "exists: ", this.exists, "network: ", currentNetwork.type)
-      if (currentNetwork.hasOwnProperty('type')) {
+      if (typeof this.network !== 'object') return false
+      const currentNetwork = this.network
+      // console.log("network:", JSON.parse(this.network), "exists: ", this.exists, "network: ", currentNetwork.type)
+      if (currentNetwork && currentNetwork.hasOwnProperty('type')) {
         if (this.exists && account === this.currentAccount && network.type === currentNetwork.type) {
           console.log('\n Queue exists: ', this.queue, '\n \n', 'Queue Length: ', this.getQueueLength(), '\n \n', 'Current TX Hash: ', this.currentTxHash, '\n \n')
           console.log(`\n Current TX Status: %c ${this.currentTxStatus}`, `color:${this.currentTxStatus === 'pass' ? 'green' : 'red'}`, '\n \n')
@@ -86,12 +87,12 @@ class TransactionQueue {
 
   addNode (txData) {
     this.queue = txData.map(node => node)
-    window.localStorage.setItem(`${this.queueName}Queue`, JSON.stringify(this.queue))
+    window.localStorage.setItem(`${'registry'}Queue`, JSON.stringify(this.queue))
     this.logQueue()
   }
 
   logQueue () {
-    let q = window.localStorage.getItem(`${this.queueName}Queue`)
+    let q = window.localStorage.getItem(`${'registry'}Queue`)
     console.log('Queue: ', JSON.parse(q))
   }
 
@@ -123,9 +124,13 @@ class TransactionQueue {
   }
 
   async executeNextInQueue () {
+    if (this.queue.length < 1) {
+      console.log('Queue Empty')
+      return false
+    }
     try {
       console.log('Execute next in queue')
-    //   const service = this.queue[0].service
+      //   const service = this.queue[0].service
       const serviceFn = this.queue[0].serviceFn
       const params = this.queue[0].params
       await registry[serviceFn](...params)
@@ -160,22 +165,26 @@ class TransactionQueue {
   }
 
   async getTransactionStatus () {
+    if (this.currentTxHash === null) return null
     const etherscanAPIKey = 'XAINI9CDZE14E77MGPR31IKE1SV54UXH83'
     let res = null
     try {
       res = await (
-                await window.fetch(`https://api-rinkeby.etherscan.io/api?module=transaction&action=getstatus&txhash=${this.currentTxHash}&apikey=${etherscanAPIKey}`)
-            ).json()
+        await window.fetch(`https://api-rinkeby.etherscan.io/api?module=transaction&action=getstatus&txhash=${this.currentTxHash}&apikey=${etherscanAPIKey}`)
+      ).json()
       res = res.result.isError === '0' ? 'pass' : 'fail'
       return res
     } catch (error) {
       console.log(error)
     }
-    return false
+    return null
   }
 
   removeNode (num) {
     console.log('Remove Node')
+    if (num <= 0) {
+      num = 1
+    }
     console.log('1: ', this.queue, num)
     this.queue = this.queue.splice(num, this.queue.length)
     console.log('2: ', this.queue)
@@ -190,6 +199,8 @@ class TransactionQueue {
     window.localStorage.removeItem('currentAccount')
     window.localStorage.removeItem('currentNetwork')
     window.localStorage.removeItem('currentTxStatus')
+    registry.init()
+    // window.alert("Queue Successfully Reset")
   }
 }
 

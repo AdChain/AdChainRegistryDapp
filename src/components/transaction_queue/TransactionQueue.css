@@ -1,0 +1,11 @@
+.TransactionQueue{
+    border-radius: 100%;
+    padding:0px;
+    /* box-shadow: 0 0 20px #121548; */
+    font-family: 'Open Sans', sans-serif;
+    /* background-color:white; */
+    position: absolute;
+    text-align:center;
+    right: 230px;
+    bottom:10px;
+}

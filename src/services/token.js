@@ -119,7 +119,7 @@ class TokenService {
       }
 
       try {
-        const result = await this.token.approve.sendTransaction(sender, value)
+        let result = await this.token.approve.sendTransaction(sender, value)
 
         store.dispatch({
           type: 'TOKEN_APPROVE',

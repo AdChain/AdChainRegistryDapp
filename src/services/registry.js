@@ -110,19 +110,18 @@ class RegistryService {
 
     await function addToQueue () {
       console.info('%c Add to Queue - 2 nodes', 'color:#3434CE; background-color:lightblue; font-weight:500')
-
       this.queue.addNode([{
         name: 'token.approve',
         params: [domain, deposit, data],
         status: null,
-        service: 'RegistryService',
+        service: 'registry',
         serviceFn: 'apply'
       },
       {
         name: 'registry.apply',
         params: [domain, deposit, data],
         status: null,
-        service: 'RegistryService',
+        service: 'registry',
         serviceFn: 'apply'
       }])
     }.bind(this)()
@@ -162,6 +161,7 @@ class RegistryService {
     await async function applyListing () {
       try {
         currentTxHash = await this.registry.apply.sendTransaction(hash, bigDeposit, data)
+        this.queue.removeNode(this.queue.getQueueLength() - 1)
         this.queue.updateCurrentTxHash(currentTxHash)
         // This will update the domain table and also update the transaction progress modal.
         PubSub.publish('DomainsTable.fetchNewData', transactionInfo)

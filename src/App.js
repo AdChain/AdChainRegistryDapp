@@ -15,6 +15,7 @@ import RegistryWalkthrough from './components/registry_guide/RegistryWalkthrough
 import TransactionProgressModal from './components/TransactionProgressModal'
 import { MobileNavigation } from './components/mobile_nav/MobileNavigation';
 import  MobileApplication  from './components/mobile_nav/MobileApplication';
+import TransactionQueue from './components/transaction_queue/TransactionQueue'
 
 class App extends Component {
   render () {
@@ -40,6 +41,7 @@ class App extends Component {
                 />
               </div>
               <MobileNavigation Link={Link} Route={Route}/>
+              <TransactionQueue/>
               <TransactionProgressModal />
             </div>
           </div>
