@@ -185,6 +185,26 @@ class RegistryService {
       throw new Error('You did not specify an amount')
     }
 
+    this.queue.addNode([
+      {
+        name: 'token.approve',
+        params: [listingHash, amount],
+        status: null,
+        service: 'registry',
+        serviceFn: 'deposit'
+      },
+      {
+        name: 'registry.deposit',
+        params: [listingHash, amount],
+        status: null,
+        service: 'registry',
+        serviceFn: 'deposit'
+      }])
+
+    if (this.queue.getQueueLength() > 2) {
+      return null
+    }
+
     const bigDeposit = big(amount).mul(tenToTheNinth).toString(10)
     let allowed = await (await token.allowance(this.account, this.address)).toString(10)
 
@@ -205,7 +225,7 @@ class RegistryService {
         throw error
       }
     } else {
-      // what you pre-approved is greater than deposit amount
+      // What you pre-approved is greater than deposit amount
       transactionInfo = {
         src: 'approved_deposit_ADT',
         title: 'Deposit ADT'

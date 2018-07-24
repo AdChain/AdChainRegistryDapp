@@ -13,10 +13,15 @@ class TransactionQueue extends Component {
         this.closeModal = this.closeModal.bind(this)
         this.openModal = this.openModal.bind(this)
     }
+    componentWillMount(){
+        this.updateQueueLength()
+    }
 
     render() {
         return (
             <div className="TransactionQueue">
+                <button className='ui button blue'>{this.state.queueLength} txs</button>
+                <br/><br/>
                 <button className='ui button blue' onClick={() => { this.openModal() }}>1. Look at Queue</button>
                 <br />
                 <button className='ui button green' onClick={() => { queue.executeNextInQueue() }}>2. Execute Next</button>
@@ -32,6 +37,14 @@ class TransactionQueue extends Component {
             open: true,
             modal: this.createQueueModal()
         })
+    }
+
+    updateQueueLength(){
+        setInterval(()=>{
+            this.setState({
+                queueLength: queue.getQueueLength()
+            })
+        },1500)
     }
 
     closeModal() {
