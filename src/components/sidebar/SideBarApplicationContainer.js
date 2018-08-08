@@ -67,7 +67,7 @@ class SideBarApplicationContainer extends Component {
   async onFormSubmit (event) {
     event.preventDefault()
 
-    const {domain} = this.state
+    let {domain} = this.state
     const minDeposit = (this.state.minDeposit | 0) // coerce
 
     if (domain.startsWith('www.') || domain.startsWith('http') || domain.startsWith('ww.')) {

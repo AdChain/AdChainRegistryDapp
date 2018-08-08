@@ -10,7 +10,6 @@ import parameterizer from './parameterizer'
 import saltHashVote from '../utils/saltHashVote'
 import { getRegistry } from '../config'
 import { getProvider } from './provider'
-import { ipfsAddObject } from '../services/ipfs'
 import PubSub from 'pubsub-js'
 import { getTxReceiptMined } from '../utils/getTxReceiptMined'
 // import { promisify as pify } from 'bluebird'
@@ -138,14 +137,8 @@ class RegistryService {
       PubSub.publish('TransactionProgressModal.open', transactionInfo)
     }
 
-    // Remove spaces
-    domain = domain.trim()
-
     // Hash as string input
     const hash = `0x${soliditySHA3(['string'], [domain]).toString('hex')}`
-
-    // Add to IPFS
-    data = await ipfsAddObject({ id: domain })
 
     try {
       // Apply listing to registry.

@@ -89,7 +89,7 @@
   margin-top: 10px;
   padding-bottom: 10px;
   overflow: scroll;
-  min-height: 300px;
+  max-height: 350px;
   flex-grow: 2;
 }
 
