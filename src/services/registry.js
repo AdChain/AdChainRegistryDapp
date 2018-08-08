@@ -12,6 +12,7 @@ import { getRegistry } from '../config'
 import { getProvider } from './provider'
 import { ipfsAddObject } from '../services/ipfs'
 import PubSub from 'pubsub-js'
+import { getTxReceiptMined } from '../utils/getTxReceiptMined'
 // import { promisify as pify } from 'bluebird'
 // import { runInThisContext } from 'vm'
 
@@ -148,7 +149,10 @@ class RegistryService {
 
     try {
       // Apply listing to registry.
-      await this.registry.apply(hash, bigDeposit, data)
+      const tx = await this.registry.apply.sendTransaction(hash, bigDeposit, data)
+      window.localStorage.setItem('txHash', tx) // setting tx hash of second transaction
+      await getTxReceiptMined(window.web3, tx)
+
       // This will update the domain table and also update the transaction progress modal.
       PubSub.publish('DomainsTable.fetchNewData', transactionInfo)
     } catch (error) {
@@ -199,7 +203,10 @@ class RegistryService {
     }
 
     try {
-      await this.registry.deposit(listingHash, bigDeposit)
+      const tx = await this.registry.deposit.sendTransaction(listingHash, bigDeposit)
+      window.localStorage.setItem('txHash', tx)
+      await getTxReceiptMined(window.web3, tx)
+
       PubSub.publish('TransactionProgressModal.next', transactionInfo)
     } catch (error) {
       PubSub.publish('TransactionProgressModal.error')
@@ -244,7 +251,10 @@ class RegistryService {
     }
 
     try {
-      await this.registry.challenge(listingHash, data)
+      const tx = await this.registry.challenge.sendTransaction(listingHash, data)
+      window.localStorage.setItem('txHash', tx)
+      await getTxReceiptMined(window.web3, tx)
+
       PubSub.publish('TransactionProgressModal.next', transactionInfo)
     } catch (error) {
       console.error(error)
@@ -374,7 +384,10 @@ class RegistryService {
         title: 'refresh'
       }
       PubSub.publish('TransactionProgressModal.open', transactionInfo)
-      const result = await this.registry.updateStatus(listingHash)
+      const result = await this.registry.updateStatus.sendTransaction(listingHash)
+      window.localStorage.setItem('txHash', result)
+      await getTxReceiptMined(window.web3, result)
+
       PubSub.publish('TransactionProgressModal.next', transactionInfo)
 
       store.dispatch({
@@ -724,7 +737,10 @@ class RegistryService {
           return false
         }
 
-        await this.registry.claimReward(challengeId, salt)
+        const tx = await this.registry.claimReward.sendTransaction(challengeId, salt)
+        window.localStorage.setItem('txHash', tx)
+        await getTxReceiptMined(window.web3, tx)
+
         PubSub.publish('TransactionProgressModal.next', transactionInfo)
 
         store.dispatch({
@@ -889,7 +905,10 @@ class RegistryService {
         src: 'withdraw_listing',
         title: 'Withdraw Listing'
       }
-      await this.registry.exit(listingHash)
+      const tx = await this.registry.exit.sendTransaction(listingHash)
+      window.localStorage.setItem('txHash', tx)
+      await getTxReceiptMined(window.web3, tx)
+
       PubSub.publish('TransactionProgressModal.next', transactionInfo)
     } catch (error) {
       PubSub.publish('TransactionProgressModal.error')
@@ -907,7 +926,10 @@ class RegistryService {
         src: 'withdraw_ADT',
         title: 'Withdraw ADT'
       }
-      await this.registry.withdraw(listingHash, bigWithdrawAmount)
+      const tx = await this.registry.withdraw.sendTransaction(listingHash, bigWithdrawAmount)
+      window.localStorage.setItem('txHash', tx)
+      await getTxReceiptMined(window.web3, tx)
+
       PubSub.publish('TransactionProgressModal.next', transactionInfo)
     } catch (error) {
       PubSub.publish('TransactionProgressModal.error')

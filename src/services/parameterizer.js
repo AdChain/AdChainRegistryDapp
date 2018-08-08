@@ -8,6 +8,7 @@ import moment from 'moment-timezone'
 import saltHashVote from '../utils/saltHashVote'
 import PubSub from 'pubsub-js'
 import { registryApiURL } from '../models/urls'
+import { getTxReceiptMined } from '../utils/getTxReceiptMined'
 
 const big = (number) => new Eth.BN(number.toString(10))
 const tenToTheNinth = big(10).pow(big(9))
@@ -124,7 +125,10 @@ class ParameterizerService {
         PubSub.publish('TransactionProgressModal.open', transactionInfo)
       }
       try {
-        result = await this.parameterizer.proposeReparameterization(name, value)
+        result = await this.parameterizer.proposeReparameterization.sendTransaction(name, value)
+        window.localStorage.setItem('txHash', result)
+        await getTxReceiptMined(window.web3, result)
+
         PubSub.publish('TransactionProgressModal.next', transactionInfo)
       } catch (error) {
         PubSub.publish('TransactionProgressModal.error')
@@ -167,7 +171,10 @@ class ParameterizerService {
       }
 
       try {
-        result = await this.parameterizer.challengeReparameterization(propId)
+        result = await this.parameterizer.challengeReparameterization.sendTransaction(propId)
+        window.localStorage.setItem('txHash', result)
+        await getTxReceiptMined(window.web3, result)
+
         PubSub.publish('TransactionProgressModal.next', transactionInfo)
         // window.location.reload()
       } catch (error) {
@@ -202,7 +209,10 @@ class ParameterizerService {
         src: 'proposal_refresh',
         title: 'Refresh'
       }
-      result = await this.parameterizer.processProposal(propId)
+      result = await this.parameterizer.processProposal.sendTransaction(propId)
+      window.localStorage.setItem('txHash', result)
+      await getTxReceiptMined(window.web3, result)
+
       PubSub.publish('TransactionProgressModal.next', transactionInfo)
       // window.location.reload()
     } catch (error) {
@@ -471,7 +481,10 @@ class ParameterizerService {
           title: 'Claim Governance Reward'
         }
 
-        await this.parameterizer.claimReward(challengeId, salt)
+        const tx = await this.parameterizer.claimReward.sendTransaction(challengeId, salt)
+        window.localStorage.setItem('txHash', tx)
+        await getTxReceiptMined(window.web3, tx)
+
         PubSub.publish('TransactionProgressModal.next', transactionInfo)
 
         resolve()

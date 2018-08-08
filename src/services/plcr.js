@@ -6,6 +6,7 @@ import { getPLCR } from '../config'
 import token from './token'
 import store from '../store'
 import PubSub from 'pubsub-js'
+import { getTxReceiptMined } from '../utils/getTxReceiptMined'
 
 /*
  * PollId = ChallengeId
@@ -134,7 +135,7 @@ class PlcrService {
     })
   }
 
-  async commit ({pollId, hash, tokens}, transactionSrc) {
+  async commit ({ pollId, hash, tokens }, transactionSrc) {
     // added transactionSrc param to differentiate between governance and domain voting
     return new Promise(async (resolve, reject) => {
       if (!pollId) {
@@ -185,6 +186,7 @@ class PlcrService {
         try {
           PubSub.publish('TransactionProgressModal.open', transactionInfo)
           await token.approve(this.address, requiredVotes)
+
           PubSub.publish('TransactionProgressModal.next', transactionInfo)
         } catch (error) {
           PubSub.publish('TransactionProgressModal.error')
@@ -194,7 +196,10 @@ class PlcrService {
 
         // Step 2
         try {
-          await this.plcr.requestVotingRights(requiredVotes)
+          const tx = await this.plcr.requestVotingRights.sendTransaction(requiredVotes)
+          window.localStorage.setItem('txHash', tx)
+          await getTxReceiptMined(window.web3, tx)
+
           PubSub.publish('TransactionProgressModal.next', transactionInfo)
         } catch (error) {
           PubSub.publish('TransactionProgressModal.error')
@@ -202,12 +207,15 @@ class PlcrService {
           return false
         }
       } else if (requiredVotes > 0) {
-          // Step 2: You have already approved token but not requested plcr voting rights
+        // Step 2: You have already approved token but not requested plcr voting rights
         try {
           PubSub.publish('TransactionProgressModal.open', transactionInfo)
           PubSub.publish('TransactionProgressModal.next', transactionInfo)
 
-          await this.plcr.requestVotingRights(requiredVotes)
+          const tx = await this.plcr.requestVotingRights.sendTransaction(requiredVotes)
+          window.localStorage.setItem('txHash', tx)
+          await getTxReceiptMined(window.web3, tx)
+
           PubSub.publish('TransactionProgressModal.next', transactionInfo)
         } catch (error) {
           PubSub.publish('TransactionProgressModal.error')
@@ -226,7 +234,10 @@ class PlcrService {
       try {
         // Step 3
         const prevPollId = await this.plcr.getInsertPointForNumTokens.call(this.getAccount(), tokens, pollId)
-        const result = await this.plcr.commitVote(pollId, hash, tokens, prevPollId)
+        const result = await this.plcr.commitVote.sendTransaction(pollId, hash, tokens, prevPollId)
+        window.localStorage.setItem('txHash', result)
+        await getTxReceiptMined(window.web3, result)
+
         PubSub.publish('TransactionProgressModal.next', transactionInfo)
 
         store.dispatch({
@@ -244,7 +255,7 @@ class PlcrService {
     })
   }
 
-  async reveal ({pollId, voteOption, salt}, transactionSrc) {
+  async reveal ({ pollId, voteOption, salt }, transactionSrc) {
     return new Promise(async (resolve, reject) => {
       try {
         let transactionInfo = {
@@ -252,7 +263,10 @@ class PlcrService {
           title: transactionSrc.title
         }
         PubSub.publish('TransactionProgressModal.open', transactionInfo)
-        const result = await this.plcr.revealVote(pollId, voteOption, salt)
+        const result = await this.plcr.revealVote.sendTransaction(pollId, voteOption, salt)
+        window.localStorage.setItem('txHash', result)
+        await getTxReceiptMined(window.web3, result)
+
         setTimeout(PubSub.publish('TransactionProgressModal.next', transactionInfo), 8e3)
 
         store.dispatch({
@@ -268,8 +282,10 @@ class PlcrService {
     })
   }
 
-  requestVotingRights (tokens) {
-    const result = this.plcr.requestVotingRights(tokens)
+  async requestVotingRights (tokens) {
+    const result = this.plcr.requestVotingRights.sendTransaction(tokens)
+    window.localStorage.setItem('txHash', result)
+    await getTxReceiptMined(window.web3, result)
 
     store.dispatch({
       type: 'PLCR_REQUEST_VOTING_RIGHTS',
@@ -347,8 +363,11 @@ class PlcrService {
 
   async rescueTokens (pollId) {
     try {
-      let res = await this.plcr.rescueTokens(pollId)
-      return res
+      let result = await this.plcr.rescueTokens.sendTransaction(pollId)
+      window.localStorage.setItem('txHash', result)
+      await getTxReceiptMined(window.web3, result)
+
+      return result
     } catch (error) {
       console.log('Rescue tokens error: ', error)
       throw error
@@ -369,7 +388,9 @@ class PlcrService {
   // }
 
   async withdrawVotingRights (tokens) {
-    await this.plcr.withdrawVotingRights(tokens)
+    const tx = await this.plcr.withdrawVotingRights.sendTransaction(tokens)
+    window.localStorage.setItem('txHash', tx)
+    await getTxReceiptMined(window.web3, tx)
 
     store.dispatch({
       type: 'PLCR_WITHDRAW_VOTING_RIGHTS',
