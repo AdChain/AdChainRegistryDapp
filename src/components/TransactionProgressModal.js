@@ -3,7 +3,7 @@ import Button from 'antd/lib/button'
 import Steps from 'antd/lib/steps'
 import 'antd/lib/button/style/css'
 import 'antd/lib/steps/style/css'
-import { Modal, Loader, Icon } from 'semantic-ui-react'
+import { Modal, Loader } from 'semantic-ui-react'
 import './TransactionProgressModal.css'
 import PubSub from 'pubsub-js'
 
@@ -19,7 +19,9 @@ class TransactionProgressModal extends Component {
       status: null,
       stepClass: null,
       transactionComplete: false,
-      closeOnLastTransaction: false
+      closeOnLastTransaction: false,
+      txHash: null,
+      intervalId: 0
     }
 
     this.open = this.open.bind(this)
@@ -53,13 +55,18 @@ class TransactionProgressModal extends Component {
   }
 
   close () {
+    clearInterval(this.state.intervalId)
+    window.localStorage.removeItem('txHash')
+
     this.setState({
       open: false,
       src: '',
       title: '',
       stepClass: null,
       current: 0,
-      closeOnLastTransaction: false
+      closeOnLastTransaction: false,
+      txHash: null,
+      intervalId: 0
     })
   }
 
@@ -67,13 +74,20 @@ class TransactionProgressModal extends Component {
     this.setState({
       src: 'error',
       current: 0,
-      title: 'Transaction Failed!',
+      title: 'Transaction Taking Too Long?',
       transactionComplete: true,
       closeOnLastTransaction: false
     })
   }
 
   open (topic, transactionInfo) {
+    const intervalId = setInterval(() => {
+      const txHash = window.localStorage.getItem('txHash')
+      if (txHash) {
+        this.setState({ txHash })
+      }
+    }, 2e3)
+
     this.setState({
       open: true,
       src: transactionInfo.src,
@@ -81,7 +95,8 @@ class TransactionProgressModal extends Component {
       transactionComplete: false,
       status: null,
       stepClass: null,
-      closeOnLastTransaction: false
+      closeOnLastTransaction: false,
+      intervalId: intervalId
     })
 
     if (this.steps[transactionInfo.src].length === 1) {
@@ -103,7 +118,7 @@ class TransactionProgressModal extends Component {
   }
 
   render () {
-    const { current, open, size, src, status, transactionComplete, title, closeOnLastTransaction } = this.state
+    const { current, open, size, src, status, transactionComplete, title, closeOnLastTransaction, txHash } = this.state
     const Step = Steps.Step
 
     this.steps = {
@@ -537,6 +552,7 @@ class TransactionProgressModal extends Component {
   <div className='transaction-content'>
     <p><b>This is because either:</b></p>
     <ol className='transaction-content-list'>
+      <li className='activeStep'>Your TX will take longer than 3 minutes. Click "VIEW STATUS ON ETHERSCAN" to see estimated time</li>
       <li className='activeStep'>Someone has completed the transaction you are attempting</li>
       <li className='activeStep'>You are attempting to fund an action you don't have enough token to complete</li>
       <li className='activeStep'>You have failed to input data to complete the transaction</li>
@@ -559,7 +575,7 @@ class TransactionProgressModal extends Component {
             {
               transactionComplete
                 ? src === 'error'
-                  ? <Icon name='remove' size='huge' className='ErrorIcon' />
+                  ? <span role='img' aria-label='thinking' className='ErrorIcon'>🤔</span>
                   : null
                 : <Loader indeterminate active inline='centered' />
             }
@@ -598,6 +614,18 @@ class TransactionProgressModal extends Component {
                   transactionComplete
                     ? null
                     : <p>* Please click "SUBMIT" in your MetaMask extension. If a transaction seems stuck, check MetaMask and/or the transaction's Etherscan link for the current status.</p>
+                }
+              </div>
+              <div className='StatusButtonContainer'>
+                <br />
+                {
+                  txHash
+                    ? transactionComplete && src !== 'error'
+                      ? null
+                      : <a rel='noopener noreferrer' target='_blank' href={`https://etherscan.io/tx/${txHash}`}>
+                        <Button className='StatusButton'>View Status on Etherscan</Button>
+                      </a>
+                    : null
                 }
               </div>
               <div className='steps-action'>
