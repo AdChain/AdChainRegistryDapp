@@ -2,6 +2,7 @@ import Eth from 'ethjs'
 import { getProvider } from './provider'
 import { getToken } from '../config'
 import store from '../store'
+import { getTxReceiptMined } from '../utils/getTxReceiptMined'
 
 class TokenService {
   constructor () {
@@ -119,7 +120,9 @@ class TokenService {
       }
 
       try {
-        const result = await this.token.approve(sender, value)
+        const result = await this.token.approve.sendTransaction(sender, value)
+        window.localStorage.setItem('txHash', result) // setting tx hash of first transaction
+        await getTxReceiptMined(window.web3, result)
 
         store.dispatch({
           type: 'TOKEN_APPROVE',

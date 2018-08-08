@@ -90,6 +90,23 @@
   text-transform: uppercase;
 }
 
+.StatusButtonContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  padding-top: 15px;
+}
+
+:root:root:root .StatusButton {
+  background-color: #10C903 !important;
+  border-color: #10C903;
+  color: #FFF !important;
+  box-shadow: unset;
+  text-transform: uppercase;
+  font-weight: 600;
+  height: 25px;
+}
+
 .MetaMaskNote {
   opacity: .4;
   padding-left: 40px;
@@ -103,5 +120,5 @@
 }
 
 :root:root:root .ErrorIcon {
-  color: #CE3434;
+  font-size: 40px;
 }
