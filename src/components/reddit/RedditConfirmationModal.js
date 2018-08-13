@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
-import { Modal, Button, TextArea } from 'semantic-ui-react'
+import { Modal, Button, TextArea, Loader } from 'semantic-ui-react'
 import { withRouter } from 'react-router-dom'
 import PubSub from 'pubsub-js'
+import { ipfsAddObject } from '../../services/ipfs'
 // import toastr from 'toastr'
 
 import { createPostApplication, createPostChallenge } from '../../services/redditActions'
@@ -19,7 +20,9 @@ class RedditConfirmationModal extends Component {
       stake: 0,
       reason: '',
       action: '',
-      error: false
+      error: false,
+      ipfsData: null,
+      ipfsLoading: false
     }
     this.close = this.close.bind(this)
     this.show = this.show.bind(this)
@@ -33,7 +36,7 @@ class RedditConfirmationModal extends Component {
   }
 
   render () {
-    const { open, size, domain, stake, action, error } = this.state
+    const { open, size, domain, stake, action, error, ipfsLoading } = this.state
 
     return (
       <Modal size={size} open={open} closeIcon className='RedditConfirmationModal' onClose={this.close}>
@@ -61,6 +64,9 @@ class RedditConfirmationModal extends Component {
               <Button basic className='CancelButton' onClick={this.close}>Cancel</Button>
               <Button basic className={action === 'apply' ? 'ApplyButton' : 'ChallengeButton'} onClick={this.submit}>{action}</Button>
             </div>
+            <div className='LoadingIconContainer'>
+              {ipfsLoading ? <Loader indeterminate active inline='centered' /> : null}
+            </div>
           </Modal.Content>
         </div>
       </Modal>
@@ -80,7 +86,8 @@ class RedditConfirmationModal extends Component {
       stake: '',
       action: '',
       reason: '',
-      error: false
+      error: false,
+      ipfsLoading: false
     })
   }
 
@@ -92,23 +99,54 @@ class RedditConfirmationModal extends Component {
       action: data.action,
       reason: '',
       error: false,
+      ipfsLoading: false,
       listingHash: data.listingHash
+    })
+
+    if (data.action === 'apply') {
+      this.setIPFS(data.domain)
+    }
+  }
+
+  async setIPFS (domain) {
+    // Remove spaces
+    domain = domain.trim()
+    // Add to IPFS
+    const ipfsData = await ipfsAddObject({ id: domain })
+
+    this.setState({
+      ipfsData
     })
   }
 
   async submit () {
-    const { domain, listingHash, reason, stake, action } = this.state
+    const { domain, listingHash, reason, stake, action, ipfsData } = this.state
 
     if (reason.length < 15) {
       this.setState({
         error: true
       })
       return
+    } else {
+      this.setState({
+        error: false
+      })
     }
+
     try {
       if (action === 'apply') {
-        await registry.apply(domain, stake)
-        await createPostApplication(domain, reason)
+
+        // will display processing message until IPFS returns with hash
+        if (!ipfsData) {
+          this.setState({
+            ipfsLoading: true
+          })
+          setTimeout(this.submit, 500)
+          return
+        } else {
+          await registry.apply(domain, stake, ipfsData)
+          await createPostApplication(domain, reason)
+        }
       } else {
         let data = ''
         await registry.challenge(listingHash, data)
@@ -118,9 +156,6 @@ class RedditConfirmationModal extends Component {
         }
         PubSub.publish('DomainRedditBox.fetchRedditData')
       }
-      // setTimeout(() => {
-      //   window.location.reload()
-      // }, 2e3)
     } catch (error) {
       console.error(error)
       this.close()

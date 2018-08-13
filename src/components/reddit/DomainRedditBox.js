@@ -7,7 +7,7 @@ import PropTypes from 'prop-types'
 
 import registry from '../../services/registry'
 import RedditReasonModal from './RedditReasonModal'
-import { Tab, Button, Input, Loader } from 'semantic-ui-react'
+import { Tab, Button, Loader, TextArea } from 'semantic-ui-react'
 import { getPosts, createComment, createPostApplication } from '../../services/redditActions'
 
 import './DomainRedditBox.css'
@@ -39,12 +39,11 @@ class DomainRedditBox extends Component {
 
     this.handleInputChange = this.handleInputChange.bind(this)
     this.onCommentSubmit = this.onCommentSubmit.bind(this)
+    this.onEnterPress = this.onEnterPress.bind(this)
     this.handleTabChange = this.handleTabChange.bind(this)
     this.fetchRedditData = this.fetchRedditData.bind(this)
     this.redditRefresh = _.debounce(this.redditRefresh.bind(this), 3e3, { 'leading': true, 'trailing': false })
   }
-
-
 
   componentWillMount () {
     this._isMounted = true
@@ -52,13 +51,11 @@ class DomainRedditBox extends Component {
     this.setDomainState(this.props.domainData)
   }
 
-  componentWillUnmount(){
+  componentWillUnmount () {
     this._isMounted = false
   }
 
-
   render () {
-
     const { appliedObj, challengedObj, domain, redditTabIndex, inProgress, redditRefreshInProgress } = this.state
 
     const appliedData = !_.isEmpty(appliedObj) && appliedObj.id && appliedObj.comments.length > 0
@@ -160,16 +157,15 @@ class DomainRedditBox extends Component {
               {appliedData}
             </div>
             <div className='RedditInputContainer'>
-              <form
-                onSubmit={this.onCommentSubmit}>
+              <form>
                 {loadingMessage}
-                <Input
-                  type='text'
+                <TextArea
                   id={!_.isEmpty(appliedObj) ? appliedObj.id : ''}
                   name='appliedComment'
                   placeholder='Comment (press enter to submit)'
                   value={this.state.comment}
                   onChange={this.handleInputChange}
+                  onKeyDown={this.onEnterPress}
                 />
               </form>
             </div>
@@ -200,16 +196,15 @@ class DomainRedditBox extends Component {
                 {challengedData}
               </div>
               <div className='RedditInputContainer'>
-                <form
-                  onSubmit={this.onCommentSubmit}>
+                <form>
                   {loadingMessage}
-                  <Input
-                    type='text'
+                  <TextArea
                     id={!_.isEmpty(challengedObj) ? challengedObj.id : ''}
                     name='challengedComment'
                     placeholder='Message (press enter to submit)'
                     value={this.state.comment}
                     onChange={this.handleInputChange}
+                    onKeyDown={this.onEnterPress}
                   />
                 </form>
               </div>
@@ -327,8 +322,14 @@ class DomainRedditBox extends Component {
     }
   }
 
-  async onCommentSubmit (event) {
-    event.preventDefault()
+  onEnterPress (e) {
+    if (e.keyCode === 13 && e.shiftKey === false) {
+      e.preventDefault()
+      this.onCommentSubmit()
+    }
+  }
+
+  async onCommentSubmit () {
     const { comment, redditTabIndex, domain } = this.state
 
     let redditId = redditTabIndex === 0 ? this.state.redditIdApplied : this.state.redditIdChallenged
@@ -366,7 +367,7 @@ class DomainRedditBox extends Component {
       if (!redditCommentsObj.comments) {
         redditCommentsObj.comments = []
       }
-      console.log(result)
+      // console.log(result)
       redditCommentsObj.comments.push({
         [idx]: {
           author: result.data.user,

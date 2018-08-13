@@ -36,6 +36,15 @@
   padding-top: 5px;
 }
 
+:root:root:root .ui.loader:after {
+  border-color: #000 transparent transparent !important;
+}
+
+.LoadingIconContainer {
+  text-align: center;
+  padding-bottom: 10px;
+}
+
 .PopulatedSpan {
   background-color: #F4F7FA;
   border-radius: 3px;
