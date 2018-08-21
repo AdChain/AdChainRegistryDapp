@@ -158,6 +158,77 @@ input:focus{
   width: 100%;
 }
 
+body,
+html,
+:root:root:root .MainSidebar,
+:root:root:root .AccountDashboardLoadingInProgress{
+  background: #2A273F;
+  background-color: #2A273F;
+}
+:root:root:root:root .MainTopbar,
+:root:root:root:root .BoxFrame,
+:root:root:root .ui.table,
+:root:root:root .ui.table div,
+:root:root:root .BlueDropdown,
+:root:root .ProposalInput{
+  color:#fafafa !important;
+  background-color: #36334A;
+  
+}
+:root:root:root .BoxFrame,
+:root:root:root:root .MainTopbar{
+  box-shadow: 0 2px 10px 0 rgba(17,17,17,0.5);
+}
+:root:root:root:root .MainTopbar .item span, 
+:root:root:root:root .MainTopbar .item a, 
+.JoyrideTopBar.BalanceText.item,
+:root:root:root:root label,
+:root:root:root .BoxFrameLabel,
+:root:root:root .BoxFrame p, 
+.SearchTitle, .ListTitle, 
+:root:root:root .Content div,
+:root:root:root .-pageInfo,
+:root:root:root .-totalPages
+ {
+  color:white !important;
+}
+
+:root:root:root .ui.loader:after {
+  border-color: #fff transparent transparent !important;
+}
+:root:root:root:root:root .f-blue {
+  color: #7e7eff !important;
+}
+:root:root:root:root:root .f-red {
+  color: #CE3434 !important;
+}
+
+:root:root:root .selectdiv:after {
+  color: #7e7eff;
+}
+:root:root input:focus{
+  background-color: #36334A;
+  color: #fafafa;
+}
+
+:root:root:root .ReactTable .-pagination .-pageJump input,
+:root:root:root .VotingTokensAmount,
+:root:root:root .ui.input.action.mini input{
+  color: white;
+  background: #2a273f;
+}
+:root:root:root .ui.blue.button, 
+.ui.blue.buttons .button,
+:root:root .DomainsFilterPanel .Reset a,
+:root:root:root .DomainEmailNotifications .SubscribeButtonContainer button{
+  background-color: #3434CE !important;
+  color:white !important;
+} 
+:root:root:root .ui.green.button, .ui.green.buttons .button {
+  background-color: #10C903;
+  color: white;
+}
+
 :root:root:root:root .bb-none{border-bottom:none !important}
 /*utility margin styles*/
 .mt-25{margin-top:25px;}

@@ -18,10 +18,12 @@ import  MobileApplication  from './components/mobile_nav/MobileApplication';
 
 class App extends Component {
   render () {
+    const ENV = process.env.REACT_APP_SITE_TYPE;
+    console.log("ENV: ", ENV)
     return (
       <Router>
         <Route render={({ location }) => (
-          <div className='App'>
+          <div className={'App '+ ENV}>
             <div className='ui grid stackable'>
               <RegistryWalkthrough />
               <div className={isMobile() ? 'MobileApplicationContainer' :'MainSidebarWrap column four wide'}>
