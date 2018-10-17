@@ -1,0 +1,96 @@
+:root:root:root .DomainStatsbar {
+  position: relative;
+  min-height: 105px;
+  font-size: 16px;
+  font-family: "Open Sans", sans-serif;
+  margin-top: 40px;
+}
+
+:root:root:root .DomainStatsbar .row {
+  margin: 0;
+  padding:0;
+  height: 100px
+}
+
+:root:root:root .DomainStatsbar .input {
+  width: 80px;
+}
+
+:root:root:root .DomainStatsbar .column {
+  position: relative;
+}
+
+:root:root:root .DomainStatsbar .row:nth-child(2) .column:first-child:after {
+  content: '';
+  display: block;
+  position: absolute;
+  top: 0;
+  right: 1em;
+  height: 100%;
+  width: 1px;
+  /*border-right: 1px solid #ddd;*/
+}
+
+:root:root:root .DomainStatsbar .Header {
+  text-transform: uppercase;
+  color: #909090;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 14px;
+  min-height: 13px;
+  font-family: 'Open Sans',sans-serif;
+}
+
+
+:root:root:root .DomainStatsbar .Category ::-webkit-scrollbar {
+  width: 137px;
+  height: 3px;
+  color: #F4F7FA;
+}
+
+
+:root:root:root .DomainStatsbar .Source {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  font-size: 0.7em;
+  color: #999;
+}
+
+:root:root:root .DomainStatsbar .Source a {
+  color: #999;
+}
+
+:root:root:root .DomainStatsbar .Source a:hover {
+  text-decoration: underline;
+}
+
+@media only screen and (max-width: 767px) {
+  :root:root:root .DomainStatsbar .row:nth-child(2) .column:first-child:after {
+    border-right: none;
+  }
+}
+:root:root:root .DomainStatsbar .Category strong{
+  font-size: 12px;
+}
+
+:root:root:root .DomainStatsbar strong {
+  font-weight: bolder;
+  font-size: 14px;
+  text-align: center;
+  display: block;
+}
+
+:root:root:root .DomainStatsbar h4 {
+  text-align: center;
+  padding-top:23px;
+}
+:root:root:root .column.eight.wide:nth-child(even) {
+  border-left:2px solid #f4f7fa;
+}
+:root:root:root .column.eight.wide {
+  border-bottom:2px solid #f4f7fa;
+}
+:root:root:root .column.eight.wide:nth-child(5) {
+  border-bottom:none;
+}

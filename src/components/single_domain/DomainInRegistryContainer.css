@@ -1,0 +1,285 @@
+.DomainInRegistryContainer {
+  position: relative;
+}
+
+.DomainInRegistryContainer .Breakdown {
+  display: flex;
+  max-width: 200px;
+  margin: 0 auto;
+  padding-top: 0.6em;
+}
+
+.DomainInRegistryContainer .BreakdownItem {
+  display: inline-flex;
+  width: 50%;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.DomainInRegistryContainer .BreakdownItem:nth-child(2):after {
+  content: '';
+  display: block;
+  position: absolute;
+  left: -1px;
+  top: 0;
+  width: 1px;
+  height: 100%;
+  background: #ddd;
+}
+
+.DomainInRegistryContainer .BreakdownItemBox {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  background: #4585c7;
+  margin-right: 0.5em;
+}
+
+.DomainInRegistryContainer .BreakdownItem:nth-child(2) .BreakdownItemBox {
+  background: #633e80;
+}
+
+.DomainInRegistryContainer .BreakdownItemLabel {
+  color: #4585c7;
+  font-size: 0.8em;
+  font-weight: bold;
+}
+
+.DomainInRegistryContainer .BreakdownItem:nth-child(2) .BreakdownItemLabel {
+  color: #633e80;
+}
+
+.DomainInRegistryContainer .DomainChallengeFormContainer {
+  position: relative;
+}
+
+.DomainInRegistryContainer .header {
+  display: inline-block;
+}
+
+:root:root:root .DomainInRegistryContainer .refresh {
+  float: right;
+  border: 1px solid #3434CE;
+  border-radius: 3px;
+  color: #3434CE !important;
+  font-family: "Open Sans", sans-serif;
+  font-size: 9.5px;
+  font-weight: bold;
+  line-height: 11px;
+  text-transform: uppercase;
+  box-shadow: unset;
+}
+
+.DomainInRegistryContainer .HeaderColumn {
+  padding-bottom: 0px !important;
+}
+
+.DomainInRegistryContainer .HeaderRow {
+  padding-top: 10px;
+}
+
+
+:root:root:root .DomainInRegistryContainer .LeftSegment {
+  width: 48%;
+  margin-right: 0 !important;
+  display: flex;
+  flex-direction: column;
+  font-size: 12px;
+  line-height: 17px;
+  min-height: 210px;
+  padding-left: 14px;
+  position: relative;
+  border: 2px solid #F4F7FA;
+  box-shadow: unset;
+  border-radius: 3px;
+}
+
+:root:root:root .DomainInRegistryContainer .LeftSegment .RemoveInfo {
+  padding-top: 10px;
+  font-size: 11px;
+}
+
+
+:root:root:root .DomainInRegistryContainer .RightSegment {
+  width: 48%;
+  margin-top: 0;
+  display: flex;
+  flex-direction: column;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  font-size: 10px;
+  min-height: 210px;
+  position: relative;
+  border: 2px solid #F4F7FA;
+  box-shadow: unset;
+  border-radius: 3px;
+  font-family: 'Open Sans', sans-serif;
+}
+
+.TopOffRow {
+  display: inline-block;
+  width: 100%;
+  padding-bottom: 5px;
+}
+
+:root:root:root .CurrentDepositLabel,
+:root:root:root .StakedDifferenceLabel {
+  text-align: left;
+  padding-bottom: 5px;
+  padding-top: 5px;
+  float: left;
+}
+
+:root:root:root .CurrentDeposit {
+  background-color: #F4F7FA;
+  text-align: right;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  border-radius: 3px;
+  float: right;
+  width: 35%;
+  padding-right: 5px;
+}
+
+:root:root:root .StakedDifferenceNegative {
+  background-color: #CE3434;
+  color: #FFF;
+}
+:root:root:root .StakedDifferencePositive {
+  background-color: #10C903;
+  color: #FFF;
+}
+:root:root:root .StakedDifferenceZero {
+  background-color: #F4F7FA;
+  color: #000;
+}
+
+.StakedDifferenceNegative,
+.StakedDifferencePositive,
+.StakedDifferenceZero {
+  text-align: right;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  border-radius: 3px;
+  float: right;
+  width: 35%;
+  padding-right: 5px;
+}
+
+:root:root:root .DomainInRegistryContainer .RemoveButtonContainer {
+  display: flex;
+  margin: 0 auto;
+  margin-top: auto;
+}
+
+:root:root:root .DomainInRegistryContainer .RemoveButton,
+:root:root:root .DomainInRegistryContainer .WithdrawButton {
+	border: 1px solid #CE3434;
+	border-radius: 3px;
+  color: #CE3434 !important;
+  font-family: "Open Sans", sans-serif;
+  font-size: 9.5px;
+  font-weight: bold;
+  line-height: 9px;
+  text-align: center;
+  text-transform: uppercase;
+  box-shadow: unset;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+:root:root:root .DomainInRegistryContainer .TopOffButton {
+  border: 1px solid #10C903;
+  border-radius: 3px;
+  color: #10C903 !important;
+  font-family: "Open Sans", sans-serif;
+  font-size: 9.5px;
+  font-weight: bold;
+  line-height: 9px;
+  text-align: center;
+  text-transform: uppercase;
+  box-shadow: unset;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+.TopOffLabel {
+  font-weight: bold;
+  padding-top: 20px;
+  padding-bottom: 10px;
+  padding-left: 20px;
+  text-align: left;
+}
+
+.ADTInputContainer {
+  text-align: left;
+  padding-left: 20px;
+
+}
+
+
+:root:root:root .DomainInRegistryContainer .RemoveButton:hover,
+:root:root:root .DomainInRegistryContainer .WithdrawButton:hover {
+  background-color: #CE3434 !important;
+  color: #FFF !important;
+}
+
+:root:root:root .DomainInRegistryContainer .TopOffButton:hover {
+  background-color: #10C903 !important;
+  color: #FFF !important;
+}
+
+:root:root:root .DomainInRegistryContainer .ADTInput {
+  width: 80%;
+}
+
+:root:root:root .DomainInRegistryContainer .ADTInput input{
+  border-top: none;
+  border-right: none;
+  border-left: none;
+  border-bottom: 1px solid;
+  border-bottom-color: rgba(34, 36, 38, 0.15);
+  border-radius: 0;
+  padding-top: none;
+  padding-right: 0px;
+  padding-left: 0px;
+  padding-bottom: 4px;
+}
+
+:root:root:root .DomainInRegistryContainer .ADTInput input::-webkit-input-placeholder {
+  text-align: right;
+  color: #000;
+  font-family: 'Open Sans', sans-serif;
+  opacity: .5;
+}
+:root:root:root .DomainInRegistryContainer .ADTInput input:-moz-placeholder { /* Firefox 18- */
+  text-align: right;
+  color: #000;
+  font-family: 'Open Sans', sans-serif;
+}
+:root:root:root .DomainInRegistryContainer .ADTInput input::-moz-placeholder {  /* Firefox 19+ */
+  text-align: right;
+  color: #000;
+  font-family: 'Open Sans', sans-serif;
+}
+:root:root:root .DomainInRegistryContainer .ADTInput input:-ms-input-placeholder {
+  text-align: right;
+  color: #000;
+  font-family: 'Open Sans', sans-serif;
+}
+
+.DomainInRegistryContainer .ui.divider {
+    border: 1px solid #F4F7FA !important;
+    width: 94% !important;
+    margin-top: 5px;
+    margin-bottom: 20px;
+}
+
+.DepositWithdrawButtonRow {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  margin-top: auto;
+}

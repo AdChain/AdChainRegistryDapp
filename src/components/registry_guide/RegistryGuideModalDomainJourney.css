@@ -1,0 +1,8 @@
+.joyride {
+  z-index: 5000 !important;
+}
+
+.RegistryGuideModalDomainJourney .GuideText object {
+  width: 50%;
+  height: auto;
+}

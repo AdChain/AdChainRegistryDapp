@@ -1,0 +1,228 @@
+.DomainVoteRevealContainer {
+  position: relative;
+}
+
+.DomainVoteRevealContainer .header {
+  display: inline-block;
+}
+
+:root:root:root .DomainVoteRevealContainer .refresh {
+  display: inline-block;
+  float: right;
+  border: 1px solid #3434CE;
+  border-radius: 3px;
+  color: #3434CE !important;
+  font-family: "Open Sans", sans-serif;
+  font-size: 9.5px;
+  font-weight: bold;
+  line-height: 11px;
+  text-transform: uppercase;
+}
+
+.DomainVoteRevealContainer .HeaderColumn {
+  padding-bottom: 0px !important;
+}
+
+.DomainVoteRevealContainer .HeaderRow {
+  padding-top: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+
+:root:root:root .DomainVoteRevealContainer .LeftSegment {
+  width: 48%;
+  margin-right: 0 !important;
+  display: flex;
+  flex-direction: column;
+  font-size: 10px;
+  height: 100%;
+  padding-left: 14px;
+  line-height: 1.3em;
+  align-items: center;
+  justify-content: space-between;
+}
+
+:root:root:root .DomainVoteRevealContainer .RightSegment {
+  width: 48%;
+  margin-top: 0;
+  display: flex;
+  flex-direction: column;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  font-size: 10px;
+  line-height: 1.3em;
+  height: 100%;
+}
+
+.DomainVoteRevealContainer .NumberCircleContainer {
+  position: absolute;
+  margin-top: 5.5em;
+  display: block;
+}
+
+.DomainVoteRevealContainer .NumberCircle {
+  border-radius: 10px;
+  display: inline-block;
+  float: left;
+  font-size: 8px;
+  color: #F4F7FA;
+  font-weight: bold;
+  line-height: 13px;
+  font-family: 'Open Sans', sans-serif;
+  text-align:center;
+  border: 1px solid #BEC0C2;
+  padding: 2px;
+  background: #BEC0C2 content-box;
+  width: 21px;
+  height: 21px;
+}
+
+:root:root:root .DomainVoteRevealContainer .UploadCommitButton {
+  color: #3434CE !important;
+  font-family: "Open Sans", sans-serif;
+  font-size: 9.5px;
+  font-weight: bold;
+  border-radius: 3px;
+  border: 1px solid #3434CE;
+  text-transform: uppercase;
+  box-shadow: unset;
+}
+
+:root:root:root .DomainVoteRevealContainer .UploadCommitButtonContainer {
+  display: flex;
+  align-self: center;
+  padding-bottom: 15%;
+}
+
+:root:root:root .DomainVoteRevealContainer .UploadCommitButton .icon{
+  margin-right: 0 !important;
+  font-weight: 600;
+}
+
+:root:root:root .DomainVoteRevealContainer .VoteRevealLabelText {
+  padding-right: 1em;
+}
+
+:root:root:root .DomainVoteRevealContainer .VoteRevealInput input,
+:root:root:root .DomainVoteRevealContainer .VoteRevealDropdown {
+  border-top: none;
+  border-right: none;
+  border-left: none;
+  border-radius: 0;
+  border-bottom: 1px solid;
+  width: 9em !important
+}
+
+:root:root:root .DomainVoteRevealContainer .VoteRevealDropdown {
+  min-width: 9em;
+}
+
+:root:root:root .DomainVoteRevealContainer .VoteRevealLabel {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+:root:root:root .DomainVoteRevealContainer .SubmitVoteButton {
+  border-radius: 3px;
+  background-color: #10C903 !important;
+  font-family: "Open Sans", sans-serif;
+  font-size: 9.5px;
+  font-weight: bold;
+  text-align: center;
+  text-transform: uppercase;
+  color: #FFFFFF !important;
+  box-shadow: unset;
+}
+
+:root:root:root .DomainVoteRevealContainer .SubmitVoteButtonContainer {
+  width: 100%;
+  display: flex;
+  text-align: center;
+  margin-top: 10px;
+  margin-bottom: 5px;
+  justify-content: center;
+}
+/*
+  Proposal Modal Style Overrides
+*/
+:root:root:root .ProposalChallengeContainer .SegmentOne p, 
+:root:root:root .ProposalChallengeContainer .SegmentTwo p, 
+:root:root:root .ProposalChallengeContainer .SegmentThree p {
+    color: #424242;
+    font-family: "Open Sans", sans-serif;
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+:root:root:root  p,
+:root:root:root .ui.large.header{
+  font-family: "Open Sans", sans-serif !important;
+  color:rgb(66, 66, 66);
+}
+
+:root:root:root .DomainVoteRevealContainer .RevealActionRow {
+  height: 75%;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+}
+
+:root:root:root .DidRevealContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.DomainVoteRevealContainer .RevealedDataContainer {
+  border: 2px solid #F4F7FA;
+  border-radius: 3px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 0 auto;
+  align-items: center;
+  font-family: 'Open Sans', sans-serif;
+}
+
+.DomainVoteRevealContainer .RevealedVoteOption {
+  display: flex;
+  align-items: baseline;
+  margin-bottom: 10px;
+  margin-top: 10px;
+}
+
+.DomainVoteRevealContainer .RevealedVoteOption span {
+  text-transform: uppercase;
+  padding: 5px;
+  font-weight: 600;
+  margin-right: 5px;
+  margin-left: 5px;
+  background-color: #F4F7FA;
+  border-radius: 3px;
+}
+.DomainVoteRevealContainer .RevealedVoteOption span.support {
+  color: #10C903;
+}
+
+.DomainVoteRevealContainer .RevealedVoteOption span.oppose {
+  color: #CE3434;
+}
+
+.DomainVoteRevealContainer .RevealedAmount {
+  border-radius: 3px;
+  background-color: #F4F7FA;
+  margin-bottom: 10px;
+  padding-left: 15px;
+  padding-right: 15px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  font-weight: 600;
+}
+
+:root:root:root .GovernanceVoteRevealContainer .HeaderRow span {
+  background-color: #F4F7FA;
+  border-radius: 3px;
+  padding: 10px 20px;
+  font-weight: 600;
+}

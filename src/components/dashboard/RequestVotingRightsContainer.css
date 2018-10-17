@@ -1,0 +1,30 @@
+.RequestVotingRightsContainer {
+  position: relative;
+}
+
+:root:root .RequestVotingRightsContainer input {
+  max-width: 70px;
+}
+
+:root:root .VotingRights input:focus {
+  max-width: 70px;
+  border-color: #3434CE !important;
+  border-right-style: none;
+}
+
+:root:root .RequestVotingRightsContainer .VotingRights {
+  padding-top: 0;
+}
+
+:root:root .RequestVotingRightsContainer .VotingRightsText {
+  padding-bottom: 1em;
+}
+.RequestVotingRightsContainerInput {
+  max-width: 90px !important;
+}
+
+:root:root:root .VotingRights {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}

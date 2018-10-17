@@ -1,0 +1,14 @@
+.RefreshInProgressContainer {
+  background: rgba(255,255,255,0.9);
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2em;
+  overflow-y: auto;
+  z-index: 105;
+}

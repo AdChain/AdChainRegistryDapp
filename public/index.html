@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<script>
+    // Redirect https
+    var url = window.location.href.replace(/http:\/\/publisher\.adchain\.com/gi, 'https://publisher.adchain.com');
+    if (url !== window.location.href) {
+      window.location.href = url;
+    };
+  </script>
+
+  <script>
+    // If page takes too long, warn user and refresh.
+    (function () {
+      setTimeout(() => {
+        try {
+          let stillLoading = document.getElementById("LoadingPage")
+          if (stillLoading) {
+            let r = confirm("Please Make sure your MetaMask Extension is loaded properly and refresh page.")
+            if (r) {
+              window.location.reload()
+            }
+          }
+        } catch (error) {
+          console.log(error)
+        }
+      }, 35000)
+    }())
+  </script>
+
+  <meta charset="UTF-8">
+  <meta name="description" content="adChain Publisher Registry - MetaX">
+  <meta name="author" content="MetaX">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="theme-color" content="#000000">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+  <!--
+      manifest.json provides metadata used when your web app is added to the
+      homescreen on Android. See https://developers.google.com/web/fundamentals/engage-and-retain/web-app-manifest/
+    -->
+
+  <link rel="manifest" href="%PUBLIC_URL%/manifest.json">
+  <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
+  <link type="text/css" rel="stylesheet" href="%PUBLIC_URL%/vendor/semantic.min.css">
+  <link type="text/css" rel="stylesheet" href="%PUBLIC_URL%/vendor/toastr.css">
+  <link type="text/css" rel="stylesheet" href="%PUBLIC_URL%/style.css">
+
+  <!-- Google Tag Manager -->
+  <script>(function (w, d, s, l, i) {
+        w[l] = w[l] || []; w[l].push({
+          'gtm.start':
+            new Date().getTime(), event: 'gtm.js'
+        }); var f = d.getElementsByTagName(s)[0],
+          j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+            'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+      })(window, document, 'script', 'dataLayer', 'GTM-KHXQSKX');</script>
+  <!-- End Google Tag Manager -->
+
+  <!--
+      Notice the use of %PUBLIC_URL% in the tags above.
+      It will be replaced with the URL of the `public` folder during the build.
+      Only files inside the `public` folder can be referenced from the HTML.
+
+      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
+      work correctly both with client-side routing and a non-root public URL.
+      Learn how to configure a non-root public URL by running `npm run build`.
+    -->
+  <title>adChain Registry</title>
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-90917761-9"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'UA-90917761-9');
+  </script>
+</head>
+
+<body>
+  <!-- moved google translate element to mainsidebar component -->
+  <!-- <div id="google_translate_element"></div> -->
+  <!-- <script type="text/javascript">
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement({ pageLanguage: 'en', layout: google.translate.TranslateElement.InlineLayout.SIMPLE }, 'google_translate_element');
+    }
+  </script> -->
+  <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+  <noscript>
+    You need to enable JavaScript to run this app.
+  </noscript>
+  <!-- Google Tag Manager (noscript) -->
+  <noscript>
+    <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KHXQSKX" height="0" width="0" style="display:none;visibility:hidden"></iframe>
+  </noscript>
+  <!-- End Google Tag Manager (noscript) -->
+  <div id="root">
+    <div class='intro-page' id="LoadingPage">
+      <div class="metax-img">
+        <img height="240" style='padding:10px' src='/assets/MetaX_Loading_Logo.png' />
+      </div>
+      <div class="ui active inline loader RootLoader">
+        <br/>
+        <div style="color:white;margin-top:25px; text-align:center">Loading</div>
+      </div>
+      <div class='intro-adchain'>
+        <img height="90" src='/assets/adChain_Publisher_Registry_Logo.png' />
+      </div>
+    </div>
+
+  </div>
+  <!-- AIRSWAP CDN -->
+  <script type="text/javascript" src="https://cdn.airswap.io/gallery/airswap-trader.js"></script>
+
+  <script type="text/javascript" rc="%PUBLIC_URL%/vendor/web3-1.0.min.js"></script>
+
+  <script type="text/javascript" src="%PUBLIC_URL%/vendor/fab.min.js"></script>
+  <!-- Start of metax Zendesk Widget script -->
+  <script>/*<![CDATA[*/window.zE || (function (e, t, s) { var n = window.zE = window.zEmbed = function () { n._.push(arguments) }, a = n.s = e.createElement(t), r = e.getElementsByTagName(t)[0]; n.set = function (e) { n.set._.push(e) }, n._ = [], n.set._ = [], a.async = true, a.setAttribute("charset", "utf-8"), a.src = "https://static.zdassets.com/ekr/asset_composer.js?key=" + s, n.t = +new Date, a.type = "text/javascript", r.parentNode.insertBefore(a, r) })(document, "script", "3bba1377-a505-401b-8f14-ed05e178617e");/*]]>*/</script>
+  <!-- End of metax Zendesk Widget script -->
+</body>
+
+
+</html>

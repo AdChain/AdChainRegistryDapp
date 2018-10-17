@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="557px" height="77px" viewBox="0 0 557 77" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 50.2 (55047) - http://www.bohemiancoding.com/sketch -->
+    <title>map_in_registry_no_id_reveal</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="map_in_registry_no_id_reveal" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <path d="M198.499233,19 L361.500585,19" id="Line-2" stroke="#3434CE" stroke-width="2" stroke-linecap="square"></path>
+        <polyline id="Path-3-Copy" stroke="#3434CE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" transform="translate(280.000000, 19.000000) rotate(-270.000000) translate(-280.000000, -19.000000) " points="276 21 280.018906 17 284 21"></polyline>
+        <path d="M37.8688234,19.0791446 L37.8688234,47 C37.8688234,52.5228475 42.3459759,57 47.8688234,57 L361,57" id="Path-2" stroke="#F4F7FA" stroke-width="2"></path>
+        <path d="M38,19 L199.500774,19" id="Line-2" stroke="#F4F7FA" stroke-width="2" stroke-linecap="square"></path>
+        <path d="M360.499228,19 L522.500473,19" id="Line-2" stroke="#F4F7FA" stroke-width="2" stroke-linecap="square"></path>
+        <path d="M199.123005,19 L360.811739,57.5477831" id="Line-2" stroke="#3434CE" stroke-width="2" stroke-linecap="square"></path>
+        <text id="challenged" transform="translate(272.985169, 43.994465) rotate(13.000000) translate(-272.985169, -43.994465) " font-family="Open Sans, sans-serif" font-size="10" font-style="italic" font-weight="300" fill="#CE3434">
+            <tspan x="250.316712" y="47.9944647">challenged</tspan>
+        </text>
+        <path d="M361,19 L361,58" id="Line-2" stroke="#F4F7FA" stroke-width="2" stroke-linecap="square"></path>
+        <path d="M361.499224,57 L522.504253,57" id="Line-2" stroke="#F4F7FA" stroke-width="2" stroke-linecap="square" stroke-dasharray="1,5"></path>
+        <circle id="Oval" fill="#3434CE" cx="38" cy="19" r="5"></circle>
+        <circle id="Oval-Copy" fill="#3434CE" cx="199" cy="19" r="5"></circle>
+        <circle id="Oval-Copy-2" fill="#3434CE" cx="361" cy="19" r="5"></circle>
+        <circle id="Oval-Copy-2" fill="#10C903" cx="361" cy="57" r="5"></circle>
+        <circle id="Oval-Copy-3" stroke="#F4F7FA" stroke-width="2" fill="#FFFFFF" cx="523" cy="19" r="5"></circle>
+        <circle id="Oval-Copy-3" stroke="#F4F7FA" stroke-width="2" fill="#FFFFFF" cx="523" cy="57" r="5"></circle>
+        <text id="IN-APPLICATION" font-family="Open Sans, sans-serif" font-size="10" font-weight="500" fill="#3434CE">
+            <tspan x="-0.267089844" y="8">IN APPLICATION</tspan>
+        </text>
+        <text id="VOTING-COMMIT" font-family="Open Sans, sans-serif" font-size="10" font-weight="500" fill="#3434CE">
+            <tspan x="158.862793" y="8">VOTING COMMIT</tspan>
+        </text>
+        <text id="VOTING-REVEAL" font-family="Open Sans, sans-serif" font-size="10" font-weight="500" fill="#3434CE">
+            <tspan x="323.04834" y="8">VOTING REVEAL</tspan>
+        </text>
+        <text id="IN-REGISTRY" font-family="Open Sans, sans-serif" font-size="10" font-weight="500" fill="#10C903">
+            <tspan x="331.383301" y="76">IN REGISTRY</tspan>
+        </text>
+        <text id="WITHDRAWN" font-family="Open Sans, sans-serif" font-size="10" font-weight="normal" fill="#424242">
+            <tspan x="492.423828" y="76">WITHDRAWN</tspan>
+        </text>
+        <text id="REJECTED" font-family="Open Sans, sans-serif" font-size="10" font-weight="normal" fill="#424242">
+            <tspan x="500.365723" y="8">REJECTED</tspan>
+        </text>
+        <polyline id="Path-3-Copy" stroke="#3434CE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" transform="translate(280.000000, 38.000000) rotate(-79.000000) translate(-280.000000, -38.000000) " points="276 40 280.018906 36 284 40"></polyline>
+        <polyline id="Path-5" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" points="359 57.618525 360.872834 59.59943 363.490959 55"></polyline>
+        <circle id="Oval-Copy-2" stroke="#3434CE" cx="361" cy="19" r="7"></circle>
+    </g>
+</svg>

@@ -1,0 +1,227 @@
+:root:root:root .RegistryGuideModal {
+  border-radius: 10px !important;
+}
+
+:root:root:root .RegistryGuideModal .content {
+  padding-top: 0;
+}
+
+.RegistryGuideModalHeader {
+  text-align: center;
+  padding-top: 2em;
+}
+.RegistryGuideModalHeaderText {
+  font-family: "Open Sans", Sans-Serif;
+  text-transform: uppercase;
+  border-bottom: 2px solid #3434CE;
+  font-size: 16px;	
+  font-weight: bold;	
+  line-height: 22px;
+}
+
+:root:root .GuideButtons {
+  border: 1px solid #3434CE;	
+  border-radius: 3px;
+  color: #3434CE !important;
+  font-family: 'Open Sans', sans-serif;
+  width: 60%;
+  font-weight: bold;
+  font-size: 12px;
+  box-shadow: unset;
+}
+
+:root:root .GuideButtons:hover {
+  border: 1px solid #3434CE;	
+  border-radius: 3px;
+  color: #FFF !important;
+  background-color: #3434CE !important;
+  font-family: 'Open Sans', sans-serif;
+  width: 60%;
+  font-weight: bold;
+  font-size: 12px;
+  box-shadow: 0 2px 10px 0 rgba(63,63,63,0.5);
+}
+
+
+.GuideButtonsContainer {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: center;
+}
+
+.GuideText {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 12px;
+  line-height: 14px;
+  color: #424242;
+  text-align: center;
+  padding-bottom: 20px;
+  padding-top: 20px;
+}
+
+.GuideText a {
+  color: #424242;
+  text-decoration: underline;
+}
+
+.GuideText a:hover {
+  color: #3434CE;
+  text-decoration: underline;
+}
+
+.GuideText label {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 12px !important;
+  line-height: 12px;
+  padding-left: 17px !important;
+}
+
+.GuideText label:before {
+  width: 12px !important;
+  height: 12px !important;
+}
+
+.GuideText label:after {
+  width: 12px !important;
+  height: 12px !important;
+  font-size: 10px !important;
+}
+
+.RegistryGuideModalHeader.header  {
+  padding-bottom: 0 !important;
+}
+
+:root:root .ReturnButton {
+  border: 1px solid #3434CE;
+  border-radius: 3px;
+  color: #3434CE !important;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: bold;
+  font-size: 10px;
+  line-height: 11px;
+  box-shadow: unset;
+  text-transform: uppercase;
+  margin-right: 20px;
+}
+
+:root:root .ExitButton {
+  border: 1px solid #CE3434;
+  border-radius: 3px;
+  color: #CE3434 !important;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: bold;
+  font-size: 10px;
+  line-height: 11px;
+  box-shadow: unset;
+  text-transform: uppercase;
+  margin-left: 20px;
+}
+
+:root:root .ContinueButton {
+  border: 1px solid #10C903;
+  border-radius: 3px;
+  color: #10C903 !important;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: bold;
+  font-size: 10px;
+  line-height: 11px;
+  box-shadow: unset;
+  text-transform: uppercase;
+  margin-left: 20px;
+}
+
+:root:root .ReturnButton:hover {
+  background-color: #3434CE !important;
+  color: #FFF !important;
+  box-shadow: unset;
+}
+
+:root:root .ExitButton:hover {
+  background-color: #CE3434 !important;
+  color: #FFF !important;
+  box-shadow: unset;
+}
+
+:root:root .ContinueButton:hover {
+  background-color: #10C903 !important;
+  color: #FFF !important;
+  box-shadow: unset;
+}
+
+:root:root .ContinueButton:focus {
+  box-shadow: unset;
+  color: #10C903 !important;
+}
+
+.GuideDesc {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 12px;
+  line-height: 18px;
+  color: #424242;
+  text-align: left;
+  padding-top: 20px;
+  padding-left: 50px;
+  padding-right: 50px;
+}
+
+:root:root .joyride-tooltip__button--primary {
+  background-color: #3434CE !important;
+  color: #FFF !important;
+  font-size: 14px;
+  border-radius: .28571429rem;
+  border: 1px solid #FFF;
+  text-transform: uppercase;
+}
+
+:root:root .joyride-tooltip__button--primary:hover {
+  background-color: #FFF !important;
+  color: #3434CE !important;
+  font-weight: 600;
+  box-shadow: 2px 2px 4px #2625A4;
+}
+
+:root:root .joyride-tooltip__button--secondary {
+  background-color: #3434CE !important;
+  color: #FFF !important;
+  text-transform: uppercase;
+  opacity: .5;
+  font-size: 14px;
+}
+:root:root .joyride-tooltip__button--secondary:hover {
+  text-decoration: underline;
+  opacity: 1;
+}
+
+:root:root .joyride-tooltip {
+  background-color: #3434CE !important;
+  color: #FFF !important;
+  font-family: 'Open Sans', sans-serif !important;
+}
+
+:root:root .joyride-tooltip.right .joyride-tooltip__triangle {
+  color: #3434CE !important;
+}
+
+:root:root .joyride-tooltip__header {
+  font-weight: 600;
+  font-size: 20px;
+  color: #FFF !important;
+  border-style: none !important;
+}
+
+:root:root .joyride-tooltip__main {
+  font-size: 14px;
+  font-weight: 600;
+  color: #FFF;
+  padding: 20px;
+}
+
+:root:root .joyride-tooltip__main span {
+  position: absolute;
+  top: 50px;
+  left: 5%;
+  text-transform: uppercase;
+  font-weight: 600;
+  font-size: 12px;
+  opacity: .5;
+}

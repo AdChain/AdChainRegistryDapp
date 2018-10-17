@@ -1,0 +1,119 @@
+.AccountDashboard {
+  width: 100%;
+  font-family: "Open Sans", sans-serif !important;
+}
+
+.UserAppliedDomainsContainer {
+  width: 22% !important;
+}
+.UserChallengedDomainsContainer {
+  width: 22% !important;
+}
+.UserCommitsToRevealContainer {
+  width: 22% !important;
+}
+.UserRewardsToClaimContainer {
+  width: 34% !important;
+}
+
+.AccountDashboard > .grid > .row:first-child,
+:root:root:root .AccountDashboard .NoPaddingBottom {
+  padding-bottom: 0;
+}
+
+:root:root:root .AccountDashboard .NoPaddingRight {
+  padding-right: 0;
+}
+
+.AccountDashboard > .grid > .row:first-child {
+  padding-bottom: 0;
+}
+
+.AccountDashboard > .grid > .row > .column:not(.sixteen):first-child {
+  padding-right: 0;
+}
+
+.DashboardColumn {
+  font-family: "Open Sans", sans-serif;
+  min-height: 100%;
+  max-height: 500px;
+  overflow: scroll;
+}
+
+.DashboardColumn table {
+  width: 100%;
+}
+
+.DashboardColumn table td {
+  word-break: break-all;
+}
+
+.DashboardTitle {
+  text-align: left;
+  font-size: 14px;
+}
+.DashboardRow:last-of-type{
+  border:none;
+}
+.DashboardFirstCell {
+  /* padding-right: 2em; */
+  font-weight: 600;
+  max-width: 150px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.DashboardSecondCell {
+  text-align: left;
+}
+
+.DashboardRow {
+  height: 3em;
+  border-bottom: 1px solid #F4F7FA;
+  font-size: 12px;
+}
+.AccountDashboard .ui.input.action.mini{
+  max-height: 26px !important;
+}
+
+.NoDataMessage {
+  color: #909090;
+  font-family: "Open Sans", sans-serif;
+  font-size: 12px;
+  line-height: 18px;
+  text-align: center;
+  padding-top: 180px;
+  min-height: 500px;
+  display: flex;
+  max-height: 500px;
+  align-items: flex-start;
+}
+
+:root:root:root .DashboardTable {
+  border-style: none;
+}
+:root:root:root .DashboardTable thead th {
+  background-color: #FFF;
+  padding-top: 0px;
+  border-bottom: none;
+}
+
+:root:root:root .VotingUtilitiesRow {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+
+:root:root:root .ExpiredVotingAdtContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+@media only screen and (max-width: 1280px) {
+  .DashboardRow {
+   font-size: 10px;
+  }
+}

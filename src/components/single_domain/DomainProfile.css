@@ -1,0 +1,50 @@
+.DomainProfile {
+  width: 100%;
+}
+
+.DomainProfile > .grid > .row:first-child {
+  padding-bottom: 0;
+}
+
+.DomainProfile > .grid > .row > .column:first-child,
+.DomainProfile > .grid > .row > .column:nth-child(2) {
+  padding-right: 0;
+}
+
+.NeverAppliedContainer .HeaderRow {
+  text-align: center;
+}
+.TabList{
+  display: inline-flex;
+    list-style-type: none;
+    border-bottom: 2px solid #f4f7fa;
+    width: 100%;
+    padding: 10px;
+}
+.TabContainer{
+  border-radius:5px;
+  background: #fff;
+}
+.TabList li{
+  padding:0 12px;
+  color: #a5a5a5;
+  font-size: 15px;
+  text-transform: uppercase;
+}
+.TabList li:hover{
+  cursor:pointer;
+}
+.DomainHistoryTableContainer{
+  max-height: 534px;
+  overflow: scroll;
+}
+.DomainHistoryTable td{
+  padding: 9px 0;
+  border-bottom: 2px solid #f4f7fa;
+
+}
+.ActiveTab{
+  color: #3434ce;
+  border-bottom: 2px solid #3434ce;
+  padding-bottom: 13px;
+}

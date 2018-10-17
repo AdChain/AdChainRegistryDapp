@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="557px" height="77px" viewBox="0 0 557 77" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 50.2 (55047) - http://www.bohemiancoding.com/sketch -->
+    <title>map_registry_challenge_id_reveal_pending</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="map_registry_challenge_id_reveal_pending" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <path d="M198.499233,19 L361.500585,19" id="Line-2" stroke="#3434CE" stroke-width="2" stroke-linecap="square"></path>
+        <polyline id="Path-3-Copy" stroke="#3434CE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" transform="translate(280.000000, 19.000000) rotate(-270.000000) translate(-280.000000, -19.000000) " points="276 21 280.018906 17 284 21"></polyline>
+        <path d="M37.8688234,19.0791446 L37.8688234,47 C37.8688234,52.5228475 42.3459759,57 47.8688234,57 L361,57" id="Path-2" stroke="#F4F7FA" stroke-width="2"></path>
+        <path d="M38,19 L199.500774,19" id="Line-2" stroke="#F4F7FA" stroke-width="2" stroke-linecap="square"></path>
+        <path d="M360.499228,19 L522.500473,19" id="Line-2" stroke="#F4F7FA" stroke-width="2" stroke-linecap="square"></path>
+        <path d="M199.123005,19 L360.811739,57.5477831" id="Line-2" stroke="#3434CE" stroke-width="2" stroke-linecap="square"></path>
+        <text id="challenged" transform="translate(272.985169, 43.994465) rotate(13.000000) translate(-272.985169, -43.994465) " font-family="Open Sans, sans-serif" font-size="10" font-style="italic" font-weight="300" fill="#CE3434">
+            <tspan x="250.316712" y="47.9944647">challenged</tspan>
+        </text>
+        <path d="M361,19 L361,58" id="Line-2" stroke="#F4F7FA" stroke-width="2" stroke-linecap="square"></path>
+        <path d="M361.499224,57 L522.504253,57" id="Line-2" stroke="#F4F7FA" stroke-width="2" stroke-linecap="square" stroke-dasharray="1,5"></path>
+        <circle id="Oval" fill="#3434CE" cx="38" cy="19" r="5"></circle>
+        <circle id="Oval-Copy" fill="#3434CE" cx="199" cy="19" r="5"></circle>
+        <circle id="Oval-Copy-2" fill="#10C903" cx="361" cy="57" r="5"></circle>
+        <circle id="Oval-Copy-3" stroke="#F4F7FA" stroke-width="2" fill="#FFFFFF" cx="523" cy="19" r="5"></circle>
+        <circle id="Oval-Copy-3" stroke="#F4F7FA" stroke-width="2" fill="#FFFFFF" cx="523" cy="57" r="5"></circle>
+        <text id="IN-APPLICATION" font-family="Open Sans, sans-serif" font-size="10" font-weight="500" fill="#3434CE">
+            <tspan x="-0.267089844" y="8">IN APPLICATION</tspan>
+        </text>
+        <text id="VOTING-COMMIT" font-family="Open Sans, sans-serif" font-size="10" font-weight="500" fill="#3434CE">
+            <tspan x="158.862793" y="8">VOTING COMMIT</tspan>
+        </text>
+        <text id="IN-REGISTRY" font-family="Open Sans, sans-serif" font-size="10" font-weight="500" fill="#10C903">
+            <tspan x="331.383301" y="76">IN REGISTRY</tspan>
+        </text>
+        <text id="WITHDRAWN" font-family="Open Sans, sans-serif" font-size="10" font-weight="normal" fill="#424242">
+            <tspan x="492.423828" y="76">WITHDRAWN</tspan>
+        </text>
+        <text id="REJECTED" font-family="Open Sans, sans-serif" font-size="10" font-weight="normal" fill="#424242">
+            <tspan x="500.365723" y="8">REJECTED</tspan>
+        </text>
+        <polyline id="Path-3-Copy" stroke="#3434CE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" transform="translate(280.000000, 38.000000) rotate(-79.000000) translate(-280.000000, -38.000000) " points="276 40 280.018906 36 284 40"></polyline>
+        <polyline id="Path-5" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" points="359 57.618525 360.872834 59.59943 363.490959 55"></polyline>
+        <g id="Group" transform="translate(319.000000, -3.000000)">
+            <circle id="Oval" fill="#424242" cx="42" cy="22" r="5"></circle>
+            <text id="REFRESH-NEEDED" font-family="Open Sans, sans-serif" font-size="10" font-weight="500" fill="#424242">
+                <tspan x="0.437011719" y="11">REFRESH NEEDED</tspan>
+            </text>
+            <circle id="Oval-Copy-2" stroke="#424242" cx="42" cy="22" r="7"></circle>
+            <g id="refresh-page-option" transform="translate(39.000000, 19.000000)" fill="#FCFCFF" fill-rule="nonzero">
+                <path d="M5.91948519,0.323835991 C5.87009112,0.274469248 5.81153986,0.249703872 5.7438861,0.249703872 C5.67625968,0.249703872 5.61779043,0.274469248 5.56830068,0.323835991 L5.0610615,0.827275626 C4.78272437,0.564505695 4.46401367,0.36090205 4.10505239,0.216560364 C3.74611845,0.0722050114 3.37661959,4.10022779e-05 2.99680182,4.10022779e-05 C2.28139408,4.10022779e-05 1.65709339,0.216574032 1.12379043,0.649735763 C0.590473804,1.08284282 0.239302961,1.64793622 0.0702095672,2.34515262 L0.0702095672,2.37244647 C0.0702095672,2.40625968 0.0825512528,2.43554897 0.107275626,2.46023235 C0.132,2.48495672 0.161248292,2.49729841 0.195061503,2.49729841 L0.971562642,2.49729841 C1.02881549,2.49729841 1.06780866,2.46736674 1.08863781,2.40757175 C1.19788155,2.1474533 1.26679271,1.99528018 1.29543964,1.95103872 C1.47751708,1.65448292 1.71944419,1.42164465 2.02122096,1.25255125 C2.32302506,1.08347153 2.64818679,0.998897494 2.99674715,0.998897494 C3.51967654,0.998897494 3.97359909,1.17710706 4.35863781,1.53349886 L3.82005923,2.07195444 C3.77076082,2.12138952 3.74596811,2.17995444 3.74596811,2.24759453 C3.74596811,2.31522096 3.77074715,2.37375854 3.82005923,2.42317995 C3.86954897,2.47261503 3.92810023,2.49731207 3.99574032,2.49731207 L5.7438861,2.49731207 C5.8115262,2.49731207 5.87007745,2.47261503 5.91948519,2.42317995 C5.9688656,2.37375854 5.99356264,2.31523462 5.99356264,2.24759453 L5.99356264,0.49943508 C5.99356264,0.431794989 5.96901595,0.373284738 5.91948519,0.323835991 Z" id="Shape"></path>
+                <path d="M5.77111162,3.49630524 L5.021918,3.49630524 C4.96467882,3.49630524 4.92565831,3.5261959 4.90489749,3.58604556 C4.79569476,3.84619134 4.72670159,3.99829613 4.69812301,4.04253759 C4.51599089,4.33902506 4.27405011,4.57194533 3.97235535,4.74102506 C3.67053759,4.91015945 3.34537585,4.99463781 2.99680182,4.99463781 C2.74448747,4.99463781 2.50123462,4.94785421 2.26713895,4.85423235 C2.03301595,4.76050114 1.82357631,4.6278041 1.63890205,4.45610023 L2.17350342,3.92153986 C2.22291116,3.87215945 2.24763554,3.81355353 2.24763554,3.74595444 C2.24763554,3.67832802 2.22291116,3.6197221 2.17350342,3.57036902 C2.12406834,3.52089294 2.06555809,3.49614123 1.997918,3.49614123 L0.249758542,3.49614123 C0.182077449,3.49614123 0.123539863,3.52089294 0.074118451,3.57036902 C0.0246970387,3.61973576 0,3.67834169 0,3.74596811 L0,5.49412756 C0,5.56171298 0.0246970387,5.62030524 0.0741321185,5.66971298 C0.123594533,5.71905239 0.182132118,5.74389977 0.24977221,5.74389977 C0.317398633,5.74389977 0.375908884,5.71906606 0.425357631,5.66971298 L0.928715262,5.16630068 C1.20707973,5.43158542 1.52382232,5.6358451 1.87891572,5.77891572 C2.23400911,5.922041 2.60145786,5.99350797 2.98123462,5.99350797 C3.69405923,5.99350797 4.3157631,5.77694761 4.84644191,5.34384055 C5.37712073,4.91074715 5.72570843,4.34554442 5.89227335,3.64839636 C5.89488383,3.64320273 5.8961139,3.63408656 5.8961139,3.62112984 C5.8961139,3.58726196 5.88371754,3.55809567 5.85900683,3.53328929 C5.83426879,3.50870159 5.8049795,3.49630524 5.77111162,3.49630524 Z" id="Shape"></path>
+            </g>
+        </g>
+    </g>
+</svg>

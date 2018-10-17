@@ -1,0 +1,23 @@
+.MobileNavigation{
+    position: fixed;
+    bottom:0;
+    border-top: 1px solid rgb(233, 233, 233);
+    z-index:1000;
+    background: white;
+    width:100%;
+    display: none;
+    /* margin-bottom: 25px; */
+}
+.MobileNavigation a, .MobileNavigation div{
+    text-align: center;
+    font-family: 'Open Sans', sans-serif;
+    color:#a2a2a2;
+    padding: 17px 12px;
+    display: inline-block;
+    width:25%;
+    font-size: 11px !important;
+}
+.MobileNavigation span{
+    padding-top:4px;
+    display:inline-block;
+}

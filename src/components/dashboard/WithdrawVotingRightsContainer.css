@@ -1,0 +1,17 @@
+:root:root:root .WithdrawVotingRightsContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+:root:root .WithdrawVotingRightsContainer .UnlockedAdt {
+  padding-top: 0;
+}
+
+:root:root .WithdrawVotingRightsContainer .UnlockedAdtText {
+  padding-bottom: 1em;
+}
+
+#WithdrawVotingRightsContainerInput {
+  max-width: 90px !important;
+}

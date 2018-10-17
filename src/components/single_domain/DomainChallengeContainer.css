@@ -1,0 +1,190 @@
+.DomainChallengeContainer {
+  position: relative;
+  width: 100%;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  display: flex;
+  flex-flow: column wrap;
+  margin-left: 14px;
+  margin-right: 14px;
+}
+
+.DomainChallengeContainer .header {
+  display: inline-block;
+}
+
+:root:root:root .DomainChallengeContainer .refresh {
+  display: flex;
+  border: 1px solid #3434CE;
+  border-radius: 3px;
+  color: #3434CE !important;
+  font-family: "Open Sans", sans-serif;
+  font-size: 9.5px;
+  font-weight: bold;
+  line-height: 11px;
+  text-transform: uppercase;
+  margin-right: 10px !important;
+  box-shadow: unset;
+}
+
+:root:root:root .DomainChallengeContainer .refresh:hover {
+  background-color: #3434CE !important;
+  color: #FFF !important;
+}
+
+
+.DomainChallengeContainer .HeaderColumn {
+  padding-bottom: 0px !important;
+}
+
+.DomainChallengeContainer .HeaderRow {
+  padding-top: 10px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.DomainChallengeContainer .NumberCircle {
+  border-radius: 10px;
+  float: left;
+  font-size:8px;
+  color: #F4F7FA;
+  font-weight: bold;
+  line-height: 13px;
+  font-family: 'Open Sans', sans-serif;
+  text-align:center;
+  border: 1px solid #BEC0C2;
+  padding: 2px;
+  background: #BEC0C2 content-box;
+  width: 21px;
+  height: 21px;
+  position: absolute;
+}
+
+:root:root:root .DomainChallengeContainer .SegmentOne {
+  padding-left: 4em;
+  padding-right: 4em;
+  /* padding-top: 3em; */
+}
+
+:root:root:root .DomainChallengeContainer .SegmentOne p,
+:root:root:root .DomainChallengeContainer .SegmentTwo p,
+:root:root:root .DomainChallengeContainer .SegmentThree p {
+	color: #424242;
+	font-family: "Open Sans", sans-serif;
+	font-size: 11px;
+	line-height: 14px;
+}
+
+:root:root:root .DomainChallengeContainer .SegmentTwo {
+  border-top: none !important;
+}
+
+:root:root:root .DomainChallengeContainer .SegmentTwo p {
+  padding-left: 6em;
+  padding-right: 3em;
+  text-align: left;
+}
+
+:root:root:root .DomainChallengeContainer .SegmentFour {
+  border-top: none !important;
+  padding-left: 4em;
+  padding-right: 4em;
+  /* padding-bottom: 3em; */
+}
+
+:root:root:root .DomainChallengeContainer .SegmentThree {
+  border-top: none !important;
+  padding-left: 4em;
+  padding-right: 4em;
+}
+
+:root:root:root .ChallengeButton {
+	color: #CE3434 !important;
+	font-family: "Open Sans", sans-serif;
+	font-size: 9.5px;
+	font-weight: bold;
+	text-align: center;
+  border: 1px solid #CE3434;
+  border-radius: 3px;
+  text-transform: uppercase;
+}
+
+:root:root:root .ChallengeButton:hover {
+  background-color: #CE3434 !important;
+  color: #FFF !important;
+}
+
+:root:root:root .ChallengeInfoContainer { 
+  border: 2px solid #F4F7FA;
+  border-radius: 3px;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 12px;
+  line-height: 17px;
+  width: 100% !important;
+}
+
+.RequiredADT {
+  background-color: #F4F7FA;
+  border-radius: 3px;
+  margin: 0 auto;
+  padding-left: 20%;
+  padding-right: 20%;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  font-family: 'Open Sans', sans-serif;
+}
+
+.PayoutPercentageContainer {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  align-items: baseline;
+  padding-top: 15px;
+}
+
+.PayoutPercentage {
+  background-color: #F4F7FA;
+  border-radius: 3px;
+  padding: 5px;
+  margin-left: 5px;
+}
+
+.TouchRemoveMessage {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+/*
+  Proposal Modal Style Overrides
+*/
+
+:root:root:root .ProposalChallengeContainer {
+  width: unset;
+}
+
+:root:root:root .ProposalChallengeContainer p,
+:root:root:root .ProposalChallengeContainer .ui.large.header{
+  font-family: "Open Sans", sans-serif !important;
+  color:rgb(66, 66, 66);
+}
+
+:root:root:root .ProposalChallengeContainer .GovernanceChallengeInfo {
+  border: 2px solid #F4F7FA;
+  border-radius: 3px;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 12px;
+  line-height: 17px;
+}
+:root:root:root .ProposalChallengeContainer .HeaderColumn {
+  padding-top: 0px;
+}
+
+:root:root:root .ProposalChallengeContainer .HeaderRow span {
+  background-color: #F4F7FA;
+  border-radius: 3px;
+  padding: 10px 20px;
+  font-weight: 600;
+}

@@ -1,0 +1,19 @@
+.PublisherApplicationFormInProgress {
+  background: rgba(255,255,255,1);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2em;
+}
+
+.PublisherApplicationFormInProgress .Content {
+}
+
+:root:root:root .PublisherApplicationFormInProgress .ui.loader:after {
+  border-color: #000 transparent transparent !important;
+}

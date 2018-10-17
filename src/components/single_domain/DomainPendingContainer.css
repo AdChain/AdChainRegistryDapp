@@ -1,0 +1,46 @@
+.DomainPendingContainer {
+  position: relative;
+  height: 100%;
+}
+
+
+.DomainPendingContainer .header {
+  display: inline-block;
+}
+
+:root:root:root .DomainPendingContainer .refresh {
+  border: 1px solid #3434CE;
+  border-radius: 3px;
+  color: #3434CE !important;
+  font-family: "Open Sans", sans-serif;
+  font-size: 9.5px;
+  font-weight: bold;
+  line-height: 11px;
+  text-transform: uppercase;
+  box-shadow: unset;
+  height: 33px;
+}
+
+:root:root:root .DomainPendingContainer .refresh:hover {
+  background-color: #3434CE !important;
+  color: #FFF !important;
+}
+
+.DomainPendingContainer .HeaderColumn {
+  padding-bottom: 0px !important;
+}
+
+.DomainPendingContainer .HeaderRow {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+}
+
+.DomainPendingContainer .DomainPendingBody {
+  height: 100%;
+}
+
+.PendingMessage {
+  padding-left: 20px;
+  padding-right: 20px;
+}

@@ -1,0 +1,230 @@
+.steps-content {
+  margin-top: 16px;
+  min-height: 200px;
+  text-align: left;
+  padding-top: 40px;
+  font-family: 'Open Sans', sans-serif;
+  padding-left: 50px;
+  padding-right: 50px;
+}
+
+.steps-content p {
+  font-family: 'Open Sans', sans-serif;
+}
+
+.steps-action {
+  margin-top: 24px;
+  text-align: center;
+}
+
+:root:root:root .WelcomeModalContainer .ant-steps-item {
+  flex: 0 1 0%;
+}
+
+:root:root:root .WelcomeModalContainer .ant-steps-dot .ant-steps-item-title {
+  padding-left: 40px;
+}
+
+:root:root:root .ant-steps-dot .ant-steps-item-tail:after {
+  width: 100% !important;
+  margin-left: 0 !important;
+}
+
+.ui.modal>.header:not(.ui) {
+  text-align: center;
+  border-bottom: none;
+}
+
+.ant-steps-item-title {
+  font-size: 10px !important;
+}
+
+.ant-steps-label-vertical .ant-steps-item-content {
+  margin-top: -30px !important;
+  font-family: 'Open Sans', sans-serif;
+  text-transform: uppercase;
+  font-weight: bold;
+  width: 100px;
+}
+
+.WelcomeHeaderUnderline {
+  border-bottom: 2px solid #3434CE;
+}
+
+.WelcomeNextButton {
+	border: 1px solid #3434CE;
+  border-radius: 3px;
+  background-color: unset;
+  color: #3434CE;
+  text-transform: uppercase;
+  margin-left: 10px;
+}
+
+.WelcomeBackButton {
+  border: 1px solid #909090;
+  border-radius: 3px;
+  background-color: unset;
+  color: #909090;
+  text-transform: uppercase;
+  margin-right: 10px;
+}
+
+.WelcomeCloseButton {
+  border: 1px solid #10C903;
+  border-radius: 3px;
+  color: #10C903;
+  background-color: unset;
+  text-transform: uppercase;
+  margin-left: 10px;
+}
+
+.WelcomeNextButton:active,
+.WelcomeNextButton:focus {
+  border: 1px solid #3434CE;
+  border-radius: 3px;
+  background-color: unset;
+  color: #3434CE;
+  text-transform: uppercase;
+}
+
+.WelcomeNextButton:hover {
+  border: 1px solid #3434CE;
+  border-radius: 3px;
+  background-color: #3434CE;
+  color: #FFF;
+  text-transform: uppercase;
+}
+
+
+.WelcomeBackButton:active,
+.WelcomeBackButton:focus {
+	border: 1px solid #909090;
+  border-radius: 3px;
+  background-color: unset;
+  color: #909090;
+  text-transform: uppercase;
+}
+
+.WelcomeBackButton:hover {
+	border: 1px solid #909090;
+  border-radius: 3px;
+  background-color: #909090;
+  color: #FFF;
+  text-transform: uppercase;
+}
+
+.WelcomeCloseButton:hover {
+  border: 1px solid #10C903;
+  border-radius: 3px;
+  background-color: #10C903;
+  color: #FFF;
+  text-transform: uppercase;
+}
+
+.Disclaimer a {
+  color: #CE3434;
+  text-transform: uppercase;
+  font-weight: 700;
+  padding-left: 50px;
+  font-size: 10px;
+}
+
+.Disclaimer a:hover {
+  text-decoration: underline;
+}
+
+
+.WelcomeCheckBox {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.WelcomeCheckBox label {
+  font-size: 10px !important;
+  line-height: 14px;
+  color: #909090 !important;
+  font-family: 'Open Sans', sans-serif;
+}
+
+.WelcomeCheckBox label:before {
+  width: 14px !important;
+  height: 14px !important;
+}
+
+.WelcomeCheckBox label:after {
+  width: 14px !important;
+  height: 14px !important;
+  font-size: 10px !important;
+}
+
+.ant-steps-item-process .ant-steps-item-icon > .ant-steps-icon .ant-steps-icon-dot {
+    background: #3434CE !important;
+}
+
+.ant-steps-item-finish .ant-steps-item-icon > .ant-steps-icon .ant-steps-icon-dot {
+    background: #3434CE !important;
+}
+
+.ant-steps-item-finish > .ant-steps-item-tail:after {
+    background-color: #3434CE !important;
+}
+
+.WelcomeModalContainer .DomainEmailNotifications {
+  box-shadow: unset;
+  width: 350px;
+}
+
+.WelcomeModalContainer .DomainEmailNotifications .BoxFrameLabel {
+  display: none !important;
+}
+
+.WelcomeModalContainer .WelcomeEmailFooter {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.WelcomeModalContainer .WelcomeEmailFooter span {
+  font-size: 10px;
+  opacity: .6;
+  padding-right: 10px;
+}
+
+.GovernXLogoContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.GovernXLogo {
+  width: 90px;
+  height: 40px;
+}
+
+.WelcomeEmailFooter .DomainEmailNotificationsContainer {
+  padding-left: 0px !important;
+}
+.WelcomeEmailFooter .DomainEmailNotifications .SubscribeButtonContainer {
+  display: none !important;
+}
+
+.WelcomeEmailFooter .DomainEmailNotificationsContainer label {
+  padding-left: 0px !important;
+}
+
+.WelcomeEmailFooter .DomainEmailNotificationsContainer input, 
+.WelcomeEmailFooter .DomainEmailNotificationsContainer input:focus {
+  margin-left: 0px !important;
+  padding-left: 0px !important;
+}
+
+a.WelcomeHyperlinks {
+  color: #3434CE;
+}
+
+a.WelcomeHyperlinks:hover {
+  cursor: pointer;
+}

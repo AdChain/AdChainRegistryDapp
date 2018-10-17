@@ -1,0 +1,35 @@
+
+.DashboardColumn {
+  font-family: "Open Sans", sans-serif;
+  min-height:155px;
+}
+
+.DashboardColumn table {
+  width: 100%;
+}
+
+.DashboardColumn table td {
+  word-break: break-all;
+}
+
+.DashboardTitle {
+  text-align: left;
+  font-size: 14px;
+}
+.DashboardRow:last-of-type{
+  border:none;
+}
+.DashboardFirstCell {
+  /* padding-right: 2em; */
+  font-weight: 600;
+}
+
+.DashboardSecondCell {
+  text-align: left;
+}
+
+.DashboardRow {
+  height: 3em;
+  border-bottom: 1px solid #F4F7FA;
+  font-size: 12px;
+}

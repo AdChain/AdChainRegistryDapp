@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="11px" height="11px" viewBox="0 0 11 11" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 48.2 (47327) - http://www.bohemiancoding.com/sketch -->
+    <title>Green Check</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Green-Check">
+            <circle id="Oval-2" fill="#10C903" cx="5.5" cy="5.5" r="4.5"></circle>
+            <polyline id="Path-2" stroke="#F4F7FA" stroke-width="0.5" stroke-linecap="round" stroke-linejoin="round" points="4.39266082 6.43262162 5.49324047 7.91252899 6.98648093 4.04630711"></polyline>
+        </g>
+    </g>
+</svg>

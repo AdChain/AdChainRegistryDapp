@@ -1,0 +1,10 @@
+/* TEAM */
+
+Software Engineer: Miguel Mota
+Contact: miguel@metax.io
+Github: https://github.com/miguelmota
+
+
+Software Engineer: Nicholas Porter
+Contact: nicholas@metax.io
+Github: https://github.com/mnoster

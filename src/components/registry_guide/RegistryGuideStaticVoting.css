@@ -1,0 +1,229 @@
+:root:root:root  .RegistryGuideStaticVoting {
+  position: relative;
+  font-family: "Open Sans", sans-serif !important
+}
+
+.RegistryGuideStaticVoting .header {
+  display: inline-block;
+  font-size: 17px !important;
+}
+
+:root:root:root .RegistryGuideStaticVoting .refresh {
+  float: right;
+  border: 1px solid #3434CE;
+  border-radius: 3px;
+  color: #3434CE !important;
+  font-family: "Open Sans", sans-serif;
+  font-size: 9.5px;
+  font-weight: bold;
+  line-height: 11px;
+  text-transform: uppercase;
+  box-shadow: unset;
+}
+
+.RegistryGuideStaticVoting .HeaderColumn {
+  padding-bottom: 0px !important;
+}
+
+.RegistryGuideStaticVoting .HeaderRow {
+  padding-top: 10px;
+  font-family: "Open Sans", sans-serif !important
+}
+.RegistryGuideStaticVoting .HeaderRow .ui.large.header,
+.RegistryGuideStaticVoting p {
+  font-family: "Open Sans", sans-serif !important
+}
+
+:root:root:root .RegistryGuideStaticVoting .InputVoteCommit input {
+  background-color: #FFF;
+  border-bottom: 1px solid;
+  border-radius: 0;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+:root:root:root .RegistryGuideStaticVoting .InputVoteCommit input[type='text']{
+  text-align:right;
+  padding-bottom: 0;
+}
+
+:root:root:root .RegistryGuideStaticVoting .StaticNoPadding {
+  padding: 0;
+}
+
+.RegistryGuideStaticVoting .NumberCircle {
+  border-radius: 10px;
+  display: inline-block;
+  float: left;
+  font-size:8px;
+  color: #F4F7FA;
+  font-weight: bold;
+  line-height: 13px;
+  font-family: 'Open Sans', sans-serif;
+  text-align:center;
+  border: 1px solid #BEC0C2;
+  padding: 2px;
+  background: #BEC0C2 content-box;
+  width: 21px;
+  height: 21px;
+}
+
+.GovernanceVoteCommitContainer .ui.header>.icon {
+    padding-left: 10px;
+    padding-bottom: 6px;
+    width: 50px;
+    height: 35px;
+}
+
+.RegistryGuideStaticVoting .NumCircle3 {
+  top: 4em;
+  position: relative;
+}
+
+.ui.horizontal.segments {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+:root:root:root .RegistryGuideStaticVoting .SegmentOne {
+  padding-right: 0;
+  text-align: left;
+}
+
+:root:root:root .RegistryGuideStaticVoting .SegmentOne label {
+  font-size: 10px;
+  padding-left: 5px;
+}
+
+:root:root:root .RegistryGuideStaticVoting .SegmentTwo {
+  border-left: none;
+  padding-left: 0;
+  padding-right: 0;
+  /* width: 100%; */
+}
+
+:root:root:root .RegistryGuideStaticVoting .SegmentThree {
+  border-left: none;
+  padding-left: 0;
+}
+
+:root:root:root .RegistryGuideStaticVoting .SupportButton {
+  border: 1px solid #10C903;
+  border-radius: 3px;
+  color: #424242;
+  font-family: "Open Sans", sans-serif;
+  font-size: 9.5px;
+  font-weight: bold;
+  text-align: center;
+  text-transform: uppercase;
+  box-shadow: unset;
+}
+
+:root:root:root .RegistryGuideStaticVoting .OpposeButton {
+	border: 1px solid #CE3434;
+  border-radius: 3px;
+  color: #424242;
+  font-family: "Open Sans", sans-serif;
+  font-size: 9.5px;
+  font-weight: bold;
+  text-align: center;
+  text-transform: uppercase;
+  box-shadow: unset;
+}
+
+:root:root:root .RegistryGuideStaticVoting .SupportButton.clicked {
+  background-color: #10C903 !important;
+  color: #FFF !important;
+}
+
+:root:root:root .RegistryGuideStaticVoting .OpposeButton.clicked {
+  background-color: #CE3434 !important;
+  color: #FFF !important;
+}
+
+:root:root:root .RegistryGuideStaticVoting .LeftSegment {
+  width: 48%;
+  margin-right: 0 !important;
+  display: inline-block;
+  font-size: 10px;
+  min-height: 130px;
+  padding-left: 14px;
+}
+
+:root:root:root .RegistryGuideStaticVoting .RightSegment {
+  width: 48%;
+  margin-top: 0;
+  display: inline-block;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  font-size: 10px;
+  min-height: 130px;
+}
+
+:root:root:root .RegistryGuideStaticVoting .DownloadCommitButton {
+  background-color: #3434CE !important;
+  color: #FFFFFF !important;
+  font-family: "Open Sans", sans-serif;
+  font-size: 9.5px;
+  font-weight: bold;
+  border-radius: 3px;
+  background-color: #3434CE;
+  text-transform: uppercase;
+}
+
+:root:root:root .RegistryGuideStaticVoting .DownloadCommitButtonContainer {
+  padding-top: 3em;
+  padding-left: 1em;
+}
+
+:root:root:root .RegistryGuideStaticVoting .DownloadCommitButton .icon{
+  margin-right: 0 !important;
+  font-weight: 600;
+}
+
+:root:root:root .RegistryGuideStaticVoting .SubmitVoteButton {
+  border-radius: 3px;
+  background-color: #10C903 !important;
+  font-family: "Open Sans", sans-serif;
+  font-size: 9.5px;
+  font-weight: bold;
+  text-align: center;
+  text-transform: uppercase;
+  color: #FFFFFF !important;
+}
+
+:root:root:root .RegistryGuideStaticVoting .SubmitVoteButtonContainer {
+  width: 100%;
+  display: inline-block;
+  text-align: center;
+}
+
+
+.CountdownText .CountdownUnit {
+  margin: 15px;
+  width: 40px;
+  border-radius: 3px;
+  background-color: #F4F7FA;
+  color: #424242;
+  font-family: "Open Sans", sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 40px;
+  text-align: center;
+  display: inline-block;
+}
+
+.CountdownText .CountdownUnit .CountdownLabel {
+  display: flow-root;
+  color: #424242;
+  font-family: "Open Sans", sans-serif;
+  font-size: 8px;
+  line-height: 11px;
+  text-align: center;
+  background-color: #FFF;
+  padding-top: 5px
+}
+
+.ChallengeID {
+  padding-top: 15px;
+}

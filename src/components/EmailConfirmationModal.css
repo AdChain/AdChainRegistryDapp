@@ -1,0 +1,33 @@
+.EmailConfirmationContainer .ButtonContainer {
+  text-align: center;
+  padding-top: 20px;
+}
+
+:root:root:root .EmailConfirmationContainer .ButtonContainer button {
+  color: #424242 !important;
+  text-transform: uppercase;
+  box-shadow: unset;
+  font-size: 10px;
+  border: 1px solid #424242;
+}
+
+:root:root:root .EmailConfirmationContainer .ButtonContainer button:hover {
+  background-color: #424242 !important;
+  color: #FFF !important;
+}
+
+.EmailConfirmationContainer .GovernXLogo {
+  position: absolute;
+  bottom: 10px;
+}
+
+.EmailConfirmationContainer .content {
+  padding-left: 50px !important;
+  padding-right: 50px !important;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 12px !important;
+}
+
+.EmailConfirmationContainer .WelcomeHeaderUnderline {
+  text-transform: uppercase;
+}

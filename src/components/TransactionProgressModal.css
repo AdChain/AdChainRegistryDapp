@@ -1,0 +1,125 @@
+.TransactionProgressModal {
+  background: rgba(255,255,255,1);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2em;
+}
+
+.TransactionProgressHeader {
+  text-transform: capitalize;
+}
+
+:root:root:root .TransactionProgressModal .ant-steps-item-title:after {
+  background-color: #424242;
+}
+
+:root:root:root .TransactionProgressModal .ui.loader:after {
+  border-color: #000 transparent transparent !important;
+}
+
+.TransactionProgressModal .steps-content {
+  margin-top: 16px;
+  text-align: left;
+  min-height: unset;
+  padding-top: 0px;
+  font-family: 'Open Sans', sans-serif;
+  padding-left: 40px;
+  padding-right: 40px;
+}
+
+.TransactionProgressModal .steps-content .transaction-content ol li.activeStep {
+  font-weight: 600;
+}
+
+:root:root:root .TransactionProgressModal .steps-content .finishedStep {
+  color: #10C903;
+}
+
+:root:root:root .TransactionProgressModal .steps-content .nextStep {
+  color: #424242;
+  opacity: .5;
+}
+
+:root:root:root .TransactionProgressModal .ant-steps {
+  margin: 0 auto !important;
+  width: 50% !important;
+  display: flex;
+  justify-content: center;
+}
+
+:root:root:root .TransactionProgressModal .ant-steps-item-process .ant-steps-item-icon {
+  background: #000 !important;
+  border-color: #000 !important;
+  margin: 0 auto;
+}
+
+:root:root:root .TransactionProgressModal .ant-steps-item-finish .ant-steps-item-icon {
+  background: #10C903 !important;
+  border-color: #10C903 !important;
+  margin: 0 auto;
+}
+
+:root:root:root .TransactionProgressModal .ant-steps-item-wait .ant-steps-item-icon {
+  background: #FFF !important;
+  border-color: #424242 !important;
+  margin: 0 auto;
+}
+
+:root:root:root .ant-steps-item-finish .ant-steps-item-icon > .ant-steps-icon {
+    color: #FFF !important;
+}
+
+:root:root:root .CheckCircle {
+  color: #10C903;
+}
+
+.LoadingIconContainer {
+  text-align: center;
+}
+
+:root:root:root .TransactionProgressClose {
+  background-color: #3434ce !important;
+  border-color: #3434ce;
+  color: #FFF !important;
+  box-shadow: unset;
+  text-transform: uppercase;
+}
+
+.StatusButtonContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  padding-top: 15px;
+}
+
+:root:root:root .StatusButton {
+  background-color: #10C903 !important;
+  border-color: #10C903;
+  color: #FFF !important;
+  box-shadow: unset;
+  text-transform: uppercase;
+  font-weight: 600;
+  height: 25px;
+  font-size: 12px;
+}
+
+.MetaMaskNote {
+  opacity: .4;
+  padding-left: 40px;
+}
+
+.TransactionProgressModal .steps-content .transaction-content ul {
+  list-style: none;
+}
+.TransactionProgressModal .steps-content .transaction-content ul li.ListSpacer {
+  text-align: center;
+}
+
+:root:root:root .ErrorIcon {
+  font-size: 40px;
+}

@@ -1,0 +1,32 @@
+.CountdownText {
+
+}
+
+.CountdownText.expired {
+  color: #b10000;
+}
+
+.CountdownText .CountdownUnit {
+  margin: 15px;
+  width: 40px;
+  border-radius: 3px;
+  background-color: #F4F7FA;
+  color: #424242;
+  font-family: "Open Sans", sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 40px;
+  text-align: center;
+  display: inline-block;
+}
+
+.CountdownText .CountdownUnit .CountdownLabel {
+  display: flow-root;
+  color: #424242;
+  font-family: "Open Sans", sans-serif;
+  font-size: 8px;
+  line-height: 11px;
+  text-align: center;
+  background-color: #FFF;
+  padding-top: 5px
+}

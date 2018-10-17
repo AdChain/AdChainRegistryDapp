@@ -1,0 +1,132 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans');
+
+
+.DomainProfileStageMap {
+  height: 151px;
+  font-size: 10px;
+}
+
+.DomainProfileStageMap .BoxFrameLabel .DomainName {
+  display: block;
+  max-width: 180px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  padding-right: 0px;
+}
+
+.DomainProfileStageMap .Header {
+  text-transform: uppercase;
+  color: #909090;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 14px;
+  min-height: 13px;
+  font-family: 'Open Sans',sans-serif;
+}
+
+.DomainProfileStageMap .Header::after {
+  content: url(../assets/info_gray.svg);
+  transform: scale(1.2) translateY(1.2px);
+  padding-left: 7px;
+  cursor: pointer;
+}
+
+:root:root .DomainProfileStageMap .MapPicture {
+  text-align: center;
+  padding: 20px 10px 20px 10px;
+}
+
+
+.DomainProfileStageMap .stagesvg {
+  font-family: 'Open Sans', sans-serif !important;
+}
+
+/* .DomainProfileStageMap .column .row {
+  max-height: 100px;
+} */
+
+/* .DomainProfileStageMap .stage-button{
+    position: relative;
+    height: 24px;
+    width: 97px;
+    font-size: 10px;
+    font-family: "Open Sans", sans-serif;
+    line-height: 14px;
+    text-align: center;
+    border-radius: 12px;
+    background-color: #F4F7FA;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.DomainProfileStageMap .line{
+    width: 1px;
+    height: 100px;
+    background-color: black;
+    position: relative;
+    border: 1px solid #000;
+    display: inline-block;
+}
+
+.DomainProfileStageMap #box1{
+    top: 0;
+    left: 30%;
+    border: 1px solid #3434CE;
+}
+.DomainProfileStageMap #box2{
+    left: 0;
+    border: 1px solid #3434CE;
+}
+.DomainProfileStageMap #box3{
+  left: 20%;
+	border: 1px solid #10C903;
+}
+.DomainProfileStageMap #box4{
+  border: 1px solid #3434CE;
+  left: 0;
+}
+.DomainProfileStageMap #box5{
+    left: 0;
+    border: 1px solid #10C903;
+}
+.DomainProfileStageMap #box6{
+    left: 20%;
+    border: 1px solid #CE3434;
+}
+
+.DomainProfileStageMap #line1 {
+  top: 27px;
+  left: 31%;
+  bottom: 15px;
+  height: 130px;
+  transform: rotate(-140deg);
+  -webkit-transform: rotate(-140deg);
+  -ms-transform: rotate(-140deg);
+ }
+.DomainProfileStageMap #line2 {
+    top: 10px;
+    left: 62%;
+    height: 130px;
+    bottom: 15px;
+    transform: rotate(140deg);
+    -webkit-transform: rotate(140deg);
+    -ms-transform: rotate(140deg);
+}
+.DomainProfileStageMap #line3 {
+    left: 16%;
+    height: 75px;
+}
+.DomainProfileStageMap #line4 {
+    left: 16%;
+    height: 75px;
+    bottom: 73px;
+}
+.DomainProfileStageMap #line5 {
+  left: 42%;
+  bottom: 37px;
+  height: 173px;
+  transform: rotate(125deg);
+  -webkit-transform: rotate(125deg);
+  -ms-transform: rotate(125deg);
+} */

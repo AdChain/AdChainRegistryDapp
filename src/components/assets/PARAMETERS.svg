@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="20px" height="22px" viewBox="0 0 20 22" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 48.2 (47327) - http://www.bohemiancoding.com/sketch -->
+    <title>PARAMETERS</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="PARAMETERS" stroke="#F1F5F8">
+            <circle id="Oval" cx="2.5" cy="6.5" r="1.5"></circle>
+            <circle id="Oval" cx="10" cy="2.5" r="1.5"></circle>
+            <circle id="Oval-Copy" cx="10" cy="11.5" r="1.5"></circle>
+            <path d="M8.48995223,10.1320793 L4.15960375,7.48627676" id="Line" stroke-linecap="round"></path>
+            <path d="M15.8898822,14.6533674 L11.8048137,12.1574286" id="Line" stroke-linecap="round"></path>
+            <path d="M16.1000339,7.40973665 L11.2442353,10.339776" id="Line" stroke-linecap="round"></path>
+            <path d="M8.33872016,12.123625 L4.24048254,14.6127183" id="Line" stroke-linecap="round"></path>
+            <path d="M11.5276405,18.8147354 L15.9325673,16.4132902" id="Line" stroke-linecap="round"></path>
+            <path d="M11.7580833,3.34461883 L15.9693157,5.47757328" id="Line" stroke-linecap="round"></path>
+            <path d="M17.6863872,13.9328879 L17.6863872,8.14116479" id="Line" stroke-linecap="round"></path>
+            <path d="M8.61349285,3.20473441 L4.1514371,5.63090486" id="Line-2" stroke-linecap="round"></path>
+            <path d="M8.33661283,18.7402395 L4.05880691,16.3894152" id="Line-2" stroke-linecap="round"></path>
+            <circle id="Oval" cx="2.5" cy="15.5" r="1.5"></circle>
+            <circle id="Oval" cx="17.5" cy="6.5" r="1.5"></circle>
+            <circle id="Oval" cx="17.5" cy="15.5" r="1.5"></circle>
+            <circle id="Oval" cx="10" cy="19.5" r="1.5"></circle>
+            <path d="M2.57574242,13.8876852 L2.57574242,8.1650503" id="Line" stroke-linecap="round"></path>
+            <path d="M10,18.071374 L10,13.1560951" id="Line" stroke-linecap="round"></path>
+            <path d="M10,9.78900832 L10,4.31087887" id="Line" stroke-linecap="round"></path>
+        </g>
+    </g>
+</svg>

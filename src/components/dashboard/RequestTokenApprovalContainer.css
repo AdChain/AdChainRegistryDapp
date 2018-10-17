@@ -1,0 +1,31 @@
+.RequestTokenApprovalContainer {
+  position: relative;
+}
+
+:root:root .RequestTokenApprovalContainer input {
+  max-width: 70px;
+}
+
+:root:root .RequestTokenApprovalContainer input:focus {
+  border-color: #3434CE;
+  border-right: none;
+}
+
+
+.RequestTokenApprovalContainer .Header {
+  text-transform: uppercase;
+  color: #909090;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 14px;
+  min-height: 13px;
+  font-family: 'Open Sans', sans-serif;
+}
+
+:root:root .RequestTokenApprovalContainer .ApprovedAdt {
+  padding-top: 0;
+}
+
+:root:root .RequestTokenApprovalContainer .ApprovedAdtText {
+  padding-bottom: 1em;
+}
