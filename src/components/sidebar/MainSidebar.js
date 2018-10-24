@@ -53,7 +53,7 @@ class MainSidebar extends Component {
     const ToolsLinks = (
       <ul style={{listStyle: 'none'}}>
         <li>
-        <Link to='/list' activeClassName='active'>adChain Whitelist</Link>
+        <Link to='/index' activeClassName='active'>adChain Index</Link>
         </li>
       </ul>
     )

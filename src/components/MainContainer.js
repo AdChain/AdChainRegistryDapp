@@ -35,7 +35,7 @@ class MainContainer extends Component {
               <Route path='/domains/:domain' exact render={props => <DomainProfile {... props} />} />
               <Route path='/account' exact component={AccountDashboard} />
               <Route path='/governance' exact component={GovernanceContainer} />
-              <Route path='/list' exact component={AdChainList} />
+              <Route path='/index' exact component={AdChainList} />
               <Route path='/gx' exact component={DomainsContainer} />
               <Route path='/' exact component={DomainsContainer} />
             </Switch>
