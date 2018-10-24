@@ -10,6 +10,16 @@ export const getProviderUrl = () => {
 }
 
 export const getProvider = () => {
+  if (window.ethereum) {
+    window.web3 = new window.Web3(window.ethereum)
+    try {
+      // Request account access if needed
+      window.ethereum.enable()
+    } catch (error) {
+      console.log('User denied account access...')
+    }
+  }
+
   if (typeof window.web3 !== 'undefined' && typeof window.web3.currentProvider !== 'undefined') {
     return window.web3.currentProvider
   } else {

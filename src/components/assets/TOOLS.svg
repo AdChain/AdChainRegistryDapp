@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="20px" height="20px" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 51.2 (57519) - http://www.bohemiancoding.com/sketch -->
+    <title>TOOLS</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="TOOLS" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round">
+        <g id="package-(1)" transform="translate(2.000000, 1.000000)" stroke="#F4F7FA">
+            <path d="M8.64794118,0.357352941 L15.0008824,3.53382353 C15.5406105,3.80202089 15.8820331,4.35260331 15.8823529,4.95529412 L15.8823529,12.5232353 C15.8820331,13.1259261 15.5406105,13.6765085 15.0008824,13.9447059 L8.64794118,17.1211765 C8.20056076,17.3450458 7.67385101,17.3450458 7.22647059,17.1211765 L0.873529412,13.9447059 C0.334317499,13.6730136 -0.00420194342,13.1190727 8.8166643e-16,12.5152941 L8.8166643e-16,4.95529412 C0.000319811262,4.35260331 0.341742432,3.80202089 0.881470588,3.53382353 L7.23441176,0.357352941 C7.67962002,0.136123558 8.20273292,0.136123558 8.64794118,0.357352941 Z" id="Shape"></path>
+            <polyline id="Shape" points="0.254117647 4.09764706 7.94117647 7.94117647 15.6282353 4.09764706"></polyline>
+            <path d="M7.94117647,17.28 L7.94117647,7.94117647" id="Shape"></path>
+            <path d="M3.97058824,1.98529412 L11.9117647,5.95588235" id="Shape"></path>
+        </g>
+    </g>
+</svg>

@@ -228,7 +228,7 @@ class DomainRedditBox extends Component {
 
         </div>
         <div className='ui grid stackable'>
-          <div className='column sixteen wide' style={{ padding: '13px 4px', height: '100%', marginTop: '13px' }}>
+          <div className='column sixteen wide RedditTabs' style={{ padding: '13px 4px', height: '100%', marginTop: '13px' }}>
             <Tab menu={{ secondary: true, pointing: true }} panes={panes} onTabChange={this.handleTabChange} activeIndex={redditTabIndex} className='TabDiv' />
           </div>
         </div>

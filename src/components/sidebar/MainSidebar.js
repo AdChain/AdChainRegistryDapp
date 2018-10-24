@@ -13,6 +13,7 @@ import dashboardLogo from '../assets/DASHBOARD.svg'
 import helpLogo from '../assets/HELP.svg'
 import parametersLogo from '../assets/PARAMETERS.svg'
 import socialLogo from '../assets/SOCIALS (OPEN).svg'
+import toolsLogo from '../assets/TOOLS.svg'
 import RegistryGuideModal from '../registry_guide/RegistryGuideModal'
 
 import './MainSidebar.css'
@@ -25,6 +26,7 @@ class MainSidebar extends Component {
       accordionArrow: false,
       helpClicked: false,
       socialClicked: false,
+      toolsClicked: false,
       showMenu: true,
       mobile: isMobile()
     }
@@ -47,6 +49,14 @@ class MainSidebar extends Component {
   render () {
     const Link = this._Link
     const { activeIndex } = this.state
+
+    const ToolsLinks = (
+      <ul style={{listStyle: 'none'}}>
+        <li>
+        <Link to='/index' activeClassName='active'>adChain Index</Link>
+        </li>
+      </ul>
+    )
 
     const HelpOptions = (
       <ul style={{listStyle: 'none'}}>
@@ -106,27 +116,38 @@ class MainSidebar extends Component {
             <Menu.Item name='parameter'>
               <Link to='/governance' className='NavLink' activeClassName='active'><img src={parametersLogo} alt='governance' />Governance</Link>
             </Menu.Item>
-            <Menu.Item name='help'>
+            <Menu.Item name='tools'>
               <Accordion.Title
                 id={1}
                 active={activeIndex === 1}
+                onClick={this.handleClick}>
+                <img src={toolsLogo} alt='tools' />
+              Tools
+                <i aria-hidden='true' className={this.state.accordionArrow === 'social' ? this.state.toolsClicked ? 'dropdown icon AccordionArrowRotatedSocial' : 'dropdown icon AccordionArrow' : 'dropdown icon AccordionArrow'} />
+              </Accordion.Title>
+              <Accordion.Content active={activeIndex === 1} content={ToolsLinks} />
+            </Menu.Item>
+            <Menu.Item name='help'>
+              <Accordion.Title
+                id={2}
+                active={activeIndex === 2}
                 onClick={this.handleClick}>
                 <img src={helpLogo} alt='help' />
               Help
                 <i aria-hidden='true' className={this.state.accordionArrow === 'help' ? this.state.helpClicked ? 'dropdown icon AccordionArrowRotatedHelp' : 'dropdown icon AccordionArrow' : 'dropdown icon AccordionArrow'} />
               </Accordion.Title>
-              <Accordion.Content active={activeIndex === 1} content={HelpOptions} />
+              <Accordion.Content active={activeIndex === 2} content={HelpOptions} />
             </Menu.Item>
             <Menu.Item name='social'>
               <Accordion.Title
-                id={2}
-                active={activeIndex === 2}
+                id={3}
+                active={activeIndex === 3}
                 onClick={this.handleClick}>
                 <img src={socialLogo} alt='social' />
               Social
                 <i aria-hidden='true' className={this.state.accordionArrow === 'social' ? this.state.socialClicked ? 'dropdown icon AccordionArrowRotatedSocial' : 'dropdown icon AccordionArrow' : 'dropdown icon AccordionArrow'} />
               </Accordion.Title>
-              <Accordion.Content active={activeIndex === 2} content={SocialLinks} />
+              <Accordion.Content active={activeIndex === 3} content={SocialLinks} />
             </Menu.Item>
           </div>
         </div>

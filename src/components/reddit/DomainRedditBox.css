@@ -2,7 +2,7 @@
   height: 100%;
 }
 
-.DomainRedditBox{
+.DomainRedditBox {
   max-height: 673px;
 }
 
@@ -28,6 +28,11 @@
   transform: scale(1.2) translateY(1.2px);
   padding-left: 7px;
   cursor: pointer;
+}
+
+.DomainRedditBox .RedditTabs {
+  margin-top: 26px !important;
+  padding-top: 0px !important;
 }
 
 .DomainRedditBox .green {
