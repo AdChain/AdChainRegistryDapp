@@ -9,12 +9,19 @@ export const getProviderUrl = () => {
   }
 }
 
+let prompted = false
+
 export const getProvider = () => {
   if (window.ethereum) {
     window.web3 = new window.Web3(window.ethereum)
     try {
       // Request account access if needed
-      window.ethereum.enable()
+      if (prompted) {
+        return true
+      } else {
+      		window.ethereum.enable()
+        prompted = true
+      }
     } catch (error) {
       console.log('User denied account access...')
     }
