@@ -303,7 +303,6 @@ class RegistryService {
 
     try {
       const result = await this.registry.listings.call(listingHash)
-      if (listingHash == '0xb391dafd2ac5e64abebdbe4120ebfee057f3fea113cb1ac18d55308630b2b9e1') { debugger }
       const map = {
         applicationExpiry: result[0].toNumber() <= 0 ? null : moment.tz(result[0].toNumber(), moment.tz.guess()),
         isWhitelisted: result[1],

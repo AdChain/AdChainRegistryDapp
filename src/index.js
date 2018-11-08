@@ -9,10 +9,11 @@ import parameterizer from './services/parameterizer'
 import token from './services/token'
 import store from 'store'
 import isMobile from 'is-mobile'
+import { getPermissions } from './services/provider'
 
 import './index.css'
 require('dotenv').config()
- 
+
 async function init() {
 
   let hasAcceptedMobile
@@ -28,6 +29,7 @@ async function init() {
 
   try {
     await Promise.all([
+      getPermissions(),
       registry.init(),
       plcr.init(),
       parameterizer.init(),

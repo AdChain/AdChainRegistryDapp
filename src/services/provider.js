@@ -9,23 +9,19 @@ export const getProviderUrl = () => {
   }
 }
 
-let prompted = false
 
-export const getProvider = () => {
+export const getPermissions = async () => {
   if (window.ethereum) {
     window.web3 = new window.Web3(window.ethereum)
     try {
-      // Request account access if needed
-      if (prompted) {
-        return true
-      } else {
-        window.ethereum.enable()
-        prompted = true
-      }
+      await window.ethereum.enable()
     } catch (error) {
       console.log('User denied account access...')
     }
   }
+}
+
+export const getProvider = () => {
 
   if (typeof window.web3 !== 'undefined' && typeof window.web3.currentProvider !== 'undefined') {
     return window.web3.currentProvider
@@ -39,6 +35,5 @@ export const getWebsocketProvider = () => {
   if (!window.Web3.providers.WebsocketProvider.prototype.sendAsync) {
     window.Web3.providers.WebsocketProvider.prototype.sendAsync = window.Web3.providers.WebsocketProvider.prototype.send
   }
-
   return new window.Web3.providers.WebsocketProvider(`wss://${websocketNetwork}.infura.io/_ws`)
 }

@@ -46,9 +46,7 @@ const getDomainState = async (data) => {
     // -----------------------------------------------------------
     // -------------------In Registry States----------------------
     // -----------------------------------------------------------
-    if (item.siteName == 'ethereum.org') {
-      debugger
-    }
+
     if (isInRegistry || (commitOpen && isWhitelisted) || (revealOpen && isWhitelisted)) {
       if (challengeId) {
         // This is logic to determine the following state:
