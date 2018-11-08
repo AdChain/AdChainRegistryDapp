@@ -9,7 +9,6 @@ export const getProviderUrl = () => {
   }
 }
 
-
 export const getPermissions = async () => {
   if (window.ethereum) {
     window.web3 = new window.Web3(window.ethereum)
@@ -22,7 +21,6 @@ export const getPermissions = async () => {
 }
 
 export const getProvider = () => {
-
   if (typeof window.web3 !== 'undefined' && typeof window.web3.currentProvider !== 'undefined') {
     return window.web3.currentProvider
   } else {
