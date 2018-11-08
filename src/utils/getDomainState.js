@@ -46,9 +46,7 @@ const getDomainState = async (data) => {
     // -----------------------------------------------------------
     // -------------------In Registry States----------------------
     // -----------------------------------------------------------
-    if (item.siteName == 'ethereum.org') {
-      debugger
-    }
+
     if (isInRegistry || (commitOpen && isWhitelisted) || (revealOpen && isWhitelisted)) {
       if (challengeId) {
         // This is logic to determine the following state:
@@ -166,9 +164,9 @@ const getDomainState = async (data) => {
 
     return item
 
-    // --------------------------------------------------------------
-    // -------------Catch All - Wrong Network------------------------
-    // --------------------------------------------------------------
+    // ----------------------------------------------------------
+    // -------------Catch All - Wrong Network--------------------
+    // ----------------------------------------------------------
   } catch (error) {
     console.log(error)
     if (item.domain) {
