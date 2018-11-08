@@ -9,22 +9,11 @@ export const getProviderUrl = () => {
   }
 }
 
-
 export const getPermissions = async () => {
   if (window.ethereum) {
     window.web3 = new window.Web3(window.ethereum)
     try {
-<<<<<<< HEAD
-      // Request account access if needed
-      if (prompted) {
-        return true
-      } else {
-        window.ethereum.enable()
-        prompted = true
-      }
-=======
       await window.ethereum.enable()
->>>>>>> master
     } catch (error) {
       console.log('User denied account access...')
     }
@@ -32,7 +21,6 @@ export const getPermissions = async () => {
 }
 
 export const getProvider = () => {
-
   if (typeof window.web3 !== 'undefined' && typeof window.web3.currentProvider !== 'undefined') {
     return window.web3.currentProvider
   } else {
