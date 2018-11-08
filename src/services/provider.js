@@ -19,7 +19,7 @@ export const getProvider = () => {
       if (prompted) {
         return true
       } else {
-      		window.ethereum.enable()
+        window.ethereum.enable()
         prompted = true
       }
     } catch (error) {
