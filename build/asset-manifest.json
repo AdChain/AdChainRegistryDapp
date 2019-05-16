@@ -1,12 +1,13 @@
 {
-  "main.css": "static/css/main.e3c41635.css",
-  "main.css.map": "static/css/main.e3c41635.css.map",
-  "main.js": "static/js/main.893fc006.js",
-  "main.js.map": "static/js/main.893fc006.js.map",
+  "main.css": "static/css/main.99b7691a.css",
+  "main.css.map": "static/css/main.99b7691a.css.map",
+  "main.js": "static/js/main.cf9ae1bd.js",
+  "main.js.map": "static/js/main.cf9ae1bd.js.map",
   "static/media/DASHBOARD.svg": "static/media/DASHBOARD.31c7bd80.svg",
   "static/media/HELP.svg": "static/media/HELP.7639f299.svg",
   "static/media/PARAMETERS.svg": "static/media/PARAMETERS.00dcd7a8.svg",
   "static/media/SOCIALS (OPEN).svg": "static/media/SOCIALS (OPEN).50f0b58a.svg",
+  "static/media/TOOLS.svg": "static/media/TOOLS.ca6dbe6d.svg",
   "static/media/WWW.svg": "static/media/WWW.4e7ac200.svg",
   "static/media/ad_chain_logo_white_text.png": "static/media/ad_chain_logo_white_text.2be8e5a4.png",
   "static/media/adchain_publisher_logo.svg": "static/media/adchain_publisher_logo.0aef5db6.svg",
@@ -33,7 +34,7 @@
   "static/media/map_rejected.svg": "static/media/map_rejected.ce15c361.svg",
   "static/media/map_reveal.svg": "static/media/map_reveal.096ff4b2.svg",
   "static/media/map_reveal_pending.svg": "static/media/map_reveal_pending.3bd45adb.svg",
-  "static/media/map_withdrawn_challenge_id.svg": "static/media/map_withdrawn_challenge_id.2546012b.svg",
-  "static/media/map_withdrawn_no_id.svg": "static/media/map_withdrawn_no_id.411d6e23.svg",
+  "static/media/map_withdrawn_challenge_id.svg": "static/media/map_withdrawn_challenge_id.7c0fbd14.svg",
+  "static/media/map_withdrawn_no_id.svg": "static/media/map_withdrawn_no_id.96f229ff.svg",
   "static/media/white_text_metax_logo.svg": "static/media/white_text_metax_logo.5cf388ba.svg"
 }

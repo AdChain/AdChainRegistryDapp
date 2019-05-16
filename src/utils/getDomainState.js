@@ -168,8 +168,9 @@ const getDomainState = async (data) => {
     // -------------Catch All - Wrong Network--------------------
     // ----------------------------------------------------------
   } catch (error) {
-    console.log(error)
+    console.log('Error getting domain state: ', error)
     if (item.domain) {
+      console.log('item: ', item)
       return {
         domain: item.domain || '',
         siteName: item.domain || '',
