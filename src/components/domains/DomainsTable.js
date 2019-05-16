@@ -134,127 +134,133 @@ class DomainsTable extends Component {
   // The 'props' parameter passed in the 'Cell' is coming from the data prop in the ReactTable
   // It is how the react table requires you to pass custom data: https://github.com/react-tools/react-table#props
   getColumns() {
-    if(isMobile()){
+    if (isMobile()) {
       return this.mobileColumns()
     }
-    const columns = [{
-      Header: 'Domain',
-      accessor: 'domain',
-      Cell: (props) => {
-        const domain = props.value
-        const url = `https://www.google.com/s2/favicons?domain=${domain}`
-        return (
-          <span
-            className='Domain DomainFavicon'
-            title='View profile'
-            onClick={(event) => {
-              event.preventDefault();
-              history.push(`/domains/${props.value}`)
-            }}>
-            <img src={url} width={16} alt='' />
-            {domain}
-          </span>
-        )
-      },
-      minWidth: 180
-    }, {
-      Header: 'Action',
-      accessor: 'stage',
-      Cell: (props) => {
-        let { domain, color, actionLabel, listingHash } = props.original
-
-        return (
-          <a className={color ? `ui mini button table-button ${color}` : ' table-button transparent-button'}
-            href='#!'
-            title={actionLabel}
-            onClick={async (event) => {
-              event.preventDefault()
-              if (actionLabel === 'REFRESH') {
-                this.updateStatus(listingHash)
-                return
-              };
-              if (actionLabel === 'APPLY') {
-                try {
-                  const minDeposit = await registry.getMinDeposit()
-                  const adtBalance = await token.getBalance()
-                  if (adtBalance < minDeposit) {
-                    toastr.error('You do not have enough ADT to apply this domain')
-                    return
-                  }
-                  let data = {
-                    domain: domain,
-                    stake: Number(minDeposit),
-                    action: 'apply'
-                  }
-                  PubSub.publish('RedditConfirmationModal.show', data)
-                } catch (error) {
-                  console.log('Error applying the domain: ', error)
-                }
-                return
-              }
-              history.push(`/domains/${domain}`)
-            }}>{actionLabel} &nbsp;{actionLabel === 'REFRESH' ? <i className='icon refresh' /> : ''}</a>
-        )
-      },
-      minWidth: 120
-    }, {
-      Header: 'Stage',
-      accessor: 'stage',
-      Cell: (props) => {
-        let { domain, label, listingHash } = props.original
-
-        const expired = isExpired(props.original.stageEndsTimestamp) || props.original.stage === 'view';
-
-        return ([
-          expired ? <a
-            href='#!'
-            title='Refresh'
-            key={Math.random()}
-            onClick={(event) => {
-              event.preventDefault()
-
-              this.updateStatus(listingHash)
-            }}>
+    try {
+      const columns = [{
+        Header: 'Domain',
+        accessor: 'domain',
+        Cell: (props) => {
+          const domain = props.value
+          const url = `https://www.google.com/s2/favicons?domain=${domain}`
+          return (
             <span
+              className='Domain DomainFavicon'
+              title='View profile'
               onClick={(event) => {
-                event.preventDefault()
-                history.push(`/domains/${domain}`)
+                event.preventDefault();
+                history.push(`/domains/${props.value}`)
               }}>
-              {label}
+              <img src={url} width={16} alt='' />
+              {domain}
             </span>
-          </a>
-            : <span
+          )
+        },
+        minWidth: 180
+      }, {
+        Header: 'Action',
+        accessor: 'stage',
+        Cell: (props) => {
+          let { domain, color, actionLabel, listingHash } = props.original
+
+          return (
+            <a className={color ? `ui mini button table-button ${color}` : ' table-button transparent-button'}
+              href='#!'
+              title={actionLabel}
+              onClick={async (event) => {
+                event.preventDefault()
+                if (actionLabel === 'REFRESH') {
+                  this.updateStatus(listingHash)
+                  return
+                };
+                if (actionLabel === 'APPLY') {
+                  try {
+                    const minDeposit = await registry.getMinDeposit()
+                    const adtBalance = await token.getBalance()
+                    if (adtBalance < minDeposit) {
+                      toastr.error('You do not have enough ADT to apply this domain')
+                      return
+                    }
+                    let data = {
+                      domain: domain,
+                      stake: Number(minDeposit),
+                      action: 'apply'
+                    }
+                    PubSub.publish('RedditConfirmationModal.show', data)
+                  } catch (error) {
+                    console.log('Error applying the domain: ', error)
+                  }
+                  return
+                }
+                history.push(`/domains/${domain}`)
+              }}>{actionLabel} &nbsp;{actionLabel === 'REFRESH' ? <i className='icon refresh' /> : ''}</a>
+          )
+        },
+        minWidth: 120
+      }, {
+        Header: 'Stage',
+        accessor: 'stage',
+        Cell: (props) => {
+          let { domain, label, listingHash } = props.original
+
+          const expired = isExpired(props.original.stageEndsTimestamp) || props.original.stage === 'view';
+
+          return ([
+            expired ? <a
+              href='#!'
+              title='Refresh'
+              key={Math.random()}
               onClick={(event) => {
                 event.preventDefault()
-                history.push(`/domains/${domain}`)
-              }} key={Math.random()}>
-              {label}
-            </span>
-        ])
-      },
-      minWidth: 130
-    }, {
-      Header: 'Time Remaining',
-      className: 'Number',
-      accessor: 'stageEndsTimestamp',
-      Cell: (props) => {
-        let { domain, value, stageEndsTimestamp } = props.original
-        value = stageEndsTimestamp
-        
-        if (value) {
-          return <CountdownSnapshot endDate={value} />
-        }
-        if (typeof props.value === 'number') {
-          return <span onClick={(event) => {
-            event.preventDefault()
-            history.push(`/domains/${domain}`)
-          }}>{commafy(value)}</span>
-        }
-      },
-      minWidth: 150
-    }]
 
-    return columns
+                this.updateStatus(listingHash)
+              }}>
+              <span
+                onClick={(event) => {
+                  event.preventDefault()
+                  history.push(`/domains/${domain}`)
+                }}>
+                {label}
+              </span>
+            </a>
+              : <span
+                onClick={(event) => {
+                  event.preventDefault()
+                  history.push(`/domains/${domain}`)
+                }} key={Math.random()}>
+                {label}
+              </span>
+          ])
+        },
+        minWidth: 130
+      }, {
+        Header: 'Time Remaining',
+        className: 'Number',
+        accessor: 'stageEndsTimestamp',
+        Cell: (props) => {
+          let { domain, value, stageEndsTimestamp } = props.original
+          value = stageEndsTimestamp
+
+          if (value) {
+            return <CountdownSnapshot endDate={value} />
+          }
+          if (typeof props.value === 'number') {
+            return (
+              <span onClick={(event) => {
+                event.preventDefault()
+                history.push(`/domains/${domain}`)
+              }}>{commafy(value)}</span>
+            )
+          }
+        },
+        minWidth: 150
+      }]
+
+      return columns
+    } catch (error) {
+      console.error('error inside columns: ', error)
+    }
   }
 
   // For Moblie Domains Table View
@@ -278,13 +284,13 @@ class DomainsTable extends Component {
               history.push(`/domains/${domain}`)
             }}>
             <img src={url} width={16} alt='' />
-            {domain}  <span style={{float:'right'}}>{time}</span> <br/>
-            <span style={{paddingLeft: '22px', fontSize: '11px'}}>{label}</span>
+            {domain}  <span style={{ float: 'right' }}>{time}</span> <br />
+            <span style={{ paddingLeft: '22px', fontSize: '11px' }}>{label}</span>
           </span>
         )
       },
       minWidth: 200
-    },{
+    }, {
       Cell: (props) => {
         let { domain, color, actionLabel, listingHash } = props.original
         return (
@@ -319,7 +325,7 @@ class DomainsTable extends Component {
                 }
                 history.push(`/domains/${domain}`)
               }}>{actionLabel} &nbsp;{actionLabel === 'REFRESH' ? <i className='icon refresh' /> : ''}</a>
-            </span>
+          </span>
         )
       },
       minWidth: 80
@@ -330,48 +336,51 @@ class DomainsTable extends Component {
 
 
   async onTableFetchData(withdrawn) {
-    if (this._isMounted) {
-      this.setState({
-        isLoading: true
-      })
-    }
-
-    const filtered = this.state.filters
-
-    let domains = this.state.allDomains
-
-    if (filtered && filtered[0]) {
-      domains = domains.filter(domain => {
-        return filterMethod(filtered[0], { domain })
-      })
-    }
-
-    // const pages = Math.ceil(domains.length / pageSize, 10)
-    // domains = domains.slice(start, end)
-    const data = await Promise.all(domains.map(async domainData => {
-      try {
-        if (domainData.domain) {
-          let domainState = await getDomainState(domainData)
-          if (domainState.stage === 'rejected') {
-            // If rejected --> Check to see if listing is withdrawn
-            if (withdrawn[domainState.listingHash]) {
-              domainState.label = <span><i className='icon sign out alternate' />Withdrawn</span>
-            }
-          }
-          return domainState
-        }
-
-      } catch (error) {
-        console.log(error)
+    try {
+      if (this._isMounted) {
+        this.setState({
+          isLoading: true
+        })
       }
-    }))
 
-    if (this._isMounted) {
-      this.setState({
-        data,
-        isLoading: false
-        // pages
-      })
+      const filtered = this.state.filters
+      let domains = this.state.allDomains
+
+      if (filtered && filtered[0]) {
+        domains = domains.filter(domain => {
+          return filterMethod(filtered[0], { domain })
+        })
+      }
+
+      // const pages = Math.ceil(domains.length / pageSize, 10)
+      // domains = domains.slice(start, end)
+      
+      const data = await Promise.all(domains.map(async domainData => {
+        try {
+          if (domainData.domain) {
+            let domainState = await getDomainState(domainData)
+            if (domainState.stage === 'rejected') {
+              // If rejected --> Check to see if listing is withdrawn
+              if (withdrawn[domainState.listingHash]) {
+                domainState.label = (<span><i className='icon sign out alternate' />Withdrawn</span>)
+              }
+            }
+            return domainState
+          }
+        } catch (error) {
+          console.log('Error inside data of table fetch data: ', error)
+        }
+      }))
+
+      if (this._isMounted) {
+        this.setState({
+          data,
+          isLoading: false
+          // pages
+        })
+      }
+    } catch (error) {
+      console.error('Error fetching table data: ', error)
     }
   }
 
@@ -476,7 +485,7 @@ class DomainsTable extends Component {
 
       }
     } catch (error) {
-      console.log(error)
+      console.log('Error inside get data: ', error)
     }
   }
 
@@ -517,7 +526,7 @@ class DomainsTable extends Component {
     try {
       await registry.updateStatus(listingHash)
     } catch (error) {
-      console.error(error)
+      console.error('Error inside update status: ', error)
     }
     const { filters } = this.props
     this.getData(filters)
