@@ -29,13 +29,13 @@ const parameters = keyMirror({
 })
 
 class RegistryService {
-  constructor () {
+  constructor() {
     this.registry = null
     this.account = null
     this.address = null
   }
 
-  async init () {
+  async init() {
     /*
      * important to check for provider in
      * init function (rather than constructor),
@@ -82,20 +82,20 @@ class RegistryService {
   //   }
   // }
 
-  async setAccount () {
+  async setAccount() {
     const accounts = await this.eth.accounts()
     if (window.web3 && !window.web3.eth.defaultAccount) {
       window.web3.eth.defaultAccount = accounts[0]
     }
   }
 
-  getAccount () {
+  getAccount() {
     return this.account
   }
 
   // When applying a domain, the `data` parameter must be set to ipfs hash of --> {id: domain name}
   // The 'domain' parameter will be also be the domain name but it will be hashed in this function before it hits the contract
-  async apply (domain, deposit = 0, data = '') {
+  async apply(domain, deposit = 0, data = '') {
     if (!domain) throw new Error('Domain is required')
 
     // Check if application exists already
@@ -159,7 +159,7 @@ class RegistryService {
     })
   }
 
-  async deposit (listingHash, amount = 0) {
+  async deposit(listingHash, amount = 0) {
     if (!listingHash) {
       throw new Error('Domain is required')
     }
@@ -207,7 +207,7 @@ class RegistryService {
     }
   }
 
-  async challenge (listingHash, data) {
+  async challenge(listingHash, data) {
     if (!listingHash) {
       throw new Error('Domain is required')
     }
@@ -261,7 +261,7 @@ class RegistryService {
     })
   }
 
-  async didChallenge (listingHash) {
+  async didChallenge(listingHash) {
     if (!listingHash) {
       throw new Error('Domain is required')
     }
@@ -285,7 +285,7 @@ class RegistryService {
     }
   }
 
-  async applicationExists (listingHash) {
+  async applicationExists(listingHash) {
     if (!listingHash || !this.registry) {
       throw new Error('Domain is required')
     }
@@ -297,18 +297,18 @@ class RegistryService {
     }
   }
 
-  async getListing (listingHash) {
-    if (!listingHash) throw new Error('Domain is required')
-    if (!this.registry) throw new Error('Contract not available')
-
+  async getListing(listingHash) {
     try {
+      if (!listingHash) throw new Error('Domain is required');
+      if (!this.registry) throw new Error('Contract not available');
+
       const result = await this.registry.listings.call(listingHash)
       const map = {
         applicationExpiry: result[0].toNumber() <= 0 ? null : moment.tz(result[0].toNumber(), moment.tz.guess()),
         isWhitelisted: result[1],
         ownerAddress: result[2],
         currentDeposit: result[3].toNumber(),
-        challengeId: result[4].toNumber()
+        challengeId: result[4].toNumber(),
       }
       return map
     } catch (error) {
@@ -316,7 +316,7 @@ class RegistryService {
     }
   }
 
-  async getChallenge (challengeId) {
+  async getChallenge(challengeId) {
     if (!challengeId) throw new Error('Challenge ID is required')
 
     try {
@@ -341,7 +341,7 @@ class RegistryService {
   }
 
   // Domain param is listingHash
-  async getChallengeId (listingHash) {
+  async getChallengeId(listingHash) {
     if (!listingHash) throw new Error('Domain is required')
 
     try {
@@ -357,7 +357,7 @@ class RegistryService {
     }
   }
 
-  async isWhitelisted (listingHash) {
+  async isWhitelisted(listingHash) {
     if (!listingHash) throw new Error('Domain is required')
 
     try {
@@ -367,7 +367,7 @@ class RegistryService {
     }
   }
 
-  async updateStatus (listingHash) {
+  async updateStatus(listingHash) {
     if (!listingHash) throw new Error('Domain is required')
 
     try {
@@ -394,7 +394,7 @@ class RegistryService {
     }
   }
 
-  async getParameter (name) {
+  async getParameter(name) {
     return new Promise(async (resolve, reject) => {
       if (!name) {
         reject(new Error('Parameter name is required'))
@@ -411,11 +411,11 @@ class RegistryService {
     })
   }
 
-  getParameterKeys () {
+  getParameterKeys() {
     return Promise.resolve(parameters)
   }
 
-  async getMinDeposit () {
+  async getMinDeposit() {
     try {
       const min = await this.getParameter('minDeposit')
       return min.div(tenToTheNinth)
@@ -445,7 +445,7 @@ class RegistryService {
   //   })
   // }
 
-  async getPlcrAddress () {
+  async getPlcrAddress() {
     try {
       return this.registry.voting.call()
     } catch (error) {
@@ -453,7 +453,7 @@ class RegistryService {
     }
   }
 
-  async commitStageActive (listingHash) {
+  async commitStageActive(listingHash) {
     if (!listingHash) {
       throw new Error('Domain is required')
     }
@@ -477,7 +477,7 @@ class RegistryService {
     }
   }
 
-  async revealStageActive (listingHash) {
+  async revealStageActive(listingHash) {
     if (!listingHash) {
       throw new Error('Domain is required')
     }
@@ -501,7 +501,7 @@ class RegistryService {
     }
   }
 
-  async commitVote ({ listingHash, votes, voteOption, salt }) {
+  async commitVote({ listingHash, votes, voteOption, salt }) {
     if (!listingHash) {
       throw new Error('listingHash is required')
     }
@@ -532,7 +532,7 @@ class RegistryService {
     }
   }
 
-  async revealVote ({ listingHash, voteOption, salt }) {
+  async revealVote({ listingHash, voteOption, salt }) {
     let challengeId = null
 
     try {
@@ -555,7 +555,7 @@ class RegistryService {
     }
   }
 
-  async getChallengePoll (listingHash) {
+  async getChallengePoll(listingHash) {
     if (!listingHash) {
       throw new Error('Domain is required')
     }
@@ -583,7 +583,7 @@ class RegistryService {
     }
   }
 
-  async pollEnded (listingHash) {
+  async pollEnded(listingHash) {
     // listingHash = listingHash.toLowerCase()
     const challengeId = await this.getChallengeId(listingHash)
 
@@ -598,7 +598,7 @@ class RegistryService {
     }
   }
 
-  async getCommitHash (listingHash) {
+  async getCommitHash(listingHash) {
     // listingHash = listingHash.toLowerCase()
     const voter = this.account
 
@@ -614,7 +614,7 @@ class RegistryService {
     }
   }
 
-  async didCommit (listingHash) {
+  async didCommit(listingHash) {
     // listingHash = listingHash.toLowerCase()
 
     try {
@@ -625,7 +625,7 @@ class RegistryService {
     }
   }
 
-  async didCommitForPoll (pollId) {
+  async didCommitForPoll(pollId) {
     try {
       const voter = this.account
 
@@ -646,7 +646,7 @@ class RegistryService {
     }
   }
 
-  async didReveal (listingHash) {
+  async didReveal(listingHash) {
     // listingHash = listingHash.toLowerCase()
 
     const voter = this.account
@@ -668,7 +668,7 @@ class RegistryService {
     }
   }
 
-  async didRevealForPoll (pollId, data) { // data is a param for the result from this.revealvote
+  async didRevealForPoll(pollId, data) { // data is a param for the result from this.revealvote
     try {
       if (!pollId) {
         return false
@@ -691,11 +691,11 @@ class RegistryService {
     }
   }
 
-  voterHasEnoughVotingTokens (tokens) {
+  voterHasEnoughVotingTokens(tokens) {
     return plcr.hasEnoughTokens(tokens)
   }
 
-  async didClaim (listingHash) {
+  async didClaim(listingHash) {
     try {
       const challengeId = await this.getChallengeId(listingHash)
       return await this.didClaimForPoll(challengeId)
@@ -704,7 +704,7 @@ class RegistryService {
     }
   }
 
-  didClaimForPoll (challengeId) {
+  didClaimForPoll(challengeId) {
     return new Promise(async (resolve, reject) => {
       try {
         const hasClaimed = await this.registry.tokenClaims(challengeId, this.account)
@@ -715,7 +715,7 @@ class RegistryService {
     })
   }
 
-  claimReward (challengeId, salt) {
+  claimReward(challengeId, salt) {
     return new Promise(async (resolve, reject) => {
       try {
         const voter = this.account
@@ -747,7 +747,7 @@ class RegistryService {
     })
   }
 
-  calculateVoterReward (voter, challengeId, salt) {
+  calculateVoterReward(voter, challengeId, salt) {
     return new Promise(async (resolve, reject) => {
       try {
         const reward = await this.registry.voterReward(voter, challengeId, salt)
@@ -759,7 +759,7 @@ class RegistryService {
     })
   }
 
-  async requestVotingRights (votes) {
+  async requestVotingRights(votes) {
     try {
       let transactionInfo = {
         src: 'conversion_to_voting_ADT',
@@ -787,22 +787,22 @@ class RegistryService {
     }
   }
 
-  async getTotalVotingRights () {
+  async getTotalVotingRights() {
     const tokens = await plcr.getTokenBalance()
     return big(tokens).div(tenToTheNinth)
   }
 
-  async getAvailableTokensToWithdraw () {
+  async getAvailableTokensToWithdraw() {
     const tokens = await plcr.getAvailableTokensToWithdraw()
     return big(tokens).div(tenToTheNinth)
   }
 
-  async getLockedTokens () {
+  async getLockedTokens() {
     const tokens = await plcr.getLockedTokens()
     return big(tokens).div(tenToTheNinth)
   }
 
-  async withdrawVotingRights (tokens) {
+  async withdrawVotingRights(tokens) {
     if (!tokens) {
       throw new Error('Number of tokens required')
     }
@@ -824,12 +824,12 @@ class RegistryService {
     return true
   }
 
-  async approveTokens (tokens) {
+  async approveTokens(tokens) {
     const bigTokens = big(tokens).mul(tenToTheNinth).toString(10)
     return token.approve(this.address, bigTokens)
   }
 
-  async rescueTokens (pollId) {
+  async rescueTokens(pollId) {
     try {
       let transactionInfo = {
         src: 'unlock_expired_ADT',
@@ -846,7 +846,7 @@ class RegistryService {
     }
   }
 
-  async getTokenAllowance () {
+  async getTokenAllowance() {
     const allowed = await token.allowance(this.account, this.address)
     const bigTokens = big(allowed).div(tenToTheNinth)
     return bigTokens
@@ -877,7 +877,7 @@ class RegistryService {
   //   })
   // }
 
-  async getEthBalance () {
+  async getEthBalance() {
     if (!window.web3) return 0
 
     const result = await new Promise((resolve, reject) => {
@@ -889,7 +889,7 @@ class RegistryService {
     return result.div(tenToTheEighteenth)
   }
 
-  async exit (listingHash) {
+  async exit(listingHash) {
     if (!listingHash) throw new Error('listingHash is required')
 
     try {
@@ -908,7 +908,7 @@ class RegistryService {
     }
   }
 
-  async withdraw (listingHash, amount = 0) {
+  async withdraw(listingHash, amount = 0) {
     if (!listingHash) throw new Error('listingHash is required')
 
     const bigWithdrawAmount = big(amount).mul(tenToTheNinth).toString(10)
@@ -940,7 +940,7 @@ class RegistryService {
   //   })
   // }
 
-  getNetwork () {
+  getNetwork() {
     return detectNetwork(this.provider)
   }
 }

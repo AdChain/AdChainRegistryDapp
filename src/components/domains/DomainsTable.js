@@ -92,13 +92,14 @@ class DomainsTable extends Component {
   }
 
   render() {
-    const {
+    let {
       columns,
       data,
       pages,
       pageSize,
       isLoading
     } = this.state
+    const _data = data.filter(d => d.domain !== 'unknown domain')
 
     return (
       <div className='DomainsTable BoxFrame'>
@@ -106,7 +107,7 @@ class DomainsTable extends Component {
         <div className='ui grid'>
           <ReactTable
             loading={isLoading}
-            data={data}
+            data={_data}
             pages={pages}
             columns={columns}
             filterable
@@ -496,6 +497,7 @@ class DomainsTable extends Component {
     let domains
     try {
       domains = await (await window.fetch(`${registryApiURL}/registry/domains`)).json()
+      console.log("Domains: ", domains)
       if (!Array.isArray(domains)) {
         domains = []
       } else {

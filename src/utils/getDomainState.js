@@ -11,6 +11,7 @@ function isExpired (end) {
 
 const getDomainState = async (data) => {
   if (!data || !data.domainHash) return {}
+  // console.log("Data.domain: ", data.domain)
   const item = {
     domain: data.domain,
     color: '',

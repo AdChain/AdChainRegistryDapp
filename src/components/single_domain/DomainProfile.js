@@ -165,8 +165,7 @@ class DomainProfile extends Component {
     let metadata
     let listing
     const { domain } = this.state
-
-    if (!domain) return null
+    if (!domain || domain === 'unknown domain') return null
 
     try {
       listing = await (await window.fetch(`${registryApiURL}/registry/domain?domain=${domain}`)).json()
