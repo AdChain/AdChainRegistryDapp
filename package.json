@@ -21,7 +21,7 @@
     "is-mobile": "^0.2.2",
     "is-valid-domain": "0.0.4",
     "is-valid-email": "0.0.2",
-    "jquery": "^3.2.1",
+    "jquery": "^3.5.0",
     "kcors": "^2.2.1",
     "key-mirror": "^1.0.1",
     "left-pad": "^1.1.3",
