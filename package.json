@@ -82,7 +82,7 @@
     "eslint-plugin-react": "^7.3.0",
     "eslint-plugin-standard": "^3.0.1",
     "pre-commit": "^1.2.2",
-    "serve": "^8.2.0",
+    "serve": "^10.1.2",
     "standard": "^10.0.2"
   },
   "standard": {
