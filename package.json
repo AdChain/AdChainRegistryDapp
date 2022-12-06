@@ -30,7 +30,7 @@
     "moment-timezone": "^0.5.14",
     "prop-types": "^15.5.10",
     "pubsub-js": "^1.6.0",
-    "qs": "^6.5.0",
+    "qs": "^6.7.3",
     "random-int": "^1.0.0",
     "react": "^15.6.1",
     "react-addons-css-transition-group": "^15.6.0",
